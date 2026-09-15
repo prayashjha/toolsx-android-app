@@ -5,6 +5,7 @@
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
   "background_color": "#f5f6fa",
   "theme_color": "#4f46e5",
@@ -12,24 +13,81 @@
   "dir": "ltr",
   "categories": ["utilities", "productivity", "business"],
   "id": "/toolsx-app/",
+
   "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+
+  "screenshots": [
+    { "src": "screenshot-1.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow", "label": "ToolsX Home — browse 52+ tools" },
+    { "src": "screenshot-2.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow", "label": "Search tools instantly" },
+    { "src": "screenshot-3.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow", "label": "GST Invoice Generator" },
+    { "src": "screenshot-4.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow", "label": "Dark mode support" },
+    { "src": "screenshot-5.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow", "label": "Website Security Scanner" }
+  ],
+
+  "shortcuts": [
     {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "name": "GST Invoice",
+      "short_name": "GST",
+      "description": "Create free GST invoices",
+      "url": "tools/gst-invoice-generator-for-business.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
+      "name": "Resume Builder",
+      "short_name": "Resume",
+      "description": "Build ATS-friendly resume",
+      "url": "tools/banayein-free-ai-resume-online-live.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "src": "icons/icon-512-maskable.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "name": "QR Code Generator",
+      "short_name": "QR Code",
+      "description": "Generate QR codes with logo",
+      "url": "tools/qr-code-generator-instagram-whatsapp.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Image Compressor",
+      "short_name": "Compress",
+      "description": "Compress images online",
+      "url": "tools/compress-karein-image-size-online-free.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     }
-  ]
+  ],
+
+  "share_target": {
+    "action": "share.html",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+
+  "file_handlers": [
+    {
+      "action": "tools/image-to-text-converter-online-free.html",
+      "accept": {
+        "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif"]
+      }
+    },
+    {
+      "action": "tools/free-pdf-tools-online-compress-merge.html",
+      "accept": {
+        "application/pdf": [".pdf"]
+      }
+    }
+  ],
+
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+
+  "prefer_related_applications": false
 }
