@@ -1,13 +1,17 @@
 {
-  "name": "ToolsX – All-in-One Free Tools",
+  "name": "ToolsX – All Tools",
   "short_name": "ToolsX",
-  "description": "52+ free browser-based tools for images, audio, video, developers, SEO, finance and documents.",
-  "start_url": "./index.html",
-  "scope": "./",
+  "description": "52+ free browser-based tools – image, audio, video, developer, SEO, finance and more, all offline-capable.",
+  "start_url": ".",
+  "scope": ".",
   "display": "standalone",
-  "orientation": "portrait-primary",
+  "orientation": "portrait",
   "background_color": "#f5f6fa",
   "theme_color": "#4f46e5",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["utilities", "productivity", "business"],
+  "id": "/toolsx-app/",
   "icons": [
     {
       "src": "icons/icon-192.png",
@@ -22,7 +26,7 @@
       "purpose": "any"
     },
     {
-      "src": "icons/icon-maskable-512.png",
+      "src": "icons/icon-512-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
