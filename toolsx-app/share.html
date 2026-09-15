@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Share to ToolsX</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="tx-appbar">
+  <span style="font-size:22px;">📤</span>
+  <h1>Share to ToolsX</h1>
+</div>
+<div class="tx-home-wrap">
+  <p style="padding:20px 0;color:var(--tx-muted);">Content received! Choose a tool:</p>
+  <div id="sharedData" style="background:var(--tx-surface);padding:16px;border-radius:12px;margin-bottom:16px;word-break:break-word;"></div>
+  <div class="tx-grid">
+    <a class="tx-card" href="tools/smart-text-analyser-apna-tax-analyse.html">
+      <span class="tx-emoji">📊</span>
+      <span class="tx-name">Analyze Text</span>
+    </a>
+    <a class="tx-card" href="tools/qr-code-generator-instagram-whatsapp.html">
+      <span class="tx-emoji">📱</span>
+      <span class="tx-name">Make QR Code</span>
+    </a>
+    <a class="tx-card" href="tools/boost-karein-seo-meta-tag-generator-ai.html">
+      <span class="tx-emoji">🏷️</span>
+      <span class="tx-name">SEO Meta Tags</span>
+    </a>
+  </div>
+</div>
+<script>
+  const params = new URLSearchParams(location.search);
+  const title = params.get('title') || '';
+  const text = params.get('text') || '';
+  const url = params.get('url') || '';
+  const box = document.getElementById('sharedData');
+  box.innerHTML = 
+    (title ? '<b>' + title + '</b><br>' : '') +
+    (text ? text + '<br>' : '') +
+    (url ? '<a href="' + url + '">' + url + '</a>' : '');
+</script>
+</body>
+</html>
