@@ -21,11 +21,11 @@
   ],
 
   "screenshots": [
-    { "src": "screenshot-1.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow" },
-    { "src": "screenshot-2.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow" },
-    { "src": "screenshot-3.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow" },
-    { "src": "screenshot-4.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow" },
-    { "src": "screenshot-5.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow" }
+    { "src": "screenshot-1.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow" },
+    { "src": "screenshot-2.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow" },
+    { "src": "screenshot-3.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow" },
+    { "src": "screenshot-4.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow" },
+    { "src": "screenshot-5.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow" }
   ],
 
   "shortcuts": [
