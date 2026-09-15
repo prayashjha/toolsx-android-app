@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>AI Greeting Card Maker – Animated Festival Wishes Free – ToolsX App</title>
+<meta name="description" content="Create animated greeting cards for festivals free with AI. Personalize text and designs, then share instantly online.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>AI Greeting Card Maker – Animated Festival Wishes Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-fc" class="tsxv5-fc-wrapper">
+
+<style>
+/* ══════════════════════════════════════════════════════════════
+   TOOLS-X FESTIVAL CARD MAKER v5.0 — THEME-AWARE
+   Light mode = cream/warm (default)
+   Dark mode = dark via 7 Blogger selectors
+   ══════════════════════════════════════════════════════════════ */
+#tsxv5-fc{
+  --fc-primary:#e91e63;--fc-secondary:#ff6b35;--fc-accent:#9c27b0;
+  --fc-bg:#fafafa;--fc-surface:#ffffff;--fc-bg2:#f8fafc;
+  --fc-text:#1e293b;--fc-text-light:#64748b;--fc-text-muted:#94a3b8;
+  --fc-border:#e2e8f0;
+  --fc-radius:8px;
+  --fc-shadow:0 1px 3px rgba(0,0,0,0.1);
+  --fc-shadow-lg:0 10px 15px rgba(0,0,0,0.1);
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:transparent;color:var(--fc-text);
+  transition:background .3s,color .3s;
+}
+body.dark-mode #tsxv5-fc,
+html.dark-mode #tsxv5-fc,
+[data-theme="dark"] #tsxv5-fc,
+body[data-theme="dark"] #tsxv5-fc,
+html[data-theme="dark"] #tsxv5-fc,
+.dark-mode #tsxv5-fc,
+.night-mode #tsxv5-fc{
+  --fc-primary:#f472b6;--fc-secondary:#fb923c;--fc-accent:#c084fc;
+  --fc-bg:#0f172a;--fc-surface:#1e293b;--fc-bg2:#0b1220;
+  --fc-text:#f1f5f9;--fc-text-light:#94a3b8;--fc-text-muted:#64748b;
+  --fc-border:#334155;
+  --fc-shadow:0 1px 3px rgba(0,0,0,0.4);
+  --fc-shadow-lg:0 10px 15px rgba(0,0,0,0.5);
+}
+#tsxv5-fc *,#tsxv5-fc *::before,#tsxv5-fc *::after{box-sizing:border-box;margin:0;padding:0;max-width:100%;}
+#tsxv5-fc img,#tsxv5-fc canvas,#tsxv5-fc video{max-width:100%;height:auto;display:block;}
+
+#tsxv5-fc .fc{
+  max-width:960px;margin:0 auto;background:var(--fc-bg);border-radius:28px;overflow:hidden;
+  box-shadow:var(--fc-shadow-lg);position:relative;color:var(--fc-text) !important;
+}
+
+/* Breadcrumb */
+#tsxv5-fc .fc-breadcrumb{
+  padding:16px 24px;background:var(--fc-surface);border-bottom:1px solid var(--fc-border);
+  font-size:.875rem;color:var(--fc-text-light) !important;
+}
+#tsxv5-fc .fc-breadcrumb a{color:var(--fc-primary) !important;text-decoration:none;transition:color .2s;}
+#tsxv5-fc .fc-breadcrumb a:hover{color:var(--fc-secondary) !important;}
+
+/* Banner */
+#tsxv5-fc .fc-banner{
+  background:linear-gradient(135deg,#ff6b35 0%,#e91e63 40%,#9c27b0 100%);
+  padding:32px 28px 60px;text-align:center;position:relative;overflow:hidden;
+}
+#tsxv5-fc .fc-banner::before{
+  content:'';position:absolute;bottom:-30px;left:-10%;right:-10%;height:60px;
+  background:var(--fc-bg);border-radius:50% 50% 0 0;
+}
+#tsxv5-fc .fc-banner h2{
+  color:#fff !important;font-size:2rem;font-weight:700;line-height:1.2;
+  text-shadow:0 2px 12px rgba(0,0,0,0.2);margin-bottom:6px;
+}
+#tsxv5-fc .fc-banner p{color:rgba(255,255,255,0.85) !important;font-size:1rem;line-height:1.7;}
+
+/* Tabs */
+#tsxv5-fc .fc-tabs{display:flex;justify-content:center;gap:6px;padding:0 20px;margin-top:-28px;position:relative;z-index:2;flex-wrap:wrap;}
+#tsxv5-fc .fc-tab{
+  padding:12px 24px;border-radius:50px;border:none;background:var(--fc-surface);
+  color:var(--fc-text-light) !important;font-size:.875rem;font-weight:600;cursor:pointer;
+  transition:all .3s ease;box-shadow:var(--fc-shadow);display:flex;align-items:center;gap:6px;font-family:inherit;
+  min-height:44px;
+}
+#tsxv5-fc .fc-tab:hover{transform:translateY(-2px);box-shadow:var(--fc-shadow-lg);}
+#tsxv5-fc .fc-tab.on{
+  background:linear-gradient(135deg,#ff6b35,#e91e63);color:#fff !important;
+  box-shadow:0 4px 16px rgba(233,30,99,0.3);
+}
+body.dark-mode #tsxv5-fc .fc-tab.on,[data-theme="dark"] #tsxv5-fc .fc-tab.on{background:linear-gradient(135deg,var(--fc-secondary),var(--fc-primary));}
+#tsxv5-fc .fc-tab-icon{font-size:1.1em;}
+
+/* Body */
+#tsxv5-fc .fc-body{padding:28px 24px;}
+#tsxv5-fc .fc-panel{display:none;animation:tsxv5FcFade .4s ease;}
+#tsxv5-fc .fc-panel.show{display:block;}
+@keyframes tsxv5FcFade{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* Custom Section */
+#tsxv5-fc .fc-custom-section{
+  background:var(--fc-surface);padding:24px;border-radius:var(--fc-radius);
+  margin-bottom:24px;box-shadow:var(--fc-shadow);
+}
+#tsxv5-fc .fc-custom-label{font-size:.875rem;font-weight:600;color:var(--fc-text) !important;margin-bottom:12px;display:block;}
+#tsxv5-fc .fc-custom-input{
+  width:100%;padding:12px 16px;border:2px solid var(--fc-border);border-radius:var(--fc-radius);
+  font-size:1rem;color:var(--fc-text) !important;transition:border-color .2s;font-family:inherit;background:var(--fc-bg2);
+}
+#tsxv5-fc .fc-custom-input:focus{outline:none;border-color:var(--fc-primary);box-shadow:0 0 0 3px rgba(233,30,99,0.1);}
+#tsxv5-fc .fc-custom-input::placeholder{color:var(--fc-text-muted) !important;}
+#tsxv5-fc .fc-custom-hint{font-size:.875rem;color:var(--fc-text-light) !important;margin-top:8px;line-height:1.5;}
+#tsxv5-fc .fc-text-options{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;align-items:center;}
+#tsxv5-fc .fc-text-options label{font-size:.75rem;color:var(--fc-text-light) !important;display:flex;align-items:center;gap:4px;}
+#tsxv5-fc .fc-text-options input[type="color"]{width:30px;height:30px;border:2px solid var(--fc-border);padding:2px;background:transparent;cursor:pointer;border-radius:4px;}
+
+/* Carousel */
+#tsxv5-fc .fc-carousel{display:flex;gap:14px;overflow-x:auto;padding:10px 4px 16px;scrollbar-width:thin;scrollbar-color:#e91e63 transparent;}
+#tsxv5-fc .fc-carousel::-webkit-scrollbar{height:5px;}
+#tsxv5-fc .fc-carousel::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#ff6b35,#e91e63);border-radius:5px;}
+#tsxv5-fc .fc-fest-item{
+  min-width:110px;padding:20px 14px;background:var(--fc-surface);border:2px solid var(--fc-border);
+  border-radius:20px;text-align:center;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);flex-shrink:0;
+  min-height:44px;
+}
+#tsxv5-fc .fc-fest-item:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 12px 30px rgba(233,30,99,0.12);}
+#tsxv5-fc .fc-fest-item.on{
+  border-color:#e91e63;background:linear-gradient(135deg,rgba(255,107,53,0.04),rgba(233,30,99,0.06));
+  transform:scale(1.05);box-shadow:0 8px 24px rgba(233,30,99,0.18);
+}
+body.dark-mode #tsxv5-fc .fc-fest-item.on,[data-theme="dark"] #tsxv5-fc .fc-fest-item.on{background:linear-gradient(135deg,rgba(251,146,60,0.08),rgba(244,114,182,0.1));}
+#tsxv5-fc .fc-fest-emoji{font-size:2.2em;display:block;margin-bottom:8px;}
+#tsxv5-fc .fc-fest-label{font-size:.875rem;font-weight:600;color:var(--fc-text-light) !important;text-transform:uppercase;letter-spacing:.5px;}
+#tsxv5-fc .fc-fest-item.on .fc-fest-label{color:#e91e63 !important;}
+
+/* Bubbles (Styles) */
+#tsxv5-fc .fc-bubbles{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+#tsxv5-fc .fc-bubble{
+  padding:14px 26px;border-radius:50px;border:2px solid var(--fc-border);background:var(--fc-surface);
+  color:var(--fc-text-light) !important;font-size:.875rem;font-weight:600;cursor:pointer;transition:all .3s ease;
+  box-shadow:var(--fc-shadow);font-family:inherit;
+  min-height:44px;
+}
+#tsxv5-fc .fc-bubble:hover{border-color:#ff6b35;color:#ff6b35 !important;transform:scale(1.05);}
+#tsxv5-fc .fc-bubble.on{
+  background:linear-gradient(135deg,#ff6b35,#e91e63);color:#fff !important;
+  border-color:transparent;box-shadow:0 6px 20px rgba(233,30,99,0.25);transform:scale(1.05);
+}
+
+/* Swatches (Colors) */
+#tsxv5-fc .fc-swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:500px;margin:0 auto 30px;}
+#tsxv5-fc .fc-swatch{
+  aspect-ratio:1;border-radius:18px;border:3px solid transparent;cursor:pointer;transition:all .3s ease;
+  position:relative;display:flex;align-items:center;justify-content:center;
+  min-height:44px;
+}
+#tsxv5-fc .fc-swatch:hover{transform:scale(1.08);}
+#tsxv5-fc .fc-swatch.on{border-color:#333;transform:scale(1.1);box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+body.dark-mode #tsxv5-fc .fc-swatch.on,[data-theme="dark"] #tsxv5-fc .fc-swatch.on{border-color:#f1f5f9;}
+#tsxv5-fc .fc-swatch-label{position:absolute;bottom:-24px;font-size:.875rem;font-weight:600;color:var(--fc-text-light) !important;white-space:nowrap;}
+
+/* Purpose Grid */
+#tsxv5-fc .fc-purpose-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+#tsxv5-fc .fc-purpose-card{
+  background:var(--fc-surface);border:2px solid var(--fc-border);border-radius:18px;padding:24px 16px;
+  text-align:center;cursor:pointer;transition:all .3s ease;
+  min-height:44px;
+}
+#tsxv5-fc .fc-purpose-card:hover{transform:translateY(-4px);box-shadow:var(--fc-shadow-lg);}
+#tsxv5-fc .fc-purpose-card.on{border-color:#9c27b0;background:rgba(156,39,176,0.03);box-shadow:0 6px 24px rgba(156,39,176,0.12);}
+body.dark-mode #tsxv5-fc .fc-purpose-card.on,[data-theme="dark"] #tsxv5-fc .fc-purpose-card.on{background:rgba(192,132,252,0.08);}
+#tsxv5-fc .fc-purpose-icon{font-size:2em;display:block;margin-bottom:8px;}
+#tsxv5-fc .fc-purpose-name{font-size:.875rem;font-weight:600;color:var(--fc-text-light) !important;}
+#tsxv5-fc .fc-purpose-card.on .fc-purpose-name{color:#9c27b0 !important;}
+
+/* FAB Button */
+#tsxv5-fc .fc-fab{
+  position:sticky;bottom:20px;left:50%;transform:translateX(-50%);padding:18px 48px;border:none;
+  border-radius:60px;background:linear-gradient(135deg,#ff6b35,#e91e63,#9c27b0);color:#fff !important;
+  font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 8px 32px rgba(233,30,99,0.35);
+  transition:all .3s ease;display:flex;align-items:center;gap:10px;margin:24px auto 0;z-index:10;font-family:inherit;
+  min-height:44px;
+}
+#tsxv5-fc .fc-fab:hover{transform:translateX(-50%) translateY(-3px);box-shadow:0 12px 44px rgba(233,30,99,0.45);}
+#tsxv5-fc .fc-fab:disabled{opacity:.4;cursor:not-allowed;transform:translateX(-50%);}
+
+/* Loading */
+#tsxv5-fc .fc-loading{display:none;text-align:center;padding:50px 30px;}
+#tsxv5-fc .fc-loading.show{display:block;}
+#tsxv5-fc .fc-progress-track{width:200px;height:6px;background:var(--fc-border);border-radius:6px;margin:0 auto 20px;overflow:hidden;}
+#tsxv5-fc .fc-progress-bar{height:100%;background:linear-gradient(90deg,#ff6b35,#e91e63,#9c27b0);border-radius:6px;animation:tsxv5FcProgress 2.5s ease-in-out infinite;}
+@keyframes tsxv5FcProgress{0%{width:0%;margin-left:0;}50%{width:70%;margin-left:15%;}100%{width:0%;margin-left:100%;}}
+#tsxv5-fc .fc-loading-text{color:#e91e63 !important;font-weight:600;font-size:1rem;}
+#tsxv5-fc .fc-loading-sub{color:var(--fc-text-light) !important;font-size:.875rem;margin-top:8px;}
+
+/* Modal — intentionally always-dark (overlay) */
+#tsxv5-fc .fc-modal{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(8px);z-index:9999;align-items:center;justify-content:center;padding:20px;
+}
+#tsxv5-fc .fc-modal.open{display:flex;}
+#tsxv5-fc .fc-modal-content{
+  background:var(--fc-surface);border-radius:24px;padding:28px;max-width:600px;width:100%;
+  max-height:90vh;overflow-y:auto;text-align:center;animation:tsxv5FcModalIn .4s cubic-bezier(.34,1.56,.64,1);position:relative;
+}
+@keyframes tsxv5FcModalIn{from{opacity:0;transform:scale(0.8) translateY(30px);}to{opacity:1;transform:scale(1) translateY(0);}}
+#tsxv5-fc .fc-modal-close{
+  position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:none;
+  background:var(--fc-border);color:var(--fc-text-light) !important;font-size:1.2em;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .3s;font-family:inherit;
+}
+#tsxv5-fc .fc-modal-close:hover{background:#e91e63;color:#fff !important;}
+#tsxv5-fc .fc-modal-img{max-width:100%;border-radius:16px;box-shadow:var(--fc-shadow-lg);}
+#tsxv5-fc .fc-modal-btns{display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap;}
+#tsxv5-fc .fc-modal-btn{
+  padding:12px 24px;border-radius:var(--fc-radius);font-size:.875rem;font-weight:600;cursor:pointer;
+  transition:all .2s ease;text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+  border:2px solid var(--fc-border);background:var(--fc-surface);color:var(--fc-text) !important;font-family:inherit;
+  min-height:44px;
+}
+#tsxv5-fc .fc-modal-btn:hover{border-color:#e91e63;color:#e91e63 !important;transform:translateY(-2px);text-decoration:none;}
+#tsxv5-fc .fc-modal-btn.primary{background:linear-gradient(135deg,#ff6b35,#e91e63);color:#fff !important;border:none;}
+#tsxv5-fc .fc-modal-btn.primary:hover{box-shadow:0 6px 20px rgba(233,30,99,0.3);color:#fff !important;}
+
+/* Toast — intentionally always-dark */
+#tsxv5-fc-toast{
+  display:none;position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
+  background:#1e293b;color:#fff !important;padding:14px 28px;border-radius:50px;font-size:.875rem;font-weight:600;
+  z-index:99999;box-shadow:var(--fc-shadow-lg);animation:tsxv5FcToastIn .3s ease;font-family:'Segoe UI',system-ui,sans-serif;
+}
+#tsxv5-fc-toast.show{display:block;}
+@keyframes tsxv5FcToastIn{from{opacity:0;transform:translateX(-50%) translateY(20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+
+/* Content sections */
+#tsxv5-fc .fc-how,#tsxv5-fc .fc-faq{background:var(--fc-surface);padding:32px 24px;margin-top:32px;border-top:2px solid var(--fc-border);}
+#tsxv5-fc .fc-how h2,#tsxv5-fc .fc-faq h2{font-size:1.5rem;font-weight:600;line-height:1.3;color:var(--fc-text) !important;margin-bottom:24px;}
+#tsxv5-fc .fc-how h3{font-size:1.25rem;font-weight:600;line-height:1.4;color:var(--fc-text) !important;margin:24px 0 12px;}
+#tsxv5-fc .fc-how p,#tsxv5-fc .fc-faq-item p{font-size:1rem;line-height:1.7;color:var(--fc-text) !important;margin-bottom:16px;}
+#tsxv5-fc .fc-how ul,#tsxv5-fc .fc-how ol{margin:16px 0 16px 24px;line-height:1.7;}
+#tsxv5-fc .fc-how li{margin-bottom:8px;color:var(--fc-text) !important;}
+#tsxv5-fc .fc-how strong{color:var(--fc-primary) !important;}
+
+#tsxv5-fc .fc-steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:24px 0;}
+#tsxv5-fc .fc-step-card{background:var(--fc-bg2);padding:20px;border-radius:var(--fc-radius);border:1px solid var(--fc-border);}
+#tsxv5-fc .fc-step-number{
+  width:32px;height:32px;background:linear-gradient(135deg,#ff6b35,#e91e63);color:#fff !important;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;margin-bottom:12px;
+}
+#tsxv5-fc .fc-step-title{font-weight:600;color:var(--fc-text) !important;margin-bottom:8px;}
+#tsxv5-fc .fc-step-desc{font-size:.875rem;color:var(--fc-text-light) !important;line-height:1.6;}
+
+/* FAQ plain */
+#tsxv5-fc .fc-faq-item{
+  margin-bottom:20px;padding:20px;background:var(--fc-bg2);border-radius:var(--fc-radius);
+  border:1px solid var(--fc-border);
+}
+#tsxv5-fc .fc-faq-item h3{font-weight:600;color:var(--fc-text) !important;margin-bottom:12px;font-size:1rem;line-height:1.4;}
+#tsxv5-fc .fc-faq-item p{display:block;margin-top:0;}
+
+/* Related */
+#tsxv5-fc .fc-related{max-width:960px;margin:40px auto 0;padding:28px;background:var(--fc-surface);border-radius:28px;}
+#tsxv5-fc .fc-related-title{color:var(--fc-primary) !important;font-size:1.2rem;font-weight:700;margin-bottom:18px;text-transform:uppercase;letter-spacing:1px;}
+#tsxv5-fc .fc-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px;}
+#tsxv5-fc .fc-related-link{
+  background:var(--fc-bg2);border:1px solid var(--fc-border);padding:18px;text-decoration:none;
+  transition:all .3s;display:flex;align-items:center;gap:12px;border-radius:var(--fc-radius);
+  min-height:44px;
+}
+#tsxv5-fc .fc-related-link:hover{border-color:var(--fc-primary);transform:translateY(-3px);box-shadow:0 8px 24px rgba(233,30,99,0.15);text-decoration:none;}
+#tsxv5-fc .fc-related-icon{font-size:2rem;flex-shrink:0;}
+#tsxv5-fc .fc-related-link strong{color:var(--fc-primary) !important;display:block;font-size:.95rem;margin-bottom:4px;}
+#tsxv5-fc .fc-related-link span{color:var(--fc-text-light) !important;font-size:.82rem;line-height:1.5;}
+
+/* Footer */
+#tsxv5-fc .fc-footer{padding:24px;text-align:center;border-top:1px solid var(--fc-border);}
+#tsxv5-fc .fc-footer p{color:var(--fc-text-light) !important;font-size:.875rem;line-height:1.6;}
+#tsxv5-fc .fc-footer a{color:var(--fc-primary) !important;text-decoration:none;}
+
+@media(max-width:640px){
+  #tsxv5-fc .fc-banner h2{font-size:1.5rem;}
+  #tsxv5-fc .fc-tabs{gap:4px;}
+  #tsxv5-fc .fc-tab{padding:10px 16px;font-size:.75rem;}
+  #tsxv5-fc .fc-purpose-grid{grid-template-columns:repeat(2,1fr);}
+  #tsxv5-fc .fc-body{padding:20px 16px;}
+  #tsxv5-fc .fc-how,#tsxv5-fc .fc-faq,#tsxv5-fc .fc-related{padding:24px 16px;}
+  #tsxv5-fc .fc-swatches{grid-template-columns:repeat(2,1fr);}
+  #tsxv5-fc .fc-related-grid{grid-template-columns:1fr;}
+}
+@media(max-width:400px){
+  #tsxv5-fc .fc-purpose-grid{grid-template-columns:1fr;}
+}
+@media(prefers-reduced-motion:reduce){#tsxv5-fc *,#tsxv5-fc *::before,#tsxv5-fc *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+</style>
+
+<!-- SEO Schema: SoftwareApplication -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AI Festival Card Maker - Custom Greeting Cards","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Modern browser with JavaScript and HTML5 Canvas","description":"Free AI-powered festival greeting card generator with custom name and message support. 12 festivals, 10 art styles, 8 color palettes, 6 platform purposes. HD PNG download with no watermark.","featureList":["12 festival themes","10 art styles","8 color palettes","6 platform purposes","Custom text overlay with color picker","HD PNG download","65-second timeout protection","Input sanitization","Random seed for unique cards"]}
+</script>
+
+<!-- SEO Schema: HowTo -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Create Festival Greeting Cards","description":"Step-by-step guide to generating personalized AI festival greeting cards.","totalTime":"PT3M","step":[{"@type":"HowToStep","position":1,"name":"Enter Custom Text","text":"Optionally type a name or message in the custom text box and customize text color."},{"@type":"HowToStep","position":2,"name":"Choose Festival","text":"Select from 12 festivals including Diwali, Holi, Eid, Rakhi, Christmas, and more."},{"@type":"HowToStep","position":3,"name":"Select Style","text":"Choose from 10 art styles such as Traditional, Modern, Royal, Watercolor, and Neon."},{"@type":"HowToStep","position":4,"name":"Pick Color Palette","text":"Select one of 8 color palettes including Saffron, Gold, Pink, Green, and more."},{"@type":"HowToStep","position":5,"name":"Choose Purpose","text":"Select the platform – WhatsApp, Instagram, Facebook, Personal, Office, or Story."},{"@type":"HowToStep","position":6,"name":"Generate and Download","text":"Click Generate Card, wait for AI to create the image, then download the HD PNG."}]}
+</script>
+
+<!-- SEO Schema: FAQPage -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this tool really 100% free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free. No hidden charges, no premium version, no credit system. You can generate and download unlimited cards for personal or commercial use."}},{"@type":"Question","name":"Can I add my own name or custom message to the card?","acceptedAnswer":{"@type":"Answer","text":"Absolutely! Use the Custom Text box. The AI will integrate it beautifully into the card design. You can also customize text color and outline."}},{"@type":"Question","name":"How long does it take to generate a card?","acceptedAnswer":{"@type":"Answer","text":"Usually 10-20 seconds. Under heavy load it may take 30-40 seconds. A 65-second timeout protection is built in."}},{"@type":"Question","name":"Can I use these cards for commercial projects?","acceptedAnswer":{"@type":"Answer","text":"Yes, you may use them for both personal and commercial purposes. No watermark or attribution is required."}},{"@type":"Question","name":"Is my data safe?","acceptedAnswer":{"@type":"Answer","text":"No signup or personal data is collected. Inputs are sanitized and all connections are HTTPS encrypted."}},{"@type":"Question","name":"What if I don't like the card?","acceptedAnswer":{"@type":"Answer","text":"Click the Regenerate button to create a new unique card with the same settings. Each generation uses a random seed."}},{"@type":"Question","name":"Does it work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes, the tool is fully responsive and works perfectly on mobile, tablet, and desktop. The interface is touch-friendly."}}]}
+</script>
+
+<article class="fc" id="tsxv5-fcApp">
+
+  <nav class="fc-breadcrumb" aria-label="Breadcrumb">
+    <a href="https://www.toolsx.in/">Home</a> &gt; Festival Card Maker
+  </nav>
+
+  <header class="fc-banner">
+    <h2>🪔 AI Festival Card Studio</h2>
+    <p>Create the perfect greeting card for every festival — AI generated with your custom name or message.</p>
+  </header>
+
+  <nav class="fc-tabs" aria-label="Card customization tabs">
+    <button type="button" class="fc-tab on" data-tab="0"><span class="fc-tab-icon" aria-hidden="true">🪔</span> Festival</button>
+    <button type="button" class="fc-tab" data-tab="1"><span class="fc-tab-icon" aria-hidden="true">🎨</span> Style</button>
+    <button type="button" class="fc-tab" data-tab="2"><span class="fc-tab-icon" aria-hidden="true">🌈</span> Colors</button>
+    <button type="button" class="fc-tab" data-tab="3"><span class="fc-tab-icon" aria-hidden="true">📱</span> Use</button>
+  </nav>
+
+  <main class="fc-body">
+
+    <section class="fc-custom-section">
+      <label class="fc-custom-label" for="tsxv5-fcCustomText">✍️ Custom Text</label>
+      <input
+        type="text"
+        id="tsxv5-fcCustomText"
+        class="fc-custom-input"
+        placeholder="Enter name, message, or wishes (e.g., 'Happy Diwali - Rahul')"
+        maxlength="80"
+        aria-label="Custom text for your greeting card"
+      />
+      <div class="fc-text-options">
+        <label><input type="color" id="tsxv5-fcTextColor" value="#ffffff"> Text</label>
+        <label><input type="color" id="tsxv5-fcTextOutline" value="#000000"> Outline</label>
+        <span style="font-size:.7rem;color:var(--fc-text-muted);">Customize text color and outline</span>
+      </div>
+      <p class="fc-custom-hint">💡 Tip: Add the recipient's name or a personal message. AI will integrate it beautifully.</p>
+    </section>
+
+    <section class="fc-panel show" id="tsxv5-fcPanel0" aria-label="Festival selection">
+      <div class="fc-carousel">
+        <div class="fc-fest-item" data-v="Diwali festival, diyas oil lamps, fireworks, rangoli, golden lights, Indian festival of lights celebration"><span class="fc-fest-emoji" aria-hidden="true">🪔</span><span class="fc-fest-label">Diwali</span></div>
+        <div class="fc-fest-item" data-v="Holi festival, colorful powder throwing, water splash, vibrant rainbow colors, Indian festival of colors"><span class="fc-fest-emoji" aria-hidden="true">🎨</span><span class="fc-fest-label">Holi</span></div>
+        <div class="fc-fest-item" data-v="Eid Mubarak celebration, crescent moon, mosque silhouette, lanterns, Islamic festival, peaceful night"><span class="fc-fest-emoji" aria-hidden="true">🌙</span><span class="fc-fest-label">Eid</span></div>
+        <div class="fc-fest-item" data-v="Raksha Bandhan, rakhi sacred thread, brother sister love, Indian festival, sweets and gifts"><span class="fc-fest-emoji" aria-hidden="true">🎀</span><span class="fc-fest-label">Rakhi</span></div>
+        <div class="fc-fest-item" data-v="Christmas celebration, decorated tree, snowflakes, gifts, Santa, merry christmas, winter wonderland"><span class="fc-fest-emoji" aria-hidden="true">🎄</span><span class="fc-fest-label">Christmas</span></div>
+        <div class="fc-fest-item" data-v="Navratri Garba Dandiya festival, traditional dance, colorful chaniya choli, dandiya sticks, Gujarati celebration"><span class="fc-fest-emoji" aria-hidden="true">💃</span><span class="fc-fest-label">Navratri</span></div>
+        <div class="fc-fest-item" data-v="Ganesh Chaturthi, Lord Ganesha idol decoration, modak sweets, flowers marigold, Maharashtrian festival"><span class="fc-fest-emoji" aria-hidden="true">🐘</span><span class="fc-fest-label">Ganesh</span></div>
+        <div class="fc-fest-item" data-v="Indian Independence Day, tricolor saffron white green flag, patriotic celebration, 15 August"><span class="fc-fest-emoji" aria-hidden="true">🇮🇳</span><span class="fc-fest-label">15 August</span></div>
+        <div class="fc-fest-item" data-v="Republic Day India, patriotic, Indian flag, Rajpath parade, 26 January, national pride"><span class="fc-fest-emoji" aria-hidden="true">🏛️</span><span class="fc-fest-label">26 January</span></div>
+        <div class="fc-fest-item" data-v="New Year celebration, midnight fireworks, countdown clock, champagne, confetti, happy new year party"><span class="fc-fest-emoji" aria-hidden="true">🎆</span><span class="fc-fest-label">New Year</span></div>
+        <div class="fc-fest-item" data-v="Birthday celebration, layered cake, colorful balloons, confetti, party hats, happy birthday"><span class="fc-fest-emoji" aria-hidden="true">🎂</span><span class="fc-fest-label">Birthday</span></div>
+        <div class="fc-fest-item" data-v="Indian wedding celebration, mandap decoration, marigold flowers, bride groom, shaadi, traditional ceremony"><span class="fc-fest-emoji" aria-hidden="true">💒</span><span class="fc-fest-label">Wedding</span></div>
+      </div>
+    </section>
+
+    <section class="fc-panel" id="tsxv5-fcPanel1" aria-label="Style selection">
+      <div class="fc-bubbles">
+        <button type="button" class="fc-bubble" data-v="traditional Indian art, ornate mandala patterns, intricate mehandi design, cultural">🏵️ Traditional</button>
+        <button type="button" class="fc-bubble" data-v="modern minimalist clean design, simple elegant, contemporary">✨ Modern</button>
+        <button type="button" class="fc-bubble" data-v="cute kawaii cartoon illustration, playful adorable, fun colors">🧸 Cute</button>
+        <button type="button" class="fc-bubble" data-v="royal luxury gold foil design, premium elegant, majestic">👑 Royal</button>
+        <button type="button" class="fc-bubble" data-v="soft watercolor painting, artistic hand-painted, dreamy">🖌️ Watercolor</button>
+        <button type="button" class="fc-bubble" data-v="3D render glossy digital art, modern CGI, shiny">💎 3D Art</button>
+        <button type="button" class="fc-bubble" data-v="vintage retro old school design, nostalgic, classic poster">📜 Vintage</button>
+        <button type="button" class="fc-bubble" data-v="photorealistic professional photography, real looking, high detail">📷 Realistic</button>
+        <button type="button" class="fc-bubble" data-v="neon glow cyberpunk style, electric, futuristic festival">🔮 Neon</button>
+        <button type="button" class="fc-bubble" data-v="paper craft cut-out style, layered paper art, handmade feel">✂️ Paper Art</button>
+      </div>
+    </section>
+
+    <section class="fc-panel" id="tsxv5-fcPanel2" aria-label="Color selection">
+      <div class="fc-swatches">
+        <div class="fc-swatch" style="background: linear-gradient(135deg, #ff6b35, #ff9800);" data-v="warm saffron orange traditional Indian colors, festive"><span class="fc-swatch-label">Saffron</span></div>
+        <div class="fc-swatch" style="background: linear-gradient(135deg, #e91e63, #f48fb1);" data-v="pink magenta rose colors, romantic festive"><span class="fc-swatch-label">Pink</span></div>
+        <div class="fc-swatch" style="background: linear-gradient(135deg, #ffd700, #ffab00);" data-v="golden yellow rich colors, prosperity wealth"><span class="fc-swatch-label">Gold</span></div>
+        <div class="fc-swatch" style="background: linear-gradient(135deg, #4caf50, #a5d6a7);" data-v="green nature fresh colors, harmony peace"><span class="fc-swatch-label">Green</span></div>
+        <div class="fc-swatch" style="background: linear-gradient(135deg, #2196f3, #90caf9);" data-v="blue sky calm colors, serene tranquil"><span class="fc-swatch-label">Blue</span></div>
+        <div class="fc-swatch" style="background: linear-gradient(135deg, #9c27b0, #ce93d8);" data-v="purple violet royal majestic colors"><span class="fc-swatch-label">Purple</span></div>
+        <div class="fc-swatch" style="background: linear-gradient(135deg, #f44336, #ff7043);" data-v="red crimson bold passionate colors"><span class="fc-swatch-label">Red</span></div>
+        <div class="fc-swatch" style="background: linear-gradient(135deg, #fff, #e0e0e0);" data-v="white silver pure elegant clean colors"><span class="fc-swatch-label">White</span></div>
+      </div>
+    </section>
+
+    <section class="fc-panel" id="tsxv5-fcPanel3" aria-label="Purpose selection">
+      <div class="fc-purpose-grid">
+        <div class="fc-purpose-card" data-v="WhatsApp status greeting card, square format, social media share"><span class="fc-purpose-icon" aria-hidden="true">💬</span><span class="fc-purpose-name">WhatsApp</span></div>
+        <div class="fc-purpose-card" data-v="Instagram post aesthetic greeting card, trendy visual"><span class="fc-purpose-icon" aria-hidden="true">📸</span><span class="fc-purpose-name">Instagram</span></div>
+        <div class="fc-purpose-card" data-v="Facebook cover banner greeting, wide format community"><span class="fc-purpose-icon" aria-hidden="true">👥</span><span class="fc-purpose-name">Facebook</span></div>
+        <div class="fc-purpose-card" data-v="personal heartfelt greeting card, intimate warm wishes"><span class="fc-purpose-icon" aria-hidden="true">💌</span><span class="fc-purpose-name">Personal</span></div>
+        <div class="fc-purpose-card" data-v="corporate office professional greeting, business formal"><span class="fc-purpose-icon" aria-hidden="true">🏢</span><span class="fc-purpose-name">Office</span></div>
+        <div class="fc-purpose-card" data-v="vertical story format, Instagram story, reels thumbnail"><span class="fc-purpose-icon" aria-hidden="true">📲</span><span class="fc-purpose-name">Story</span></div>
+      </div>
+    </section>
+
+    <div class="fc-loading" id="tsxv5-fcLoading" aria-live="polite">
+      <div class="fc-progress-track"><div class="fc-progress-bar"></div></div>
+      <div class="fc-loading-text">Creating your card...</div>
+      <div class="fc-loading-sub">AI is crafting your festive magic</div>
+    </div>
+
+    <button type="button" class="fc-fab" id="tsxv5-fcFab" aria-label="Generate festival card">✨ Generate Card</button>
+  </main>
+
+  <section class="fc-how">
+    <h2>✅ How to Use Festival Card Maker</h2>
+    <p>Create a personalized greeting card in a few simple steps:</p>
+    <ol>
+      <li><strong>Enter custom text</strong> – optionally type a name or message and customize text color.</li>
+      <li><strong>Choose a festival</strong> – select from 12 festivals including Diwali, Holi, Eid, and more.</li>
+      <li><strong>Pick a style</strong> – choose from 10 art styles like Traditional, Modern, Royal, or Watercolor.</li>
+      <li><strong>Select color palette</strong> – pick one of 8 color themes.</li>
+      <li><strong>Choose purpose</strong> – WhatsApp, Instagram, Facebook, Personal, Office, or Story.</li>
+      <li><strong>Generate and download</strong> – click Generate Card, wait for AI, then download the HD PNG.</li>
+    </ol>
+    <p>💡 <strong>Tip:</strong> Short custom texts work best. You can regenerate for a fresh variation anytime.</p>
+  </section>
+
+  <section class="fc-faq">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="fc-faq-item">
+      <h3>Is this tool really 100% free?</h3>
+      <p>Yes, completely free. No hidden charges, no premium version, no credit system. You can generate and download unlimited cards for personal or commercial use.</p>
+    </div>
+    <div class="fc-faq-item">
+      <h3>Can I add my own name or custom message to the card?</h3>
+      <p>Absolutely! Use the Custom Text box. The AI will integrate it beautifully into the card design. You can also customize text color and outline.</p>
+    </div>
+    <div class="fc-faq-item">
+      <h3>How long does it take to generate a card?</h3>
+      <p>Usually 10-20 seconds. Under heavy load it may take 30-40 seconds. A 65-second timeout protection is built in.</p>
+    </div>
+    <div class="fc-faq-item">
+      <h3>Can I use these cards for commercial projects?</h3>
+      <p>Yes, you may use them for both personal and commercial purposes. No watermark or attribution is required.</p>
+    </div>
+    <div class="fc-faq-item">
+      <h3>Is my data safe?</h3>
+      <p>No signup or personal data is collected. Inputs are sanitized and all connections are HTTPS encrypted.</p>
+    </div>
+    <div class="fc-faq-item">
+      <h3>What if I don't like the card?</h3>
+      <p>Click the Regenerate button to create a new unique card with the same settings. Each generation uses a random seed.</p>
+    </div>
+    <div class="fc-faq-item">
+      <h3>Does it work on mobile?</h3>
+      <p>Yes, the tool is fully responsive and works perfectly on mobile, tablet, and desktop. The interface is touch-friendly.</p>
+    </div>
+  </section>
+
+  <!-- Related Tools (Internal Links) -->
+  <aside class="fc-related" aria-label="Related Tools">
+    <h2 class="fc-related-title">🎨 Try These Creative Tools</h2>
+    <div class="fc-related-grid">
+      <a href="../tools/file-size-composer.html" rel="noopener noreferrer" title="File Size Composer" class="fc-related-link">
+        <span class="fc-related-icon">📦</span>
+        <div><strong>File Size Composer</strong><span>Optimize file sizes for faster uploads</span></div>
+      </a>
+      <a href="../tools/check-domain-name-availability-free-com.html" rel="noopener noreferrer" title="Domain Name Checker" class="fc-related-link">
+        <span class="fc-related-icon">🌐</span>
+        <div><strong>Domain Name Checker</strong><span>Check domain availability instantly</span></div>
+      </a>
+      <a href="../tools/qr-code-generator-instagram-whatsapp.html" rel="noopener noreferrer" title="QR Code Generator" class="fc-related-link">
+        <span class="fc-related-icon">🔳</span>
+        <div><strong>QR Code Generator</strong><span>Create QR codes for Instagram and WhatsApp</span></div>
+      </a>
+    </div>
+  </aside>
+
+  <footer class="fc-footer">
+    <p>100% Free • No Signup • Unlimited Cards • WhatsApp &amp; Social Media Ready</p>
+    <p style="font-size:.75rem;opacity:.7;margin-top:8px;">Powered by <strong><a href="https://www.toolsx.in" rel="noopener">Tools-X</a></strong></p>
+  </footer>
+</article>
+
+<!-- Modal — intentionally always-dark overlay -->
+<div class="fc-modal" id="tsxv5-fcModal" role="dialog" aria-modal="true" aria-label="Generated card preview">
+  <div class="fc-modal-content">
+    <button type="button" class="fc-modal-close" id="tsxv5-fcModalClose" aria-label="Close modal">&times;</button>
+    <canvas id="tsxv5-fcCanvas" style="max-width:100%;border-radius:16px;box-shadow:var(--fc-shadow-lg);display:none;"></canvas>
+    <img id="tsxv5-fcModalImg" class="fc-modal-img" alt="Generated Festival Greeting Card" loading="lazy" decoding="async" style="display:none;" />
+    <div class="fc-modal-btns">
+      <a id="tsxv5-fcDl" class="fc-modal-btn primary" download="toolsx-festival-card.png" rel="noopener noreferrer">📥 Download Card</a>
+      <button type="button" class="fc-modal-btn" id="tsxv5-fcRegenerate">🔄 Regenerate</button>
+      <button type="button" class="fc-modal-btn" id="tsxv5-fcReset">♻️ Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast — intentionally always-dark, scoped ID -->
+<div id="tsxv5-fc-toast" role="alert" aria-live="assertive"></div>
+
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+
+var W=document.getElementById('tsxv5-fc');
+if(!W)return;
+
+function $(id){return document.getElementById(id);}
+function setText(el,s){if(el)el.textContent=String(s==null?'':s);}
+
+var fcState={fest:'',style:'',color:'',purpose:'',customText:'',textColor:'#ffffff',outlineColor:'#000000'};
+var fcBusy=false;
+
+function fcSanitize(s){
+  if(!s)return'';
+  var c=String(s);
+  c=c.replace(/<[^>]*>/g,'');
+  c=c.replace(/javascript\s*:/gi,'');
+  c=c.replace(/on\w+\s*=/gi,'');
+  c=c.replace(/[<>{}"'\\]/g,'');
+  c=c.replace(/[\x00-\x1F\x7F]/g,'');
+  if(c.length>500)c=c.substring(0,500);
+  return c.trim();
+}
+
+function fcSanitizeFilename(s){
+  return String(s||'toolsx-festival-card').replace(/[^a-zA-Z0-9._\-]/g,'').substring(0,80)||'toolsx-festival-card';
+}
+
+function fcToastMsg(msg){
+  var t=$('tsxv5-fc-toast');
+  if(!t)return;
+  setText(t,msg);
+  t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},4000);
+}
+
+// Tabs — no inline handlers
+W.querySelectorAll('.fc-tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    var idx=this.getAttribute('data-tab');
+    W.querySelectorAll('.fc-tab').forEach(function(t){t.classList.remove('on');});
+    this.classList.add('on');
+    W.querySelectorAll('.fc-panel').forEach(function(p){p.classList.remove('show');});
+    $('tsxv5-fcPanel'+idx).classList.add('show');
+  });
+});
+
+// Festival picker
+W.querySelectorAll('.fc-fest-item').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('.fc-fest-item').forEach(function(x){x.classList.remove('on');});
+    this.classList.add('on');
+    fcState.fest=this.getAttribute('data-v')||'';
+  });
+});
+
+// Style picker
+W.querySelectorAll('.fc-bubble').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('.fc-bubble').forEach(function(x){x.classList.remove('active');});
+    this.classList.add('on');
+    fcState.style=this.getAttribute('data-v')||'';
+  });
+});
+
+// Color picker
+W.querySelectorAll('.fc-swatch').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('.fc-swatch').forEach(function(x){x.classList.remove('on');});
+    this.classList.add('on');
+    fcState.color=this.getAttribute('data-v')||'';
+  });
+});
+
+// Purpose picker
+W.querySelectorAll('.fc-purpose-card').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('.fc-purpose-card').forEach(function(x){x.classList.remove('on');});
+    this.classList.add('on');
+    fcState.purpose=this.getAttribute('data-v')||'';
+  });
+});
+
+// Color inputs
+var tcInput=$('tsxv5-fcTextColor');
+var toInput=$('tsxv5-fcTextOutline');
+if(tcInput){fcState.textColor=tcInput.value;tcInput.addEventListener('input',function(){fcState.textColor=this.value;});}
+if(toInput){fcState.outlineColor=toInput.value;toInput.addEventListener('input',function(){fcState.outlineColor=this.value;});}
+
+// Text overlay
+function fcApplyTextOverlay(sourceImg,w,h,text,tColor,oColor){
+  return new Promise(function(resolve,reject){
+    try{
+      var canvas=$('tsxv5-fcCanvas');
+      canvas.width=w;canvas.height=h;
+      var ctx=canvas.getContext('2d');
+      ctx.drawImage(sourceImg,0,0,w,h);
+      if(!text||text.length===0){resolve(canvas);return;}
+      var displayText=text;
+      var fontSize=Math.min(w,h)*0.055;
+      fontSize=Math.max(18,Math.min(fontSize,64));
+      ctx.textAlign='center';ctx.textBaseline='bottom';
+      var xPos=w/2,yPos=h-fontSize*0.6;
+      if(displayText.length>30)fontSize=Math.min(fontSize,32);
+      if(displayText.length>50)fontSize=Math.min(fontSize,24);
+      ctx.font='bold '+fontSize+'px "Segoe UI", Arial, sans-serif';
+      var metrics=ctx.measureText(displayText);
+      var textWidth=metrics.width;
+      if(textWidth>w*0.85){
+        var newSize=fontSize*(w*0.85/textWidth);
+        fontSize=Math.max(14,newSize);
+        ctx.font='bold '+fontSize+'px "Segoe UI", Arial, sans-serif';
+      }
+      ctx.shadowColor=oColor;ctx.shadowBlur=fontSize*0.2;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
+      ctx.lineWidth=fontSize*0.08;ctx.strokeStyle=oColor;ctx.strokeText(displayText,xPos,yPos);
+      ctx.fillStyle=tColor;ctx.fillText(displayText,xPos,yPos);
+      ctx.shadowBlur=0;
+      resolve(canvas);
+    }catch(err){reject(err);}
+  });
+}
+
+// Modal controls — no inline handlers
+var modal=$('tsxv5-fcModal');
+var modalClose=$('tsxv5-fcModalClose');
+
+function fcCloseModal(){modal.classList.remove('open');}
+
+modalClose.addEventListener('click',fcCloseModal);
+modal.addEventListener('click',function(e){if(e.target===modal)fcCloseModal();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))fcCloseModal();});
+
+// Generate function
+function fcGenerate(){
+  if(fcBusy)return;
+  if(!fcState.fest){fcToastMsg('Please select a festival first.');return;}
+  if(!fcState.style){fcToastMsg('Please select a style.');return;}
+  if(!fcState.color){fcToastMsg('Please select a color palette.');return;}
+  if(!fcState.purpose){fcToastMsg('Please select a purpose.');return;}
+
+  fcState.customText=fcSanitize($('tsxv5-fcCustomText').value);
+  fcState.textColor=$('tsxv5-fcTextColor').value||'#ffffff';
+  fcState.outlineColor=$('tsxv5-fcTextOutline').value||'#000000';
+
+  var promptParts=[fcState.fest,fcState.style,fcState.color,fcState.purpose];
+  promptParts.push('beautiful greeting card design, festive celebration, high quality, professional, no text, no watermark');
+  var prompt=fcSanitize(promptParts.join(', '));
+  if(!prompt||prompt.length<10){fcToastMsg('Something went wrong. Please try again.');return;}
+
+  fcBusy=true;
+  var fab=$('tsxv5-fcFab');
+  fab.disabled=true;
+  setText(fab,'⏳ Generating...');
+
+  $('tsxv5-fcLoading').classList.add('show');
+
+  var seed=Math.floor(Math.random()*9999999);
+  var url='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+
+    '?width=1024&height=1024&seed='+seed+'&nologo=true&enhance=true';
+
+  var img=new Image();
+  img.crossOrigin='anonymous';
+
+  var abortTimeout=setTimeout(function(){
+    if(fcBusy){
+      fcBusy=false;fab.disabled=false;
+      setText(fab,'✨ Generate Card');
+      $('tsxv5-fcLoading').classList.remove('show');
+      fcToastMsg('Timeout! Check your internet connection.');
+      img.src='';
+    }
+  },65000);
+
+  img.onload=function(){
+    clearTimeout(abortTimeout);
+    fcApplyTextOverlay(img,1024,1024,fcState.customText,fcState.textColor,fcState.outlineColor)
+      .then(function(canvas){
+        fcBusy=false;fab.disabled=false;
+        setText(fab,'✨ Generate Card');
+        $('tsxv5-fcLoading').classList.remove('show');
+
+        var canvasEl=$('tsxv5-fcCanvas');
+        var modalImg=$('tsxv5-fcModalImg');
+        canvasEl.style.display='block';
+        modalImg.style.display='none';
+
+        var dataURL;
+        try{dataURL=canvasEl.toDataURL('image/png');}catch(e){fcToastMsg('Canvas export failed.');return;}
+
+        var dlLink=$('tsxv5-fcDl');
+        dlLink.href=dataURL;
+        dlLink.download=fcSanitizeFilename('toolsx-fest-'+seed)+'.png';
+
+        modalImg.alt='Festival greeting card'+(fcState.customText?' with text: "'+fcState.customText+'"':'');
+
+        modal.classList.add('open');
+      })
+      .catch(function(err){
+        fcBusy=false;fab.disabled=false;
+        setText(fab,'✨ Generate Card');
+        $('tsxv5-fcLoading').classList.remove('show');
+        fcToastMsg('Text overlay failed. Please try again.');
+      });
+  };
+
+  img.onerror=function(){
+    clearTimeout(abortTimeout);
+    fcBusy=false;fab.disabled=false;
+    setText(fab,'✨ Generate Card');
+    $('tsxv5-fcLoading').classList.remove('show');
+    fcToastMsg('Card generation failed. Please try again.');
+  };
+
+  img.src=url;
+}
+
+function fcResetAll(){
+  fcState={fest:'',style:'',color:'',purpose:'',customText:'',textColor:'#ffffff',outlineColor:'#000000'};
+  W.querySelectorAll('.fc-fest-item,.fc-bubble,.fc-swatch,.fc-purpose-card').forEach(function(x){x.classList.remove('on');});
+  $('tsxv5-fcCustomText').value='';
+  $('tsxv5-fcTextColor').value='#ffffff';
+  $('tsxv5-fcTextOutline').value='#000000';
+  W.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+$('tsxv5-fcFab').addEventListener('click',fcGenerate);
+$('tsxv5-fcRegenerate').addEventListener('click',function(){fcCloseModal();fcGenerate();});
+$('tsxv5-fcReset').addEventListener('click',function(){fcCloseModal();fcResetAll();});
+
+$('tsxv5-fcCustomText').addEventListener('keydown',function(e){
+  if(e.key==='Enter'){e.preventDefault();fcGenerate();}
+});
+
+// FAQ accordion removed; now plain HTML
+
+})();
+//]]>
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

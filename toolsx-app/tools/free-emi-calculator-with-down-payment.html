@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>EMI Ledger Calculator – Loan Down Payment &amp; Interest Calculator – ToolsX App</title>
+<meta name="description" content="Free EMI Ledger Calculator – down payment, interest rate aur loan tenure ke hisaab se turant sahi EMI calculate karein. 100% free, private aur accurat">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>EMI Ledger Calculator – Loan Down Payment &amp; Interest Calculator</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<!-- BLOGGER POST TITLE (EDITOR MEIN): EMI Ledger Calculator – Loan Down Payment & Interest Calculator | Tools-X -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "EMI Ledger Calculator",
+      "description": "Free online EMI calculator with down payment, amortization schedule, and donut chart visualization. Calculate home loan, car loan, or personal loan EMI instantly.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+      "author": { "@type": "Organization", "name": "Tools-X", "url": "https://www.toolsx.in" },
+      "publisher": { "@type": "Organization", "name": "Tools-X", "url": "https://www.toolsx.in" },
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "../tools/free-emi-calculator-with-down-payment.html" }
+    },
+    {
+      "@type": "HowTo",
+      "name": "How to Use EMI Ledger Calculator",
+      "description": "Calculate your loan EMI, total interest, and amortization schedule in four simple steps.",
+      "step": [
+        { "@type": "HowToStep", "name": "Enter Total Amount", "text": "Enter the total loan or property price. Adjust the down payment if applicable." },
+        { "@type": "HowToStep", "name": "Set Interest Rate", "text": "Adjust the annual interest rate using the slider or input field." },
+        { "@type": "HowToStep", "name": "Choose Tenure", "text": "Select the repayment period in years or months." },
+        { "@type": "HowToStep", "name": "View Results", "text": "See your monthly EMI, total interest, and download the complete schedule." }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is EMI and how is it calculated?", "acceptedAnswer": { "@type": "Answer", "text": "EMI (Equated Monthly Instalment) is the fixed monthly payment you make to repay a loan. Each EMI includes both principal and interest portions. The calculator uses the reducing balance method where interest is charged only on the outstanding principal." } },
+        { "@type": "Question", "name": "How does down payment affect my EMI?", "acceptedAnswer": { "@type": "Answer", "text": "A larger down payment reduces the loan amount you need to borrow, which directly lowers your monthly EMI and the total interest you pay over the loan tenure." } },
+        { "@type": "Question", "name": "What is the reducing balance method?", "acceptedAnswer": { "@type": "Answer", "text": "In the reducing balance method, interest is calculated only on the remaining outstanding loan balance. As you repay the principal, the interest portion of each EMI decreases while the principal portion increases." } },
+        { "@type": "Question", "name": "Can I download the amortization schedule?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, the tool includes a CSV export feature that lets you download the complete year-wise amortization schedule for your loan." } }
+      ]
+    }
+  ]
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=IBM+Plex+Mono:wght@400;500;600;700&family=Zilla+Slab:wght@500;700&display=swap');
+
+#tsxv5-emiledger-post,
+#tsxv5-emiledger-post .emi-ledger * { box-sizing: border-box; }
+
+#tsxv5-emiledger-post .emi-ledger {
+  --paper: #ece3cb;
+  --paper-deep: #e3d8b8;
+  --line: #c3b791;
+  --ink: #1f3327;
+  --ink-soft: #3c5744;
+  --stamp-red: #9c3b3b;
+  --gold: #93701f;
+  --gold-line: #b08d34;
+  --muted: #6b6250;
+
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--ink);
+  background: var(--paper);
+  background-image: repeating-linear-gradient(transparent, transparent 34px, var(--line) 35px);
+  background-position: 0 92px;
+  max-width: min(780px, 100%);
+  width: 100%;
+  margin: clamp(1rem, 3vw, 2rem) auto;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #fff inset, 0 18px 40px rgba(31,51,39,0.18);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+#tsxv5-emiledger-post .emi-ledger::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; left: clamp(12px, 3vw, 56px);
+  width: 2px;
+  background: rgba(156,59,59,0.28);
+}
+
+#tsxv5-emiledger-post .emi-ledger .el-cover {
+  background: var(--ink);
+  color: #ece3cb;
+  padding: clamp(1.2rem, 3vw, 1.6rem) clamp(1.2rem, 3vw, 2rem) clamp(1.2rem, 3vw, 1.6rem) clamp(3rem, 6vw, 4.5rem);
+  position: relative;
+}
+#tsxv5-emiledger-post .emi-ledger .el-cover .el-eyebrow {
+  font-family: 'Special Elite', monospace;
+  font-size: clamp(0.65rem, 1.5vw, 0.72rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #c9a24a;
+  margin-bottom: 0.4rem;
+}
+#tsxv5-emiledger-post .emi-ledger .el-cover h2 {
+  font-family: 'Zilla Slab', serif;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  letter-spacing: 0.01em;
+  color: #ece3cb;
+  margin: 0;
+}
+#tsxv5-emiledger-post .emi-ledger .el-cover p {
+  font-size: clamp(0.78rem, 2vw, 0.85rem);
+  color: #cdd8cf;
+  margin-top: 0.35rem;
+  max-width: 46ch;
+  line-height: 1.6;
+}
+#tsxv5-emiledger-post .emi-ledger .el-cover .el-passno {
+  position: absolute;
+  right: clamp(1rem, 2vw, 2rem); 
+  top: clamp(1rem, 2vw, 1.6rem);
+  text-align: right;
+  font-size: clamp(0.65rem, 1.5vw, 0.7rem);
+  color: #9fae9f;
+  line-height: 1.5;
+}
+
+#tsxv5-emiledger-post .el-body { padding: clamp(1rem, 3vw, 1.8rem) clamp(1rem, 3vw, 2rem) clamp(1.2rem, 3vw, 2.2rem) clamp(3rem, 6vw, 4.5rem); }
+
+#tsxv5-emiledger-post .emi-ledger .el-field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 0.6rem 1rem;
+  padding: 0.9rem 0 0.5rem;
+}
+#tsxv5-emiledger-post .emi-ledger .el-field label {
+  font-size: clamp(0.7rem, 1.8vw, 0.78rem);
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  grid-column: 1 / -1;
+}
+#tsxv5-emiledger-post .emi-ledger .el-field .el-inputwrap {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1.5px solid var(--gold-line);
+  padding-bottom: 0.35rem;
+}
+#tsxv5-emiledger-post .emi-ledger .el-field .el-prefix {
+  font-family: 'Zilla Slab', serif;
+  font-weight: 700;
+  color: var(--gold);
+  font-size: clamp(1rem, 2.5vw, 1.05rem);
+}
+#tsxv5-emiledger-post .emi-ledger .el-field input[type="number"] {
+  border: none;
+  background: transparent;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 600;
+  color: var(--ink);
+  width: 100%;
+  outline: none;
+  min-height: 44px;
+}
+#tsxv5-emiledger-post .emi-ledger .el-field input[type="range"] {
+  grid-column: 1 / -1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  background: var(--line);
+  border-radius: 2px;
+  outline: none;
+}
+#tsxv5-emiledger-post .emi-ledger .el-field input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--stamp-red);
+  border: 2px solid var(--paper);
+  box-shadow: 0 0 0 1px var(--stamp-red);
+  cursor: pointer;
+  margin-top: -8px;
+}
+#tsxv5-emiledger-post .emi-ledger .el-field input[type="range"]::-moz-range-thumb {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--stamp-red);
+  border: 2px solid var(--paper);
+  cursor: pointer;
+}
+#tsxv5-emiledger-post .emi-ledger .el-range-labels {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  font-size: clamp(0.62rem, 1.5vw, 0.68rem);
+  color: var(--muted);
+  margin-top: -0.3rem;
+}
+
+#tsxv5-emiledger-post .emi-ledger .el-tenure-toggle {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+}
+#tsxv5-emiledger-post .emi-ledger .el-tenure-toggle button {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: clamp(0.7rem, 1.8vw, 0.72rem);
+  letter-spacing: 0.04em;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--gold-line);
+  background: transparent;
+  color: var(--ink-soft);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+  min-height: 44px;
+}
+#tsxv5-emiledger-post .emi-ledger .el-tenure-toggle button.active {
+  background: var(--ink);
+  color: #ece3cb;
+  border-color: var(--ink);
+}
+#tsxv5-emiledger-post .emi-ledger .el-tenure-toggle button:hover:not(.active) {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+#tsxv5-emiledger-post .emi-ledger .el-loan-readout {
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+  font-size: clamp(0.72rem, 1.8vw, 0.78rem);
+  color: var(--ink-soft);
+  background: rgba(147,112,31,0.09);
+  border: 1px dashed var(--gold-line);
+  border-radius: 4px;
+  padding: 0.5rem 0.7rem;
+  line-height: 1.6;
+}
+#tsxv5-emiledger-post .el-loan-readout .el-loan-readout-eq,
+#tsxv5-emiledger-post .emi-ledger .el-loan-readout .el-loan-readout-minus {
+  color: var(--gold);
+  font-weight: 700;
+}
+#tsxv5-emiledger-post .emi-ledger .el-loan-readout #tsxv5-elLoanAmountVal {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+#tsxv5-emiledger-post .emi-ledger .el-result {
+  margin-top: 1.6rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.6rem;
+  align-items: center;
+}
+
+#tsxv5-emiledger-post .emi-ledger .el-stamp-wrap {
+  position: relative;
+  width: clamp(100px, 15vw, 148px);
+  height: clamp(100px, 15vw, 148px);
+  flex-shrink: 0;
+}
+#tsxv5-emiledger-post .emi-ledger .el-stamp {
+  width: clamp(100px, 15vw, 148px);
+  height: clamp(100px, 15vw, 148px);
+  border-radius: 50%;
+  border: 3px solid var(--stamp-red);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--stamp-red);
+  transform: rotate(-9deg);
+  font-family: 'Special Elite', monospace;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  position: relative;
+}
+#tsxv5-emiledger-post .emi-ledger .el-stamp::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--stamp-red);
+  border-radius: 50%;
+}
+#tsxv5-emiledger-post .emi-ledger .el-stamp.show {
+  opacity: 0.92;
+  transform: rotate(-6deg) scale(1);
+}
+#tsxv5-emiledger-post .emi-ledger .el-stamp .el-stamp-label {
+  font-size: clamp(0.55rem, 1.2vw, 0.62rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+#tsxv5-emiledger-post .emi-ledger .el-stamp .el-stamp-amt {
+  font-size: clamp(1rem, 2.5vw, 1.28rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0.15rem 0;
+}
+#tsxv5-emiledger-post .emi-ledger .el-stamp .el-stamp-sub {
+  font-size: clamp(0.5rem, 1.2vw, 0.58rem);
+  letter-spacing: 0.08em;
+}
+
+#tsxv5-emiledger-post .emi-ledger .el-summary { font-size: clamp(0.78rem, 2vw, 0.86rem); }
+#tsxv5-emiledger-post .emi-ledger .el-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.32rem 0;
+  border-bottom: 1px dotted var(--line);
+  flex-wrap: wrap;
+}
+#tsxv5-emiledger-post .el-line .el-line-label { color: var(--ink-soft); white-space: nowrap; }
+#tsxv5-emiledger-post .el-line .el-line-fill { flex: 1; border-bottom: 1px dotted var(--line); transform: translateY(-4px); min-width: 20px; }
+#tsxv5-emiledger-post .el-line .el-line-val { font-weight: 700; white-space: nowrap; }
+#tsxv5-emiledger-post .el-line.total .el-line-val { color: var(--stamp-red); font-size: clamp(0.95rem, 2.5vw, 1rem); }
+
+#tsxv5-emiledger-post .emi-ledger .el-breakdown {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+#tsxv5-emiledger-post .el-breakdown canvas { flex-shrink: 0; max-width: 100%; }
+#tsxv5-emiledger-post .el-legend { font-size: clamp(0.72rem, 1.8vw, 0.78rem); }
+#tsxv5-emiledger-post .el-legend-item { display: flex; align-items: center; gap: 0.5rem; margin: 0.25rem 0; }
+#tsxv5-emiledger-post .el-legend-swatch { width: 10px; height: 10px; border-radius: 2px; }
+
+#tsxv5-emiledger-post .emi-ledger .el-schedule-toggle {
+  margin-top: 1.4rem;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--ink);
+  color: var(--ink);
+  font-family: 'Special Elite', monospace;
+  font-size: clamp(0.78rem, 2vw, 0.82rem);
+  cursor: pointer;
+  padding: 0.3rem 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+}
+#tsxv5-emiledger-post .el-schedule-toggle:hover { color: var(--gold); border-bottom-color: var(--gold); }
+#tsxv5-emiledger-post .el-schedule-toggle .arrow { transition: transform 0.25s; display: inline-block; }
+#tsxv5-emiledger-post .el-schedule-toggle.open .arrow { transform: rotate(90deg); }
+
+#tsxv5-emiledger-post .emi-ledger .el-schedule-wrap {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+#tsxv5-emiledger-post .el-schedule-wrap.open { max-height: 480px; overflow-y: auto; }
+
+#tsxv5-emiledger-post .emi-ledger .el-schedule {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.9rem;
+  font-size: clamp(0.7rem, 1.8vw, 0.76rem);
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+#tsxv5-emiledger-post .emi-ledger .el-schedule th {
+  text-align: right;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  font-size: clamp(0.62rem, 1.5vw, 0.65rem);
+  letter-spacing: 0.05em;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1.5px solid var(--gold-line);
+  position: sticky; top: 0;
+  background: var(--paper);
+}
+#tsxv5-emiledger-post .el-schedule th:first-child,
+#tsxv5-emiledger-post .el-schedule td:first-child { text-align: left; }
+#tsxv5-emiledger-post .emi-ledger .el-schedule td {
+  text-align: right;
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px dotted var(--line);
+}
+#tsxv5-emiledger-post .el-schedule tr:nth-child(even) td { background: rgba(147,112,31,0.06); }
+
+#tsxv5-emiledger-post .emi-ledger .el-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+#tsxv5-emiledger-post .emi-ledger .el-actions button {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: clamp(0.72rem, 1.8vw, 0.75rem);
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.2s;
+  min-height: 44px;
+}
+#tsxv5-emiledger-post .el-actions button:hover { background: var(--ink); color: #ece3cb; }
+
+#tsxv5-emiledger-post .emi-ledger .el-footnote {
+  margin-top: 1.6rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  font-size: clamp(0.64rem, 1.5vw, 0.68rem);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+#tsxv5-emiledger-post .emi-ledger .el-howto {
+  margin-top: 1.8rem;
+  border: 1.5px dashed var(--gold-line);
+  border-radius: 10px;
+  padding: clamp(1rem, 2.5vw, 1.4rem);
+  background: rgba(147,112,31,0.05);
+}
+#tsxv5-emiledger-post .emi-ledger .el-howto h3 {
+  font-family: 'Special Elite', monospace;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  color: var(--ink);
+  margin-bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+#tsxv5-emiledger-post .emi-ledger .el-howto h3::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--stamp-red);
+  display: inline-block;
+}
+#tsxv5-emiledger-post .emi-ledger .el-howto-item { margin-bottom: 0.9rem; }
+#tsxv5-emiledger-post .el-howto-item:last-child { margin-bottom: 0; }
+#tsxv5-emiledger-post .emi-ledger .el-howto-item .el-howto-term {
+  font-weight: 700;
+  color: var(--gold);
+  font-size: clamp(0.78rem, 2vw, 0.82rem);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+#tsxv5-emiledger-post .emi-ledger .el-howto-item p {
+  font-size: clamp(0.74rem, 1.8vw, 0.8rem);
+  color: var(--ink-soft);
+  line-height: 1.65;
+  margin: 0;
+}
+
+#tsxv5-emiledger-post .emi-intro-text,
+#tsxv5-emiledger-post .emi-closing-text {
+  font-family: 'Zilla Slab', serif;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  color: #1f3327;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+#tsxv5-emiledger-post .emi-closing-text {
+  margin-top: 1.5rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+}
+#tsxv5-emiledger-post .emi-internal-links {
+  margin-top: 1.5rem;
+  padding: clamp(0.8rem, 2vw, 1rem);
+  background: rgba(147,112,31,0.05);
+  border-radius: 8px;
+  border: 1px dashed var(--gold-line);
+}
+#tsxv5-emiledger-post .emi-internal-links p {
+  margin-bottom: 0.5rem;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+}
+#tsxv5-emiledger-post .emi-internal-links a {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--gold);
+  font-weight: 600;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  transition: color 0.2s;
+  display: inline-block;
+  margin-bottom: 0.4rem;
+}
+#tsxv5-emiledger-post .emi-internal-links a:hover { color: var(--stamp-red); border-bottom-color: var(--stamp-red); }
+
+/* Dark Mode Override */
+body.dark-mode #tsxv5-emiledger-post .emi-ledger,
+html.dark-mode #tsxv5-emiledger-post .emi-ledger,
+[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger,
+body[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger,
+html[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger,
+.dark-mode #tsxv5-emiledger-post .emi-ledger,
+.night-mode #tsxv5-emiledger-post .emi-ledger,
+[data-bs-theme="dark"] #tsxv5-emiledger-post .emi-ledger {
+  --paper: #1a1d21;
+  --paper-deep: #22262b;
+  --line: #2d333b;
+  --ink: #66B2FF;
+  --ink-soft: #82c0ff;
+  --muted: #a0cfff;
+  --gold: #ffd700;
+  --gold-line: #b89b00;
+  --stamp-red: #ff6b6b;
+}
+
+body.dark-mode #tsxv5-emiledger-post .emi-ledger,
+html.dark-mode #tsxv5-emiledger-post .emi-ledger,
+[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger,
+body[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger,
+html[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger,
+.dark-mode #tsxv5-emiledger-post .emi-ledger,
+.night-mode #tsxv5-emiledger-post .emi-ledger,
+[data-bs-theme="dark"] #tsxv5-emiledger-post .emi-ledger {
+  background-color: var(--paper);
+  border-color: var(--line);
+  box-shadow: 0 1px 0 #333 inset, 0 18px 40px rgba(0,0,0,0.6);
+  color: var(--ink);
+}
+
+body.dark-mode #tsxv5-emiledger-post .emi-ledger .el-cover,
+html.dark-mode #tsxv5-emiledger-post .emi-ledger .el-cover,
+[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-cover,
+body[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-cover,
+html[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-cover,
+.dark-mode #tsxv5-emiledger-post .emi-ledger .el-cover,
+.night-mode #tsxv5-emiledger-post .emi-ledger .el-cover,
+[data-bs-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-cover { background: #111418; }
+
+body.dark-mode #tsxv5-emiledger-post .emi-ledger .el-cover h2,
+html.dark-mode #tsxv5-emiledger-post .emi-ledger .el-cover h2,
+[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-cover h2,
+body[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-cover h2,
+html[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-cover h2,
+.dark-mode #tsxv5-emiledger-post .emi-ledger .el-cover h2,
+.night-mode #tsxv5-emiledger-post .emi-ledger .el-cover h2,
+[data-bs-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-cover h2 { color: #66B2FF; }
+
+body.dark-mode #tsxv5-emiledger-post .emi-ledger .el-schedule th,
+html.dark-mode #tsxv5-emiledger-post .emi-ledger .el-schedule th,
+[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-schedule th,
+body[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-schedule th,
+html[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-schedule th,
+.dark-mode #tsxv5-emiledger-post .emi-ledger .el-schedule th,
+.night-mode #tsxv5-emiledger-post .emi-ledger .el-schedule th,
+[data-bs-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-schedule th { background-color: var(--paper); }
+
+body.dark-mode #tsxv5-emiledger-post .emi-ledger .el-schedule tr:nth-child(even) td,
+html.dark-mode #tsxv5-emiledger-post .emi-ledger .el-schedule tr:nth-child(even) td,
+[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-schedule tr:nth-child(even) td,
+body[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-schedule tr:nth-child(even) td,
+html[data-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-schedule tr:nth-child(even) td,
+.dark-mode #tsxv5-emiledger-post .emi-ledger .el-schedule tr:nth-child(even) td,
+.night-mode #tsxv5-emiledger-post .emi-ledger .el-schedule tr:nth-child(even) td,
+[data-bs-theme="dark"] #tsxv5-emiledger-post .emi-ledger .el-schedule tr:nth-child(even) td { background-color: rgba(102, 178, 255, 0.05); }
+
+body.dark-mode #tsxv5-emiledger-post .emi-intro-text,
+body.dark-mode #tsxv5-emiledger-post .emi-closing-text,
+html.dark-mode #tsxv5-emiledger-post .emi-intro-text,
+html.dark-mode #tsxv5-emiledger-post .emi-closing-text,
+[data-theme="dark"] #tsxv5-emiledger-post .emi-intro-text,
+[data-theme="dark"] #tsxv5-emiledger-post .emi-closing-text,
+.dark-mode #tsxv5-emiledger-post .emi-intro-text,
+.dark-mode #tsxv5-emiledger-post .emi-closing-text,
+.night-mode #tsxv5-emiledger-post .emi-intro-text,
+.night-mode #tsxv5-emiledger-post .emi-closing-text { color: #66B2FF; }
+
+/* Responsive Breakpoints */
+@media (max-width: 320px) {
+  #tsxv5-emiledger-post .emi-ledger { border-radius: 0; margin: 0.5rem auto; }
+  #tsxv5-emiledger-post .emi-ledger::before { left: 8px; }
+  #tsxv5-emiledger-post .el-cover,
+  #tsxv5-emiledger-post .el-body { padding-left: 1rem; padding-right: 1rem; }
+  #tsxv5-emiledger-post .el-cover .el-passno { position: static; margin-top: 0.5rem; text-align: left; }
+  #tsxv5-emiledger-post .el-result { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 1rem; }
+  #tsxv5-emiledger-post .el-breakdown { flex-direction: column; }
+  #tsxv5-emiledger-post .emi-ledger .el-actions { flex-direction: column; }
+  #tsxv5-emiledger-post .emi-ledger .el-actions button { width: 100%; }
+  #tsxv5-emiledger-post .emi-ledger .el-tenure-toggle { flex-direction: column; }
+  #tsxv5-emiledger-post .emi-ledger .el-tenure-toggle button { width: 100%; }
+}
+@media (max-width: 360px) {
+  #tsxv5-emiledger-post .el-cover,
+  #tsxv5-emiledger-post .el-body { padding-left: 1.2rem; padding-right: 1.2rem; }
+  #tsxv5-emiledger-post .emi-ledger::before { left: 10px; }
+  #tsxv5-emiledger-post .el-result { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+}
+@media (max-width: 390px) {
+  #tsxv5-emiledger-post .emi-ledger .el-stamp-wrap { width: 100px; height: 100px; }
+  #tsxv5-emiledger-post .emi-ledger .el-stamp { width: 100px; height: 100px; }
+  #tsxv5-emiledger-post .el-breakdown { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 414px) {
+  #tsxv5-emiledger-post .el-result { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  #tsxv5-emiledger-post .el-breakdown { flex-direction: column; align-items: center; }
+}
+@media (max-width: 480px) {
+  #tsxv5-emiledger-post .emi-ledger { max-width: 100%; margin: 1rem auto; border-radius: 0; border-left: none; border-right: none; }
+  #tsxv5-emiledger-post .el-cover,
+  #tsxv5-emiledger-post .el-body { padding-left: 1.2rem; padding-right: 1.2rem; }
+  #tsxv5-emiledger-post .emi-ledger::before { left: 12px; }
+  #tsxv5-emiledger-post .el-cover .el-passno { position: static; margin-top: 0.6rem; text-align: left; }
+  #tsxv5-emiledger-post .el-result { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  #tsxv5-emiledger-post .el-breakdown { flex-direction: column; }
+  #tsxv5-emiledger-post .emi-ledger .el-actions { flex-direction: column; }
+  #tsxv5-emiledger-post .emi-ledger .el-actions button { width: 100%; text-align: center; padding: 0.6rem; }
+  #tsxv5-emiledger-post .emi-ledger .el-cover h2 { font-size: 1.5rem; }
+}
+@media (max-width: 640px) {
+  #tsxv5-emiledger-post .emi-ledger { max-width: 100%; margin: 1.2rem auto; }
+  #tsxv5-emiledger-post .el-cover,
+  #tsxv5-emiledger-post .el-body { padding-left: 1.5rem; padding-right: 1.5rem; }
+  #tsxv5-emiledger-post .emi-ledger::before { left: 16px; }
+  #tsxv5-emiledger-post .el-result { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  #tsxv5-emiledger-post .el-breakdown { flex-direction: column; }
+}
+@media (max-width: 768px) {
+  #tsxv5-emiledger-post .emi-ledger { max-width: 100%; margin: 1.5rem auto; }
+  #tsxv5-emiledger-post .el-cover,
+  #tsxv5-emiledger-post .el-body { padding-left: 1.5rem; padding-right: 1.5rem; }
+  #tsxv5-emiledger-post .emi-ledger::before { left: 20px; }
+  #tsxv5-emiledger-post .el-result { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  #tsxv5-emiledger-post .el-breakdown { flex-direction: column; }
+}
+@media (min-width: 1024px) {
+  #tsxv5-emiledger-post .emi-ledger { max-width: 820px; margin: 2rem auto; }
+}
+@media (max-width: 1280px) {
+  #tsxv5-emiledger-post .emi-ledger { max-width: min(780px, 100%); }
+}
+@media (max-width: 1440px) {
+  #tsxv5-emiledger-post .emi-ledger { max-width: min(780px, 100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #tsxv5-emiledger-post *,
+  #tsxv5-emiledger-post *::before,
+  #tsxv5-emiledger-post *::after {
+    animation-duration: 0.01ms;
+    transition-duration: 0.01ms;
+  }
+}
+</style>
+
+<p class="emi-intro-text">
+  <strong>Plan Your Loan with Confidence:</strong> Wondering what your actual monthly instalment (EMI) will be for a home, car, or personal loan? This advanced EMI Ledger Calculator provides instant and accurate estimates based on your down payment, interest rate, and tenure — no bank visit required.
+</p>
+
+<div id="tsxv5-emiledger-post">
+<div class="emi-ledger">
+  <div class="el-cover">
+    <div class="el-eyebrow">Loan Account &middot; Amortisation Register</div>
+    <h2>EMI Ledger Calculator – Loan Down Payment &amp; Interest Calculator</h2>
+    <p>Enter your loan details to see monthly payments, total interest, and the complete amortization schedule.</p>
+    <div class="el-passno" id="tsxv5-elPassNo">ENTRY NO. —</div>
+  </div>
+
+  <div class="el-body">
+    <div class="el-field">
+      <label for="tsxv5-elAmount">Total Amount (Property Price / Loan Principal)</label>
+      <div class="el-inputwrap">
+        <span class="el-prefix">&#8377;</span>
+        <input type="number" id="tsxv5-elAmount" value="500000" min="10000" max="20000000" step="1000" aria-label="Total amount">
+      </div>
+      <input type="range" id="tsxv5-elAmountRange" min="10000" max="20000000" step="10000" value="500000" aria-label="Total amount slider">
+      <div class="el-range-labels"><span>&#8377;10K</span><span>&#8377;2Cr</span></div>
+    </div>
+
+    <div class="el-field">
+      <label for="tsxv5-elDownPayment">Down Payment (Amount You Pay Upfront)</label>
+      <div class="el-inputwrap">
+        <span class="el-prefix">&#8377;</span>
+        <input type="number" id="tsxv5-elDownPayment" value="0" min="0" max="500000" step="1000" aria-label="Down payment amount">
+      </div>
+      <input type="range" id="tsxv5-elDownPaymentRange" min="0" max="500000" step="5000" value="0" aria-label="Down payment slider">
+      <div class="el-range-labels"><span>&#8377;0</span><span id="tsxv5-elDownPaymentMaxLbl">&#8377;5,00,000</span></div>
+      <div class="el-loan-readout">
+        Loan Amount <span class="el-loan-readout-eq">=</span> Total Amount <span class="el-loan-readout-minus">&minus;</span> Down Payment <span class="el-loan-readout-eq">=</span> <span id="tsxv5-elLoanAmountVal">&#8377;0</span>
+      </div>
+    </div>
+
+    <div class="el-field">
+      <label for="tsxv5-elRate">Interest Rate (% per annum)</label>
+      <div class="el-inputwrap">
+        <input type="number" id="tsxv5-elRate" value="9.5" min="1" max="30" step="0.05" aria-label="Interest rate">
+        <span class="el-prefix" style="font-size:0.95rem;">%</span>
+      </div>
+      <input type="range" id="tsxv5-elRateRange" min="1" max="30" step="0.05" value="9.5" aria-label="Interest rate slider">
+      <div class="el-range-labels"><span>1%</span><span>30%</span></div>
+    </div>
+
+    <div class="el-field">
+      <label for="tsxv5-elTenure">Loan Tenure (Repayment Period)</label>
+      <div class="el-inputwrap">
+        <input type="number" id="tsxv5-elTenure" value="20" min="1" max="30" step="1" aria-label="Loan tenure">
+        <span class="el-prefix" style="font-size:0.85rem;" id="tsxv5-elTenureUnit">Years</span>
+      </div>
+      <input type="range" id="tsxv5-elTenureRange" min="1" max="30" step="1" value="20" aria-label="Loan tenure slider">
+      <div class="el-range-labels"><span id="tsxv5-elTenureMinLbl">1yr</span><span id="tsxv5-elTenureMaxLbl">30yrs</span></div>
+      <div class="el-tenure-toggle">
+        <button type="button" class="active" data-unit="years" aria-label="Tenure in years">Years</button>
+        <button type="button" data-unit="months" aria-label="Tenure in months">Months</button>
+      </div>
+    </div>
+
+    <div class="el-result">
+      <div class="el-stamp-wrap">
+        <div class="el-stamp" id="tsxv5-elStamp">
+          <div class="el-stamp-label">Monthly EMI</div>
+          <div class="el-stamp-amt" id="tsxv5-elEmiAmt">&#8377;0</div>
+          <div class="el-stamp-sub">PER MONTH</div>
+        </div>
+      </div>
+      <div class="el-summary">
+        <div class="el-line">
+          <span class="el-line-label">Total Cost</span>
+          <span class="el-line-fill"></span>
+          <span class="el-line-val" id="tsxv5-elTotalCostVal">&#8377;0</span>
+        </div>
+        <div class="el-line">
+          <span class="el-line-label">Down Payment</span>
+          <span class="el-line-fill"></span>
+          <span class="el-line-val" id="tsxv5-elDownPaymentVal">&#8377;0</span>
+        </div>
+        <div class="el-line">
+          <span class="el-line-label">Loan Amount</span>
+          <span class="el-line-fill"></span>
+          <span class="el-line-val" id="tsxv5-elPrincipalVal">&#8377;0</span>
+        </div>
+        <div class="el-line">
+          <span class="el-line-label">Total Interest Payable</span>
+          <span class="el-line-fill"></span>
+          <span class="el-line-val" id="tsxv5-elInterestVal">&#8377;0</span>
+        </div>
+        <div class="el-line total">
+          <span class="el-line-label">Total Amount Payable</span>
+          <span class="el-line-fill"></span>
+          <span class="el-line-val" id="tsxv5-elTotalVal">&#8377;0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="el-breakdown">
+      <canvas id="tsxv5-elDonut" width="120" height="120" aria-label="Principal vs interest donut chart"></canvas>
+      <div class="el-legend">
+        <div class="el-legend-item"><span class="el-legend-swatch" style="background:#1f3327"></span> Principal (<span id="tsxv5-elLegendP">0</span>%)</div>
+        <div class="el-legend-item"><span class="el-legend-swatch" style="background:#9c3b3b"></span> Interest (<span id="tsxv5-elLegendI">0</span>%)</div>
+      </div>
+    </div>
+
+    <button class="el-schedule-toggle" id="tsxv5-elScheduleToggle" type="button" aria-label="Toggle amortization schedule">
+      <span class="arrow">&#9656;</span> View Full Amortization Schedule (Year-wise)
+    </button>
+    <div class="el-schedule-wrap" id="tsxv5-elScheduleWrap">
+      <table class="el-schedule">
+        <thead>
+          <tr><th>Year</th><th>Principal Paid</th><th>Interest Paid</th><th>Balance</th></tr>
+        </thead>
+        <tbody id="tsxv5-elScheduleBody"></tbody>
+      </table>
+      <div class="el-actions">
+        <button type="button" id="tsxv5-elDownloadCsv" aria-label="Download amortization schedule as CSV">&darr; Download Schedule (CSV)</button>
+      </div>
+    </div>
+
+    <div class="el-footnote">
+      This calculator provides estimated figures based on the reducing-balance method. Actual EMI, processing fees, and other charges may vary according to your bank or NBFC policy. Always confirm with your lender before making financial decisions.
+    </div>
+
+    <div class="el-howto">
+      <h3>How Does This Calculator Work?</h3>
+      <div class="el-howto-item">
+        <span class="el-howto-term">1. What is EMI (Equated Monthly Instalment)?</span>
+        <p>EMI is the fixed amount you pay each month toward your loan. Each EMI contains two parts: Principal (the loan amount) and Interest (the cost of borrowing). In the beginning, interest makes up most of the EMI, and over time, the principal portion grows larger.</p>
+      </div>
+      <div class="el-howto-item">
+        <span class="el-howto-term">2. How Down Payment Affects Your EMI</span>
+        <p>Down payment is the amount you pay upfront from your own savings. A larger down payment means you borrow less, which directly reduces both your monthly EMI and the total interest paid over the loan tenure.</p>
+      </div>
+      <div class="el-howto-item">
+        <span class="el-howto-term">3. Reducing Balance Method Explained</span>
+        <p>This method calculates interest only on the remaining outstanding balance. As you pay down the principal each month, the interest portion of your next EMI automatically decreases.</p>
+      </div>
+    </div>
+
+    <div class="el-howto" style="margin-top: 1.5rem; border-color: var(--stamp-red);">
+      <h3 style="color: var(--stamp-red);">Common EMI Mistakes to Avoid</h3>
+      <div class="el-howto-item">
+        <span class="el-howto-term">1. Only Focusing on Monthly EMI</span>
+        <p>Many borrowers focus only on the monthly EMI. But on a 30-year loan, you could pay 2-3 times the original amount in interest. Always check the total interest payable before committing.</p>
+      </div>
+      <div class="el-howto-item">
+        <span class="el-howto-term">2. Ignoring Processing Fees</span>
+        <p>Banks charge 0.5% to 2% as processing fees, which can add up to thousands or lakhs depending on your loan size. Include these in your total cost calculation.</p>
+      </div>
+      <div class="el-howto-item">
+        <span class="el-howto-term">3. Floating vs Fixed Rate Confusion</span>
+        <p>Fixed rates stay constant throughout the tenure, while floating rates change with market conditions. Floating rates may start lower but can rise later.</p>
+      </div>
+      <div class="el-howto-item">
+        <span class="el-howto-term">4. Overlooking Prepayment Penalties</span>
+        <p>Some banks charge prepayment penalties on fixed-rate loans. Read the terms carefully. RBI guidelines state no prepayment penalty on floating rate loans.</p>
+      </div>
+    </div>
+
+    <div class="el-howto" style="margin-top: 1.5rem; border-color: var(--gold);">
+      <h3 style="color: var(--gold);">Pro Tip: How to Reduce Your EMI Burden</h3>
+      <div class="el-howto-item">
+        <span class="el-howto-term">Use Part-Prepayment Wisely</span>
+        <p>If you receive a bonus or windfall, prepay directly toward the principal instead of paying extra EMI. This reduces your outstanding balance faster and can save you lakhs in total interest without increasing your monthly EMI.</p>
+      </div>
+    </div>
+
+    <div class="emi-internal-links">
+      <p>📚 <strong>Related Tools You Might Find Useful:</strong></p>
+      <a href="../tools/visualize-karein-audio-ke-saath-laser.html">🎵 Visualize Audio with Laser Effects</a><br>
+      <a href="../tools/sync-karein-beats-ke-saath-ai-dance.html">💃 Sync Beats with AI Dance</a><br>
+      <a href="../tools/craft-karein-custom-thumbnail-youtube.html">🖼️ Craft Custom YouTube Thumbnails</a>
+    </div>
+
+    <p class="emi-closing-text">
+      <strong>Final Advice:</strong> The EMI estimate from this calculator is your first step in financial planning. Before taking any loan, check your credit score and include processing fees in your total cost calculation.
+    </p>
+
+    <div class="el-footnote" style="text-align: center; margin-top: 2rem;">
+      Powered by <strong>Tools-X</strong> · toolsx.in
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+(function () {
+  const amountInput = document.getElementById('tsxv5-elAmount');
+  const amountRange = document.getElementById('tsxv5-elAmountRange');
+  const downPaymentInput = document.getElementById('tsxv5-elDownPayment');
+  const downPaymentRange = document.getElementById('tsxv5-elDownPaymentRange');
+  const downPaymentMaxLbl = document.getElementById('tsxv5-elDownPaymentMaxLbl');
+  const loanAmountReadout = document.getElementById('tsxv5-elLoanAmountVal');
+  const rateInput = document.getElementById('tsxv5-elRate');
+  const rateRange = document.getElementById('tsxv5-elRateRange');
+  const tenureInput = document.getElementById('tsxv5-elTenure');
+  const tenureRange = document.getElementById('tsxv5-elTenureRange');
+  const tenureUnitLabel = document.getElementById('tsxv5-elTenureUnit');
+  const tenureMinLbl = document.getElementById('tsxv5-elTenureMinLbl');
+  const tenureMaxLbl = document.getElementById('tsxv5-elTenureMaxLbl');
+  const unitButtons = document.querySelectorAll('#tsxv5-emiledger-post .el-tenure-toggle button');
+
+  const stampEl = document.getElementById('tsxv5-elStamp');
+  const emiAmtEl = document.getElementById('tsxv5-elEmiAmt');
+  const totalCostValEl = document.getElementById('tsxv5-elTotalCostVal');
+  const downPaymentValEl = document.getElementById('tsxv5-elDownPaymentVal');
+  const principalValEl = document.getElementById('tsxv5-elPrincipalVal');
+  const interestValEl = document.getElementById('tsxv5-elInterestVal');
+  const totalValEl = document.getElementById('tsxv5-elTotalVal');
+  const legendP = document.getElementById('tsxv5-elLegendP');
+  const legendI = document.getElementById('tsxv5-elLegendI');
+  const donut = document.getElementById('tsxv5-elDonut');
+  const dctx = donut.getContext('2d');
+  const scheduleBody = document.getElementById('tsxv5-elScheduleBody');
+  const scheduleToggle = document.getElementById('tsxv5-elScheduleToggle');
+  const scheduleWrap = document.getElementById('tsxv5-elScheduleWrap');
+  const downloadCsvBtn = document.getElementById('tsxv5-elDownloadCsv');
+  const passNo = document.getElementById('tsxv5-elPassNo');
+
+  let tenureUnit = 'years';
+  let lastSchedule = [];
+
+  passNo.textContent = 'ENTRY NO. ' + Math.floor(1000 + Math.random() * 8999);
+
+  function formatINR(num) {
+    num = Math.round(num);
+    const isNeg = num < 0;
+    num = Math.abs(num);
+    let str = num.toString();
+    let lastThree = str.substring(str.length - 3);
+    let other = str.substring(0, str.length - 3);
+    if (other !== '') lastThree = ',' + lastThree;
+    let formatted = other.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + lastThree;
+    return (isNeg ? '-' : '') + '\u20B9' + formatted;
+  }
+
+  unitButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      unitButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const newUnit = btn.dataset.unit;
+      if (newUnit === tenureUnit) return;
+
+      let years = tenureUnit === 'years' ? parseFloat(tenureInput.value) : parseFloat(tenureInput.value) / 12;
+      tenureUnit = newUnit;
+
+      if (tenureUnit === 'months') {
+        tenureInput.min = 3; tenureInput.max = 360;
+        tenureRange.min = 3; tenureRange.max = 360;
+        tenureUnitLabel.textContent = 'Months';
+        tenureMinLbl.textContent = '3mo'; tenureMaxLbl.textContent = '360mo';
+        tenureInput.value = Math.round(years * 12);
+        tenureRange.value = tenureInput.value;
+      } else {
+        tenureInput.min = 1; tenureInput.max = 30;
+        tenureRange.min = 1; tenureRange.max = 30;
+        tenureUnitLabel.textContent = 'Years';
+        tenureMinLbl.textContent = '1yr'; tenureMaxLbl.textContent = '30yrs';
+        tenureInput.value = Math.max(1, Math.round(years));
+        tenureRange.value = tenureInput.value;
+      }
+      calculate();
+    });
+  });
+
+  function syncPair(numEl, rangeEl) {
+    numEl.addEventListener('input', () => { rangeEl.value = numEl.value; calculate(); });
+    rangeEl.addEventListener('input', () => { numEl.value = rangeEl.value; calculate(); });
+  }
+  syncPair(rateInput, rateRange);
+  syncPair(tenureInput, tenureRange);
+
+  function refreshDownPaymentCeiling() {
+    const totalAmount = parseFloat(amountInput.value) || 0;
+    downPaymentRange.max = totalAmount;
+    downPaymentInput.max = totalAmount;
+    downPaymentMaxLbl.textContent = formatINR(totalAmount);
+    if (parseFloat(downPaymentInput.value) > totalAmount) {
+      downPaymentInput.value = totalAmount;
+      downPaymentRange.value = totalAmount;
+    }
+  }
+
+  amountInput.addEventListener('input', () => {
+    amountRange.value = amountInput.value;
+    refreshDownPaymentCeiling();
+    calculate();
+  });
+  amountRange.addEventListener('input', () => {
+    amountInput.value = amountRange.value;
+    refreshDownPaymentCeiling();
+    calculate();
+  });
+
+  function syncDownPayment(numEl, rangeEl) {
+    numEl.addEventListener('input', () => { rangeEl.value = numEl.value; calculate(); });
+    rangeEl.addEventListener('input', () => { numEl.value = rangeEl.value; calculate(); });
+  }
+  syncDownPayment(downPaymentInput, downPaymentRange);
+
+  function drawDonut(principalPct, interestPct) {
+    const cx = 60, cy = 60, r = 48, lw = 16;
+    dctx.clearRect(0, 0, 120, 120);
+    dctx.lineWidth = lw;
+    dctx.lineCap = 'butt';
+
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || 
+                   document.body.classList.contains('dark-mode') ||
+                   document.documentElement.classList.contains('dark-mode');
+    const colorPrincipal = isDark ? '#66B2FF' : '#1f3327';
+    const colorInterest = isDark ? '#ff6b6b' : '#9c3b3b';
+    const colorText = isDark ? '#66B2FF' : '#1f3327';
+    const colorTextSub = isDark ? '#a0cfff' : '#6b6250';
+
+    const start = -Math.PI / 2;
+    const principalAngle = (principalPct / 100) * Math.PI * 2;
+
+    dctx.beginPath();
+    dctx.strokeStyle = colorPrincipal;
+    dctx.arc(cx, cy, r, start, start + principalAngle);
+    dctx.stroke();
+
+    dctx.beginPath();
+    dctx.strokeStyle = colorInterest;
+    dctx.arc(cx, cy, r, start + principalAngle, start + Math.PI * 2);
+    dctx.stroke();
+
+    dctx.fillStyle = colorText;
+    dctx.font = '600 13px "IBM Plex Mono", monospace';
+    dctx.textAlign = 'center';
+    dctx.textBaseline = 'middle';
+    dctx.fillText(Math.round(principalPct) + '%', cx, cy - 6);
+    dctx.font = '400 9px "IBM Plex Mono", monospace';
+    dctx.fillStyle = colorTextSub;
+    dctx.fillText('principal', cx, cy + 10);
+  }
+
+  function buildSchedule(P, monthlyRate, months, emi) {
+    let balance = P;
+    let schedule = [];
+    let yearPrincipal = 0, yearInterest = 0;
+    let year = 1;
+    for (let m = 1; m <= months; m++) {
+      const interestPortion = balance * monthlyRate;
+      let principalPortion = emi - interestPortion;
+      if (m === months) principalPortion = balance;
+      balance = Math.max(0, balance - principalPortion);
+      yearPrincipal += principalPortion;
+      yearInterest += interestPortion;
+
+      if (m % 12 === 0 || m === months) {
+        schedule.push({
+          year: year,
+          principal: yearPrincipal,
+          interest: yearInterest,
+          balance: balance
+        });
+        year++;
+        yearPrincipal = 0;
+        yearInterest = 0;
+      }
+    }
+    return schedule;
+  }
+
+  function calculate() {
+    const totalAmount = parseFloat(amountInput.value) || 0;
+    const downPayment = Math.min(parseFloat(downPaymentInput.value) || 0, totalAmount);
+    const P = Math.max(0, totalAmount - downPayment);
+    const annualRate = parseFloat(rateInput.value) || 0;
+    let months;
+    if (tenureUnit === 'years') {
+      months = (parseFloat(tenureInput.value) || 0) * 12;
+    } else {
+      months = parseFloat(tenureInput.value) || 0;
+    }
+
+    totalCostValEl.textContent = formatINR(totalAmount);
+    downPaymentValEl.textContent = formatINR(downPayment);
+    loanAmountReadout.textContent = formatINR(P);
+
+    if (P <= 0 || annualRate <= 0 || months <= 0) {
+      emiAmtEl.textContent = '\u20B90';
+      principalValEl.textContent = formatINR(P);
+      interestValEl.textContent = '\u20B90';
+      totalValEl.textContent = '\u20B90';
+      stampEl.classList.remove('show');
+      scheduleBody.innerHTML = '';
+      lastSchedule = [];
+      return;
+    }
+
+    const monthlyRate = annualRate / 12 / 100;
+    const factor = Math.pow(1 + monthlyRate, months);
+    const emi = (P * monthlyRate * factor) / (factor - 1);
+    const totalPayment = emi * months;
+    const totalInterest = totalPayment - P;
+
+    emiAmtEl.textContent = formatINR(emi);
+    principalValEl.textContent = formatINR(P);
+    interestValEl.textContent = formatINR(totalInterest);
+    totalValEl.textContent = formatINR(totalPayment);
+
+    stampEl.classList.add('show');
+
+    const pPct = (P / totalPayment) * 100;
+    const iPct = 100 - pPct;
+    legendP.textContent = pPct.toFixed(1);
+    legendI.textContent = iPct.toFixed(1);
+    drawDonut(pPct, iPct);
+
+    lastSchedule = buildSchedule(P, monthlyRate, Math.round(months), emi);
+    scheduleBody.innerHTML = lastSchedule.map(row =>
+      `<tr><td>Year ${row.year}</td><td>${formatINR(row.principal)}</td><td>${formatINR(row.interest)}</td><td>${formatINR(row.balance)}</td></tr>`
+    ).join('');
+  }
+
+  scheduleToggle.addEventListener('click', () => {
+    const isOpen = scheduleWrap.classList.toggle('open');
+    scheduleToggle.classList.toggle('open', isOpen);
+  });
+
+  downloadCsvBtn.addEventListener('click', () => {
+    if (!lastSchedule.length) return;
+    let csv = 'Year,Principal Paid,Interest Paid,Balance\n';
+    lastSchedule.forEach(row => {
+      csv += `${row.year},${Math.round(row.principal)},${Math.round(row.interest)},${Math.round(row.balance)}\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'emi-amortisation-schedule.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  refreshDownPaymentCeiling();
+  calculate();
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

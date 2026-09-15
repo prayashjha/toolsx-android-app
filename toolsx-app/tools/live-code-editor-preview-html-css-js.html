@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Live Code Editor – Preview HTML, CSS, JS &amp; more Online Instantly – ToolsX App</title>
+<meta name="description" content="Write and preview HTML, CSS and JavaScript live in your browser. Free online code editor, no setup required.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Live Code Editor – Preview HTML, CSS, JS &amp; more Online Instantly</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Live Code Playground - 5 Languages",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Modern browser with JavaScript and iframe support",
+      "description": "Free online code playground supporting HTML, CSS, JavaScript, Python (Pyodide), and Markdown with live preview. Write code and see instant results in a sandboxed environment. No uploads, 100% browser-based.",
+      "featureList": [
+        "5 language support (HTML, CSS, JavaScript, Python, Markdown)",
+        "Live preview with instant updates",
+        "Sandboxed iframe execution for security",
+        "Python support via Pyodide (WebAssembly)",
+        "Console output capture for JavaScript/Python",
+        "Markdown to HTML rendering",
+        "Code copy to clipboard",
+        "Ctrl+Enter keyboard shortcut",
+        "Lazy-loaded Python engine (no page hang)",
+        "100% offline browser processing"
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "Tools-X"
+      }
+    },
+    {
+      "@type": "HowTo",
+      "name": "How to Use Live Code Playground",
+      "description": "Write and run code in three simple steps.",
+      "step": [
+        { "@type": "HowToStep", "name": "Select Language", "text": "Choose HTML, CSS, JavaScript, Python, or Markdown from the dropdown. Sample code loads automatically." },
+        { "@type": "HowToStep", "name": "Write Code", "text": "Type or paste your code in the editor. Use Ctrl+Enter (Cmd+Enter on Mac) or click Run." },
+        { "@type": "HowToStep", "name": "View Output", "text": "See live preview for HTML/CSS/Markdown, or console output for JavaScript/Python." }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this code playground free?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, 100% free. No signup, no limits, no hidden charges. Run unlimited HTML, CSS, JavaScript, Python, or Markdown code." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does Python run in the browser?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Pyodide (WebAssembly Python) runs Python in the browser. First selection takes 10-15 seconds to load, then execution is instant." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does my code go to a server?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No, 100% safe! All code executes locally in your browser. No server upload, no tracking. Everything clears on page refresh." }
+        },
+        {
+          "@type": "Question",
+          "name": "Where does console output appear?",
+          "acceptedAnswer": { "@type": "Answer", "text": "For JavaScript and Python, the Console tab opens automatically. console.log() and print() statements appear there. HTML/CSS/Markdown use the Preview tab." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I save my code?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Use the Copy button to copy code to clipboard and paste into your text editor to save. Browser refresh clears code for privacy." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<div class="tsxv5-cp-wrap" id="tsxv5-cpApp">
+
+<style>
+#tsxv5-cpApp{
+  --cp-primary:#4f46e5;
+  --cp-primary-hover:#4338ca;
+  --cp-accent:#06b6d4;
+  --cp-accent2:#ec4899;
+  --cp-bg:#f0f7ff;
+  --cp-bg2:#e8f0fe;
+  --cp-surface:rgba(255,255,255,0.92);
+  --cp-surface2:rgba(255,255,255,0.75);
+  --cp-text:#0f172a;
+  --cp-text-dim:#334155;
+  --cp-text-muted:#64748b;
+  --cp-line:rgba(79,70,229,0.12);
+  --cp-line2:rgba(79,70,229,0.2);
+  --cp-glass-bg:rgba(255,255,255,0.7);
+  --cp-glass-border:rgba(79,70,229,0.15);
+  --cp-editor-bg:#0a0e1a;
+  --cp-editor-text:#e2e8f0;
+  --cp-preview-bg:#ffffff;
+  --cp-preview-text:#0f172a;
+  --cp-radius:20px;
+  --cp-radius-sm:12px;
+  --cp-shadow:0 12px 40px rgba(79,70,229,0.08);
+  --cp-glow:0 0 60px rgba(6,182,212,0.1);
+  font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+  background:var(--cp-bg);
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(6,182,212,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 85% 75%, rgba(236,72,153,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(79,70,229,0.04) 0%, transparent 60%);
+  color:var(--cp-text) !important;
+  padding:clamp(16px, 3vw, 28px) 10px;
+  line-height:1.6;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+
+#tsxv5-cpApp::before,
+#tsxv5-cpApp::after{
+  content:'';
+  position:absolute;
+  width:600px;
+  height:600px;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:0.15;
+  pointer-events:none;
+  animation:cpOrbFloat 20s ease-in-out infinite;
+  z-index:0;
+}
+#tsxv5-cpApp::before{
+  background:#06b6d4;
+  top:-200px;
+  left:-150px;
+}
+#tsxv5-cpApp::after{
+  background:#ec4899;
+  bottom:-250px;
+  right:-150px;
+  animation-delay:-10s;
+}
+@keyframes cpOrbFloat{
+  0%,100%{transform:translate(0,0) scale(1);}
+  33%{transform:translate(40px,-30px) scale(1.1);}
+  66%{transform:translate(-30px,40px) scale(0.95);}
+}
+
+body.dark-mode #tsxv5-cpApp,
+html.dark-mode #tsxv5-cpApp,
+[data-theme="dark"] #tsxv5-cpApp,
+body[data-theme="dark"] #tsxv5-cpApp,
+html[data-theme="dark"] #tsxv5-cpApp,
+.dark-mode #tsxv5-cpApp,
+.night-mode #tsxv5-cpApp,
+[data-bs-theme="dark"] #tsxv5-cpApp{
+  --cp-bg:#0a0e1a;
+  --cp-bg2:#12182d;
+  --cp-surface:rgba(255,255,255,0.04);
+  --cp-surface2:rgba(255,255,255,0.02);
+  --cp-text:#f1f5f9;
+  --cp-text-dim:#cbd5e1;
+  --cp-text-muted:#94a3b8;
+  --cp-line:rgba(255,255,255,0.08);
+  --cp-line2:rgba(255,255,255,0.12);
+  --cp-glass-bg:rgba(255,255,255,0.05);
+  --cp-glass-border:rgba(255,255,255,0.1);
+  --cp-editor-bg:#050810;
+  --cp-editor-text:#e2e8f0;
+  --cp-preview-bg:#0f1115;
+  --cp-preview-text:#f1f5f9;
+  --cp-shadow:0 12px 40px rgba(0,0,0,0.5);
+  --cp-glow:0 0 60px rgba(6,182,212,0.2);
+  background:var(--cp-bg);
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(6,182,212,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 85% 75%, rgba(236,72,153,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(79,70,229,0.08) 0%, transparent 60%);
+}
+
+#tsxv5-cpApp *,
+#tsxv5-cpApp *::before,
+#tsxv5-cpApp *::after{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+.tsxv5-cp-container{
+  max-width:1250px;
+  margin:auto;
+  position:relative;
+  z-index:1;
+}
+
+.tsxv5-cp-header{
+  text-align:center;
+  padding:clamp(24px, 4vw, 40px) 20px;
+  animation:cpFadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  position:relative;
+}
+.tsxv5-cp-header h2{
+  font-size:clamp(2rem, 5.5vw, 3.2rem);
+  font-weight:900;
+  background:linear-gradient(135deg, #4f46e5, #06b6d4, #ec4899);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:10px;
+  letter-spacing:-0.03em;
+  position:relative;
+  display:inline-block;
+}
+.tsxv5-cp-header h2::after{
+  content:'';
+  position:absolute;
+  bottom:-8px;
+  left:50%;
+  transform:translateX(-50%);
+  width:80px;
+  height:4px;
+  background:linear-gradient(90deg, #4f46e5, #06b6d4, #ec4899);
+  border-radius:4px;
+}
+.tsxv5-cp-header p{
+  color:var(--cp-text-dim) !important;
+  font-size:clamp(0.95rem, 2vw, 1.1rem);
+  max-width:700px;
+  margin:16px auto 0;
+  opacity:0.9;
+}
+.tsxv5-cp-badge{
+  background:var(--cp-glass-bg);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--cp-glass-border);
+  padding:8px 24px;
+  border-radius:50px;
+  font-size:clamp(0.75rem, 1.6vw, 0.85rem);
+  font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:20px;
+  color:var(--cp-text) !important;
+  box-shadow:0 4px 16px rgba(0,0,0,0.06);
+}
+.tsxv5-cp-badge::before{
+  content:'';
+  width:8px;
+  height:8px;
+  background:#10b981;
+  border-radius:50%;
+  animation:cpPulse 2s ease-in-out infinite;
+}
+@keyframes cpPulse{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.5;transform:scale(1.3);}
+}
+
+@keyframes cpFadeInDown{
+  from{opacity:0;transform:translateY(-40px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes cpFadeInUp{
+  from{opacity:0;transform:translateY(40px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.tsxv5-cp-card{
+  background:var(--cp-surface);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border:1px solid var(--cp-glass-border);
+  border-radius:var(--cp-radius);
+  padding:clamp(20px, 3vw, 32px);
+  box-shadow:var(--cp-shadow), var(--cp-glow);
+  margin-bottom:30px;
+  animation:cpFadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  position:relative;
+  overflow:hidden;
+}
+.tsxv5-cp-card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(6,182,212,0.4), rgba(236,72,153,0.4), transparent);
+}
+
+.tsxv5-cp-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(16px, 2.5vw, 28px);
+}
+
+.tsxv5-cp-editor-pane{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.tsxv5-cp-toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  padding:6px;
+  background:var(--cp-glass-bg);
+  border:1px solid var(--cp-glass-border);
+  border-radius:14px;
+  backdrop-filter:blur(10px);
+}
+.tsxv5-cp-toolbar select{
+  background:var(--cp-surface);
+  border:1px solid var(--cp-glass-border);
+  border-radius:10px;
+  padding:10px 14px;
+  color:var(--cp-text) !important;
+  font-weight:600;
+  font-size:clamp(0.85rem, 1.6vw, 0.9rem);
+  cursor:pointer;
+  outline:none;
+  appearance:none;
+  min-width:140px;
+  font-family:inherit;
+  min-height:44px;
+  transition:all 0.3s;
+}
+.tsxv5-cp-toolbar select:hover{
+  border-color:var(--cp-primary);
+}
+.tsxv5-cp-toolbar select:focus{
+  border-color:var(--cp-primary);
+  box-shadow:0 0 0 3px rgba(79,70,229,0.15);
+}
+.tsxv5-cp-toolbar select option{
+  background:var(--cp-surface);
+  color:var(--cp-text);
+}
+
+.tsxv5-cp-btn{
+  padding:10px 18px;
+  border:none;
+  border-radius:10px;
+  font-weight:700;
+  font-size:clamp(0.85rem, 1.6vw, 0.9rem);
+  cursor:pointer;
+  transition:all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-family:inherit;
+  min-height:44px;
+  position:relative;
+  overflow:hidden;
+}
+.tsxv5-cp-btn::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,0.2);
+  transform:translateX(-100%);
+  transition:transform 0.4s;
+}
+.tsxv5-cp-btn:hover::after{
+  transform:translateX(100%);
+}
+.tsxv5-cp-btn-primary{
+  background:linear-gradient(135deg, #4f46e5, #06b6d4);
+  color:#fff !important;
+  box-shadow:0 4px 16px rgba(79,70,229,0.3);
+}
+.tsxv5-cp-btn-primary:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 28px rgba(79,70,229,0.45);
+}
+.tsxv5-cp-btn-primary:active{
+  transform:translateY(0) scale(0.97);
+}
+.tsxv5-cp-btn-secondary{
+  background:var(--cp-glass-bg);
+  border:1px solid var(--cp-glass-border);
+  color:var(--cp-text) !important;
+}
+.tsxv5-cp-btn-secondary:hover{
+  background:rgba(79,70,229,0.08);
+  transform:translateY(-2px);
+}
+
+.tsxv5-cp-editor{
+  width:100%;
+  min-height:420px;
+  background:var(--cp-editor-bg);
+  border:2px solid transparent;
+  border-radius:14px;
+  padding:18px;
+  font-family:'Fira Code','JetBrains Mono','Cascadia Code',monospace;
+  font-size:16px;
+  color:var(--cp-editor-text) !important;
+  resize:vertical;
+  outline:none;
+  line-height:1.7;
+  tab-size:2;
+  box-shadow:
+    0 0 0 1px var(--cp-glass-border),
+    0 12px 36px rgba(0,0,0,0.2),
+    inset 0 0 60px rgba(6,182,212,0.03);
+  transition:all 0.3s;
+  background-image:
+    linear-gradient(rgba(6,182,212,0.02) 1px, transparent 1px);
+  background-size:100% 28px;
+  background-position:0 0;
+}
+.tsxv5-cp-editor:focus{
+  border-color:var(--cp-primary);
+  box-shadow:
+    0 0 0 1px var(--cp-primary),
+    0 0 40px rgba(79,70,229,0.2),
+    inset 0 0 60px rgba(6,182,212,0.05);
+}
+
+.tsxv5-cp-status{
+  font-size:clamp(0.8rem, 1.5vw, 0.85rem);
+  color:var(--cp-text-dim) !important;
+  min-height:24px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.tsxv5-cp-preview-pane{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.tsxv5-cp-preview-tabs{
+  display:flex;
+  gap:4px;
+  flex-wrap:wrap;
+  padding:4px;
+  background:var(--cp-glass-bg);
+  border:1px solid var(--cp-glass-border);
+  border-radius:12px;
+}
+.tsxv5-cp-tab{
+  padding:8px 16px;
+  border-radius:8px;
+  border:none;
+  background:transparent;
+  color:var(--cp-text-dim) !important;
+  cursor:pointer;
+  font-size:clamp(0.78rem, 1.5vw, 0.82rem);
+  font-weight:600;
+  transition:all 0.25s;
+  font-family:inherit;
+  min-height:44px;
+  position:relative;
+}
+.tsxv5-cp-tab:hover{
+  color:var(--cp-text) !important;
+  background:rgba(79,70,229,0.06);
+}
+.tsxv5-cp-tab.active{
+  background:linear-gradient(135deg, var(--cp-primary), var(--cp-accent));
+  color:#fff !important;
+  box-shadow:0 4px 14px rgba(79,70,229,0.3);
+}
+
+.tsxv5-cp-preview-box{
+  width:100%;
+  min-height:420px;
+  background:var(--cp-preview-bg);
+  border:1px solid var(--cp-glass-border);
+  border-radius:14px;
+  padding:14px;
+  overflow:auto;
+  color:var(--cp-preview-text) !important;
+  font-size:clamp(0.9rem, 1.8vw, 0.95rem);
+  position:relative;
+  box-shadow:
+    0 12px 36px rgba(0,0,0,0.08),
+    inset 0 0 60px rgba(79,70,229,0.02);
+}
+.tsxv5-cp-preview-box iframe{
+  width:100%;
+  height:100%;
+  min-height:390px;
+  border:none;
+  border-radius:8px;
+  background:var(--cp-preview-bg);
+}
+.tsxv5-cp-preview-box .console-output{
+  font-family:'Fira Code',monospace;
+  font-size:clamp(0.8rem, 1.5vw, 0.85rem);
+  white-space:pre-wrap;
+  word-break:break-all;
+  color:var(--cp-preview-text) !important;
+  background:var(--cp-preview-bg);
+  padding:14px;
+  border-radius:8px;
+  min-height:390px;
+  max-height:500px;
+  overflow-y:auto;
+  border:1px solid var(--cp-glass-border);
+}
+
+.tsxv5-cp-guide{
+  background:var(--cp-surface);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--cp-glass-border);
+  border-radius:var(--cp-radius);
+  padding:clamp(24px, 3vw, 36px);
+  box-shadow:var(--cp-shadow);
+  animation:cpFadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  margin-bottom:30px;
+  position:relative;
+  overflow:hidden;
+}
+.tsxv5-cp-guide::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:3px;
+  background:linear-gradient(90deg, var(--cp-primary), var(--cp-accent), var(--cp-accent2));
+}
+.tsxv5-cp-guide h2{
+  font-size:clamp(1.4rem, 3vw, 1.8rem);
+  font-weight:900;
+  color:var(--cp-text) !important;
+  margin-bottom:16px;
+  padding-left:16px;
+  border-left:4px solid var(--cp-accent);
+}
+.tsxv5-cp-guide > p{
+  color:var(--cp-text-dim) !important;
+  font-size:clamp(0.9rem, 1.8vw, 1rem);
+  line-height:1.75;
+  margin-bottom:14px;
+}
+.tsxv5-cp-guide h3{
+  font-size:clamp(1rem, 2vw, 1.15rem);
+  font-weight:800;
+  color:var(--cp-primary) !important;
+  margin:18px 0 10px;
+}
+
+.tsxv5-cp-steps{
+  list-style:none;
+  counter-reset:step;
+  padding:0;
+  margin:14px 0;
+}
+.tsxv5-cp-steps li{
+  background:var(--cp-glass-bg);
+  border:1px solid var(--cp-glass-border);
+  padding:14px 18px 14px 56px;
+  border-radius:12px;
+  margin-bottom:10px;
+  position:relative;
+  counter-increment:step;
+  font-size:clamp(0.88rem, 1.6vw, 0.92rem);
+  line-height:1.7;
+  color:var(--cp-text-dim) !important;
+  transition:all 0.3s;
+}
+.tsxv5-cp-steps li:hover{
+  transform:translateX(4px);
+  border-color:var(--cp-primary);
+}
+.tsxv5-cp-steps li::before{
+  content:counter(step);
+  position:absolute;
+  left:14px;
+  top:14px;
+  width:30px;
+  height:30px;
+  background:linear-gradient(135deg, var(--cp-primary), var(--cp-accent));
+  color:#fff !important;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:0.85rem;
+  box-shadow:0 4px 12px rgba(79,70,229,0.3);
+}
+.tsxv5-cp-steps li strong{
+  color:var(--cp-text) !important;
+}
+
+.tsxv5-cp-faq{
+  margin-top:24px;
+  display:grid;
+  gap:8px;
+}
+.tsxv5-cp-faq-item{
+  background:var(--cp-glass-bg);
+  padding:14px 18px;
+  border-radius:12px;
+  border:1px solid var(--cp-glass-border);
+  cursor:pointer;
+  transition:all 0.25s;
+}
+.tsxv5-cp-faq-item:hover{
+  border-color:var(--cp-primary);
+  background:rgba(79,70,229,0.04);
+}
+.tsxv5-cp-faq-q{
+  font-weight:700;
+  font-size:clamp(0.9rem, 1.8vw, 0.95rem);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  color:var(--cp-text) !important;
+  min-height:44px;
+}
+.tsxv5-cp-faq-q::after{
+  content:'+';
+  font-size:1.4rem;
+  color:var(--cp-primary);
+  transition:transform 0.3s;
+  flex-shrink:0;
+}
+.tsxv5-cp-faq-item.open .tsxv5-cp-faq-q::after{
+  transform:rotate(45deg);
+}
+.tsxv5-cp-faq-a{
+  color:var(--cp-text-dim) !important;
+  font-size:clamp(0.85rem, 1.6vw, 0.9rem);
+  line-height:1.7;
+  margin-top:10px;
+  display:none;
+}
+.tsxv5-cp-faq-item.open .tsxv5-cp-faq-a{
+  display:block;
+  animation:cpFadeInUp 0.3s ease;
+}
+
+.tsxv5-cp-links{
+  background:var(--cp-surface);
+  border-radius:var(--cp-radius);
+  padding:clamp(20px, 3vw, 28px);
+  border:1px solid var(--cp-glass-border);
+  box-shadow:var(--cp-shadow);
+  margin-bottom:30px;
+}
+.tsxv5-cp-links h3{
+  font-size:clamp(1.05rem, 2vw, 1.2rem);
+  margin-bottom:16px;
+  font-weight:800;
+  color:var(--cp-text) !important;
+}
+.tsxv5-cp-link-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:12px;
+}
+.tsxv5-cp-link-card{
+  background:var(--cp-glass-bg);
+  border:1px solid var(--cp-glass-border);
+  padding:18px;
+  border-radius:14px;
+  text-decoration:none;
+  transition:all 0.3s;
+  display:block;
+  min-height:44px;
+}
+.tsxv5-cp-link-card:hover{
+  border-color:var(--cp-primary);
+  transform:translateY(-4px);
+  box-shadow:0 12px 30px rgba(79,70,229,0.15);
+  text-decoration:none;
+}
+.tsxv5-cp-link-card .emoji{
+  font-size:1.6rem;
+  margin-bottom:8px;
+  display:block;
+}
+.tsxv5-cp-link-card strong{
+  display:block;
+  font-size:clamp(0.9rem, 1.8vw, 0.95rem);
+  margin-bottom:4px;
+  color:var(--cp-text) !important;
+}
+.tsxv5-cp-link-card span{
+  font-size:clamp(0.78rem, 1.5vw, 0.82rem);
+  color:var(--cp-text-dim) !important;
+  line-height:1.5;
+  display:block;
+}
+
+.tsxv5-cp-footer{
+  text-align:center;
+  padding:28px 0 10px;
+  color:var(--cp-text-dim) !important;
+  font-size:clamp(0.82rem, 1.6vw, 0.9rem);
+}
+.tsxv5-cp-footer a{
+  color:var(--cp-primary) !important;
+  text-decoration:none;
+  font-weight:700;
+}
+.tsxv5-cp-footer a:hover{
+  text-decoration:underline;
+}
+
+.tsxv5-cp-toast{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  padding:14px 24px;
+  border-radius:14px;
+  font-weight:700;
+  z-index:10000;
+  animation:cpSlideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border:1px solid rgba(255,255,255,0.15);
+  background:linear-gradient(135deg, #10b981, #059669);
+  color:#fff !important;
+  max-width:90vw;
+  font-size:clamp(0.85rem, 1.6vw, 0.9rem);
+  box-shadow:0 12px 40px rgba(16,185,129,0.3);
+}
+.tsxv5-cp-toast.error{
+  background:linear-gradient(135deg, #ef4444, #dc2626);
+  box-shadow:0 12px 40px rgba(239,68,68,0.3);
+}
+@keyframes cpSlideInRight{
+  from{transform:translateX(400px);opacity:0;}
+  to{transform:translateX(0);opacity:1;}
+}
+.tsxv5-cp-toast.hide{
+  animation:cpSlideOutRight 0.4s ease;
+}
+@keyframes cpSlideOutRight{
+  from{transform:translateX(0);opacity:1;}
+  to{transform:translateX(400px);opacity:0;}
+}
+
+@media(max-width:320px){
+  #tsxv5-cpApp{padding:10px 6px;}
+  .tsxv5-cp-card{padding:12px;border-radius:14px;}
+  .tsxv5-cp-editor{min-height:300px;font-size:14px;}
+  .tsxv5-cp-preview-box{min-height:300px;}
+  .tsxv5-cp-toolbar{flex-direction:column;align-items:stretch;}
+  .tsxv5-cp-btn{width:100%;justify-content:center;}
+}
+@media(max-width:360px){
+  .tsxv5-cp-header h2{font-size:1.6rem;}
+  .tsxv5-cp-badge{font-size:0.7rem;}
+  .tsxv5-cp-grid{gap:10px;}
+}
+@media(max-width:390px){
+  .tsxv5-cp-editor{font-size:16px;}
+  .tsxv5-cp-steps li{padding:12px 12px 12px 44px;}
+}
+@media(max-width:414px){
+  .tsxv5-cp-card{padding:14px;}
+  .tsxv5-cp-guide{padding:16px;}
+  .tsxv5-cp-toast{right:10px;left:10px;bottom:20px;text-align:center;}
+}
+@media(max-width:480px){
+  #tsxv5-cpApp{padding:14px 8px;}
+  .tsxv5-cp-header h2{font-size:1.7rem;}
+  .tsxv5-cp-header p{font-size:0.9rem;}
+  .tsxv5-cp-card{padding:16px;}
+  .tsxv5-cp-guide{padding:18px;}
+  .tsxv5-cp-guide h2{font-size:1.25rem;}
+  .tsxv5-cp-toolbar{flex-direction:column;align-items:stretch;}
+  .tsxv5-cp-btn{width:100%;justify-content:center;}
+  .tsxv5-cp-editor{font-size:16px;min-height:320px;}
+}
+@media(max-width:640px){
+  .tsxv5-cp-grid{gap:12px;}
+}
+@media(max-width:768px){
+  .tsxv5-cp-grid{grid-template-columns:1fr;}
+  .tsxv5-cp-editor{min-height:350px;}
+  .tsxv5-cp-preview-box{min-height:350px;}
+}
+@media(min-width:1024px){
+  .tsxv5-cp-grid{grid-template-columns:1fr 1fr;}
+  .tsxv5-cp-editor{min-height:440px;}
+  .tsxv5-cp-preview-box{min-height:440px;}
+}
+@media(max-width:1280px){
+  .tsxv5-cp-container{max-width:100%;}
+}
+@media(max-width:1440px){
+  .tsxv5-cp-container{max-width:1200px;}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #tsxv5-cpApp *,
+  #tsxv5-cpApp *::before,
+  #tsxv5-cpApp *::after{
+    animation-duration:0.01ms !important;
+    transition-duration:0.01ms !important;
+  }
+}
+</style>
+
+<div class="tsxv5-cp-container">
+
+  <header class="tsxv5-cp-header">
+    <h2>⚡ Live Code Playground</h2>
+    <p>Write and run HTML, CSS, JavaScript, Python, and Markdown – live preview instantly updates!</p>
+    <span class="tsxv5-cp-badge">🔥 100% Free • No Uploads • Real-Time • 5+ Languages</span>
+  </header>
+
+  <main class="tsxv5-cp-card">
+    <div class="tsxv5-cp-grid">
+
+      <div class="tsxv5-cp-editor-pane">
+        <div class="tsxv5-cp-toolbar">
+          <select id="tsxv5-langSelect" aria-label="Select programming language">
+            <option value="html">🌐 HTML</option>
+            <option value="css">🎨 CSS</option>
+            <option value="javascript">⚡ JavaScript</option>
+            <option value="python">🐍 Python</option>
+            <option value="markdown">📝 Markdown</option>
+          </select>
+          <button type="button" class="tsxv5-cp-btn tsxv5-cp-btn-primary" id="tsxv5-runBtn">▶ Run</button>
+          <button type="button" class="tsxv5-cp-btn tsxv5-cp-btn-secondary" id="tsxv5-clearBtn">🗑️ Clear</button>
+          <button type="button" class="tsxv5-cp-btn tsxv5-cp-btn-secondary" id="tsxv5-copyBtn">📋 Copy</button>
+        </div>
+        <textarea class="tsxv5-cp-editor" id="tsxv5-codeEditor" spellcheck="false" aria-label="Code editor" maxlength="50000"></textarea>
+        <div class="tsxv5-cp-status" id="tsxv5-statusText" aria-live="polite">✅ Ready – Select a language and click "Run"</div>
+      </div>
+
+      <div class="tsxv5-cp-preview-pane">
+        <div class="tsxv5-cp-preview-tabs">
+          <button type="button" class="tsxv5-cp-tab active" data-tab="preview">👁️ Preview</button>
+          <button type="button" class="tsxv5-cp-tab" data-tab="console">📋 Console</button>
+        </div>
+        <div class="tsxv5-cp-preview-box" id="tsxv5-previewBox">
+          <div id="tsxv5-previewContent">
+            <p style="color:#94a3b8;text-align:center;padding:40px;">💡 Write code on the left and click "Run" to see the preview here.</p>
+          </div>
+          <div id="tsxv5-consoleContent" style="display:none;">
+            <div class="console-output" id="tsxv5-consoleOutput">⏳ Console output will appear here...</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <section class="tsxv5-cp-guide">
+    <h2>📖 How to Use This Code Playground</h2>
+    <p>Select a language, write your code, and click Run. The live preview updates instantly, with console output for JavaScript and Python.</p>
+    <ol class="tsxv5-cp-steps">
+      <li><strong>Select Language:</strong> Choose HTML, CSS, JavaScript, Python, or Markdown from the dropdown. Sample code loads automatically.</li>
+      <li><strong>Write Code:</strong> Type or paste code in the editor. Use Ctrl+Enter (Cmd+Enter on Mac) or click Run.</li>
+      <li><strong>View Output:</strong> Preview tab shows visual results for HTML/CSS/Markdown, while Console tab displays logs for JavaScript/Python.</li>
+    </ol>
+    <h3>🔐 Privacy</h3>
+    <p>All code runs locally in your browser. Nothing is uploaded or stored. The editor is sandboxed for safety.</p>
+  </section>
+
+  <section class="tsxv5-cp-faq">
+    <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:20px;">❓ Frequently Asked Questions</h2>
+    <div class="tsxv5-cp-faq-item"><div class="tsxv5-cp-faq-q">Is this code playground free?</div><div class="tsxv5-cp-faq-a">Yes, 100% free. No signup, no limits, no hidden charges. Run unlimited HTML, CSS, JavaScript, Python, or Markdown code.</div></div>
+    <div class="tsxv5-cp-faq-item"><div class="tsxv5-cp-faq-q">How does Python run in the browser?</div><div class="tsxv5-cp-faq-a">Pyodide (WebAssembly Python) runs Python in the browser. First selection takes 10-15 seconds to load, then execution is instant.</div></div>
+    <div class="tsxv5-cp-faq-item"><div class="tsxv5-cp-faq-q">Does my code go to a server?</div><div class="tsxv5-cp-faq-a">No, 100% safe! All code executes locally in your browser. No server upload, no tracking. Everything clears on page refresh.</div></div>
+    <div class="tsxv5-cp-faq-item"><div class="tsxv5-cp-faq-q">Where does console output appear?</div><div class="tsxv5-cp-faq-a">For JavaScript and Python, the Console tab opens automatically. console.log() and print() statements appear there. HTML/CSS/Markdown use the Preview tab.</div></div>
+    <div class="tsxv5-cp-faq-item"><div class="tsxv5-cp-faq-q">Can I save my code?</div><div class="tsxv5-cp-faq-a">Use the Copy button to copy code to clipboard and paste into your text editor to save. Browser refresh clears code for privacy.</div></div>
+  </section>
+
+  <aside class="tsxv5-cp-links" aria-label="Related Tools">
+    <h3>🔗 Try These Handy Tools</h3>
+    <div class="tsxv5-cp-link-grid">
+      <a href="../tools/file-size-composer.html" class="tsxv5-cp-link-card" rel="noopener">
+        <span class="emoji">📦</span>
+        <strong>File Size Composer</strong>
+        <span>Quickly calculate and convert file sizes</span>
+      </a>
+      <a href="https://www.toolsx.in/2026/09/crispr-cas9-gene-editing-explorer.html" class="tsxv5-cp-link-card" rel="noopener">
+        <span class="emoji">🧬</span>
+        <strong>CRISPR-Cas9 Explorer</strong>
+        <span>Learn and simulate gene editing interactively</span>
+      </a>
+      <a href="../tools/free-csv-to-json-json-to-csv-converter.html" class="tsxv5-cp-link-card" rel="noopener">
+        <span class="emoji">🔄</span>
+        <strong>CSV to JSON Converter</strong>
+        <span>Convert data formats instantly</span>
+      </a>
+    </div>
+  </aside>
+
+  <footer class="tsxv5-cp-footer">
+    <p>⚡ Live Code Playground · 100% Free · No Signup · 5 Languages</p>
+    <p style="font-size:.75rem;opacity:.7;margin-top:8px;">Powered by <strong><a href="https://www.toolsx.in" rel="noopener">Tools-X</a></strong></p>
+  </footer>
+
+</div>
+
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+
+var W=document.getElementById('tsxv5-cpApp');
+if(!W)return;
+
+function $(id){return document.getElementById(id);}
+function setText(el,s){if(el)el.textContent=String(s==null?'':s);}
+
+var editor=$('tsxv5-codeEditor');
+var langSelect=$('tsxv5-langSelect');
+var runBtn=$('tsxv5-runBtn');
+var clearBtn=$('tsxv5-clearBtn');
+var copyBtn=$('tsxv5-copyBtn');
+var statusText=$('tsxv5-statusText');
+var previewContent=$('tsxv5-previewContent');
+var consoleContent=$('tsxv5-consoleContent');
+var consoleOutput=$('tsxv5-consoleOutput');
+var tabs=W.querySelectorAll('.tsxv5-cp-tab');
+
+var pyodide=null;
+var pyodideLoading=false;
+var pyodideLoadPromise=null;
+var debounceTimer=null;
+var activeJsFrame=null;
+
+// ===== FAQ Toggle with Event Delegation (FIXED) =====
+function initFaqToggle() {
+  if (!W) return;
+  W.addEventListener('click', function(e) {
+    var item = e.target.closest('.tsxv5-cp-faq-item');
+    if (item) {
+      item.classList.toggle('open');
+    }
+  });
+}
+
+// Run FAQ init when DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initFaqToggle);
+} else {
+  initFaqToggle();
+}
+
+// ===== Tab Switching =====
+tabs.forEach(function(tab){
+  tab.addEventListener('click',function(){
+    tabs.forEach(function(t){t.classList.remove('active');});
+    this.classList.add('active');
+    var target=this.getAttribute('data-tab');
+    if(target==='preview'){
+      previewContent.style.display='block';
+      consoleContent.style.display='none';
+    }else{
+      previewContent.style.display='none';
+      consoleContent.style.display='block';
+    }
+  });
+});
+
+// ===== Sample code =====
+var samples={
+  html:'<h1>🌐 Hello, HTML World!</h1>\n<p>This is a <strong>live HTML preview</strong> inside an iframe.</p>\n<ul>\n  <li>✅ Full HTML rendering</li>\n  <li>✅ CSS styling supported</li>\n  <li>✅ JavaScript also works inside</li>\n</ul>\n<button onclick="alert(\'Hello from HTML!\')">Click Me</button>',
+  css:'.container {\n  max-width: 400px;\n  margin: 40px auto;\n  padding: 30px;\n  background: linear-gradient(135deg, #4f46e5, #06b6d4);\n  border-radius: 20px;\n  text-align: center;\n  color: #fff;\n  box-shadow: 0 20px 50px rgba(79,70,229,0.3);\n}\nh1 { font-size: 2rem; }\np { opacity: 0.9; }\n.btn {\n  background: #fff;\n  color: #4f46e5;\n  border: none;\n  padding: 12px 28px;\n  border-radius: 50px;\n  font-weight: 700;\n  cursor: pointer;\n  transition: transform 0.3s;\n}\n.btn:hover { transform: scale(1.05); }',
+  javascript:'// ⚡ JavaScript Playground\nconsole.log(\'Hello from JavaScript!\');\n\nconst name = \'Tools-X\';\nlet count = 0;\n\nfunction greet() {\n  alert(\'Welcome to \' + name + \'!\');\n}\n\nconst btn = document.createElement(\'button\');\nbtn.textContent = \'Click me\';\nbtn.onclick = function() {\n  count++;\n  console.log(\'Clicked \' + count + \' times\');\n  document.body.style.background = \'#\' + Math.floor(Math.random()*16777215).toString(16);\n};\ndocument.body.appendChild(btn);\n\nconsole.log(\'✅ JavaScript is running live!\');',
+  python:'# 🐍 Python Playground (Pyodide)\nprint("Hello from Python!")\n\nname = "Tools-X"\nyear = 2026\nprint(f"Welcome to {name} - {year}")\n\nfruits = ["Apple", "Banana", "Mango"]\nfor i, fruit in enumerate(fruits):\n    print(f"{i+1}. {fruit}")\n\ndef greet(name):\n    return f"Namaste, {name}!"\n\nprint(greet("Python Developer"))\n\nresult = sum(range(1, 11))\nprint(f"Sum of 1 to 10: {result}")',
+  markdown:'# 📝 Markdown Preview\n\n## Heading 2\n### Heading 3\n\n**Bold text** and *Italic text*\n\n### Lists:\n- Item 1\n- Item 2\n  - Sub-item A\n  - Sub-item B\n\n### Code Block:\n```python\nprint("Hello, Markdown!")\n```\n\n### Blockquote:\n> "Simplicity is the soul of efficiency."\n\n---\n\nHorizontal Rule above.'
+};
+
+langSelect.addEventListener('change',function(){
+  var lang=this.value;
+  if(samples[lang]){
+    editor.value=samples[lang];
+  }
+  setText(statusText,'📝 Language changed to '+lang.toUpperCase()+' — Click "Run" to execute');
+});
+
+// ===== Python Loading =====
+function loadPyodideIfNeeded(){
+  if(pyodide)return Promise.resolve(pyodide);
+  if(pyodideLoadPromise)return pyodideLoadPromise;
+
+  pyodideLoading=true;
+  setText(statusText,'⏳ Loading Python engine (Pyodide)... This may take 10-15 seconds.');
+
+  pyodideLoadPromise=new Promise(function(resolve,reject){
+    var script=document.createElement('script');
+    script.src='https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js';
+    script.async=true;
+    script.onload=function(){
+      if(window.loadPyodide){
+        window.loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.26.1/full/'})
+          .then(function(py){
+            pyodide=py;
+            pyodideLoading=false;
+            setText(statusText,'✅ Pyodide loaded successfully!');
+            resolve(py);
+          })
+          .catch(function(err){
+            pyodideLoading=false;
+            reject(err);
+          });
+      }else{
+        pyodideLoading=false;
+        reject(new Error('Pyodide loader not available'));
+      }
+    };
+    script.onerror=function(){
+      pyodideLoading=false;
+      reject(new Error('Failed to load Pyodide script'));
+    };
+    document.head.appendChild(script);
+  });
+
+  return pyodideLoadPromise;
+}
+
+// ===== Helpers =====
+function escapeHtml(str){
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function sanitizeCode(code){
+  if(!code)return'';
+  if(code.length>50000){
+    throw new Error('Code too long. Maximum 50,000 characters allowed.');
+  }
+  return code;
+}
+
+function escapeScriptClose(code){
+  return String(code).split('<'+'/script').join('<'+'\\/script');
+}
+
+function parseMarkdown(md){
+  if(!md)return'';
+  var html=md
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/^### (.*$)/gim,'<h3>$1</h3>')
+    .replace(/^## (.*$)/gim,'<h2>$1</h2>')
+    .replace(/^# (.*$)/gim,'<h1>$1</h1>')
+    .replace(/^\> (.*$)/gim,'<blockquote>$1</blockquote>')
+    .replace(/\*\*\*(.*?)\*\*\*/g,'<strong><em>$1</em></strong>')
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g,'<em>$1</em>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/^---$/gim,'<hr>')
+    .replace(/^```(\w+)\n([\s\S]*?)```$/gm,'<pre><code>$2</code></pre>');
+
+  var lines=html.split('\n');
+  var inList=false;
+  var processedLines=[];
+  for(var i=0;i<lines.length;i++){
+    var line=lines[i];
+    if(line.trim().startsWith('- ')){
+      if(!inList){inList=true;processedLines.push('<ul>');}
+      processedLines.push('<li>'+line.trim().substring(2)+'</li>');
+    }else{
+      if(inList){inList=false;processedLines.push('</ul>');}
+      if(line.trim()&&!line.trim().startsWith('<')){
+        processedLines.push('<p>'+line+'</p>');
+      }else{
+        processedLines.push(line);
+      }
+    }
+  }
+  if(inList)processedLines.push('</ul>');
+  return processedLines.join('\n');
+}
+
+function showToast(msg,isError){
+  var existing=document.querySelector('.tsxv5-cp-toast');
+  if(existing)existing.remove();
+  var t=document.createElement('div');
+  t.className='tsxv5-cp-toast'+(isError?' error':'');
+  t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(function(){
+    t.classList.add('hide');
+    setTimeout(function(){if(t.parentNode)t.remove();},400);
+  },2500);
+}
+
+// ===== Main Run Function =====
+function runCode(){
+  var code=editor.value;
+  var lang=langSelect.value;
+
+  try{
+    code=sanitizeCode(code);
+  }catch(e){
+    setText(statusText,'❌ '+e.message);
+    showToast('❌ '+e.message,true);
+    return;
+  }
+
+  previewContent.innerHTML='';
+  activeJsFrame=null;
+  setText(consoleOutput,'⏳ Running...');
+
+  if(lang==='javascript'||lang==='python'){
+    var consoleTab=W.querySelector('[data-tab="console"]');
+    if(consoleTab)consoleTab.click();
+  }else{
+    var previewTab=W.querySelector('[data-tab="preview"]');
+    if(previewTab)previewTab.click();
+  }
+
+  try{
+    if(lang==='html'){
+      var iframe=document.createElement('iframe');
+      iframe.sandbox='allow-scripts allow-modals';
+      iframe.title='HTML live preview';
+      iframe.referrerPolicy='no-referrer';
+      previewContent.appendChild(iframe);
+      iframe.srcdoc=code;
+      setText(statusText,'✅ HTML rendered successfully!');
+      setText(consoleOutput,'✅ HTML page rendered in sandboxed iframe.');
+    }
+    else if(lang==='css'){
+      var iframe2=document.createElement('iframe');
+      iframe2.sandbox='allow-scripts allow-modals';
+      iframe2.title='CSS live preview';
+      iframe2.referrerPolicy='no-referrer';
+      previewContent.appendChild(iframe2);
+      var sampleHTML='<!DOCTYPE html><html><head><style>'+code+'</style></head><body><div class="container"><h1>🎨 CSS Live Preview</h1><p>Your CSS is applied to this sample content.</p><button class="btn">Hover Me</button></div></body></html>';
+      iframe2.srcdoc=sampleHTML;
+      setText(statusText,'✅ CSS applied successfully!');
+      setText(consoleOutput,'✅ CSS styling applied to sample HTML.');
+    }
+    else if(lang==='javascript'){
+      var iframe3=document.createElement('iframe');
+      iframe3.sandbox='allow-scripts allow-modals';
+      iframe3.title='JavaScript sandboxed output';
+      iframe3.referrerPolicy='no-referrer';
+      iframe3.style.width='100%';
+      iframe3.style.height='100%';
+      iframe3.style.minHeight='380px';
+      iframe3.style.border='none';
+      iframe3.style.borderRadius='8px';
+      previewContent.appendChild(iframe3);
+      activeJsFrame=iframe3;
+
+      var safeUserCode=escapeScriptClose(code);
+
+      var runnerHtml='<!DOCTYPE html><html><head></head><body>'+
+        '<div id="out" style="padding:20px;font-family:monospace;background:#f8fafc;min-height:380px;color:#0f172a;white-space:pre-wrap;word-break:break-word;">⏳ JavaScript running...</div>'+
+        '<script>(function(){'+
+        'var logs=[];'+
+        'function fmt(a){try{return typeof a===\'object\'?JSON.stringify(a):String(a);}catch(e){return String(a);}}'+
+        'function push(){logs.push(Array.prototype.slice.call(arguments).map(fmt).join(\' \'));}'+
+        'console.log=push;console.info=push;console.warn=push;console.error=push;'+
+        'var hasError=false;'+
+        'try{'+safeUserCode+'\n}catch(err){logs.push(\'❌ Error: \'+err.message);hasError=true;}'+
+        'var text=logs.join(\'\\n\')||\'✅ JavaScript executed successfully (no output)\';'+
+        'document.getElementById(\'out\').textContent=text;'+
+        'try{parent.postMessage({__tsxv5cp:true,type:\'log\',text:text,hasError:hasError},\'*\');}catch(e){}'+
+        '})();<'+'/script>'+
+        '</body></html>';
+
+      iframe3.srcdoc=runnerHtml;
+    }
+    else if(lang==='python'){
+      loadPyodideIfNeeded().then(function(py){
+        if(!py){
+          setText(consoleOutput,'❌ Pyodide not loaded. Please refresh.');
+          setText(statusText,'❌ Python engine not available.');
+          previewContent.innerHTML='<p style="color:#ef4444;padding:20px;">❌ Python engine failed to load. Please refresh the page.</p>';
+          return;
+        }
+
+        try{
+          py.runPython('import sys\nfrom io import StringIO\nsys.stdout = StringIO()');
+          py.runPython(code);
+          var output=py.runPython('sys.stdout.getvalue()');
+          setText(consoleOutput,output||'✅ Python code executed successfully (no output)');
+          previewContent.innerHTML='<div class="console-output">'+escapeHtml(output||'✅ Python executed successfully (no output)')+'</div>';
+          setText(statusText,'✅ Python executed successfully!');
+        }catch(err){
+          setText(consoleOutput,'❌ '+err.message);
+          previewContent.innerHTML='<div class="console-output" style="color:#ef4444;">❌ '+escapeHtml(err.message)+'</div>';
+          setText(statusText,'❌ Python error!');
+        }
+      }).catch(function(err){
+        setText(consoleOutput,'❌ '+err.message);
+        setText(statusText,'❌ Python load failed!');
+        showToast('❌ Failed to load Python engine',true);
+      });
+    }
+    else if(lang==='markdown'){
+      var html=parseMarkdown(code);
+      previewContent.innerHTML=html;
+      setText(statusText,'✅ Markdown rendered successfully!');
+      setText(consoleOutput,'✅ Markdown parsed to HTML.');
+    }
+  }catch(err){
+    setText(statusText,'❌ Error: '+err.message);
+    previewContent.innerHTML='<p style="color:#ef4444;padding:20px;">❌ '+escapeHtml(err.message)+'</p>';
+    setText(consoleOutput,'❌ '+err.message);
+  }
+}
+
+// ===== Event Listeners =====
+runBtn.addEventListener('click',runCode);
+
+clearBtn.addEventListener('click',function(){
+  editor.value='';
+  previewContent.innerHTML='';
+  activeJsFrame=null;
+  setText(consoleOutput,'🧹 Cleared – write new code and click "Run"');
+  setText(statusText,'🧹 Cleared – write new code and click "Run"');
+  showToast('🧹 Editor cleared',false);
+});
+
+copyBtn.addEventListener('click',function(){
+  if(!editor.value){
+    showToast('❌ Nothing to copy',true);
+    return;
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(editor.value).then(function(){
+      showToast('✅ Code copied to clipboard!',false);
+      setText(statusText,'📋 Code copied to clipboard!');
+    }).catch(function(){
+      fallbackCopy();
+    });
+  }else{
+    fallbackCopy();
+  }
+
+  function fallbackCopy(){
+    editor.select();
+    try{
+      document.execCommand('copy');
+      showToast('✅ Code copied!',false);
+      setText(statusText,'📋 Code copied to clipboard!');
+    }catch(e){
+      showToast('❌ Copy failed',true);
+    }
+    window.getSelection().removeAllRanges();
+  }
+});
+
+editor.addEventListener('keydown',function(e){
+  if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){
+    e.preventDefault();
+    runCode();
+  }
+});
+
+editor.addEventListener('input',function(){
+  if(debounceTimer)clearTimeout(debounceTimer);
+  debounceTimer=setTimeout(function(){
+    setText(statusText,'📝 Code modified — Click "Run" or press Ctrl+Enter');
+  },300);
+});
+
+// ===== Initialize =====
+editor.value=samples.html;
+langSelect.value='html';
+setText(statusText,'✅ Ready – Click "Run" or press Ctrl+Enter to execute code');
+
+})();
+//]]>
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

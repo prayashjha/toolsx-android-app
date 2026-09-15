@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Podcast Waveform Generator – Render Audio Visualizer Free – ToolsX App</title>
+<meta name="description" content="Turn any podcast or audio file into a waveform visualizer video free online. Great for social media clips.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Podcast Waveform Generator – Render Audio Visualizer Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<!-- SpectraPulse Audio Visualizer v4.1 — Fixed CSS bleed + MP3 detection -->
+<div class="spv-studio" id="spv-studio">
+<style>
+/* ============ SpectraPulse — High Specificity Scoped CSS ============ */
+#spv-studio{
+  --spv-bg:#f6f8ff; --spv-card:#ffffff; --spv-border:#d3dbf0;
+  --spv-text:#161b2e; --spv-muted:#5a6478; --spv-accent:#5b4de0;
+  --spv-accent2:#00c4b3; --spv-canvas:#08081a;
+  --spv-shadow:0 6px 28px rgba(20,30,60,.10);
+  font-family:'Segoe UI',system-ui,Arial,sans-serif !important;
+  background:var(--spv-bg) !important;
+  color:var(--spv-text) !important;
+  max-width:820px; margin:0 auto;
+  padding:clamp(12px,4vw,26px);
+  border-radius:18px;
+  box-shadow:var(--spv-shadow) !important;
+  box-sizing:border-box; line-height:1.55; text-align:left;
+  font-size:15px;
+  border:0;
+}
+#spv-studio *,
+#spv-studio *::before,
+#spv-studio *::after{box-sizing:border-box;}
+
+/* ---- Reset block to defeat Blogger theme overrides ---- */
+#spv-studio button,
+#spv-studio input,
+#spv-studio select,
+#spv-studio textarea{
+  font-family:inherit !important;
+  font-size:inherit;
+  line-height:inherit;
+  -webkit-appearance:none;
+  appearance:none;
+  text-transform:none !important;
+  letter-spacing:normal !important;
+  text-decoration:none !important;
+  text-shadow:none !important;
+  box-shadow:none;
+  margin:0;
+  outline:none;
+}
+#spv-studio button{
+  background:transparent;
+  border:0;
+  padding:0;
+  color:inherit;
+  cursor:pointer;
+}
+#spv-studio h2,
+#spv-studio h3,
+#spv-studio h4{
+  margin:0; padding:0;
+  font-weight:700;
+  color:inherit;
+  background:none !important;
+  border:0 !important;
+  text-transform:none !important;
+  letter-spacing:normal !important;
+  text-shadow:none !important;
+  box-shadow:none !important;
+  -webkit-text-fill-color:currentColor;
+  width:auto;
+}
+#spv-studio p{margin:0;padding:0;}
+#spv-studio ol,#spv-studio ul{margin:0;padding-left:1.4em;}
+
+/* ---- Dark mode ---- */
+#spv-studio.spv-dark{
+  --spv-bg:#0f1320; --spv-card:#161c2e; --spv-border:#2a3350;
+  --spv-text:#eef2ff; --spv-muted:#9aa4c0; --spv-accent:#7c6ff0;
+  --spv-accent2:#22e0c9; --spv-canvas:#05051a;
+  --spv-shadow:0 8px 32px rgba(0,0,0,.45);
+}
+
+/* ---- Header ---- */
+#spv-studio .spv-head{text-align:center;margin-bottom:1.4rem;}
+#spv-studio .spv-head h2{
+  font-size:clamp(1.7rem,5.5vw,2.3rem) !important;
+  margin:0 0 .4rem !important;
+  background:linear-gradient(45deg,var(--spv-accent),var(--spv-accent2)) !important;
+  -webkit-background-clip:text !important;
+  background-clip:text !important;
+  -webkit-text-fill-color:transparent !important;
+  color:var(--spv-accent);
+  display:inline-block;
+}
+#spv-studio .spv-head p{
+  color:var(--spv-muted) !important;
+  font-size:clamp(.88rem,3vw,1rem);
+}
+
+/* ---- Drop zone ---- */
+#spv-studio .spv-drop{
+  display:flex !important;
+  flex-direction:column; align-items:center; justify-content:center;
+  gap:6px;
+  border:2px dashed var(--spv-border) !important;
+  border-radius:16px;
+  padding:clamp(22px,5vw,32px) !important;
+  text-align:center; cursor:pointer;
+  background:var(--spv-card) !important;
+  color:var(--spv-text) !important;
+  transition:border-color .3s ease, box-shadow .3s ease;
+  min-height:140px;
+}
+#spv-studio .spv-drop:hover,
+#spv-studio .spv-drop:focus-within{
+  border-color:var(--spv-accent) !important;
+  box-shadow:0 0 18px rgba(91,77,224,.22) !important;
+}
+#spv-studio .spv-drop input{
+  position:absolute !important; opacity:0 !important;
+  width:1px !important; height:1px !important;
+  pointer-events:none !important;
+  left:-9999px !important;
+}
+#spv-studio .spv-drop .big{
+  font-size:1.15rem; font-weight:700;
+  color:var(--spv-text) !important;
+}
+#spv-studio .spv-drop .sub{
+  color:var(--spv-muted) !important;
+  font-size:.88rem;
+}
+
+/* ---- Status / title ---- */
+#spv-studio .spv-msg{
+  color:#e04545 !important;
+  text-align:center; margin:10px 0;
+  font-weight:600; min-height:1.2em; font-size:.9rem;
+}
+#spv-studio .spv-title-tag{
+  color:var(--spv-accent) !important;
+  text-align:center; font-weight:700;
+  margin-bottom:10px; word-break:break-word;
+}
+
+/* ---- Canvas ---- */
+#spv-studio .spv-canvas-wrap{
+  display:none; margin-top:18px;
+  border-radius:12px; overflow:hidden;
+  background:var(--spv-canvas);
+  border:1px solid var(--spv-border);
+}
+#spv-studio .spv-canvas-wrap canvas{
+  width:100% !important;
+  height:240px !important;
+  display:block;
+  max-width:100%;
+}
+
+/* ---- Seek bar ---- */
+#spv-studio .spv-bar{
+  display:none; margin-top:14px;
+  align-items:center; gap:10px;
+}
+#spv-studio .spv-bar-track{
+  flex:1; height:8px;
+  background:var(--spv-border);
+  border-radius:4px; cursor:pointer;
+  overflow:hidden; position:relative;
+}
+#spv-studio .spv-bar-fill{
+  height:100%; width:0%;
+  background:linear-gradient(90deg,var(--spv-accent),var(--spv-accent2));
+  transition:width .1s linear;
+}
+#spv-studio .spv-time{
+  font-size:.82rem; min-width:72px; text-align:right;
+  color:var(--spv-muted) !important;
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---- Controls ---- */
+#spv-studio .spv-ctrls{
+  display:none; margin-top:14px;
+  gap:9px; flex-wrap:wrap;
+  align-items:center; justify-content:center;
+}
+#spv-studio .spv-btn{
+  background:var(--spv-card) !important;
+  border:1px solid var(--spv-border) !important;
+  padding:10px 15px !important;
+  border-radius:9px !important;
+  cursor:pointer;
+  font-weight:600;
+  font-size:.88rem;
+  color:var(--spv-text) !important;
+  transition:border-color .2s, color .2s, background .2s;
+  min-width:44px; min-height:44px;
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:6px;
+  box-shadow:none !important;
+  text-decoration:none !important;
+}
+#spv-studio .spv-btn:hover{
+  border-color:var(--spv-accent) !important;
+  color:var(--spv-accent) !important;
+}
+#spv-studio .spv-btn.spv-on{
+  background:var(--spv-accent) !important;
+  color:#fff !important;
+  border-color:var(--spv-accent) !important;
+}
+#spv-studio .spv-play{
+  background:linear-gradient(45deg,var(--spv-accent),var(--spv-accent2)) !important;
+  color:#fff !important;
+  border:none !important;
+  padding:10px 26px !important;
+  font-size:1.05rem; font-weight:700;
+  box-shadow:0 5px 14px rgba(91,77,224,.35) !important;
+}
+#spv-studio .spv-play:hover{
+  color:#fff !important;
+  opacity:.92;
+}
+#spv-studio .spv-vol{
+  display:flex; align-items:center; gap:8px;
+  min-height:44px;
+  color:var(--spv-text);
+}
+#spv-studio .spv-vol input[type="range"]{
+  width:100px;
+  accent-color:var(--spv-accent);
+  -webkit-appearance:auto !important;
+  appearance:auto !important;
+  background:transparent !important;
+  border:0 !important;
+  padding:0 !important;
+  height:auto !important;
+  min-height:auto !important;
+}
+
+/* ---- Customize ---- */
+#spv-studio .spv-cust{
+  display:none; margin-top:14px;
+  gap:10px; flex-wrap:wrap;
+  justify-content:center; align-items:center;
+}
+#spv-studio .spv-cust > span:first-child{
+  color:var(--spv-muted) !important;
+  font-size:.88rem;
+}
+#spv-studio .spv-dot{
+  width:30px; height:30px;
+  border-radius:50%; cursor:pointer;
+  border:2px solid var(--spv-border) !important;
+  transition:transform .2s, border-color .2s, box-shadow .2s;
+  padding:0 !important; min-width:30px;
+  display:inline-block;
+  box-shadow:none !important;
+}
+#spv-studio .spv-dot.spv-on{
+  border-color:var(--spv-accent) !important;
+  box-shadow:0 0 0 3px rgba(91,77,224,.35) !important;
+}
+#spv-studio .spv-bg-pick{
+  display:flex; align-items:center; gap:6px;
+  color:var(--spv-muted) !important;
+  font-size:.85rem;
+}
+#spv-studio .spv-bg-pick input[type="color"]{
+  width:32px !important; height:32px !important;
+  border:none !important; padding:0 !important;
+  cursor:pointer;
+  background:none !important;
+  -webkit-appearance:none !important;
+  appearance:none !important;
+}
+
+/* ---- Record section ---- */
+#spv-studio .spv-rec{
+  display:none; margin-top:20px; text-align:center;
+}
+#spv-studio .spv-rec-btn{
+  background:#e04545 !important;
+  color:#fff !important;
+  border:none !important;
+  padding:12px 24px !important;
+  border-radius:9px !important;
+  font-size:1.05rem; cursor:pointer; font-weight:700;
+  box-shadow:0 5px 14px rgba(224,69,69,.4) !important;
+  min-height:44px;
+  display:inline-block;
+}
+#spv-studio .spv-rec-btn.spv-rec-on{
+  animation:spv-pulse 1s infinite;
+}
+@keyframes spv-pulse{
+  0%{box-shadow:0 0 0 0 rgba(224,69,69,.7);}
+  70%{box-shadow:0 0 0 15px rgba(224,69,69,0);}
+  100%{box-shadow:0 0 0 0 rgba(224,69,69,0);}
+}
+#spv-studio .spv-note{
+  font-size:.82rem;
+  color:var(--spv-muted) !important;
+  margin-top:10px;
+}
+#spv-studio .spv-snap{
+  background:var(--spv-card) !important;
+  border:1px solid var(--spv-border) !important;
+  padding:10px 16px !important;
+  border-radius:9px !important;
+  cursor:pointer; font-weight:600;
+  margin-top:12px; min-height:44px;
+  color:var(--spv-text) !important;
+  display:inline-block;
+}
+
+/* ---- Info sections ---- */
+#spv-studio .spv-sec{
+  margin-top:28px;
+  background:var(--spv-card) !important;
+  border-radius:16px;
+  padding:20px;
+  border:1px solid var(--spv-border) !important;
+  color:var(--spv-text);
+}
+#spv-studio .spv-sec h3{
+  color:var(--spv-accent) !important;
+  font-size:1.32rem;
+  margin-bottom:.6rem;
+}
+#spv-studio .spv-sec ol{
+  line-height:1.8;
+  color:var(--spv-text);
+}
+#spv-studio .spv-sec li{
+  margin-bottom:.7rem;
+  font-size:.95rem;
+  color:var(--spv-text);
+}
+#spv-studio .spv-sec h4{
+  color:var(--spv-accent) !important;
+  margin:1rem 0 .35rem;
+  font-size:1.05rem;
+}
+#spv-studio .spv-sec p{
+  color:var(--spv-muted) !important;
+  font-size:.92rem;
+  margin-bottom:.75rem;
+  line-height:1.75;
+}
+#spv-studio .spv-sec strong{color:var(--spv-text) !important;}
+#spv-studio .spv-sec em{color:var(--spv-text);font-style:italic;}
+
+/* ---- Footer ---- */
+#spv-studio .spv-footer{
+  text-align:center;
+  margin-top:24px;
+  font-size:.82rem;
+  color:var(--spv-muted) !important;
+  border-top:1px solid var(--spv-border) !important;
+  padding-top:14px;
+}
+#spv-studio .spv-footer p{
+  color:var(--spv-muted) !important;
+  margin:.3rem 0;
+}
+#spv-studio .spv-footer strong{
+  color:var(--spv-text) !important;
+}
+
+@media(max-width:480px){
+  #spv-studio .spv-ctrls{gap:7px;}
+  #spv-studio .spv-btn{padding:8px 11px !important; font-size:.82rem;}
+  #spv-studio .spv-vol input[type="range"]{width:78px;}
+}
+</style>
+
+<div class="spv-head">
+  <h2>✨ SpectraPulse Audio Visualizer</h2>
+  <p>Transform any track into animated visuals. Record, snapshot, and export — everything runs inside your browser.</p>
+</div>
+
+<label class="spv-drop" for="spv-file" id="spv-drop">
+  <div style="font-size:2.4rem;">🎧</div>
+  <div class="big">Drop audio file or click here</div>
+  <div class="sub">MP3 · WAV · OGG · M4A — up to 50&nbsp;MB</div>
+  <input type="file" id="spv-file" accept=".mp3,.wav,.ogg,.m4a,audio/*">
+</label>
+
+<div class="spv-msg" id="spv-msg" aria-live="polite"></div>
+<div class="spv-title-tag" id="spv-title"></div>
+
+<div class="spv-canvas-wrap" id="spv-canvas-wrap">
+  <canvas id="spv-canvas" width="820" height="240"></canvas>
+</div>
+
+<div class="spv-bar" id="spv-bar">
+  <div class="spv-bar-track" id="spv-bar-track" role="slider" aria-label="Seek">
+    <div class="spv-bar-fill" id="spv-bar-fill"></div>
+  </div>
+  <span class="spv-time" id="spv-time">0:00 / 0:00</span>
+</div>
+
+<div class="spv-ctrls" id="spv-ctrls">
+  <button class="spv-btn spv-on" data-mode="bars" type="button">📊 Bars</button>
+  <button class="spv-btn" data-mode="wave" type="button">🌊 Wave</button>
+  <button class="spv-btn" data-mode="circle" type="button">⭕ Ring</button>
+  <button class="spv-btn" data-mode="radial" type="button">📡 Radial</button>
+  <button class="spv-btn" data-mode="spectrum" type="button">🌈 Spectrum</button>
+  <button class="spv-btn" id="spv-loop" type="button">🔁 Loop</button>
+  <div class="spv-vol">
+    <span>🔊</span>
+    <input type="range" id="spv-vol" min="0" max="1" step="0.01" value="1" aria-label="Volume">
+  </div>
+  <button class="spv-btn spv-play" id="spv-play" type="button">▶ Play</button>
+</div>
+
+<div class="spv-cust" id="spv-cust">
+  <span>🎨 Palette:</span>
+  <span class="spv-dot spv-on" data-theme="default" style="background:linear-gradient(45deg,#5b4de0,#00c4b3)" title="Default" role="button" tabindex="0"></span>
+  <span class="spv-dot" data-theme="sunset" style="background:linear-gradient(45deg,#ff6b6b,#feca57)" title="Sunset" role="button" tabindex="0"></span>
+  <span class="spv-dot" data-theme="ocean" style="background:linear-gradient(45deg,#48dbfb,#1dd1a1)" title="Ocean" role="button" tabindex="0"></span>
+  <span class="spv-dot" data-theme="mono" style="background:linear-gradient(45deg,#b2bec3,#636e72)" title="Mono" role="button" tabindex="0"></span>
+  <div class="spv-bg-pick">
+    <label for="spv-bg">Canvas BG:</label>
+    <input type="color" id="spv-bg" value="#08081a">
+  </div>
+  <button class="spv-btn" id="spv-random" type="button" title="Random palette">🎲 Random</button>
+  <button class="spv-btn" id="spv-fs" type="button" title="Fullscreen">⛶ Full</button>
+</div>
+
+<div class="spv-rec" id="spv-rec">
+  <button class="spv-rec-btn" id="spv-rec-btn" type="button">⏺ Record Full Video</button>
+  <p class="spv-note">Captures audio + animation from start to finish. Downloads as WebM.</p>
+  <div class="spv-msg" id="spv-rec-msg" aria-live="polite"></div>
+  <button class="spv-snap" id="spv-snap" type="button">📸 Save Frame as PNG</button>
+</div>
+
+<div class="spv-sec">
+  <h3>🎬 How to Create Your Visual</h3>
+  <ol>
+    <li><strong>Add your track</strong> — drag &amp; drop or click the upload box. Accepted: MP3, WAV, OGG, M4A (50 MB max).</li>
+    <li><strong>Pick a visual style</strong> — Bars, Wave, Ring, Radial, or Spectrum.</li>
+    <li><strong>Choose your palette</strong> — four presets, a custom canvas colour, or hit Random.</li>
+    <li><strong>Preview</strong> — hit Play, tweak the volume, and toggle Loop if you want it to repeat.</li>
+    <li><strong>Capture</strong> — press <em>Record Full Video</em> to render the whole song. A WebM file downloads when it finishes.</li>
+    <li><strong>Or save a still</strong> — click <em>Save Frame as PNG</em> to grab a single frame.</li>
+  </ol>
+  <p><strong>Pro tip:</strong> Chrome or Edge give the smoothest recording. Mobile browsers work too.</p>
+</div>
+
+<div class="spv-sec">
+  <h3>❓ Common Questions</h3>
+  <h4>Do I have to pay or sign up?</h4>
+  <p>Nope. Everything is free, no account required, and there are no watermarks on the output.</p>
+  <h4>Which audio formats work?</h4>
+  <p>MP3, WAV, OGG and M4A up to 50 MB. Decoding is done by your browser's own audio engine.</p>
+  <h4>What format is the recorded video?</h4>
+  <p>WebM (VP9 or VP8 video + Opus audio). It plays back on YouTube and most modern players, and can be converted to MP4 with any editor.</p>
+  <h4>Can I customise the look?</h4>
+  <p>Yes — four ready-made palettes, a full colour picker for the canvas background, and a randomiser button for instant inspiration.</p>
+  <h4>Is fullscreen supported?</h4>
+  <p>Absolutely. Tap the <em>Full</em> button to expand the canvas across the screen.</p>
+  <h4>Are my files uploaded anywhere?</h4>
+  <p>Never. Decoding, drawing and recording all happen locally via the Web Audio and Canvas APIs. Your audio never touches a server.</p>
+</div>
+
+<div class="spv-footer">
+  <p>✨ <strong>SpectraPulse v4.1</strong> — crafted for Tools-X</p>
+  <p>🔐 Runs fully offline in your browser — nothing is uploaded.</p>
+</div>
+
+<script>
+(function(){
+"use strict";
+function boot(){
+  var root = document.getElementById("spv-studio");
+  if(!root) return;
+  function q(s){ return root.querySelector(s); }
+
+  var fileEl=q("#spv-file"), dropEl=q("#spv-drop"), msgEl=q("#spv-msg"),
+      titleEl=q("#spv-title"), wrapEl=q("#spv-canvas-wrap"), cv=q("#spv-canvas"),
+      ctx=cv.getContext("2d"), barEl=q("#spv-bar"), barFill=q("#spv-bar-fill"),
+      barTrack=q("#spv-bar-track"), timeEl=q("#spv-time"), ctrlsEl=q("#spv-ctrls"),
+      custEl=q("#spv-cust"), recEl=q("#spv-rec"), recBtn=q("#spv-rec-btn"),
+      recMsg=q("#spv-rec-msg"), playBtn=q("#spv-play"), loopBtn=q("#spv-loop"),
+      volEl=q("#spv-vol"), bgEl=q("#spv-bg"), fsBtn=q("#spv-fs"),
+      randBtn=q("#spv-random"), snapBtn=q("#spv-snap"),
+      dots=root.querySelectorAll(".spv-dot"),
+      modeBtns=root.querySelectorAll("[data-mode]");
+
+  var actx=null, an=null, gain=null, dest=null, src=null,
+      buf=null, playing=false, t0=0, offset=0, dur=0,
+      mode="bars", baseHue=200, hueOff=0, looping=false, recOn=false,
+      rec=null, chunks=[], freq=null, tdom=null, raf=null,
+      dpr=Math.max(1, window.devicePixelRatio||1);
+
+  /* ================= Theme ================= */
+  var themeMode="auto"; var themeTimer=null;
+
+  function parseRgb(s){
+    var m=/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s\/]+([\d.]+))?\s*\)/i.exec(s||"");
+    return m?{r:+m[1],g:+m[2],b:+m[3],a:m[4]===undefined?1:+m[4]}:null;
+  }
+  function lum(c){return 0.299*c.r+0.587*c.g+0.114*c.b;}
+  var DARK=/^(dark|darkmode|dark-mode|dark-theme|darktheme|night|nightmode|night-mode|dim|dimmed|black|midnight)$/;
+  var LIGHT=/^(light|lightmode|light-mode|light-theme|lighttheme|day|day-mode|daymode|white)$/;
+
+  function explicitTheme(){
+    var nodes=[document.documentElement,document.body];
+    var attrs=["data-theme","data-mode","data-color-mode","data-color-scheme",
+               "data-scheme","data-bs-theme","data-dark","data-layout"];
+    var i,j,el,v,k,t;
+    for(i=0;i<nodes.length;i++){
+      el=nodes[i]; if(!el||!el.getAttribute) continue;
+      for(j=0;j<attrs.length;j++){
+        v=String(el.getAttribute(attrs[j])||"").toLowerCase();
+        if(!v) continue;
+        if(v.indexOf("dark")>=0||v.indexOf("night")>=0) return "dark";
+        if(v.indexOf("light")>=0||v.indexOf("day")>=0) return "light";
+      }
+    }
+    for(i=0;i<nodes.length;i++){
+      el=nodes[i]; if(!el||!el.classList) continue;
+      for(k=0;k<el.classList.length;k++){
+        t=el.classList[k].toLowerCase();
+        if(DARK.test(t)) return "dark";
+        if(LIGHT.test(t)) return "light";
+      }
+    }
+    return null;
+  }
+  function siteTheme(){
+    var ex=explicitTheme(); if(ex) return ex;
+    var nodes=[document.body,document.documentElement];
+    for(var i=0;i<nodes.length;i++){
+      var el=nodes[i]; if(!el||!window.getComputedStyle) continue;
+      var c=parseRgb(window.getComputedStyle(el).backgroundColor);
+      if(c&&c.a>0.5) return lum(c)<128?"dark":"light";
+    }
+    if(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
+    return "light";
+  }
+  function applyTheme(){
+    var r = themeMode==="auto" ? siteTheme() : themeMode;
+    root.classList.toggle("spv-dark", r==="dark");
+  }
+  function scheduleTheme(){
+    if(themeMode!=="auto"||themeTimer) return;
+    themeTimer=setTimeout(function(){themeTimer=null; applyTheme();},120);
+  }
+  function watchTheme(){
+    var opts={attributes:true,attributeFilter:["class","style","data-theme","data-mode",
+              "data-color-mode","data-color-scheme","data-scheme","data-bs-theme","data-dark"]};
+    try{
+      new MutationObserver(scheduleTheme).observe(document.documentElement,opts);
+      if(document.body) new MutationObserver(scheduleTheme).observe(document.body,opts);
+    }catch(e){}
+    document.addEventListener("click",scheduleTheme,true);
+    if(window.matchMedia){
+      var mq=window.matchMedia("(prefers-color-scheme: dark)");
+      if(mq.addEventListener) mq.addEventListener("change",scheduleTheme);
+      else if(mq.addListener) mq.addListener(scheduleTheme);
+    }
+  }
+
+  /* ================= Helpers ================= */
+  function cleanName(n){
+    return n.replace(/[\/\\]/g,"").replace(/[^A-Za-z0-9._-]/g,"").slice(0,80)||"audio";
+  }
+  function extOf(n){var p=n.split(".");return p.length>1?p.pop().toLowerCase():"";}
+  function isAudio(f){
+    var e=extOf(f.name);
+    return ["mp3","wav","ogg","m4a","m4b"].indexOf(e)>=0||(f.type&&f.type.indexOf("audio/")===0);
+  }
+  function fmt(s){
+    if(!isFinite(s)) return "0:00";
+    var m=Math.floor(s/60),sec=Math.floor(s%60);
+    return m+":"+(sec<10?"0":"")+sec;
+  }
+
+  /* ===== Lenient magic byte check (v4.1 FIX) ===== */
+  function magicOk(abuf, ext){
+    try{
+      if(!abuf || abuf.byteLength < 4) return true;
+      var headLen = Math.min(4096, abuf.byteLength);
+      var head = new Uint8Array(abuf, 0, headLen);
+
+      if(ext==="mp3"){
+        /* ID3v2 tag */
+        if(head[0]===0x49 && head[1]===0x44 && head[2]===0x33) return true;
+        /* MPEG frame sync anywhere in first 4 KB (handles padding, no ID3, etc.) */
+        for(var i=0;i<headLen-1;i++){
+          if(head[i]===0xFF && (head[i+1] & 0xE0) === 0xE0) return true;
+        }
+        /* Fall through — be lenient, let decoder try */
+        return true;
+      }
+      if(ext==="wav"){
+        if(abuf.byteLength>=12){
+          var w=new Uint8Array(abuf,0,12);
+          if(w[0]===0x52&&w[1]===0x49&&w[2]===0x46&&w[3]===0x46&&
+             w[8]===0x57&&w[9]===0x41&&w[10]===0x56&&w[11]===0x45) return true;
+        }
+        return true;
+      }
+      if(ext==="ogg"){
+        if(head[0]===0x4F&&head[1]===0x67&&head[2]===0x67&&head[3]===0x53) return true;
+        return true;
+      }
+      if(ext==="m4a"||ext==="m4b"||ext==="mp4"){
+        if(abuf.byteLength>=8 && head[4]===0x66&&head[5]===0x74&&head[6]===0x79&&head[7]===0x70) return true;
+        return true;
+      }
+    }catch(e){ /* never block on signature error */ }
+    return true;
+  }
+
+  function initGraph(){
+    if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)();
+    if(src){try{src.stop();}catch(e){}}
+    if(an) try{an.disconnect();}catch(e){}
+    if(gain) try{gain.disconnect();}catch(e){}
+    an=actx.createAnalyser(); an.fftSize=512; an.smoothingTimeConstant=0.82;
+    gain=actx.createGain(); gain.gain.value=parseFloat(volEl.value)||1;
+    dest=actx.createMediaStreamDestination();
+    an.connect(gain); gain.connect(actx.destination); gain.connect(dest);
+    freq=new Uint8Array(an.frequencyBinCount);
+    tdom=new Uint8Array(an.fftSize);
+  }
+  function showUI(){
+    wrapEl.style.display="block"; barEl.style.display="flex";
+    ctrlsEl.style.display="flex"; custEl.style.display="flex";
+    recEl.style.display="block";
+    resizeCanvas();
+  }
+  function setMode(m){
+    mode=m;
+    modeBtns.forEach(function(b){b.classList.toggle("spv-on",b.dataset.mode===m);});
+    if(buf) draw();
+  }
+  modeBtns.forEach(function(b){b.addEventListener("click",function(){setMode(b.dataset.mode);});});
+
+  /* ================= File handling ================= */
+  fileEl.addEventListener("change",function(e){
+    var f=e.target.files[0]; if(f) loadFile(f);
+    fileEl.value="";
+  });
+  dropEl.addEventListener("dragover",function(e){e.preventDefault();dropEl.style.borderColor="#5b4de0";});
+  dropEl.addEventListener("dragleave",function(){dropEl.style.borderColor="";});
+  dropEl.addEventListener("drop",function(e){
+    e.preventDefault(); dropEl.style.borderColor="";
+    var f=e.dataTransfer.files[0]; if(f) loadFile(f);
+  });
+
+  function loadFile(file){
+    msgEl.textContent="";
+    if(!isAudio(file)){msgEl.textContent="⚠️ Unsupported format. Try MP3, WAV, OGG, or M4A.";return;}
+    if(file.size>50*1024*1024){msgEl.textContent="⚠️ File too large (50 MB max).";return;}
+    msgEl.textContent="⏳ Loading audio…";
+    titleEl.textContent="🎵 "+cleanName(file.name);
+
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      var raw=ev.target.result, ext=extOf(file.name);
+      /* v4.1 — signature check is now just a warning, never blocks */
+      if(!magicOk(raw,ext)){
+        msgEl.textContent="⚠️ File may be invalid — trying to decode anyway…";
+      }
+      try{
+        initGraph();
+      }catch(err){
+        console.error(err);
+        msgEl.textContent="⚠️ Audio engine could not start. Try refreshing the page.";
+        return;
+      }
+      actx.decodeAudioData(
+        raw.slice(0), /* Safari sometimes needs a copy */
+        function(decoded){
+          buf=decoded; dur=decoded.duration; playing=false; offset=0;
+          playBtn.textContent="▶ Play";
+          msgEl.textContent=""; recMsg.textContent="";
+          if(raf) cancelAnimationFrame(raf);
+          showUI();
+          draw();
+        },
+        function(err){
+          console.error(err);
+          msgEl.textContent="⚠️ Could not decode this audio. Try converting it to MP3 or WAV.";
+        }
+      );
+    };
+    reader.onerror=function(){msgEl.textContent="⚠️ Could not read the file.";};
+    reader.readAsArrayBuffer(file);
+  }
+
+  /* ================= Canvas ================= */
+  function resizeCanvas(){
+    dpr=Math.max(1, window.devicePixelRatio||1);
+    var w=wrapEl.clientWidth||300;
+    cv.width=Math.floor(w*dpr);
+    cv.height=Math.floor(240*dpr);
+    cv.style.width=w+"px"; cv.style.height="240px";
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    if(buf) draw();
+  }
+  if(window.ResizeObserver){
+    new ResizeObserver(function(){resizeCanvas();}).observe(wrapEl);
+  } else {
+    window.addEventListener("resize",function(){
+      clearTimeout(window._spvR); window._spvR=setTimeout(resizeCanvas,150);
+    });
+  }
+
+  /* ================= Playback ================= */
+  function startSource(off){
+    if(src){try{src.stop();}catch(e){}}
+    src=actx.createBufferSource();
+    src.buffer=buf;
+    src.connect(an);
+    t0=actx.currentTime-off;
+    try{ src.start(0, Math.max(0,off)); }catch(e){ src.start(0); }
+    src.onended=onEnded;
+  }
+  function stopSilent(){
+    if(src){src.onended=null; try{src.stop();}catch(e){}}
+  }
+  function onEnded(){
+    if(!playing) return;
+    if(recOn){playing=false;offset=0;playBtn.textContent="▶ Play";stopRec();return;}
+    if(looping){offset=0;startSource(0);}
+    else {playing=false;offset=0;playBtn.textContent="▶ Play";}
+  }
+  function togglePlay(){
+    if(!buf||recOn) return;
+    if(actx.state==="suspended") actx.resume();
+    if(playing){
+      offset=actx.currentTime-t0;
+      stopSilent();
+      playing=false; playBtn.textContent="▶ Play";
+    } else {
+      startSource(offset);
+      playing=true; playBtn.textContent="⏸ Pause";
+    }
+  }
+  playBtn.addEventListener("click",togglePlay);
+  loopBtn.addEventListener("click",function(){
+    looping=!looping; loopBtn.classList.toggle("spv-on",looping);
+  });
+  volEl.addEventListener("input",function(){
+    if(gain) gain.gain.value=parseFloat(volEl.value);
+  });
+  barTrack.addEventListener("click",function(e){
+    if(!buf||recOn) return;
+    var r=barTrack.getBoundingClientRect();
+    var ratio=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));
+    offset=ratio*dur;
+    if(playing){stopSilent();startSource(offset);}
+  });
+  document.addEventListener("keydown",function(e){
+    var tag=(document.activeElement&&document.activeElement.tagName)||"";
+    if(e.code==="Space"&&buf&&["INPUT","TEXTAREA","BUTTON","SELECT"].indexOf(tag)<0){
+      e.preventDefault(); togglePlay();
+    }
+  });
+
+  /* ================= Colours ================= */
+  function col(h,s,l){
+    if(hueOff===-1000){var g=Math.round(l*255);return "rgb("+g+","+g+","+g+")";}
+    return "hsl("+h+","+s+"%,"+l+"%)";
+  }
+
+  /* ================= Draw ================= */
+  function draw(){
+    if(!buf||!an) return;
+    raf=requestAnimationFrame(draw);
+    var W=cv.width/dpr, H=cv.height/dpr;
+    ctx.clearRect(0,0,W,H);
+    var t = playing ? (actx.currentTime-t0) : offset;
+    t = Math.max(0,Math.min(t,dur));
+    if(dur>0){
+      barFill.style.width=(t/dur*100).toFixed(1)+"%";
+      timeEl.textContent=fmt(t)+" / "+fmt(dur);
+    }
+    if(recOn) recMsg.textContent="⏺ Recording… "+fmt(t)+" / "+fmt(dur);
+
+    var h=(baseHue+hueOff)%360; if(h<0) h+=360;
+
+    if(mode==="bars") drawBars(W,H,h);
+    else if(mode==="wave") drawWave(W,H,h);
+    else if(mode==="circle") drawRing(W,H,h);
+    else if(mode==="radial") drawRadial(W,H,h);
+    else if(mode==="spectrum") drawSpectrum(W,H,h);
+  }
+  function drawBars(W,H,h){
+    if(!freq) return;
+    an.getByteFrequencyData(freq);
+    var n=64, bw=W/n-1.5;
+    for(var i=0;i<n;i++){
+      var v=freq[i]/255, bh=v*H*0.9;
+      var hu=(h+i*3.5)%360;
+      var g=ctx.createLinearGradient(0,H,0,H-bh);
+      g.addColorStop(0,col(hu,80,50));
+      g.addColorStop(0.6,col((hu+40)%360,90,65));
+      g.addColorStop(1,col((hu+80)%360,100,85));
+      ctx.fillStyle=g;
+      var x=i*(bw+1.5);
+      ctx.beginPath();
+      if(ctx.roundRect) ctx.roundRect(x,H-bh,bw,bh,[4,4,0,0]);
+      else ctx.rect(x,H-bh,bw,bh);
+      ctx.fill();
+    }
+  }
+  function drawWave(W,H,h){
+    if(!tdom) return;
+    an.getByteTimeDomainData(tdom);
+    ctx.lineWidth=2.5;
+    ctx.strokeStyle=col(h,90,65);
+    ctx.shadowColor=col(h,100,70); ctx.shadowBlur=12;
+    ctx.beginPath();
+    for(var i=0;i<tdom.length;i++){
+      var x=(i/tdom.length)*W;
+      var y=((tdom[i]/128)-1)*H*0.45+H/2;
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur=0;
+    ctx.strokeStyle=col((h+60)%360,80,75);
+    ctx.lineWidth=1;
+    ctx.beginPath();
+    for(var j=0;j<tdom.length;j++){
+      var x2=(j/tdom.length)*W;
+      var y2=((tdom[j]/128)-1)*H*0.3+H/2;
+      if(j===0) ctx.moveTo(x2,y2); else ctx.lineTo(x2,y2);
+    }
+    ctx.stroke();
+  }
+  function drawRing(W,H,h){
+    if(!freq) return;
+    an.getByteFrequencyData(freq);
+    var cx=W/2, cy=H/2, r0=Math.min(W,H)*0.18, n=80;
+    for(var i=0;i<n;i++){
+      var a=(i/n)*Math.PI*2-Math.PI/2;
+      var v=freq[Math.floor(i*freq.length/n)]/255;
+      var len=v*r0*1.8;
+      var hu=(h+i*4.5)%360;
+      ctx.strokeStyle=col(hu,90,65);
+      ctx.lineWidth=2.5;
+      ctx.shadowColor=col(hu,100,70); ctx.shadowBlur=8;
+      ctx.beginPath();
+      ctx.moveTo(cx+Math.cos(a)*r0, cy+Math.sin(a)*r0);
+      ctx.lineTo(cx+Math.cos(a)*(r0+len), cy+Math.sin(a)*(r0+len));
+      ctx.stroke();
+    }
+    ctx.shadowBlur=0;
+    ctx.strokeStyle=col(h,70,65); ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(cx,cy,r0,0,Math.PI*2); ctx.stroke();
+  }
+  function drawRadial(W,H,h){
+    if(!freq) return;
+    an.getByteFrequencyData(freq);
+    var cx=W/2, cy=H/2, maxR=Math.min(W,H)*0.45, n=64;
+    for(var i=0;i<n;i++){
+      var a=(i/n)*Math.PI*2-Math.PI/2;
+      var v=freq[Math.floor(i*freq.length/n)]/255;
+      var inner=maxR*0.2, outer=inner+v*(maxR-inner);
+      var hu=(h+i*5)%360;
+      var bw=(Math.PI*2/n)*0.8;
+      ctx.fillStyle=col(hu,90,60);
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,outer,a-bw/2,a+bw/2);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+  function drawSpectrum(W,H,h){
+    if(!freq) return;
+    an.getByteFrequencyData(freq);
+    var n=128;
+    for(var i=0;i<n;i++){
+      var v=freq[Math.floor(i*freq.length/n)]/255;
+      var x=(i/n)*W, lh=v*H;
+      var hu=(h+i*2)%360;
+      ctx.strokeStyle=col(hu,90,60);
+      ctx.lineWidth=Math.max(1,W/n);
+      ctx.beginPath();
+      ctx.moveTo(x,H); ctx.lineTo(x,H-lh);
+      ctx.stroke();
+    }
+  }
+
+  /* ================= Palette ================= */
+  dots.forEach(function(d){
+    d.addEventListener("click",function(){
+      dots.forEach(function(x){x.classList.remove("spv-on");});
+      d.classList.add("spv-on");
+      var t=d.dataset.theme;
+      if(t==="default") hueOff=0;
+      else if(t==="sunset") hueOff=-30;
+      else if(t==="ocean") hueOff=180;
+      else if(t==="mono") hueOff=-1000;
+      if(buf) draw();
+    });
+    d.addEventListener("keydown",function(e){
+      if(e.key==="Enter"||e.key===" "){e.preventDefault(); d.click();}
+    });
+  });
+  bgEl.addEventListener("input",function(){
+    wrapEl.style.backgroundColor=bgEl.value;
+    cv.style.backgroundColor=bgEl.value;
+  });
+  randBtn.addEventListener("click",function(){
+    hueOff=Math.floor(Math.random()*360);
+    dots.forEach(function(x){x.classList.remove("spv-on");});
+    if(buf) draw();
+  });
+  fsBtn.addEventListener("click",function(){
+    var el = wrapEl;
+    if(!document.fullscreenElement){
+      if(el.requestFullscreen) el.requestFullscreen().catch(function(){});
+      else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    } else {
+      if(document.exitFullscreen) document.exitFullscreen();
+      else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+    }
+  });
+
+  /* ================= Snapshot ================= */
+  snapBtn.addEventListener("click",function(){
+    if(!buf) return;
+    var a=document.createElement("a");
+    a.href=cv.toDataURL("image/png");
+    a.download="spectrapulse-frame.png";
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+
+  /* ================= Recording ================= */
+  recBtn.addEventListener("click",function(){
+    if(recOn) stopRec(); else startRec();
+  });
+
+  function startRec(){
+    if(!buf||recOn) return;
+    if(!window.MediaRecorder||!cv.captureStream){
+      recMsg.textContent="⚠️ Recording not supported here. Try Chrome or Edge.";
+      return;
+    }
+    if(actx.state==="suspended") actx.resume();
+    if(playing){stopSilent();playing=false;}
+    offset=0;
+
+    var vStream=cv.captureStream(30);
+    var aTracks=dest.stream.getAudioTracks();
+    var combined=new MediaStream([].concat(
+      Array.prototype.slice.call(vStream.getVideoTracks()),
+      Array.prototype.slice.call(aTracks)
+    ));
+
+    var mime="video/webm;codecs=vp9,opus";
+    if(!MediaRecorder.isTypeSupported(mime)) mime="video/webm;codecs=vp8,opus";
+    if(!MediaRecorder.isTypeSupported(mime)) mime="video/webm";
+    if(!MediaRecorder.isTypeSupported(mime)){
+      recMsg.textContent="⚠️ No supported recording format found.";
+      return;
+    }
+
+    chunks=[];
+    try{
+      rec=new MediaRecorder(combined,{mimeType:mime});
+    }catch(e){
+      recMsg.textContent="⚠️ Could not start the recorder.";
+      return;
+    }
+    rec.ondataavailable=function(e){if(e.data&&e.data.size>0) chunks.push(e.data);};
+    rec.onerror=function(){recMsg.textContent="⚠️ Recording error."; resetRecUI();};
+    rec.onstop=function(){
+      if(chunks.length===0){
+        recMsg.textContent="⚠️ Video could not be recorded.";
+      } else {
+        var blob=new Blob(chunks,{type:mime});
+        var url=URL.createObjectURL(blob);
+        var a=document.createElement("a");
+        a.href=url; a.download="spectrapulse-video.webm";
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function(){URL.revokeObjectURL(url);},3000);
+        recMsg.textContent="✅ Video downloaded!";
+      }
+      resetRecUI();
+    };
+
+    recOn=true;
+    recBtn.textContent="⏹ Stop Recording";
+    recBtn.classList.add("spv-rec-on");
+    playBtn.disabled=true;
+    barTrack.style.pointerEvents="none";
+    recMsg.textContent="⏺ Recording started…";
+    rec.start(200);
+    startSource(0);
+    playing=true;
+    playBtn.textContent="⏸ Pause";
+  }
+  function resetRecUI(){
+    recOn=false;
+    recBtn.textContent="⏺ Record Full Video";
+    recBtn.classList.remove("spv-rec-on");
+    playBtn.disabled=false;
+    barTrack.style.pointerEvents="auto";
+  }
+  function stopRec(){
+    if(rec&&rec.state!=="inactive") rec.stop();
+    stopSilent();
+    playing=false;
+    playBtn.textContent="▶ Play";
+  }
+
+  /* ================= Init ================= */
+  wrapEl.style.backgroundColor=bgEl.value;
+  cv.style.backgroundColor=bgEl.value;
+  applyTheme(); watchTheme();
+  setTimeout(applyTheme,400); setTimeout(applyTheme,1500);
+}
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded", boot);
+} else {
+  boot();
+}
+})();
+</script>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"SoftwareApplication",
+  "name":"SpectraPulse Audio Visualizer",
+  "applicationCategory":"MultimediaApplication",
+  "operatingSystem":"Any",
+  "featureList":"5 visual modes, MP3/WAV/OGG/M4A upload, WebM video recording, PNG snapshot, 4 palettes + custom colour, fullscreen, real-time FFT, loop, drag & drop, 100% browser-side",
+  "softwareVersion":"4.1",
+  "author":{"@type":"Organization","name":"Tools-X","url":"https://www.toolsx.in"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"HowTo",
+  "name":"How to create an audio visualizer video",
+  "description":"Create animated audio visualizer videos with SpectraPulse — free, private, in-browser.",
+  "totalTime":"PT4M",
+  "step":[
+    {"@type":"HowToStep","position":1,"name":"Add audio","text":"Drag & drop or select an MP3, WAV, OGG or M4A file (50 MB max)."},
+    {"@type":"HowToStep","position":2,"name":"Pick a visual style","text":"Choose Bars, Wave, Ring, Radial or Spectrum."},
+    {"@type":"HowToStep","position":3,"name":"Choose palette","text":"Pick a preset palette, set a custom canvas colour, or hit Random."},
+    {"@type":"HowToStep","position":4,"name":"Preview","text":"Press Play, adjust volume, toggle Loop if desired."},
+    {"@type":"HowToStep","position":5,"name":"Record","text":"Click Record Full Video to capture the whole track."},
+    {"@type":"HowToStep","position":6,"name":"Download","text":"The WebM file downloads automatically when recording ends."}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Is SpectraPulse free?","acceptedAnswer":{"@type":"Answer","text":"Yes — completely free, no signup, no watermark."}},
+    {"@type":"Question","name":"Which audio formats are supported?","acceptedAnswer":{"@type":"Answer","text":"MP3, WAV, OGG and M4A up to 50 MB."}},
+    {"@type":"Question","name":"What video format is produced?","acceptedAnswer":{"@type":"Answer","text":"WebM (VP9 or VP8 + Opus audio), compatible with YouTube and modern players."}},
+    {"@type":"Question","name":"Can I customise the look?","acceptedAnswer":{"@type":"Answer","text":"Yes — four palettes, a custom canvas colour picker and a randomiser."}},
+    {"@type":"Question","name":"Is fullscreen supported?","acceptedAnswer":{"@type":"Answer","text":"Yes, tap the Full button to expand the canvas."}},
+    {"@type":"Question","name":"Is my audio uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. All processing happens locally in your browser via the Web Audio API."}}
+  ]
+}
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>AI Photo Effects Studio: Apply 12 Professional Filters Online Free – ToolsX App</title>
+<meta name="description" content="Transform your photos with 12 professional filters including B&amp;W, Vintage, Noir, Sketch, Pixel-Art, and Vignette. Adjust effect intensity, rotate">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>AI Photo Effects Studio: Apply 12 Professional Filters Online Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-pf" class="tsxv5-pf-wrapper">
+
+<style>
+/* ══════════════════════════════════════════════════════════════
+   TOOLS-X AI PHOTO EFFECTS STUDIO v5.0 — THEME-AWARE
+   Light mode = clean white/blue (default)
+   Dark mode = dark slate via 7 Blogger selectors
+   ══════════════════════════════════════════════════════════════ */
+#tsxv5-pf{
+  --pf-bg:#f6f8fa;--pf-bg2:#eef4f9;
+  --pf-surface:#ffffff;--pf-surface2:#f8fafc;
+  --pf-text:#0f172a;--pf-text-dim:#475569;--pf-text-muted:#94a3b8;
+  --pf-accent:#0284c7;--pf-accent-dark:#0369a1;--pf-accent-light:#e0f2fe;
+  --pf-line:#e2e8f0;--pf-line2:#cbd5e1;
+  --pf-amber:#f59e0b;
+  --pf-radius:14px;
+  --pf-shadow:0 6px 24px rgba(2,132,199,0.1);
+  --pf-error:#dc2626;--pf-error-bg:#fef2f2;--pf-error-border:#fecaca;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  background:transparent;color:var(--pf-text);
+  transition:background .3s,color .3s;
+}
+body.dark-mode #tsxv5-pf,
+html.dark-mode #tsxv5-pf,
+[data-theme="dark"] #tsxv5-pf,
+body[data-theme="dark"] #tsxv5-pf,
+html[data-theme="dark"] #tsxv5-pf,
+.dark-mode #tsxv5-pf,
+.night-mode #tsxv5-pf{
+  --pf-bg:#0f172a;--pf-bg2:#1e293b;
+  --pf-surface:#1e293b;--pf-surface2:#0f172a;
+  --pf-text:#66B2FF;--pf-text-dim:#93c5fd;--pf-text-muted:#64748b;
+  --pf-accent:#38bdf8;--pf-accent-dark:#0ea5e9;--pf-accent-light:rgba(56,189,248,0.15);
+  --pf-line:#334155;--pf-line2:#475569;
+  --pf-shadow:0 6px 24px rgba(0,0,0,0.4);
+  --pf-error:#fca5a5;--pf-error-bg:rgba(239,68,68,0.1);--pf-error-border:rgba(239,68,68,0.3);
+}
+#tsxv5-pf *,#tsxv5-pf *::before,#tsxv5-pf *::after{box-sizing:border-box;margin:0;padding:0;max-width:100%;}
+#tsxv5-pf img,#tsxv5-pf canvas,#tsxv5-pf video{max-width:100%;height:auto;display:block;}
+
+#tsxv5-pf .pf{
+  max-width:960px;margin:0 auto;padding:24px;
+  background:linear-gradient(180deg,var(--pf-bg) 0%,var(--pf-bg2) 100%);
+  border-radius:20px;color:var(--pf-text) !important;border:1px solid var(--pf-line);
+  box-shadow:var(--pf-shadow);
+}
+
+/* Breadcrumb */
+#tsxv5-pf .pf-breadcrumb{
+  padding:12px 18px;background:var(--pf-surface);border:1px solid var(--pf-line);
+  border-radius:10px;font-size:.85rem;color:var(--pf-text-dim) !important;margin-bottom:20px;
+}
+#tsxv5-pf .pf-breadcrumb a{color:var(--pf-accent) !important;text-decoration:none;}
+#tsxv5-pf .pf-breadcrumb a:hover{text-decoration:underline;}
+
+/* Header */
+#tsxv5-pf .pf-header{
+  text-align:center;padding:36px 20px;background:var(--pf-surface);border:1px solid var(--pf-line);
+  border-radius:var(--pf-radius);margin-bottom:24px;
+}
+#tsxv5-pf .pf-header-icon{font-size:3.5rem;display:inline-block;margin-bottom:12px;animation:tsxv5PfFloat 3s ease-in-out infinite;}
+@keyframes tsxv5PfFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+#tsxv5-pf .pf-header h2{font-size:2rem;font-weight:800;color:var(--pf-text) !important;margin-bottom:10px;line-height:1.2;}
+#tsxv5-pf .pf-header h2 span{color:var(--pf-accent) !important;}
+#tsxv5-pf .pf-header-sub{color:var(--pf-text-dim) !important;font-size:1rem;max-width:620px;margin:0 auto;line-height:1.6;}
+#tsxv5-pf .pf-badges{display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap;}
+#tsxv5-pf .pf-badge{
+  background:var(--pf-accent-light);border:1px solid var(--pf-accent);color:var(--pf-accent-dark) !important;
+  padding:6px 16px;border-radius:50px;font-size:.75rem;font-weight:700;
+}
+
+/* Panel */
+#tsxv5-pf .pf-panel{
+  background:var(--pf-surface);border:1px solid var(--pf-line);border-radius:var(--pf-radius);
+  padding:22px;margin-bottom:18px;
+}
+#tsxv5-pf .pf-panel-title{
+  font-size:1rem;font-weight:700;color:var(--pf-text) !important;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+
+/* Drop Zone */
+#tsxv5-pf .pf-drop{
+  width:100%;border:2px dashed var(--pf-accent);border-radius:var(--pf-radius);padding:34px 20px;
+  text-align:center;cursor:pointer;background:var(--pf-accent-light);transition:all .3s ease;
+  min-height:44px;
+}
+#tsxv5-pf .pf-drop:hover,#tsxv5-pf .pf-drop.drag{background:#d3ecfc;transform:scale(1.005);}
+body.dark-mode #tsxv5-pf .pf-drop:hover,[data-theme="dark"] #tsxv5-pf .pf-drop:hover,
+body.dark-mode #tsxv5-pf .pf-drop.drag,[data-theme="dark"] #tsxv5-pf .pf-drop.drag{background:rgba(56,189,248,0.15);}
+#tsxv5-pf .pf-drop-icon{font-size:2.6rem;display:block;margin-bottom:10px;}
+#tsxv5-pf .pf-drop-text{color:var(--pf-accent-dark) !important;font-weight:700;font-size:1.05rem;display:block;}
+#tsxv5-pf .pf-drop-sub{color:var(--pf-text-dim) !important;font-size:.85rem;margin-top:6px;display:block;}
+
+/* File Info */
+#tsxv5-pf .pf-file-info{
+  display:none;margin-top:14px;padding:12px 16px;background:var(--pf-accent-light);
+  border:1px solid var(--pf-accent);border-radius:10px;align-items:center;gap:10px;
+}
+#tsxv5-pf .pf-file-info.show{display:flex;}
+#tsxv5-pf .pf-file-name{color:var(--pf-accent-dark) !important;font-weight:700;font-size:.9rem;}
+#tsxv5-pf .pf-file-size{color:var(--pf-text-dim) !important;font-size:.8rem;}
+
+/* Filters Grid */
+#tsxv5-pf .pf-filters{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:10px;}
+#tsxv5-pf .pf-filter{
+  padding:12px 8px;border:2px solid var(--pf-line);border-radius:10px;background:var(--pf-surface2);
+  color:var(--pf-text-dim) !important;font-size:.82rem;font-weight:600;cursor:pointer;text-align:center;
+  transition:all .25s ease;font-family:inherit;min-height:44px;
+}
+#tsxv5-pf .pf-filter:hover{border-color:var(--pf-accent);color:var(--pf-accent-dark) !important;}
+#tsxv5-pf .pf-filter.active{
+  border-color:var(--pf-accent);background:var(--pf-accent);color:#fff !important;
+  box-shadow:0 4px 14px rgba(2,132,199,0.3);
+}
+
+/* Slider */
+#tsxv5-pf .pf-slider-row{display:flex;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap;}
+#tsxv5-pf .pf-slider-row label{font-size:.9rem;font-weight:600;color:var(--pf-text-dim) !important;}
+#tsxv5-pf .pf-slider-row input[type=range]{flex:1;min-width:160px;accent-color:var(--pf-accent);}
+#tsxv5-pf .pf-slider-val{font-weight:700;color:var(--pf-accent-dark) !important;min-width:44px;}
+
+/* Tools */
+#tsxv5-pf .pf-tools{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+#tsxv5-pf .pf-tool-btn{
+  padding:10px 18px;border:1px solid var(--pf-line);border-radius:10px;background:var(--pf-surface2);
+  color:var(--pf-text-dim) !important;font-size:.85rem;font-weight:600;cursor:pointer;
+  transition:all .2s ease;font-family:inherit;min-height:44px;
+}
+#tsxv5-pf .pf-tool-btn:hover{border-color:var(--pf-accent);color:var(--pf-accent-dark) !important;}
+
+/* Canvas Wrap */
+#tsxv5-pf .pf-canvas-wrap{
+  display:none;margin-top:16px;text-align:center;background:#0b1220;
+  border-radius:var(--pf-radius);padding:12px;
+}
+#tsxv5-pf .pf-canvas-wrap.show{display:block;}
+#tsxv5-pf .pf-canvas{max-width:100%;max-height:460px;border-radius:8px;display:inline-block;}
+
+/* Actions */
+#tsxv5-pf .pf-actions{display:none;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap;}
+#tsxv5-pf .pf-actions.show{display:flex;}
+#tsxv5-pf .pf-btn{
+  padding:14px 28px;border:none;border-radius:50px;font-weight:700;font-size:.95rem;cursor:pointer;
+  transition:all .25s ease;display:inline-flex;align-items:center;gap:8px;font-family:inherit;
+  min-height:44px;
+}
+#tsxv5-pf .pf-btn-main{background:var(--pf-accent);color:#fff !important;box-shadow:0 6px 18px rgba(2,132,199,0.3);}
+#tsxv5-pf .pf-btn-main:hover{background:var(--pf-accent-dark);transform:translateY(-2px);}
+#tsxv5-pf .pf-btn-ghost{background:var(--pf-surface);color:var(--pf-text-dim) !important;border:1px solid var(--pf-line);}
+#tsxv5-pf .pf-btn-ghost:hover{border-color:var(--pf-accent);color:var(--pf-accent-dark) !important;}
+
+/* Error */
+#tsxv5-pf .pf-error{
+  display:none;background:var(--pf-error-bg);border:1px solid var(--pf-error-border);border-radius:10px;
+  padding:14px;margin-top:14px;color:var(--pf-error) !important;font-size:.9rem;text-align:center;
+}
+#tsxv5-pf .pf-error.show{display:block;}
+
+/* Loading */
+#tsxv5-pf .pf-loading{display:none;text-align:center;padding:20px;color:var(--pf-accent) !important;font-weight:600;}
+#tsxv5-pf .pf-loading.show{display:block;}
+#tsxv5-pf .pf-loading .spinner{
+  display:inline-block;width:40px;height:40px;border:4px solid var(--pf-accent-light);
+  border-top-color:var(--pf-accent);border-radius:50%;animation:tsxv5PfSpin .8s linear infinite;
+}
+@keyframes tsxv5PfSpin{to{transform:rotate(360deg);}}
+
+/* Content Sections */
+#tsxv5-pf .pf-how,#tsxv5-pf .pf-faq,#tsxv5-pf .pf-related{
+  margin-top:32px;padding:30px 24px;background:var(--pf-surface);border:1px solid var(--pf-line);
+  border-radius:var(--pf-radius);color:var(--pf-text) !important;
+}
+#tsxv5-pf .pf-how h2,#tsxv5-pf .pf-faq h2{
+  font-size:1.5rem;font-weight:800;color:var(--pf-text) !important;margin-bottom:18px;
+  border-bottom:2px solid var(--pf-accent-light);padding-bottom:12px;
+}
+#tsxv5-pf .pf-how h3{font-size:1.15rem;font-weight:700;color:var(--pf-accent-dark) !important;margin:22px 0 10px;}
+#tsxv5-pf .pf-how p,#tsxv5-pf .pf-faq-item p{font-size:.98rem;line-height:1.8;color:var(--pf-text-dim) !important;margin-bottom:12px;}
+#tsxv5-pf .pf-how ul,#tsxv5-pf .pf-how ol{margin:12px 0 12px 24px;line-height:1.9;color:var(--pf-text-dim) !important;}
+#tsxv5-pf .pf-how li{margin-bottom:8px;color:var(--pf-text-dim) !important;}
+#tsxv5-pf .pf-how strong{color:var(--pf-accent-dark) !important;}
+#tsxv5-pf .pf-how code{
+  background:var(--pf-accent-light);color:var(--pf-accent-dark) !important;padding:2px 6px;
+  border-radius:4px;font-size:.85rem;
+}
+
+#tsxv5-pf .pf-steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:20px 0;}
+#tsxv5-pf .pf-step-card{background:var(--pf-surface2);padding:18px;border-radius:12px;border:1px solid var(--pf-line);}
+#tsxv5-pf .pf-step-num{
+  width:38px;height:38px;background:var(--pf-accent);color:#fff !important;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:10px;
+}
+#tsxv5-pf .pf-step-title{font-weight:700;color:var(--pf-text) !important;margin-bottom:6px;}
+#tsxv5-pf .pf-step-desc{font-size:.88rem;color:var(--pf-text-dim) !important;line-height:1.6;}
+
+/* FAQ */
+#tsxv5-pf .pf-faq-item{
+  margin-bottom:16px;padding:18px;background:var(--pf-surface2);border-radius:12px;
+  border:1px solid var(--pf-line);transition:all .2s;
+}
+#tsxv5-pf .pf-faq-item:hover{border-color:var(--pf-accent);}
+#tsxv5-pf .pf-faq-item h3{
+  font-weight:700;color:var(--pf-accent-dark) !important;margin-bottom:8px;font-size:1rem;
+}
+#tsxv5-pf .pf-faq-item p{color:var(--pf-text-dim) !important;line-height:1.7;}
+
+/* Footer */
+#tsxv5-pf .pf-footer{padding:22px;text-align:center;margin-top:28px;border-top:1px solid var(--pf-line);}
+#tsxv5-pf .pf-footer p{color:var(--pf-text-muted) !important;font-size:.875rem;}
+#tsxv5-pf .pf-footer a{color:var(--pf-accent) !important;text-decoration:none;}
+
+/* Related */
+#tsxv5-pf .pf-related-title{color:var(--pf-accent) !important;font-size:1.1rem;font-weight:700;margin-bottom:14px;}
+#tsxv5-pf .pf-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px;}
+#tsxv5-pf .pf-related-link{
+  color:var(--pf-text) !important;text-decoration:none;font-size:.95rem;display:flex;
+  align-items:center;gap:10px;transition:all .2s;background:var(--pf-surface2);
+  padding:14px;border-radius:10px;border:1px solid var(--pf-line);
+  min-height:44px;
+}
+#tsxv5-pf .pf-related-link:hover{color:var(--pf-accent) !important;border-color:var(--pf-accent);transform:translateY(-2px);text-decoration:none;}
+#tsxv5-pf .pf-related-icon{font-size:1.5rem;flex-shrink:0;}
+#tsxv5-pf .pf-related-link strong{color:var(--pf-accent) !important;display:block;font-size:1rem;margin-bottom:4px;}
+#tsxv5-pf .pf-related-link span{color:var(--pf-text-dim) !important;font-size:.85rem;line-height:1.4;}
+
+@media(max-width:640px){
+  #tsxv5-pf .pf{padding:16px;border-radius:0;}
+  #tsxv5-pf .pf-header h2{font-size:1.5rem;}
+  #tsxv5-pf .pf-filters{grid-template-columns:repeat(3,1fr);}
+  #tsxv5-pf .pf-actions{flex-direction:column;}
+  #tsxv5-pf .pf-btn{width:100%;justify-content:center;}
+  #tsxv5-pf .pf-related-grid{grid-template-columns:1fr;}
+  #tsxv5-pf .pf-how,#tsxv5-pf .pf-faq,#tsxv5-pf .pf-related{padding:24px 16px;}
+}
+@media(max-width:400px){
+  #tsxv5-pf .pf-filters{grid-template-columns:repeat(2,1fr);}
+}
+@media(prefers-reduced-motion:reduce){#tsxv5-pf *,#tsxv5-pf *::before,#tsxv5-pf *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+</style>
+
+<!-- SEO Schema: SoftwareApplication -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AI Photo Effects Studio - 12 Professional Filters","applicationCategory":"MultimediaApplication","operatingSystem":"Any","browserRequirements":"Modern browser with JavaScript and HTML5 Canvas","description":"Free online photo effects studio with 12 professional filters. Apply B&W, Vintage, Noir, Sketch, Pixel-Art effects with intensity control, rotate, and flip tools. 100% offline browser processing with 4-layer security.","featureList":["12 professional filters (Original, B&W, Vintage, Noir, Warm, Cool, Vivid, Fade, Negative, Sketch, Pixel-Art, Vignette)","Intensity control slider (0-100%)","Rotate 90° tool","Horizontal flip tool","PNG download (lossless quality)","4-layer file validation (extension + MIME + size + magic bytes)","100% offline processing","Pixel-level Canvas manipulation","Object URL cleanup"]}
+</script>
+
+<!-- SEO Schema: HowTo -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Apply Photo Effects","description":"Step-by-step guide to applying professional filters to your photos.","totalTime":"PT2M","step":[{"@type":"HowToStep","position":1,"name":"Upload Photo","text":"Click the upload area or drag-drop your PNG/JPEG image (max 5MB)."},{"@type":"HowToStep","position":2,"name":"Choose Filter","text":"Select from 12 professional filters including B&W, Vintage, Noir, Sketch, and more."},{"@type":"HowToStep","position":3,"name":"Adjust Intensity","text":"Use the intensity slider to control the strength of the effect (0-100%)."},{"@type":"HowToStep","position":4,"name":"Rotate or Flip","text":"Optionally rotate the image 90° or flip horizontally."},{"@type":"HowToStep","position":5,"name":"Download","text":"Save the final image as a lossless PNG file."}]}
+</script>
+
+<!-- SEO Schema: FAQPage -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is my photo uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. The photo is processed 100% in your browser. No server upload — complete privacy. Your photo stays on your device."}},{"@type":"Question","name":"Is this tool free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free. Unlimited photo edits and downloads, no signup, no hidden charges. Personal or commercial use allowed."}},{"@type":"Question","name":"What format is the download?","acceptedAnswer":{"@type":"Answer","text":"PNG format — lossless quality, usable everywhere (WhatsApp, Instagram, print). PNG supports transparency and does not degrade quality."}},{"@type":"Question","name":"What does the intensity slider do?","acceptedAnswer":{"@type":"Answer","text":"It controls the strength of the effect. 0% = original photo, 100% = full effect. You can set intermediate values for a subtle look."}},{"@type":"Question","name":"Does it work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes — Chrome, Safari, Samsung Internet all work smoothly because processing happens on the device. Touch-friendly interface optimized for mobile screens."}}]}
+</script>
+
+<article class="pf" id="tsxv5-pfApp">
+
+  <nav class="pf-breadcrumb" aria-label="Breadcrumb">
+    <a href="https://www.toolsx.in/">Home</a> › AI Photo Effects Studio
+  </nav>
+
+  <header class="pf-header">
+    <div class="pf-header-icon" aria-hidden="true">🎨</div>
+    <h2>AI <span>Photo Effects</span> Studio</h2>
+    <p class="pf-header-sub">Upload your photo and apply 12 professional filters + effects — Sketch, Vintage, Noir, Pop-Art and much more. 100% offline, no upload!</p>
+    <div class="pf-badges">
+      <span class="pf-badge">🖼️ 12 Pro Filters</span>
+      <span class="pf-badge">🎚️ Intensity Control</span>
+      <span class="pf-badge">🔄 Rotate / Flip</span>
+      <span class="pf-badge">📴 100% Offline</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="pf-panel">
+      <div class="pf-panel-title">📤 Upload Photo</div>
+      <div class="pf-drop" id="tsxv5-pfDrop">
+        <span class="pf-drop-icon">🖼️</span>
+        <span class="pf-drop-text">Select PNG / JPEG Photo</span>
+        <span class="pf-drop-sub">Maximum 5MB · Click or drag-drop</span>
+      </div>
+      <input type="file" id="tsxv5-pfInput" accept="image/png,image/jpeg,.png,.jpg,.jpeg" hidden>
+
+      <div class="pf-loading" id="tsxv5-pfLoading">
+        <div class="spinner"></div>
+        <p style="margin-top:10px;">⏳ Processing image...</p>
+      </div>
+
+      <div class="pf-file-info" id="tsxv5-pfFileInfo">
+        <span>🖼️</span>
+        <span>
+          <span class="pf-file-name" id="tsxv5-pfFileName"></span>
+          <span class="pf-file-size" id="tsxv5-pfFileSize"></span>
+        </span>
+      </div>
+    </section>
+
+    <section class="pf-panel">
+      <div class="pf-panel-title">🎨 Choose Filter</div>
+      <div class="pf-filters" id="tsxv5-pfFilters">
+        <button type="button" class="pf-filter active" data-fx="original">Original</button>
+        <button type="button" class="pf-filter" data-fx="grayscale">B&W</button>
+        <button type="button" class="pf-filter" data-fx="sepia">Vintage</button>
+        <button type="button" class="pf-filter" data-fx="noir">Noir</button>
+        <button type="button" class="pf-filter" data-fx="warm">Warm</button>
+        <button type="button" class="pf-filter" data-fx="cool">Cool</button>
+        <button type="button" class="pf-filter" data-fx="vivid">Vivid</button>
+        <button type="button" class="pf-filter" data-fx="fade">Fade</button>
+        <button type="button" class="pf-filter" data-fx="invert">Negative</button>
+        <button type="button" class="pf-filter" data-fx="sketch">Sketch</button>
+        <button type="button" class="pf-filter" data-fx="pixel">Pixel-Art</button>
+        <button type="button" class="pf-filter" data-fx="vignette">Vignette</button>
+      </div>
+
+      <div class="pf-slider-row">
+        <label for="tsxv5-pfIntensity">🎚️ Effect Intensity:</label>
+        <input type="range" id="tsxv5-pfIntensity" min="0" max="100" value="100">
+        <span class="pf-slider-val" id="tsxv5-pfIntensityVal">100%</span>
+      </div>
+
+      <div class="pf-tools">
+        <button type="button" class="pf-tool-btn" id="tsxv5-pfRotate">🔄 Rotate 90°</button>
+        <button type="button" class="pf-tool-btn" id="tsxv5-pfFlip">↔️ Flip</button>
+        <button type="button" class="pf-tool-btn" id="tsxv5-pfReset">♻️ Reset</button>
+      </div>
+
+      <div class="pf-canvas-wrap" id="tsxv5-pfCanvasWrap">
+        <canvas class="pf-canvas" id="tsxv5-pfCanvas"></canvas>
+      </div>
+
+      <div class="pf-actions" id="tsxv5-pfActions">
+        <button type="button" class="pf-btn pf-btn-main" id="tsxv5-pfDownload">📥 Download PNG</button>
+        <button type="button" class="pf-btn pf-btn-ghost" id="tsxv5-pfNew">🖼️ New Photo</button>
+      </div>
+
+      <div class="pf-error" id="tsxv5-pfError"></div>
+    </section>
+  </main>
+
+  <!-- How to Use Section (English) -->
+  <section class="pf-how">
+    <h2>✅ How to Use AI Photo Effects Studio</h2>
+    <p>Apply professional filters to your images in just a few steps:</p>
+    <ol>
+      <li><strong>Upload your photo</strong> – click the drop area or drag &amp; drop a PNG/JPEG file (max 5MB).</li>
+      <li><strong>Choose a filter</strong> – select from 12 options including B&W, Vintage, Noir, Sketch, and more.</li>
+      <li><strong>Adjust intensity</strong> – use the slider to control how strong the effect appears.</li>
+      <li><strong>Optional: rotate or flip</strong> – rotate 90° or flip horizontally if needed.</li>
+      <li><strong>Download the result</strong> – save your edited image as a lossless PNG file.</li>
+    </ol>
+    <p>💡 <strong>Tip:</strong> For subtle vintage looks, set the intensity around 50-60%.</p>
+  </section>
+
+  <!-- FAQ Plain Section -->
+  <section class="pf-faq">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="pf-faq-item">
+      <h3>Is my photo uploaded anywhere?</h3>
+      <p>No. The photo is processed 100% in your browser. No server upload — complete privacy. Your photo stays on your device.</p>
+    </div>
+    <div class="pf-faq-item">
+      <h3>Is this tool free?</h3>
+      <p>Yes, completely free. Unlimited photo edits and downloads, no signup, no hidden charges. Personal or commercial use allowed.</p>
+    </div>
+    <div class="pf-faq-item">
+      <h3>What format is the download?</h3>
+      <p>PNG format — lossless quality, usable everywhere (WhatsApp, Instagram, print). PNG supports transparency and does not degrade quality.</p>
+    </div>
+    <div class="pf-faq-item">
+      <h3>What does the intensity slider do?</h3>
+      <p>It controls the strength of the effect. 0% = original photo, 100% = full effect. You can set intermediate values for a subtle look.</p>
+    </div>
+    <div class="pf-faq-item">
+      <h3>Does it work on mobile?</h3>
+      <p>Yes — Chrome, Safari, Samsung Internet all work smoothly because processing happens on the device. Touch-friendly interface optimized for mobile screens.</p>
+    </div>
+  </section>
+
+  <!-- Related Tools (Internal Links) -->
+  <aside class="pf-related" aria-label="Related Tools">
+    <h2 class="pf-related-title">🔗 Try These Useful Tools</h2>
+    <div class="pf-related-grid">
+      <a href="../tools/scan-karein-quantum-defense-aur-suite.html" rel="noopener noreferrer" title="Quantum Defense Suite" class="pf-related-link">
+        <span class="pf-related-icon">🛡️</span>
+        <div><strong>Quantum Defense Suite</strong><span>Scan your digital security with advanced tools</span></div>
+      </a>
+      <a href="https://www.toolsx.in/2026/08/explore-karein-200-ai-prompts-hub-ai-lab.html" rel="noopener noreferrer" title="200+ AI Prompt Library" class="pf-related-link">
+        <span class="pf-related-icon">📚</span>
+        <div><strong>200+ AI Prompt Library</strong><span>Ready-to-use prompts for creative projects</span></div>
+      </a>
+      <a href="https://www.toolsx.in/2026/08/vote-karein-community-platform-pe-ai-lab.html" rel="noopener noreferrer" title="Community Voting Platform" class="pf-related-link">
+        <span class="pf-related-icon">🗳️</span>
+        <div><strong>Community Voting Platform</strong><span>Vote and rank AI-generated content</span></div>
+      </a>
+    </div>
+  </aside>
+
+  <footer class="pf-footer">
+    <p>🎨 100% Free • No Signup • Unlimited Edits • 100% On-Device Processing</p>
+    <p style="font-size:.75rem;opacity:.7;margin-top:8px;">Powered by <strong><a href="https://www.toolsx.in" rel="noopener">Tools-X</a></strong></p>
+  </footer>
+</article>
+
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+
+var W=document.getElementById('tsxv5-pf');
+if(!W)return;
+
+var MAX=1280;
+
+function $(id){return document.getElementById(id);}
+function setText(el,s){if(el)el.textContent=String(s==null?'':s);}
+function fmtBytes(n){
+  if(!isFinite(n))return'';
+  if(n<1048576)return(n/1024).toFixed(1)+' KB';
+  return(n/1048576).toFixed(2)+' MB';
+}
+function sanitizeDisplay(s){
+  return String(s||'').replace(/[\x00-\x1F\x7F<>{}"'\\\/]/g,'').substring(0,80);
+}
+function sanitizeFilename(s){
+  return String(s||'toolsx-photo-effect').replace(/[^a-zA-Z0-9._\-]/g,'').substring(0,80)||'toolsx-photo-effect';
+}
+
+var state={
+  img:null,baseCanvas:null,origData:null,
+  fx:'original',intensity:1,url:null,_tmpCanvas:null
+};
+
+function showError(msg){
+  var b=$('tsxv5-pfError');
+  if(!b)return;
+  setText(b,'\u274C '+msg);
+  b.classList.add('show');
+  setTimeout(function(){if(b)b.classList.remove('show');},5000);
+}
+
+function showLoading(show){
+  var el=$('tsxv5-pfLoading');
+  if(el)el.classList.toggle('show',show);
+}
+
+function cleanupMemory(){
+  if(state.url){
+    try{URL.revokeObjectURL(state.url);}catch(e){}
+    state.url=null;
+  }
+  state.img=null;
+  state.baseCanvas=null;
+  state.origData=null;
+  state._tmpCanvas=null;
+}
+
+// 4-layer file validation: extension + MIME + size + magic bytes
+function validateImage(file){
+  return new Promise(function(res){
+    if(!file){res({ok:false,error:'No file selected'});return;}
+    var ext=(file.name.split('.').pop()||'').toLowerCase();
+    if(['png','jpg','jpeg'].indexOf(ext)<0){res({ok:false,error:'Only PNG/JPEG allowed'});return;}
+    if(file.type&&['image/png','image/jpeg'].indexOf(file.type)<0){res({ok:false,error:'Invalid MIME type'});return;}
+    if(file.size>5*1024*1024){res({ok:false,error:'File too large. Max 5MB'});return;}
+    if(file.size===0){res({ok:false,error:'File is empty'});return;}
+    var sl=file.slice(0,8);
+    if(sl.arrayBuffer){
+      sl.arrayBuffer().then(function(buf){
+        var b=new Uint8Array(buf);
+        var png=b[0]===0x89&&b[1]===0x50&&b[2]===0x4E&&b[3]===0x47;
+        var jpg=b[0]===0xFF&&b[1]===0xD8&&b[2]===0xFF;
+        res((png||jpg)?{ok:true}:{ok:false,error:'Invalid file signature'});
+      }).catch(function(){res({ok:false,error:'File read failed'});});
+    }else{res({ok:true});}
+  });
+}
+
+function load(file){
+  showLoading(true);
+  validateImage(file).then(function(v){
+    if(!v.ok){
+      showLoading(false);
+      showError(v.error);
+      return;
+    }
+    cleanupMemory();
+    state.url=URL.createObjectURL(file);
+    var img=new Image();
+    img.onload=function(){
+      state.img=img;
+      buildBase();
+      setText($('tsxv5-pfFileName'),sanitizeDisplay(file.name));
+      setText($('tsxv5-pfFileSize'),fmtBytes(file.size));
+      $('tsxv5-pfFileInfo').classList.add('show');
+      $('tsxv5-pfCanvasWrap').classList.add('show');
+      $('tsxv5-pfActions').classList.add('show');
+      applyFx();
+      showLoading(false);
+    };
+    img.onerror=function(){
+      showLoading(false);
+      showError('Image decode failed — try another photo');
+    };
+    img.src=state.url;
+  });
+}
+
+function buildBase(){
+  var w=state.img.naturalWidth,h=state.img.naturalHeight;
+  var sc=Math.min(1,MAX/Math.max(w,h));
+  var cw=Math.max(1,Math.round(w*sc)),ch=Math.max(1,Math.round(h*sc));
+  var c=document.createElement('canvas');
+  c.width=cw;c.height=ch;
+  var ctx=c.getContext('2d');
+  if(!ctx){showError('Canvas not supported in your browser');return;}
+  ctx.drawImage(state.img,0,0,cw,ch);
+  state.baseCanvas=c;
+  grabOrig();
+}
+
+function grabOrig(){
+  var c=state.baseCanvas;
+  var ctx=c.getContext('2d');
+  if(!ctx){showError('Canvas context error');return;}
+  state.origData=ctx.getImageData(0,0,c.width,c.height);
+}
+
+function rotate(){
+  if(!state.baseCanvas)return;
+  var s=state.baseCanvas;
+  var c=document.createElement('canvas');
+  c.width=s.height;c.height=s.width;
+  var x=c.getContext('2d');
+  if(!x){showError('Canvas not supported');return;}
+  x.translate(c.width/2,c.height/2);
+  x.rotate(Math.PI/2);
+  x.drawImage(s,-s.width/2,-s.height/2);
+  state.baseCanvas=c;
+  grabOrig();applyFx();
+}
+
+function flip(){
+  if(!state.baseCanvas)return;
+  var s=state.baseCanvas;
+  var c=document.createElement('canvas');
+  c.width=s.width;c.height=s.height;
+  var x=c.getContext('2d');
+  if(!x){showError('Canvas not supported');return;}
+  x.translate(s.width,0);x.scale(-1,1);
+  x.drawImage(s,0,0);
+  state.baseCanvas=c;
+  grabOrig();applyFx();
+}
+
+function lerp(a,b,t){return a+(b-a)*t;}
+
+function colorTransform(d,t,fx){
+  for(var i=0;i<d.length;i+=4){
+    var r=d[i],g=d[i+1],b=d[i+2];
+    var nr=r,ng=g,nb=b;
+    if(fx==='grayscale'||fx==='noir'||fx==='sketch'){
+      var lum=0.299*r+0.587*g+0.114*b;
+      nr=ng=nb=lum;
+      if(fx==='noir'){
+        var c2=(lum-128)*1.4+128;nr=ng=nb=c2;
+      }
+      if(fx==='sketch'){
+        var s2=(lum-128)*1.2+165;nr=ng=nb=s2;
+      }
+    }else if(fx==='sepia'){
+      nr=r*0.393+g*0.769+b*0.189;
+      ng=r*0.349+g*0.686+b*0.168;
+      nb=r*0.272+g*0.534+b*0.131;
+    }else if(fx==='warm'){
+      nr=r*1.12;ng=g*1.03;nb=b*0.88;
+    }else if(fx==='cool'){
+      nr=r*0.9;ng=g*1.0;nb=b*1.15;
+    }else if(fx==='vivid'){
+      var lum2=0.299*r+0.587*g+0.114*b;
+      nr=lum2+(r-lum2)*1.6;ng=lum2+(g-lum2)*1.6;nb=lum2+(b-lum2)*1.6;
+    }else if(fx==='fade'){
+      nr=r*0.85+30;ng=g*0.85+30;nb=b*0.85+30;
+    }else if(fx==='invert'){
+      nr=255-r;ng=255-g;nb=255-b;
+    }
+    d[i]=lerp(r,Math.max(0,Math.min(255,nr)),t);
+    d[i+1]=lerp(g,Math.max(0,Math.min(255,ng)),t);
+    d[i+2]=lerp(b,Math.max(0,Math.min(255,nb)),t);
+  }
+}
+
+function vignette(d,w,h,t){
+  var cx=w/2,cy=h/2,maxD=Math.sqrt(cx*cx+cy*cy);
+  for(var y=0;y<h;y++){
+    for(var x=0;x<w;x++){
+      var i=(y*w+x)*4;
+      var dist=Math.sqrt((x-cx)*(x-cx)+(y-cy)*(y-cy));
+      var f=1-Math.pow(dist/maxD,2.2)*0.9*t;
+      f=Math.max(0.15,Math.min(1,f));
+      d[i]*=f;d[i+1]*=f;d[i+2]*=f;
+    }
+  }
+}
+
+function applyFx(){
+  if(!state.origData)return;
+  if(state._tmpCanvas){state._tmpCanvas=null;}
+  var src=state.origData;
+  var w=src.width,h=src.height;
+  var out=new ImageData(new Uint8ClampedArray(src.data),w,h);
+  var d=out.data;
+  var t=state.intensity;
+  var fx=state.fx;
+
+  if(fx!=='original'&&fx!=='pixel'&&fx!=='vignette'){
+    colorTransform(d,t,fx);
+  }
+  if(fx==='vignette'){
+    vignette(d,w,h,t);
+  }
+
+  var canvas=$('tsxv5-pfCanvas');
+  canvas.width=w;canvas.height=h;
+  var ctx=canvas.getContext('2d');
+  if(!ctx){showError('Canvas context error');return;}
+  ctx.putImageData(out,0,0);
+
+  if(fx==='pixel'){
+    var block=Math.max(2,Math.round(2+t*14));
+    var tmp=document.createElement('canvas');
+    tmp.width=Math.max(1,Math.round(w/block));
+    tmp.height=Math.max(1,Math.round(h/block));
+    var tc=tmp.getContext('2d');
+    if(!tc){showError('Canvas error');return;}
+    tc.drawImage(canvas,0,0,tmp.width,tmp.height);
+    ctx.imageSmoothingEnabled=false;
+    ctx.clearRect(0,0,w,h);
+    ctx.drawImage(tmp,0,0,tmp.width,tmp.height,0,0,w,h);
+    ctx.imageSmoothingEnabled=true;
+    state._tmpCanvas=tmp;
+  }
+}
+
+function download(){
+  var canvas=$('tsxv5-pfCanvas');
+  try{
+    var dataURL=canvas.toDataURL('image/png');
+    var a=document.createElement('a');
+    a.href=dataURL;
+    a.download=sanitizeFilename('toolsx-photo-'+state.fx+'-'+Date.now())+'.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }catch(e){showError('Download failed: '+e.message);}
+}
+
+function resetAll(){
+  state.fx='original';state.intensity=1;
+  $('tsxv5-pfIntensity').value=100;
+  setText($('tsxv5-pfIntensityVal'),'100%');
+  var chips=W.querySelectorAll('#tsxv5-pfFilters .pf-filter');
+  for(var i=0;i<chips.length;i++){
+    chips[i].classList.toggle('active',chips[i].getAttribute('data-fx')==='original');
+  }
+  applyFx();
+}
+
+// Event listeners — no inline handlers
+$('tsxv5-pfDrop').addEventListener('click',function(){$('tsxv5-pfInput').click();});
+$('tsxv5-pfInput').addEventListener('change',function(){if(this.files&&this.files[0])load(this.files[0]);});
+
+var dropZone=$('tsxv5-pfDrop');
+dropZone.addEventListener('dragover',function(e){e.preventDefault();this.classList.add('drag');});
+dropZone.addEventListener('dragleave',function(){this.classList.remove('drag');});
+dropZone.addEventListener('drop',function(e){
+  e.preventDefault();this.classList.remove('drag');
+  var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
+  if(f)load(f);
+});
+
+var chips=W.querySelectorAll('#tsxv5-pfFilters .pf-filter');
+for(var i=0;i<chips.length;i++){
+  chips[i].addEventListener('click',function(){
+    for(var j=0;j<chips.length;j++)chips[j].classList.remove('active');
+    this.classList.add('active');
+    state.fx=this.getAttribute('data-fx');
+    applyFx();
+  });
+}
+
+$('tsxv5-pfIntensity').addEventListener('input',function(){
+  state.intensity=(parseInt(this.value,10)||0)/100;
+  setText($('tsxv5-pfIntensityVal'),this.value+'%');
+  applyFx();
+});
+
+$('tsxv5-pfRotate').addEventListener('click',rotate);
+$('tsxv5-pfFlip').addEventListener('click',flip);
+$('tsxv5-pfReset').addEventListener('click',resetAll);
+$('tsxv5-pfDownload').addEventListener('click',download);
+$('tsxv5-pfNew').addEventListener('click',function(){$('tsxv5-pfInput').click();});
+
+window.addEventListener('pagehide',function(){cleanupMemory();});
+window.addEventListener('beforeunload',function(){cleanupMemory();});
+
+})();
+//]]>
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

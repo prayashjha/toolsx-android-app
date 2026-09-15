@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Free Passport Photo Maker Online - AI Visa Photo, No Watermark – ToolsX App</title>
+<meta name="description" content="Create passport &amp; visa photos for 10+ countries free online. AI background change, face guide, 4x6 &amp; A4 print sheets. No signup, no watermark. Try now">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Free Passport Photo Maker Online - AI Visa Photo, No Watermark</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div class="ppm-root">
+<style>
+/*<![CDATA[*/
+.ppm-root {
+    --p-bg:#ffffff; --p-card:#ffffff; --p-text:#0f172a; --p-muted:#64748b;
+    --p-border:#e2e8f0; --p-input:#f8fafc; --p-primary:#3b82f6; --p-shadow:rgba(0,0,0,0.08);
+    --p-success:#16a34a; --p-success-bg:rgba(34,197,94,0.12); --p-success-border:rgba(34,197,94,0.25);
+    --p-primary-bg:rgba(59,130,246,0.12); --p-primary-border:rgba(59,130,246,0.25);
+    --p-orange:#ea580c; --p-orange-bg:rgba(249,115,22,0.12); --p-orange-border:rgba(249,115,22,0.25);
+    --p-toast-bg:#ffffff; --p-toast-text:#0f172a; --p-toast-border:#e2e8f0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color:var(--p-text); line-height:1.5;
+    max-width:1180px; margin:0 auto;
+    padding:clamp(10px, 3vw, 16px);
+    box-sizing:border-box;
+}
+html[data-theme="dark"] .ppm-root,
+body.dark-mode .ppm-root,
+body[data-theme="dark"] .ppm-root,
+html.dark-mode .ppm-root,
+.dark-mode .ppm-root,
+.night-mode .ppm-root,
+[data-bs-theme="dark"] .ppm-root {
+    --p-bg:#0f172a; --p-card:#1e293b; --p-text:#f1f5f9; --p-muted:#94a3b8;
+    --p-border:#334155; --p-input:#0f172a; --p-shadow:rgba(0,0,0,0.4);
+    --p-success:#4ade80; --p-success-bg:rgba(34,197,94,0.18); --p-success-border:rgba(34,197,94,0.35);
+    --p-primary-bg:rgba(59,130,246,0.2); --p-primary-border:rgba(59,130,246,0.4);
+    --p-orange:#fb923c; --p-orange-bg:rgba(249,115,22,0.18); --p-orange-border:rgba(249,115,22,0.35);
+    --p-toast-bg:#1e293b; --p-toast-text:#f1f5f9; --p-toast-border:#334155;
+}
+.ppm-root *, .ppm-root *::before, .ppm-root *::after { box-sizing:border-box; }
+.ppm-card { background:var(--p-card); border:1px solid var(--p-border); border-radius:14px; padding:clamp(12px, 2.5vw, 16px); margin-bottom:14px; box-shadow:0 2px 8px var(--p-shadow); }
+.ppm-head { text-align:center; margin-bottom:clamp(14px, 3vw, 20px); }
+.ppm-head h2 { font-size:clamp(18px, 4vw, 26px); font-weight:800; margin:0 0 8px; color:var(--p-text); line-height:1.3; letter-spacing:-0.01em; }
+.ppm-head p { color:var(--p-muted); font-size:clamp(12px, 2vw, 14px); margin:0 0 12px; max-width:680px; margin-left:auto; margin-right:auto; line-height:1.6; }
+.ppm-badges { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; }
+.ppm-badge { font-size:clamp(9px, 1.5vw, 11px); font-weight:700; padding:6px 12px; border-radius:10px; background:var(--p-primary-bg); color:var(--p-primary); border:1px solid var(--p-primary-border); min-height:32px; display:inline-flex; align-items:center; white-space:nowrap; }
+.ppm-badge.g { background:var(--p-success-bg); color:var(--p-success); border-color:var(--p-success-border); }
+.ppm-badge.o { background:var(--p-orange-bg); color:var(--p-orange); border-color:var(--p-orange-border); }
+.ppm-grid { display:grid; grid-template-columns:1fr; gap:clamp(10px, 2vw, 16px); }
+@media (min-width:992px){ .ppm-grid { grid-template-columns:360px 1fr; } }
+.ppm-sec-t { display:flex; align-items:center; gap:8px; font-size:clamp(12px, 2vw, 14px); font-weight:700; margin:0 0 12px; color:var(--p-text); flex-wrap:wrap; }
+.ppm-sec-n { width:clamp(22px, 4vw, 26px); height:clamp(22px, 4vw, 26px); border-radius:7px; background:var(--p-primary-bg); color:var(--p-primary); display:flex; align-items:center; justify-content:center; font-size:clamp(10px, 1.6vw, 11px); font-weight:800; border:1px solid var(--p-primary-border); flex-shrink:0; }
+.ppm-drop { border:2px dashed var(--p-border); border-radius:12px; padding:clamp(16px, 3vw, 22px); text-align:center; cursor:pointer; transition:all 0.25s; background:var(--p-input); min-height:120px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; }
+.ppm-drop:hover, .ppm-drop.over { border-color:var(--p-primary); background:var(--p-primary-bg); }
+.ppm-drop-icon { width:44px; height:44px; margin:0 auto 6px; border-radius:50%; background:var(--p-primary-bg); color:var(--p-primary); display:flex; align-items:center; justify-content:center; font-size:clamp(18px, 3vw, 20px); }
+.ppm-drop-t { font-size:clamp(11px, 1.8vw, 12px); font-weight:600; color:var(--p-text); margin:0 0 2px; }
+.ppm-drop-s { font-size:clamp(9px, 1.5vw, 10px); color:var(--p-muted); margin:0; }
+.ppm-lab { display:block; font-size:clamp(10px, 1.6vw, 11px); font-weight:600; color:var(--p-muted); margin-bottom:5px; text-transform:uppercase; letter-spacing:0.4px; }
+.ppm-sel, .ppm-inp { width:100%; background:var(--p-input); border:1px solid var(--p-border); border-radius:8px; padding:clamp(8px, 1.8vw, 10px); font-size:clamp(12px, 2vw, 14px); color:var(--p-text); font-family:inherit; min-height:40px; transition:border-color 0.2s; }
+.ppm-sel:focus, .ppm-inp:focus { outline:none; border-color:var(--p-primary); box-shadow:0 0 0 3px var(--p-primary-bg); }
+.ppm-cols { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+.ppm-col { width:clamp(28px, 5vw, 32px); height:clamp(28px, 5vw, 32px); border-radius:50%; border:2px solid var(--p-border); cursor:pointer; transition:all 0.15s; padding:0; min-width:28px; min-height:28px; flex-shrink:0; }
+.ppm-col:hover { transform:scale(1.08); }
+.ppm-col.on { border-color:var(--p-primary); box-shadow:0 0 0 3px var(--p-primary-bg); }
+.ppm-col-custom { position:relative; flex:1; min-width:70px; }
+.ppm-col-custom input { opacity:0; position:absolute; inset:0; cursor:pointer; width:100%; height:100%; }
+.ppm-col-custom-l { background:var(--p-input); border:1px solid var(--p-border); border-radius:8px; padding:8px 10px; text-align:center; font-size:clamp(9px, 1.5vw, 10px); font-weight:600; color:var(--p-muted); pointer-events:none; min-height:40px; display:flex; align-items:center; justify-content:center; }
+.ppm-sl-w { margin-bottom:12px; }
+.ppm-sl-h { display:flex; justify-content:space-between; font-size:clamp(9px, 1.5vw, 10px); color:var(--p-muted); margin-bottom:4px; }
+.ppm-sl-h span:last-child { color:var(--p-primary); font-weight:700; }
+.ppm-sl { width:100%; accent-color:var(--p-primary); min-height:32px; cursor:pointer; }
+.ppm-tb { display:flex; gap:5px; flex-wrap:wrap; margin-top:8px; }
+.ppm-tbtn { flex:1; min-width:60px; padding:8px 10px; border-radius:7px; background:var(--p-input); border:1px solid var(--p-border); color:var(--p-text); font-size:clamp(10px, 1.6vw, 11px); font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:4px; transition:all 0.15s; font-family:inherit; min-height:44px; }
+.ppm-tbtn:hover { background:var(--p-primary-bg); border-color:var(--p-primary); color:var(--p-primary); }
+.ppm-tbtn.on { background:var(--p-primary-bg); border-color:var(--p-primary); color:var(--p-primary); }
+.ppm-cvs-wrap { position:relative; background:var(--p-input); border-radius:12px; border:1px solid var(--p-border); padding:clamp(10px, 2vw, 14px); min-height:300px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.ppm-cvs { max-width:100%; max-height:400px; border-radius:4px; border:1px solid var(--p-border); box-shadow:0 6px 20px var(--p-shadow); cursor:grab; display:none; touch-action:none; }
+.ppm-cvs.drag { cursor:grabbing; }
+.ppm-ph { color:var(--p-muted); text-align:center; font-size:clamp(11px, 1.8vw, 12px); }
+.ppm-ph-i { font-size:clamp(28px, 5vw, 36px); display:block; margin-bottom:8px; opacity:0.5; }
+.ppm-guide { position:absolute; inset:0; pointer-events:none; display:flex; align-items:center; justify-content:center; z-index:5; }
+.ppm-info { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; align-items:center; justify-content:space-between; }
+.ppm-tag { font-size:clamp(9px, 1.5vw, 10px); padding:6px 10px; border-radius:7px; font-weight:700; background:var(--p-primary-bg); color:var(--p-primary); border:1px solid var(--p-primary-border); white-space:nowrap; }
+.ppm-tag.g { background:var(--p-success-bg); color:var(--p-success); border-color:var(--p-success-border); }
+.ppm-rot { font-size:clamp(9px, 1.5vw, 10px); color:var(--p-muted); }
+.ppm-exp { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+.ppm-mini { background:var(--p-input); border:1px solid var(--p-border); border-radius:7px; padding:8px 9px; font-size:clamp(10px, 1.6vw, 11px); color:var(--p-text); width:100%; min-height:40px; font-family:inherit; }
+.ppm-acts { display:grid; grid-template-columns:1fr; gap:8px; margin-top:12px; }
+@media (min-width:640px){ .ppm-acts { grid-template-columns:1fr 1fr; } }
+.ppm-abtn { padding:12px; border-radius:10px; border:none; font-size:clamp(11px, 1.8vw, 12px); font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px; transition:all 0.2s; font-family:inherit; min-height:48px; }
+.ppm-pri { background:linear-gradient(135deg,#3b82f6,#6366f1); color:#fff; box-shadow:0 3px 10px rgba(59,130,246,0.3); }
+.ppm-pri:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(59,130,246,0.4); }
+.ppm-sec { background:var(--p-input); color:var(--p-text); border:1px solid var(--p-border); }
+.ppm-sec:hover { border-color:var(--p-primary); color:var(--p-primary); }
+.ppm-info-sec { margin-top:clamp(20px, 4vw, 30px); }
+.ppm-info-c { background:var(--p-card); border:1px solid var(--p-border); border-radius:14px; padding:clamp(16px, 3vw, 22px); margin-bottom:16px; box-shadow:0 2px 8px var(--p-shadow); }
+.ppm-info-c h2 { font-size:clamp(15px, 2.5vw, 19px); font-weight:800; margin:0 0 14px; color:var(--p-text); display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
+.ppm-info-c h3 { font-size:clamp(13px, 2vw, 15px); font-weight:700; color:var(--p-primary); margin:16px 0 8px; }
+.ppm-info-c p { color:var(--p-muted); font-size:clamp(11px, 1.8vw, 13px); line-height:1.7; margin:0 0 10px; }
+.ppm-info-c ul, .ppm-info-c ol { color:var(--p-muted); font-size:clamp(11px, 1.8vw, 13px); line-height:1.7; margin:0 0 10px; padding-left:18px; }
+.ppm-info-c li { margin-bottom:5px; }
+.ppm-info-c strong { color:var(--p-text); }
+.ppm-steps { display:grid; grid-template-columns:1fr; gap:12px; margin-top:14px; }
+@media (min-width:640px){ .ppm-steps { grid-template-columns:1fr 1fr; } }
+@media (min-width:1024px){ .ppm-steps { grid-template-columns:repeat(4,1fr); } }
+.ppm-step { background:var(--p-input); border:1px solid var(--p-border); border-radius:10px; padding:clamp(10px, 2vw, 14px); text-align:center; }
+.ppm-step-n { width:clamp(28px, 4vw, 32px); height:clamp(28px, 4vw, 32px); border-radius:50%; background:linear-gradient(135deg,#3b82f6,#6366f1); color:#fff; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center; margin:0 auto 8px; }
+.ppm-step h4 { font-size:clamp(11px, 1.8vw, 13px); font-weight:700; color:var(--p-text); margin:0 0 5px; }
+.ppm-step p { font-size:clamp(10px, 1.6vw, 11px); color:var(--p-muted); margin:0; line-height:1.5; }
+.ppm-faq { background:var(--p-input); border:1px solid var(--p-border); border-radius:9px; margin-bottom:8px; overflow:hidden; }
+.ppm-fq { padding:12px 14px; font-weight:700; color:var(--p-text); cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-size:clamp(11px, 1.8vw, 13px); transition:background 0.2s; min-height:44px; user-select:none; }
+.ppm-fq:hover { background:var(--p-primary-bg); }
+.ppm-fa { padding:0 14px; max-height:0; overflow:hidden; color:var(--p-muted); font-size:clamp(10px, 1.6vw, 12px); line-height:1.6; transition:all 0.3s; }
+.ppm-faq.open .ppm-fa { padding:0 14px 12px; max-height:400px; }
+.ppm-faq.open .ppm-ft { transform:rotate(180deg); }
+.ppm-ft { transition:transform 0.3s; color:var(--p-primary); font-size:10px; }
+.ppm-rel { display:grid; grid-template-columns:1fr; gap:8px; margin-top:12px; }
+@media (min-width:640px){ .ppm-rel { grid-template-columns:1fr 1fr; } }
+.ppm-rel a { display:flex; align-items:center; padding:10px 14px; background:var(--p-primary-bg); border:1px solid var(--p-primary-border); border-radius:8px; color:var(--p-primary); text-decoration:none; font-weight:600; font-size:clamp(11px, 1.8vw, 12px); transition:all 0.2s; min-height:44px; }
+.ppm-rel a:hover { background:var(--p-primary-bg); transform:translateX(3px); border-color:var(--p-primary); }
+.ppm-toast { position:fixed; bottom:16px; right:16px; background:var(--p-toast-bg); border:1px solid var(--p-toast-border); border-left:3px solid var(--p-success); padding:10px 14px; border-radius:8px; font-size:clamp(11px, 1.8vw, 12px); color:var(--p-toast-text); box-shadow:0 6px 20px var(--p-shadow); z-index:9999; transform:translateX(400px); transition:transform 0.3s; max-width:min(280px, calc(100vw - 32px)); }
+.ppm-toast.show { transform:translateX(0); }
+.ppm-toast.err { border-left-color:#dc2626; }
+.ppm-foot { text-align:center; color:var(--p-muted); font-size:clamp(10px, 1.6vw, 11px); margin-top:20px; padding-top:14px; border-top:1px solid var(--p-border); }
+
+/* Responsive Breakpoints */
+@media (max-width:360px){
+    .ppm-root{padding:8px;}
+    .ppm-card,.ppm-info-c{padding:10px;border-radius:10px;}
+    .ppm-head h2{font-size:16px;}
+    .ppm-badge{font-size:8px;padding:4px 8px;min-height:26px;}
+    .ppm-col{width:24px;height:24px;min-width:24px;min-height:24px;}
+    .ppm-tbtn{padding:6px 8px;font-size:9px;min-height:38px;}
+    .ppm-abtn{padding:8px 10px;font-size:10px;min-height:40px;}
+    .ppm-drop{min-height:100px;padding:12px;}
+    .ppm-sel,.ppm-inp{font-size:11px;min-height:36px;}
+    .ppm-fq{padding:10px;font-size:10px;min-height:40px;}
+}
+@media (max-width:480px){
+    .ppm-root{padding:10px;}
+    .ppm-card{padding:12px;}
+    .ppm-exp{grid-template-columns:1fr;}
+    .ppm-acts{grid-template-columns:1fr;}
+    .ppm-toast{bottom:12px;right:12px;left:12px;text-align:center;transform:translateY(100px);}
+    .ppm-toast.show{transform:translateY(0);}
+}
+@media (max-width:640px){
+    .ppm-grid{grid-template-columns:1fr;gap:10px;}
+    .ppm-cvs-wrap{min-height:250px;}
+    .ppm-rel{grid-template-columns:1fr;}
+}
+@media (max-width:768px){
+    .ppm-grid{grid-template-columns:1fr;}
+}
+@media (max-width:1024px){
+    .ppm-root{max-width:100%;}
+}
+@media (max-width:1280px){
+    .ppm-root{max-width:100%;padding:clamp(12px, 2.5vw, 16px);}
+}
+@media (max-width:1440px){
+    .ppm-root{max-width:100%;}
+}
+/*]]>*/
+</style>
+
+<div class="ppm-head">
+    <h2>AI Passport &amp; Visa Photo Maker Pro</h2>
+    <p>Transform any photo into passport, visa, or ID size instantly. 28+ country presets, print-ready sheets, smart background tools — 100% free, no watermark, no signup.</p>
+    <div class="ppm-badges">
+        <span class="ppm-badge g">✓ 100% Free</span>
+        <span class="ppm-badge">🔒 No Signup</span>
+        <span class="ppm-badge o">⚡ AI Powered</span>
+        <span class="ppm-badge">🚫 No Watermark</span>
+        <span class="ppm-badge">🔐 Private</span>
+        <span class="ppm-badge">🌍 28+ Countries</span>
+    </div>
+</div>
+
+<div class="ppm-grid">
+    <!-- LEFT -->
+    <div>
+        <div class="ppm-card">
+            <h3 class="ppm-sec-t"><span class="ppm-sec-n">1</span> Upload Photo</h3>
+            <div class="ppm-drop" id="ppmDrop" role="button" aria-label="Upload photo">
+                <input type="file" id="ppmFile" accept="image/jpeg,image/png,image/webp" hidden>
+                <div class="ppm-drop-icon">📷</div>
+                <p class="ppm-drop-t">Drag &amp; Drop or Click to Upload</p>
+                <p class="ppm-drop-s">PNG, JPG, WEBP (Max 10MB)</p>
+            </div>
+        </div>
+
+        <div class="ppm-card">
+            <h3 class="ppm-sec-t"><span class="ppm-sec-n">2</span> Country / Document (28)</h3>
+            <label class="ppm-lab" for="ppmPreset">Select Category</label>
+            <select class="ppm-sel" id="ppmPreset">
+                <option value="in_pass">🇮🇳 India Passport (35×45)</option>
+                <option value="in_pan">🇮🇳 India PAN Card (25×35)</option>
+                <option value="in_aad">🇮🇳 India Aadhaar (35×45)</option>
+                <option value="in_vot">🇮🇳 India Voter ID (25×35)</option>
+                <option value="in_dl">🇮🇳 India Driving License (35×45)</option>
+                <option value="us_pass">🇺🇸 USA Passport/Visa (51×51)</option>
+                <option value="us_gc">🇺🇸 USA Green Card (51×51)</option>
+                <option value="uk_pass">🇬🇧 UK Passport (35×45)</option>
+                <option value="uk_visa">🇬🇧 UK Visa (35×45)</option>
+                <option value="ca_pass">🇨🇦 Canada Passport (50×70)</option>
+                <option value="ca_visa">🇨🇦 Canada Visa (50×70)</option>
+                <option value="au_pass">🇦🇺 Australia Passport (35×45)</option>
+                <option value="au_visa">🇦🇺 Australia Visa (35×45)</option>
+                <option value="sch">🇪🇺 Schengen Visa (35×45)</option>
+                <option value="de_pass">🇩🇪 Germany Passport (35×45)</option>
+                <option value="fr_pass">🇫🇷 France Passport (35×45)</option>
+                <option value="cn_visa">🇨🇳 China Visa (33×48)</option>
+                <option value="jp_visa">🇯🇵 Japan Visa (45×45)</option>
+                <option value="jp_pass">🇯🇵 Japan Passport (35×45)</option>
+                <option value="uae">🇦🇪 UAE Visa (43×55)</option>
+                <option value="sa">🇸🇦 Saudi Visa (40×60)</option>
+                <option value="sg">🇸🇬 Singapore Passport (35×45)</option>
+                <option value="nz">🇳🇿 New Zealand (35×45)</option>
+                <option value="ru">🇷🇺 Russia Visa (35×45)</option>
+                <option value="br">🇧🇷 Brazil Visa (50×70)</option>
+                <option value="cus">⚙️ Custom Size</option>
+            </select>
+            <div id="ppmCusBox" style="display:none; grid-template-columns:1fr 1fr; gap:6px; margin-top:8px;">
+                <div><label class="ppm-lab" for="ppmCusW">Width (mm)</label><input type="number" class="ppm-inp" id="ppmCusW" value="35" min="10" max="200"></div>
+                <div><label class="ppm-lab" for="ppmCusH">Height (mm)</label><input type="number" class="ppm-inp" id="ppmCusH" value="45" min="10" max="200"></div>
+            </div>
+        </div>
+
+        <div class="ppm-card">
+            <h3 class="ppm-sec-t"><span class="ppm-sec-n">3</span> Background Color</h3>
+            <div class="ppm-cols">
+                <button class="ppm-col on" data-c="#ffffff" style="background:#fff" title="White" aria-label="White background"></button>
+                <button class="ppm-col" data-c="#dbeafe" style="background:#dbeafe" title="Light Blue" aria-label="Light blue background"></button>
+                <button class="ppm-col" data-c="#2563eb" style="background:#2563eb" title="Royal Blue" aria-label="Royal blue background"></button>
+                <button class="ppm-col" data-c="#dc2626" style="background:#dc2626" title="Red" aria-label="Red background"></button>
+                <button class="ppm-col" data-c="#cbd5e1" style="background:#cbd5e1" title="Grey" aria-label="Grey background"></button>
+                <button class="ppm-col" data-c="#f0fdf4" style="background:#f0fdf4" title="Light Green" aria-label="Light green background"></button>
+                <div class="ppm-col-custom">
+                    <input type="color" id="ppmCCol" value="#ffffff" aria-label="Custom background color">
+                    <div class="ppm-col-custom-l">🎨 Custom</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ppm-card">
+            <h3 class="ppm-sec-t"><span class="ppm-sec-n">4</span> Adjustments</h3>
+            <div class="ppm-sl-w"><div class="ppm-sl-h"><span>☀️ Brightness</span><span id="ppmVB">100%</span></div><input type="range" class="ppm-sl" id="ppmB" min="50" max="150" value="100" aria-label="Brightness"></div>
+            <div class="ppm-sl-w"><div class="ppm-sl-h"><span>🌓 Contrast</span><span id="ppmVC">100%</span></div><input type="range" class="ppm-sl" id="ppmC" min="50" max="150" value="100" aria-label="Contrast"></div>
+            <div class="ppm-sl-w" style="margin-bottom:0"><div class="ppm-sl-h"><span>🔍 Zoom</span><span id="ppmVZ">100%</span></div><input type="range" class="ppm-sl" id="ppmZ" min="50" max="250" value="100" aria-label="Zoom"></div>
+            <div class="ppm-tb">
+                <button class="ppm-tbtn" id="ppmRL" title="Rotate Left 1°" aria-label="Rotate left">↺ 1°</button>
+                <button class="ppm-tbtn" id="ppmRR" title="Rotate Right 1°" aria-label="Rotate right">↻ 1°</button>
+                <button class="ppm-tbtn" id="ppmRL90" title="Rotate Left 90°" aria-label="Rotate left 90 degrees">⟲ 90°</button>
+                <button class="ppm-tbtn" id="ppmRR90" title="Rotate Right 90°" aria-label="Rotate right 90 degrees">⟳ 90°</button>
+                <button class="ppm-tbtn" id="ppmFH" title="Flip Horizontal" aria-label="Flip horizontal">⇆ Flip H</button>
+                <button class="ppm-tbtn" id="ppmFV" title="Flip Vertical" aria-label="Flip vertical">⇅ Flip V</button>
+            </div>
+        </div>
+
+        <div class="ppm-card">
+            <h3 class="ppm-sec-t"><span class="ppm-sec-n">5</span> AI Tools</h3>
+            <div class="ppm-tb">
+                <button class="ppm-tbtn on" id="ppmTG">😊 Face Guide</button>
+                <button class="ppm-tbtn" id="ppmAC">🎯 Center</button>
+                <button class="ppm-tbtn" id="ppmAE">🤖 AI Enhance</button>
+                <button class="ppm-tbtn" id="ppmRS">🔄 Reset All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="ppm-card">
+        <div class="ppm-info">
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <span class="ppm-tag">📐 <span id="ppmDim">35×45 mm</span></span>
+                <span class="ppm-tag g">✓ 300 DPI</span>
+            </div>
+            <span class="ppm-rot">Rotate: <span id="ppmRot">0°</span></span>
+        </div>
+
+        <div class="ppm-cvs-wrap">
+            <div class="ppm-guide" id="ppmGuide">
+                <svg width="200" height="260" viewBox="0 0 200 260" fill="none" style="max-width:88%; max-height:88%;" aria-hidden="true">
+                    <ellipse cx="100" cy="105" rx="50" ry="65" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"/>
+                    <line x1="40" y1="95" x2="160" y2="95" stroke="#3b82f6" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+                    <line x1="100" y1="15" x2="100" y2="245" stroke="#3b82f6" stroke-width="1" stroke-dasharray="3 3" opacity="0.4"/>
+                    <line x1="70" y1="175" x2="130" y2="175" stroke="#3b82f6" stroke-width="1" opacity="0.6"/>
+                </svg>
+            </div>
+            <canvas id="ppmCvs" class="ppm-cvs" width="413" height="531"></canvas>
+            <div class="ppm-ph" id="ppmPh"><span class="ppm-ph-i">📸</span><p>Upload photo to preview</p></div>
+        </div>
+
+        <div class="ppm-exp">
+            <div><label class="ppm-lab" for="ppmFmt">Format</label><select class="ppm-mini" id="ppmFmt"><option value="png">PNG</option><option value="jpeg">JPG</option><option value="webp">WebP</option></select></div>
+            <div><label class="ppm-lab">Quality: <span id="ppmQV">95%</span></label><input type="range" class="ppm-sl" id="ppmQ" min="50" max="100" value="95" aria-label="Output quality"></div>
+        </div>
+
+        <div class="ppm-acts">
+            <button class="ppm-abtn ppm-pri" id="ppmDS">⬇️ Download Photo</button>
+            <button class="ppm-abtn ppm-sec" id="ppmD4">🖨️ 4×6 Sheet (8 photos)</button>
+            <button class="ppm-abtn ppm-sec" id="ppmD5">🖨️ 5×7 Sheet (10 photos)</button>
+            <button class="ppm-abtn ppm-sec" id="ppmDA">📄 A4 Sheet (Auto count)</button>
+        </div>
+    </div>
+</div>
+
+<!-- How to Use Section -->
+<div class="ppm-info-sec">
+    <div class="ppm-info-c">
+        <h2>📖 How to Use AI Passport &amp; Visa Photo Maker Pro</h2>
+        <p>Creating a passport-ready photo takes less than 30 seconds. The tool runs entirely in your browser — no file ever leaves your device, ensuring complete privacy.</p>
+        <div class="ppm-steps">
+            <div class="ppm-step"><div class="ppm-step-n">1</div><h4>Upload Photo</h4><p>Drag and drop your selfie or portrait (PNG, JPG, or WEBP).</p></div>
+            <div class="ppm-step"><div class="ppm-step-n">2</div><h4>Choose Preset</h4><p>Select your country or document type from 28+ presets — size auto-adjusts.</p></div>
+            <div class="ppm-step"><div class="ppm-step-n">3</div><h4>Adjust Face</h4><p>Use zoom, rotate, or AI center to align your face perfectly within the guide.</p></div>
+            <div class="ppm-step"><div class="ppm-step-n">4</div><h4>Download</h4><p>Save as single photo or print-ready 4×6/5×7/A4 sheet with multiple copies.</p></div>
+        </div>
+    </div>
+
+    <div class="ppm-info-c">
+        <h2>✨ Advanced Features</h2>
+        <ul>
+            <li><strong>28+ Country Presets:</strong> India, USA, UK, Canada, Australia, China, Japan, UAE, Saudi, Schengen, PAN, Aadhaar, Voter ID, Driving License + Custom dimensions</li>
+            <li><strong>Smart Background Tools:</strong> 6 preset colors + custom color picker with preview</li>
+            <li><strong>AI Auto-Enhance:</strong> One-click brightness and contrast optimization</li>
+            <li><strong>Face Guide Overlay:</strong> Transparent alignment guide for correct head positioning</li>
+            <li><strong>Fine Rotation:</strong> 1° and 90° rotation steps plus horizontal/vertical flip</li>
+            <li><strong>Multiple Formats:</strong> PNG, JPG, WebP with adjustable quality (50-100%)</li>
+            <li><strong>Print Sheets:</strong> 4×6" (8 photos), 5×7" (10 photos), A4 (auto-count)</li>
+            <li><strong>Touch Support:</strong> Drag, pinch-zoom, and double-tap reset on mobile</li>
+            <li><strong>Copyright-Free:</strong> No watermark — photos are 100% yours</li>
+        </ul>
+    </div>
+
+    <div class="ppm-info-c">
+        <h2>🎯 Use Cases</h2>
+        <ul>
+            <li><strong>Government Forms:</strong> SSC, UPSC, Railway, Banking applications</li>
+            <li><strong>International Travel:</strong> Passport and visa photos for 28+ countries</li>
+            <li><strong>National ID Cards:</strong> Aadhaar, PAN, Voter ID, Driving License</li>
+            <li><strong>Job Applications:</strong> Professional resume and CV photos</li>
+            <li><strong>Academic:</strong> School and college admission forms</li>
+            <li><strong>Professional Profiles:</strong> LinkedIn and corporate directories</li>
+        </ul>
+    </div>
+
+    <div class="ppm-info-c">
+        <h2>❓ FAQ</h2>
+        <div class="ppm-faq"><div class="ppm-fq">Is this tool really free? <span class="ppm-ft">▼</span></div><div class="ppm-fa"><p>Yes, 100% free. No signup, no watermark, no hidden charges.</p></div></div>
+        <div class="ppm-faq"><div class="ppm-fq">Is my photo safe and private? <span class="ppm-ft">▼</span></div><div class="ppm-fa"><p>Absolutely. All processing happens in your browser — your photo never uploads to any server.</p></div></div>
+        <div class="ppm-faq"><div class="ppm-fq">Will the output meet official passport requirements? <span class="ppm-ft">▼</span></div><div class="ppm-fa"><p>The tool generates 300 DPI photos with correct dimensions for each preset. Always verify your country's specific requirements (background color, head size, etc.) before submitting.</p></div></div>
+        <div class="ppm-faq"><div class="ppm-fq">Does it work on mobile devices? <span class="ppm-ft">▼</span></div><div class="ppm-fa"><p>Yes! Fully responsive with touch support for pinch-zoom, drag, and double-tap reset on Android, iOS, and tablets.</p></div></div>
+        <div class="ppm-faq"><div class="ppm-fq">What file formats are supported? <span class="ppm-ft">▼</span></div><div class="ppm-fa"><p>Input: JPG, PNG, WebP (max 10MB). Output: PNG (lossless), JPG, or WebP with adjustable quality.</p></div></div>
+    </div>
+
+    <div class="ppm-info-c">
+        <h2>🔗 Related Tools</h2>
+        <div class="ppm-rel">
+            <a href="../tools/remix-karein-gaane-ko-dj-video-mein-ai.html">🎵 Remix Songs to DJ Video with AI</a>
+            <a href="../tools/edit-karein-image-compress-enhance-crop.html">🖼️ Image Editor Pro</a>
+            <a href="../tools/compress-karein-image-size-online-free.html">📦 Image Size Compressor</a>
+        </div>
+    </div>
+</div>
+
+<div class="ppm-foot">© 2026 Tools-X · AI Passport &amp; Visa Photo Maker Pro · 100% Free &amp; Private</div>
+<div class="ppm-toast" id="ppmToast"></div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "AI Passport & Visa Photo Maker Pro",
+      "description": "Convert any photo to passport, visa, or ID size instantly with 28+ country presets, smart background tools, and print-ready sheets. Free online tool.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+      "author": { "@type": "Organization", "name": "Tools-X", "url": "https://www.toolsx.in" },
+      "publisher": { "@type": "Organization", "name": "Tools-X", "url": "https://www.toolsx.in" }
+    },
+    {
+      "@type": "HowTo",
+      "name": "How to Use AI Passport & Visa Photo Maker Pro",
+      "description": "Create passport-ready photos in 4 simple steps.",
+      "step": [
+        { "@type": "HowToStep", "name": "Upload Photo", "text": "Drag and drop your selfie or portrait (PNG, JPG, or WEBP)." },
+        { "@type": "HowToStep", "name": "Choose Preset", "text": "Select your country or document type from 28+ presets." },
+        { "@type": "HowToStep", "name": "Adjust Face", "text": "Use zoom, rotate, or AI center to align your face within the guide." },
+        { "@type": "HowToStep", "name": "Download", "text": "Save as single photo or print-ready sheet." }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is this tool really free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, 100% free. No signup, no watermark, no hidden charges." } },
+        { "@type": "Question", "name": "Is my photo safe and private?", "acceptedAnswer": { "@type": "Answer", "text": "All processing happens in your browser — your photo never uploads to any server." } },
+        { "@type": "Question", "name": "Will the output meet official passport requirements?", "acceptedAnswer": { "@type": "Answer", "text": "The tool generates 300 DPI photos with correct dimensions. Always verify your country's specific requirements before submitting." } },
+        { "@type": "Question", "name": "Does it work on mobile devices?", "acceptedAnswer": { "@type": "Answer", "text": "Yes! Fully responsive with touch support on Android, iOS, and tablets." } },
+        { "@type": "Question", "name": "What file formats are supported?", "acceptedAnswer": { "@type": "Answer", "text": "Input: JPG, PNG, WebP (max 10MB). Output: PNG, JPG, or WebP." } }
+      ]
+    }
+  ]
+}
+</script>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+var P={
+ in_pass:{px:413,py:531,n:'35×45 mm'}, in_pan:{px:295,py:413,n:'25×35 mm'}, in_aad:{px:413,py:531,n:'35×45 mm'},
+ in_vot:{px:295,py:413,n:'25×35 mm'}, in_dl:{px:413,py:531,n:'35×45 mm'}, us_pass:{px:602,py:602,n:'51×51 mm'},
+ us_gc:{px:602,py:602,n:'51×51 mm'}, uk_pass:{px:413,py:531,n:'35×45 mm'}, uk_visa:{px:413,py:531,n:'35×45 mm'},
+ ca_pass:{px:591,py:827,n:'50×70 mm'}, ca_visa:{px:591,py:827,n:'50×70 mm'}, au_pass:{px:413,py:531,n:'35×45 mm'},
+ au_visa:{px:413,py:531,n:'35×45 mm'}, sch:{px:413,py:531,n:'35×45 mm'}, de_pass:{px:413,py:531,n:'35×45 mm'},
+ fr_pass:{px:413,py:531,n:'35×45 mm'}, cn_visa:{px:390,py:567,n:'33×48 mm'}, jp_visa:{px:531,py:531,n:'45×45 mm'},
+ jp_pass:{px:413,py:531,n:'35×45 mm'}, uae:{px:508,py:650,n:'43×55 mm'}, sa:{px:472,py:709,n:'40×60 mm'},
+ sg:{px:413,py:531,n:'35×45 mm'}, nz:{px:413,py:531,n:'35×45 mm'}, ru:{px:413,py:531,n:'35×45 mm'}, br:{px:591,py:827,n:'50×70 mm'}
+};
+var S={img:null,url:null,preset:P.in_pass,bg:'#ffffff',b:100,c:100,z:100,r:0,fh:false,fv:false,ox:0,oy:0,drag:false,ds:{x:0,y:0},guide:true,raf:null,pinchDist:0,pinchStart:{x:0,y:0,dist:0}};
+function $(id){return document.getElementById(id);}
+var cvs=$('ppmCvs'), ctx=cvs.getContext('2d');
+
+var MAGIC={'image/jpeg':[[255,216,255]],'image/png':[[137,80,78,71]],'image/webp':[[82,73,70,70]]};
+function checkMagic(f,cb){var r=new FileReader();r.onload=function(e){var a=new Uint8Array(e.target.result),m=MAGIC[f.type];if(!m)return cb(true);for(var i=0;i<m.length;i++){var ok=true;for(var j=0;j<m[i].length;j++){if(a[j]!==m[i][j]){ok=false;break;}}if(ok)return cb(true);}cb(false);};r.readAsArrayBuffer(f.slice(0,16));}
+
+function toast(m,e){var t=$('ppmToast');t.textContent=m;t.className='ppm-toast show'+(e?' err':'');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2500);}
+
+var drop=$('ppmDrop'), fi=$('ppmFile');
+drop.addEventListener('click',function(){fi.click();});
+drop.addEventListener('dragover',function(e){e.preventDefault();drop.classList.add('over');});
+drop.addEventListener('dragleave',function(){drop.classList.remove('over');});
+drop.addEventListener('drop',function(e){e.preventDefault();drop.classList.remove('over');if(e.dataTransfer.files.length)loadFile(e.dataTransfer.files[0]);});
+fi.addEventListener('change',function(e){if(e.target.files.length)loadFile(e.target.files[0]);});
+
+function loadFile(f){
+ if(!f.type.startsWith('image/')){toast('❌ Please upload image files only (JPG, PNG, WEBP)',true);return;}
+ if(f.size>10485760){toast('❌ File too large — max 10MB',true);return;}
+ checkMagic(f,function(ok){
+  if(!ok){toast('❌ Invalid or corrupted image file',true);return;}
+  if(S.url)URL.revokeObjectURL(S.url);
+  S.url=URL.createObjectURL(f);
+  var img=new Image();
+  img.onload=function(){S.img=img;$('ppmPh').style.display='none';cvs.style.display='block';resetT();render();toast('✅ Photo loaded successfully!');};
+  img.onerror=function(){toast('❌ Failed to load image',true);};
+  img.src=S.url;
+ });
+}
+function resetT(){S.ox=0;S.oy=0;S.z=100;S.r=0;S.fh=false;S.fv=false;$('ppmZ').value=100;$('ppmVZ').textContent='100%';$('ppmRot').textContent='0°';}
+
+function render(){
+ if(S.raf)cancelAnimationFrame(S.raf);
+ S.raf=requestAnimationFrame(function(){
+  cvs.width=S.preset.px;cvs.height=S.preset.py;
+  ctx.fillStyle=S.bg;ctx.fillRect(0,0,cvs.width,cvs.height);
+  if(!S.img)return;
+  ctx.save();
+  try{ctx.filter='brightness('+S.b+'%) contrast('+S.c+'%)';}catch(e){}
+  ctx.translate(cvs.width/2+S.ox,cvs.height/2+S.oy);
+  ctx.rotate((S.r*Math.PI)/180);
+  ctx.scale(S.fh?-1:1,S.fv?-1:1);
+  var sc=(S.z/100)*Math.max(cvs.width/S.img.width,cvs.height/S.img.height);
+  var w=S.img.width*sc,h=S.img.height*sc;
+  ctx.drawImage(S.img,-w/2,-h/2,w,h);
+  ctx.restore();
+ });
+}
+
+$('ppmPreset').addEventListener('change',function(e){
+ var v=e.target.value;
+ if(v==='cus'){$('ppmCusBox').style.display='grid';upCus();}
+ else{$('ppmCusBox').style.display='none';S.preset=P[v]||P.in_pass;}
+ $('ppmDim').textContent=S.preset.n;render();
+});
+$('ppmCusW').addEventListener('input',upCus);
+$('ppmCusH').addEventListener('input',upCus);
+function upCus(){
+ var w=parseInt($('ppmCusW').value)||35,h=parseInt($('ppmCusH').value)||45;
+ S.preset={px:Math.round((w/25.4)*300),py:Math.round((h/25.4)*300),n:w+'×'+h+' mm'};
+ $('ppmDim').textContent=S.preset.n;render();
+}
+
+var cols=document.querySelectorAll('.ppm-col');
+for(var i=0;i<cols.length;i++){(function(b){b.addEventListener('click',function(){for(var j=0;j<cols.length;j++)cols[j].classList.remove('on');b.classList.add('on');S.bg=b.getAttribute('data-c');render();});})(cols[i]);}
+$('ppmCCol').addEventListener('input',function(e){for(var j=0;j<cols.length;j++)cols[j].classList.remove('on');S.bg=e.target.value;render();});
+
+$('ppmB').addEventListener('input',function(e){S.b=e.target.value;$('ppmVB').textContent=S.b+'%';render();});
+$('ppmC').addEventListener('input',function(e){S.c=e.target.value;$('ppmVC').textContent=S.c+'%';render();});
+$('ppmZ').addEventListener('input',function(e){S.z=e.target.value;$('ppmVZ').textContent=S.z+'%';render();});
+$('ppmQ').addEventListener('input',function(e){$('ppmQV').textContent=e.target.value+'%';});
+
+$('ppmRL').addEventListener('click',function(){S.r=(S.r-1+360)%360;$('ppmRot').textContent=S.r+'°';render();});
+$('ppmRR').addEventListener('click',function(){S.r=(S.r+1)%360;$('ppmRot').textContent=S.r+'°';render();});
+$('ppmRL90').addEventListener('click',function(){S.r=(S.r-90+360)%360;$('ppmRot').textContent=S.r+'°';render();});
+$('ppmRR90').addEventListener('click',function(){S.r=(S.r+90)%360;$('ppmRot').textContent=S.r+'°';render();});
+$('ppmFH').addEventListener('click',function(){S.fh=!S.fh;$('ppmFH').classList.toggle('on');render();});
+$('ppmFV').addEventListener('click',function(){S.fv=!S.fv;$('ppmFV').classList.toggle('on');render();});
+$('ppmAE').addEventListener('click',function(){if(!S.img)return toast('❌ Please upload a photo first',true);S.b=108;S.c=112;$('ppmB').value=108;$('ppmC').value=112;$('ppmVB').textContent='108%';$('ppmVC').textContent='112%';render();toast('🤖 AI enhance applied!');});
+
+$('ppmTG').addEventListener('click',function(){S.guide=!S.guide;$('ppmGuide').style.display=S.guide?'flex':'none';$('ppmTG').classList.toggle('on');});
+$('ppmAC').addEventListener('click',function(){S.ox=0;S.oy=0;render();toast('🎯 Centered!');});
+$('ppmRS').addEventListener('click',function(){S.b=100;S.c=100;S.bg='#ffffff';for(var j=0;j<cols.length;j++)cols[j].classList.remove('on');cols[0].classList.add('on');resetT();$('ppmB').value=100;$('ppmC').value=100;$('ppmVB').textContent='100%';$('ppmVC').textContent='100%';render();toast('🔄 Reset complete!');});
+
+// Drag with mouse
+cvs.addEventListener('mousedown',function(e){if(!S.img)return;S.drag=true;S.ds={x:e.clientX-S.ox,y:e.clientY-S.oy};cvs.classList.add('drag');});
+window.addEventListener('mousemove',function(e){if(!S.drag)return;S.ox=e.clientX-S.ds.x;S.oy=e.clientY-S.ds.y;render();});
+window.addEventListener('mouseup',function(){S.drag=false;cvs.classList.remove('drag');});
+
+// Touch: drag + pinch zoom + double-tap reset
+var lastTap=0;
+cvs.addEventListener('touchstart',function(e){
+ if(!S.img)return;
+ if(e.touches.length===1){
+  var now=Date.now();
+  if(now-lastTap<300){resetT();render();toast('🔄 Reset position');}
+  lastTap=now;
+  S.drag=true;S.ds={x:e.touches[0].clientX-S.ox,y:e.touches[0].clientY-S.oy};
+ } else if(e.touches.length===2){
+  S.pinchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+  S.pinchStart={x:(e.touches[0].clientX+e.touches[1].clientX)/2,y:(e.touches[0].clientY+e.touches[1].clientY)/2,z:S.z};
+ }
+},{passive:true});
+cvs.addEventListener('touchmove',function(e){
+ if(!S.img)return;
+ if(e.touches.length===1&&S.drag){e.preventDefault();S.ox=e.touches[0].clientX-S.ds.x;S.oy=e.touches[0].clientY-S.ds.y;render();}
+ else if(e.touches.length===2){
+  e.preventDefault();
+  var d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+  var newZ=Math.min(250,Math.max(50,S.pinchStart.z*(d/S.pinchDist)));
+  S.z=newZ;$('ppmZ').value=newZ;$('ppmVZ').textContent=Math.round(newZ)+'%';
+  render();
+ }
+},{passive:false});
+cvs.addEventListener('touchend',function(){S.drag=false;S.pinchDist=0;});
+
+function fmt(){var f=$('ppmFmt').value,q=parseInt($('ppmQ').value)/100;if(f==='png')return{m:'image/png',e:'png',q:1};if(f==='webp')return{m:'image/webp',e:'webp',q:q};return{m:'image/jpeg',e:'jpg',q:q};}
+function dl(c,n){var f=fmt(),a=document.createElement('a');try{a.download=n+'.'+f.e;a.href=c.toDataURL(f.m,f.q);a.click();}catch(e){a.href=c.toDataURL('image/png');a.download=n+'.png';a.click();}}
+
+$('ppmDS').addEventListener('click',function(){if(!S.img)return toast('❌ Please upload a photo first',true);dl(cvs,'ToolsX_Passport_'+Date.now());toast('✅ Downloaded!');});
+$('ppmD4').addEventListener('click',function(){
+ if(!S.img)return toast('❌ Please upload a photo first',true);
+ var s=document.createElement('canvas'),sc=s.getContext('2d');s.width=1200;s.height=1800;
+ sc.fillStyle='#fff';sc.fillRect(0,0,s.width,s.height);
+ var pw=S.preset.px,ph=S.preset.py,gx=40,gy=60,tw=4*pw+3*gx,th=2*ph+gy,sx=(s.width-tw)/2,sy=(s.height-th)/2;
+ for(var r=0;r<2;r++)for(var c=0;c<4;c++){var x=sx+c*(pw+gx),y=sy+r*(ph+gy);sc.drawImage(cvs,x,y,pw,ph);sc.strokeStyle='#cbd5e1';sc.lineWidth=1;sc.setLineDash([4,4]);sc.strokeRect(x,y,pw,ph);sc.setLineDash([]);}
+ dl(s,'ToolsX_4x6_'+Date.now());toast('✅ 4×6 sheet downloaded!');
+});
+$('ppmD5').addEventListener('click',function(){
+ if(!S.img)return toast('❌ Please upload a photo first',true);
+ var s=document.createElement('canvas'),sc=s.getContext('2d');s.width=1500;s.height=2100;
+ sc.fillStyle='#fff';sc.fillRect(0,0,s.width,s.height);
+ var pw=S.preset.px,ph=S.preset.py,gx=35,gy=50,tw=4*pw+3*gx,th=3*ph+2*gy,sx=(s.width-tw)/2,sy=(s.height-th)/2;
+ for(var r=0;r<3;r++)for(var c=0;c<4;c++){var x=sx+c*(pw+gx),y=sy+r*(ph+gy);sc.drawImage(cvs,x,y,pw,ph);sc.strokeStyle='#cbd5e1';sc.lineWidth=1;sc.setLineDash([4,4]);sc.strokeRect(x,y,pw,ph);sc.setLineDash([]);}
+ dl(s,'ToolsX_5x7_'+Date.now());toast('✅ 5×7 sheet downloaded!');
+});
+$('ppmDA').addEventListener('click',function(){
+ if(!S.img)return toast('❌ Please upload a photo first',true);
+ var s=document.createElement('canvas'),sc=s.getContext('2d');s.width=2480;s.height=3508;
+ sc.fillStyle='#fff';sc.fillRect(0,0,s.width,s.height);
+ var pw=S.preset.px,ph=S.preset.py,gx=30,gy=40;
+ var colsN=Math.max(1,Math.floor((s.width-60)/(pw+gx))),rowsN=Math.max(1,Math.floor((s.height-80)/(ph+gy)));
+ var tw=colsN*pw+(colsN-1)*gx,th=rowsN*ph+(rowsN-1)*gy,sx=(s.width-tw)/2,sy=(s.height-th)/2;
+ for(var r=0;r<rowsN;r++)for(var c=0;c<colsN;c++){var x=sx+c*(pw+gx),y=sy+r*(ph+gy);sc.drawImage(cvs,x,y,pw,ph);sc.strokeStyle='#cbd5e1';sc.lineWidth=1;sc.setLineDash([4,4]);sc.strokeRect(x,y,pw,ph);sc.setLineDash([]);}
+ dl(s,'ToolsX_A4_'+Date.now());toast('✅ A4 sheet downloaded ('+(rowsN*colsN)+' photos)!');
+});
+
+var fqs=document.querySelectorAll('.ppm-fq');
+for(var k=0;k<fqs.length;k++){(function(q){q.addEventListener('click',function(){q.parentElement.classList.toggle('open');});})(fqs[k]);}
+
+render();
+})();
+//]]>
+</script>
+</div>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

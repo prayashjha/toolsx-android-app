@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Tools-X Meta Lab: Free SEO &amp; Meta Tag Generator – ToolsX App</title>
+<meta name="description" content="Plan and structure your music track before you record — arrange sections, tempo and ideas free online.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Tools-X Meta Lab: Free SEO &amp; Meta Tag Generator</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-meta-lab" class="tsxv5-wrapper" itemscope itemtype="https://schema.org/WebApplication" aria-label="Tools-X SEO Meta Generator">
+<style>
+  /* ═══════════════════════════════════════════════════════════
+     TOOLS-X META LAB v5.0 — PREMIUM DESIGN SYSTEM (FIXED SPACING)
+     ═══════════════════════════════════════════════════════════ */
+  #tsxv5-meta-lab {
+    --am-bg: #f8fafc;
+    --am-bg-2: #ffffff;
+    --am-card: rgba(255, 255, 255, 0.9);
+    --am-card-solid: #ffffff;
+    --am-border: rgba(124, 58, 237, 0.12);
+    --am-border-strong: rgba(124, 58, 237, 0.25);
+    --am-txt: #0f172a;
+    --am-txt-2: #475569;
+    --am-txt-3: #64748b;
+    --am-pri: #7c3aed;
+    --am-pri-2: #6d28d9;
+    --am-acc: #ec4899;
+    --am-acc-2: #f472b6;
+    --am-gold: #fbbf24;
+    --am-ok: #10b981;
+    --am-warn: #f59e0b;
+    --am-err: #f85149;
+    --am-r: 16px;
+    --am-r-sm: 10px;
+    --am-glow: 0 0 40px rgba(124, 58, 237, 0.15);
+    --am-shadow: 0 20px 60px -20px rgba(124, 58, 237, 0.15);
+    --am-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --am-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    
+    font-family: var(--am-font);
+    color: var(--am-txt);
+    padding: 0;
+    max-width: 1200px;
+    margin: 40px auto;
+    line-height: 1.65;
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    background: var(--am-bg);
+    box-shadow: var(--am-shadow);
+    isolation: isolate;
+    border: 1px solid var(--am-border);
+  }
+
+  /* ── Dark Theme (Blogger Overrides) ── */
+  body.dark-mode #tsxv5-meta-lab,
+  html.dark-mode #tsxv5-meta-lab,
+  [data-theme="dark"] #tsxv5-meta-lab,
+  body[data-theme="dark"] #tsxv5-meta-lab,
+  html[data-theme="dark"] #tsxv5-meta-lab,
+  .dark-mode #tsxv5-meta-lab,
+  .night-mode #tsxv5-meta-lab {
+    --am-bg: #0f1115;
+    --am-bg-2: #121212;
+    --am-card: rgba(21, 27, 39, 0.7);
+    --am-card-solid: #151b27;
+    --am-border: rgba(124, 58, 237, 0.15);
+    --am-border-strong: rgba(124, 58, 237, 0.35);
+    --am-txt: #8ab4f8;
+    --am-txt-2: #9aa7c7;
+    --am-txt-3: #6e7681;
+    --am-pri-2: #a78bfa;
+    --am-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.5);
+  }
+
+  #tsxv5-meta-lab *,
+  #tsxv5-meta-lab *::before,
+  #tsxv5-meta-lab *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  #tsxv5-meta-lab > * { position: relative; z-index: 1; }
+
+  /* ── Hero Section ── */
+  .aml-hero {
+    padding: 64px 28px 48px;
+    text-align: center;
+    border-bottom: 1px solid var(--am-border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .aml-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid var(--am-border-strong);
+    color: var(--am-pri);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-hero-badge,
+  html.dark-mode #tsxv5-meta-lab .aml-hero-badge,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-hero-badge,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-hero-badge,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-hero-badge,
+  .dark-mode #tsxv5-meta-lab .aml-hero-badge,
+  .night-mode #tsxv5-meta-lab .aml-hero-badge {
+    background: rgba(124, 58, 237, 0.15);
+    color: var(--am-pri-2);
+  }
+
+  .aml-hero-badge::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--am-ok);
+    box-shadow: 0 0 10px var(--am-ok);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.2); }
+  }
+
+  .aml-hero h2 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    color: var(--am-txt);
+  }
+
+  .aml-hero h2 .gradient-text {
+    background: linear-gradient(135deg, #7c3aed 0%, #ec4899 50%, #f59e0b 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 4s linear infinite;
+    display: inline-block;
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-hero h2 .gradient-text,
+  html.dark-mode #tsxv5-meta-lab .aml-hero h2 .gradient-text,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-hero h2 .gradient-text,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-hero h2 .gradient-text,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-hero h2 .gradient-text,
+  .dark-mode #tsxv5-meta-lab .aml-hero h2 .gradient-text,
+  .night-mode #tsxv5-meta-lab .aml-hero h2 .gradient-text {
+    background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #fbbf24 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @keyframes shine {
+    to { background-position: 200% center; }
+  }
+
+  .aml-hero .tagline {
+    font-size: clamp(14px, 1.6vw, 16px);
+    color: var(--am-txt-2);
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .aml-hero .tagline strong {
+    color: var(--am-txt);
+    font-weight: 600;
+  }
+
+  .aml-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 32px;
+  }
+
+  .aml-chip {
+    background: var(--am-card);
+    border: 1px solid var(--am-border);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--am-txt-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+  }
+
+  .aml-chip:hover {
+    border-color: var(--am-pri);
+    color: var(--am-txt);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.1);
+  }
+
+  .aml-chip b {
+    color: var(--am-pri);
+    font-weight: 700;
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-chip b,
+  html.dark-mode #tsxv5-meta-lab .aml-chip b,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-chip b,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-chip b,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-chip b,
+  .dark-mode #tsxv5-meta-lab .aml-chip b,
+  .night-mode #tsxv5-meta-lab .aml-chip b {
+    color: var(--am-pri-2);
+  }
+
+  /* ── Sections (Increased Spacing) ── */
+  .aml-section {
+    padding: 56px 28px;
+    position: relative;
+  }
+
+  .aml-section + .aml-section {
+    border-top: 1px solid var(--am-border);
+  }
+
+  .aml-h2 {
+    font-size: clamp(20px, 2.5vw, 26px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: var(--am-txt);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    letter-spacing: -0.5px;
+  }
+
+  .aml-h2 .icon {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, var(--am-pri), var(--am-acc));
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25);
+    flex-shrink: 0;
+    color: #ffffff;
+  }
+
+  .aml-section > p {
+    color: var(--am-txt-2);
+    font-size: 15px;
+    margin-bottom: 28px;
+    line-height: 1.75;
+    max-width: 860px;
+  }
+
+  .aml-h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 32px 0 14px;
+    color: var(--am-txt);
+    letter-spacing: -0.3px;
+  }
+
+  .aml-para {
+    color: var(--am-txt-2);
+    font-size: 14.5px;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  .aml-para strong { color: var(--am-txt); font-weight: 600; }
+
+  .aml-para code {
+    background: rgba(124, 58, 237, 0.08);
+    color: var(--am-pri);
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-family: var(--am-mono);
+    font-size: 12.5px;
+    border: 1px solid rgba(124, 58, 237, 0.15);
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-para code,
+  html.dark-mode #tsxv5-meta-lab .aml-para code,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-para code,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-para code,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-para code,
+  .dark-mode #tsxv5-meta-lab .aml-para code,
+  .night-mode #tsxv5-meta-lab .aml-para code {
+    background: rgba(124, 58, 237, 0.15);
+    color: var(--am-pri-2);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+  }
+
+  /* ── Features Grid ── */
+  .aml-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 18px;
+    margin-top: 28px;
+  }
+
+  .aml-feat {
+    background: var(--am-card);
+    border: 1px solid var(--am-border);
+    border-radius: var(--am-r);
+    padding: 24px 18px;
+    text-align: center;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .aml-feat:hover {
+    border-color: var(--am-pri);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(124, 58, 237, 0.1);
+  }
+
+  .aml-feat .emoji {
+    font-size: 32px;
+    margin-bottom: 12px;
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(124, 58, 237, 0.2));
+  }
+
+  .aml-feat h4 {
+    font-size: 14.5px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--am-txt);
+  }
+
+  .aml-feat p {
+    font-size: 12.5px;
+    color: var(--am-txt-2);
+    line-height: 1.5;
+  }
+
+  /* ── Main Grid ── */
+  .aml-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 32px;
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .aml-grid { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  /* ── Glass Cards ── */
+  .aml-card {
+    background: var(--am-card);
+    border: 1px solid var(--am-border);
+    border-radius: var(--am-r);
+    padding: 28px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
+  }
+
+  body.dark-mode #tsxv5-meta-lab .aml-card,
+  html.dark-mode #tsxv5-meta-lab .aml-card,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-card,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-card,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-card,
+  .dark-mode #tsxv5-meta-lab .aml-card,
+  .night-mode #tsxv5-meta-lab .aml-card {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  }
+
+  .aml-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--am-border);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .aml-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--am-txt);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: -0.2px;
+  }
+
+  .aml-sch-badge {
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid var(--am-pri);
+    color: var(--am-pri);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-sch-badge,
+  html.dark-mode #tsxv5-meta-lab .aml-sch-badge,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-sch-badge,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-sch-badge,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-sch-badge,
+  .dark-mode #tsxv5-meta-lab .aml-sch-badge,
+  .night-mode #tsxv5-meta-lab .aml-sch-badge {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(236, 72, 153, 0.15));
+    color: var(--am-pri-2);
+  }
+
+  /* ── Score Board ── */
+  .aml-score-board {
+    background: rgba(124, 58, 237, 0.05);
+    border: 1px solid var(--am-border-strong);
+    border-radius: var(--am-r);
+    padding: 24px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-score-board,
+  html.dark-mode #tsxv5-meta-lab .aml-score-board,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-score-board,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-score-board,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-score-board,
+  .dark-mode #tsxv5-meta-lab .aml-score-board,
+  .night-mode #tsxv5-meta-lab .aml-score-board {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(236, 72, 153, 0.08));
+  }
+
+  .aml-score-circle {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: conic-gradient(var(--am-ok) var(--score-pct, 0%), rgba(0, 0, 0, 0.06) 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    transition: background 0.5s;
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-score-circle,
+  html.dark-mode #tsxv5-meta-lab .aml-score-circle,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-score-circle,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-score-circle,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-score-circle,
+  .dark-mode #tsxv5-meta-lab .aml-score-circle,
+  .night-mode #tsxv5-meta-lab .aml-score-circle {
+    background: conic-gradient(var(--am-ok) var(--score-pct, 0%), rgba(255, 255, 255, 0.06) 0);
+  }
+
+  .aml-score-circle::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    background: var(--am-bg-2);
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  body.dark-mode #tsxv5-meta-lab .aml-score-circle::before,
+  html.dark-mode #tsxv5-meta-lab .aml-score-circle::before,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-score-circle::before,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-score-circle::before,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-score-circle::before,
+  .dark-mode #tsxv5-meta-lab .aml-score-circle::before,
+  .night-mode #tsxv5-meta-lab .aml-score-circle::before {
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .aml-score-circle span {
+    position: relative;
+    z-index: 1;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--am-txt);
+    letter-spacing: -0.5px;
+  }
+
+  .aml-score-info {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+  }
+
+  .aml-score-info h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--am-txt);
+    margin-bottom: 8px;
+    letter-spacing: -0.2px;
+  }
+
+  .aml-score-info p {
+    font-size: 13.5px;
+    color: var(--am-txt-2);
+    line-height: 1.55;
+  }
+
+  .aml-score-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .aml-sb {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid var(--am-border);
+    border-radius: 7px;
+    padding: 5px 12px;
+    font-size: 11.5px;
+    color: var(--am-txt-2);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-sb,
+  html.dark-mode #tsxv5-meta-lab .aml-sb,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-sb,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-sb,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-sb,
+  .dark-mode #tsxv5-meta-lab .aml-sb,
+  .night-mode #tsxv5-meta-lab .aml-sb {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .aml-sb.ok { border-color: var(--am-ok); color: var(--am-ok); background: rgba(16, 185, 129, 0.08); }
+  .aml-sb.warn { border-color: var(--am-warn); color: var(--am-warn); background: rgba(245, 158, 11, 0.08); }
+  .aml-sb.err { border-color: var(--am-err); color: var(--am-err); background: rgba(248, 81, 73, 0.08); }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-sb.ok, html.dark-mode #tsxv5-meta-lab .aml-sb.ok, [data-theme="dark"] #tsxv5-meta-lab .aml-sb.ok, body[data-theme="dark"] #tsxv5-meta-lab .aml-sb.ok, html[data-theme="dark"] #tsxv5-meta-lab .aml-sb.ok, .dark-mode #tsxv5-meta-lab .aml-sb.ok, .night-mode #tsxv5-meta-lab .aml-sb.ok { background: rgba(16, 185, 129, 0.15); }
+  body.dark-mode #tsxv5-meta-lab .aml-sb.warn, html.dark-mode #tsxv5-meta-lab .aml-sb.warn, [data-theme="dark"] #tsxv5-meta-lab .aml-sb.warn, body[data-theme="dark"] #tsxv5-meta-lab .aml-sb.warn, html[data-theme="dark"] #tsxv5-meta-lab .aml-sb.warn, .dark-mode #tsxv5-meta-lab .aml-sb.warn, .night-mode #tsxv5-meta-lab .aml-sb.warn { background: rgba(245, 158, 11, 0.15); }
+  body.dark-mode #tsxv5-meta-lab .aml-sb.err, html.dark-mode #tsxv5-meta-lab .aml-sb.err, [data-theme="dark"] #tsxv5-meta-lab .aml-sb.err, body[data-theme="dark"] #tsxv5-meta-lab .aml-sb.err, html[data-theme="dark"] #tsxv5-meta-lab .aml-sb.err, .dark-mode #tsxv5-meta-lab .aml-sb.err, .night-mode #tsxv5-meta-lab .aml-sb.err { background: rgba(248, 81, 73, 0.15); }
+
+  /* ── Form Elements ── */
+  .aml-fg { margin-bottom: 28px; }
+
+  .aml-flr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .aml-flr label, .aml-flr .lbl {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--am-txt);
+    letter-spacing: 0.02em;
+  }
+
+  .aml-cc {
+    font-size: 11.5px;
+    color: var(--am-txt-3);
+    font-family: var(--am-mono);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .aml-cc.warn { color: var(--am-warn); font-weight: 700; }
+  .aml-cc.err { color: var(--am-err); font-weight: 700; }
+
+  .aml-bar {
+    height: 6px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 999px;
+    margin-top: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  body.dark-mode #tsxv5-meta-lab .aml-bar,
+  html.dark-mode #tsxv5-meta-lab .aml-bar,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-bar,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-bar,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-bar,
+  .dark-mode #tsxv5-meta-lab .aml-bar,
+  .night-mode #tsxv5-meta-lab .aml-bar {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .aml-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--am-ok), #10b981);
+    border-radius: 999px;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
+    width: 0;
+    position: relative;
+  }
+
+  .aml-bar-fill.warn { background: linear-gradient(90deg, #f59e0b, #d97706); }
+  .aml-bar-fill.err { background: linear-gradient(90deg, #f85149, #dc2626); }
+
+  .aml-input, .aml-select, .aml-textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1.5px solid var(--am-border);
+    border-radius: var(--am-r-sm);
+    color: var(--am-txt);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body.dark-mode #tsxv5-meta-lab .aml-input,
+  html.dark-mode #tsxv5-meta-lab .aml-input,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-input,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-input,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-input,
+  .dark-mode #tsxv5-meta-lab .aml-input,
+  .night-mode #tsxv5-meta-lab .aml-input,
+  body.dark-mode #tsxv5-meta-lab .aml-select,
+  html.dark-mode #tsxv5-meta-lab .aml-select,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-select,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-select,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-select,
+  .dark-mode #tsxv5-meta-lab .aml-select,
+  .night-mode #tsxv5-meta-lab .aml-select,
+  body.dark-mode #tsxv5-meta-lab .aml-textarea,
+  html.dark-mode #tsxv5-meta-lab .aml-textarea,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-textarea,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-textarea,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-textarea,
+  .dark-mode #tsxv5-meta-lab .aml-textarea,
+  .night-mode #tsxv5-meta-lab .aml-textarea {
+    background: rgba(10, 14, 26, 0.6);
+  }
+
+  .aml-input:focus, .aml-select:focus, .aml-textarea:focus {
+    border-color: var(--am-pri);
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1), 0 4px 14px rgba(124, 58, 237, 0.08);
+    background: #ffffff;
+  }
+
+  body.dark-mode #tsxv5-meta-lab .aml-input:focus,
+  html.dark-mode #tsxv5-meta-lab .aml-input:focus,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-input:focus,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-input:focus,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-input:focus,
+  .dark-mode #tsxv5-meta-lab .aml-input:focus,
+  .night-mode #tsxv5-meta-lab .aml-input:focus,
+  body.dark-mode #tsxv5-meta-lab .aml-select:focus,
+  html.dark-mode #tsxv5-meta-lab .aml-select:focus,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-select:focus,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-select:focus,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-select:focus,
+  .dark-mode #tsxv5-meta-lab .aml-select:focus,
+  .night-mode #tsxv5-meta-lab .aml-select:focus,
+  body.dark-mode #tsxv5-meta-lab .aml-textarea:focus,
+  html.dark-mode #tsxv5-meta-lab .aml-textarea:focus,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-textarea:focus,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-textarea:focus,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-textarea:focus,
+  .dark-mode #tsxv5-meta-lab .aml-textarea:focus,
+  .night-mode #tsxv5-meta-lab .aml-textarea:focus {
+    background: rgba(10, 14, 26, 0.85);
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.18), 0 4px 14px rgba(124, 58, 237, 0.15);
+  }
+
+  .aml-input::placeholder, .aml-textarea::placeholder {
+    color: var(--am-txt-3);
+  }
+
+  .aml-textarea {
+    resize: vertical;
+    min-height: 70px;
+    font-family: inherit;
+    line-height: 1.6;
+  }
+
+  .aml-select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-select,
+  html.dark-mode #tsxv5-meta-lab .aml-select,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-select,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-select,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-select,
+  .dark-mode #tsxv5-meta-lab .aml-select,
+  .night-mode #tsxv5-meta-lab .aml-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 5 5-5' stroke='%238b949e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+
+  .aml-select option { background: var(--am-card-solid); color: var(--am-txt); }
+
+  .aml-hint {
+    display: block;
+    color: var(--am-txt-3);
+    font-size: 12px;
+    margin-top: 8px;
+    line-height: 1.55;
+  }
+
+  .aml-hint code {
+    background: rgba(124, 58, 237, 0.08);
+    color: var(--am-pri);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: var(--am-mono);
+    font-size: 11.5px;
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-hint code,
+  html.dark-mode #tsxv5-meta-lab .aml-hint code,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-hint code,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-hint code,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-hint code,
+  .dark-mode #tsxv5-meta-lab .aml-hint code,
+  .night-mode #tsxv5-meta-lab .aml-hint code {
+    background: rgba(124, 58, 237, 0.12);
+    color: var(--am-pri-2);
+  }
+
+  .aml-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  @media (max-width: 480px) { .aml-row { grid-template-columns: 1fr; } }
+
+  /* ── Google Preview ── */
+  .aml-gp {
+    background: #ffffff !important;
+    color: #202124 !important;
+    border-radius: var(--am-r-sm);
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 20px;
+    border: 1px solid #e8eaed;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .aml-gp .url {
+    font-size: 12.5px;
+    color: #202124 !important;
+    margin-bottom: 4px;
+    word-break: break-all;
+    opacity: 0.85;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .aml-gp .url::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--am-pri), var(--am-acc));
+    flex-shrink: 0;
+  }
+
+  .aml-gp .title {
+    font-size: 19px;
+    color: #1a0dab !important;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 6px;
+    line-height: 1.3;
+    word-wrap: break-word;
+  }
+
+  .aml-gp .title:hover { text-decoration: underline; }
+
+  .aml-gp .desc {
+    font-size: 13.5px;
+    color: #4d5156 !important;
+    line-height: 1.5;
+    word-wrap: break-word;
+  }
+
+  .aml-gp .bcrumb {
+    font-size: 11.5px;
+    color: #4d5156 !important;
+    margin-top: 6px;
+  }
+
+  .aml-gp .bcrumb span { color: #1a0dab !important; }
+
+  /* ── Social Preview ── */
+  .aml-sp {
+    background: #000000 !important;
+    border: 1px solid var(--am-border);
+    border-radius: var(--am-r-sm);
+    overflow: hidden;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .aml-sp::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--am-pri), var(--am-acc), var(--am-gold));
+  }
+
+  .aml-sp-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff !important;
+    padding: 16px 16px 6px;
+    line-height: 1.35;
+  }
+
+  .aml-sp-desc {
+    font-size: 13px;
+    color: #8b949e !important;
+    padding: 0 16px 8px;
+    line-height: 1.5;
+  }
+
+  .aml-sp-meta {
+    font-size: 11px;
+    color: #5c6773 !important;
+    padding: 0 16px 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+
+  .aml-sp-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0 16px 16px;
+  }
+
+  .aml-sp-b {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(236, 72, 153, 0.2));
+    color: #a78bfa !important;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+  }
+
+  /* ── Code Output ── */
+  .aml-pre {
+    background: #05070a !important;
+    border: 1px solid var(--am-border);
+    border-radius: var(--am-r-sm);
+    padding: 20px;
+    font-family: var(--am-mono);
+    font-size: 12px;
+    color: #38bdf8 !important;
+    max-height: 360px;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    line-height: 1.65;
+    position: relative;
+  }
+
+  .aml-pre::before {
+    content: 'HTML';
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--am-pri-2) !important;
+    background: rgba(124, 58, 237, 0.2);
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Buttons ── */
+  .aml-btn {
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: var(--am-r-sm);
+    font-weight: 700;
+    font-size: 14.5px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--am-pri), var(--am-acc));
+    color: #ffffff !important;
+    margin-top: 16px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25);
+  }
+
+  .aml-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+  }
+
+  .aml-btn:active { transform: translateY(0); }
+
+  .aml-btn.secondary {
+    background: var(--am-card);
+    border: 1.5px solid var(--am-border);
+    color: var(--am-txt);
+    box-shadow: none;
+  }
+
+  .aml-btn.secondary:hover {
+    border-color: var(--am-pri);
+    background: rgba(124, 58, 237, 0.05);
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-btn.secondary:hover,
+  html.dark-mode #tsxv5-meta-lab .aml-btn.secondary:hover,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-btn.secondary:hover,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-btn.secondary:hover,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-btn.secondary:hover,
+  .dark-mode #tsxv5-meta-lab .aml-btn.secondary:hover,
+  .night-mode #tsxv5-meta-lab .aml-btn.secondary:hover {
+    background: rgba(124, 58, 237, 0.1);
+  }
+
+  .aml-btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 480px) { .aml-btn-row { grid-template-columns: 1fr; } }
+
+  /* ── Toast ── */
+  #tsxv5-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--am-card);
+    color: var(--am-txt);
+    padding: 16px 22px;
+    border-radius: 14px;
+    font-size: 13.5px;
+    font-weight: 600;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--am-border);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.35s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 999999;
+    max-width: 90%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: none;
+  }
+  
+  body.dark-mode #tsxv5-toast,
+  html.dark-mode #tsxv5-toast,
+  [data-theme="dark"] #tsxv5-toast,
+  body[data-theme="dark"] #tsxv5-toast,
+  html[data-theme="dark"] #tsxv5-toast,
+  .dark-mode #tsxv5-toast,
+  .night-mode #tsxv5-toast {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+
+  #tsxv5-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  #tsxv5-toast.ok { border-color: var(--am-ok); }
+  #tsxv5-toast.ok::before { content: '✓'; color: var(--am-ok); font-weight: 900; font-size: 18px; }
+  #tsxv5-toast.err { border-color: var(--am-err); }
+  #tsxv5-toast.err::before { content: '✕'; color: var(--am-err); font-weight: 900; }
+  #tsxv5-toast.info { border-color: var(--am-pri); }
+  #tsxv5-toast.info::before { content: 'ℹ'; color: var(--am-pri); font-weight: 900; }
+
+  /* ── FAQ ── */
+  .aml-faq details {
+    background: var(--am-card);
+    border: 1px solid var(--am-border);
+    border-radius: var(--am-r-sm);
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .aml-faq details:hover { border-color: var(--am-border-strong); }
+  .aml-faq details[open] {
+    border-color: var(--am-pri);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.08);
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-faq details[open],
+  html.dark-mode #tsxv5-meta-lab .aml-faq details[open],
+  [data-theme="dark"] #tsxv5-meta-lab .aml-faq details[open],
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-faq details[open],
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-faq details[open],
+  .dark-mode #tsxv5-meta-lab .aml-faq details[open],
+  .night-mode #tsxv5-meta-lab .aml-faq details[open] {
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.15);
+  }
+
+  .aml-faq summary {
+    padding: 18px 20px;
+    cursor: pointer;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--am-txt);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: color 0.2s;
+  }
+
+  .aml-faq summary::-webkit-details-marker { display: none; }
+
+  .aml-faq summary::after {
+    content: '+';
+    font-size: 24px;
+    color: var(--am-pri);
+    font-weight: 300;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .aml-faq details[open] summary::after {
+    transform: rotate(45deg);
+    color: var(--am-acc);
+  }
+
+  .aml-faq .ans {
+    padding: 0 20px 18px;
+    color: var(--am-txt-2);
+    font-size: 14px;
+    line-height: 1.75;
+    border-top: 1px solid var(--am-border);
+    margin-top: -2px;
+    padding-top: 16px;
+  }
+
+  .aml-faq .ans strong { color: var(--am-txt); font-weight: 600; }
+
+  /* ── Footer ── */
+  .aml-footer {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--am-txt-2);
+    font-size: 13px;
+    border-top: 1px solid var(--am-border);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  body.dark-mode #tsxv5-meta-lab .aml-footer,
+  html.dark-mode #tsxv5-meta-lab .aml-footer,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-footer,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-footer,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-footer,
+  .dark-mode #tsxv5-meta-lab .aml-footer,
+  .night-mode #tsxv5-meta-lab .aml-footer {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .aml-footer strong { color: var(--am-pri); font-weight: 700; }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-footer strong,
+  html.dark-mode #tsxv5-meta-lab .aml-footer strong,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-footer strong,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-footer strong,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-footer strong,
+  .dark-mode #tsxv5-meta-lab .aml-footer strong,
+  .night-mode #tsxv5-meta-lab .aml-footer strong {
+    color: var(--am-pri-2);
+  }
+
+  .aml-footer-powered {
+    font-size: 11.5px;
+    opacity: 0.65;
+    margin-top: 10px;
+    font-family: var(--am-mono);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Reset Link ── */
+  .aml-reset-link {
+    color: var(--am-txt-2);
+    font-size: 12.5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    background: none;
+    border: none;
+    padding: 6px 12px;
+    font-family: inherit;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+
+  .aml-reset-link:hover {
+    color: var(--am-pri);
+    background: rgba(124, 58, 237, 0.05);
+  }
+  
+  body.dark-mode #tsxv5-meta-lab .aml-reset-link:hover,
+  html.dark-mode #tsxv5-meta-lab .aml-reset-link:hover,
+  [data-theme="dark"] #tsxv5-meta-lab .aml-reset-link:hover,
+  body[data-theme="dark"] #tsxv5-meta-lab .aml-reset-link:hover,
+  html[data-theme="dark"] #tsxv5-meta-lab .aml-reset-link:hover,
+  .dark-mode #tsxv5-meta-lab .aml-reset-link:hover,
+  .night-mode #tsxv5-meta-lab .aml-reset-link:hover {
+    color: var(--am-pri-2);
+    background: rgba(124, 58, 237, 0.1);
+  }
+
+  /* ── Scrollbar ── */
+  #tsxv5-meta-lab ::-webkit-scrollbar { width: 10px; height: 10px; }
+  #tsxv5-meta-lab ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.03); border-radius: 10px; }
+  #tsxv5-meta-lab ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--am-pri), var(--am-acc));
+    border-radius: 10px;
+  }
+  #tsxv5-meta-lab ::-webkit-scrollbar-thumb:hover { background: var(--am-pri-2); }
+  
+  body.dark-mode #tsxv5-meta-lab ::-webkit-scrollbar-track,
+  html.dark-mode #tsxv5-meta-lab ::-webkit-scrollbar-track,
+  [data-theme="dark"] #tsxv5-meta-lab ::-webkit-scrollbar-track,
+  body[data-theme="dark"] #tsxv5-meta-lab ::-webkit-scrollbar-track,
+  html[data-theme="dark"] #tsxv5-meta-lab ::-webkit-scrollbar-track,
+  .dark-mode #tsxv5-meta-lab ::-webkit-scrollbar-track,
+  .night-mode #tsxv5-meta-lab ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  /* ── Mobile Responsive ── */
+  @media (max-width: 480px) {
+    .aml-hero { padding: 48px 20px 36px; }
+    .aml-section { padding: 36px 20px; }
+    .aml-card { padding: 22px; }
+    .aml-score-board { padding: 20px; gap: 16px; }
+    .aml-score-circle { width: 76px; height: 76px; }
+  }
+
+  /* ── Reduced Motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+
+<header class="aml-hero">
+  <div class="aml-hero-badge">✨ AI-First SEO Tool · v5.0</div>
+  <h2 itemprop="name">
+    <span class="gradient-text">Tools-X Meta Lab</span><br>
+    Free SEO & Meta Tag Generator
+  </h2>
+  <p class="tagline" itemprop="description">Ek click me complete <strong>SEO-ready meta tags</strong>, Open Graph, Twitter Cards, JSON-LD Schema aur AI-crawler-friendly hints generate karein — Google, ChatGPT, Perplexity aur Claude sab ke liye optimized. 100% free, no signup, no API key.</p>
+  <div class="aml-badge-row">
+    <span class="aml-chip"><b>⚡</b> Live Preview</span>
+    <span class="aml-chip"><b>🤖</b> LLM Ready</span>
+    <span class="aml-chip"><b>🔍</b> Google Optimized</span>
+    <span class="aml-chip"><b>📊</b> JSON-LD Schema</span>
+    <span class="aml-chip"><b>🔐</b> Secure & Private</span>
+    <span class="aml-chip"><b>🆓</b> 100% Free</span>
+  </div>
+</header>
+
+<section class="aml-section" id="tsxv5-section-0" aria-label="Features">
+  <h3 class="aml-h2"><span class="icon">⚡</span> Why Tools-X Meta Lab is Different</h3>
+  <p>Regular meta generators sirf basic HTML tags banate hain. Tools-X Meta Lab <strong>AI-first SEO</strong> ke liye design hua hai — ye search engines ke saath saath modern <strong>LLM answer engines</strong> (ChatGPT, Perplexity, Claude, Gemini) ko bhi clear structured data deta hai, taaki aapka content unke answers me bhi feature ho sake.</p>
+  <div class="aml-features">
+    <div class="aml-feat"><span class="emoji">🔍</span><h4>Google Preview</h4><p>Real-time Google SERP preview</p></div>
+    <div class="aml-feat"><span class="emoji">📱</span><h4>Social Preview</h4><p>OG + Twitter Card preview</p></div>
+    <div class="aml-feat"><span class="emoji">🧠</span><h4>AI Hints</h4><p>LLM-friendly schema signals</p></div>
+    <div class="aml-feat"><span class="emoji">🌐</span><h4>25+ Categories</h4><p>Perfect schema for any site</p></div>
+    <div class="aml-feat"><span class="emoji">📋</span><h4>One-Click Copy</h4><p>Paste-ready meta code</p></div>
+    <div class="aml-feat"><span class="emoji">🔐</span><h4>Client-Side</h4><p>Nothing leaves your browser</p></div>
+  </div>
+</section>
+
+<section class="aml-section" id="tsxv5-section-1" aria-label="SEO Generator Tool">
+  <h3 class="aml-h2"><span class="icon">🛠️</span> Generate Your Meta Tags</h3>
+  <p>Niche form me details bharein — har input change hone par Google preview, social preview aur meta tag code live update hoga. Jab ready ho, <strong>Copy All Meta Tags</strong> click karein aur apne blog/site ke HTML me paste karein.</p>
+
+  <div class="aml-score-board" id="tsxv5-score-board">
+    <div class="aml-score-circle" id="tsxv5-score-circle"><span id="tsxv5-score-num">0</span></div>
+    <div class="aml-score-info">
+      <h4>🎯 SEO Score</h4>
+      <p id="tsxv5-score-text">Fill in the details above to see your SEO score.</p>
+      <div class="aml-score-badges" id="tsxv5-score-badges"></div>
+    </div>
+  </div>
+
+  <div class="aml-grid">
+    <div>
+      <div class="aml-card">
+        <div class="aml-card-head">
+          <span class="aml-card-title">🌐 Website Details</span>
+          <button type="button" class="aml-reset-link" id="tsxv5-reset">Reset all</button>
+        </div>
+
+        <div class="aml-fg">
+          <label for="tsxv5-url">Your Domain</label>
+          <input type="text" id="tsxv5-url" class="aml-input" placeholder="yourdomain.com" autocomplete="off" maxlength="200">
+          <small class="aml-hint">https:// automatic add hoga. Example: <code>example.com/blog/post</code></small>
+        </div>
+
+        <div class="aml-fg">
+          <div class="aml-flr">
+            <label for="tsxv5-title">Page / Website Title</label>
+            <span id="tsxv5-cc-title" class="aml-cc">0 / 60</span>
+          </div>
+          <input type="text" id="tsxv5-title" class="aml-input" placeholder="e.g. Tools-X – Free AI & SEO Tools Collection" autocomplete="off" maxlength="120">
+          <div class="aml-bar"><div class="aml-bar-fill" id="tsxv5-bar-title"></div></div>
+          <small class="aml-hint">Google ~60 chars show karta hai. Best practice: keep it under 60.</small>
+        </div>
+
+        <div class="aml-fg">
+          <div class="aml-flr">
+            <label for="tsxv5-desc">Meta Description</label>
+            <span id="tsxv5-cc-desc" class="aml-cc">0 / 160</span>
+          </div>
+          <textarea id="tsxv5-desc" class="aml-textarea" rows="2" placeholder="Write 1-2 lines describing your page. Include your main keyword naturally." autocomplete="off" maxlength="300"></textarea>
+          <div class="aml-bar"><div class="aml-bar-fill" id="tsxv5-bar-desc"></div></div>
+          <small class="aml-hint">Google desktop pe ~160 chars, mobile pe ~120 chars dikhata hai. Actionable aur keyword-rich rakhein.</small>
+        </div>
+
+        <div class="aml-row">
+          <div class="aml-fg">
+            <div class="aml-flr"><label for="tsxv5-type">Website Category</label></div>
+            <select id="tsxv5-type" class="aml-select">
+              <option value="website">🌐 Website (General)</option>
+              <option value="blog">📝 Blog / Personal</option>
+              <option value="article">📰 News / Article</option>
+              <option value="product">🛒 Business / Product</option>
+              <option value="portfolio">🎨 Portfolio / Creative</option>
+              <option value="education">📚 Education / Course</option>
+              <option value="entertainment">🎬 Entertainment / Media</option>
+              <option value="social">💬 Social Platform</option>
+              <option value="forum">🗣️ Forum / Community</option>
+              <option value="software">💻 Software / SaaS</option>
+              <option value="mobileapp">📱 Mobile App</option>
+              <option value="game">🎮 Gaming</option>
+              <option value="music">🎵 Music / Podcast</option>
+              <option value="video">📹 Video / Streaming</option>
+              <option value="event">📅 Event / Conference</option>
+              <option value="organization">🏢 Organization / Non-profit</option>
+              <option value="government">🏛️ Government / Civic</option>
+              <option value="health">❤️ Health / Wellness</option>
+              <option value="finance">💰 Finance / Banking</option>
+              <option value="realestate">🏠 Real Estate</option>
+              <option value="travel">✈️ Travel / Tourism</option>
+              <option value="food">🍔 Food / Restaurant</option>
+              <option value="fashion">👗 Fashion / Beauty</option>
+              <option value="sports">⚽ Sports / Fitness</option>
+              <option value="technology">🔧 Technology / IT</option>
+              <option value="science">🔬 Science / Research</option>
+              <option value="religion">🕊️ Religion / Spirituality</option>
+              <option value="recipe">🥗 Recipe / Cooking</option>
+              <option value="job">💼 Job Listing</option>
+              <option value="adult">🔞 Adult / Mature (18+)</option>
+            </select>
+            <span class="aml-sch-badge" id="tsxv5-schema-badge">Schema: WebSite</span>
+            <small class="aml-hint">Open Graph type aur JSON-LD schema dono is pe based hote hain.</small>
+          </div>
+          <div class="aml-fg">
+            <label for="tsxv5-keywords">Keywords (SEO)</label>
+            <input type="text" id="tsxv5-keywords" class="aml-input" placeholder="e.g. meta generator, seo tool, ai" autocomplete="off" maxlength="200">
+            <small class="aml-hint">Comma separated. 5-8 relevant keywords best hain.</small>
+          </div>
+        </div>
+
+        <div class="aml-row">
+          <div class="aml-fg">
+            <label for="tsxv5-handle">Social Username (@handle)</label>
+            <input type="text" id="tsxv5-handle" class="aml-input" placeholder="@yourbrand" autocomplete="off" maxlength="50">
+          </div>
+          <div class="aml-fg">
+            <label for="tsxv5-image">Banner / Logo Image URL</label>
+            <input type="text" id="tsxv5-image" class="aml-input" placeholder="https://yourdomain.com/og-image.jpg" autocomplete="off" maxlength="500">
+            <small class="aml-hint">Recommended: 1200×630 px. Ratio ~1.91:1.</small>
+          </div>
+        </div>
+
+        <div class="aml-row">
+          <div class="aml-fg">
+            <label for="tsxv5-lang">Content Language</label>
+            <select id="tsxv5-lang" class="aml-select">
+              <option value="en-US">🇺🇸 English (en-US)</option>
+              <option value="en-IN">🇮🇳 English – India</option>
+              <option value="en-GB">🇬🇧 English – UK</option>
+              <option value="hi-IN">🇮🇳 Hindi (hi-IN)</option>
+              <option value="ur-PK">🇵🇰 Urdu (ur-PK)</option>
+              <option value="bn-IN">🇮🇳 Bengali (bn-IN)</option>
+              <option value="ta-IN">🇮🇳 Tamil (ta-IN)</option>
+              <option value="te-IN">🇮🇳 Telugu (te-IN)</option>
+              <option value="mr-IN">🇮🇳 Marathi (mr-IN)</option>
+              <option value="gu-IN">🇮🇳 Gujarati (gu-IN)</option>
+              <option value="pa-IN">🇮🇳 Punjabi (pa-IN)</option>
+              <option value="es-ES">🇪🇸 Spanish</option>
+              <option value="fr-FR">🇫🇷 French</option>
+              <option value="de-DE">🇩🇪 German</option>
+              <option value="ja-JP">🇯🇵 Japanese</option>
+              <option value="zh-CN">🇨🇳 Chinese</option>
+              <option value="ar-SA">🇸🇦 Arabic</option>
+            </select>
+          </div>
+          <div class="aml-fg">
+            <label for="tsxv5-author">Author / Brand Name</label>
+            <input type="text" id="tsxv5-author" class="aml-input" placeholder="e.g. YourBrand" autocomplete="off" maxlength="100">
+          </div>
+        </div>
+
+        <h4 class="aml-h3">🔎 Search Engine Verification (Optional)</h4>
+        <p class="aml-para">Agar aapke paas Google Search Console / Bing / Pinterest / Yandex ka verification code hai, to yaha daalein.</p>
+
+        <div class="aml-row">
+          <div class="aml-fg">
+            <label for="tsxv5-v-google">Google Search Console</label>
+            <input type="text" id="tsxv5-v-google" class="aml-input" placeholder="google-site-verification=xxxx" autocomplete="off" maxlength="100">
+          </div>
+          <div class="aml-fg">
+            <label for="tsxv5-v-bing">Bing Webmaster</label>
+            <input type="text" id="tsxv5-v-bing" class="aml-input" placeholder="msvalidate.01=xxxx" autocomplete="off" maxlength="100">
+          </div>
+        </div>
+        <div class="aml-row">
+          <div class="aml-fg">
+            <label for="tsxv5-v-pinterest">Pinterest Verification</label>
+            <input type="text" id="tsxv5-v-pinterest" class="aml-input" placeholder="p:domain_verify=xxxx" autocomplete="off" maxlength="100">
+          </div>
+          <div class="aml-fg">
+            <label for="tsxv5-v-yandex">Yandex Webmaster</label>
+            <input type="text" id="tsxv5-v-yandex" class="aml-input" placeholder="yandex-verification=xxxx" autocomplete="off" maxlength="100">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="aml-card">
+        <div class="aml-card-head">
+          <span class="aml-card-title">🔍 Google Search Preview</span>
+        </div>
+        <div class="aml-gp">
+          <div class="url" id="tsxv5-pv-url">yourdomain.com</div>
+          <span class="title" id="tsxv5-pv-title">Website Title</span>
+          <div class="desc" id="tsxv5-pv-desc">Your website description will appear here on Google search results...</div>
+          <div class="bcrumb" id="tsxv5-pv-bc">Home › <span>Page</span></div>
+        </div>
+
+        <div class="aml-card-head" style="margin-top:4px">
+          <span class="aml-card-title">📱 Social Share Preview</span>
+        </div>
+        <div class="aml-sp">
+          <div class="aml-sp-title" id="tsxv5-pv-social-title">Website Title</div>
+          <div class="aml-sp-desc" id="tsxv5-pv-social-desc">Website description preview...</div>
+          <div class="aml-sp-badges" id="tsxv5-pv-badges">
+            <span class="aml-sp-b">og:type = website</span>
+            <span class="aml-sp-b">schema = WebSite</span>
+            <span class="aml-sp-b">llm-ready</span>
+          </div>
+          <div class="aml-sp-meta" id="tsxv5-pv-social-meta">yourdomain.com</div>
+        </div>
+      </div>
+
+      <div class="aml-card">
+        <div class="aml-card-head">
+          <span class="aml-card-title">📋 Generated Meta Tags</span>
+          <button type="button" class="aml-reset-link" id="tsxv5-copy-quick">Copy now</button>
+        </div>
+        <pre class="aml-pre" id="tsxv5-code" aria-label="Generated HTML meta tags code"></pre>
+        <button type="button" class="aml-btn" id="tsxv5-copy">📋 Copy All Meta Tags</button>
+        <div class="aml-btn-row">
+          <button type="button" class="aml-btn secondary" id="tsxv5-download-html">💾 Save .html</button>
+          <button type="button" class="aml-btn secondary" id="tsxv5-download-json">📄 Save .json</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="aml-section" id="tsxv5-section-guide" aria-label="Comprehensive Guide">
+  <h3 class="aml-h2"><span class="icon">📖</span> The Complete Guide to AI-First SEO Metadata</h3>
+  <p class="aml-para">In the rapidly evolving digital landscape of 2026, having a beautiful website is only half the battle. The real challenge lies in ensuring that search engines and modern AI answer engines can actually understand, index, and cite your content. The Tools-X Meta Lab is a comprehensive, AI-first SEO metadata generator designed to bridge the gap between human readers and machine crawlers. Unlike basic tag generators that only output standard HTML, this tool crafts a complete digital passport for your web pages, including Open Graph for social media, Twitter Cards, and crucial JSON-LD structured data. Whether you are a blogger, an e-commerce store owner, or a developer, this tool ensures your content is perfectly optimized for Google, Bing, and LLM platforms like ChatGPT and Perplexity.</p>
+  
+  <h4 class="aml-h3">🛠️ How to Use the Meta Lab Effectively</h4>
+  <p class="aml-para">Using the Tools-X Meta Lab is incredibly straightforward and requires zero technical expertise. Start by entering your primary domain or specific page URL in the designated field. Next, craft a compelling page title (keeping it under 60 characters) and a persuasive meta description (between 120 and 160 characters). The live character counters and visual progress bars will guide you to stay within the optimal limits for search engine results pages. Select the most appropriate website category from the dropdown menu; this automatically configures the correct Open Graph type and Schema.org vocabulary for your specific niche. Add your social media handles, a high-quality banner image URL (ideally 1200x630 pixels), and specify your content language. Finally, click the "Copy All Meta Tags" button and paste the generated code directly into the head section of your website's HTML.</p>
+
+  <h4 class="aml-h3">🧠 Key Features and AI Optimization</h4>
+  <p class="aml-para">What sets this tool apart is its deep integration with LLM SEO principles. Modern AI crawlers rely heavily on explicit entity recognition and structured data to verify facts and attribute sources. By automatically generating JSON-LD schema that includes author details, publication dates, and publisher information, you significantly increase the chances of your content being cited in AI-generated answers. The tool also includes optional fields for search engine verification codes (Google, Bing, Pinterest, Yandex), saving you the hassle of manual HTML editing. Furthermore, the live preview panel shows you exactly how your link will appear when shared on Facebook, X (formerly Twitter), or LinkedIn, ensuring your social media presence remains professional and click-worthy. All processing happens securely within your browser, meaning your data never leaves your device.</p>
+
+  <h4 class="aml-h3">📈 Benefits for Your Digital Strategy</h4>
+  <p class="aml-para">Implementing the metadata generated by Tools-X Meta Lab leads to tangible improvements in your digital strategy. Properly formatted title tags and descriptions improve your Click-Through Rate (CTR) from search results, which is a strong positive signal to search algorithms. Rich social previews increase engagement and shares on social platforms. Most importantly, robust JSON-LD schema helps you qualify for rich snippets—like star ratings, FAQ boxes, and article carousels—which dominate search result real estate. Taking the time to configure these technical details might seem tedious, but it is one of the highest-return investments you can make for your online presence. As the web becomes increasingly automated, having clean, machine-readable metadata ensures your hard work doesn't go unnoticed by the algorithms that drive modern traffic.</p>
+</section>
+
+<section class="aml-section aml-faq" id="tsxv5-section-faq" aria-label="FAQ" itemscope itemtype="https://schema.org/FAQPage">
+  <h3 class="aml-h2"><span class="icon">❓</span> Frequently Asked Questions</h3>
+
+  <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <summary itemprop="name">Is Tools-X Meta Lab completely free to use?</summary>
+    <div class="ans" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+      <div itemprop="text"><strong>Yes, it is 100% free forever.</strong> There are no hidden charges, mandatory signups, or premium tiers. All features, including JSON-LD schema generation and live previews, are fully accessible without any cost.</div>
+    </div>
+  </details>
+
+  <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <summary itemprop="name">Will using this tool guarantee a number one ranking on Google?</summary>
+    <div class="ans" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+      <div itemprop="text">No tool can guarantee a top ranking, as SEO depends on many factors like content quality and backlinks. However, proper metadata significantly improves your click-through rate and helps search engines understand your content, which are critical foundational steps for ranking well.</div>
+    </div>
+  </details>
+
+  <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <summary itemprop="name">How does this help with AI search engines like ChatGPT or Perplexity?</summary>
+    <div class="ans" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+      <div itemprop="text">AI answer engines rely on structured data to verify facts and attribute sources. The JSON-LD schema generated by this tool explicitly defines your author, publisher, and content type, making it much easier for LLMs to confidently cite your website in their generated answers.</div>
+    </div>
+  </details>
+
+  <details itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <summary itemprop="name">Is my website data safe when using this generator?</summary>
+    <div class="ans" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+      <div itemprop="text"><strong>Absolutely.</strong> The Tools-X Meta Lab operates entirely client-side within your web browser. Your URLs, titles, and descriptions are never sent to our servers or any third-party API. Your data remains completely private and is cleared the moment you refresh the page.</div>
+    </div>
+  </details>
+</section>
+
+<footer class="aml-footer">
+  <p>⚡ Built for creators, bloggers & developers | <strong>Tools-X Meta Lab v5.0</strong> | Made with care in 2026</p>
+  <p style="font-size:11.5px;opacity:.6;margin-top:8px">🔐 All processing happens in your browser. Nothing is uploaded.</p>
+  <p class="aml-footer-powered">Powered by <strong>Tools-X</strong> · toolsx.in</p>
+</footer>
+
+</div>
+
+<div id="tsxv5-toast" role="status" aria-live="polite"></div>
+
+<!-- Post Level JSON-LD for Blogger SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Tools-X Meta Lab",
+  "operatingSystem": "Web Browser",
+  "applicationCategory": "SEO Tool",
+  "description": "A free, AI-first SEO metadata generator that creates optimized meta tags, Open Graph, and JSON-LD schema for modern search and LLM engines."
+}
+</script>
+
+<script>
+(function(){
+  "use strict";
+
+  var W = document.getElementById('tsxv5-meta-lab');
+  if(!W) return;
+
+  var ids=["tsxv5-url","tsxv5-title","tsxv5-desc","tsxv5-type","tsxv5-keywords","tsxv5-handle","tsxv5-image","tsxv5-lang","tsxv5-author","tsxv5-v-google","tsxv5-v-bing","tsxv5-v-pinterest","tsxv5-v-yandex","tsxv5-cc-title","tsxv5-cc-desc","tsxv5-bar-title","tsxv5-bar-desc","tsxv5-schema-badge","tsxv5-pv-title","tsxv5-pv-desc","tsxv5-pv-url","tsxv5-pv-bc","tsxv5-pv-social-title","tsxv5-pv-social-desc","tsxv5-pv-social-meta","tsxv5-pv-badges","tsxv5-code","tsxv5-copy","tsxv5-copy-quick","tsxv5-reset","tsxv5-download-html","tsxv5-download-json","tsxv5-toast","tsxv5-score-board","tsxv5-score-circle","tsxv5-score-num","tsxv5-score-text","tsxv5-score-badges"];
+  var e={};
+  ids.forEach(function(i){e[i]=document.getElementById(i)});
+  var inputs=[e["tsxv5-url"],e["tsxv5-title"],e["tsxv5-desc"],e["tsxv5-type"],e["tsxv5-keywords"],e["tsxv5-handle"],e["tsxv5-image"],e["tsxv5-lang"],e["tsxv5-author"],e["tsxv5-v-google"],e["tsxv5-v-bing"],e["tsxv5-v-pinterest"],e["tsxv5-v-yandex"]];
+
+  function esc(s){if(s==null)return"";return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}
+
+  var OG={website:"website",blog:"website",article:"article",product:"product",portfolio:"website",education:"website",entertainment:"website",social:"website",forum:"website",software:"website",mobileapp:"website",game:"website",music:"music.song",video:"video.other",event:"website",organization:"website",government:"website",health:"website",finance:"website",realestate:"website",travel:"website",food:"restaurant",fashion:"product",sports:"website",technology:"website",science:"article",religion:"website",recipe:"recipe",job:"jobPosting",adult:"website"};
+  var SC={website:"WebSite",blog:"Blog",article:"NewsArticle",product:"Product",portfolio:"CreativeWork",education:"Course",entertainment:"CreativeWork",social:"WebSite",forum:"DiscussionForumPosting",software:"SoftwareApplication",mobileapp:"MobileApplication",game:"VideoGame",music:"MusicRecording",video:"VideoObject",event:"Event",organization:"Organization",government:"GovernmentOrganization",health:"MedicalWebPage",finance:"FinancialProduct",realestate:"RealEstateListing",travel:"TouristAttraction",food:"Restaurant",fashion:"Product",sports:"SportsOrganization",technology:"WebSite",science:"ScholarlyArticle",religion:"WebSite",recipe:"Recipe",job:"JobPosting",adult:"WebPage"};
+
+  function cleanUrl(raw){
+    if(!raw)return"https://yourdomain.com";
+    var c=String(raw).trim().toLowerCase();
+    c=c.replace(/^https?:\/\//i,"").replace(/^www\./,"");
+    c=c.replace(/[<>\"'\s]/g,"");
+    if(!c)return"https://yourdomain.com";
+    return"https://"+c;
+  }
+  function cleanImg(raw){
+    if(!raw)return"https://yourdomain.com/og-image.jpg";
+    var c=String(raw).trim();
+    if(!/^https?:\/\//i.test(c))c="https://"+c.replace(/^\/+/,"");
+    return c.replace(/[<>\"'\s]/g,"");
+  }
+  function handle(raw){
+    var h=String(raw||"").trim().replace(/^@+|[^a-zA-Z0-9_]/g,"");
+    return h?"@"+h:"@yourbrand";
+  }
+  
+  function sanitizeFilename(name) {
+    return String(name || 'toolsx-meta-tags').replace(/[^a-zA-Z0-9._-]/g, '').substring(0, 100) || 'toolsx-meta-tags';
+  }
+
+  function setBar(barEl,ccEl,len,max){
+    if(!barEl || !ccEl) return;
+    var pct=Math.min(100,(len/max)*100);
+    barEl.style.width=pct+"%";
+    ccEl.textContent=len+" / "+max;
+    barEl.className="aml-bar-fill";
+    ccEl.className="aml-cc";
+    if(len>max){barEl.classList.add("err");ccEl.classList.add("err")}
+    else if(len>max*0.85){barEl.classList.add("warn");ccEl.classList.add("warn")}
+  }
+
+  var ttTimer;
+  function toast(msg,type){
+    type=type||"ok";
+    if(!e["tsxv5-toast"]) return;
+    e["tsxv5-toast"].textContent=msg;
+    e["tsxv5-toast"].className="show "+type;
+    clearTimeout(ttTimer);
+    ttTimer=setTimeout(function(){e["tsxv5-toast"].className="tsxv5-toast"},2600);
+  }
+
+  function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    } else {
+      var textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      return new Promise(function(resolve, reject) {
+        try {
+          var successful = document.execCommand('copy');
+          if(successful) resolve(); else reject();
+        } catch (err) { reject(err); }
+        document.body.removeChild(textArea);
+      });
+    }
+  }
+
+  function calcScore(){
+    var score=0;
+    var badges=[];
+    var url=cleanUrl(e["tsxv5-url"].value);
+    var title=String(e["tsxv5-title"].value||"").trim();
+    var desc=String(e["tsxv5-desc"].value||"").trim();
+    var type=e["tsxv5-type"].value||"website";
+    var keywords=String(e["tsxv5-keywords"].value||"").trim();
+    var hnd=String(e["tsxv5-handle"].value||"").trim();
+    var img=String(e["tsxv5-image"].value||"").trim();
+    var lang=String(e["tsxv5-lang"].value||"").trim();
+    var author=String(e["tsxv5-author"].value||"").trim();
+    
+    if(url && url!=="https://yourdomain.com"){score+=10; badges.push({t:"Domain Set", c:"ok"})}
+    if(title.length>=30 && title.length<=60){score+=20; badges.push({t:"Title Perfect", c:"ok"})}
+    else if(title.length>0){score+=10; badges.push({t:"Title Weak", c:"warn"})}
+    if(desc.length>=120 && desc.length<=160){score+=20; badges.push({t:"Desc Perfect", c:"ok"})}
+    else if(desc.length>0){score+=10; badges.push({t:"Desc Weak", c:"warn"})}
+    if(type!=="website"){score+=10; badges.push({t:"Schema: "+SC[type], c:"ok"})}
+    if(img && img!=="https://yourdomain.com/og-image.jpg"){score+=15; badges.push({t:"OG Image", c:"ok"})}
+    if(lang){score+=10; badges.push({t:"Language: "+lang, c:"ok"})}
+    if(author){score+=10; badges.push({t:"Author Set", c:"ok"})}
+    if(keywords.split(",").length>=3){score+=5; badges.push({t:"Keywords", c:"ok"})}
+    
+    if(e["tsxv5-score-num"]) e["tsxv5-score-num"].textContent=score;
+    if(e["tsxv5-score-circle"]) e["tsxv5-score-circle"].style.setProperty("--score-pct", score+"%");
+    
+    var txt="Fill in the details to improve your score.";
+    if(score>=80) txt="Excellent! Your meta tags are highly optimized.";
+    else if(score>=50) txt="Good start. Add more details to reach 100%.";
+    if(e["tsxv5-score-text"]) e["tsxv5-score-text"].textContent=txt;
+    
+    if(e["tsxv5-score-badges"]) {
+      e["tsxv5-score-badges"].innerHTML="";
+      badges.forEach(function(b){
+        var s=document.createElement("span");
+        s.className="aml-sb "+b.c;
+        s.textContent=b.t;
+        e["tsxv5-score-badges"].appendChild(s);
+      });
+    }
+  }
+
+  function updatePreview(){
+    var url=cleanUrl(e["tsxv5-url"].value);
+    var title=esc(String(e["tsxv5-title"].value||"").trim()) || "Website Title";
+    var desc=esc(String(e["tsxv5-desc"].value||"").trim()) || "Your website description will appear here...";
+    var type=e["tsxv5-type"].value||"website";
+    var hnd=handle(e["tsxv5-handle"].value);
+    
+    var dispUrl=url.replace(/^https?:\/\//,"").replace(/^www\./,"");
+    if(e["tsxv5-pv-url"]) e["tsxv5-pv-url"].textContent=dispUrl;
+    if(e["tsxv5-pv-title"]) e["tsxv5-pv-title"].textContent=title;
+    if(e["tsxv5-pv-desc"]) e["tsxv5-pv-desc"].textContent=desc;
+    if(e["tsxv5-pv-bc"]) e["tsxv5-pv-bc"].innerHTML='Home › <span>'+esc(dispUrl.split("/")[1] || "Page")+'</span>';
+    
+    if(e["tsxv5-pv-social-title"]) e["tsxv5-pv-social-title"].textContent=title;
+    if(e["tsxv5-pv-social-desc"]) e["tsxv5-pv-social-desc"].textContent=desc;
+    if(e["tsxv5-pv-social-meta"]) e["tsxv5-pv-social-meta"].textContent=dispUrl + " | " + hnd;
+    
+    if(e["tsxv5-pv-badges"]) {
+      e["tsxv5-pv-badges"].innerHTML='<span class="aml-sp-b">og:type = '+OG[type]+'</span><span class="aml-sp-b">schema = '+SC[type]+'</span><span class="aml-sp-b">llm-ready</span>';
+    }
+    if(e["tsxv5-schema-badge"]) e["tsxv5-schema-badge"].textContent="Schema: "+SC[type];
+  }
+
+  function generateCode(){
+    var rawTitle = String(e["tsxv5-title"].value||"").trim();
+    var rawDesc = String(e["tsxv5-desc"].value||"").trim();
+    var rawKeywords = String(e["tsxv5-keywords"].value||"").trim();
+    var rawLang = String(e["tsxv5-lang"].value||"en-US").trim();
+    var rawAuthor = String(e["tsxv5-author"].value||"").trim();
+    
+    var url=cleanUrl(e["tsxv5-url"].value);
+    var title=esc(rawTitle);
+    var desc=esc(rawDesc);
+    var type=e["tsxv5-type"].value||"website";
+    var keywords=esc(rawKeywords);
+    var hnd=handle(e["tsxv5-handle"].value);
+    var img=cleanImg(e["tsxv5-image"].value);
+    var lang=esc(rawLang);
+    var author=esc(rawAuthor);
+    var vG=esc(String(e["tsxv5-v-google"].value||"").trim());
+    var vB=esc(String(e["tsxv5-v-bing"].value||"").trim());
+    var vP=esc(String(e["tsxv5-v-pinterest"].value||"").trim());
+    var vY=esc(String(e["tsxv5-v-yandex"].value||"").trim());
+    
+    var ogLocale = rawLang.replace('-', '_');
+    
+    var today=new Date().toISOString();
+    
+    var code='<!-- Primary Meta Tags -->\n';
+    code+='<title>'+title+'</title>\n';
+    code+='<meta name="title" content="'+title+'">\n';
+    code+='<meta name="description" content="'+desc+'">\n';
+    if(keywords) code+='<meta name="keywords" content="'+keywords+'">\n';
+    if(author) code+='<meta name="author" content="'+author+'">\n';
+    code+='<meta name="language" content="'+lang+'">\n';
+    code+='<meta name="robots" content="index, follow, max-image-preview:large">\n';
+    code+='<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\n';
+    code+='<link rel="canonical" href="'+url+'">\n\n';
+    
+    code+='<!-- Open Graph / Facebook -->\n';
+    code+='<meta property="og:type" content="'+OG[type]+'">\n';
+    code+='<meta property="og:url" content="'+url+'">\n';
+    code+='<meta property="og:title" content="'+title+'">\n';
+    code+='<meta property="og:description" content="'+desc+'">\n';
+    code+='<meta property="og:image" content="'+img+'">\n';
+    code+='<meta property="og:image:alt" content="'+title+'">\n';
+    code+='<meta property="og:locale" content="'+ogLocale+'">\n';
+    if(author) code+='<meta property="og:site_name" content="'+author+'">\n\n';
+    
+    code+='<!-- Twitter -->\n';
+    code+='<meta property="twitter:card" content="summary_large_image">\n';
+    code+='<meta property="twitter:url" content="'+url+'">\n';
+    code+='<meta property="twitter:title" content="'+title+'">\n';
+    code+='<meta property="twitter:description" content="'+desc+'">\n';
+    code+='<meta property="twitter:image" content="'+img+'">\n';
+    code+='<meta property="twitter:image:alt" content="'+title+'">\n';
+    if(hnd!=="@yourbrand") code+='<meta property="twitter:site" content="'+hnd+'">\n';
+    if(hnd!=="@yourbrand") code+='<meta property="twitter:creator" content="'+hnd+'">\n\n';
+    
+    code+='<!-- JSON-LD Schema -->\n';
+    var schema={
+      "@context": "https://schema.org",
+      "@type": SC[type],
+      "name": rawTitle || "Website Title",
+      "description": rawDesc || "Website description",
+      "url": url,
+      "image": img,
+      "inLanguage": rawLang,
+      "datePublished": today,
+      "dateModified": today
+    };
+    if(rawAuthor) schema.author = {"@type": "Person", "name": rawAuthor};
+    if(rawAuthor) schema.publisher = {"@type": "Organization", "name": rawAuthor, "logo": {"@type": "ImageObject", "url": img}};
+    code+='<script type="application/ld+json">\n'+JSON.stringify(schema, null, 2)+'\n<\/script>\n\n';
+    
+    if(vG) code+='<!-- Verifications -->\n<meta name="google-site-verification" content="'+vG.replace(/[^a-zA-Z0-9_-]/g,'')+'">\n';
+    if(vB) code+='<meta name="msvalidate.01" content="'+vB.replace(/[^a-zA-Z0-9_-]/g,'')+'">\n';
+    if(vP) code+='<meta name="p:domain_verify" content="'+vP.replace(/[^a-zA-Z0-9_-]/g,'')+'">\n';
+    if(vY) code+='<meta name="yandex-verification" content="'+vY.replace(/[^a-zA-Z0-9_-]/g,'')+'">\n';
+    
+    if(e["tsxv5-code"]) e["tsxv5-code"].textContent=code;
+    return code;
+  }
+
+  function updateAll(){
+    var tLen = (e["tsxv5-title"].value||"").length;
+    var dLen = (e["tsxv5-desc"].value||"").length;
+    setBar(e["tsxv5-bar-title"], e["tsxv5-cc-title"], tLen, 60);
+    setBar(e["tsxv5-bar-desc"], e["tsxv5-cc-desc"], dLen, 160);
+    updatePreview();
+    generateCode();
+    calcScore();
+  }
+
+  inputs.forEach(function(inp){
+    if(inp) inp.addEventListener("input", updateAll);
+  });
+
+  if(e["tsxv5-copy"]) e["tsxv5-copy"].addEventListener("click", function(){
+    if(!e["tsxv5-code"]) return;
+    copyToClipboard(e["tsxv5-code"].textContent).then(function(){
+      toast("Meta tags copied to clipboard!", "ok");
+    }).catch(function(){
+      toast("Failed to copy. Please select and copy manually.", "err");
+    });
+  });
+
+  if(e["tsxv5-copy-quick"]) e["tsxv5-copy-quick"].addEventListener("click", function(){
+    if(!e["tsxv5-code"]) return;
+    copyToClipboard(e["tsxv5-code"].textContent).then(function(){
+      toast("Meta tags copied!", "ok");
+    }).catch(function(){
+      toast("Failed to copy.", "err");
+    });
+  });
+
+  if(e["tsxv5-reset"]) e["tsxv5-reset"].addEventListener("click", function(){
+    inputs.forEach(function(inp){ if(inp) inp.value=""; });
+    updateAll();
+    toast("All fields reset.", "info");
+  });
+
+  function downloadFile(content, type) {
+    var safeName = sanitizeFilename(e["tsxv5-title"].value);
+    var ext = type === 'application/json' ? '.json' : '.html';
+    var blob = new Blob([content], {type: type});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = safeName + ext;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast("File downloaded: " + safeName + ext, "ok");
+  }
+
+  if(e["tsxv5-download-html"]) e["tsxv5-download-html"].addEventListener("click", function(){
+    if(!e["tsxv5-code"]) return;
+    var htmlContent = '<!DOCTYPE html>\n<html>\n<head>\n' + e["tsxv5-code"].textContent + '\n</head>\n<body></body>\n</html>';
+    downloadFile(htmlContent, 'text/html');
+  });
+
+  if(e["tsxv5-download-json"]) e["tsxv5-download-json"].addEventListener("click", function(){
+    var url=cleanUrl(e["tsxv5-url"].value);
+    var rawTitle = String(e["tsxv5-title"].value||"").trim();
+    var rawDesc = String(e["tsxv5-desc"].value||"").trim();
+    var type=e["tsxv5-type"].value||"website";
+    var rawKeywords = String(e["tsxv5-keywords"].value||"").trim();
+    var hnd=handle(e["tsxv5-handle"].value);
+    var img=cleanImg(e["tsxv5-image"].value);
+    var rawLang = String(e["tsxv5-lang"].value||"en-US").trim();
+    var rawAuthor = String(e["tsxv5-author"].value||"").trim();
+    
+    var jsonData = {
+      "primary": {"title": rawTitle, "description": rawDesc, "url": url, "keywords": rawKeywords, "language": rawLang, "author": rawAuthor},
+      "og": {"type": OG[type], "image": img, "handle": hnd, "locale": rawLang.replace('-', '_')},
+      "schema": {"type": SC[type]}
+    };
+    downloadFile(JSON.stringify(jsonData, null, 2), 'application/json');
+  });
+
+  updateAll();
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

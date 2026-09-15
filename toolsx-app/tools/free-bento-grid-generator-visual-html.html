@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Free Bento Grid Generator | Visual HTML, CSS &amp; Tailwind Builder – ToolsX App</title>
+<meta name="description" content="Create modern bento-style layouts instantly with our free visual grid generator. Drag, drop, resize, and export clean HTML, CSS, or Tailwind code.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Free Bento Grid Generator | Visual HTML, CSS &amp; Tailwind Builder</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<style>
+  :root{
+    --bg-canvas:#f8fafc;--bg-panel:#ffffff;--bg-cell:#e2e8f0;--bg-cell-hover:#cbd5e1;
+    --text-primary:#0f172a;--text-secondary:#475569;--text-muted:#94a3b8;
+    --border:#e2e8f0;--border-strong:#cbd5e1;--accent:#6366f1;--accent-hover:#4f46e5;
+    --accent-light:#eef2ff;--danger:#ef4444;--success:#10b981;
+    --shadow-sm:0 1px 2px rgba(0,0,0,0.05);--shadow-md:0 4px 12px rgba(0,0,0,0.08);
+    --radius:12px;--radius-sm:8px;
+  }
+  .dark-mode, [data-theme="dark"]{
+    --bg-canvas:#0f172a;--bg-panel:#1e293b;--bg-cell:#334155;--bg-cell-hover:#475569;
+    --text-primary:#f1f5f9;--text-secondary:#cbd5e1;--text-muted:#64748b;
+    --border:#334155;--border-strong:#475569;--accent:#818cf8;--accent-hover:#6366f1;
+    --accent-light:#1e1b4b;--shadow-sm:0 1px 2px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.4);
+  }
+
+  .bento-app{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text-primary);max-width:1100px;margin:0 auto;padding:clamp(12px,3vw,24px);box-sizing:border-box;line-height:1.5}
+  .bento-app *,.bento-app *::before,.bento-app *::after{box-sizing:border-box}
+
+  .bento-topbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+  .bento-topbar .bento-group{display:flex;align-items:center;gap:8px;font-size:0.9rem;color:var(--text-secondary)}
+  .bento-topbar label{font-weight:600;white-space:nowrap}
+  .bento-topbar input[type="number"]{width:60px;padding:8px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--bg-canvas);color:var(--text-primary);font-size:16px;text-align:center}
+  .bento-topbar input[type="range"]{width:90px;accent-color:var(--accent)}
+  .bento-topbar .bento-spacer{flex:1}
+
+  .bento-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;min-height:44px;min-width:44px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--bg-panel);color:var(--text-primary);font-size:0.9rem;font-weight:600;cursor:pointer;transition:all 0.15s ease;white-space:nowrap}
+  .bento-btn:hover{background:var(--bg-cell);border-color:var(--accent)}
+  .bento-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .bento-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .bento-btn.primary:hover{background:var(--accent-hover)}
+  .bento-btn.danger{color:var(--danger);border-color:var(--danger)}
+  .bento-btn.danger:hover{background:rgba(239,68,68,0.1)}
+  .bento-btn.success{color:var(--success);border-color:var(--success)}
+
+  .bento-main{display:grid;grid-template-columns:1fr 280px;gap:16px;margin-bottom:16px}
+  @media(max-width:860px){.bento-main{grid-template-columns:1fr}}
+
+  .bento-canvas-wrap{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(12px,2vw,20px);box-shadow:var(--shadow-sm);overflow:hidden;min-height:400px}
+  .bento-canvas-header{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+  .bento-canvas-header .bento-title{font-size:1rem;font-weight:700;color:var(--text-primary);margin-right:auto}
+  
+  .bento-preview-toggle{display:flex;gap:4px;background:var(--bg-canvas);padding:4px;border-radius:var(--radius-sm)}
+  .bento-preview-toggle button{padding:8px 12px;min-height:36px;border:none;background:transparent;color:var(--text-secondary);font-size:0.85rem;font-weight:600;border-radius:6px;cursor:pointer;transition:all 0.15s}
+  .bento-preview-toggle button.active{background:var(--bg-panel);color:var(--text-primary);box-shadow:var(--shadow-sm)}
+
+  .bento-canvas{display:grid;gap:var(--grid-gap,8px);grid-template-columns:repeat(var(--grid-cols,6),1fr);grid-template-rows:repeat(var(--grid-rows,4),minmax(70px,1fr));width:100%;position:relative;transition:all 0.2s;background-image:radial-gradient(var(--border) 1px, transparent 1px);background-size:20px 20px;border-radius:8px;padding:8px}
+  .bento-canvas.mobile{max-width:360px;margin:0 auto}
+  .bento-canvas.tablet{max-width:640px;margin:0 auto}
+
+  .bento-cell{background:transparent;border-radius:6px;min-height:70px;border:1px dashed var(--border);transition:background 0.15s}
+  .bento-cell:hover{background:var(--bg-cell-hover);border-color:var(--accent)}
+
+  .bento-block{position:relative;border-radius:10px;cursor:grab;display:flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.2);transition:box-shadow 0.15s,transform 0.1s;user-select:none;overflow:hidden;z-index:2;box-shadow:0 4px 6px rgba(0,0,0,0.1)}
+  .bento-block:hover{box-shadow:0 8px 16px rgba(0,0,0,0.15);transform:translateY(-2px)}
+  .bento-block.selected{outline:3px solid var(--text-primary);outline-offset:2px}
+  .bento-block.dragging{opacity:0.8;cursor:grabbing;z-index:10;transform:scale(1.02)}
+
+  .bento-handle{position:absolute;width:18px;height:18px;background:#fff;border:2px solid var(--accent);border-radius:50%;z-index:3;cursor:nwse-resize;opacity:0;transition:opacity 0.15s}
+  .bento-block:hover .bento-handle,.bento-block.selected .bento-handle{opacity:1}
+  .bento-handle.tl{top:-8px;left:-8px;cursor:nwse-resize}
+  .bento-handle.tr{top:-8px;right:-8px;cursor:nesw-resize}
+  .bento-handle.bl{bottom:-8px;left:-8px;cursor:nesw-resize}
+  .bento-handle.br{bottom:-8px;right:-8px;cursor:nwse-resize}
+
+  .bento-sidebar{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);height:fit-content}
+  .bento-sidebar h3{font-size:0.95rem;font-weight:700;margin:0 0 12px;color:var(--text-primary)}
+  .bento-sidebar .bento-section{margin-bottom:24px}
+  .bento-sidebar .bento-section:last-child{margin-bottom:0}
+
+  .bento-color-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+  .bento-color-swatch{aspect-ratio:1;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all 0.15s;min-width:32px;min-height:32px}
+  .bento-color-swatch:hover{transform:scale(1.1)}
+  .bento-color-swatch.active{border-color:var(--text-primary);box-shadow:0 0 0 2px var(--bg-panel)}
+
+  .bento-presets{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .bento-presets button{padding:10px;min-height:44px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--bg-canvas);color:var(--text-primary);font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.15s}
+  .bento-presets button:hover{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+
+  .bento-block-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;padding-right:4px}
+  .bento-block-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);background:var(--bg-canvas);font-size:0.85rem;cursor:pointer;transition:background 0.15s;border:1px solid transparent}
+  .bento-block-item:hover{background:var(--bg-cell);border-color:var(--border)}
+  .bento-block-item.active{background:var(--accent-light);color:var(--accent);border-color:var(--accent)}
+  .bento-block-item .dot{width:14px;height:14px;border-radius:4px;flex-shrink:0}
+  .bento-block-item .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .bento-block-item .dup{opacity:0;color:var(--accent);cursor:pointer;font-weight:700;padding:4px 6px;transition:opacity 0.15s;font-size:1rem}
+  .bento-block-item .del{opacity:0;color:var(--danger);cursor:pointer;font-weight:700;padding:4px 8px;transition:opacity 0.15s;font-size:1.2rem}
+  .bento-block-item:hover .dup,.bento-block-item:hover .del{opacity:1}
+
+  .bento-code-wrap{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;margin-top:16px}
+  .bento-code-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg-canvas);overflow-x:auto}
+  .bento-code-tabs button{flex:1;min-width:90px;padding:14px;min-height:48px;border:none;background:transparent;color:var(--text-secondary);font-size:0.9rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap}
+  .bento-code-tabs button.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--bg-panel)}
+  .bento-code-tabs button:hover{color:var(--text-primary)}
+
+  .bento-code-body{position:relative}
+  .bento-code-body pre{margin:0;padding:20px;background:var(--bg-canvas);color:var(--text-primary);font-family:'SF Mono',Monaco,Consolas,monospace;font-size:0.85rem;line-height:1.6;overflow-x:auto;max-height:350px;overflow-y:auto;white-space:pre;tab-size:2;border-top:1px solid var(--border)}
+  .bento-copy-btn{position:absolute;top:12px;right:12px;padding:8px 16px;min-height:40px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--bg-panel);color:var(--text-primary);font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.15s;z-index:5}
+  .bento-copy-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .bento-copy-btn.copied{background:var(--success);color:#fff;border-color:var(--success)}
+
+  .bento-empty{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:0.95rem}
+
+  /* How to Use & Use Cases Styles */
+  .htu-wrap{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text-primary);line-height:1.65;max-width:1100px;margin:0 auto;padding:12px clamp(12px,3vw,24px);box-sizing:border-box}
+  .htu-wrap h2{font-size:clamp(1.4rem,2.4vw,1.75rem);margin:32px 0 14px;font-weight:700}
+  .htu-wrap h3{font-size:clamp(1.1rem,1.8vw,1.25rem);margin:20px 0 10px;font-weight:600}
+  .htu-wrap p{margin:8px 0 14px;font-size:clamp(0.95rem,1.6vw,1.02rem)}
+  
+  .htu-box{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin:16px 0;box-shadow:var(--shadow-sm)}
+  .htu-box ol{margin:0;padding-left:24px}
+  .htu-box li{margin:12px 0;font-size:clamp(0.93rem,1.55vw,1rem)}
+  
+  .htu-tip{background:var(--accent-light);border-left:4px solid var(--accent);padding:14px 18px;border-radius:8px;margin:16px 0;font-size:0.95rem}
+
+  .uc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0}
+  .uc-card{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm);transition:transform 0.2s,box-shadow 0.2s}
+  .uc-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+  .uc-card .uc-icon{font-size:1.8rem;margin-bottom:10px;display:block}
+  .uc-card h4{font-size:1rem;font-weight:700;margin:0 0 10px;color:var(--text-primary)}
+  .uc-card ul{margin:0;padding-left:18px;list-style:disc}
+  .uc-card li{font-size:0.9rem;color:var(--text-secondary);margin:4px 0;line-height:1.5}
+
+  .htu-links{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+  .htu-links a{background:var(--bg-panel);color:var(--accent);padding:12px 18px;border-radius:var(--radius-sm);text-decoration:none;font-size:0.92rem;font-weight:600;border:1px solid var(--border);transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}
+  .htu-links a:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+  .htu-faq{background:var(--bg-canvas);border-radius:var(--radius);padding:24px;margin:24px 0;border:1px solid var(--border)}
+  .htu-faq h3{margin-top:0}
+  .htu-faq p{margin:8px 0 16px}
+  .htu-faq p:last-child{margin-bottom:0}
+
+  @media(max-width:768px){
+    .bento-handle{width:28px;height:28px;opacity:1;top:-12px;left:-12px}
+    .bento-handle.tr{right:-12px;top:-12px}
+    .bento-handle.bl{bottom:-12px;left:-12px}
+    .bento-handle.br{bottom:-12px;right:-12px}
+    .bento-topbar{flex-direction:column;align-items:stretch}
+    .bento-topbar .bento-group{width:100%;justify-content:space-between}
+    .bento-topbar .bento-spacer{display:none}
+    .bento-topbar .bento-btn{width:100%}
+    .uc-grid{grid-template-columns:1fr}
+    .htu-links{flex-direction:column}
+    .htu-links a{text-align:center;justify-content:center}
+    .bento-block-item .dup,.bento-block-item .del{opacity:1}
+  }
+</style>
+
+<div class="bento-app" id="bentoApp">
+  <div class="bento-topbar">
+    <div class="bento-group">
+      <label for="bCols">Cols</label>
+      <input type="number" id="bCols" min="2" max="12" value="6">
+    </div>
+    <div class="bento-group">
+      <label for="bRows">Rows</label>
+      <input type="number" id="bRows" min="1" max="8" value="4">
+    </div>
+    <div class="bento-group">
+      <label for="bGap">Gap</label>
+      <input type="range" id="bGap" min="0" max="24" value="8">
+      <span id="bGapVal" style="min-width:32px;text-align:right">8px</span>
+    </div>
+    <div class="bento-spacer"></div>
+    <button class="bento-btn" id="bShare" title="Generate Shareable Link">🔗 Share</button>
+    <button class="bento-btn success" id="bPNG" title="Export as Image">🖼️ PNG</button>
+    <button class="bento-btn" id="bUndo" title="Undo (Ctrl+Z)">↶</button>
+    <button class="bento-btn" id="bRedo" title="Redo (Ctrl+Y)">↷</button>
+    <button class="bento-btn danger" id="bReset">Reset</button>
+    <button class="bento-btn primary" id="bAddBlock">+ Add Block</button>
+  </div>
+
+  <div class="bento-main">
+    <div class="bento-canvas-wrap">
+      <div class="bento-canvas-header">
+        <span class="bento-title">Canvas</span>
+        <div class="bento-preview-toggle">
+          <button data-view="mobile" title="Mobile preview">📱</button>
+          <button data-view="tablet" title="Tablet preview">📟</button>
+          <button data-view="desktop" class="active" title="Desktop preview">🖥️</button>
+        </div>
+      </div>
+      <div class="bento-canvas" id="bCanvas"></div>
+    </div>
+
+    <aside class="bento-sidebar">
+      <div class="bento-section">
+        <h3>🎨 Block Color</h3>
+        <div class="bento-color-grid" id="bColors"></div>
+      </div>
+      <div class="bento-section">
+        <h3>⚡ Presets</h3>
+        <div class="bento-presets">
+          <button data-preset="saas">SaaS Hero</button>
+          <button data-preset="dashboard">Dashboard</button>
+          <button data-preset="portfolio">Portfolio</button>
+          <button data-preset="pricing">Pricing</button>
+        </div>
+      </div>
+      <div class="bento-section">
+        <h3>🧱 Blocks</h3>
+        <div class="bento-block-list" id="bBlockList"></div>
+      </div>
+      <div class="bento-section">
+        <h3>💾 Save / Load</h3>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="bento-btn" id="bExportJSON" style="flex:1;min-width:100%">Export JSON</button>
+          <button class="bento-btn" id="bImportJSON" style="flex:1;min-width:100%">Import JSON</button>
+        </div>
+        <input type="file" id="bFileInput" accept=".json" style="display:none">
+      </div>
+    </aside>
+  </div>
+
+  <div class="bento-code-wrap">
+    <div class="bento-code-tabs">
+      <button class="active" data-tab="html">HTML</button>
+      <button data-tab="css">CSS</button>
+      <button data-tab="tailwind">Tailwind</button>
+    </div>
+    <div class="bento-code-body">
+      <button class="bento-copy-btn" id="bCopy">Copy</button>
+      <pre id="bCodeOutput"></pre>
+    </div>
+  </div>
+</div>
+
+<div class="htu-wrap">
+  <h2>How to Use the Bento Grid Generator</h2>
+  <div class="htu-box">
+    <ol>
+      <li>✅ <strong>Define Grid Dimensions:</strong> Set columns (2–12) and rows (1–8) from the top bar. Adjust gap spacing with the slider.</li>
+      <li>✅ <strong>Add &amp; Position Blocks:</strong> Click <em>+ Add Block</em> to create elements. Drag to reposition — blocks snap to grid cells automatically. With a block selected, arrow keys nudge it one cell at a time.</li>
+      <li>✅ <strong>Resize with Handles:</strong> Grab corner handles and drag to expand or shrink any block's span across rows and columns.</li>
+      <li>✅ <strong>Customize Colors:</strong> Select a block and pick from 12 preset colors in the sidebar to differentiate sections visually.</li>
+      <li>✅ <strong>Duplicate a Block:</strong> Hover a block in the sidebar list and tap the duplicate icon (or press Ctrl+D) to clone it instantly.</li>
+      <li>✅ <strong>Export Code:</strong> Switch between HTML, CSS, and Tailwind tabs. Click Copy to grab production-ready code instantly.</li>
+      <li>✅ <strong>Share or Download:</strong> Use the Share button for a unique URL, or Export PNG for a high-res image of your layout.</li>
+    </ol>
+  </div>
+
+  <div class="htu-tip">📌 <strong>Pro tip:</strong> Press <strong>Ctrl+Z</strong> to undo, <strong>Ctrl+Y</strong> to redo, and <strong>Ctrl+D</strong> to duplicate the selected block. Your layout auto-saves to browser storage — refresh-safe!</div>
+
+  <h2>Who Is This Tool For? — 10 Real Use Cases</h2>
+  <p>The Bento Grid Generator isn't just for one type of user. Here's how different professionals and creators use it to save time and build better layouts:</p>
+
+  <div class="uc-grid">
+    <div class="uc-card">
+      <span class="uc-icon">👨‍💻</span>
+      <h4>Front-End Developers</h4>
+      <ul>
+        <li>Apple-style feature sections</li>
+        <li>SaaS landing page hero grids</li>
+        <li>Portfolio layouts</li>
+        <li>Save 30 min → 2 min per section</li>
+      </ul>
+    </div>
+
+    <div class="uc-card">
+      <span class="uc-icon">🎨</span>
+      <h4>UI/UX Designers</h4>
+      <ul>
+        <li>Rapid prototyping before Figma</li>
+        <li>Live demos for clients</li>
+        <li>Ready code for design handoff</li>
+      </ul>
+    </div>
+
+    <div class="uc-card">
+      <span class="uc-icon">🚀</span>
+      <h4>SaaS Founders &amp; Indie Hackers</h4>
+      <ul>
+        <li>Fast MVP landing pages</li>
+        <li>Product feature showcases</li>
+        <li>Pricing page layouts</li>
+        <li>No designer hire needed</li>
+      </ul>
+    </div>
+
+    <div class="uc-card">
+      <span class="uc-icon">📚</span>
+      <h4>Students &amp; Beginners</h4>
+      <ul>
+        <li>Learn CSS Grid visually</li>
+        <li>Understand Tailwind classes</li>
+        <li>College project layouts</li>
+      </ul>
+    </div>
+
+    <div class="uc-card">
+      <span class="uc-icon">📝</span>
+      <h4>Content Creators &amp; Bloggers</h4>
+      <ul>
+        <li>Newsletter signup sections</li>
+        <li>Link-in-bio style pages</li>
+        <li>Resource library layouts</li>
+      </ul>
+    </div>
+
+    <div class="uc-card">
+      <span class="uc-icon">🏢</span>
+      <h4>Agencies &amp; Freelancers</h4>
+      <ul>
+        <li>Same-day client delivery</li>
+        <li>Build reusable template library</li>
+        <li>White-label tool usage</li>
+      </ul>
+    </div>
+
+    <div class="uc-card">
+      <span class="uc-icon">🎓</span>
+      <h4>Educators &amp; Trainers</h4>
+      <ul>
+        <li>Live CSS Grid demos</li>
+        <li>Workshop teaching material</li>
+        <li>YouTube tutorial content</li>
+      </ul>
+    </div>
+
+    <div class="uc-card">
+      <span class="uc-icon">⚡</span>
+      <h4>Marketing Teams</h4>
+      <ul>
+        <li>Quick A/B testing layouts</li>
+        <li>Campaign landing pages</li>
+        <li>Email signature grids</li>
+      </ul>
+    </div>
+
+    <div class="uc-card">
+      <span class="uc-icon">🔗</span>
+      <h4>No-Code Builders</h4>
+      <ul>
+        <li>Webflow/Framer code snippets</li>
+        <li>Custom section building</li>
+        <li>Embed-ready components</li>
+      </ul>
+    </div>
+
+    <div class="uc-card">
+      <span class="uc-icon">💾</span>
+      <h4>Personal Projects</h4>
+      <ul>
+        <li>Developer portfolio sites</li>
+        <li>Linktree alternative pages</li>
+        <li>Startup idea validation</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Related Developer Tools on ToolsX</h2>
+  <p>Pair this generator with other free tools to supercharge your workflow:</p>
+  <div class="htu-links">
+    <a href="../tools/live-code-editor-preview-html-css-js.html">💻 Live Code Editor (HTML/CSS/JS)</a>
+    <a href="../tools/audit-karein-code-bugs-aur-security-ai.html">🔍 AI Code Bug &amp; Security Auditor</a>
+    <a href="../tools/boost-karein-seo-meta-tag-generator-ai.html">🏷️ AI SEO Meta Tag Generator</a>
+  </div>
+</div>
+
+<div class="htu-wrap">
+  <div class="htu-faq">
+    <h3>❓ Frequently Asked Questions</h3>
+    <p><strong>Q1. Is my layout data sent to any server?</strong><br>A: No. Everything runs locally in your browser using JavaScript. Your designs remain 100% private and secure.</p>
+    <p><strong>Q2. Can I share my layout with a teammate?</strong><br>A: Yes. Click the "Share Link" button to generate a unique URL containing your layout data, which you can send to anyone. Opening that link always loads the shared layout, even if you have used the tool before.</p>
+    <p><strong>Q3. Does it support exporting as an image?</strong><br>A: Yes. Use the "Export PNG" feature to instantly download a high-resolution image of your grid layout.</p>
+    <p><strong>Q4. Will this work on my mobile phone?</strong><br>A: Absolutely. The tool uses native touch events for dragging and resizing, ensuring a smooth experience on smartphones and tablets.</p>
+    <p><strong>Q5. What code formats can I export?</strong><br>A: You can export clean HTML with inline CSS Grid properties, standalone CSS classes, or Tailwind CSS utility classes.</p>
+    <p><strong>Q6. Can I duplicate a block instead of rebuilding it?</strong><br>A: Yes. Hover any block in the sidebar list and tap the duplicate icon, or select a block and press Ctrl+D.</p>
+  </div>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Is my layout data sent to any server?", "acceptedAnswer": {"@type": "Answer", "text": "No. Everything runs locally in your browser using JavaScript. Your designs remain 100% private and secure."}},
+    {"@type": "Question", "name": "Can I share my layout with a teammate?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Click the Share Link button to generate a unique URL containing your layout data, which you can send to anyone. Opening that link always loads the shared layout."}},
+    {"@type": "Question", "name": "Does it support exporting as an image?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Use the Export PNG feature to instantly download a high-resolution image of your grid layout."}},
+    {"@type": "Question", "name": "Will this work on my mobile phone?", "acceptedAnswer": {"@type": "Answer", "text": "Absolutely. The tool uses native touch events for dragging and resizing, ensuring a smooth experience on smartphones and tablets."}},
+    {"@type": "Question", "name": "What code formats can I export?", "acceptedAnswer": {"@type": "Answer", "text": "You can export clean HTML with inline CSS Grid properties, standalone CSS classes, or Tailwind CSS utility classes."}},
+    {"@type": "Question", "name": "Can I duplicate a block instead of rebuilding it?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Hover any block in the sidebar list and tap the duplicate icon, or select a block and press Ctrl+D."}}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Use the Bento Grid Generator",
+  "description": "Step-by-step guide to building bento-style grid layouts with the free Bento Grid Generator on ToolsX.",
+  "step": [
+    {"@type": "HowToStep", "name": "Define Grid Dimensions", "text": "Set columns (2-12) and rows (1-8) from the top bar. Adjust gap spacing with the slider."},
+    {"@type": "HowToStep", "name": "Add & Position Blocks", "text": "Click + Add Block to create elements. Drag to reposition, or use arrow keys to nudge the selected block."},
+    {"@type": "HowToStep", "name": "Resize with Handles", "text": "Grab corner handles and drag to expand or shrink any block's span across rows and columns."},
+    {"@type": "HowToStep", "name": "Customize Colors", "text": "Select a block and pick from 12 preset colors in the sidebar to differentiate sections visually."},
+    {"@type": "HowToStep", "name": "Duplicate a Block", "text": "Use the duplicate icon in the block list or press Ctrl+D to clone the selected block."},
+    {"@type": "HowToStep", "name": "Export Code", "text": "Switch between HTML, CSS, and Tailwind tabs. Click Copy to grab production-ready code instantly."},
+    {"@type": "HowToStep", "name": "Share or Download", "text": "Use the Share button for a unique URL, or Export PNG for a high-res image of your layout."}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Bento Grid Generator",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any (Browser-based)",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "Free visual bento grid layout builder with drag-and-drop, touch support, PNG export, shareable links, block duplication, keyboard nudging, and one-click code generation for HTML, CSS, and Tailwind.",
+  "featureList": "Touch Drag and Drop, Native PNG Export, Shareable URLs, Grid Snapping, Resize Handles, Block Duplication, Keyboard Nudge, HTML/CSS/Tailwind export, 4 Preset templates, Undo/Redo, Auto-save, JSON import/export, Mobile/Tablet/Desktop preview"
+}
+</script>
+
+<script>
+(function(){
+  'use strict';
+  const COLORS=['#6366f1','#8b5cf6','#ec4899','#ef4444','#f59e0b','#10b981','#06b6d4','#3b82f6','#64748b','#1e293b','#f97316','#84cc16'];
+  const PRESETS={
+    saas:{cols:6,rows:4,gap:10,blocks:[
+      {colStart:1,colEnd:4,rowStart:1,rowEnd:3,color:'#6366f1',name:'Hero'},
+      {colStart:4,colEnd:7,rowStart:1,rowEnd:2,color:'#8b5cf6',name:'Feature 1'},
+      {colStart:4,colEnd:7,rowStart:2,rowEnd:3,color:'#ec4899',name:'Feature 2'},
+      {colStart:1,colEnd:3,rowStart:3,rowEnd:5,color:'#10b981',name:'Stats'},
+      {colStart:3,colEnd:7,rowStart:3,rowEnd:5,color:'#3b82f6',name:'CTA'}
+    ]},
+    dashboard:{cols:6,rows:4,gap:8,blocks:[
+      {colStart:1,colEnd:3,rowStart:1,rowEnd:2,color:'#3b82f6',name:'Metric 1'},
+      {colStart:3,colEnd:5,rowStart:1,rowEnd:2,color:'#10b981',name:'Metric 2'},
+      {colStart:5,colEnd:7,rowStart:1,rowEnd:2,color:'#f59e0b',name:'Metric 3'},
+      {colStart:1,colEnd:5,rowStart:2,rowEnd:4,color:'#6366f1',name:'Chart'},
+      {colStart:5,colEnd:7,rowStart:2,rowEnd:4,color:'#8b5cf6',name:'Activity'}
+    ]},
+    portfolio:{cols:6,rows:4,gap:10,blocks:[
+      {colStart:1,colEnd:5,rowStart:1,rowEnd:3,color:'#1e293b',name:'Featured Work'},
+      {colStart:5,colEnd:7,rowStart:1,rowEnd:2,color:'#6366f1',name:'About'},
+      {colStart:5,colEnd:7,rowStart:2,rowEnd:3,color:'#ec4899',name:'Contact'},
+      {colStart:1,colEnd:3,rowStart:3,rowEnd:5,color:'#10b981',name:'Project A'},
+      {colStart:3,colEnd:5,rowStart:3,rowEnd:5,color:'#f59e0b',name:'Project B'},
+      {colStart:5,colEnd:7,rowStart:3,rowEnd:5,color:'#3b82f6',name:'Project C'}
+    ]},
+    pricing:{cols:6,rows:3,gap:12,blocks:[
+      {colStart:1,colEnd:3,rowStart:1,rowEnd:4,color:'#64748b',name:'Basic'},
+      {colStart:3,colEnd:5,rowStart:1,rowEnd:4,color:'#6366f1',name:'Pro'},
+      {colStart:5,colEnd:7,rowStart:1,rowEnd:4,color:'#8b5cf6',name:'Enterprise'}
+    ]}
+  };
+
+  let state={cols:6,rows:4,gap:8,blocks:[],selectedId:null,preview:'desktop',activeTab:'html'};
+  let history=[];let historyIdx=-1;
+  let isDragging=false,dragData=null,touchDragData=null;
+  let isResizing=false,resizeData=null;
+
+  const $=s=>document.querySelector(s);
+  const $$=s=>document.querySelectorAll(s);
+  const canvas=$('#bCanvas');
+  const codeOut=$('#bCodeOutput');
+
+  function uid(){return 'b'+Math.random().toString(36).slice(2,10)}
+  function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+  function pushHistory(){
+    history=history.slice(0,historyIdx+1);
+    history.push(JSON.stringify({cols:state.cols,rows:state.rows,gap:state.gap,blocks:state.blocks}));
+    historyIdx=history.length-1;
+    if(history.length>50){history.shift();historyIdx--}
+    saveLocal();
+  }
+  function undo(){if(historyIdx>0){historyIdx--;const s=JSON.parse(history[historyIdx]);Object.assign(state,s);state.selectedId=null;render()}}
+  function redo(){if(historyIdx<history.length-1){historyIdx++;const s=JSON.parse(history[historyIdx]);Object.assign(state,s);state.selectedId=null;render()}}
+  function saveLocal(){try{localStorage.setItem('bento_state_v4',JSON.stringify(state))}catch(e){}}
+  function loadLocal(){try{const s=localStorage.getItem('bento_state_v4');if(s){const p=JSON.parse(s);if(p&&p.blocks)Object.assign(state,p)}}catch(e){}}
+
+  /* FIX: return whether a shared layout was actually loaded from the URL,
+     so loadLocal() below does not silently overwrite a shared link with
+     the visitor's own old localStorage layout. */
+  function loadFromURL(){
+    const params=new URLSearchParams(window.location.search);
+    const encoded=params.get('layout');
+    if(encoded){
+      try{
+        const decoded=JSON.parse(decodeURIComponent(escape(atob(encoded))));
+        if(decoded&&decoded.blocks){
+          Object.assign(state,decoded);
+          $('#bCols').value=state.cols;$('#bRows').value=state.rows;$('#bGap').value=state.gap;$('#bGapVal').textContent=state.gap+'px';
+          return true;
+        }
+      }catch(e){}
+    }
+    return false;
+  }
+
+  function renderGrid(){
+    canvas.style.setProperty('--grid-cols',state.cols);
+    canvas.style.setProperty('--grid-rows',state.rows);
+    canvas.style.setProperty('--grid-gap',state.gap+'px');
+    canvas.classList.remove('mobile','tablet');
+    if(state.preview==='mobile')canvas.classList.add('mobile');
+    if(state.preview==='tablet')canvas.classList.add('tablet');
+    canvas.innerHTML='';
+    for(let i=0;i<state.cols*state.rows;i++){
+      const cell=document.createElement('div');
+      cell.className='bento-cell';cell.dataset.idx=i;canvas.appendChild(cell);
+    }
+    state.blocks.forEach(b=>{
+      const el=document.createElement('div');
+      el.className='bento-block'+(b.id===state.selectedId?' selected':'');
+      el.dataset.id=b.id;
+      el.style.gridColumn=`${b.colStart} / ${b.colEnd}`;
+      el.style.gridRow=`${b.rowStart} / ${b.rowEnd}`;
+      el.style.background=b.color;
+      el.draggable=true;
+      el.innerHTML=`<span>${escapeHtml(b.name||'Block')}</span>
+        <div class="bento-handle tl" data-dir="tl"></div>
+        <div class="bento-handle tr" data-dir="tr"></div>
+        <div class="bento-handle bl" data-dir="bl"></div>
+        <div class="bento-handle br" data-dir="br"></div>`;
+      canvas.appendChild(el);
+    });
+  }
+
+  function renderBlockList(){
+    const list=$('#bBlockList');
+    if(!state.blocks.length){list.innerHTML='<div class="bento-empty">No blocks yet. Click "+ Add Block".</div>';return}
+    list.innerHTML=state.blocks.map(b=>`
+      <div class="bento-block-item${b.id===state.selectedId?' active':''}" data-id="${b.id}">
+        <span class="dot" style="background:${b.color}"></span>
+        <span class="name">${escapeHtml(b.name||'Block')}</span>
+        <span class="dup" data-dup="${b.id}" title="Duplicate block">⧉</span>
+        <span class="del" data-del="${b.id}" title="Delete block">×</span>
+      </div>`).join('');
+  }
+
+  function renderColors(){
+    const wrap=$('#bColors');
+    const sel=state.blocks.find(b=>b.id===state.selectedId);
+    wrap.innerHTML=COLORS.map(c=>`<div class="bento-color-swatch${sel&&sel.color===c?' active':''}" style="background:${c}" data-color="${c}"></div>`).join('');
+  }
+
+  function renderCode(){
+    const t=state.activeTab;
+    if(t==='html')codeOut.textContent=exportHTML();
+    else if(t==='css')codeOut.textContent=exportCSS();
+    else codeOut.textContent=exportTailwind();
+  }
+
+  function render(){renderGrid();renderBlockList();renderColors();renderCode()}
+
+  function addBlock(){
+    const id=uid();
+    state.blocks.push({id,colStart:1,colEnd:Math.min(3,state.cols+1),rowStart:1,rowEnd:Math.min(3,state.rows+1),color:COLORS[state.blocks.length%COLORS.length],name:'Block '+(state.blocks.length+1)});
+    state.selectedId=id;pushHistory();render();
+  }
+
+  function duplicateBlock(id){
+    const b=state.blocks.find(x=>x.id===id);if(!b)return;
+    const spanCol=b.colEnd-b.colStart;const spanRow=b.rowEnd-b.rowStart;
+    let nc=b.colStart+1,nr=b.rowStart+1;
+    if(nc+spanCol-1>state.cols)nc=1;
+    if(nr+spanRow-1>state.rows)nr=1;
+    const clone={id:uid(),colStart:nc,colEnd:nc+spanCol,rowStart:nr,rowEnd:nr+spanRow,color:b.color,name:(b.name||'Block')+' copy'};
+    state.blocks.push(clone);state.selectedId=clone.id;pushHistory();render();
+  }
+
+  function deleteBlock(id){
+    state.blocks=state.blocks.filter(b=>b.id!==id);
+    if(state.selectedId===id)state.selectedId=null;
+    pushHistory();render();
+  }
+
+  function selectBlock(id){state.selectedId=id;render()}
+
+  function getCellFromPoint(x,y){
+    const cells=canvas.querySelectorAll('.bento-cell');
+    for(const c of cells){
+      const r=c.getBoundingClientRect();
+      if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom)return parseInt(c.dataset.idx);
+    }
+    return -1;
+  }
+  function idxToCoord(idx){return{col:(idx%state.cols)+1,row:Math.floor(idx/state.cols)+1}}
+
+  canvas.addEventListener('dragstart',e=>{
+    const blk=e.target.closest('.bento-block');
+    if(!blk||e.target.classList.contains('bento-handle'))return;
+    const id=blk.dataset.id;const b=state.blocks.find(x=>x.id===id);if(!b)return;
+    dragData={id,startCol:b.colStart,startRow:b.rowStart,spanCol:b.colEnd-b.colStart,spanRow:b.rowEnd-b.rowStart};
+    blk.classList.add('dragging');e.dataTransfer.effectAllowed='move';isDragging=true;
+  });
+  canvas.addEventListener('dragover',e=>{if(!isDragging)return;e.preventDefault();e.dataTransfer.dropEffect='move'});
+  canvas.addEventListener('drop',e=>{
+    if(!isDragging||!dragData)return;e.preventDefault();
+    const idx=getCellFromPoint(e.clientX,e.clientY);
+    if(idx<0){isDragging=false;dragData=null;render();return}
+    const coord=idxToCoord(idx);const b=state.blocks.find(x=>x.id===dragData.id);
+    if(!b){isDragging=false;dragData=null;return}
+    let nc=coord.col,nr=coord.row;
+    if(nc+dragData.spanCol-1>state.cols)nc=state.cols-dragData.spanCol+1;
+    if(nr+dragData.spanRow-1>state.rows)nr=state.rows-dragData.spanRow+1;
+    if(nc<1)nc=1;if(nr<1)nr=1;
+    b.colStart=nc;b.colEnd=nc+dragData.spanCol;b.rowStart=nr;b.rowEnd=nr+dragData.spanRow;
+    isDragging=false;dragData=null;pushHistory();render();
+  });
+  canvas.addEventListener('dragend',()=>{isDragging=false;dragData=null;render()});
+
+  canvas.addEventListener('touchstart',e=>{
+    const blk=e.target.closest('.bento-block');
+    const handle=e.target.closest('.bento-handle');
+    if(handle)return;
+    if(!blk)return;
+    const id=blk.dataset.id;const b=state.blocks.find(x=>x.id===id);if(!b)return;
+    touchDragData={id,spanCol:b.colEnd-b.colStart,spanRow:b.rowEnd-b.rowStart};
+    blk.classList.add('dragging');
+  },{passive:true});
+
+  /* FIX: this listener calls e.preventDefault() below, which a passive
+     listener silently ignores — causing the page to scroll under the
+     user's finger while dragging a block on mobile. Registered as
+     {passive:false} so the drag actually suppresses page scroll. */
+  canvas.addEventListener('touchmove',e=>{
+    if(!touchDragData)return;
+    e.preventDefault();
+    const touch=e.touches[0];
+    const idx=getCellFromPoint(touch.clientX,touch.clientY);
+    if(idx<0)return;
+    const coord=idxToCoord(idx);const b=state.blocks.find(x=>x.id===touchDragData.id);
+    if(!b)return;
+    let nc=coord.col,nr=coord.row;
+    if(nc+touchDragData.spanCol-1>state.cols)nc=state.cols-touchDragData.spanCol+1;
+    if(nr+touchDragData.spanRow-1>state.rows)nr=state.rows-touchDragData.spanRow+1;
+    if(nc<1)nc=1;if(nr<1)nr=1;
+    b.colStart=nc;b.colEnd=nc+touchDragData.spanCol;b.rowStart=nr;b.rowEnd=nr+touchDragData.spanRow;
+    renderGrid();
+  },{passive:false});
+
+  canvas.addEventListener('touchend',e=>{
+    if(touchDragData){touchDragData=null;pushHistory();render()}
+  });
+
+  canvas.addEventListener('click',e=>{
+    if(isResizing)return;
+    const blk=e.target.closest('.bento-block');
+    if(blk){selectBlock(blk.dataset.id)}
+    else if(e.target.classList.contains('bento-cell')){state.selectedId=null;render()}
+  });
+
+  canvas.addEventListener('mousedown',e=>{
+    const handle=e.target.closest('.bento-handle');if(!handle)return;e.preventDefault();
+    const blk=handle.closest('.bento-block');const b=state.blocks.find(x=>x.id===blk.dataset.id);if(!b)return;
+    isResizing=true;
+    resizeData={id:b.id,dir:handle.dataset.dir,startCol:b.colStart,startRow:b.rowStart,endCol:b.colEnd,endRow:b.rowEnd,startX:e.clientX,startY:e.clientY};
+    document.addEventListener('mousemove',onResizeMove);document.addEventListener('mouseup',onResizeEnd);
+  });
+
+  canvas.addEventListener('touchstart',e=>{
+    const handle=e.target.closest('.bento-handle');if(!handle)return;
+    const blk=handle.closest('.bento-block');const b=state.blocks.find(x=>x.id===blk.dataset.id);if(!b)return;
+    const t=e.touches[0];isResizing=true;
+    resizeData={id:b.id,dir:handle.dataset.dir,startCol:b.colStart,startRow:b.rowStart,endCol:b.colEnd,endRow:b.rowEnd,startX:t.clientX,startY:t.clientY};
+  },{passive:true});
+
+  function onResizeMove(e){
+    if(!isResizing||!resizeData)return;
+    const b=state.blocks.find(x=>x.id===resizeData.id);if(!b)return;
+    const cell=canvas.querySelector('.bento-cell');if(!cell)return;
+    const cr=cell.getBoundingClientRect();
+    const cellW=cr.width+state.gap;const cellH=cr.height+state.gap;
+    const dx=Math.round((e.clientX-resizeData.startX)/cellW);
+    const dy=Math.round((e.clientY-resizeData.startY)/cellH);
+    const d=resizeData.dir;
+    let nc=resizeData.startCol,nr=resizeData.startRow,ne=resizeData.endCol,ner=resizeData.endRow;
+    if(d.includes('l')){nc=Math.max(1,Math.min(resizeData.startCol+dx,resizeData.endCol-1))}
+    if(d.includes('r')||d==='tr'||d==='br'){ne=Math.max(resizeData.startCol+1,Math.min(state.cols+1,resizeData.endCol+dx))}
+    if(d.includes('t')){nr=Math.max(1,Math.min(resizeData.startRow+dy,resizeData.endRow-1))}
+    if(d.includes('b')||d==='bl'||d==='br'){ner=Math.max(resizeData.startRow+1,Math.min(state.rows+1,resizeData.endRow+dy))}
+    b.colStart=nc;b.colEnd=ne;b.rowStart=nr;b.rowEnd=ner;renderGrid();
+  }
+
+  canvas.addEventListener('touchmove',e=>{
+    if(!isResizing||!resizeData)return;e.preventDefault();
+    const t=e.touches[0];onResizeMove({clientX:t.clientX,clientY:t.clientY});
+  },{passive:false});
+
+  function onResizeEnd(){
+    if(isResizing){isResizing=false;resizeData=null;pushHistory();render()}
+    document.removeEventListener('mousemove',onResizeMove);document.removeEventListener('mouseup',onResizeEnd);
+  }
+  canvas.addEventListener('touchend',()=>{if(isResizing)onResizeEnd()});
+
+  $('#bCols').addEventListener('change',e=>{
+    const v=Math.max(2,Math.min(12,parseInt(e.target.value)||6));e.target.value=v;state.cols=v;
+    state.blocks.forEach(b=>{if(b.colEnd>state.cols+1){b.colEnd=state.cols+1;if(b.colStart>=b.colEnd)b.colStart=b.colEnd-1}});
+    pushHistory();render();
+  });
+  $('#bRows').addEventListener('change',e=>{
+    const v=Math.max(1,Math.min(8,parseInt(e.target.value)||4));e.target.value=v;state.rows=v;
+    state.blocks.forEach(b=>{if(b.rowEnd>state.rows+1){b.rowEnd=state.rows+1;if(b.rowStart>=b.rowEnd)b.rowStart=b.rowEnd-1}});
+    pushHistory();render();
+  });
+  /* FIX: also refresh the exported code output live while dragging the gap
+     slider, so the CSS/HTML/Tailwind panel doesn't show a stale gap value. */
+  $('#bGap').addEventListener('input',e=>{
+    state.gap=parseInt(e.target.value);$('#bGapVal').textContent=state.gap+'px';renderGrid();renderCode();saveLocal();
+  });
+
+  $('#bAddBlock').addEventListener('click',addBlock);
+  $('#bReset').addEventListener('click',()=>{if(confirm('Reset the entire layout?')){state.blocks=[];state.selectedId=null;pushHistory();render()}});
+  $('#bUndo').addEventListener('click',undo);
+  $('#bRedo').addEventListener('click',redo);
+
+  $$('.bento-preview-toggle button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      $$('.bento-preview-toggle button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');state.preview=btn.dataset.view;renderGrid();
+    });
+  });
+
+  $('#bColors').addEventListener('click',e=>{
+    const sw=e.target.closest('.bento-color-swatch');if(!sw||!state.selectedId)return;
+    const b=state.blocks.find(x=>x.id===state.selectedId);
+    if(b){b.color=sw.dataset.color;pushHistory();render()}
+  });
+
+  $('#bBlockList').addEventListener('click',e=>{
+    const dup=e.target.closest('[data-dup]');if(dup){duplicateBlock(dup.dataset.dup);return}
+    const del=e.target.closest('[data-del]');if(del){deleteBlock(del.dataset.del);return}
+    const item=e.target.closest('.bento-block-item');if(item)selectBlock(item.dataset.id);
+  });
+
+  $$('.bento-presets button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const p=PRESETS[btn.dataset.preset];if(!p)return;
+      state.cols=p.cols;state.rows=p.rows;state.gap=p.gap;
+      state.blocks=p.blocks.map(b=>({...b,id:uid()}));state.selectedId=null;
+      $('#bCols').value=state.cols;$('#bRows').value=state.rows;$('#bGap').value=state.gap;$('#bGapVal').textContent=state.gap+'px';
+      pushHistory();render();
+    });
+  });
+
+  $$('.bento-code-tabs button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      $$('.bento-code-tabs button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');state.activeTab=btn.dataset.tab;renderCode();
+    });
+  });
+
+  $('#bCopy').addEventListener('click',()=>{
+    const txt=codeOut.textContent;
+    navigator.clipboard.writeText(txt).then(()=>{
+      const btn=$('#bCopy');btn.textContent='Copied!';btn.classList.add('copied');
+      setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},1500);
+    }).catch(()=>{
+      const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta);
+    });
+  });
+
+  $('#bExportJSON').addEventListener('click',()=>{
+    const data=JSON.stringify({cols:state.cols,rows:state.rows,gap:state.gap,blocks:state.blocks},null,2);
+    const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download='bento-layout.json';a.click();URL.revokeObjectURL(url);
+  });
+
+  $('#bImportJSON').addEventListener('click',()=>$('#bFileInput').click());
+  $('#bFileInput').addEventListener('change',e=>{
+    const f=e.target.files[0];if(!f)return;
+    if(f.size>1024*1024){alert('File too large (max 1MB)');return}
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      try{
+        const d=JSON.parse(ev.target.result);
+        if(!d.blocks||!Array.isArray(d.blocks))throw new Error('Invalid format');
+        if(d.blocks.length>50)throw new Error('Too many blocks (max 50)');
+        state.cols=Math.max(2,Math.min(12,d.cols||6));state.rows=Math.max(1,Math.min(8,d.rows||4));state.gap=Math.max(0,Math.min(24,d.gap||8));
+        state.blocks=d.blocks.map(b=>({
+          id:uid(),colStart:Math.max(1,Math.min(state.cols,parseInt(b.colStart)||1)),
+          colEnd:Math.max(2,Math.min(state.cols+1,parseInt(b.colEnd)||2)),
+          rowStart:Math.max(1,Math.min(state.rows,parseInt(b.rowStart)||1)),
+          rowEnd:Math.max(2,Math.min(state.rows+1,parseInt(b.rowEnd)||2)),
+          color:/^#[0-9a-f]{6}$/i.test(b.color)?b.color:'#6366f1',
+          name:String(b.name||'Block').slice(0,30).replace(/[<>"']/g,'')
+        }));
+        $('#bCols').value=state.cols;$('#bRows').value=state.rows;$('#bGap').value=state.gap;$('#bGapVal').textContent=state.gap+'px';
+        pushHistory();render();
+      }catch(err){alert('Invalid JSON file: '+err.message)}
+    };
+    reader.readAsText(f);e.target.value='';
+  });
+
+  $('#bShare').addEventListener('click',()=>{
+    const encoded=btoa(unescape(encodeURIComponent(JSON.stringify({cols:state.cols,rows:state.rows,gap:state.gap,blocks:state.blocks}))));
+    const url=window.location.origin+window.location.pathname+'?layout='+encoded;
+    navigator.clipboard.writeText(url).then(()=>{
+      const btn=$('#bShare');const orig=btn.textContent;btn.textContent='✓ Copied!';
+      setTimeout(()=>{btn.textContent=orig},2000);
+    }).catch(()=>{prompt('Copy this link:',url)});
+  });
+
+  $('#bPNG').addEventListener('click',()=>{
+    const scale=2;const cEl=document.createElement('canvas');const ctx=cEl.getContext('2d');
+    const width=canvas.offsetWidth;const height=canvas.offsetHeight;
+    cEl.width=width*scale;cEl.height=height*scale;ctx.scale(scale,scale);
+    ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--bg-canvas').trim()||'#f8fafc';
+    ctx.fillRect(0,0,width,height);
+    state.blocks.forEach(b=>{
+      const el=document.querySelector(`.bento-block[data-id="${b.id}"]`);
+      if(el){
+        const rect=el.getBoundingClientRect();const canvasRect=canvas.getBoundingClientRect();
+        const x=rect.left-canvasRect.left;const y=rect.top-canvasRect.top;
+        ctx.fillStyle=b.color;
+        ctx.beginPath();ctx.moveTo(x+8,y);ctx.arcTo(x+rect.width,y,x+rect.width,y+rect.height,8);
+        ctx.arcTo(x+rect.width,y+rect.height,x,y+rect.height,8);ctx.arcTo(x,y+rect.height,x,y,8);
+        ctx.arcTo(x,y,x+rect.width,y,8);ctx.closePath();ctx.fill();
+        ctx.fillStyle='#ffffff';ctx.font='bold 14px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
+        ctx.fillText(b.name||'Block',x+rect.width/2,y+rect.height/2);
+      }
+    });
+    cEl.toBlob(blob=>{
+      const url=URL.createObjectURL(blob);const a=document.createElement('a');
+      a.href=url;a.download='bento-grid.png';a.click();URL.revokeObjectURL(url);
+    });
+  });
+
+  document.addEventListener('keydown',e=>{
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
+    if((e.ctrlKey||e.metaKey)&&e.key==='z'){e.preventDefault();undo();return}
+    if((e.ctrlKey||e.metaKey)&&(e.key==='y'||(e.shiftKey&&e.key==='Z'))){e.preventDefault();redo();return}
+    if((e.ctrlKey||e.metaKey)&&e.key==='d'){e.preventDefault();if(state.selectedId)duplicateBlock(state.selectedId);return}
+    if(e.key==='Delete'&&state.selectedId){deleteBlock(state.selectedId);return}
+
+    /* NEW: arrow-key nudge for the selected block — one cell at a time,
+       clamped to the grid bounds. Helpful for precise placement and for
+       keyboard-only / accessibility use. */
+    if(state.selectedId&&['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].indexOf(e.key)!==-1){
+      const b=state.blocks.find(x=>x.id===state.selectedId);if(!b)return;
+      e.preventDefault();
+      const spanCol=b.colEnd-b.colStart;const spanRow=b.rowEnd-b.rowStart;
+      let nc=b.colStart,nr=b.rowStart;
+      if(e.key==='ArrowUp')nr=Math.max(1,b.rowStart-1);
+      if(e.key==='ArrowDown')nr=Math.min(state.rows-spanRow+1,b.rowStart+1);
+      if(e.key==='ArrowLeft')nc=Math.max(1,b.colStart-1);
+      if(e.key==='ArrowRight')nc=Math.min(state.cols-spanCol+1,b.colStart+1);
+      b.colStart=nc;b.colEnd=nc+spanCol;b.rowStart=nr;b.rowEnd=nr+spanRow;
+      renderGrid();pushHistory();renderCode();
+    }
+  });
+
+  function exportHTML(){
+    if(!state.blocks.length)return '<!-- Add blocks to generate HTML -->';
+    let out='<div class="bento-grid">\n';
+    state.blocks.forEach((b,i)=>{
+      const name=(b.name||'block-'+(i+1)).toLowerCase().replace(/[^a-z0-9]+/g,'-');
+      out+=`  <div class="bento-item ${name}" style="grid-column: ${b.colStart} / ${b.colEnd}; grid-row: ${b.rowStart} / ${b.rowEnd}; background: ${b.color};"></div>\n`;
+    });
+    out+='</div>';return out;
+  }
+
+  function exportCSS(){
+    let out=`.bento-grid {\n  display: grid;\n  grid-template-columns: repeat(${state.cols}, 1fr);\n  grid-template-rows: repeat(${state.rows}, minmax(120px, 1fr));\n  gap: ${state.gap}px;\n}\n\n`;
+    state.blocks.forEach((b,i)=>{
+      const name=(b.name||'block-'+(i+1)).toLowerCase().replace(/[^a-z0-9]+/g,'-');
+      out+=`.bento-item.${name} {\n  grid-column: ${b.colStart} / ${b.colEnd};\n  grid-row: ${b.rowStart} / ${b.rowEnd};\n  background: ${b.color};\n  border-radius: 12px;\n  padding: 20px;\n}\n\n`;
+    });
+    return out.trim();
+  }
+
+  function exportTailwind(){
+    if(!state.blocks.length)return '<!-- Add blocks to generate Tailwind -->';
+    const gapClass=state.gap<=1?'gap-0':`gap-${Math.round(state.gap/4)}`;
+    let out=`<div class="grid grid-cols-${state.cols} grid-rows-${state.rows} ${gapClass}">\n`;
+    state.blocks.forEach((b,i)=>{
+      const name=(b.name||'block-'+(i+1)).toLowerCase().replace(/[^a-z0-9]+/g,'-');
+      const spanCol=b.colEnd-b.colStart;const spanRow=b.rowEnd-b.rowStart;
+      const colStart=b.colStart>1?` col-start-${b.colStart}`:'';
+      const rowStart=b.rowStart>1?` row-start-${b.rowStart}`:'';
+      const colSpan=spanCol>1?` col-span-${spanCol}`:' col-span-1';
+      const rowSpan=spanRow>1?` row-span-${spanRow}`:' row-span-1';
+      const hex=b.color.replace('#','');
+      out+=`  <div class="${name}${colStart}${rowStart}${colSpan}${rowSpan} rounded-xl p-5" style="background:#${hex}"></div>\n`;
+    });
+    out+='</div>';return out;
+  }
+
+  /* FIX: only fall back to the visitor's saved local layout when there was
+     no valid shared layout in the URL — otherwise a shared link opened by
+     a returning visitor was silently replaced by their own old layout. */
+  const sharedLayoutLoaded=loadFromURL();
+  if(!sharedLayoutLoaded)loadLocal();
+  $('#bCols').value=state.cols;$('#bRows').value=state.rows;$('#bGap').value=state.gap;$('#bGapVal').textContent=state.gap+'px';
+  pushHistory();render();
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

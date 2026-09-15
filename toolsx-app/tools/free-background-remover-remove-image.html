@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Free Background Remover – Remove Image Background in 1 Click – ToolsX App</title>
+<meta name="description" content="Remove image backgrounds instantly and free with one click. High-quality AI background remover, no software needed.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Free Background Remover – Remove Image Background in 1 Click</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<!-- BLOGGER POST TITLE: Free Background Remover – Remove Image Background Online | Tools-X -->
+<!-- TARGET URL: ../tools/free-background-remover-remove-image.html -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Free Image Background Remover",
+      "description": "Free, browser-based image background remover. Remove backgrounds from PNG, JPG, and WebP photos instantly with 100% client-side privacy.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+      "author": { "@type": "Organization", "name": "Tools-X", "url": "https://www.toolsx.in" },
+      "publisher": { "@type": "Organization", "name": "Tools-X", "url": "https://www.toolsx.in" },
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "../tools/free-background-remover-remove-image.html" }
+    },
+    {
+      "@type": "HowTo",
+      "name": "How to Remove Background from an Image Online",
+      "description": "Step-by-step guide to removing photo backgrounds directly in your web browser.",
+      "step": [
+        { "@type": "HowToStep", "name": "Upload Image", "text": "Upload your JPG, PNG, or WebP photo into the secure file uploader." },
+        { "@type": "HowToStep", "name": "Adjust Sensitivity", "text": "Fine-tune color tolerance and feather edge sliders to isolate foreground subjects." },
+        { "@type": "HowToStep", "name": "Download PNG", "text": "Preview your transparent cutout and save your HD transparent PNG file directly." }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this background remover free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, this tool is 100% free with no hidden charges, watermarks, or subscription requirements."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are my uploaded photos safe and private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Your files remain completely secure. All rendering and cutout computations occur directly inside your browser. No files are ever sent to an external server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What image formats are supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The tool supports PNG, JPEG, JPG, and WebP formats up to 15MB in file size."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I download the result with high resolution?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, cutouts retain their original source dimensions and export as high-definition transparent PNG files."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+#tsxv5-bgr-root {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden;
+}
+
+#tsxv5-bgr-root .bgr-wrapper {
+  --bgr-bg: #f8fafc;
+  --bgr-card: #ffffff;
+  --bgr-input: #f1f5f9;
+  --bgr-border: #e2e8f0;
+  --bgr-text: #0f172a;
+  --bgr-text-soft: #475569;
+  --bgr-muted: #94a3b8;
+  --bgr-primary: #0ea5e9;
+  --bgr-primary-hover: #0284c7;
+  --bgr-success: #10b981;
+  --bgr-danger: #ef4444;
+  --bgr-radius: 14px;
+  
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--bgr-text);
+  background: var(--bgr-bg);
+  max-width: 880px;
+  width: 100%;
+  margin: 16px auto;
+  padding: 16px;
+  border-radius: var(--bgr-radius);
+  border: 1px solid var(--bgr-border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+#tsxv5-bgr-root * { box-sizing: border-box !important; }
+
+#tsxv5-bgr-root .bgr-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+#tsxv5-bgr-root .bgr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  color: var(--bgr-primary);
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+#tsxv5-bgr-root .bgr-header h2 {
+  font-size: clamp(20px, 4vw, 26px);
+  font-weight: 800;
+  color: var(--bgr-text);
+  margin: 0 0 6px 0;
+  letter-spacing: -0.02em;
+}
+#tsxv5-bgr-root .bgr-header p {
+  font-size: 13px;
+  color: var(--bgr-text-soft);
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+#tsxv5-bgr-root .bgr-card {
+  background: var(--bgr-card);
+  border: 1px solid var(--bgr-border);
+  border-radius: var(--bgr-radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+#tsxv5-bgr-root .bgr-dropzone {
+  border: 2px dashed var(--bgr-border);
+  border-radius: 10px;
+  padding: 24px 14px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--bgr-input);
+  transition: all 0.2s ease;
+}
+#tsxv5-bgr-root .bgr-dropzone:hover,
+#tsxv5-bgr-root .bgr-dropzone.dragover {
+  border-color: var(--bgr-primary);
+  background: rgba(14, 165, 233, 0.05);
+}
+#tsxv5-bgr-drop-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+  display: block;
+}
+#tsxv5-bgr-root .bgr-dropzone p {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bgr-text);
+  margin: 0 0 4px 0;
+}
+#tsxv5-bgr-root .bgr-dropzone span {
+  font-size: 11px;
+  color: var(--bgr-muted);
+}
+#tsxv5-bgr-root .bgr-dropzone input[type="file"] { display: none; }
+
+#tsxv5-bgr-root .bgr-workspace {
+  display: none;
+  margin-top: 14px;
+}
+#tsxv5-bgr-root .bgr-workspace.active { display: block; }
+
+#tsxv5-bgr-root .bgr-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+#tsxv5-bgr-root .bgr-preview-box {
+  background: var(--bgr-input);
+  border: 1px solid var(--bgr-border);
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+}
+#tsxv5-bgr-root .bgr-preview-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--bgr-text-soft);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+#tsxv5-bgr-root .bgr-canvas-wrapper {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-size: 16px 16px;
+  background-position: 0 0, 8px 8px;
+  border-radius: 6px;
+}
+#tsxv5-bgr-root .bgr-checkerboard {
+  background-color: #ffffff;
+  background-image: linear-gradient(45deg, #e5e7eb 25%, transparent 25%), 
+                    linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), 
+                    linear-gradient(45deg, transparent 75%, #e5e7eb 75%), 
+                    linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+}
+#tsxv5-bgr-root .bgr-canvas-wrapper img,
+#tsxv5-bgr-root .bgr-canvas-wrapper canvas {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+#tsxv5-bgr-root .bgr-controls {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+#tsxv5-bgr-root .bgr-control-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+#tsxv5-bgr-root .bgr-control-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bgr-text-soft);
+}
+#tsxv5-bgr-root .bgr-control-item input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+}
+
+#tsxv5-bgr-root .bgr-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+#tsxv5-bgr-root .bgr-btn {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 42px;
+  transition: all 0.2s;
+}
+#tsxv5-bgr-root .bgr-btn-primary {
+  background: var(--bgr-primary);
+  color: #fff;
+}
+#tsxv5-bgr-root .bgr-btn-primary:hover { background: var(--bgr-primary-hover); }
+#tsxv5-bgr-root .bgr-btn-secondary {
+  background: var(--bgr-input);
+  color: var(--bgr-text);
+  border: 1px solid var(--bgr-border);
+}
+
+#tsxv5-bgr-root .bgr-guide-section {
+  margin-top: 14px;
+  padding: 14px;
+  background: var(--bgr-card);
+  border: 1px solid var(--bgr-border);
+  border-radius: var(--bgr-radius);
+  border-left: 4px solid var(--bgr-primary);
+}
+#tsxv5-bgr-root .bgr-guide-section h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--bgr-text);
+  margin: 0 0 8px 0;
+}
+#tsxv5-bgr-root .bgr-guide-section p,
+#tsxv5-bgr-root .bgr-guide-section li {
+  font-size: 12px;
+  color: var(--bgr-text-soft);
+  line-height: 1.6;
+}
+#tsxv5-bgr-root .bgr-guide-section ul {
+  padding-left: 18px;
+  margin: 6px 0 0 0;
+}
+
+#tsxv5-bgr-root .bgr-faq-container {
+  margin-top: 14px;
+}
+#tsxv5-bgr-root .bgr-faq-item {
+  background: var(--bgr-input);
+  border: 1px solid var(--bgr-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 8px;
+}
+#tsxv5-bgr-root .bgr-faq-item h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--bgr-text);
+  margin: 0 0 4px 0;
+}
+#tsxv5-bgr-root .bgr-faq-item p {
+  font-size: 12px;
+  color: var(--bgr-text-soft);
+  margin: 0;
+  line-height: 1.5;
+}
+
+#tsxv5-bgr-root .bgr-internal-links {
+  margin-top: 16px;
+  padding: 14px;
+  background: var(--bgr-input);
+  border-radius: 8px;
+  border: 1px dashed var(--bgr-primary);
+}
+#tsxv5-bgr-root .bgr-internal-links p {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--bgr-text);
+  margin: 0 0 6px 0;
+}
+#tsxv5-bgr-root .bgr-internal-links a {
+  display: block;
+  color: var(--bgr-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 4px 0;
+}
+#tsxv5-bgr-root .bgr-internal-links a:hover { text-decoration: underline; }
+
+/* Dark Theme Compatibility */
+body.dark-mode #tsxv5-bgr-root .bgr-wrapper,
+html.dark-mode #tsxv5-bgr-root .bgr-wrapper,
+[data-theme="dark"] #tsxv5-bgr-root .bgr-wrapper {
+  --bgr-bg: #0f172a;
+  --bgr-card: #1e293b;
+  --bgr-input: #0f172a;
+  --bgr-border: #334155;
+  --bgr-text: #f1f5f9;
+  --bgr-text-soft: #94a3b8;
+  --bgr-muted: #64748b;
+}
+
+@media (max-width: 600px) {
+  #tsxv5-bgr-root .bgr-preview-grid { grid-template-columns: 1fr; }
+  #tsxv5-bgr-root .bgr-controls { grid-template-columns: 1fr; }
+  #tsxv5-bgr-root .bgr-actions { flex-direction: column; }
+  #tsxv5-bgr-root .bgr-btn { width: 100%; }
+}
+</style>
+
+<div id="tsxv5-bgr-root">
+<div class="bgr-wrapper">
+  
+  <div class="bgr-header">
+    <div class="bgr-badge">100% Free &amp; Private Browser Processing</div>
+    <h2>Free Image Background Remover</h2>
+    <p>Remove backdrops from portraits, headshots, products, and graphics instantly inside your browser without uploading files to any external server.</p>
+  </div>
+
+  <div class="bgr-card">
+    <div class="bgr-dropzone" id="bgrDropzone" role="button" tabindex="0">
+      <span id="tsxv5-bgr-drop-icon">🖼️</span>
+      <p>Click or Drag &amp; Drop Image Here</p>
+      <span>Supports JPG, PNG, and WebP (Max: 15MB)</span>
+      <input type="file" id="bgrFileInput" accept="image/png, image/jpeg, image/webp">
+    </div>
+
+    <div class="bgr-workspace" id="bgrWorkspace">
+      <div class="bgr-preview-grid">
+        <div class="bgr-preview-box">
+          <div class="bgr-preview-title">Original Source</div>
+          <div class="bgr-canvas-wrapper">
+            <img id="bgrSourcePreview" alt="Source Preview">
+          </div>
+        </div>
+        <div class="bgr-preview-box">
+          <div class="bgr-preview-title">Transparent Result</div>
+          <div class="bgr-canvas-wrapper bgr-checkerboard">
+            <canvas id="bgrOutputCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="bgr-controls">
+        <div class="bgr-control-item">
+          <div class="bgr-control-label">
+            <span>Color Tolerance</span>
+            <span id="bgrToleranceVal">35</span>
+          </div>
+          <input type="range" id="bgrTolerance" min="5" max="100" value="35">
+        </div>
+        <div class="bgr-control-item">
+          <div class="bgr-control-label">
+            <span>Edge Smoothing</span>
+            <span id="bgrSmoothVal">2</span>
+          </div>
+          <input type="range" id="bgrSmooth" min="0" max="10" value="2">
+        </div>
+      </div>
+
+      <div class="bgr-actions">
+        <button class="bgr-btn bgr-btn-primary" id="bgrDownloadBtn" type="button">⬇️ Download Transparent PNG</button>
+        <button class="bgr-btn bgr-btn-secondary" id="bgrResetBtn" type="button">🔄 Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bgr-guide-section">
+    <h3>How to Use This Tool</h3>
+    <p>Follow these simple steps to erase picture backgrounds cleanly in seconds:</p>
+    <ul>
+      <li><strong>Step 1:</strong> Click the dropzone or drag and drop your photo into the panel.</li>
+      <li><strong>Step 2:</strong> The algorithm automatically selects background boundaries based on edge sampling.</li>
+      <li><strong>Step 3:</strong> Adjust the <em>Color Tolerance</em> slider if small background patches remain or if subjects lose detail.</li>
+      <li><strong>Step 4:</strong> Click <em>Download Transparent PNG</em> to export the high-definition cutout directly to your device storage.</li>
+    </ul>
+  </div>
+
+  <div class="bgr-faq-container">
+    <div class="bgr-guide-section" style="border-left-color: var(--bgr-success);">
+      <h3>Frequently Asked Questions</h3>
+    </div>
+    <div class="bgr-faq-item">
+      <h4>Q: Is this background remover free to use?</h4>
+      <p>Yes, it is completely free with no usage limits, registration gates, or watermarks added to your images.</p>
+    </div>
+    <div class="bgr-faq-item">
+      <h4>Q: Are my uploaded photos safe and private?</h4>
+      <p>Your files remain completely secure. All rendering and cutout computations occur directly inside your browser. No files are ever sent to an external server.</p>
+    </div>
+    <div class="bgr-faq-item">
+      <h4>Q: What image formats are supported?</h4>
+      <p>The tool supports PNG, JPEG, JPG, and WebP formats up to 15MB in file size.</p>
+    </div>
+    <div class="bgr-faq-item">
+      <h4>Q: Can I download the result with high resolution?</h4>
+      <p>Yes, cutouts retain their original source dimensions and export as high-definition transparent PNG files.</p>
+    </div>
+  </div>
+
+  <div class="bgr-internal-links">
+    <p>Related Free Web Tools on Tools-X:</p>
+    <a href="../tools/gst-invoice-generator-for-business.html">🧾 Free GST Invoice Generator for Business</a>
+    <a href="../tools/free-emi-calculator-with-down-payment.html">🔍 Free AI Code Detector Tool</a>
+    <a href="../tools/free-csv-to-json-json-to-csv-converter.html">📊 Free CSV to JSON / JSON to CSV Converter</a>
+  </div>
+
+</div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  function initBgr() {
+    var dropzone = document.getElementById('bgrDropzone');
+    var fileInput = document.getElementById('bgrFileInput');
+    var workspace = document.getElementById('bgrWorkspace');
+    var sourceImg = document.getElementById('bgrSourcePreview');
+    var outputCanvas = document.getElementById('bgrOutputCanvas');
+    var toleranceSlider = document.getElementById('bgrTolerance');
+    var toleranceVal = document.getElementById('bgrToleranceVal');
+    var smoothSlider = document.getElementById('bgrSmooth');
+    var smoothVal = document.getElementById('bgrSmoothVal');
+    var downloadBtn = document.getElementById('bgrDownloadBtn');
+    var resetBtn = document.getElementById('bgrResetBtn');
+
+    if (!dropzone || !fileInput || !outputCanvas) return;
+
+    var loadedImage = null;
+
+    dropzone.addEventListener('click', function() { fileInput.click(); });
+    dropzone.addEventListener('dragover', function(e) { e.preventDefault(); dropzone.classList.add('dragover'); });
+    dropzone.addEventListener('dragleave', function() { dropzone.classList.remove('dragover'); });
+    dropzone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+
+    fileInput.addEventListener('change', function() {
+      if (this.files.length) handleFile(this.files[0]);
+    });
+
+    function handleFile(file) {
+      if (!file.type.match(/^image\/(png|jpeg|jpg|webp)$/i)) {
+        alert('Please provide a valid PNG, JPG, or WebP image.');
+        return;
+      }
+      if (file.size > 15 * 1024 * 1024) {
+        alert('File size exceeds the 15MB limit.');
+        return;
+      }
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          loadedImage = img;
+          sourceImg.src = img.src;
+          workspace.classList.add('active');
+          dropzone.style.display = 'none';
+          processBackground();
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function processBackground() {
+      if (!loadedImage) return;
+
+      var width = loadedImage.naturalWidth || loadedImage.width;
+      var height = loadedImage.naturalHeight || loadedImage.height;
+
+      outputCanvas.width = width;
+      outputCanvas.height = height;
+
+      var ctx = outputCanvas.getContext('2d');
+      ctx.clearRect(0, 0, width, height);
+      ctx.drawImage(loadedImage, 0, 0);
+
+      var imgData = ctx.getImageData(0, 0, width, height);
+      var data = imgData.data;
+
+      var samplePoints = [
+        0, 1, 2,
+        (width - 1) * 4,
+        ((height - 1) * width) * 4,
+        ((height * width) - 1) * 4
+      ];
+
+      var bgR = 0, bgG = 0, bgB = 0, samplesCount = 0;
+      for (var s = 0; s < samplePoints.length; s++) {
+        var idx = samplePoints[s];
+        if (idx < data.length - 3) {
+          bgR += data[idx];
+          bgG += data[idx + 1];
+          bgB += data[idx + 2];
+          samplesCount++;
+        }
+      }
+
+      bgR = Math.round(bgR / samplesCount);
+      bgG = Math.round(bgG / samplesCount);
+      bgB = Math.round(bgB / samplesCount);
+
+      var tolerance = parseInt(toleranceSlider.value, 10);
+      var feather = parseInt(smoothSlider.value, 10);
+
+      for (var i = 0; i < data.length; i += 4) {
+        var r = data[i];
+        var g = data[i + 1];
+        var b = data[i + 2];
+
+        var diff = Math.sqrt(
+          (r - bgR) * (r - bgR) +
+          (g - bgG) * (g - bgG) +
+          (b - bgB) * (b - bgB)
+        );
+
+        if (diff < tolerance) {
+          data[i + 3] = 0;
+        } else if (feather > 0 && diff < tolerance + (feather * 4)) {
+          var factor = (diff - tolerance) / (feather * 4);
+          data[i + 3] = Math.round(data[i + 3] * factor);
+        }
+      }
+
+      ctx.putImageData(imgData, 0, 0);
+    }
+
+    toleranceSlider.addEventListener('input', function() {
+      toleranceVal.textContent = this.value;
+      processBackground();
+    });
+
+    smoothSlider.addEventListener('input', function() {
+      smoothVal.textContent = this.value;
+      processBackground();
+    });
+
+    downloadBtn.addEventListener('click', function() {
+      if (!outputCanvas) return;
+      var link = document.createElement('a');
+      link.download = 'cutout-transparent.png';
+      link.href = outputCanvas.toDataURL('image/png');
+      link.click();
+    });
+
+    resetBtn.addEventListener('click', function() {
+      loadedImage = null;
+      fileInput.value = '';
+      workspace.classList.remove('active');
+      dropzone.style.display = 'block';
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBgr);
+  } else {
+    initBgr();
+  }
+})();
+</script>
+
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

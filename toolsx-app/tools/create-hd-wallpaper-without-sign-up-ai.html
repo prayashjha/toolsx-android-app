@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>AI Wallpaper Generator – Create 4K HD Backgrounds Free – ToolsX App</title>
+<meta name="description" content="Generate stunning 4K HD wallpapers free with AI. Choose a style, create instantly, and download in high resolution.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>AI Wallpaper Generator – Create 4K HD Backgrounds Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-wallpaper-studio" class="tsxv5-wrapper">
+
+<style>
+#tsxv5-wallpaper-studio{
+  --wps-primary:#667eea;--wps-primary-dark:#764ba2;--wps-accent:#f093fb;
+  --wps-bg:#f8f9ff;
+  --wps-bg-grad:linear-gradient(180deg,#f8f9ff 0%,#eef2ff 50%,#f0f4ff 100%);
+  --wps-surface:#ffffff;--wps-text:#2d3748;--wps-text-mid:#4a5568;
+  --wps-text-light:#718096;--wps-border:#edf2f7;--wps-placeholder:#a0aec0;
+  --wps-radius:16px;
+  --wps-shadow:0 4px 24px rgba(102,126,234,0.08);
+  --wps-shadow-lg:0 20px 60px rgba(102,126,234,0.15);
+  display:block;
+  max-width:100%;
+  box-sizing:border-box;
+  width:100%;
+}
+body.dark-mode #tsxv5-wallpaper-studio,
+html.dark-mode #tsxv5-wallpaper-studio,
+[data-theme="dark"] #tsxv5-wallpaper-studio,
+body[data-theme="dark"] #tsxv5-wallpaper-studio,
+html[data-theme="dark"] #tsxv5-wallpaper-studio,
+.dark-mode #tsxv5-wallpaper-studio,
+.night-mode #tsxv5-wallpaper-studio{
+  --wps-primary:#a78bfa;--wps-primary-dark:#c084fc;--wps-accent:#f0abfc;
+  --wps-bg:#0f172a;
+  --wps-bg-grad:linear-gradient(180deg,#0f172a 0%,#1e1b4b 50%,#312e81 100%);
+  --wps-surface:#1e293b;--wps-text:#f1f5f9;--wps-text-mid:#cbd5e1;
+  --wps-text-light:#cbd5e1;--wps-border:#334155;--wps-placeholder:#64748b;
+  --wps-shadow:0 4px 24px rgba(167,139,250,0.15);
+  --wps-shadow-lg:0 20px 60px rgba(167,139,250,0.25);
+}
+#tsxv5-wallpaper-studio *,#tsxv5-wallpaper-studio *::before,#tsxv5-wallpaper-studio *::after{margin:0;padding:0;box-sizing:border-box;}
+#tsxv5-wallpaper-studio .wps{
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  max-width:960px;margin:40px auto 0;padding:24px;
+  background:var(--wps-bg-grad);border-radius:24px;color:var(--wps-text);
+  position:relative;overflow:hidden;box-shadow:var(--wps-shadow-lg);
+}
+#tsxv5-wallpaper-studio .wps::before{
+  content:'';position:absolute;top:-50%;right:-50%;width:100%;height:100%;
+  background:radial-gradient(circle,rgba(102,126,234,0.06) 0%,transparent 70%);pointer-events:none;
+}
+#tsxv5-wallpaper-studio .wps-breadcrumb{
+  padding:14px 18px;background:var(--wps-surface);border-radius:12px;font-size:0.875rem;
+  color:var(--wps-text-light);margin-bottom:18px;border:1px solid var(--wps-border);
+}
+#tsxv5-wallpaper-studio .wps-breadcrumb a{color:var(--wps-primary);text-decoration:none;transition:color 0.2s ease;}
+#tsxv5-wallpaper-studio .wps-breadcrumb a:hover{color:var(--wps-primary-dark);}
+#tsxv5-wallpaper-studio .wps-head{text-align:center;padding:32px 16px 24px;position:relative;}
+#tsxv5-wallpaper-studio .wps-head-icon{
+  width:72px;height:72px;background:linear-gradient(135deg,var(--wps-primary),var(--wps-primary-dark));
+  border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;
+  margin:0 auto 16px;box-shadow:0 8px 32px rgba(102,126,234,0.3);animation:tsxv5FloatIcon 3s ease-in-out infinite;
+}
+@keyframes tsxv5FloatIcon{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+#tsxv5-wallpaper-studio .wps-head h2{font-size:2rem;color:var(--wps-text);margin-bottom:8px;font-weight:700;line-height:1.2;}
+#tsxv5-wallpaper-studio .wps-head h2 span{
+  background:linear-gradient(90deg,var(--wps-primary),var(--wps-primary-dark));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+#tsxv5-wallpaper-studio .wps-head-sub{color:var(--wps-text-light);font-size:1rem;max-width:500px;margin:0 auto;line-height:1.5;}
+#tsxv5-wallpaper-studio .wps-tags{display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap;}
+#tsxv5-wallpaper-studio .wps-tag{
+  background:linear-gradient(135deg,rgba(102,126,234,0.08),rgba(118,75,162,0.08));
+  border:1px solid rgba(102,126,234,0.2);color:var(--wps-primary);padding:4px 14px;
+  border-radius:50px;font-size:0.78em;font-weight:600;
+}
+#tsxv5-wallpaper-studio .wps-custom-section{
+  background:var(--wps-surface);border-radius:20px;padding:24px;margin-bottom:20px;
+  box-shadow:var(--wps-shadow);border:1px solid var(--wps-border);
+}
+#tsxv5-wallpaper-studio .wps-custom-label{font-size:0.95rem;font-weight:700;color:var(--wps-text);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+#tsxv5-wallpaper-studio .wps-custom-input{
+  width:100%;max-width:100%;padding:14px 18px;border:2px solid var(--wps-border);border-radius:var(--wps-radius);
+  background:var(--wps-bg);color:var(--wps-text);font-size:1rem;font-weight:500;
+  transition:all 0.3s ease;font-family:inherit;box-sizing:border-box;
+}
+#tsxv5-wallpaper-studio .wps-custom-input:focus{outline:none;border-color:var(--wps-primary);box-shadow:0 0 0 4px rgba(102,126,234,0.1);background:var(--wps-surface);}
+#tsxv5-wallpaper-studio .wps-custom-input::placeholder{color:var(--wps-placeholder);font-weight:400;}
+#tsxv5-wallpaper-studio .wps-custom-hint{font-size:0.875rem;color:var(--wps-text-light);margin-top:10px;line-height:1.5;}
+#tsxv5-wallpaper-studio .wps-text-options{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;align-items:center;}
+#tsxv5-wallpaper-studio .wps-text-options label{font-size:0.75rem;color:var(--wps-text-light);display:flex;align-items:center;gap:4px;}
+#tsxv5-wallpaper-studio .wps-text-options input[type="color"]{width:30px;height:30px;border:2px solid var(--wps-border);border-radius:4px;padding:2px;background:transparent;cursor:pointer;}
+#tsxv5-wallpaper-studio .wps-progress{display:flex;justify-content:center;gap:4px;margin:24px 0;padding:0 20px;}
+#tsxv5-wallpaper-studio .wps-progress-step{flex:1;max-width:120px;text-align:center;}
+#tsxv5-wallpaper-studio .wps-progress-bar{height:4px;background:var(--wps-border);border-radius:4px;overflow:hidden;margin-bottom:6px;}
+#tsxv5-wallpaper-studio .wps-progress-fill{height:100%;background:linear-gradient(90deg,var(--wps-primary),var(--wps-primary-dark));border-radius:4px;width:0%;transition:width 0.5s ease;}
+#tsxv5-wallpaper-studio .wps-progress-step.active .wps-progress-fill{width:100%;}
+#tsxv5-wallpaper-studio .wps-progress-label{font-size:0.7rem;color:var(--wps-placeholder);font-weight:600;}
+#tsxv5-wallpaper-studio .wps-progress-step.active .wps-progress-label{color:var(--wps-primary);}
+#tsxv5-wallpaper-studio .wps-section{
+  background:var(--wps-surface);border-radius:20px;padding:28px;margin-bottom:20px;
+  box-shadow:var(--wps-shadow);border:1px solid var(--wps-border);
+}
+#tsxv5-wallpaper-studio .wps-section-title{font-size:1rem;font-weight:700;color:var(--wps-text);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+#tsxv5-wallpaper-studio .wps-section-title .step-num{
+  width:26px;height:26px;background:linear-gradient(135deg,var(--wps-primary),var(--wps-primary-dark));
+  color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.75em;font-weight:700;
+}
+#tsxv5-wallpaper-studio .wps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;}
+#tsxv5-wallpaper-studio .wps-card{
+  background:var(--wps-bg);border:2px solid var(--wps-border);border-radius:14px;padding:16px 12px;
+  text-align:center;cursor:pointer;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);user-select:none;
+  min-height:44px;
+}
+#tsxv5-wallpaper-studio .wps-card:hover{border-color:var(--wps-primary);transform:translateY(-3px);box-shadow:0 8px 24px rgba(102,126,234,0.15);}
+#tsxv5-wallpaper-studio .wps-card.selected{border-color:var(--wps-primary);background:linear-gradient(135deg,rgba(102,126,234,0.05),rgba(118,75,162,0.05));box-shadow:0 4px 16px rgba(102,126,234,0.2);}
+#tsxv5-wallpaper-studio .wps-card-icon{font-size:2em;margin-bottom:8px;display:block;}
+#tsxv5-wallpaper-studio .wps-card-label{font-size:0.82em;font-weight:600;color:var(--wps-text-mid);}
+#tsxv5-wallpaper-studio .wps-colors{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:24px;}
+#tsxv5-wallpaper-studio .wps-color-btn{
+  width:52px;height:52px;border-radius:50%;border:3px solid transparent;cursor:pointer;
+  transition:all 0.3s ease;position:relative;box-shadow:0 3px 12px rgba(0,0,0,0.1);
+  min-height:44px;
+}
+#tsxv5-wallpaper-studio .wps-color-btn:hover{transform:scale(1.15);}
+#tsxv5-wallpaper-studio .wps-color-btn.selected{border-color:var(--wps-text);transform:scale(1.15);box-shadow:0 4px 16px rgba(0,0,0,0.2);}
+#tsxv5-wallpaper-studio .wps-color-btn::after{
+  content:attr(data-label);position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);
+  font-size:0.6em;color:var(--wps-text-light);white-space:nowrap;font-weight:600;
+}
+#tsxv5-wallpaper-studio .wps-devices{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+#tsxv5-wallpaper-studio .wps-device-btn{
+  padding:12px 24px;border:2px solid var(--wps-border);border-radius:12px;background:var(--wps-bg);
+  color:var(--wps-text-mid);cursor:pointer;font-size:0.9rem;font-weight:600;transition:all 0.3s ease;
+  display:flex;align-items:center;gap:8px;font-family:inherit;
+  min-height:44px;
+}
+#tsxv5-wallpaper-studio .wps-device-btn:hover{border-color:var(--wps-primary);color:var(--wps-primary);}
+#tsxv5-wallpaper-studio .wps-device-btn.selected{
+  border-color:var(--wps-primary);background:linear-gradient(135deg,var(--wps-primary),var(--wps-primary-dark));
+  color:#fff;box-shadow:0 4px 16px rgba(102,126,234,0.3);
+}
+#tsxv5-wallpaper-studio .wps-generate{
+  width:100%;padding:18px;border:none;border-radius:16px;
+  background:linear-gradient(135deg,var(--wps-primary) 0%,var(--wps-primary-dark) 100%);
+  color:#fff;font-size:1.15rem;font-weight:700;cursor:pointer;transition:all 0.3s ease;
+  letter-spacing:0.5px;box-shadow:0 6px 24px rgba(102,126,234,0.35);position:relative;overflow:hidden;margin-top:8px;font-family:inherit;
+  min-height:44px;
+}
+#tsxv5-wallpaper-studio .wps-generate::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:left 0.5s;
+}
+#tsxv5-wallpaper-studio .wps-generate:hover::before{left:100%;}
+#tsxv5-wallpaper-studio .wps-generate:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(102,126,234,0.45);}
+#tsxv5-wallpaper-studio .wps-generate:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+#tsxv5-wallpaper-studio .wps-loading{display:none;text-align:center;padding:48px 20px;}
+#tsxv5-wallpaper-studio .wps-loading-dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px;}
+#tsxv5-wallpaper-studio .wps-loading-dots span{
+  width:14px;height:14px;border-radius:50%;
+  background:linear-gradient(135deg,var(--wps-primary),var(--wps-primary-dark));
+  animation:tsxv5Bounce 1.4s infinite ease-in-out both;
+}
+#tsxv5-wallpaper-studio .wps-loading-dots span:nth-child(1){animation-delay:-0.32s;}
+#tsxv5-wallpaper-studio .wps-loading-dots span:nth-child(2){animation-delay:-0.16s;}
+#tsxv5-wallpaper-studio .wps-loading-dots span:nth-child(3){animation-delay:0s;}
+@keyframes tsxv5Bounce{0%,80%,100%{transform:scale(0);}40%{transform:scale(1);}}
+#tsxv5-wallpaper-studio .wps-loading-text{color:var(--wps-text-light);font-size:1rem;font-weight:500;}
+#tsxv5-wallpaper-studio .wps-result{display:none;text-align:center;padding:20px 0;}
+#tsxv5-wallpaper-studio .wps-result-frame{
+  position:relative;display:inline-block;border-radius:20px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(102,126,234,0.2);border:4px solid var(--wps-surface);
+  max-width:100%;cursor:pointer;transition:border-color 0.3s ease;
+}
+#tsxv5-wallpaper-studio .wps-result-frame:hover{border-color:var(--wps-primary);}
+#tsxv5-wallpaper-studio .wps-result-img{max-width:100%;height:auto;display:block;border-radius:16px;}
+#tsxv5-wallpaper-studio .wps-result-actions{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap;}
+#tsxv5-wallpaper-studio .wps-btn{
+  padding:12px 24px;border-radius:12px;font-size:0.9rem;font-weight:600;cursor:pointer;
+  transition:all 0.3s ease;text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+  border:2px solid var(--wps-border);background:var(--wps-surface);color:var(--wps-text-mid);font-family:inherit;
+  min-height:44px;
+}
+#tsxv5-wallpaper-studio .wps-btn:hover{border-color:var(--wps-primary);color:var(--wps-primary);transform:translateY(-2px);box-shadow:0 4px 12px rgba(102,126,234,0.15);}
+#tsxv5-wallpaper-studio .wps-btn-main{background:linear-gradient(135deg,var(--wps-primary),var(--wps-primary-dark));color:#fff;border:none;}
+#tsxv5-wallpaper-studio .wps-btn-main:hover{color:#fff;box-shadow:0 6px 20px rgba(102,126,234,0.35);}
+#tsxv5-wallpaper-studio .wps-error{
+  display:none;background:#fff5f5;border:1px solid #fed7d7;border-radius:14px;
+  padding:18px 24px;margin-top:16px;color:#c53030;font-size:0.95rem;text-align:center;
+}
+body.dark-mode #tsxv5-wallpaper-studio .wps-error,
+html.dark-mode #tsxv5-wallpaper-studio .wps-error,
+[data-theme="dark"] #tsxv5-wallpaper-studio .wps-error,
+body[data-theme="dark"] #tsxv5-wallpaper-studio .wps-error,
+html[data-theme="dark"] #tsxv5-wallpaper-studio .wps-error,
+.dark-mode #tsxv5-wallpaper-studio .wps-error,
+.night-mode #tsxv5-wallpaper-studio .wps-error{
+  background:rgba(127,29,29,0.25);border-color:rgba(248,113,113,0.35);color:#fca5a5;
+}
+#tsxv5-wallpaper-studio .wps-zoom-modal{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;
+  align-items:center;justify-content:center;padding:24px;
+}
+#tsxv5-wallpaper-studio .wps-zoom-modal.open{display:flex;}
+#tsxv5-wallpaper-studio .wps-zoom-modal img{max-width:95%;max-height:90vh;border-radius:12px;border:3px solid var(--wps-primary);box-shadow:0 0 60px rgba(102,126,234,0.3);}
+#tsxv5-wallpaper-studio .wps-zoom-close{
+  position:absolute;top:20px;right:30px;font-size:2.5em;color:var(--wps-primary);cursor:pointer;
+  background:none;border:none;transition:transform 0.3s ease;font-weight:300;
+}
+#tsxv5-wallpaper-studio .wps-zoom-close:hover{transform:rotate(90deg);}
+#tsxv5-wallpaper-studio .wps-how{
+  margin-top:32px;padding:32px 24px;background:var(--wps-surface);border-radius:20px;
+  border:1px solid var(--wps-border);box-shadow:var(--wps-shadow);
+}
+#tsxv5-wallpaper-studio .wps-how h2{font-size:1.5rem;font-weight:700;color:var(--wps-text);line-height:1.3;margin-bottom:24px;}
+#tsxv5-wallpaper-studio .wps-how h3{font-size:1.25rem;font-weight:600;color:var(--wps-primary);line-height:1.4;margin:24px 0 12px;}
+#tsxv5-wallpaper-studio .wps-how p{font-size:1rem;line-height:1.7;color:var(--wps-text-mid);margin-bottom:16px;}
+#tsxv5-wallpaper-studio .wps-how ol{margin:16px 0 16px 24px;line-height:1.7;color:var(--wps-text-mid);}
+#tsxv5-wallpaper-studio .wps-how li{margin-bottom:8px;}
+#tsxv5-wallpaper-studio .wps-how strong{color:var(--wps-primary);}
+#tsxv5-wallpaper-studio .wps-faq{
+  margin-top:32px;padding:32px 24px;background:var(--wps-surface);border-radius:20px;
+  border:1px solid var(--wps-border);box-shadow:var(--wps-shadow);
+}
+#tsxv5-wallpaper-studio .wps-faq h2{font-size:1.5rem;font-weight:700;color:var(--wps-text);line-height:1.3;margin-bottom:24px;}
+#tsxv5-wallpaper-studio .wps-faq-item{
+  margin-bottom:20px;padding:20px;background:var(--wps-bg);border-radius:var(--wps-radius);
+  border:1px solid var(--wps-border);
+}
+#tsxv5-wallpaper-studio .wps-faq-item h3{
+  font-weight:700;color:var(--wps-text);margin-bottom:12px;font-size:1rem;line-height:1.4;
+}
+#tsxv5-wallpaper-studio .wps-faq-item p{color:var(--wps-text-light);line-height:1.7;font-size:1rem;margin-top:10px;}
+#tsxv5-wallpaper-studio .wps-related{max-width:960px;margin:40px auto 0;padding:28px;background:var(--wps-surface);border-radius:20px;border:1px solid var(--wps-border);box-shadow:var(--wps-shadow);}
+#tsxv5-wallpaper-studio .wps-related-title{color:var(--wps-primary);font-size:1.2rem;font-weight:700;margin-bottom:18px;text-transform:uppercase;letter-spacing:1px;}
+#tsxv5-wallpaper-studio .wps-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+#tsxv5-wallpaper-studio .wps-related-link{
+  background:var(--wps-bg);border:1px solid var(--wps-border);padding:18px;text-decoration:none;
+  transition:all 0.3s;display:flex;align-items:center;gap:12px;border-radius:var(--wps-radius);
+}
+#tsxv5-wallpaper-studio .wps-related-link:hover{border-color:var(--wps-primary);transform:translateY(-3px);box-shadow:0 8px 24px rgba(102,126,234,0.2);}
+#tsxv5-wallpaper-studio .wps-related-icon{font-size:2rem;flex-shrink:0;}
+#tsxv5-wallpaper-studio .wps-related-link strong{color:var(--wps-primary);display:block;font-size:0.95rem;margin-bottom:4px;}
+#tsxv5-wallpaper-studio .wps-related-link span{color:var(--wps-text-light);font-size:0.82rem;line-height:1.5;}
+#tsxv5-wallpaper-studio .wps-footer{padding:24px;text-align:center;margin-top:24px;border-top:1px solid var(--wps-border);}
+#tsxv5-wallpaper-studio .wps-footer p{color:var(--wps-text-light);font-size:0.875rem;line-height:1.6;font-style:italic;}
+
+/* Standard breakpoints */
+@media(max-width:480px){
+  #tsxv5-wallpaper-studio .wps{padding:16px;border-radius:16px;}
+  #tsxv5-wallpaper-studio .wps-head h2{font-size:1.5rem;}
+  #tsxv5-wallpaper-studio .wps-grid{grid-template-columns:repeat(3,1fr);gap:8px;}
+  #tsxv5-wallpaper-studio .wps-card{padding:12px 8px;}
+  #tsxv5-wallpaper-studio .wps-card-icon{font-size:1.6em;}
+  #tsxv5-wallpaper-studio .wps-card-label{font-size:0.72em;}
+  #tsxv5-wallpaper-studio .wps-colors{flex-wrap:wrap;margin-bottom:32px;}
+  #tsxv5-wallpaper-studio .wps-section{padding:20px;}
+  #tsxv5-wallpaper-studio .wps-how,#tsxv5-wallpaper-studio .wps-faq,#tsxv5-wallpaper-studio .wps-related{padding:24px 16px;}
+  #tsxv5-wallpaper-studio .wps-related-grid{grid-template-columns:1fr;}
+  #tsxv5-wallpaper-studio .wps-devices{flex-direction:column;align-items:stretch;}
+  #tsxv5-wallpaper-studio .wps-device-btn{justify-content:center;}
+}
+@media(max-width:768px){
+  #tsxv5-wallpaper-studio .wps{padding:20px;}
+  #tsxv5-wallpaper-studio .wps-head{padding:24px 12px 16px;}
+  #tsxv5-wallpaper-studio .wps-head h2{font-size:1.8rem;}
+  #tsxv5-wallpaper-studio .wps-related-grid{grid-template-columns:1fr;}
+}
+@media(min-width:1024px){
+  #tsxv5-wallpaper-studio .wps{max-width:1100px;}
+}
+@media(prefers-reduced-motion:reduce){
+  #tsxv5-wallpaper-studio *,#tsxv5-wallpaper-studio *::before,#tsxv5-wallpaper-studio *::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}
+}
+</style>
+
+<!-- SEO Schema: SoftwareApplication -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Tools-X AI Wallpaper Studio - HD Wallpaper Generator","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript, HTML5 Canvas","description":"Free AI wallpaper generator for mobile and desktop. 12 themes, 8 color moods, 8 art styles, 4 device sizes. Create custom HD wallpapers with personal quotes and names.","featureList":"12 themes, 8 color moods, 8 art styles, 4 device sizes, Custom text overlay, Text color customization, HD PNG download, Image zoom, 100% free, No watermark","publisher":{"@type":"Organization","name":"Tools-X","url":"https://www.toolsx.in/"}}
+</script>
+
+<!-- SEO Schema: HowTo -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Create Custom HD Wallpapers","description":"Step-by-step guide to generating personalized AI wallpapers with Tools-X AI Wallpaper Studio.","totalTime":"PT3M","step":[{"@type":"HowToStep","position":1,"name":"Add Quote or Name","text":"Optionally type your name or a short inspiring quote in the input box."},{"@type":"HowToStep","position":2,"name":"Choose a Theme","text":"Select from 12 themes like Mountains, Ocean, Space, Forest, City, and more."},{"@type":"HowToStep","position":3,"name":"Select Color Mood","text":"Pick one of 8 color moods such as Warm, Cool, Neon, Pastel, or Dark."},{"@type":"HowToStep","position":4,"name":"Choose Art Style","text":"Select from 8 styles including Realistic, Anime, Oil Paint, 3D, and Pixel Art."},{"@type":"HowToStep","position":5,"name":"Pick Device Size","text":"Choose Phone, Desktop, Tablet, or Square format."},{"@type":"HowToStep","position":6,"name":"Generate and Download","text":"Click Generate, wait for the AI to create your wallpaper, then download the HD image."}]}
+</script>
+
+<!-- SEO Schema: FAQPage -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this wallpaper generator really free?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is completely free. No hidden charges, no premium version, no signup required. You can generate and download unlimited wallpapers."}},{"@type":"Question","name":"Can I add my own name or quote to the wallpaper?","acceptedAnswer":{"@type":"Answer","text":"Absolutely! Use the Add Your Quote or Name box. The AI will overlay it with beautiful typography. You can also customize the text color and outline."}},{"@type":"Question","name":"How long does it take to generate a wallpaper?","acceptedAnswer":{"@type":"Answer","text":"Typically 10-20 seconds. Under heavy load it may take 30-40 seconds. A built-in timeout protects against indefinite loading."}},{"@type":"Question","name":"Can I use these wallpapers for commercial projects?","acceptedAnswer":{"@type":"Answer","text":"Yes, you may use them for both personal and commercial purposes. No watermark or attribution is required."}},{"@type":"Question","name":"Are different sizes available for mobile and desktop?","acceptedAnswer":{"@type":"Answer","text":"Yes! Four sizes are available: Phone (720x1280), Desktop (1920x1080), Tablet (1536x2048), and Square (1080x1080)."}},{"@type":"Question","name":"What if I don't like the generated wallpaper?","acceptedAnswer":{"@type":"Answer","text":"Click the Regenerate button to create a new unique wallpaper with the same settings. Each generation uses a random seed."}},{"@type":"Question","name":"Does the tool support Hindi text?","acceptedAnswer":{"@type":"Answer","text":"The AI renders English text best. For Hindi text, download the wallpaper and add it manually in an image editor."}},{"@type":"Question","name":"Is my data safe?","acceptedAnswer":{"@type":"Answer","text":"Yes. No signup or personal data is collected. Inputs are sanitized in the browser, and all image requests use HTTPS encryption."}}]}
+</script>
+
+<article class="wps">
+
+  <nav class="wps-breadcrumb" aria-label="Breadcrumb">
+    <a href="https://www.toolsx.in/">Home</a> &gt; <a href="../index.html">Tools</a> &gt; AI Wallpaper Studio
+  </nav>
+
+  <header class="wps-head">
+    <div class="wps-head-icon" aria-hidden="true">🖼️</div>
+    <h2>AI <span>Wallpaper</span> Studio <span style="font-size:0.5em;opacity:0.6;-webkit-text-fill-color:var(--wps-text-light);">v5.0</span></h2>
+    <p class="wps-head-sub">Choose a theme, select a style — AI will create the perfect HD wallpaper for you!</p>
+    <div class="wps-tags">
+      <span class="wps-tag">🆓 Free Forever</span>
+      <span class="wps-tag">📱 Mobile + Desktop</span>
+      <span class="wps-tag">🎨 HD Quality</span>
+      <span class="wps-tag">♾️ Unlimited</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="wps-custom-section">
+      <label class="wps-custom-label" for="tsxv5-quote">✨ Add Your Quote or Name (Optional)</label>
+      <input type="text" id="tsxv5-quote" class="wps-custom-input" placeholder="Enter a quote, name, or word (e.g., 'DREAM BIG' or 'Priya')" maxlength="60" aria-label="Custom quote or name for wallpaper" autocomplete="off">
+      <div class="wps-text-options">
+        <label><input type="color" id="tsxv5-textColor" value="#ffffff"> Text Color</label>
+        <label><input type="color" id="tsxv5-textOutline" value="#000000"> Outline</label>
+        <span style="font-size:0.7rem;color:var(--wps-text-light);">Customize text color and outline</span>
+      </div>
+      <p class="wps-custom-hint">💡 Pro Tip: Short quotes or names work best with artistic typography. ALL CAPS looks great!</p>
+    </section>
+
+    <div class="wps-progress">
+      <div class="wps-progress-step active" id="tsxv5-prog1"><div class="wps-progress-bar"><div class="wps-progress-fill"></div></div><div class="wps-progress-label">Theme</div></div>
+      <div class="wps-progress-step" id="tsxv5-prog2"><div class="wps-progress-bar"><div class="wps-progress-fill"></div></div><div class="wps-progress-label">Mood</div></div>
+      <div class="wps-progress-step" id="tsxv5-prog3"><div class="wps-progress-bar"><div class="wps-progress-fill"></div></div><div class="wps-progress-label">Style</div></div>
+      <div class="wps-progress-step" id="tsxv5-prog4"><div class="wps-progress-bar"><div class="wps-progress-fill"></div></div><div class="wps-progress-label">Device</div></div>
+    </div>
+
+    <section class="wps-section">
+      <div class="wps-section-title"><span class="step-num">1</span> Choose a Theme</div>
+      <div class="wps-grid" id="tsxv5-themeGrid">
+        <div class="wps-card selected" data-theme="majestic mountains with snow peaks, dramatic sky"><span class="wps-card-icon" aria-hidden="true">🏔️</span><span class="wps-card-label">Mountains</span></div>
+        <div class="wps-card" data-theme="deep ocean underwater scene, coral reef, light rays"><span class="wps-card-icon" aria-hidden="true">🌊</span><span class="wps-card-label">Ocean</span></div>
+        <div class="wps-card" data-theme="beautiful galaxy nebula stars space, cosmic colors"><span class="wps-card-icon" aria-hidden="true">🌌</span><span class="wps-card-label">Space</span></div>
+        <div class="wps-card" data-theme="enchanted magical forest, glowing fireflies, mystical trees"><span class="wps-card-icon" aria-hidden="true">🌲</span><span class="wps-card-label">Forest</span></div>
+        <div class="wps-card" data-theme="futuristic cyberpunk city at night, neon lights, rain reflections"><span class="wps-card-icon" aria-hidden="true">🌃</span><span class="wps-card-label">City</span></div>
+        <div class="wps-card" data-theme="beautiful sunset beach, palm trees, golden sand, waves"><span class="wps-card-icon" aria-hidden="true">🏖️</span><span class="wps-card-label">Beach</span></div>
+        <div class="wps-card" data-theme="abstract geometric fluid art, flowing shapes, modern design"><span class="wps-card-icon" aria-hidden="true">🎨</span><span class="wps-card-label">Abstract</span></div>
+        <div class="wps-card" data-theme="cute kawaii animals in a dreamy pastel world"><span class="wps-card-icon" aria-hidden="true">🐱</span><span class="wps-card-label">Cute</span></div>
+        <div class="wps-card" data-theme="ancient Indian temple architecture, intricate carvings, golden hour"><span class="wps-card-icon" aria-hidden="true">🛕</span><span class="wps-card-label">Heritage</span></div>
+        <div class="wps-card" data-theme="beautiful garden with cherry blossoms, butterflies, spring"><span class="wps-card-icon" aria-hidden="true">🌸</span><span class="wps-card-label">Flowers</span></div>
+        <div class="wps-card" data-theme="dramatic thunderstorm lightning over landscape, dark clouds"><span class="wps-card-icon" aria-hidden="true">⛈️</span><span class="wps-card-label">Storm</span></div>
+        <div class="wps-card" data-theme="cozy autumn scene, falling leaves, warm golden light"><span class="wps-card-icon" aria-hidden="true">🍂</span><span class="wps-card-label">Autumn</span></div>
+      </div>
+    </section>
+
+    <section class="wps-section">
+      <div class="wps-section-title"><span class="step-num">2</span> Select Color Mood</div>
+      <div class="wps-colors" id="tsxv5-colorMood">
+        <div class="wps-color-btn selected" style="background:linear-gradient(135deg,#ff6b6b,#ffa502);" data-mood="warm golden sunset tones, orange and red colors" data-label="Warm"></div>
+        <div class="wps-color-btn" style="background:linear-gradient(135deg,#48dbfb,#0abde3);" data-mood="cool blue and cyan tones, icy colors" data-label="Cool"></div>
+        <div class="wps-color-btn" style="background:linear-gradient(135deg,#ff9ff3,#f368e0);" data-mood="vibrant neon pink and purple colors, glowing" data-label="Neon"></div>
+        <div class="wps-color-btn" style="background:linear-gradient(135deg,#a8e6cf,#dcedc1);" data-mood="soft pastel colors, gentle and calming" data-label="Pastel"></div>
+        <div class="wps-color-btn" style="background:linear-gradient(135deg,#2d3436,#636e72);" data-mood="dark moody tones, deep shadows, dramatic" data-label="Dark"></div>
+        <div class="wps-color-btn" style="background:linear-gradient(135deg,#ffeaa7,#fdcb6e);" data-mood="golden hour lighting, warm yellow glow" data-label="Golden"></div>
+        <div class="wps-color-btn" style="background:linear-gradient(135deg,#a29bfe,#6c5ce7);" data-mood="purple violet cosmic colors, dreamy" data-label="Cosmic"></div>
+        <div class="wps-color-btn" style="background:linear-gradient(135deg,#55efc4,#00b894);" data-mood="emerald green nature tones, fresh" data-label="Nature"></div>
+      </div>
+    </section>
+
+    <section class="wps-section">
+      <div class="wps-section-title"><span class="step-num">3</span> Choose Art Style</div>
+      <div class="wps-grid" id="tsxv5-styleGrid">
+        <div class="wps-card selected" data-style="photorealistic, 8K UHD, professional photography"><span class="wps-card-icon" aria-hidden="true">📷</span><span class="wps-card-label">Realistic</span></div>
+        <div class="wps-card" data-style="anime style, Studio Ghibli inspired, vibrant"><span class="wps-card-icon" aria-hidden="true">🎌</span><span class="wps-card-label">Anime</span></div>
+        <div class="wps-card" data-style="oil painting style, textured brushstrokes, classical art"><span class="wps-card-icon" aria-hidden="true">🖌️</span><span class="wps-card-label">Oil Paint</span></div>
+        <div class="wps-card" data-style="3D render, octane render, cinematic lighting"><span class="wps-card-icon" aria-hidden="true">💎</span><span class="wps-card-label">3D Render</span></div>
+        <div class="wps-card" data-style="watercolor painting, soft edges, artistic"><span class="wps-card-icon" aria-hidden="true">💧</span><span class="wps-card-label">Watercolor</span></div>
+        <div class="wps-card" data-style="digital art, concept art, highly detailed illustration"><span class="wps-card-icon" aria-hidden="true">✨</span><span class="wps-card-label">Digital Art</span></div>
+        <div class="wps-card" data-style="minimalist, clean design, simple shapes"><span class="wps-card-icon" aria-hidden="true">◽</span><span class="wps-card-label">Minimal</span></div>
+        <div class="wps-card" data-style="pixel art, retro 8-bit style, nostalgic gaming"><span class="wps-card-icon" aria-hidden="true">👾</span><span class="wps-card-label">Pixel Art</span></div>
+      </div>
+    </section>
+
+    <section class="wps-section">
+      <div class="wps-section-title"><span class="step-num">4</span> Select Device</div>
+      <div class="wps-devices" id="tsxv5-deviceSelect">
+        <button type="button" class="wps-device-btn" data-w="720" data-h="1280">📱 Phone</button>
+        <button type="button" class="wps-device-btn selected" data-w="1920" data-h="1080">🖥️ Desktop</button>
+        <button type="button" class="wps-device-btn" data-w="1536" data-h="2048">📲 Tablet</button>
+        <button type="button" class="wps-device-btn" data-w="1080" data-h="1080">⬜ Square</button>
+      </div>
+    </section>
+
+    <button type="button" class="wps-generate" id="tsxv5-genBtn" aria-label="Generate wallpaper">✨ Generate Wallpaper</button>
+
+    <div class="wps-loading" id="tsxv5-loading" aria-live="polite">
+      <div class="wps-loading-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="wps-loading-text">AI is designing your wallpaper...</div>
+    </div>
+
+    <div class="wps-error" id="tsxv5-error" role="alert"></div>
+
+    <div class="wps-result" id="tsxv5-result">
+      <div class="wps-result-frame" id="tsxv5-frame">
+        <canvas id="tsxv5-canvas" style="max-width:100%;border-radius:16px;display:none;"></canvas>
+        <img id="tsxv5-resultImg" class="wps-result-img" alt="AI Generated HD Wallpaper" loading="lazy" style="display:none;">
+      </div>
+      <div class="wps-result-actions">
+        <a id="tsxv5-download" class="wps-btn wps-btn-main" download="toolsx-wallpaper.png" rel="noopener noreferrer">📥 Download HD</a>
+        <button type="button" class="wps-btn" id="tsxv5-regen">🔄 Regenerate</button>
+        <button type="button" class="wps-btn" id="tsxv5-reset">♻️ Reset All</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="wps-zoom-modal" id="tsxv5-zoomModal">
+    <button type="button" class="wps-zoom-close" id="tsxv5-zoomClose" aria-label="Close zoom">✕</button>
+    <img id="tsxv5-zoomImg" alt="Zoomed wallpaper">
+  </div>
+
+  <section class="wps-how">
+    <h2>✅ How to Use AI Wallpaper Studio</h2>
+    <p>Follow these simple steps to create your own personalized HD wallpaper:</p>
+    <ol>
+      <li><strong>Add a quote or name</strong> (optional) in the input box. Customize the text color and outline.</li>
+      <li><strong>Choose a theme</strong> from 12 options – Mountains, Ocean, Space, Forest, City, and more.</li>
+      <li><strong>Select a color mood</strong> – Warm, Cool, Neon, Pastel, Dark, Golden, Cosmic, or Nature.</li>
+      <li><strong>Pick an art style</strong> – Realistic, Anime, Oil Paint, 3D, Watercolor, Digital, Minimal, or Pixel.</li>
+      <li><strong>Choose your device</strong> – Phone, Desktop, Tablet, or Square.</li>
+      <li><strong>Click Generate</strong> and wait for the AI to create your wallpaper, then download the HD image.</li>
+    </ol>
+    <p>💡 <strong>Tip:</strong> Short quotes in ALL CAPS look best. You can also regenerate for a fresh variation anytime.</p>
+  </section>
+
+  <section class="wps-faq">
+    <h2>❓ Frequently Asked Questions</h2>
+
+    <div class="wps-faq-item">
+      <h3>Is this wallpaper generator really free?</h3>
+      <p>Yes, it is completely free. No hidden charges, no premium version, no signup required. You can generate and download unlimited wallpapers.</p>
+    </div>
+    <div class="wps-faq-item">
+      <h3>Can I add my own name or quote to the wallpaper?</h3>
+      <p>Absolutely! Use the Add Your Quote or Name box. The AI will overlay it with beautiful typography. You can also customize the text color and outline.</p>
+    </div>
+    <div class="wps-faq-item">
+      <h3>How long does it take to generate a wallpaper?</h3>
+      <p>Typically 10-20 seconds. Under heavy load it may take 30-40 seconds. A built-in timeout protects against indefinite loading.</p>
+    </div>
+    <div class="wps-faq-item">
+      <h3>Can I use these wallpapers for commercial projects?</h3>
+      <p>Yes, you may use them for both personal and commercial purposes. No watermark or attribution is required.</p>
+    </div>
+    <div class="wps-faq-item">
+      <h3>Are different sizes available for mobile and desktop?</h3>
+      <p>Yes! Four sizes are available: Phone (720x1280), Desktop (1920x1080), Tablet (1536x2048), and Square (1080x1080).</p>
+    </div>
+    <div class="wps-faq-item">
+      <h3>What if I don't like the generated wallpaper?</h3>
+      <p>Click the Regenerate button to create a new unique wallpaper with the same settings. Each generation uses a random seed.</p>
+    </div>
+    <div class="wps-faq-item">
+      <h3>Does the tool support Hindi text?</h3>
+      <p>The AI renders English text best. For Hindi text, download the wallpaper and add it manually in an image editor.</p>
+    </div>
+    <div class="wps-faq-item">
+      <h3>Is my data safe?</h3>
+      <p>Yes. No signup or personal data is collected. Inputs are sanitized in the browser, and all image requests use HTTPS encryption.</p>
+    </div>
+  </section>
+
+  <footer class="wps-footer">
+    <p>🖼️ HD Quality • 100% Free • Unlimited Wallpapers • 12 Themes + 8 Styles + 8 Moods</p>
+    <p style="font-size:0.75rem;opacity:0.7;margin-top:8px;">Powered by <strong>Tools-X</strong> · toolsx.in</p>
+  </footer>
+</article>
+
+<aside class="wps-related" aria-label="Related AI Tools">
+  <h2 class="wps-related-title">🖼️ Next Try — More Creative Tools</h2>
+  <div class="wps-related-grid">
+    <a href="../tools/mix-karein-pro-dj-soundbox-apne-phone.html" rel="noopener noreferrer" title="Pro DJ Soundbox" class="wps-related-link">
+      <span class="wps-related-icon">🎧</span>
+      <div><strong>Pro DJ Soundbox</strong><span>Mix music on your phone like a pro</span></div>
+    </a>
+    <a href="../tools/remix-karein-gaane-ko-dj-video-mein-ai.html" rel="noopener noreferrer" title="AI DJ Video Remix" class="wps-related-link">
+      <span class="wps-related-icon">🎬</span>
+      <div><strong>AI DJ Video Remix</strong><span>Turn songs into DJ videos with AI</span></div>
+    </a>
+    <a href="../tools/ai-lab-analog-tape-deck-studio-ai-music.html" rel="noopener noreferrer" title="Analog Tape Deck Studio" class="wps-related-link">
+      <span class="wps-related-icon">🎛️</span>
+      <div><strong>Analog Tape Deck Studio</strong><span>Create AI music with a vintage feel</span></div>
+    </a>
+  </div>
+</aside>
+
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+var W=document.getElementById('tsxv5-wallpaper-studio');
+if(!W)return;
+
+var wpsState={
+  theme:'majestic mountains with snow peaks, dramatic sky',
+  mood:'warm golden sunset tones, orange and red colors',
+  style:'photorealistic, 8K UHD, professional photography',
+  width:1920,height:1080,quote:'',textColor:'#ffffff',outlineColor:'#000000'
+};
+var wpsBusy=false;
+
+function wpsSanitize(s){
+  if(!s)return'';
+  var c=String(s).replace(/<[^>]*>/g,'');
+  c=c.replace(/javascript:/gi,'');
+  c=c.replace(/on\w+\s*=/gi,'');
+  c=c.replace(/[<>{}"']/g,'');
+  return c.trim();
+}
+function wpsFilename(s){
+  return String(s||'').replace(/[^a-zA-Z0-9._-]/g,'').substring(0,60);
+}
+function wpsEl(id){return document.getElementById('tsxv5-'+id);}
+
+function wpsApplyTextOverlay(sourceImg,width,height,text,textColor,outlineColor){
+  return new Promise(function(resolve,reject){
+    try{
+      var canvas=wpsEl('canvas');
+      canvas.width=width;canvas.height=height;
+      var ctx=canvas.getContext('2d');
+      ctx.drawImage(sourceImg,0,0,width,height);
+      if(!text||text.length===0){resolve(canvas);return;}
+      var displayText=text.toUpperCase();
+      var fontSize=Math.min(width,height)*0.055;
+      fontSize=Math.max(22,Math.min(fontSize,60));
+      if(displayText.length>20)fontSize=Math.min(fontSize,40);
+      if(displayText.length>35)fontSize=Math.min(fontSize,28);
+      ctx.textAlign='center';ctx.textBaseline='bottom';
+      ctx.font='bold '+fontSize+'px "Segoe UI", Arial, sans-serif';
+      var xPos=width/2;var yPos=height-fontSize*0.6;
+      var metrics=ctx.measureText(displayText);
+      if(metrics.width>width*0.85){
+        var newSize=fontSize*(width*0.85/metrics.width);
+        fontSize=Math.max(18,newSize);
+        ctx.font='bold '+fontSize+'px "Segoe UI", Arial, sans-serif';
+      }
+      ctx.shadowColor=outlineColor;ctx.shadowBlur=fontSize*0.2;
+      ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
+      ctx.lineWidth=fontSize*0.08;ctx.strokeStyle=outlineColor;
+      ctx.strokeText(displayText,xPos,yPos);
+      ctx.fillStyle=textColor;ctx.fillText(displayText,xPos,yPos);
+      ctx.shadowBlur=0;
+      resolve(canvas);
+    }catch(e){reject(e);}
+  });
+}
+
+function updateProgress(){
+  var steps=[wpsState.theme,wpsState.mood,wpsState.style,true];
+  for(var i=0;i<4;i++){
+    var prog=wpsEl('prog'+(i+1));
+    if(prog&&steps[i])prog.classList.add('active');
+  }
+}
+
+document.querySelectorAll('#tsxv5-themeGrid .wps-card').forEach(function(item){
+  item.addEventListener('click',function(){
+    document.querySelectorAll('#tsxv5-themeGrid .wps-card').forEach(function(x){x.classList.remove('selected');});
+    this.classList.add('selected');
+    wpsState.theme=this.getAttribute('data-theme');
+    updateProgress();
+  });
+});
+document.querySelectorAll('#tsxv5-colorMood .wps-color-btn').forEach(function(item){
+  item.addEventListener('click',function(){
+    document.querySelectorAll('#tsxv5-colorMood .wps-color-btn').forEach(function(x){x.classList.remove('selected');});
+    this.classList.add('selected');
+    wpsState.mood=this.getAttribute('data-mood');
+    updateProgress();
+  });
+});
+document.querySelectorAll('#tsxv5-styleGrid .wps-card').forEach(function(item){
+  item.addEventListener('click',function(){
+    document.querySelectorAll('#tsxv5-styleGrid .wps-card').forEach(function(x){x.classList.remove('selected');});
+    this.classList.add('selected');
+    wpsState.style=this.getAttribute('data-style');
+    updateProgress();
+  });
+});
+document.querySelectorAll('#tsxv5-deviceSelect .wps-device-btn').forEach(function(item){
+  item.addEventListener('click',function(){
+    document.querySelectorAll('#tsxv5-deviceSelect .wps-device-btn').forEach(function(x){x.classList.remove('selected');});
+    this.classList.add('selected');
+    wpsState.width=parseInt(this.getAttribute('data-w'),10);
+    wpsState.height=parseInt(this.getAttribute('data-h'),10);
+    updateProgress();
+  });
+});
+
+var textColorInput=wpsEl('textColor');
+var outlineColorInput=wpsEl('textOutline');
+if(textColorInput){wpsState.textColor=textColorInput.value;textColorInput.addEventListener('input',function(){wpsState.textColor=this.value;});}
+if(outlineColorInput){wpsState.outlineColor=outlineColorInput.value;outlineColorInput.addEventListener('input',function(){wpsState.outlineColor=this.value;});}
+
+var zoomModal=wpsEl('zoomModal');
+wpsEl('frame').addEventListener('click',function(){
+  var canvas=wpsEl('canvas');
+  if(canvas.style.display!=='none'&&canvas.toDataURL){
+    try{
+      wpsEl('zoomImg').src=canvas.toDataURL('image/png');
+      zoomModal.classList.add('open');
+    }catch(e){}
+  }
+});
+wpsEl('zoomClose').addEventListener('click',function(){zoomModal.classList.remove('open');});
+zoomModal.addEventListener('click',function(e){if(e.target===zoomModal)zoomModal.classList.remove('open');});
+
+function wpsErr(msg){
+  var e=wpsEl('error');
+  e.textContent='⚠️ '+msg;
+  e.style.display='block';
+  setTimeout(function(){e.style.display='none';},5000);
+}
+
+function wpsSetIdle(btn){
+  wpsBusy=false;
+  btn.disabled=false;
+  btn.textContent='✨ Generate Wallpaper';
+  wpsEl('loading').style.display='none';
+}
+
+function wpsGenerate(){
+  if(wpsBusy)return;
+  wpsState.quote=wpsSanitize(wpsEl('quote').value);
+
+  var promptParts=[wpsState.theme,wpsState.mood,wpsState.style];
+  promptParts.push('beautiful wallpaper, high quality, professional composition, no text, no watermark');
+  var prompt=wpsSanitize(promptParts.join(', '));
+  if(!prompt||prompt.length<10){wpsErr('Something went wrong. Please make your selections again.');return;}
+
+  wpsBusy=true;
+  var btn=wpsEl('genBtn');
+  btn.disabled=true;
+  btn.textContent='GENERATING...';
+  wpsEl('loading').style.display='block';
+  wpsEl('result').style.display='none';
+  wpsEl('error').style.display='none';
+
+  var seed=Math.floor(Math.random()*9999999);
+  var url='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+
+          '?width='+wpsState.width+'&height='+wpsState.height+
+          '&seed='+seed+'&nologo=true&enhance=true';
+
+  var img=new Image();
+  img.crossOrigin='anonymous';
+
+  var timeoutId=setTimeout(function(){
+    if(wpsBusy){
+      wpsSetIdle(btn);
+      wpsErr('Timed out. Check your internet connection and try again.');
+      img.src='';
+    }
+  },65000);
+
+  img.onload=function(){
+    clearTimeout(timeoutId);
+    wpsApplyTextOverlay(img,wpsState.width,wpsState.height,wpsState.quote,wpsState.textColor,wpsState.outlineColor)
+      .then(function(){
+        wpsSetIdle(btn);
+        var canvasEl=wpsEl('canvas');
+        var resultImg=wpsEl('resultImg');
+        canvasEl.style.display='block';
+        resultImg.style.display='none';
+        var dataURL=canvasEl.toDataURL('image/png');
+        var dlLink=wpsEl('download');
+        dlLink.href=dataURL;
+        var fname='toolsx-wallpaper';
+        var q=wpsFilename(wpsState.quote);
+        if(q)fname+='-'+q;
+        dlLink.setAttribute('download',fname+'.png');
+        var altText='AI generated HD wallpaper';
+        if(wpsState.quote)altText+=' with text "'+wpsState.quote+'"';
+        resultImg.alt=altText;
+        wpsEl('result').style.display='block';
+        wpsEl('result').scrollIntoView({behavior:'smooth',block:'center'});
+      })
+      .catch(function(err){
+        wpsSetIdle(btn);
+        wpsErr('Text overlay failed: '+err.message);
+      });
+  };
+  img.onerror=function(){
+    clearTimeout(timeoutId);
+    wpsSetIdle(btn);
+    wpsErr('Wallpaper could not be generated. Please try again.');
+  };
+  img.src=url;
+}
+
+function wpsReset(){
+  wpsState={
+    theme:'majestic mountains with snow peaks, dramatic sky',
+    mood:'warm golden sunset tones, orange and red colors',
+    style:'photorealistic, 8K UHD, professional photography',
+    width:1920,height:1080,quote:'',textColor:'#ffffff',outlineColor:'#000000'
+  };
+  document.querySelectorAll('#tsxv5-wallpaper-studio .wps-card, #tsxv5-wallpaper-studio .wps-color-btn, #tsxv5-wallpaper-studio .wps-device-btn').forEach(function(x){x.classList.remove('selected');});
+  document.querySelectorAll('#tsxv5-wallpaper-studio .wps-progress-step').forEach(function(s){s.classList.remove('active');});
+  wpsEl('prog1').classList.add('active');
+  var t=document.querySelector('#tsxv5-themeGrid .wps-card');if(t)t.classList.add('selected');
+  var c=document.querySelector('#tsxv5-colorMood .wps-color-btn');if(c)c.classList.add('selected');
+  var s=document.querySelector('#tsxv5-styleGrid .wps-card');if(s)s.classList.add('selected');
+  var d=document.querySelector('#tsxv5-deviceSelect .wps-device-btn[data-w="1920"]');if(d)d.classList.add('selected');
+  wpsEl('quote').value='';
+  wpsEl('textColor').value='#ffffff';
+  wpsEl('textOutline').value='#000000';
+  wpsEl('result').style.display='none';
+  wpsEl('error').style.display='none';
+  wpsEl('canvas').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+wpsEl('genBtn').addEventListener('click',wpsGenerate);
+wpsEl('regen').addEventListener('click',wpsGenerate);
+wpsEl('reset').addEventListener('click',wpsReset);
+wpsEl('quote').addEventListener('keydown',function(e){
+  if(e.key==='Enter'){e.preventDefault();wpsGenerate();}
+});
+
+console.log('Tools-X Wallpaper Studio v5.0 initialized | toolsx.in');
+})();
+//]]>
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

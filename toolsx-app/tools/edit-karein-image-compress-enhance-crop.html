@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Online Image Editor: Crop, Enhance &amp; Compress Photos – ToolsX App</title>
+<meta name="description" content="Ek hi jagah par photos ko crop, enhance, aur compress karein. Online Image Editor se HD quality maintain rakhte hue apni images ko perfect banayein.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Online Image Editor: Crop, Enhance &amp; Compress Photos</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Advanced Image Toolkit - Compress, Resize, Enhance, Crop","description":"Professional browser image editor: resize (25-100%), compress with format conversion, 4 enhancement sliders, crop, rotate, flip, grayscale, sepia, blur filters. Real-time preview, batch-ready.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","featureList":"Image resize 25-100%, Compression with format conversion (PNG to JPEG/WebP), 4 enhancement controls (brightness, contrast, sharpness, saturation), Crop 0-50%, Rotate 0-360°, Flip H/V, Grayscale/Sepia/Invert/Blur filters, Real-time stats, JPG/PNG/WebP support, File signature verification, 10MB limit, 100% offline processing"}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Compress, Resize and Enhance Images Online","description":"Professional guide to advanced image optimization.","totalTime":"PT2M","step":[{"@type":"HowToStep","position":1,"name":"Upload Image","text":"Click or drag-drop a JPG, PNG or WebP file (up to 10MB)."},{"@type":"HowToStep","position":2,"name":"Resize & Format","text":"Adjust resize slider (25-100%) and choose output format (Original/JPEG/WebP)."},{"@type":"HowToStep","position":3,"name":"Compress","text":"Set quality slider (10-100%) — lower = smaller file."},{"@type":"HowToStep","position":4,"name":"Enhance","text":"Fine-tune brightness, contrast, sharpness, saturation."},{"@type":"HowToStep","position":5,"name":"Transform","text":"Crop, rotate, flip, or apply filters as needed."},{"@type":"HowToStep","position":6,"name":"Download","text":"Click Download to save the optimized image."}]}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Compression se quality kharab hoti hai?","acceptedAnswer":{"@type":"Answer","text":"70-80% quality par visual difference negligible hota hai. 50% se kam par artifacts visible ho sakte hain."}},{"@type":"Question","name":"PNG ko JPEG mein convert kar sakte hain?","acceptedAnswer":{"@type":"Answer","text":"Haan — Format dropdown se JPEG select karein. PNG transparency lose hogi, lekin file size 80-90% kam ho jayegi."}},{"@type":"Question","name":"Resize karne se quality affect hoti hai?","acceptedAnswer":{"@type":"Answer","text":"Downscaling (100% se kam) mein quality almost same rehti hai — sirf pixels kam hote hain. Upscaling (100% se zyada) blur create karta hai."}},{"@type":"Question","name":"Multiple filters ek saath use kar sakte hain?","acceptedAnswer":{"@type":"Answer","text":"Haan — Grayscale, Sepia, Invert, Blur filters ek saath apply ho sakte hain. Reset button se sab clear."}},{"@type":"Question","name":"Kya meri images private rehti hain?","acceptedAnswer":{"@type":"Answer","text":"Haan — poori processing browser mein hoti hai, koi upload ya server transfer nahi hota."}}]}
+</script>
+
+<div id="tsxv5-imgtoolkit" class="tsxv5-wrapper">
+
+<style>
+#tsxv5-imgtoolkit{
+  --bg:#ffffff;--card:#ffffff;--card2:#f8fafc;
+  --text:#111111;--muted:#475569;--soft:#64748b;
+  --accent:#2563eb;--accent2:#7c3aed;--accent-h:#1d4ed8;
+  --border:#e2e8f0;--border-h:#cbd5e1;
+  --green:#16a34a;--red:#dc2626;--orange:#f59e0b;
+  --upload:#fafafa;--upload-h:#f0f7ff;
+  --badge-bg:#dbeafe;--badge-tx:#1e40af;
+  --shadow:0 20px 30px -10px rgba(0,0,0,0.08);
+  font-family:'Segoe UI',system-ui,sans-serif;
+  max-width:1100px;margin:auto;padding:20px;
+  background:var(--bg);color:var(--text);
+  transition:background .3s ease,color .3s ease;
+}
+body.dark-mode #tsxv5-imgtoolkit,
+html.dark-mode #tsxv5-imgtoolkit,
+[data-theme="dark"] #tsxv5-imgtoolkit,
+body[data-theme="dark"] #tsxv5-imgtoolkit,
+html[data-theme="dark"] #tsxv5-imgtoolkit,
+.dark-mode #tsxv5-imgtoolkit,
+.night-mode #tsxv5-imgtoolkit{
+  --bg:#0f172a;--card:#1e293b;--card2:#334155;
+  --text:#8ab4f8;--muted:#94a3b8;--soft:#94a3b8;
+  --accent:#60a5fa;--accent2:#a78bfa;--accent-h:#93c5fd;
+  --border:#334155;--border-h:#475569;
+  --green:#34d399;--red:#f87171;--orange:#fbbf24;
+  --upload:#1e293b;--upload-h:rgba(37,99,235,0.08);
+  --badge-bg:rgba(37,99,235,0.2);--badge-tx:#93c5fd;
+  --shadow:0 20px 30px -10px rgba(0,0,0,0.4);
+}
+#tsxv5-imgtoolkit *{box-sizing:border-box;max-width:100%;margin:0;padding:0;}
+#tsxv5-imgtoolkit img{max-width:100%;height:auto;}
+#tsxv5-imgtoolkit .header{text-align:center;padding:20px 0;}
+#tsxv5-imgtoolkit .header h2{
+  font-size:2.4rem;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+#tsxv5-imgtoolkit .header p{color:var(--muted);font-size:1.1rem;margin-top:6px;}
+#tsxv5-imgtoolkit .badge{
+  background:var(--badge-bg);color:var(--badge-tx);padding:4px 18px;border-radius:40px;
+  font-size:0.8rem;font-weight:600;display:inline-block;margin-top:6px;
+}
+#tsxv5-imgtoolkit .card{
+  background:var(--card);border-radius:28px;padding:30px;box-shadow:var(--shadow);
+  margin:20px 0;border:1px solid var(--border);
+}
+#tsxv5-imgtoolkit .upload-area{
+  border:2px dashed var(--border-h);border-radius:18px;padding:40px 20px;text-align:center;
+  cursor:pointer;transition:0.3s;background:var(--upload);
+}
+#tsxv5-imgtoolkit .upload-area:hover,#tsxv5-imgtoolkit .upload-area.dragover{border-color:var(--accent);background:var(--upload-h);}
+#tsxv5-imgtoolkit .file-input{display:none;}
+#tsxv5-imgtoolkit .preview-img{
+  max-width:100%;max-height:500px;border-radius:16px;display:none;margin:15px auto;
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+}
+#tsxv5-imgtoolkit .status-msg{margin-top:14px;font-size:0.9rem;min-height:20px;color:var(--muted);}
+#tsxv5-imgtoolkit .status-msg.error{color:var(--red);}
+#tsxv5-imgtoolkit .status-msg.done{color:var(--green);}
+#tsxv5-imgtoolkit .controls{display:none;margin-top:25px;}
+
+#tsxv5-imgtoolkit .section-title{
+  font-size:1.1rem;font-weight:700;color:var(--accent);margin:20px 0 12px;
+  padding-bottom:8px;border-bottom:2px solid var(--border);
+}
+
+#tsxv5-imgtoolkit .slider-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0;}
+#tsxv5-imgtoolkit .slider-group{background:var(--card2);padding:14px;border-radius:12px;border:1px solid var(--border);}
+#tsxv5-imgtoolkit .slider-group label{display:block;font-weight:600;color:var(--text);margin-bottom:8px;font-size:0.9rem;}
+#tsxv5-imgtoolkit .slider-group .value{color:var(--accent);font-weight:700;font-size:1rem;}
+#tsxv5-imgtoolkit input[type="range"]{width:100%;accent-color:var(--accent);cursor:pointer;margin-top:6px;}
+
+#tsxv5-imgtoolkit select{
+  width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;
+  background:var(--card2);color:var(--text);font-size:0.9rem;cursor:pointer;margin-top:6px;
+}
+
+#tsxv5-imgtoolkit .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0;}
+#tsxv5-imgtoolkit .btn-sm{
+  padding:10px 16px;border:1px solid var(--border);border-radius:8px;background:var(--card2);
+  color:var(--text);font-weight:600;font-size:0.85rem;cursor:pointer;transition:all 0.2s;flex:1;min-width:100px;
+}
+#tsxv5-imgtoolkit .btn-sm:hover{border-color:var(--accent);color:var(--accent);}
+#tsxv5-imgtoolkit .btn-sm.active{background:var(--accent);color:#ffffff;border-color:var(--accent);}
+
+#tsxv5-imgtoolkit .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0;}
+#tsxv5-imgtoolkit .stat-box{
+  background:var(--card2);padding:14px;border-radius:14px;
+  border:1px solid var(--border);text-align:center;
+}
+#tsxv5-imgtoolkit .stat-value{font-size:1.2rem;font-weight:700;color:var(--text);}
+#tsxv5-imgtoolkit .stat-value.green{color:var(--green);}
+#tsxv5-imgtoolkit .stat-value.blue{color:var(--accent);}
+#tsxv5-imgtoolkit .stat-value.orange{color:var(--orange);}
+#tsxv5-imgtoolkit .stat-label{font-size:0.7rem;color:var(--soft);margin-top:4px;}
+
+#tsxv5-imgtoolkit .btn-group{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;}
+#tsxv5-imgtoolkit .btn{
+  flex:1;min-width:140px;padding:16px;border:none;border-radius:14px;font-weight:700;
+  font-size:1rem;cursor:pointer;transition:0.2s;background:var(--accent);color:#ffffff;font-family:inherit;
+}
+#tsxv5-imgtoolkit .btn:hover{transform:translateY(-2px);box-shadow:0 10px 20px -8px rgba(37,99,235,0.5);}
+#tsxv5-imgtoolkit .btn-outline{background:transparent;border:2px solid var(--accent);color:var(--accent);}
+#tsxv5-imgtoolkit .btn-outline:hover{background:var(--accent);color:#ffffff;}
+#tsxv5-imgtoolkit .btn-danger{background:var(--red);}
+#tsxv5-imgtoolkit .btn-danger:hover{box-shadow:0 10px 20px -8px rgba(220,38,38,0.5);}
+
+#tsxv5-imgtoolkit .seo-content{margin-top:40px;}
+#tsxv5-imgtoolkit .seo-content h2{
+  color:var(--text);border-left:5px solid var(--accent);padding-left:15px;margin:25px 0 12px;
+}
+#tsxv5-imgtoolkit .seo-content p,#tsxv5-imgtoolkit .seo-content li{color:var(--muted);line-height:1.8;margin-bottom:8px;}
+#tsxv5-imgtoolkit .seo-content ul{padding-left:25px;}
+#tsxv5-imgtoolkit .seo-content strong{color:var(--text);}
+
+#tsxv5-imgtoolkit .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px;}
+#tsxv5-imgtoolkit .related-link{
+  display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:14px;text-decoration:none;transition:all .2s ease;
+}
+#tsxv5-imgtoolkit .related-link:hover{border-color:var(--accent);transform:translateY(-2px);text-decoration:none;}
+#tsxv5-imgtoolkit .related-icon{font-size:1.6rem;flex-shrink:0;}
+#tsxv5-imgtoolkit .related-link strong{display:block;color:var(--text);font-size:0.9rem;margin-bottom:2px;}
+#tsxv5-imgtoolkit .related-link .rl-desc{color:var(--muted);font-size:0.78rem;line-height:1.4;}
+
+#tsxv5-imgtoolkit .faq-item{
+  background:var(--card2);padding:14px 20px;border-radius:14px;margin:10px 0;border:1px solid var(--border);
+}
+#tsxv5-imgtoolkit .faq-item strong{color:var(--text);display:block;margin-bottom:6px;}
+#tsxv5-imgtoolkit .faq-item span{color:var(--muted);}
+
+#tsxv5-imgtoolkit a{color:var(--accent);font-weight:600;text-decoration:none;}
+#tsxv5-imgtoolkit a:hover{text-decoration:underline;color:var(--accent-h);}
+#tsxv5-imgtoolkit footer{text-align:center;padding:30px 0 10px;color:var(--soft);font-size:0.9rem;}
+
+/* ═══ STANDARD BREAKPOINTS (480/768/1024) ═══ */
+@media(max-width:480px){
+  #tsxv5-imgtoolkit{padding:12px;}
+  #tsxv5-imgtoolkit .card{padding:18px;}
+  #tsxv5-imgtoolkit .header h2{font-size:1.7rem;}
+  #tsxv5-imgtoolkit .slider-grid{grid-template-columns:1fr;}
+  #tsxv5-imgtoolkit .stats{grid-template-columns:1fr 1fr;}
+  #tsxv5-imgtoolkit .upload-area{padding:30px 15px;}
+  #tsxv5-imgtoolkit .btn{min-width:100%;}
+}
+@media(max-width:768px){
+  #tsxv5-imgtoolkit{padding:16px;}
+  #tsxv5-imgtoolkit .card{padding:22px;}
+  #tsxv5-imgtoolkit .slider-grid{grid-template-columns:1fr;}
+  #tsxv5-imgtoolkit .stats{grid-template-columns:1fr 1fr;}
+}
+@media(min-width:1024px){
+  #tsxv5-imgtoolkit{max-width:1100px;}
+}
+@media(prefers-reduced-motion:reduce){
+  #tsxv5-imgtoolkit *,#tsxv5-imgtoolkit *::before,#tsxv5-imgtoolkit *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+}
+</style>
+
+<div class="header">
+  <h2>🛠️ Advanced Image Toolkit</h2>
+  <p>Professional-grade image editor — Resize, Compress, Enhance, Crop, Rotate, Flip &amp; Filter</p>
+  <span class="badge">🔥 100% Free • Offline • No Upload • Advanced Features</span>
+</div>
+
+<div class="card">
+  <div class="upload-area" id="tsxv5-uploadArea">
+    <div id="tsxv5-dropText">
+      <span style="font-size:44px;">📂</span>
+      <p style="font-weight:600;margin:6px 0;">Click or Drag &amp; Drop Image</p>
+      <small style="color:var(--soft);">JPG, PNG, WEBP · Max 10MB</small>
+    </div>
+    <img id="tsxv5-previewImg" class="preview-img" alt="Optimized image preview">
+    <input type="file" id="tsxv5-imageInput" class="file-input" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+  </div>
+
+  <div class="status-msg" id="tsxv5-status" role="status" aria-live="polite"></div>
+
+  <div class="controls" id="tsxv5-controls">
+    
+    <div class="section-title">📏 Resize &amp; Format</div>
+    <div class="slider-grid">
+      <div class="slider-group">
+        <label>Resize: <span class="value" id="tsxv5-resizeLabel">100</span>%</label>
+        <input type="range" id="tsxv5-resizeSlider" min="25" max="100" value="100">
+      </div>
+      <div class="slider-group">
+        <label>Output Format</label>
+        <select id="tsxv5-formatSelect">
+          <option value="original">Original (No Change)</option>
+          <option value="image/jpeg">JPEG (Best Compression)</option>
+          <option value="image/webp">WebP (Modern Format)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-title">📉 Compression</div>
+    <div class="slider-grid">
+      <div class="slider-group">
+        <label>Quality: <span class="value" id="tsxv5-qualityLabel">80</span>%</label>
+        <input type="range" id="tsxv5-qualitySlider" min="10" max="100" value="80">
+      </div>
+      <div class="slider-group" style="display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center;">
+          <div style="font-size:0.85rem;color:var(--muted);margin-bottom:8px;">💡 Pro Tip</div>
+          <div style="font-size:0.8rem;color:var(--soft);line-height:1.5;">70-80% = Best balance<br/>50% = Smaller file, some quality loss</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">🎨 Enhancement</div>
+    <div class="slider-grid">
+      <div class="slider-group">
+        <label>☀️ Brightness: <span class="value" id="tsxv5-brightnessLabel">100</span>%</label>
+        <input type="range" id="tsxv5-brightnessSlider" min="50" max="150" value="100">
+      </div>
+      <div class="slider-group">
+        <label>🔲 Contrast: <span class="value" id="tsxv5-contrastLabel">100</span>%</label>
+        <input type="range" id="tsxv5-contrastSlider" min="50" max="150" value="100">
+      </div>
+      <div class="slider-group">
+        <label>🔍 Sharpness: <span class="value" id="tsxv5-sharpnessLabel">0</span>%</label>
+        <input type="range" id="tsxv5-sharpnessSlider" min="0" max="100" value="0">
+      </div>
+      <div class="slider-group">
+        <label>🌈 Saturation: <span class="value" id="tsxv5-saturationLabel">100</span>%</label>
+        <input type="range" id="tsxv5-saturationSlider" min="0" max="200" value="100">
+      </div>
+    </div>
+
+    <div class="section-title">✂️ Transform &amp; Crop</div>
+    <div class="slider-grid">
+      <div class="slider-group">
+        <label>✂️ Crop: <span class="value" id="tsxv5-cropLabel">0</span>%</label>
+        <input type="range" id="tsxv5-cropSlider" min="0" max="50" value="0">
+      </div>
+      <div class="slider-group">
+        <label>🔄 Rotate: <span class="value" id="tsxv5-rotateLabel">0</span>°</label>
+        <input type="range" id="tsxv5-rotateSlider" min="0" max="360" value="0">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn-sm" id="tsxv5-flipHBtn">↔️ Flip Horizontal</button>
+      <button type="button" class="btn-sm" id="tsxv5-flipVBtn">↕️ Flip Vertical</button>
+    </div>
+
+    <div class="section-title">🎭 Filters</div>
+    <div class="btn-row">
+      <button type="button" class="btn-sm" id="tsxv5-grayscaleBtn">⚫ Grayscale</button>
+      <button type="button" class="btn-sm" id="tsxv5-sepiaBtn">🟤 Sepia</button>
+      <button type="button" class="btn-sm" id="tsxv5-invertBtn">🔄 Invert</button>
+      <button type="button" class="btn-sm" id="tsxv5-blurBtn">🌫️ Blur</button>
+    </div>
+
+    <div class="section-title">📊 Stats</div>
+    <div class="stats">
+      <div class="stat-box"><div class="stat-value" id="tsxv5-originalSize">0 KB</div><div class="stat-label">Original Size</div></div>
+      <div class="stat-box"><div class="stat-value green" id="tsxv5-compressedSize">0 KB</div><div class="stat-label">Final Size</div></div>
+      <div class="stat-box"><div class="stat-value blue" id="tsxv5-dimensionInfo">—</div><div class="stat-label">Resolution</div></div>
+      <div class="stat-box"><div class="stat-value orange" id="tsxv5-reductionInfo">—</div><div class="stat-label">Reduction</div></div>
+    </div>
+
+    <div class="btn-group">
+      <button type="button" class="btn" id="tsxv5-downloadBtn">⬇️ Download</button>
+      <button type="button" class="btn btn-outline" id="tsxv5-resetBtn">↺ Reset All</button>
+    </div>
+  </div>
+</div>
+
+<div class="seo-content">
+  <h2>🛠️ Yeh Advanced Image Toolkit Kaise Kaam Karta Hai</h2>
+  <p><strong>Tools-X Advanced Image Toolkit</strong> ek professional-grade browser-based image editor hai jo compression, resize, enhancement, crop, rotate, flip aur filters sab ek jagah provide karta hai. Poora process aapke browser ke andar hota hai — koi upload nahi, koi server nahi — isliye photos 100% private rehti hain aur tool offline bhi chalta hai. Bloggers, YouTubers, social media managers, web developers aur photographers ke liye yeh complete image optimization solution hai. File validation (type + size + magic bytes) ensure karta hai ki sirf valid images process hon.</p>
+
+  <h2>🛠️ Step-by-Step: Kaise Use Karein</h2>
+  <p>Tool use karna systematic hai: (1) Upload area par click ya drag-drop se JPG, PNG ya WebP file chunein (max 10MB). (2) Resize slider (25-100%) se dimensions adjust karein — 50% resize file size ko ~75% tak reduce karta hai. (3) Format dropdown se output format chunein — PNG→JPEG conversion se 80-90% size kam ho jata hai. (4) Quality slider (10-100%) se compression set karein. (5) Enhancement sliders se brightness, contrast, sharpness aur saturation fine-tune karein. (6) Crop, rotate ya flip se image adjust karein, filters apply karein, aur Download se optimized image save karein — stats boxes mein har change ka real-time effect dikhta hai.</p>
+
+  <h2>📉 Advanced Compression Techniques</h2>
+  <p>Sirf quality slider se compression limited hoti hai — advanced results ke liye techniques combine karein. Resize + Format Conversion: 50% resize + PNG→JPEG se 90% tak reduction bina visible quality loss ke. Smart Quality: WebP mein 70% quality, JPEG ke 80% se better quality deti hai same file size mein. Progressive Compression: pehle 100% quality test karein, phir gradually kam karein. Bloggers sweet spot: 70% resize + 75% quality + WebP = ~85% reduction. Social media ke liye: 50% resize + 80% quality + JPEG = ~75% reduction bina artifacts ke.</p>
+
+  <h2>🎨 Professional Photo Enhancement Guide</h2>
+  <p>Enhancement sliders strategically use karein. Brightness 105-115% dark photos ke liye — over-brightening se details wash out hoti hain. Contrast 110-120% dull photos ke colors ko pop banata hai. Sharpness 20-40% blurry images ke liye — excessive sharpness noise create karta hai. Saturation 110-130% faded photos ke liye — 200% par colors oversaturated ho jate hain. Best combination: Brightness 105% + Contrast 115% + Sharpness 30% + Saturation 115% = professional look bina over-processing ke. Yaad rakhein: less is more — ek baar mein ek slider adjust karein.</p>
+
+  <h2>🔄 Transform, Filters &amp; Production Settings</h2>
+  <p>Crop (0-50%) outer edges symmetrically kaatta hai — profile pictures aur square posts ke liye perfect. Rotate (0-360°) se tilted images straighten karein; Flip H/V mirror effect deta hai. Grayscale artistic black-and-white look, Sepia warm vintage tone, Invert experimental art, aur Blur portrait-style background focus deta hai — multiple filters combine ho sakte hain. Production settings: hero images (1920px) ko 60% resize + 75% quality + WebP (150-200KB); thumbnails 100% resize + 80% quality + JPEG (30-50KB). Compression irreversible hai — original backup hamesha safe rakhein.</p>
+
+  <h2>✅ Advanced Features List</h2>
+  <ul>
+    <li>📦 <strong>Resize 25-100%:</strong> aspect ratio lock ke saath</li>
+    <li>🔄 <strong>Format Conversion:</strong> PNG→JPEG / WebP</li>
+    <li>📉 <strong>Quality Control:</strong> 10-100% real-time preview</li>
+    <li>🎨 <strong>4 Enhancement Sliders:</strong> Brightness, Contrast, Sharpness, Saturation</li>
+    <li>✂️ <strong>Crop 0-50%, Rotate 0-360°, Flip H/V</strong></li>
+    <li>🎭 <strong>4 Combinable Filters:</strong> Grayscale, Sepia, Invert, Blur</li>
+    <li>📊 <strong>Real-time Stats:</strong> size, resolution, % reduction</li>
+  </ul>
+</div>
+
+<div class="seo-content">
+  <h2>🚀 Related Tools — Hamari Banayi Hui Posts</h2>
+  <div class="related-grid">
+    <a class="related-link" href="../tools/boost-karein-seo-meta-tag-generator-ai.html" rel="noopener noreferrer" title="SEO Meta Tag Generator">
+      <span class="related-icon">🏷️</span>
+      <div><strong>SEO Meta Tag Generator</strong><span class="rl-desc">Open Graph, Twitter Cards &amp; JSON-LD schema with live SERP preview</span></div>
+    </a>
+    <a class="related-link" href="https://www.toolsx.in/2026/08/explore-karein-200-ai-prompts-hub-ai-lab.html" rel="noopener noreferrer" title="200+ AI Prompt Library">
+      <span class="related-icon">📚</span>
+      <div><strong>200+ AI Prompt Library</strong><span class="rl-desc">Ready-to-use image &amp; copy prompts — search, copy, export</span></div>
+    </a>
+    <a class="related-link" href="../tools/audit-karein-code-bugs-aur-security-ai.html" rel="noopener noreferrer" title="Code Intelligence Studio">
+      <span class="related-icon">🔬</span>
+      <div><strong>Code Intelligence Studio</strong><span class="rl-desc">11 developer tools: bug fixer, security audit, transpiler &amp; more</span></div>
+    </a>
+  </div>
+</div>
+
+<div class="seo-content">
+  <h2>❓ FAQs</h2>
+  <div class="faq-item"><strong>Compression se quality kharab hoti hai?</strong><span>70-80% quality par visual difference negligible hota hai. 50% se kam par artifacts visible ho sakte hain.</span></div>
+  <div class="faq-item"><strong>PNG ko JPEG mein convert kar sakte hain?</strong><span>Haan — Format dropdown se JPEG select karein. PNG transparency lose hogi, lekin file size 80-90% kam ho jayegi.</span></div>
+  <div class="faq-item"><strong>Resize karne se quality affect hoti hai?</strong><span>Downscaling (100% se kam) mein quality almost same rehti hai — sirf pixels kam hote hain. Upscaling (100% se zyada) blur create karta hai.</span></div>
+  <div class="faq-item"><strong>Multiple filters ek saath use kar sakte hain?</strong><span>Haan — Grayscale, Sepia, Invert, Blur filters ek saath apply ho sakte hain. Reset button se sab clear.</span></div>
+  <div class="faq-item"><strong>Kya meri images private rehti hain?</strong><span>Haan — poori processing browser mein hoti hai, koi upload ya server transfer nahi hota.</span></div>
+</div>
+
+<p style="margin-top:30px;font-size:16px;line-height:1.8;color:var(--muted);">Yeh <strong>Advanced Image Toolkit</strong> un sabhi logon ke liye perfect hai jo professional-grade image editing chahte hain — bloggers, YouTubers, social media managers, web developers, aur photographers. Resize, compress, enhance, crop, rotate, flip, aur filters — sab ek hi tool mein, woh bhi bilkul free aur unlimited. 100% browser-based hone ki wajah se aapki photos kabhi bhi kisi server par nahi jaati, complete privacy guaranteed hai. Bookmark karo aur roz use karo! 🛠️✨</p>
+
+<footer>Powered by <strong>Tools-X</strong> · toolsx.in</footer>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+var W=document.getElementById('tsxv5-imgtoolkit');
+if(!W)return;
+
+var uploadArea=document.getElementById('tsxv5-uploadArea');
+var imageInput=document.getElementById('tsxv5-imageInput');
+var previewImg=document.getElementById('tsxv5-previewImg');
+var dropText=document.getElementById('tsxv5-dropText');
+var controls=document.getElementById('tsxv5-controls');
+var statusEl=document.getElementById('tsxv5-status');
+
+var resizeSlider=document.getElementById('tsxv5-resizeSlider');
+var resizeLabel=document.getElementById('tsxv5-resizeLabel');
+var formatSelect=document.getElementById('tsxv5-formatSelect');
+var qualitySlider=document.getElementById('tsxv5-qualitySlider');
+var qualityLabel=document.getElementById('tsxv5-qualityLabel');
+var brightnessSlider=document.getElementById('tsxv5-brightnessSlider');
+var brightnessLabel=document.getElementById('tsxv5-brightnessLabel');
+var contrastSlider=document.getElementById('tsxv5-contrastSlider');
+var contrastLabel=document.getElementById('tsxv5-contrastLabel');
+var sharpnessSlider=document.getElementById('tsxv5-sharpnessSlider');
+var sharpnessLabel=document.getElementById('tsxv5-sharpnessLabel');
+var saturationSlider=document.getElementById('tsxv5-saturationSlider');
+var saturationLabel=document.getElementById('tsxv5-saturationLabel');
+var cropSlider=document.getElementById('tsxv5-cropSlider');
+var cropLabel=document.getElementById('tsxv5-cropLabel');
+var rotateSlider=document.getElementById('tsxv5-rotateSlider');
+var rotateLabel=document.getElementById('tsxv5-rotateLabel');
+var flipHBtn=document.getElementById('tsxv5-flipHBtn');
+var flipVBtn=document.getElementById('tsxv5-flipVBtn');
+var grayscaleBtn=document.getElementById('tsxv5-grayscaleBtn');
+var sepiaBtn=document.getElementById('tsxv5-sepiaBtn');
+var invertBtn=document.getElementById('tsxv5-invertBtn');
+var blurBtn=document.getElementById('tsxv5-blurBtn');
+
+var originalSizeText=document.getElementById('tsxv5-originalSize');
+var compressedSizeText=document.getElementById('tsxv5-compressedSize');
+var dimensionInfo=document.getElementById('tsxv5-dimensionInfo');
+var reductionInfo=document.getElementById('tsxv5-reductionInfo');
+var downloadBtn=document.getElementById('tsxv5-downloadBtn');
+var resetBtn=document.getElementById('tsxv5-resetBtn');
+
+var MAX_SIZE_MB=10;
+var currentFile=null;
+var originalImageData=null;
+var compressedDataURL='';
+var originalFileSize=0;
+
+var flipH=false,flipV=false;
+var grayscale=false,sepia=false,invert=false,blur=false;
+
+function setStatus(type,msg){
+  statusEl.className='status-msg'+(type?' '+type:'');
+  statusEl.textContent=msg||'';
+}
+function sanitizeFilename(name){
+  return String(name||'optimized').replace(/[^a-zA-Z0-9._-]/g,'').substring(0,80)||'optimized';
+}
+function safeExt(ext){
+  ext=String(ext||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  return['jpg','jpeg','png','webp'].indexOf(ext)>-1?ext:'jpg';
+}
+function verifyImageSignature(file){
+  return file.arrayBuffer().then(function(buf){
+    var b=new Uint8Array(buf.slice(0,12));
+    function has(seq,off){off=off||0;for(var i=0;i<seq.length;i++){if(b[off+i]!==seq[i])return false;}return true;}
+    if(has([0xFF,0xD8,0xFF]))return true;
+    if(has([0x89,0x50,0x4E,0x47]))return true;
+    if(has([0x52,0x49,0x46,0x46])&&has([0x57,0x45,0x42,0x50],8))return true;
+    return false;
+  });
+}
+function formatSize(bytes){
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1048576)return(bytes/1024).toFixed(1)+' KB';
+  return(bytes/1048576).toFixed(1)+' MB';
+}
+
+uploadArea.addEventListener('click',function(){imageInput.click();});
+uploadArea.addEventListener('dragover',function(e){e.preventDefault();uploadArea.classList.add('dragover');});
+uploadArea.addEventListener('dragleave',function(){uploadArea.classList.remove('dragover');});
+uploadArea.addEventListener('drop',function(e){
+  e.preventDefault();
+  uploadArea.classList.remove('dragover');
+  if(e.dataTransfer.files.length){
+    imageInput.files=e.dataTransfer.files;
+    handleFile(e.dataTransfer.files[0]);
+  }
+});
+imageInput.addEventListener('change',function(e){
+  if(e.target.files.length)handleFile(e.target.files[0]);
+});
+
+async function handleFile(file){
+  setStatus('','');
+  if(!file.type.startsWith('image/')){
+    setStatus('error','Sirf image files (JPG, PNG, WebP) support hoti hain.');
+    return;
+  }
+  if(file.size>MAX_SIZE_MB*1024*1024){
+    setStatus('error','File size '+MAX_SIZE_MB+'MB se zyada hai. Kripya chhoti image use karein.');
+    return;
+  }
+  var validSig=false;
+  try{validSig=await verifyImageSignature(file);}catch(e){validSig=false;}
+  if(!validSig){
+    setStatus('error','Image signature verify nahi ho payi — file corrupted ya unsupported hai.');
+    return;
+  }
+  currentFile=file;
+  originalFileSize=file.size;
+  originalSizeText.textContent=formatSize(file.size);
+
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    originalImageData=ev.target.result;
+    previewImg.src=originalImageData;
+    previewImg.style.display='block';
+    dropText.style.display='none';
+    controls.style.display='block';
+    processImage();
+  };
+  reader.readAsDataURL(file);
+}
+
+resizeSlider.addEventListener('input',function(){resizeLabel.textContent=this.value;processImage();});
+formatSelect.addEventListener('change',processImage);
+qualitySlider.addEventListener('input',function(){qualityLabel.textContent=this.value;processImage();});
+brightnessSlider.addEventListener('input',function(){brightnessLabel.textContent=this.value;processImage();});
+contrastSlider.addEventListener('input',function(){contrastLabel.textContent=this.value;processImage();});
+sharpnessSlider.addEventListener('input',function(){sharpnessLabel.textContent=this.value;processImage();});
+saturationSlider.addEventListener('input',function(){saturationLabel.textContent=this.value;processImage();});
+cropSlider.addEventListener('input',function(){cropLabel.textContent=this.value;processImage();});
+rotateSlider.addEventListener('input',function(){rotateLabel.textContent=this.value;processImage();});
+
+flipHBtn.addEventListener('click',function(){flipH=!flipH;this.classList.toggle('active',flipH);processImage();});
+flipVBtn.addEventListener('click',function(){flipV=!flipV;this.classList.toggle('active',flipV);processImage();});
+grayscaleBtn.addEventListener('click',function(){grayscale=!grayscale;this.classList.toggle('active',grayscale);processImage();});
+sepiaBtn.addEventListener('click',function(){sepia=!sepia;this.classList.toggle('active',sepia);processImage();});
+invertBtn.addEventListener('click',function(){invert=!invert;this.classList.toggle('active',invert);processImage();});
+blurBtn.addEventListener('click',function(){blur=!blur;this.classList.toggle('active',blur);processImage();});
+
+function processImage(){
+  if(!originalImageData)return;
+  var img=new Image();
+  img.src=originalImageData;
+  img.onload=function(){
+    var resizePercent=parseInt(resizeSlider.value,10)/100;
+    var cropPercent=parseInt(cropSlider.value,10)/100;
+    var rotateDeg=parseInt(rotateSlider.value,10);
+
+    var w=img.width*resizePercent;
+    var h=img.height*resizePercent;
+
+    if(cropPercent>0){
+      var cropPx=Math.min(w,h)*cropPercent;
+      w=Math.max(10,w-cropPx*2);
+      h=Math.max(10,h-cropPx*2);
+    }
+
+    /* Rotation bounding-box fix: canvas ko rotated dimensions do, warna corners cut jaate hain */
+    var rad=rotateDeg*Math.PI/180;
+    var absC=Math.abs(Math.cos(rad)),absS=Math.abs(Math.sin(rad));
+    var outW=Math.max(1,Math.round(w*absC+h*absS));
+    var outH=Math.max(1,Math.round(w*absS+h*absC));
+
+    var canvas=document.createElement('canvas');
+    canvas.width=outW;canvas.height=outH;
+    var ctx=canvas.getContext('2d');
+
+    var cropW=w/resizePercent,cropH=h/resizePercent;
+    var cropOffsetX=(img.width-cropW)/2,cropOffsetY=(img.height-cropH)/2;
+
+    ctx.save();
+    ctx.translate(outW/2,outH/2);
+    ctx.rotate(rad);
+    ctx.scale(flipH?-1:1,flipV?-1:1);
+    ctx.drawImage(img,cropOffsetX,cropOffsetY,cropW,cropH,-w/2,-h/2,w,h);
+    ctx.restore();
+
+    w=outW;h=outH;
+
+    var brightness=parseInt(brightnessSlider.value,10)/100;
+    var contrast=parseInt(contrastSlider.value,10)/100;
+    var sharpness=parseInt(sharpnessSlider.value,10)/100;
+    var saturation=parseInt(saturationSlider.value,10)/100;
+
+    if(brightness!==1||contrast!==1||saturation!==1||grayscale||sepia||invert){
+      var imageData=ctx.getImageData(0,0,w,h);
+      var data=imageData.data;
+      for(var i=0;i<data.length;i+=4){
+        var r=data[i],g=data[i+1],b=data[i+2];
+        if(grayscale){var gray=0.299*r+0.587*g+0.114*b;r=g=b=gray;}
+        if(sepia){
+          var tr=0.393*r+0.769*g+0.189*b;
+          var tg=0.349*r+0.686*g+0.168*b;
+          var tb=0.272*r+0.534*g+0.131*b;
+          r=tr;g=tg;b=tb;
+        }
+        if(invert){r=255-r;g=255-g;b=255-b;}
+        r=Math.min(255,Math.max(0,r*brightness));
+        g=Math.min(255,Math.max(0,g*brightness));
+        b=Math.min(255,Math.max(0,b*brightness));
+        r=((r-128)*contrast)+128;
+        g=((g-128)*contrast)+128;
+        b=((b-128)*contrast)+128;
+        var avg=(r+g+b)/3;
+        r=avg+(r-avg)*saturation;
+        g=avg+(g-avg)*saturation;
+        b=avg+(b-avg)*saturation;
+        data[i]=Math.min(255,Math.max(0,r));
+        data[i+1]=Math.min(255,Math.max(0,g));
+        data[i+2]=Math.min(255,Math.max(0,b));
+      }
+      ctx.putImageData(imageData,0,0);
+    }
+
+    /* Sharpness NaN-bug fix: proper 3x3 kernel with boundary guard */
+    if(sharpness>0){
+      var imgData2=ctx.getImageData(0,0,w,h);
+      var d2=imgData2.data;
+      var copy=new Uint8ClampedArray(d2);
+      var factor=sharpness*2;
+      var rowBytes=w*4;
+      for(var y=1;y<h-1;y++){
+        for(var x=1;x<w-1;x++){
+          var idx=(y*w+x)*4;
+          for(var ch=0;ch<3;ch++){
+            var cIdx=idx+ch;
+            var val=copy[cIdx]*(1+4*factor)-factor*(copy[cIdx-4]+copy[cIdx+4]+copy[cIdx-rowBytes]+copy[cIdx+rowBytes]);
+            d2[cIdx]=Math.min(255,Math.max(0,val));
+          }
+        }
+      }
+      ctx.putImageData(imgData2,0,0);
+    }
+
+    /* Blur self-draw bug fix: offscreen canvas use karo */
+    if(blur){
+      var tmp=document.createElement('canvas');
+      tmp.width=w;tmp.height=h;
+      var tctx=tmp.getContext('2d');
+      tctx.filter='blur(2px)';
+      tctx.drawImage(canvas,0,0);
+      tctx.filter='none';
+      ctx.clearRect(0,0,w,h);
+      ctx.drawImage(tmp,0,0);
+    }
+
+    var format=formatSelect.value;
+    var mimeType=format==='original'?(currentFile?currentFile.type:'image/jpeg'):format;
+    var quality=qualitySlider.value/100;
+    compressedDataURL=canvas.toDataURL(mimeType,quality);
+    previewImg.src=compressedDataURL;
+
+    var base64Len=compressedDataURL.length-compressedDataURL.indexOf(',')-1;
+    var sizeInBytes=Math.round((base64Len*3)/4);
+    compressedSizeText.textContent=formatSize(sizeInBytes);
+
+    /* FIX: HTML entities (&#215;/&#8593;) literal dikhte the — ab real Unicode chars use hote hain */
+    dimensionInfo.textContent=Math.round(w)+' × '+Math.round(h);
+    var reduction=((originalFileSize-sizeInBytes)/originalFileSize*100).toFixed(1);
+    reductionInfo.textContent=reduction>0?'↓ '+reduction+'%':'↑ '+Math.abs(reduction)+'%';
+  };
+}
+
+downloadBtn.addEventListener('click',function(){
+  if(!compressedDataURL)return;
+  var a=document.createElement('a');
+  a.href=compressedDataURL;
+  var ext=formatSelect.value==='original'?(currentFile?safeExt(currentFile.name.split('.').pop()):'jpg'):formatSelect.value.split('/')[1];
+  var base=currentFile?sanitizeFilename(currentFile.name.replace(/\.[^/.]+$/,'')):'optimized';
+  a.download=base+'-advanced.'+ext;
+  a.click();
+  setStatus('done','Image optimized aur downloaded!');
+});
+
+resetBtn.addEventListener('click',function(){
+  resizeSlider.value=100;resizeLabel.textContent='100';
+  formatSelect.value='original';
+  qualitySlider.value=80;qualityLabel.textContent='80';
+  brightnessSlider.value=100;brightnessLabel.textContent='100';
+  contrastSlider.value=100;contrastLabel.textContent='100';
+  sharpnessSlider.value=0;sharpnessLabel.textContent='0';
+  saturationSlider.value=100;saturationLabel.textContent='100';
+  cropSlider.value=0;cropLabel.textContent='0';
+  rotateSlider.value=0;rotateLabel.textContent='0';
+  flipH=false;flipV=false;grayscale=false;sepia=false;invert=false;blur=false;
+  flipHBtn.classList.remove('active');flipVBtn.classList.remove('active');
+  grayscaleBtn.classList.remove('active');sepiaBtn.classList.remove('active');
+  invertBtn.classList.remove('active');blurBtn.classList.remove('active');
+  if(originalImageData){previewImg.src=originalImageData;processImage();}
+  setStatus('','');
+});
+
+console.log('Tools-X Advanced Image Toolkit v6.0 initialized | toolsx.in');
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

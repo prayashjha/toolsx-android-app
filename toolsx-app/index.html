@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>ToolsX – All Tools</title>
+<meta name="description" content="ToolsX App: 52+ free browser-based tools – image, audio, video, developer, SEO, finance and more, all offline-capable.">
+<link rel="stylesheet" href="app.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <span style="font-size:22px;">🧰</span>
+  <h1>ToolsX</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-home-wrap">
+  <input type="text" class="tx-search" id="txSearch" placeholder="Search tools... (e.g. GST, resume, QR)" oninput="txFilter(this.value)">
+  <div id="txCardsRoot">
+<div class="tx-section-title">Finance &amp; Business</div>
+<div class="tx-grid">
+<a class="tx-card" href="tools/gst-invoice-generator-for-business.html" data-name="free gst invoice generator for business online"><span class="tx-emoji">🧾</span><span class="tx-name">Free GST Invoice Generator for Business Online</span></a>
+<a class="tx-card" href="tools/free-emi-calculator-with-down-payment.html" data-name="emi ledger calculator – loan down payment &amp; interest calculator"><span class="tx-emoji">💰</span><span class="tx-name">EMI Ledger Calculator – Loan Down Payment &amp; Interest Calculator</span></a>
+<a class="tx-card" href="tools/free-salary-slip-generator-online-for.html" data-name="free salary slip generator online for employers &amp; employees"><span class="tx-emoji">💵</span><span class="tx-name">Free Salary Slip Generator Online for Employers &amp; Employees</span></a>
+</div>
+<div class="tx-section-title">Security &amp; Privacy</div>
+<div class="tx-grid">
+<a class="tx-card" href="tools/scan-karein-quantum-defense-aur-suite.html" data-name="website security scanner – find malware instantly free"><span class="tx-emoji">🛡️</span><span class="tx-name">Website Security Scanner – Find Malware Instantly Free</span></a>
+<a class="tx-card" href="tools/privacyshield-free-online-privacy.html" data-name="privacyshield – free online privacy &amp; secret scanner"><span class="tx-emoji">🛡️</span><span class="tx-name">PrivacyShield – Free Online Privacy &amp; Secret Scanner</span></a>
+</div>
+<div class="tx-section-title">Photo &amp; Video Editing</div>
+<div class="tx-grid">
+<a class="tx-card" href="tools/smart-text-analyser-apna-tax-analyse.html" data-name="smart text analyser – free online text &amp; content analysis tool"><span class="tx-emoji">📊</span><span class="tx-name">Smart Text Analyser – Free Online Text &amp; Content Analysis Tool</span></a>
+<a class="tx-card" href="tools/apply-karein-pro-photo-effects-ai.html" data-name="ai photo effects studio: apply 12 professional filters online free"><span class="tx-emoji">🎨</span><span class="tx-name">AI Photo Effects Studio: Apply 12 Professional Filters Online Free</span></a>
+<a class="tx-card" href="tools/free-background-remover-remove-image.html" data-name="free background remover – remove image background in 1 click"><span class="tx-emoji">🪄</span><span class="tx-name">Free Background Remover – Remove Image Background in 1 Click</span></a>
+<a class="tx-card" href="tools/compress-karein-image-size-online-free.html" data-name="free image compressor online – compress image &amp; reduce size"><span class="tx-emoji">🗜️</span><span class="tx-name">Free Image Compressor Online – Compress Image &amp; Reduce Size</span></a>
+<a class="tx-card" href="tools/ailab-photo-studio-pro-advanced-online.html" data-name="toolsx photo studio pro – advanced ai photo editor online"><span class="tx-emoji">🖼️</span><span class="tx-name">ToolsX Photo Studio Pro – Advanced AI Photo Editor Online</span></a>
+<a class="tx-card" href="tools/edit-karein-image-compress-enhance-crop.html" data-name="online image editor: crop, enhance &amp; compress photos"><span class="tx-emoji">✂️</span><span class="tx-name">Online Image Editor: Crop, Enhance &amp; Compress Photos</span></a>
+</div>
+<div class="tx-section-title">Developer Tools</div>
+<div class="tx-grid">
+<a class="tx-card" href="tools/file-size-composer.html" data-name="file size composer"><span class="tx-emoji">📦</span><span class="tx-name">File size composer</span></a>
+<a class="tx-card" href="tools/ai-code-detector-free-online-tool-to.html" data-name="ai code checker"><span class="tx-emoji">🐞</span><span class="tx-name">AI Code checker</span></a>
+<a class="tx-card" href="tools/audit-karein-code-bugs-aur-security-ai.html" data-name="ai code auditor – find bugs &amp; security flaws free"><span class="tx-emoji">🛡️</span><span class="tx-name">AI Code Auditor – Find Bugs &amp; Security Flaws Free</span></a>
+<a class="tx-card" href="tools/free-pdf-tools-online-compress-merge.html" data-name="free pdf tools online: compress, merge &amp; pdf to word"><span class="tx-emoji">📑</span><span class="tx-name">Free PDF Tools Online: Compress, Merge &amp; PDF to Word</span></a>
+<a class="tx-card" href="tools/free-csv-to-json-json-to-csv-converter.html" data-name="free csv to json / json to csv converter online – drag &amp; drop"><span class="tx-emoji">🔄</span><span class="tx-name">Free CSV to JSON / JSON to CSV Converter Online – Drag &amp; Drop</span></a>
+<a class="tx-card" href="tools/live-code-editor-preview-html-css-js.html" data-name="live code editor – preview html, css, js &amp; more online instantly"><span class="tx-emoji">💻</span><span class="tx-name">Live Code Editor – Preview HTML, CSS, JS &amp; more Online Instantly</span></a>
+<a class="tx-card" href="tools/free-bento-grid-generator-visual-html.html" data-name="free bento grid generator | visual html, css &amp; tailwind builder"><span class="tx-emoji">🧩</span><span class="tx-name">Free Bento Grid Generator | Visual HTML, CSS &amp; Tailwind Builder</span></a>
+<a class="tx-card" href="tools/secure-csv-data-cleaner-online-remove.html" data-name="secure csv data cleaner online | remove duplicates locally"><span class="tx-emoji">🔄</span><span class="tx-name">Secure CSV Data Cleaner Online | Remove Duplicates Locally</span></a>
+</div>
+<div class="tx-section-title">Audio &amp; Music</div>
+<div class="tx-grid">
+<a class="tx-card" href="tools/render-karein-audio-visualizer-waveform.html" data-name="podcast waveform generator – render audio visualizer free"><span class="tx-emoji">🎙️</span><span class="tx-name">Podcast Waveform Generator – Render Audio Visualizer Free</span></a>
+<a class="tx-card" href="tools/produce-karein-ai-music-prompts-fast-ai.html" data-name="ai music generator: create lo-fi &amp; retro cassette tracks"><span class="tx-emoji">🎵</span><span class="tx-name">AI Music Generator: Create Lo-Fi &amp; Retro Cassette Tracks</span></a>
+<a class="tx-card" href="tools/apni-song-ko-video-mein-badle-ai-se.html" data-name="lyric video &amp; music visualizer maker – audio to video free"><span class="tx-emoji">🎬</span><span class="tx-name">Lyric Video &amp; Music Visualizer Maker – Audio to Video Free</span></a>
+<a class="tx-card" href="tools/video-to-mp3-converter-free.html" data-name="video to mp3 converter – extract high-quality audio free"><span class="tx-emoji">🎧</span><span class="tx-name">Video to MP3 Converter – Extract High-Quality Audio Free</span></a>
+<a class="tx-card" href="tools/visualize-karein-audio-ke-saath-laser.html" data-name="audio laser visualizer – create 3d light shows for music"><span class="tx-emoji">✨</span><span class="tx-name">Audio Laser Visualizer – Create 3D Light Shows for Music</span></a>
+<a class="tx-card" href="tools/convert-karein-gaane-ko-video-mein.html" data-name="song to video converter – free ai lyric video maker"><span class="tx-emoji">🎬</span><span class="tx-name">Song to Video Converter – Free AI Lyric Video Maker</span></a>
+<a class="tx-card" href="tools/remix-karein-gaane-ko-dj-video-mein-ai.html" data-name="retro dj visualizer pro – beat-reactive club visuals free"><span class="tx-emoji">🎛️</span><span class="tx-name">Retro DJ Visualizer Pro – Beat-Reactive Club Visuals Free</span></a>
+<a class="tx-card" href="tools/ringtone-maker-15-music-styles-voice.html" data-name="custom ringtone maker: 15 music styles &amp; voice effects"><span class="tx-emoji">🔔</span><span class="tx-name">Custom Ringtone Maker: 15 Music Styles &amp; Voice Effects</span></a>
+<a class="tx-card" href="tools/ai-lab-analog-tape-deck-studio-ai-music.html" data-name="song structure &amp; lyric flow builder – plan songs free"><span class="tx-emoji">🎶</span><span class="tx-name">Song Structure &amp; Lyric Flow Builder – Plan Songs Free</span></a>
+<a class="tx-card" href="tools/mix-karein-pro-dj-soundbox-apne-phone.html" data-name="mix dj tracks free on your phone video dj maker"><span class="tx-emoji">🎛️</span><span class="tx-name">Mix DJ Tracks Free on Your Phone Video DJ Maker</span></a>
+</div>
+<div class="tx-section-title">AI Image &amp; Art</div>
+<div class="tx-grid">
+<a class="tx-card" href="tools/craft-karein-custom-thumbnail-youtube.html" data-name="ai youtube thumbnail generator – high-ctr covers free"><span class="tx-emoji">🖼️</span><span class="tx-name">AI YouTube Thumbnail Generator – High-CTR Covers Free</span></a>
+<a class="tx-card" href="tools/3d-curved-showcase-studio-studio.html" data-name="3d curved showcase studio: studio lighting matrix &amp; 4k export — toolsx"><span class="tx-emoji">🗂️</span><span class="tx-name">3D Curved Showcase Studio: Studio Lighting Matrix &amp; 4K Export — ToolsX</span></a>
+<a class="tx-card" href="tools/design-karein-fantasy-character-online.html" data-name="fantasy character creator – design rpg &amp; sci-fi heroes"><span class="tx-emoji">🧙</span><span class="tx-name">Fantasy Character Creator – Design RPG &amp; Sci-Fi Heroes</span></a>
+<a class="tx-card" href="tools/cinemaforge-ai-movie-poster-studio.html" data-name="movie poster generator – hollywood-style posters free"><span class="tx-emoji">🎥</span><span class="tx-name">Movie Poster Generator – Hollywood-Style Posters Free</span></a>
+<a class="tx-card" href="tools/create-hd-wallpaper-without-sign-up-ai.html" data-name="ai wallpaper generator – create 4k hd backgrounds free"><span class="tx-emoji">🖼️</span><span class="tx-name">AI Wallpaper Generator – Create 4K HD Backgrounds Free</span></a>
+<a class="tx-card" href="tools/generate-karein-text-se-ai-image-free.html" data-name="free text-to-image ai generator – hd art from prompts"><span class="tx-emoji">🖌️</span><span class="tx-name">Free Text-to-Image AI Generator – HD Art from Prompts</span></a>
+<a class="tx-card" href="tools/banao-personal-greeting-card-ai-studio.html" data-name="ai greeting card maker – animated festival wishes free"><span class="tx-emoji">🎉</span><span class="tx-name">AI Greeting Card Maker – Animated Festival Wishes Free</span></a>
+</div>
+<div class="tx-section-title">Text &amp; Writing</div>
+<div class="tx-grid">
+<a class="tx-card" href="tools/image-to-text-converter-online-free.html" data-name="image to text converter – free online ocr tool"><span class="tx-emoji">🔤</span><span class="tx-name">Image to Text Converter – Free Online OCR Tool</span></a>
+<a class="tx-card" href="tools/stylish-name-fancy-font-generator-free.html" data-name="stylish name &amp; fancy font generator - free"><span class="tx-emoji">🔠</span><span class="tx-name">Stylish Name &amp; Fancy Font Generator - Free</span></a>
+<a class="tx-card" href="tools/smart-topic-researcher-page-generator.html" data-name="free essay &amp; content generator - type any topic, get instant"><span class="tx-emoji">📝</span><span class="tx-name">Free Essay &amp; Content Generator - Type Any Topic, Get Instant</span></a>
+</div>
+<div class="tx-section-title">Career &amp; Documents</div>
+<div class="tx-grid">
+<a class="tx-card" href="tools/free-ai-signature-generator-digital.html" data-name="free ai signature generator - digital signature maker online"><span class="tx-emoji">✍️</span><span class="tx-name">Free AI Signature Generator - Digital Signature Maker Online</span></a>
+<a class="tx-card" href="tools/banayein-free-ai-resume-online-live.html" data-name="resume builder – ats-friendly cvs with live preview"><span class="tx-emoji">📄</span><span class="tx-name">Resume Builder – ATS-Friendly CVs with Live Preview</span></a>
+<a class="tx-card" href="tools/free-passport-photo-maker-online-ai.html" data-name="free passport photo maker online - ai visa photo, no watermark"><span class="tx-emoji">🪪</span><span class="tx-name">Free Passport Photo Maker Online - AI Visa Photo, No Watermark</span></a>
+</div>
+<div class="tx-section-title">Video &amp; Animation</div>
+<div class="tx-grid">
+<a class="tx-card" href="tools/choreograph-karein-pro-human-dancer.html" data-name="ai human dancer video maker – create dance videos online"><span class="tx-emoji">💃</span><span class="tx-name">AI Human Dancer Video Maker – Create Dance Videos Online</span></a>
+<a class="tx-card" href="tools/free-ai-video-generator-text-to-video.html" data-name="free ai video generator – text to video, no watermark"><span class="tx-emoji">🎞️</span><span class="tx-name">Free AI Video Generator – Text to Video, No Watermark</span></a>
+<a class="tx-card" href="tools/sync-karein-beats-ke-saath-ai-dance.html" data-name="ai avatar dance maker – sync photos to music beats"><span class="tx-emoji">💃</span><span class="tx-name">AI Avatar Dance Maker – Sync Photos to Music Beats</span></a>
+<a class="tx-card" href="tools/apni-photo-ko-dance-video-banayein-lip.html" data-name="ai face animator – lip sync for static portraits free"><span class="tx-emoji">👄</span><span class="tx-name">AI Face Animator – Lip Sync for Static Portraits Free</span></a>
+</div>
+<div class="tx-section-title">SEO &amp; Web</div>
+<div class="tx-grid">
+<a class="tx-card" href="tools/video-analyzer-thumbnail-download-tags.html" data-name="youtube video analyzer – download thumbnails &amp; extract tags"><span class="tx-emoji">🖼️</span><span class="tx-name">YouTube Video Analyzer – Download Thumbnails &amp; Extract Tags</span></a>
+<a class="tx-card" href="tools/transform-karein-url-ko-image-mein-ai.html" data-name="url to image converter – full-page website screenshots free"><span class="tx-emoji">📸</span><span class="tx-name">URL to Image Converter – Full-Page Website Screenshots Free</span></a>
+<a class="tx-card" href="tools/boost-karein-seo-meta-tag-generator-ai.html" data-name="tools-x meta lab: free seo &amp; meta tag generator"><span class="tx-emoji">🏷️</span><span class="tx-name">Tools-X Meta Lab: Free SEO &amp; Meta Tag Generator</span></a>
+<a class="tx-card" href="tools/qr-code-generator-instagram-whatsapp.html" data-name="free qr code generator with logo &amp; analytics"><span class="tx-emoji">📱</span><span class="tx-name">Free QR Code Generator with Logo &amp; Analytics</span></a>
+<a class="tx-card" href="tools/check-domain-name-availability-free-com.html" data-name="free domain name availability checker – .com, .in &amp; more"><span class="tx-emoji">🌐</span><span class="tx-name">Free Domain Name Availability Checker – .com, .in &amp; More</span></a>
+<a class="tx-card" href="tools/extract-karein-url-from-image-instantly.html" data-name="qr &amp; image link extractor – scan hidden urls instantly"><span class="tx-emoji">🔗</span><span class="tx-name">QR &amp; Image Link Extractor – Scan Hidden URLs Instantly</span></a>
+</div>
+  </div>
+  <p id="txEmptyMsg" class="tx-empty" style="display:none;">No tool matched. Try a different keyword.</p>
+</div>
+<script src="app.js"></script>
+<script>
+function txFilter(q){
+  q = q.trim().toLowerCase();
+  var cards = document.querySelectorAll('.tx-card');
+  var anyVisible = false;
+  cards.forEach(function(c){
+    var match = c.getAttribute('data-name').indexOf(q) !== -1;
+    c.style.display = match ? '' : 'none';
+    if(match) anyVisible = true;
+  });
+  document.querySelectorAll('.tx-section-title').forEach(function(st){
+    var grid = st.nextElementSibling;
+    var hasVisible = Array.from(grid.querySelectorAll('.tx-card')).some(function(c){return c.style.display !== 'none';});
+    st.style.display = hasVisible ? '' : 'none';
+    grid.style.display = hasVisible ? '' : 'none';
+  });
+  document.getElementById('txEmptyMsg').style.display = (q && !anyVisible) ? 'block' : 'none';
+}
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+</html>

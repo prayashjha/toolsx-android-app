@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Website Security Scanner – Find Malware Instantly Free – ToolsX App</title>
+<meta name="description" content="Scan any website free for malware and vulnerabilities instantly. Get a quick security report with no signup required.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Website Security Scanner – Find Malware Instantly Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"Tools-X Security Scanner Suite","applicationCategory":"SecurityApplication","operatingSystem":"Any","description":"Free browser-based cybersecurity simulation with Neural Threat Analyzer and Quantum Defense Grid. Entertainment and education only - no real scanning, no data collection.","featureList":"Dual scan engines, Six-stage Neural pipeline, Quantum Defense Grid with tabbed reports, Web Audio synth, Copy/share reports, 100% offline, No data collection"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is the Tools-X Security Scanner free?","acceptedAnswer":{"@type":"Answer","text":"Yes, 100% free, open-source and copyright-free for personal, educational or commercial use."}},{"@type":"Question","name":"Does it scan my real system?","acceptedAnswer":{"@type":"Answer","text":"No. It is a simulation for entertainment and education. Everything runs locally in your browser - no ports probed, no files read."}},{"@type":"Question","name":"Is my data private?","acceptedAnswer":{"@type":"Answer","text":"Completely. No backend, no cookies, no tracking. Your IP, browser and files are never seen or stored."}},{"@type":"Question","name":"Does it work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes, fully responsive with high-contrast readable text on all devices including phones and tablets."}},{"@type":"Question","name":"Can I modify and redistribute it?","acceptedAnswer":{"@type":"Answer","text":"Yes. Modify, fork, redistribute or sell - zero copyright restrictions on the simulation code."}}]}]}
+</script>
+
+<div id="tsxv5-security" class="tsxv5-wrapper">
+
+<style>
+/* ═══════════════════════════════════════════════════════════
+   TOOLS-X SECURITY SCANNER SUITE v5.0 — SCOPED DESIGN SYSTEM
+   Scanners are INTENTIONALLY ALWAYS-DARK (terminal UI) — 
+   light text on dark bg is readable in BOTH light/dark modes.
+   Outer wrapper follows site dark mode.
+   ═══════════════════════════════════════════════════════════ */
+#tsxv5-security{
+  --bg:#ffffff;--panel:#f8fafc;--head:#0f172a;--body:#334155;--muted:#64748b;
+  --acc1:#0891b2;--acc2:#059669;--amber:#d97706;--red:#dc2626;--purple:#7c3aed;
+  --brd:#e2e8f0;--tagbg:rgba(8,145,178,0.08);--tagbr:rgba(8,145,178,0.35);
+  --mono:'Share Tech Mono',ui-monospace,Menlo,monospace;
+  --disp:'Orbitron',system-ui,sans-serif;
+  --sans:'Inter',system-ui,sans-serif;
+  font-family:var(--sans);background:var(--bg);color:var(--body);
+  max-width:100%;overflow-x:clip;line-height:1.7;font-size:16px;
+  border-radius:16px;position:relative;
+}
+body.dark-mode #tsxv5-security,
+html.dark-mode #tsxv5-security,
+[data-theme="dark"] #tsxv5-security,
+body[data-theme="dark"] #tsxv5-security,
+html[data-theme="dark"] #tsxv5-security,
+.dark-mode #tsxv5-security,
+.night-mode #tsxv5-security{
+  --bg:#0f172a;--panel:#1e293b;--head:#f1f5f9;--body:#94a3b8;--muted:#64748b;
+  --acc1:#22d3ee;--acc2:#10b981;--brd:#334155;
+  --tagbg:rgba(34,211,238,0.08);--tagbr:rgba(34,211,238,0.35);
+}
+#tsxv5-security *,#tsxv5-security *::before,#tsxv5-security *::after{box-sizing:border-box;margin:0;padding:0;}
+#tsxv5-security img,#tsxv5-security svg{display:block;max-width:100%;}
+#tsxv5-security a{color:var(--acc1);text-decoration:none;}
+#tsxv5-security a:hover{text-decoration:underline;}
+#tsxv5-security .t1{color:var(--acc1);}#tsxv5-security .t2{color:var(--acc2);}
+
+/* Hero */
+#tsxv5-security .hero{position:relative;padding:64px 18px 48px;text-align:center;background:var(--bg);border-radius:16px 16px 0 0;}
+#tsxv5-security .hero-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border:1px solid var(--brd);border-radius:999px;background:var(--panel);font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:22px;}
+#tsxv5-security .hero-dot{width:10px;height:10px;border-radius:50%;background:var(--acc2);box-shadow:0 0 12px var(--acc2);animation:tsxv5Pulse 1.4s infinite;}
+#tsxv5-security .hero-title{font-family:var(--disp);font-size:clamp(24px,7vw,52px);font-weight:900;letter-spacing:.05em;line-height:1.2;color:var(--head);margin-bottom:16px;}
+#tsxv5-security .hero-desc{font-size:clamp(15px,2.5vw,18px);color:var(--body);max-width:680px;margin:0 auto 28px;font-weight:500;}
+#tsxv5-security .hero-desc strong{color:var(--acc1);}#tsxv5-security .hero-desc em{color:var(--acc2);font-style:normal;}
+#tsxv5-security .hero-cta{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:32px;}
+#tsxv5-security .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:13px 26px;border-radius:10px;font-family:var(--disp);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border:none;text-decoration:none;}
+#tsxv5-security .btn:hover{text-decoration:none;transform:translateY(-2px);}
+#tsxv5-security .btn-p{background:linear-gradient(135deg,var(--acc1),var(--acc2));color:#001018;box-shadow:0 6px 24px rgba(16,245,160,.25);}
+#tsxv5-security .btn-s{background:transparent;color:var(--acc1);border:1px solid var(--tagbr);}
+#tsxv5-security .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:700px;margin:0 auto;}
+#tsxv5-security .hstat{text-align:center;padding:14px 8px;background:var(--panel);border:1px solid var(--brd);border-radius:10px;}
+#tsxv5-security .hstat strong{display:block;font-family:var(--disp);font-size:22px;color:var(--acc2);margin-bottom:4px;}
+#tsxv5-security .hstat span{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+
+/* Sections */
+#tsxv5-security .sec{padding:56px 16px;background:var(--bg);}
+#tsxv5-security .sec.alt{background:var(--tagbg);}
+#tsxv5-security .shead{max-width:1100px;margin:0 auto 36px;text-align:center;}
+#tsxv5-security .stag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--acc1);background:var(--tagbg);border:1px solid var(--tagbr);padding:6px 14px;border-radius:999px;margin-bottom:14px;}
+#tsxv5-security .stitle{font-family:var(--disp);font-size:clamp(20px,5vw,34px);font-weight:900;color:var(--head);margin-bottom:10px;}
+#tsxv5-security .sdesc{color:var(--body);font-size:16px;max-width:720px;margin:0 auto;}
+
+/* Scanner 1 — INTENTIONALLY ALWAYS-DARK terminal UI */
+#tsxv5-security .nroot{font-family:var(--mono);color:#d7f5ff;background:linear-gradient(180deg,#04080d,#071319);border:1px solid rgba(34,211,238,.22);border-radius:14px;padding:clamp(16px,3vw,32px);max-width:1100px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,.35);line-height:1.6;}
+#tsxv5-security .nhead{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;padding-bottom:20px;border-bottom:1px dashed rgba(34,211,238,.25);margin-bottom:24px;}
+#tsxv5-security .nbrand{display:flex;align-items:center;gap:14px;}
+#tsxv5-security .nlogo{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,rgba(34,211,238,.15),rgba(16,245,160,.15));border:1px solid rgba(34,211,238,.22);display:grid;place-items:center;flex-shrink:0;}
+#tsxv5-security .nlogo svg{width:26px;height:26px;}
+#tsxv5-security .ntitle{font-family:var(--disp);font-weight:900;letter-spacing:.12em;font-size:clamp(17px,4vw,30px);color:#eafcff;}
+#tsxv5-security .ntitle span{color:#10f5a0;}
+#tsxv5-security .nsub{margin:6px 0 0;color:#6b8a97;font-size:13px;letter-spacing:.08em;text-transform:uppercase;}
+#tsxv5-security .nstatus{display:flex;align-items:center;gap:10px;padding:8px 14px;border:1px solid rgba(34,211,238,.22);border-radius:999px;background:rgba(0,0,0,.35);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#d7f5ff;}
+#tsxv5-security .ndot{width:10px;height:10px;border-radius:50%;background:#10f5a0;box-shadow:0 0 12px #10f5a0;animation:tsxv5Pulse 1.4s infinite;}
+#tsxv5-security .ndesc{color:#d7f5ff;font-size:15px;max-width:780px;margin-bottom:24px;}
+#tsxv5-security .ndesc b{color:#67e8f9;}
+#tsxv5-security .ngrid{display:grid;gap:18px;grid-template-columns:1.15fr .85fr;}
+#tsxv5-security .npanel{background:rgba(9,20,28,.9);border:1px solid rgba(34,211,238,.22);border-radius:14px;padding:16px;}
+#tsxv5-security .npanel h3{margin:0 0 12px;font-family:var(--disp);font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:#67e8f9;display:flex;align-items:center;gap:10px;}
+#tsxv5-security .npanel h3::before{content:"";width:8px;height:8px;border-radius:2px;background:#22d3ee;}
+#tsxv5-security .nterm{height:300px;background:#030608;border-radius:10px;border:1px solid rgba(16,245,160,.18);padding:12px 14px;overflow:hidden;font-size:13px;}
+#tsxv5-security .ntbar{display:flex;gap:6px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed rgba(255,255,255,.08);align-items:center;}
+#tsxv5-security .tdot{width:10px;height:10px;border-radius:50%;}
+#tsxv5-security .tdot.r{background:#ff5f56;}#tsxv5-security .tdot.y{background:#ffbd2e;}#tsxv5-security .tdot.g{background:#27c93f;}
+#tsxv5-security .ntbt{margin-left:10px;color:#6b8a97;font-size:11px;letter-spacing:.2em;text-transform:uppercase;}
+#tsxv5-security .ntbody{height:calc(100% - 30px);overflow-y:auto;}
+#tsxv5-security .nline{opacity:0;transform:translateY(4px);animation:tsxv5Fade .35s forwards;white-space:pre-wrap;word-break:break-word;}
+#tsxv5-security .li-i{color:#67e8f9;}#tsxv5-security .li-ok{color:#10f5a0;}#tsxv5-security .li-w{color:#fbbf24;}#tsxv5-security .li-e{color:#ff5470;}#tsxv5-security .li-d{color:#6b8a97;}
+#tsxv5-security .nprompt{color:#10f5a0;}
+#tsxv5-security .ncursor{display:inline-block;width:8px;height:14px;background:#10f5a0;vertical-align:middle;margin-left:4px;animation:tsxv5Blink 1s steps(2) infinite;}
+#tsxv5-security .nstages{display:flex;flex-direction:column;gap:10px;}
+#tsxv5-security .nstage{display:flex;align-items:center;gap:12px;padding:10px 12px;background:rgba(2,8,12,.6);border:1px solid rgba(255,255,255,.06);border-radius:10px;}
+#tsxv5-security .nstage.act{border-color:#22d3ee;}
+#tsxv5-security .nstage.done{border-color:rgba(16,245,160,.55);}
+#tsxv5-security .nicon{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.22);color:#67e8f9;flex-shrink:0;}
+#tsxv5-security .nstage.done .nicon{color:#10f5a0;border-color:rgba(16,245,160,.55);}
+#tsxv5-security .nicon svg{width:18px;height:18px;}
+#tsxv5-security .nstt{font-family:var(--disp);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#e6fbff;}
+#tsxv5-security .nstsub{font-size:11px;color:#6b8a97;}
+#tsxv5-security .nmeta{margin-left:auto;text-align:right;font-size:11px;color:#6b8a97;flex-shrink:0;}
+#tsxv5-security .nstst{font-family:var(--disp);letter-spacing:.15em;font-size:11px;}
+#tsxv5-security .nstage.act .nstst{color:#22d3ee;}
+#tsxv5-security .nstage.done .nstst{color:#10f5a0;}
+#tsxv5-security .spin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(34,211,238,.25);border-top-color:#22d3ee;animation:tsxv5Spin .9s linear infinite;display:inline-block;vertical-align:middle;}
+#tsxv5-security .npwrap{grid-column:1/-1;display:flex;align-items:center;gap:16px;margin-top:4px;}
+#tsxv5-security .nprog{flex:1;height:14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(34,211,238,.22);overflow:hidden;}
+#tsxv5-security .nbar{height:100%;width:0%;background:linear-gradient(90deg,#22d3ee,#10f5a0);transition:width .4s;}
+#tsxv5-security .nnum{font-family:var(--disp);font-weight:900;font-size:20px;min-width:64px;text-align:right;color:#10f5a0;}
+#tsxv5-security .nctrl{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;}
+#tsxv5-security .nbtn{border:none;cursor:pointer;font-family:var(--disp);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:12px;padding:13px 18px;border-radius:10px;color:#001018;background:linear-gradient(135deg,#22d3ee,#10f5a0);}
+#tsxv5-security .nbtn.gh{background:transparent;color:#67e8f9;border:1px solid rgba(34,211,238,.22);}
+#tsxv5-security .nbtn[disabled]{opacity:.5;cursor:not-allowed;}
+#tsxv5-security .nrep{grid-column:1/-1;margin-top:10px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.5s;}
+#tsxv5-security .nrep.show{opacity:1;transform:none;pointer-events:auto;}
+#tsxv5-security .nbadge{display:inline-flex;padding:6px 12px;border-radius:999px;background:rgba(16,245,160,.08);color:#10f5a0;border:1px solid rgba(16,245,160,.35);font-family:var(--disp);font-size:11px;letter-spacing:.2em;text-transform:uppercase;}
+#tsxv5-security .nscore{font-family:var(--disp);font-weight:900;font-size:34px;color:#22d3ee;}
+#tsxv5-security .nscore small{font-size:12px;color:#6b8a97;}
+#tsxv5-security .nmetrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0;}
+#tsxv5-security .nmet{padding:12px;border-radius:10px;background:rgba(0,0,0,.35);border:1px solid rgba(34,211,238,.18);}
+#tsxv5-security .nmetk{font-size:10px;color:#6b8a97;letter-spacing:.2em;text-transform:uppercase;}
+#tsxv5-security .nmetv{font-family:var(--disp);font-weight:700;font-size:18px;color:#eafcff;margin-top:4px;}
+#tsxv5-security .nmetv.ok{color:#10f5a0;}#tsxv5-security .nmetv.w{color:#fbbf24;}#tsxv5-security .nmetv.e{color:#ff5470;}
+#tsxv5-security .nfinds{display:flex;flex-direction:column;gap:8px;}
+#tsxv5-security .nfind{display:flex;gap:12px;padding:10px 12px;background:rgba(2,8,12,.55);border-left:3px solid #22d3ee;border-radius:8px;}
+#tsxv5-security .nfind.w{border-left-color:#fbbf24;}#tsxv5-security .nfind.e{border-left-color:#ff5470;}#tsxv5-security .nfind.ok{border-left-color:#10f5a0;}
+#tsxv5-security .nftag{font-family:var(--disp);font-size:10px;letter-spacing:.2em;padding:4px 8px;border-radius:6px;background:rgba(34,211,238,.1);color:#67e8f9;white-space:nowrap;flex-shrink:0;}
+#tsxv5-security .nfind.w .nftag{background:rgba(251,191,36,.1);color:#fbbf24;}
+#tsxv5-security .nfind.e .nftag{background:rgba(255,84,112,.1);color:#ff5470;}
+#tsxv5-security .nfind.ok .nftag{background:rgba(16,245,160,.1);color:#10f5a0;}
+#tsxv5-security .nft{color:#eafcff;font-weight:700;font-size:13px;}
+#tsxv5-security .nfd{color:#6b8a97;font-size:12px;}
+#tsxv5-security .ntoast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,40px);background:rgba(3,10,14,.95);border:1px solid rgba(34,211,238,.22);color:#10f5a0;padding:10px 16px;border-radius:10px;font-family:var(--disp);letter-spacing:.18em;font-size:12px;z-index:9999;opacity:0;transition:.3s;}
+#tsxv5-security .ntoast.show{transform:translate(-50%,0);opacity:1;}
+
+/* Scanner 2 — INTENTIONALLY ALWAYS-DARK */
+#tsxv5-security .qroot{max-width:800px;margin:0 auto;}
+#tsxv5-security .qbox{background:linear-gradient(180deg,#0b1021,#0a1420);border:1px solid rgba(34,211,238,.22);border-radius:14px;padding:clamp(20px,4vw,40px);color:#d7f5ff;}
+#tsxv5-security .qhead{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-bottom:20px;border-bottom:1px solid rgba(34,211,238,.22);margin-bottom:28px;}
+#tsxv5-security .qbrand{display:flex;align-items:center;gap:14px;}
+#tsxv5-security .qlogo{width:48px;height:48px;border-radius:12px;background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.22);display:grid;place-items:center;color:#22d3ee;flex-shrink:0;}
+#tsxv5-security .qlabel{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:#22d3ee;background:rgba(34,211,238,.08);padding:4px 10px;border-radius:4px;border:1px solid rgba(34,211,238,.2);display:inline-block;margin-bottom:6px;}
+#tsxv5-security .qtitle{font-family:var(--disp);font-size:clamp(17px,4vw,26px);font-weight:900;color:#67e8f9;}
+#tsxv5-security .qstatus{font-family:var(--mono);font-size:12px;color:#6b8a97;display:flex;align-items:center;gap:8px;}
+#tsxv5-security .qping{width:8px;height:8px;border-radius:50%;background:#10f5a0;position:relative;}
+#tsxv5-security .qping::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid #10f5a0;animation:tsxv5Ping 1.5s infinite;}
+#tsxv5-security .qstate.hidden{display:none;}
+#tsxv5-security .qvisual{width:140px;height:140px;margin:0 auto 28px;position:relative;display:grid;place-items:center;}
+#tsxv5-security .qring{position:absolute;border-radius:50%;border:2px dashed;}
+#tsxv5-security .qr1{width:140px;height:140px;border-color:rgba(34,211,238,.3);animation:tsxv5Spin 20s linear infinite;}
+#tsxv5-security .qr2{width:100px;height:100px;border-color:rgba(16,245,160,.2);animation:tsxv5Spin 10s linear infinite reverse;}
+#tsxv5-security .qcore{color:#22d3ee;}
+#tsxv5-security .qidle{text-align:center;max-width:480px;margin:0 auto 28px;}
+#tsxv5-security .qidle h3{font-family:var(--disp);font-size:20px;color:#eafcff;margin-bottom:10px;}
+#tsxv5-security .qidle p{color:#6b8a97;font-size:15px;}
+#tsxv5-security .qbtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:14px 28px;border-radius:10px;font-family:var(--disp);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border:none;}
+#tsxv5-security .qbtn-p{background:linear-gradient(135deg,#22d3ee,#10f5a0);color:#001018;width:100%;max-width:320px;margin:0 auto;display:flex;}
+#tsxv5-security .qbtn-s{background:rgba(255,255,255,.04);color:#22d3ee;border:1px solid rgba(34,211,238,.22);font-size:12px;}
+#tsxv5-security .qph{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-family:var(--mono);font-size:13px;color:#d7f5ff;flex-wrap:wrap;gap:8px;}
+#tsxv5-security .qpct{color:#22d3ee;font-weight:700;}
+#tsxv5-security .qtrack{width:100%;height:12px;background:rgba(255,255,255,.04);border:1px solid rgba(34,211,238,.22);border-radius:999px;padding:2px;margin-bottom:24px;overflow:hidden;}
+#tsxv5-security .qbar{height:100%;width:0%;background:linear-gradient(90deg,#22d3ee,#10f5a0);border-radius:999px;transition:width .15s;}
+#tsxv5-security .qterm{background:#030611;border:1px solid rgba(34,211,238,.2);border-radius:10px;padding:16px;height:260px;display:flex;flex-direction:column;}
+#tsxv5-security .qth{display:flex;align-items:center;gap:8px;color:#22d3ee;font-family:var(--mono);font-size:11px;letter-spacing:.15em;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:10px;}
+#tsxv5-security .qtbody{flex:1;overflow-y:auto;font-family:var(--mono);font-size:12px;display:flex;flex-direction:column;gap:6px;}
+#tsxv5-security .qline{display:flex;gap:10px;opacity:0;animation:tsxv5Fade .3s forwards;word-break:break-word;}
+#tsxv5-security .qtime{color:#475569;flex-shrink:0;}
+#tsxv5-security .qtxt{color:#67e8f9;}#tsxv5-security .qtxt.ok{color:#10f5a0;}#tsxv5-security .qtxt.w{color:#fbbf24;}
+#tsxv5-security .qgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+#tsxv5-security .qcard{padding:16px;border-radius:10px;border:1px solid rgba(34,211,238,.15);background:rgba(255,255,255,.03);min-height:120px;}
+#tsxv5-security .qcl{font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:#6b8a97;margin-bottom:8px;}
+#tsxv5-security .qcv{font-family:var(--disp);font-size:20px;font-weight:900;color:#eafcff;}
+#tsxv5-security .qcs{font-family:var(--mono);font-size:11px;color:#6b8a97;margin-top:6px;}
+#tsxv5-security .qct{font-size:14px;color:#d7f5ff;line-height:1.5;margin:4px 0;}
+#tsxv5-security .te{color:#10f5a0;}#tsxv5-security .ta{color:#fbbf24;}#tsxv5-security .tc{color:#22d3ee;}#tsxv5-security .tp{color:#a855f7;}
+#tsxv5-security .qtabs{display:flex;gap:4px;border-bottom:1px solid rgba(34,211,238,.15);margin-bottom:20px;flex-wrap:wrap;}
+#tsxv5-security .qtab{padding:11px 18px;background:none;border:none;border-bottom:2px solid transparent;color:#6b8a97;font-family:var(--mono);font-size:12px;font-weight:600;cursor:pointer;}
+#tsxv5-security .qtab.act{color:#22d3ee;border-bottom-color:#22d3ee;background:rgba(34,211,238,.06);}
+#tsxv5-security .qpanel{display:none;}
+#tsxv5-security .qpanel.act{display:block;animation:tsxv5Fade .4s;}
+#tsxv5-security .qquote{background:rgba(34,211,238,.05);border:1px solid rgba(34,211,238,.2);border-radius:10px;padding:16px;display:flex;gap:12px;color:#67e8f9;font-family:var(--mono);font-size:13px;font-style:italic;margin-bottom:20px;}
+#tsxv5-security .qrt{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;color:#eafcff;margin-bottom:12px;text-transform:uppercase;}
+#tsxv5-security .qrecs{display:flex;flex-direction:column;gap:8px;}
+#tsxv5-security .qrec{display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px;font-size:14px;color:#d7f5ff;}
+#tsxv5-security .qnum{width:26px;height:26px;border-radius:50%;background:rgba(34,211,238,.1);color:#22d3ee;border:1px solid rgba(34,211,238,.3);display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:700;flex-shrink:0;}
+#tsxv5-security .qvulns{display:flex;flex-direction:column;gap:10px;}
+#tsxv5-security .qvuln{padding:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;display:flex;flex-direction:column;gap:6px;}
+#tsxv5-security .qvh{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+#tsxv5-security .qvt{display:flex;align-items:center;gap:8px;font-weight:700;color:#eafcff;font-size:14px;}
+#tsxv5-security .qvt svg{color:#fbbf24;}
+#tsxv5-security .qsev{font-family:var(--mono);font-size:10px;font-weight:700;padding:4px 10px;border-radius:4px;background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.3);text-transform:uppercase;}
+#tsxv5-security .qvd{font-size:13px;color:#6b8a97;}
+#tsxv5-security .qlogs{height:240px;border:1px solid rgba(34,211,238,.15);border-radius:10px;padding:12px;overflow-y:auto;}
+#tsxv5-security .qreset{display:flex;justify-content:center;margin-top:24px;padding-top:20px;border-top:1px solid rgba(34,211,238,.1);}
+#tsxv5-security .qfoot{text-align:center;padding-top:24px;margin-top:24px;border-top:1px solid rgba(34,211,238,.1);font-family:var(--mono);font-size:11px;color:#6b8a97;letter-spacing:.1em;}
+
+/* Docs / Table / FAQ */
+#tsxv5-security .docs{max-width:900px;margin:0 auto;}
+#tsxv5-security .dart{margin-bottom:36px;}
+#tsxv5-security .dart h3{font-family:var(--disp);font-size:19px;color:var(--head);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+#tsxv5-security .dart h3::before{content:'';width:6px;height:22px;background:linear-gradient(180deg,var(--acc1),var(--acc2));border-radius:3px;flex-shrink:0;}
+#tsxv5-security .dart p{color:var(--body);margin-bottom:12px;font-size:16px;}
+#tsxv5-security .dart strong{color:var(--acc1);}#tsxv5-security .dart em{color:var(--acc2);font-style:normal;}
+#tsxv5-security .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px;}
+#tsxv5-security .dstage{background:var(--panel);border:1px solid var(--brd);border-radius:10px;padding:18px;}
+#tsxv5-security .dnum{font-family:var(--disp);font-size:26px;font-weight:900;color:var(--acc1);opacity:.4;margin-bottom:6px;}
+#tsxv5-security .dstage h4{font-family:var(--disp);font-size:14px;color:var(--acc1);margin-bottom:8px;}
+#tsxv5-security .dstage p{font-size:14px;margin:0;color:var(--body);}
+#tsxv5-security .twrap{overflow-x:auto;border-radius:10px;border:1px solid var(--brd);}
+#tsxv5-security table{width:100%;border-collapse:collapse;font-size:15px;min-width:560px;}
+#tsxv5-security th{background:var(--tagbg);color:var(--acc1);font-family:var(--disp);font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:12px 16px;text-align:left;border-bottom:1px solid var(--brd);white-space:nowrap;}
+#tsxv5-security td{padding:12px 16px;color:var(--body);border-bottom:1px solid var(--brd);}
+#tsxv5-security .faq{display:flex;flex-direction:column;gap:12px;max-width:900px;margin:24px auto 0;}
+#tsxv5-security .fitem{background:var(--panel);border:1px solid var(--brd);border-radius:10px;overflow:hidden;}
+#tsxv5-security .fitem summary{padding:16px 20px;font-family:var(--disp);font-size:15px;color:var(--head);cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;}
+#tsxv5-security .fitem summary::-webkit-details-marker{display:none;}
+#tsxv5-security .fitem summary::after{content:'+';font-family:var(--mono);font-size:20px;color:var(--acc1);flex-shrink:0;}
+#tsxv5-security .fitem[open] summary::after{content:'−';}
+#tsxv5-security .fans{padding:0 20px 16px;color:var(--body);font-size:15px;line-height:1.8;border-top:1px solid var(--brd);padding-top:12px;}
+#tsxv5-security .fans strong{color:var(--acc1);}
+
+/* Related Tools */
+#tsxv5-security .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px;}
+#tsxv5-security .related-link{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--brd);border-radius:12px;padding:14px;text-decoration:none;transition:all .2s ease;}
+#tsxv5-security .related-link:hover{border-color:var(--acc1);transform:translateY(-2px);text-decoration:none;}
+#tsxv5-security .related-icon{font-size:1.6rem;flex-shrink:0;}
+#tsxv5-security .related-link strong{display:block;color:var(--head);font-size:0.9rem;margin-bottom:2px;}
+#tsxv5-security .related-link .rl-desc{color:var(--muted);font-size:0.78rem;line-height:1.4;}
+
+/* Tip */
+#tsxv5-security .tip{max-width:900px;margin:32px auto 0;background:var(--panel);border:1px dashed var(--tagbr);border-radius:14px;padding:22px;}
+#tsxv5-security .tip h3{font-family:var(--disp);font-size:16px;color:var(--head);margin-bottom:10px;}
+#tsxv5-security .tip p{color:var(--body);font-size:15px;margin-bottom:10px;}
+#tsxv5-security .tip ul{margin:0 0 0 20px;color:var(--body);font-size:15px;line-height:1.9;}
+
+/* CTA */
+#tsxv5-security .cta{padding:56px 16px;text-align:center;}
+#tsxv5-security .ctitle{font-family:var(--disp);font-size:clamp(21px,5vw,36px);font-weight:900;color:var(--head);margin-bottom:14px;}
+#tsxv5-security .cdesc{color:var(--body);font-size:16px;margin-bottom:28px;max-width:640px;margin-left:auto;margin-right:auto;}
+#tsxv5-security .cbtns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;}
+
+/* Footer */
+#tsxv5-security footer{border-top:1px solid var(--brd);padding:28px 16px;text-align:center;}
+#tsxv5-security .fbrand{font-family:var(--disp);font-weight:700;font-size:14px;color:var(--head);}
+#tsxv5-security .fbrand a{color:var(--acc2);}
+#tsxv5-security footer p{font-size:13px;color:var(--muted);margin-top:6px;}
+
+/* Animations */
+@keyframes tsxv5Spin{to{transform:rotate(360deg);}}
+@keyframes tsxv5Pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:.6;}}
+@keyframes tsxv5Blink{50%{opacity:0;}}
+@keyframes tsxv5Fade{to{opacity:1;transform:none;}}
+@keyframes tsxv5Ping{75%,100%{transform:scale(2);opacity:0;}}
+
+/* Mobile */
+@media(max-width:900px){#tsxv5-security .ngrid{grid-template-columns:1fr;}#tsxv5-security .nmetrics{grid-template-columns:repeat(2,1fr);}#tsxv5-security .qgrid{grid-template-columns:1fr;}}
+@media(max-width:768px){
+#tsxv5-security .hero{padding:56px 14px 40px;}
+#tsxv5-security .hero-stats{grid-template-columns:repeat(2,1fr);gap:10px;}
+#tsxv5-security .hstat strong{font-size:18px;}
+#tsxv5-security .sec{padding:44px 12px;}
+#tsxv5-security .nterm{height:240px;}
+#tsxv5-security .qterm{height:220px;}
+#tsxv5-security .dgrid{grid-template-columns:1fr;}
+#tsxv5-security .hero-cta,#tsxv5-security .cbtns{flex-direction:column;align-items:center;}
+#tsxv5-security .btn{width:100%;max-width:340px;}
+#tsxv5-security .related-grid{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+#tsxv5-security .nctrl{flex-direction:column;}
+#tsxv5-security .nbtn{width:100%;justify-content:center;}
+#tsxv5-security .qtabs{gap:0;}
+#tsxv5-security .qtab{padding:10px 12px;font-size:11px;}
+#tsxv5-security table{font-size:13px;}
+}
+@media(prefers-reduced-motion:reduce){#tsxv5-security *,#tsxv5-security *::before,#tsxv5-security *::after{animation:none!important;transition:none!important;}}
+</style>
+
+<header class="hero">
+  <div class="hero-badge"><span class="hero-dot"></span><span>System Online · v3.14 + v4.2</span></div>
+  <h2 class="hero-title"><span class="t1">TOOLS-X</span> <span class="t2">SECURITY</span> Scanner Suite</h2>
+  <p class="hero-desc">A <strong>free, browser-only</strong> cybersecurity playground. Run the <em>Neural Threat Analyzer</em> or the <em>Quantum Defense Grid</em> — real-time terminal telemetry, funny reports, zero data collection, zero signup.</p>
+  <div class="hero-cta">
+    <a href="#tsxv5-ails-root" class="btn btn-p">▶ Launch Neural Scanner</a>
+    <a href="#tsxv5-quantum-root" class="btn btn-s">⚡ Quantum Analyzer</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><strong>100%</strong><span>Free & Open</span></div>
+    <div class="hstat"><strong>Zero</strong><span>Data Collection</span></div>
+    <div class="hstat"><strong>Dual</strong><span>Scan Engines</span></div>
+    <div class="hstat"><strong>Local</strong><span>Browser-Only</span></div>
+  </div>
+</header>
+
+<!-- SCANNER 1 -->
+<section class="sec">
+  <div class="shead"><span class="stag">Primary Engine</span><h2 class="stitle">Neural Threat Analyzer <span class="t1">v3.14</span></h2><p class="sdesc">Six-stage pipeline — Network Ping, Firewall Bypass, Neural Check, Memory Inspection, Quantum Handshake, Signature Seal — with audio & copyable report.</p></div>
+  <div class="nroot" id="tsxv5-ails-root">
+    <div class="nhead">
+      <div class="nbrand">
+        <div class="nlogo"><svg viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4" stroke="#10f5a0"/></svg></div>
+        <div><div class="ntitle">TOOLS-X · <span>SECURITY SCANNER</span></div><p class="nsub">v3.14 · Neural Threat Analyzer · Uplink Secure</p></div>
+      </div>
+      <div class="nstatus" aria-live="polite"><span class="ndot"></span><span id="tsxv5-ails-status-text">System Online</span></div>
+    </div>
+    <p class="ndesc">Welcome to <b>Tools-X Threat Analyzer</b> — a next-gen diagnostic that pings your network, inspects memory for suspicious cat GIFs, and produces a delightfully unserious report. Press <b>Run Scan</b>.</p>
+    <div class="ngrid">
+      <section class="npanel"><h3>Live Terminal Feed</h3>
+        <div class="nterm"><div class="ntbar"><span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span><span class="ntbt">toolsx@scanner ~ /neural</span></div><div class="ntbody" id="tsxv5-ails-term"></div></div>
+      </section>
+      <section class="npanel"><h3>Scan Pipeline</h3><div class="nstages" id="tsxv5-ails-stages"></div></section>
+      <div class="npwrap"><div class="nprog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="tsxv5-ails-progress-track"><div class="nbar" id="tsxv5-ails-progress"></div></div><div class="nnum" id="tsxv5-ails-progress-num">0%</div></div>
+      <div class="nctrl">
+        <button type="button" class="nbtn" id="tsxv5-ails-run">▶ Run Scan</button>
+        <button type="button" class="nbtn gh" id="tsxv5-ails-reset">↻ Reset</button>
+        <button type="button" class="nbtn gh" id="tsxv5-ails-sound" aria-pressed="true">🔊 Sound: On</button>
+        <button type="button" class="nbtn gh" id="tsxv5-ails-copy" disabled>⧉ Copy Report</button>
+        <button type="button" class="nbtn gh" id="tsxv5-ails-share" disabled>➤ Share Result</button>
+      </div>
+      <section class="npanel nrep" id="tsxv5-ails-report">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px">
+          <div><span class="nbadge" id="tsxv5-ails-report-badge">◉ Diagnostic Complete</span><h3 style="margin-top:8px;color:#67e8f9;font-size:14px;letter-spacing:.12em;text-transform:uppercase">Final Threat Report · <span id="tsxv5-ails-report-id" style="color:#10f5a0">#</span></h3></div>
+          <div><div class="nscore" id="tsxv5-ails-score">0<small> / 100</small></div><div style="font-size:10px;letter-spacing:.2em;color:#6b8a97;text-transform:uppercase">Threat Index</div></div>
+        </div>
+        <div class="nmetrics" id="tsxv5-ails-metrics"></div>
+        <div class="nfinds" id="tsxv5-ails-findings"></div>
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-top:16px;margin-top:8px;border-top:1px dashed rgba(34,211,238,.2);color:#6b8a97;font-size:11px;letter-spacing:.15em;text-transform:uppercase"><span>Signed by <b style="color:#67e8f9">Tools-X · Neural Threat Analyzer</b></span><span id="tsxv5-ails-report-time">—</span></div>
+      </section>
+    </div>
+    <div class="ntoast" id="tsxv5-ails-toast" role="status">Copied to clipboard</div>
+  </div>
+</section>
+
+<!-- SCANNER 2 -->
+<section class="sec alt">
+  <div class="shead"><span class="stag">Advanced Engine</span><h2 class="stitle">Quantum Defense <span class="t2">Grid v4.2</span></h2><p class="sdesc">Fast telemetry scan with tabbed reports, AI verdicts, vulnerability cards and remediation steps.</p></div>
+  <div class="qroot" id="tsxv5-quantum-root">
+    <div class="qbox">
+      <header class="qhead">
+        <div class="qbrand">
+          <div class="qlogo"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div><div class="qlabel">TOOLS-X STUDIO</div><h3 class="qtitle">Quantum Defense Grid</h3></div>
+        </div>
+        <div class="qstatus"><span class="qping"></span><span>NEURAL-SHIELD v4.2</span></div>
+      </header>
+      <div id="tsxv5-quantum-idle" class="qstate">
+        <div class="qvisual"><div class="qring qr1"></div><div class="qring qr2"></div><div class="qcore"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div></div>
+        <div class="qidle"><h3>System Ready for Analysis</h3><p>Run the high-precision AI threat detector to evaluate quantum firewalls, dark-web leaks and operator caffeine levels.</p></div>
+        <button type="button" id="tsxv5-quantum-start" class="qbtn qbtn-p"> Start System Scan</button>
+      </div>
+      <div id="tsxv5-quantum-scanning" class="qstate hidden">
+        <div class="qph"><span style="color:#22d3ee;display:flex;align-items:center;gap:8px"><span class="spin"></span> ANALYZING SYSTEM INFRASTRUCTURE...</span><span id="tsxv5-quantum-pct" class="qpct">0%</span></div>
+        <div class="qtrack"><div id="tsxv5-quantum-progress" class="qbar"></div></div>
+        <div class="qterm"><div class="qth">▸ TERMINAL TELEMETRY STREAM</div><div id="tsxv5-quantum-logs" class="qtbody"></div></div>
+      </div>
+      <div id="tsxv5-quantum-results" class="qstate hidden">
+        <div class="qgrid">
+          <div id="tsxv5-quantum-status-card" class="qcard"><div class="qcl">SCAN STATUS</div><div id="tsxv5-quantum-threat-level" class="qcv">SAFE</div><div id="tsxv5-quantum-status-badge" class="qcs">THREAT LEVEL: 0%</div></div>
+          <div class="qcard"><div class="qcl">AI DEFENSE VERDICT</div><div id="tsxv5-quantum-summary" class="qct">Analysis complete.</div><div class="qcs">SYS_CHECK_PASSED</div></div>
+          <div class="qcard"><div class="qcl">VULNERABILITIES</div><div id="tsxv5-quantum-vuln-count" class="qcv ta">0 Found</div><div class="qcs">0 Critical System Risks</div></div>
+        </div>
+        <div class="qtabs" role="tablist">
+          <button type="button" class="qtab act" role="tab" aria-selected="true" data-tab="summary">SUMMARY</button>
+          <button type="button" class="qtab" role="tab" aria-selected="false" data-tab="vulns">THREATS</button>
+          <button type="button" class="qtab" role="tab" aria-selected="false" data-tab="logs">RAW LOGS</button>
+        </div>
+        <div id="tsxv5-quantum-tab-summary" class="qpanel act">
+          <div class="qquote"><span>⚡</span><p id="tsxv5-quantum-quote-text">AI analysis complete.</p></div>
+          <h4 class="qrt">✓ Recommended Remediation Actions</h4>
+          <div id="tsxv5-quantum-recs-list" class="qrecs"></div>
+        </div>
+        <div id="tsxv5-quantum-tab-vulns" class="qpanel"><div id="tsxv5-quantum-vulns-list" class="qvulns"></div></div>
+        <div id="tsxv5-quantum-tab-logs" class="qpanel"><div id="tsxv5-quantum-logs-result" class="qtbody qlogs"></div></div>
+        <div class="qreset"><button type="button" id="tsxv5-quantum-reset" class="qbtn qbtn-s">↻ Run Another Scan</button></div>
+      </div>
+      <footer class="qfoot">TOOLS-X · QUANTUM DEFENSE GRID · FOR ENTERTAINMENT & EDUCATION</footer>
+    </div>
+  </div>
+</section>
+
+<!-- GUIDE -->
+<section class="sec">
+  <div class="docs">
+    <span class="stag">Documentation</span>
+    <h2 class="stitle">How the <span class="t1">Tools-X Security Scanner</span> Works</h2>
+    <article class="dart"><h3>1. Architecture Overview</h3><p>The suite runs <strong>entirely in your browser</strong> — no server, no database, no account. Nothing leaves your device. Two engines ship: the <strong>Neural Threat Analyzer</strong> (six-stage retro terminal) and the <strong>Quantum Defense Grid</strong> (fast tabbed dashboard). Both are simulations designed for entertainment and educational purposes — they do not perform real security audits, port scans, or network probes. Think of them as interactive UI demos that teach terminal aesthetics, progress indicators, and telemetry visualization patterns.</p></article>
+    <article class="dart"><h3>2. Neural Analyzer Pipeline</h3>
+      <div class="dgrid">
+        <div class="dstage"><div class="dnum">01</div><h4>Network Ping</h4><p>Simulated latency, TTL and packet-loss readout displayed in the terminal feed.</p></div>
+        <div class="dstage"><div class="dnum">02</div><h4>Firewall Bypass</h4><p>Fictional port-knocking with playful detection messages for entertainment.</p></div>
+        <div class="dstage"><div class="dnum">03</div><h4>Neural Threat Check</h4><p>Pretend anomaly model cross-references meme fingerprints — purely comedic.</p></div>
+        <div class="dstage"><div class="dnum">04</div><h4>Memory Inspection</h4><p>Flags tab overload and cat-video heap usage. Severity level: adorable.</p></div>
+        <div class="dstage"><div class="dnum">05</div><h4>Quantum Handshake</h4><p>Schrödinger yes-AND-no reply across imaginary timelines for fun.</p></div>
+        <div class="dstage"><div class="dnum">06</div><h4>Signature Seal</h4><p>Humorous zero-knowledge hexadecimal hash stamp completes the report.</p></div>
+      </div>
+    </article>
+    <article class="dart"><h3>3. Quantum Grid Algorithm</h3><p>A <strong>4.5-second timed progression</strong> drives the second engine. Every 80ms it repaints the glowing progress bar and injects telemetry lines into the log stream. At 100% completion, the system randomly selects one of four comedic diagnostic profiles — <em>Safe (For Now)</em>, <em>Critical Coffee Deficit</em>, <em>Overpowered Nerd Matrix</em>, or <em>Extreme Cat Meme Overload</em>. Each profile generates its own set of vulnerability cards, remediation recommendations, and a signature AI quote. The tabbed interface lets you switch between Summary, Threats, and Raw Logs views after each scan completes.</p></article>
+    <article class="dart"><h3>4. Scoring, Audio & Privacy</h3><p>Scores are <strong>pseudorandom, not real diagnostics</strong> — generated for teaching UI patterns and gamification concepts only. No ports are probed, no files are read, no cookies are set, and no browser fingerprinting occurs. The Neural engine includes a Web Audio API synthesizer that generates retro beep sounds during the scan — toggleable via the Sound button. The Quantum engine runs silently for a cleaner experience. Neither engine ever transmits data externally — everything stays within your browser session. Use this tool to learn about progress indicators, terminal UX, and dashboard design patterns, but <strong>never use it for real security auditing</strong> — use professional tools like Nmap, Wireshark, or OWASP ZAP for actual penetration testing.</p></article>
+  </div>
+</section>
+
+<!-- TABLE -->
+<section class="sec alt">
+  <div class="docs">
+    <span class="stag">Specifications</span>
+    <h2 class="stitle">Engine <span class="t2">Comparison</span></h2>
+    <div class="twrap"><table>
+      <thead><tr><th>Feature</th><th>Neural v3.14</th><th>Quantum v4.2</th></tr></thead>
+      <tbody>
+        <tr><td>Pipeline</td><td>6 sequential stages</td><td>Progressive interval scan</td></tr>
+        <tr><td>Duration</td><td>~8–12 s</td><td>~4.5 s</td></tr>
+        <tr><td>Audio</td><td>Web Audio synth</td><td>Silent</td></tr>
+        <tr><td>Export</td><td>Copy + Web Share</td><td>Tabbed view</td></tr>
+        <tr><td>Score</td><td>Dynamic 0–97</td><td>Fixed profiles</td></tr>
+        <tr><td>Mobile</td><td>Yes</td><td>Yes</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec">
+  <div class="docs">
+    <span class="stag">FAQ</span>
+    <h2 class="stitle">Frequently Asked <span class="t1">Questions</span></h2>
+    <div class="faq">
+      <details class="fitem"><summary>Is the Tools-X Security Scanner free to use?</summary><div class="fans"><p>Yes, absolutely. <strong>100% free, open-source and copyright-free</strong> — personal, educational or commercial use without any restrictions.</p></div></details>
+      <details class="fitem"><summary>Does this scanner actually hack my system?</summary><div class="fans"><p>No. It is a <strong>simulation</strong>. No real scanning, port probing or file access happens; everything is generated locally in your browser using JavaScript.</p></div></details>
+      <details class="fitem"><summary>What technologies power this scanner?</summary><div class="fans"><p>Plain <strong>HTML5, CSS3 and JavaScript (ES6+)</strong>. No frameworks, no build step, no external APIs, no CDN dependencies — runs entirely offline after page load.</p></div></details>
+      <details class="fitem"><summary>Can I embed this on my blog?</summary><div class="fans"><p>Yes. All styles are scoped under <strong>#tsxv5-security</strong> to avoid theme conflicts, so you can paste it into most CMS platforms including Blogger, WordPress, and static site generators.</p></div></details>
+      <details class="fitem"><summary>Is my data private?</summary><div class="fans"><p>Completely. <strong>No backend, no cookies, no tracking, no analytics</strong>. Your IP, browser information and files are never seen, stored, or transmitted anywhere.</p></div></details>
+      <details class="fitem"><summary>How accurate are the reports?</summary><div class="fans"><p>They are <strong>intentionally humorous and fictional</strong>. The reports are entertainment — not for real security auditing. Use professional tools for actual vulnerability assessment.</p></div></details>
+      <details class="fitem"><summary>Can I modify and redistribute it?</summary><div class="fans"><p>Yes. Modify, fork, redistribute or sell — <strong>zero copyright restrictions</strong> on the simulation code. Attribution appreciated but not required.</p></div></details>
+      <details class="fitem"><summary>Why two scanners?</summary><div class="fans"><p>Two design philosophies: <strong>Neural</strong> = sequential terminal with audio for retro hacker aesthetic; <strong>Quantum</strong> = modern tabbed dashboard for clean SaaS-style reporting.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- Related Tools -->
+<section class="sec alt">
+  <div class="docs">
+    <span class="stag">Explore More</span>
+    <h2 class="stitle">🚀 Related <span class="t1">Tools-X</span> Tools</h2>
+    <p class="sdesc">Enjoyed this security simulation? Try our other free browser-based tools</p>
+    <div class="related-grid">
+      <a class="related-link" href="../tools/ai-lab-analog-tape-deck-studio-ai-music.html" rel="noopener noreferrer" title="Analog Tape Deck Studio">
+        <span class="related-icon">🎛️</span>
+        <div><strong>Analog Tape Deck Studio</strong><span class="rl-desc">Professional music composition with AI prompt generation</span></div>
+      </a>
+      <a class="related-link" href="../tools/produce-karein-ai-music-prompts-fast-ai.html" rel="noopener noreferrer" title="SynthDeck Studio">
+        <span class="related-icon">🎹</span>
+        <div><strong>SynthDeck Music Studio</strong><span class="rl-desc">Compose songs with real audio preview &amp; Suno prompts</span></div>
+      </a>
+      <a class="related-link" href="https://www.toolsx.in/2026/08/vote-karein-community-platform-pe-ai-lab.html" rel="noopener noreferrer" title="Community Vote Platform">
+        <span class="related-icon">🗳️</span>
+        <div><strong>Community Vote Platform</strong><span class="rl-desc">Rate AI tools and share feedback with the community</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2 class="ctitle">Ready to Scan Your <span class="t1">Digital Perimeter</span>?</h2>
+  <p class="cdesc">Run either engine, share the ridiculous report with friends, and explore our other free tools. No signup, no data, no nonsense.</p>
+  <div class="cbtns"><a href="#tsxv5-ails-root" class="btn btn-p">Run Neural Scan</a><a href="#tsxv5-quantum-root" class="btn btn-s">Run Quantum Scan</a></div>
+</section>
+
+<footer>
+  <div class="fbrand">⚡ Powered by <strong>Tools-X</strong> · toolsx.in</div>
+  <p>100% Free · No Copyright · Public Domain. Entertainment & education only — not a real scanner.</p>
+</footer>
+
+</div>
+
+<script>
+(function(){"use strict";
+var W=document.getElementById('tsxv5-security');
+if(!W)return;
+
+/* ===== Scanner 1: Neural Threat Analyzer ===== */
+(function(){
+var root=document.getElementById('tsxv5-ails-root');
+if(!root||root.dataset.inited)return;
+root.dataset.inited="1";
+
+var $=function(i){return document.getElementById(i);};
+var termEl=$('tsxv5-ails-term'),stagesEl=$('tsxv5-ails-stages'),progEl=$('tsxv5-ails-progress'),progTr=$('tsxv5-ails-progress-track'),progNum=$('tsxv5-ails-progress-num'),repEl=$('tsxv5-ails-report'),scoreEl=$('tsxv5-ails-score'),metEl=$('tsxv5-ails-metrics'),findEl=$('tsxv5-ails-findings'),repId=$('tsxv5-ails-report-id'),repTime=$('tsxv5-ails-report-time'),repBadge=$('tsxv5-ails-report-badge'),statTxt=$('tsxv5-ails-status-text'),toast=$('tsxv5-ails-toast');
+var bRun=$('tsxv5-ails-run'),bReset=$('tsxv5-ails-reset'),bSound=$('tsxv5-ails-sound'),bCopy=$('tsxv5-ails-copy'),bShare=$('tsxv5-ails-share');
+
+var STAGES=[
+{k:'ping',n:'Network Ping',s:'ICMP + latency sweep',i:'M4 12h4l3-8 4 16 3-8h4'},
+{k:'fw',n:'Firewall Bypass',s:'Port-knock simulation',i:'M4 4h16v6H4zM4 14h16v6H4z'},
+{k:'neural',n:'Neural Threat Check',s:'GPT-grade anomaly scan',i:'M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M12 8a4 4 0 100 8 4 4 0 000-8z'},
+{k:'mem',n:'Memory Inspection',s:'Heap + cache forensics',i:'M4 6h16v4H4zM4 14h16v4H4z'},
+{k:'quant',n:'Quantum Handshake',s:'Entanglement verify',i:'M12 2a10 10 0 100 20 10 10 0 000-20zM2 12h20'},
+{k:'seal',n:'Signature Seal',s:'Zero-knowledge signoff',i:'M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z'}
+];
+
+var LOGS={
+ping:[['i','[NET] Opening raw socket → 8.8.8.8'],['d','  → seq=1 ttl=64 time=12.4 ms'],['d','  → seq=2 ttl=64 time=11.9 ms'],['ok','[NET] Uplink stable · packet loss 0%']],
+fw:[['i','[FW] Probing ports 22, 80, 443, 1337…'],['w','[FW] Port 1337 responded with "hi mom" — suspicious'],['ok','[FW] Bypass simulated · no packets harmed']],
+neural:[['i','[AI] Loading model toolsx-threat-v3.14 (471M params)'],['w','[AI] Anomaly cluster detected in /downloads/*.gif'],['ok','[AI] Neural pass complete · confidence 98.6%']],
+mem:[['i','[MEM] Scanning 16.0 GB RAM'],['w','[MEM] Detected 42 cat videos consuming heap'],['ok','[MEM] No malicious binaries found']],
+quant:[['i','[QNT] Entangling qubits · superposition = ON'],['ok','[QNT] Handshake verified across timelines']],
+seal:[['i','[SIG] Generating zero-knowledge proof'],['ok','[SIG] Report cryptographically sealed']]
+};
+
+/* Findings pool — each finding has a severity class ('ok','w','e') */
+var POOL=[
+{t:'INFO',c:'ok',ti:'Firewall is polite',d:'Responds to unauthorized packets with a formal "no thank you."'},
+{t:'INFO',c:'ok',ti:'No real threats detected',d:'Your machine is 97% vibes, 3% actual work.'},
+{t:'WARN',c:'w',ti:'42 cat videos in memory',d:'Adorable but resource-intensive. Recommend cuddling immediately.'},
+{t:'WARN',c:'w',ti:'Browser has 74 open tabs',d:'One of them is playing music. We could not find it.'},
+{t:'ERR',c:'e',ti:'CVE-2026-VIBE detected',d:'Uncontrolled exposure to lo-fi beats. Patch: touch grass.'},
+{t:'ERR',c:'e',ti:'Rogue AI writing your emails',d:'It signs them "Best, [Your Name]" with unsettling confidence.'},
+{t:'INFO',c:'ok',ti:'Password strength: legendary',d:'It is "password123!" but with feelings, so it counts.'},
+{t:'WARN',c:'w',ti:'Wi-Fi name is a cry for help',d:'"FBI_Surveillance_Van_04" — the FBI would like a word.'},
+{t:'INFO',c:'ok',ti:'Quantum handshake successful',d:'You are simultaneously safe and not safe.'},
+{t:'ERR',c:'e',ti:'Detected 1 (one) hacker',d:'It is you. You are the hacker. Congratulations.'},
+{t:'WARN',c:'w',ti:'Coffee levels critically low',d:'System stability drops 34% below 2 cups/day.'},
+{t:'WARN',c:'w',ti:'Keyboard contains 82 cookie crumbs',d:'Recommended action: tilt keyboard and shake gently.'},
+{t:'INFO',c:'ok',ti:'Firewall uptime: 99.97%',d:'The other 0.03% was a very polite reboot.'},
+{t:'ERR',c:'e',ti:'Sudo privileges detected',d:'With great power comes great "rm -rf /" temptations.'}
+];
+
+var S={run:false,snd:true,ctx:null,rep:null,gen:0,alive:false};
+
+function rStages(){
+stagesEl.innerHTML='';
+STAGES.forEach(function(s,i){
+var e=document.createElement('div');
+e.className='nstage';
+e.dataset.k=s.k;
+e.innerHTML='<div class="nicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+s.i+'"/></svg></div><div><div class="nstt">'+(i+1)+'. '+s.n+'</div><div class="nstsub">'+s.s+'</div></div><div class="nmeta"><div class="nstst">queued</div><div class="ntime">—</div></div>';
+stagesEl.appendChild(e);
+});
+}
+
+function setSt(k,stt){
+var e=stagesEl.querySelector('[data-k="'+k+'"]');
+if(!e)return;
+e.classList.remove('act','done');
+var a=e.querySelector('.nstst'),m=e.querySelector('.ntime');
+if(stt==='act'){e.classList.add('act');a.innerHTML='<span class="spin"></span> scanning';}
+else if(stt==='done'){e.classList.add('done');a.textContent='✔ passed';m.textContent=(Math.random()*1.5+0.4).toFixed(2)+'s';}
+else{a.textContent='queued';m.textContent='—';}
+}
+
+function line(t,x){var d=document.createElement('div');d.className='nline li-'+t;d.textContent=x;termEl.appendChild(d);termEl.scrollTop=termEl.scrollHeight;}
+function prompt_(){var d=document.createElement('div');d.className='nline';d.innerHTML='<span class="nprompt">toolsx@scanner:~$</span> <span class="ncursor"></span>';termEl.appendChild(d);termEl.scrollTop=termEl.scrollHeight;}
+
+function audio(){if(!S.snd)return null;if(!S.ctx){var A=window.AudioContext||window.webkitAudioContext;if(!A)return null;try{S.ctx=new A();}catch(e){return null;}}if(S.ctx.state==='suspended')S.ctx.resume();return S.ctx;}
+
+function beep(f,d,t,v){var c=audio();if(!c)return;try{var o=c.createOscillator(),g=c.createGain();o.type=t||'square';o.frequency.value=f;g.gain.value=0.0001;o.connect(g);g.connect(c.destination);var n=c.currentTime,vv=v==null?0.06:v;g.gain.exponentialRampToValueAtTime(vv,n+0.01);g.gain.exponentialRampToValueAtTime(0.0001,n+d);o.start(n);o.stop(n+d+0.02);}catch(e){}}
+
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
+function rand(a,b){return Math.random()*(b-a)+a;}
+function pick(a,n){var c=a.slice(),o=[];while(o.length<n&&c.length)o.push(c.splice(Math.floor(Math.random()*c.length),1)[0]);return o;}
+function sid(){var s='TSX-';for(var i=0;i<8;i++)s+=Math.floor(Math.random()*16).toString(16).toUpperCase();return s;}
+
+function setProg(p){p=Math.max(0,Math.min(100,p));progEl.style.width=p+'%';progNum.textContent=Math.round(p)+'%';progTr.setAttribute('aria-valuenow',Math.round(p));}
+
+/* ============================================================
+   FIXED: build() now derives score from findings so level and
+   score always match the actual content of the report.
+   ============================================================ */
+function build(){
+/* Pick 3-5 findings first */
+var n=Math.floor(Math.random()*3)+3; /* 3 to 5 */
+var f=pick(POOL,n);
+
+/* Derive score from severity of findings */
+var score=3; /* baseline */
+var wCount=0,eCount=0,okCount=0;
+f.forEach(function(x){
+if(x.c==='e'){score+=22;eCount++;}
+else if(x.c==='w'){score+=12;wCount++;}
+else okCount++;
+});
+score=Math.min(97,score);
+
+/* Level ALWAYS matches score thresholds */
+var lv,lc;
+if(score<20){lv='MINIMAL';lc='ok';}
+else if(score<45){lv='LOW';lc='ok';}
+else if(score<70){lv='ELEVATED';lc='w';}
+else{lv='CRITICAL';lc='e';}
+
+/* Extract numeric value for "Cat GIFs" metric if a finding mentions cats */
+var catGifs=0,hasCat=false;
+f.forEach(function(x){
+var txt=x.ti+' '+x.d;
+var m=txt.match(/(\d+)\s*cats?/i);
+if(m){catGifs=parseInt(m[1],10);hasCat=true;}
+});
+if(!hasCat)catGifs=Math.floor(rand(8,45));
+
+/* Uplink and Packets always benign values */
+var uplink=rand(9,25).toFixed(1)+' ms';
+var packets=Math.floor(rand(1200,4200));
+
+/* Anomalies count MUST equal wCount+eCount */
+var anomalies=wCount+eCount;
+var anomClass=eCount>0?'e':(wCount>0?'w':'ok');
+
+return{
+id:sid(),
+time:new Date().toLocaleString(),
+score:score,
+level:lv,
+lc:lc,
+met:[
+{k:'Uplink',v:uplink,c:'ok'},
+{k:'Packets',v:packets,c:'ok'},
+{k:'Anomalies',v:anomalies,c:anomClass},
+{k:'Cat GIFs',v:catGifs,c:'w'}
+],
+finds:f
+};
+}
+
+function render(r){
+repId.textContent=r.id;
+repTime.textContent=r.time;
+scoreEl.innerHTML=r.score+'<small> / 100 · '+r.level+'</small>';
+scoreEl.style.color=r.lc==='e'?'#ff5470':r.lc==='w'?'#fbbf24':'#10f5a0';
+repBadge.textContent='◉ '+r.level+' THREAT LEVEL';
+
+metEl.innerHTML='';
+r.met.forEach(function(m){var d=document.createElement('div');d.className='nmet';d.innerHTML='<div class="nmetk">'+m.k+'</div><div class="nmetv '+m.c+'">'+m.v+'</div>';metEl.appendChild(d);});
+
+findEl.innerHTML='';
+r.finds.forEach(function(f){var d=document.createElement('div');d.className='nfind '+f.c;d.innerHTML='<div class="nftag">'+f.t+'</div><div><div class="nft">'+f.ti+'</div><div class="nfd">'+f.d+'</div></div>';findEl.appendChild(d);});
+}
+
+function toText(r){
+if(!r)return'';
+var o=['TOOLS-X · NEURAL THREAT ANALYZER REPORT','Session : '+r.id,'Time    : '+r.time,'Score   : '+r.score+' / 100  ('+r.level+')','','— Metrics —'];
+r.met.forEach(function(m){o.push('  • '+m.k+': '+m.v);});
+o.push('','— Findings —');
+r.finds.forEach(function(f,i){o.push('  '+(i+1)+'. ['+f.t+'] '+f.ti);o.push('      '+f.d);});
+o.push('','Signed by Tools-X · Neural Threat Analyzer');
+return o.join('\n');
+}
+
+var tt=null;
+function showT(m){toast.textContent=m;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('show');},1800);}
+
+function fb(t){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.top='-9999px';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
+
+/* ============================================================
+   FIXED: async run() now uses a generation token so aborting
+   via Reset truly cancels any pending work, and never shows
+   a report after abort.
+   ============================================================ */
+async function run(){
+if(S.run)return;
+S.run=true;
+S.alive=true;
+var myGen=++S.gen;
+function aborted(){return S.gen!==myGen||!S.alive;}
+
+bRun.disabled=true;bCopy.disabled=true;bShare.disabled=true;
+repEl.classList.remove('show');termEl.innerHTML='';
+rStages();setProg(0);statTxt.textContent='Booting Modules';
+
+line('i','╔══════════════════════════════════════╗');
+line('i','║  TOOLS-X · NEURAL THREAT ANALYZER   ║');
+line('i','╚══════════════════════════════════════╝');
+line('d','Session: '+sid()+' · '+new Date().toLocaleString());
+await sleep(400);
+if(aborted())return finishAbort();
+
+line('ok','[SYS] Ready. Beginning scan sequence.');
+await sleep(300);
+if(aborted())return finishAbort();
+statTxt.textContent='Scanning';
+
+/* Count total log lines for accurate progress */
+var totalLogs=0;
+STAGES.forEach(function(s){totalLogs+=(LOGS[s.k]||[]).length;});
+var doneLogs=0;
+
+for(var i=0;i<STAGES.length;i++){
+if(aborted())return finishAbort();
+var s=STAGES[i];
+setSt(s.k,'act');
+line('i','── Stage '+(i+1)+'/'+STAGES.length+' · '+s.n.toUpperCase()+' ──');
+var L=LOGS[s.k]||[];
+for(var j=0;j<L.length;j++){
+if(aborted())return finishAbort();
+line(L[j][0],L[j][1]);
+beep(1200+Math.random()*400,0.03,'square',0.02);
+doneLogs++;
+setProg(doneLogs/totalLogs*100);
+await sleep(rand(180,420));
+}
+if(aborted())return finishAbort();
+setSt(s.k,'done');
+beep(660,0.09,'triangle',0.05);
+setTimeout(function(){beep(990,0.12,'triangle',0.05);},90);
+await sleep(200);
+}
+
+if(aborted())return finishAbort();
+
+setProg(100);statTxt.textContent='Sealing Report';
+line('ok','[SYS] All stages completed. Compiling report…');
+prompt_();
+await sleep(500);
+if(aborted())return finishAbort();
+
+var r=build();S.rep=r;render(r);repEl.classList.add('show');
+[523,659,784,1046].forEach(function(f,i){setTimeout(function(){beep(f,0.14,'sine',0.07);},i*100);});
+statTxt.textContent='Ready';
+bRun.disabled=false;bCopy.disabled=false;bShare.disabled=false;
+S.run=false;S.alive=false;
+}
+
+function finishAbort(){
+/* Only the newest generation may clear the running flag */
+if(!S.alive)return;
+S.alive=false;
+S.run=false;
+bRun.disabled=false;bCopy.disabled=true;bShare.disabled=true;
+}
+
+bRun.addEventListener('click',function(){audio();run();});
+
+bReset.addEventListener('click',function(){
+/* Increment generation to abort any ongoing scan */
+S.gen++;
+S.alive=false;
+S.run=false;
+rStages();termEl.innerHTML='';setProg(0);statTxt.textContent='System Online';
+repEl.classList.remove('show');
+bRun.disabled=false;bCopy.disabled=true;bShare.disabled=true;
+S.rep=null;
+line('d','System reset. Awaiting command…');prompt_();
+});
+
+bSound.addEventListener('click',function(){S.snd=!S.snd;bSound.textContent=S.snd?'🔊 Sound: On':'🔈 Sound: Off';bSound.setAttribute('aria-pressed',S.snd);showT(S.snd?'SOUND ENABLED':'SOUND MUTED');});
+
+bCopy.addEventListener('click',function(){var t=toText(S.rep);if(!t)return;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){showT('REPORT COPIED');}).catch(function(){fb(t);showT('REPORT COPIED');});}else{fb(t);showT('REPORT COPIED');}});
+
+bShare.addEventListener('click',function(){var t=toText(S.rep);if(!t)return;if(navigator.share){navigator.share({title:'Tools-X · Security Scan Report',text:t}).catch(function(){});}else if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){showT('COPIED INSTEAD');});}else{fb(t);showT('COPIED INSTEAD');}});
+
+rStages();line('d','Tools-X terminal initialized. Press ▶ Run Scan.');prompt_();
+})();
+
+/* ===== Scanner 2: Quantum Defense Grid ===== */
+(function(){
+var MSGS=["Initializing Tools-X Neural Defense Grid v9.4.2...","Bypassing quantum firewall protocols...","Probing local port 8080 for sentient cookie crumbs...","Analyzing neural network weight parameters...","Scanning browser history for embarrassing 3 AM searches...","Inspecting coffee-to-code conversion ratio...","Detecting unauthorized pizza delivery signals...","Calibrating flux capacitor frequencies...","Defragmenting memory space: 42% brain capacity unused...","Decrypting multi-layer password matrix ('123456' detected)...","Checking for unauthorized AI overlord connections...","Cross-referencing dark web for leaked meme collections...","Verifying firewall integrity against microwave radiation...","Running deep-learning vulnerability sweep...","Finalizing system diagnostic telemetry..."];
+
+var RES=[
+{tl:"SAFE (FOR NOW)",tp:0,sb:"THREAT LEVEL: 0%",sc:"te",sum:"Target system is so technologically unimpressive that hackers walked away out of boredom.",vuln:[{t:"Password Sophistication",d:"Password is literally 'password123'. Hackers refused on principle.",s:"Hilarious"},{t:"Tab Hoarding Syndrome",d:"84 browser tabs open, consuming 99.8% of available RAM.",s:"High"}],rec:["Close at least 30 tabs before your RAM explodes.","Consider using a password that isn't your pet's middle name.","Feed the hamster powering your local server."],q:"I scanned your system and found zero cyber threats, but 100% human procrastination. — Tools-X Security Bot"},
+{tl:"CRITICAL COFFEE DEFICIT",tp:88,sb:"THREAT LEVEL: 88%",sc:"ta",sum:"System firewall is at 100%, but the operator appears to be running on 12% caffeine.",vuln:[{t:"Caffeine Deficiency",d:"Keyboard reaction time delayed by 1.4 seconds due to fatigue.",s:"High"},{t:"Auto-Accept Cookies",d:"User clicks 'Accept All Cookies' because they actually want cookies.",s:"Medium"}],rec:["Immediately brew a fresh cup of dark roast espresso.","Do not reply to emails from 'Nigerian Prince' offering free Bitcoin.","Refrain from typing 'sudo rm -rf /' just to see what happens."],q:"Your firewall is strong, but your human firewall needs an espresso reboot. — Tools-X Security Bot"},
+{tl:"OVERPOWERED NERD MATRIX",tp:2,sb:"THREAT LEVEL: 2%",sc:"tc",sum:"Your terminal configuration is so customized that hackers couldn't figure out how to navigate your zsh theme.",vuln:[{t:"Vim Trapping",d:"Hackers got stuck in Vim and couldn't figure out how to exit (:q!).",s:"Hilarious"},{t:"Excessive RGB Lighting",d:"RGB lights visible from low Earth orbit.",s:"Low"}],rec:["Teach hackers how to exit Vim to prevent server clutter.","Lower RGB brightness by 10% to preserve retinas.","Take a 5-minute walk outside and look at actual trees."],q:"The hackers entered your system, got lost in your Vim session, and quit cybersecurity. — Tools-X Security Bot"},
+{tl:"EXTREME CAT MEME OVERLOAD",tp:42,sb:"THREAT LEVEL: 42%",sc:"tp",sum:"System defense mechanisms replaced entirely by high-resolution cat GIFs that confuse intrusion detection AI.",vuln:[{t:"Feline Encryption Standard",d:"Firewall rulebook consists entirely of 'If not cat, then block'.",s:"Hilarious"},{t:"Keyboard Napping Hazard",d:"Local cat sleeping on spacebar causing input loop.",s:"Medium"}],rec:["Pet the cat currently occupying your keyboard.","Finally click 'Update and Restart' after 4 years of waiting.","Add more high-paws security measures."],q:"Your security through feline obscurity is surprisingly effective. — Tools-X Security Bot"}
+];
+
+var Q={iv:null,logs:[]};
+var idle=document.getElementById('tsxv5-quantum-idle'),scan=document.getElementById('tsxv5-quantum-scanning'),res=document.getElementById('tsxv5-quantum-results'),startB=document.getElementById('tsxv5-quantum-start'),resetB=document.getElementById('tsxv5-quantum-reset'),pbar=document.getElementById('tsxv5-quantum-progress'),pct=document.getElementById('tsxv5-quantum-pct'),logs=document.getElementById('tsxv5-quantum-logs'),logsR=document.getElementById('tsxv5-quantum-logs-result');
+var tabs=W.querySelectorAll('.qtab'),panels=W.querySelectorAll('.qpanel');
+
+function setQ(s){idle.classList.toggle('hidden',s!=='idle');scan.classList.toggle('hidden',s!=='scan');res.classList.toggle('hidden',s!=='done');}
+
+function fT(){var n=new Date();return String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');}
+
+function aLog(t,ty){
+var l=document.createElement('div');
+l.className='qline';
+var ic=ty==='ok'?'✔':ty==='w'?'⚠':'';
+var cl=ty==='ok'?'qtxt ok':ty==='w'?'qtxt w':'qtxt';
+l.innerHTML='<span class="qtime">['+fT()+']</span><span class="'+cl+'">'+ic+' '+t+'</span>';
+logs.appendChild(l);
+logs.scrollTop=logs.scrollHeight;
+Q.logs.push({t:t,time:fT()});
+}
+
+function start(){
+if(Q.iv)clearInterval(Q.iv);
+Q.logs=[];logs.innerHTML='';
+setQ('scan');
+var t0=Date.now(),dur=4500,li=0;
+
+Q.iv=setInterval(function(){
+var el=Date.now()-t0;
+var c=Math.min(Math.floor(el/dur*100),100);
+pbar.style.width=c+'%';pct.textContent=c+'%';
+
+var ex=Math.floor(c/100*MSGS.length);
+if(li<ex&&li<MSGS.length){
+var ty=['i','i','ok','w'][Math.floor(Math.random()*4)];
+aLog(MSGS[li],ty);
+li++;
+}
+
+if(c>=100){
+clearInterval(Q.iv);Q.iv=null;
+setTimeout(function(){
+var r=RES[Math.floor(Math.random()*RES.length)];
+renderQ(r);setQ('done');
+},500);
+}
+},80);
+}
+
+function renderQ(r){
+var sc=document.getElementById('tsxv5-quantum-status-card');
+sc.style.borderColor=r.sc==='te'?'rgba(16,245,160,.4)':r.sc==='ta'?'rgba(251,191,36,.4)':r.sc==='tc'?'rgba(34,211,238,.4)':'rgba(168,85,247,.4)';
+document.getElementById('tsxv5-quantum-threat-level').textContent=r.tl;
+document.getElementById('tsxv5-quantum-threat-level').className='qcv '+r.sc;
+document.getElementById('tsxv5-quantum-status-badge').textContent=r.sb;
+document.getElementById('tsxv5-quantum-summary').textContent=r.sum;
+document.getElementById('tsxv5-quantum-vuln-count').textContent=r.vuln.length+' Found';
+document.getElementById('tsxv5-quantum-quote-text').textContent=r.q;
+
+var rl=document.getElementById('tsxv5-quantum-recs-list');
+rl.innerHTML='';
+r.rec.forEach(function(x,i){var d=document.createElement('div');d.className='qrec';d.innerHTML='<span class="qnum">'+(i+1)+'</span><span>'+x+'</span>';rl.appendChild(d);});
+
+var vl=document.getElementById('tsxv5-quantum-vulns-list');
+vl.innerHTML='';
+r.vuln.forEach(function(v){var d=document.createElement('div');d.className='qvuln';d.innerHTML='<div class="qvh"><div class="qvt"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'+v.t+'</div><span class="qsev">Severity: '+v.s+'</span></div><div class="qvd">'+v.d+'</div>';vl.appendChild(d);});
+
+logsR.innerHTML='';
+Q.logs.forEach(function(l){var d=document.createElement('div');d.className='qline';d.innerHTML='<span class="qtime">['+l.time+']</span><span class="qtxt">'+l.t+'</span>';logsR.appendChild(d);});
+
+swTab('summary');
+}
+
+function swTab(t){
+tabs.forEach(function(x){var a=x.dataset.tab===t;x.classList.toggle('act',a);x.setAttribute('aria-selected',a);});
+panels.forEach(function(p){p.classList.toggle('act',p.id==='tsxv5-quantum-tab-'+t);});
+}
+
+startB.addEventListener('click',start);
+resetB.addEventListener('click',function(){if(Q.iv){clearInterval(Q.iv);Q.iv=null;}setQ('idle');});
+tabs.forEach(function(x){x.addEventListener('click',function(){swTab(this.dataset.tab);});});
+})();
+
+console.log('Tools-X Security Scanner Suite initialized | toolsx.in');
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

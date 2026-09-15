@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Free Essay &amp; Content Generator - Type Any Topic, Get Instant – ToolsX App</title>
+<meta name="description" content="Free essay generator online — type any topic and instantly get a complete, structured essay from Wikipedia&#x27;s open knowledge base. No signup,">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Free Essay &amp; Content Generator - Type Any Topic, Get Instant</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-eg">
+
+<style>
+#tsxv5-eg * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+#tsxv5-eg { background-color: #f1f5f9; padding: 30px 15px; color: #1e293b; border-radius: 12px; }
+#tsxv5-eg .container { max-width: 800px; margin: 0 auto; }
+#tsxv5-eg .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+#tsxv5-eg h1 { margin-top: 0; text-align: center; color: #0f172a; font-size: clamp(22px, 4vw, 28px); }
+#tsxv5-eg input[type="text"] { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 15px; outline: none; }
+#tsxv5-eg input[type="text"]:focus { border-color: #2563eb; }
+#tsxv5-eg button { width: 100%; padding: 12px; background: #2563eb; color: white; font-weight: bold; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; min-height: 48px; }
+#tsxv5-eg button:hover { background: #1d4ed8; }
+#tsxv5-eg #output { display: none; white-space: pre-wrap; line-height: 1.8; font-size: 16px; }
+#tsxv5-eg .loading { display: none; text-align: center; color: #2563eb; font-weight: bold; }
+#tsxv5-eg .error { display: none; color: #dc2626; text-align: center; font-weight: bold; }
+
+/* How to Use + Internal links */
+#tsxv5-eg .how-to { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+#tsxv5-eg .how-to h2 { margin-top: 0; color: #0f172a; font-size: 20px; margin-bottom: 12px; }
+#tsxv5-eg .how-to ol { margin: 0 0 16px 0; padding-left: 22px; line-height: 1.9; color: #1e293b; }
+#tsxv5-eg .how-to ol li { margin-bottom: 8px; }
+#tsxv5-eg .how-to p { color: #475569; font-size: 15px; line-height: 1.7; margin: 0 0 12px; }
+#tsxv5-eg .how-to .privacy { background: #f0fdf4; border-left: 4px solid #10b981; padding: 10px 14px; border-radius: 6px; font-size: 14px; color: #334155; }
+
+#tsxv5-eg .links { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+#tsxv5-eg .links h2 { margin-top: 0; color: #0f172a; font-size: 20px; margin-bottom: 14px; }
+#tsxv5-eg .links ul { list-style: none; padding: 0; margin: 0; }
+#tsxv5-eg .links ul li { margin-bottom: 10px; padding: 12px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; }
+#tsxv5-eg .links ul li a { color: #2563eb; text-decoration: none; font-weight: 600; font-size: 15px; }
+#tsxv5-eg .links ul li a:hover { text-decoration: underline; }
+#tsxv5-eg .links ul li span { display: block; color: #64748b; font-size: 13px; margin-top: 3px; }
+
+@media (max-width: 480px){
+  #tsxv5-eg { padding: 16px 10px; }
+  #tsxv5-eg .card, #tsxv5-eg .how-to, #tsxv5-eg .links { padding: 18px; }
+}
+
+/* Dark mode (matches site's existing .dark-mode class) */
+body.dark-mode #tsxv5-eg,html.dark-mode #tsxv5-eg,[data-theme="dark"] #tsxv5-eg,.dark-mode #tsxv5-eg,.night-mode #tsxv5-eg{
+  background-color: #0f172a; color: #e2e8f0;
+}
+body.dark-mode #tsxv5-eg .card,body.dark-mode #tsxv5-eg .how-to,body.dark-mode #tsxv5-eg .links,
+html.dark-mode #tsxv5-eg .card,html.dark-mode #tsxv5-eg .how-to,html.dark-mode #tsxv5-eg .links,
+[data-theme="dark"] #tsxv5-eg .card,[data-theme="dark"] #tsxv5-eg .how-to,[data-theme="dark"] #tsxv5-eg .links,
+.dark-mode #tsxv5-eg .card,.dark-mode #tsxv5-eg .how-to,.dark-mode #tsxv5-eg .links,
+.night-mode #tsxv5-eg .card,.night-mode #tsxv5-eg .how-to,.night-mode #tsxv5-eg .links{
+  background: #1e293b; color: #e2e8f0;
+}
+body.dark-mode #tsxv5-eg h1,html.dark-mode #tsxv5-eg h1,[data-theme="dark"] #tsxv5-eg h1,.dark-mode #tsxv5-eg h1,.night-mode #tsxv5-eg h1,
+body.dark-mode #tsxv5-eg .how-to h2,html.dark-mode #tsxv5-eg .how-to h2,[data-theme="dark"] #tsxv5-eg .how-to h2,.dark-mode #tsxv5-eg .how-to h2,.night-mode #tsxv5-eg .how-to h2,
+body.dark-mode #tsxv5-eg .links h2,html.dark-mode #tsxv5-eg .links h2,[data-theme="dark"] #tsxv5-eg .links h2,.dark-mode #tsxv5-eg .links h2,.night-mode #tsxv5-eg .links h2,
+body.dark-mode #tsxv5-eg #outTitle,html.dark-mode #tsxv5-eg #outTitle,[data-theme="dark"] #tsxv5-eg #outTitle,.dark-mode #tsxv5-eg #outTitle,.night-mode #tsxv5-eg #outTitle{
+  color: #f1f5f9;
+}
+body.dark-mode #tsxv5-eg #output,html.dark-mode #tsxv5-eg #output,[data-theme="dark"] #tsxv5-eg #output,.dark-mode #tsxv5-eg #output,.night-mode #tsxv5-eg #output{
+  color: #e2e8f0;
+}
+body.dark-mode #tsxv5-eg input[type="text"],html.dark-mode #tsxv5-eg input[type="text"],[data-theme="dark"] #tsxv5-eg input[type="text"],.dark-mode #tsxv5-eg input[type="text"],.night-mode #tsxv5-eg input[type="text"]{
+  background: #0f172a; border-color: #334155; color: #f1f5f9;
+}
+body.dark-mode #tsxv5-eg .how-to p,html.dark-mode #tsxv5-eg .how-to p,[data-theme="dark"] #tsxv5-eg .how-to p,.dark-mode #tsxv5-eg .how-to p,.night-mode #tsxv5-eg .how-to p{
+  color: #cbd5e1;
+}
+body.dark-mode #tsxv5-eg .how-to ol,html.dark-mode #tsxv5-eg .how-to ol,[data-theme="dark"] #tsxv5-eg .how-to ol,.dark-mode #tsxv5-eg .how-to ol,.night-mode #tsxv5-eg .how-to ol{
+  color: #e2e8f0;
+}
+body.dark-mode #tsxv5-eg .links ul li,html.dark-mode #tsxv5-eg .links ul li,[data-theme="dark"] #tsxv5-eg .links ul li,.dark-mode #tsxv5-eg .links ul li,.night-mode #tsxv5-eg .links ul li{
+  background: #0f172a; border-color: #334155;
+}
+body.dark-mode #tsxv5-eg .links ul li span,html.dark-mode #tsxv5-eg .links ul li span,[data-theme="dark"] #tsxv5-eg .links ul li span,.dark-mode #tsxv5-eg .links ul li span,.night-mode #tsxv5-eg .links ul li span{
+  color: #94a3b8;
+}
+</style>
+
+<div class="container">
+
+  <div class="card">
+    <h2 style="margin:0 0 14px;text-align:center;color:#0f172a;font-size:clamp(20px,4vw,26px);" class="eg-title">Essay &amp; Content Generator</h2>
+    <input type="text" id="tsxv5-egTopicInput" placeholder="Enter topic (e.g. Artificial Intelligence, India, Solar Power)...">
+    <button type="button" id="tsxv5-egBtn">Generate Content</button>
+  </div>
+
+  <div id="tsxv5-egLoading" class="loading">🔍 Generating content safely... Please wait.</div>
+  <div id="tsxv5-egError" class="error"></div>
+
+  <div id="tsxv5-egOutputCard" class="card">
+    <h3 id="tsxv5-egOutTitle" style="margin-top:0; border-bottom:2px solid #2563eb; padding-bottom:10px; color:#0f172a;"></h3>
+    <div id="tsxv5-egOutput"></div>
+  </div>
+
+  <div class="how-to">
+    <h2>How to Use This Essay Generator</h2>
+    <p>Yeh tool Wikipedia ke open knowledge base se content fetch karta hai — direct, bina kisi signup ya API key ke. Simple 3 steps me essay ready:</p>
+    <ol>
+      <li><strong>Enter your topic</strong> — Type karo kisi bhi subject ka naam (e.g. Artificial Intelligence, Solar Power, India, Climate Change).</li>
+      <li><strong>Click "Generate Content"</strong> — Tool Wikipedia se article extract karke aapko structured essay de dega 1 second ke andar.</li>
+      <li><strong>Read and use</strong> — Content ko padho, apne notes ke liye use karo, ya rewrite karke apna banao.</li>
+    </ol>
+    <div class="privacy">🔒 <strong>Privacy:</strong> Aapka topic seedha Wikipedia ke public API ko jaata hai. Kuch bhi humare server pe store ya track nahi hota.</div>
+  </div>
+
+  <div class="links">
+    <h2>🔗 More Useful Tools to Try</h2>
+    <ul>
+      <li>
+        <a href="https://www.toolsx.in/2026/08/explore-karein-200-ai-prompts-hub-ai-lab.html">200+ AI Prompt Library</a>
+        <span>Curated prompts for research, writing and content creation</span>
+      </li>
+      <li>
+        <a href="../tools/render-karein-audio-visualizer-waveform.html">Audio Visualizer Studio</a>
+        <span>Turn your music into stunning waveform videos</span>
+      </li>
+      <li>
+        <a href="../tools/ringtone-maker-15-music-styles-voice.html">Name Ringtone Maker</a>
+        <span>Create custom ringtones in 15 different music styles</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+
+var topicInput = document.getElementById('tsxv5-egTopicInput');
+var generateBtn = document.getElementById('tsxv5-egBtn');
+var loading = document.getElementById('tsxv5-egLoading');
+var errorBox = document.getElementById('tsxv5-egError');
+var outputCard = document.getElementById('tsxv5-egOutputCard');
+var output = document.getElementById('tsxv5-egOutput');
+var outTitle = document.getElementById('tsxv5-egOutTitle');
+
+/* Same JSONP technique as your original — nothing changed here */
+function generateContent(){
+  var topic = topicInput.value.trim();
+
+  if(!topic){
+    alert('Please enter a topic!');
+    return;
+  }
+
+  loading.style.display = 'block';
+  errorBox.style.display = 'none';
+  outputCard.style.display = 'none';
+
+  var script = document.createElement('script');
+  var callbackName = 'wikiCallback_' + Math.floor(Math.random() * 100000);
+
+  window[callbackName] = function(data){
+    try { delete window[callbackName]; } catch(e){}
+    if(script.parentNode) script.parentNode.removeChild(script);
+
+    var pages = data.query.pages;
+    var pageId = Object.keys(pages)[0];
+
+    if(pageId === "-1" || !pages[pageId].extract){
+      loading.style.display = 'none';
+      errorBox.innerText = "No information found for this topic. Try another keyword.";
+      errorBox.style.display = 'block';
+      return;
+    }
+
+    var rawText = pages[pageId].extract;
+    var cleanText = rawText.replace(/==+/g, '\n\n###').trim();
+
+    outTitle.innerText = "Essay on: " + pages[pageId].title;
+    output.innerText = cleanText;
+
+    loading.style.display = 'none';
+    outputCard.style.display = 'block';
+    output.style.display = 'block';
+  };
+
+  script.src = 'https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&titles=' + encodeURIComponent(topic) + '&format=json&callback=' + callbackName;
+  script.onerror = function(){
+    loading.style.display = 'none';
+    errorBox.innerText = "Network connection failed. Check your internet connection.";
+    errorBox.style.display = 'block';
+  };
+
+  document.body.appendChild(script);
+}
+
+generateBtn.addEventListener('click', generateContent);
+
+topicInput.addEventListener('keydown', function(e){
+  if(e.key === 'Enter'){
+    e.preventDefault();
+    generateContent();
+  }
+});
+
+})();
+</script>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Fail-Safe Essay & Content Generator",
+  "operatingSystem": "Web Browser",
+  "applicationCategory": "EducationalApplication",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  },
+  "description": "Free browser-based essay and content generator. Type any topic and instantly get content from Wikipedia's open knowledge base. No signup, no API key, 100% free."
+}
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

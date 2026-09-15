@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>URL to Image Converter – Full-Page Website Screenshots Free – ToolsX App</title>
+<meta name="description" content="Capture full-page website screenshots free by just entering a URL. Fast, high-quality image export, no software needed.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>URL to Image Converter – Full-Page Website Screenshots Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"URL to Image Converter (Base64 Decoder)","description":"Convert Base64 strings or direct image URLs into downloadable image files directly in your browser. Automatic format detection, CORS-safe download, 100% client-side.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","featureList":"Base64 to image conversion, Image URL preview, Automatic format detection (PNG/JPG/GIF/WebP), One-click download, CORS-safe blob download with new-tab fallback, 100% offline processing"}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Convert Base64 or URL to Image","description":"Step-by-step guide to decoding Base64 strings or downloading images from URLs.","totalTime":"PT1M","step":[{"@type":"HowToStep","position":1,"name":"Paste Input","text":"Paste a data:image Base64 string or an https image URL into the textarea."},{"@type":"HowToStep","position":2,"name":"Convert & Preview","text":"Click Convert & Preview — the image is validated and rendered in the preview box."},{"@type":"HowToStep","position":3,"name":"Download","text":"Click Download Image to save the file with the correct extension."}]}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Kya main Base64 ko JPG mein badal sakta hoon?","acceptedAnswer":{"@type":"Answer","text":"Haan, yah tool Base64 string ko readable image format mein badalkar download karne ki suvidha deta hai. Format automatic detect hota hai — PNG, JPEG, GIF ya WebP."}},{"@type":"Question","name":"Kya isme file size ki koi limit hai?","acceptedAnswer":{"@type":"Answer","text":"Browser ki capacity ke anusar aap badi Base64 files ko bhi convert kar sakte hain, lekin best performance ke liye 5MB tak ki strings recommend ki jaati hain."}},{"@type":"Question","name":"Kya mere links safe hain?","acceptedAnswer":{"@type":"Answer","text":"Bilkul! Tool client-side processing par chalta hai, yani aapki strings kabhi kisi server par nahi jaati. Sirf https image links aur data:image Base64 strings accept hoti hain."}}]}
+</script>
+
+<div id="tsxv5-url2img" class="tsxv5-wrapper">
+
+<style>
+/* ═══════════════════════════════════════════════════════════
+   TOOLS-X URL TO IMAGE CONVERTER v5.0 — SCOPED DESIGN SYSTEM
+   DEFAULT = LIGHT | DARK = Blogger global selectors only
+   ═══════════════════════════════════════════════════════════ */
+#tsxv5-url2img{
+  --bg:#ffffff;
+  --card:#f8fafc;
+  --accent:#0284c7;
+  --accent-hover:#0369a1;
+  --text:#111111;
+  --muted:#475569;
+  --border:#e2e8f0;
+  --border-hover:#cbd5e1;
+  --shadow:rgba(15,23,42,0.08);
+  --success:#059669;
+  --success-hover:#047857;
+  --warn:#d97706;
+  --error:#dc2626;
+  font-family:'Inter',system-ui,sans-serif;
+  line-height:1.6;
+  max-width:850px;
+  margin:0 auto;
+  padding:40px 20px;
+  background:var(--bg);
+  color:var(--text);
+  transition:background 0.3s ease,color 0.3s ease;
+}
+body.dark-mode #tsxv5-url2img,
+html.dark-mode #tsxv5-url2img,
+[data-theme="dark"] #tsxv5-url2img,
+body[data-theme="dark"] #tsxv5-url2img,
+html[data-theme="dark"] #tsxv5-url2img,
+.dark-mode #tsxv5-url2img,
+.night-mode #tsxv5-url2img{
+  --bg:#0f172a;
+  --card:#1e293b;
+  --accent:#38bdf8;
+  --accent-hover:#7dd3fc;
+  --text:#8ab4f8;
+  --muted:#94a3b8;
+  --border:#334155;
+  --border-hover:#475569;
+  --shadow:rgba(0,0,0,0.3);
+  --success:#10b981;
+  --success-hover:#34d399;
+  --warn:#fbbf24;
+  --error:#f87171;
+}
+#tsxv5-url2img *{box-sizing:border-box;max-width:100%;}
+#tsxv5-url2img img{max-width:100%;height:auto;}
+#tsxv5-url2img .header{text-align:center;margin-bottom:40px;}
+#tsxv5-url2img h2{
+  font-size:2.5rem;margin-bottom:10px;
+  background:linear-gradient(to right,var(--accent),#818cf8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;
+}
+body.dark-mode #tsxv5-url2img h2,
+html.dark-mode #tsxv5-url2img h2,
+[data-theme="dark"] #tsxv5-url2img h2,
+body[data-theme="dark"] #tsxv5-url2img h2,
+html[data-theme="dark"] #tsxv5-url2img h2,
+.dark-mode #tsxv5-url2img h2,
+.night-mode #tsxv5-url2img h2{
+  background:linear-gradient(to right,var(--accent),#a78bfa);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+#tsxv5-url2img .tagline{color:var(--muted);font-size:1.1rem;line-height:1.6;}
+#tsxv5-url2img .tool-card{
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  padding:30px;box-shadow:0 10px 30px -10px var(--shadow);transition:all 0.3s ease;
+}
+#tsxv5-url2img label{display:block;margin-bottom:10px;font-weight:600;color:var(--accent);}
+#tsxv5-url2img textarea{
+  width:100%;min-height:150px;background:var(--bg);border:1px solid var(--border);
+  border-radius:12px;color:var(--text);padding:15px;font-family:'Courier New',monospace;
+  font-size:13px;outline:none;transition:all 0.2s ease;resize:vertical;max-width:100%;box-sizing:border-box;
+}
+#tsxv5-url2img textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(56,189,248,0.2);}
+#tsxv5-url2img .action-area{display:flex;gap:15px;margin-top:20px;flex-wrap:wrap;}
+#tsxv5-url2img button{
+  flex:1;min-width:140px;padding:15px;border-radius:10px;border:none;font-weight:700;
+  cursor:pointer;font-size:1rem;transition:all 0.2s ease;font-family:inherit;
+}
+#tsxv5-url2img .btn-convert{background:var(--accent);color:#ffffff;}
+#tsxv5-url2img .btn-convert:hover{background:var(--accent-hover);transform:translateY(-2px);}
+#tsxv5-url2img .btn-clear{background:transparent;color:var(--muted);border:1px solid var(--border);}
+#tsxv5-url2img .btn-clear:hover{border-color:var(--accent);color:var(--accent);}
+#tsxv5-url2img .status-msg{margin-top:14px;font-size:0.9rem;min-height:20px;color:var(--muted);}
+#tsxv5-url2img .status-msg.error{color:var(--error);}
+#tsxv5-url2img .status-msg.warn{color:var(--warn);}
+#tsxv5-url2img .status-msg.done{color:var(--success);}
+#tsxv5-url2img .preview-section{display:none;margin-top:30px;text-align:center;border-top:1px solid var(--border);padding-top:30px;}
+/* INTENTIONALLY WHITE preview frame: image transparency check ke liye; koi text andar nahi = safe both modes */
+#tsxv5-url2img .image-preview-container{
+  max-width:100%;border-radius:10px;overflow:hidden;border:4px solid var(--border);
+  margin-bottom:20px;background:#ffffff;box-shadow:0 4px 12px var(--shadow);
+}
+#tsxv5-url2img .output-image{max-width:100%;display:block;margin:0 auto;}
+#tsxv5-url2img .download-btn{
+  display:inline-block;background:var(--success);color:#ffffff;text-decoration:none;
+  padding:12px 30px;border-radius:8px;font-weight:700;transition:all 0.2s ease;
+}
+#tsxv5-url2img .download-btn:hover{background:var(--success-hover);transform:translateY(-2px);color:#ffffff;text-decoration:none;}
+#tsxv5-url2img .seo-section{margin-top:60px;}
+#tsxv5-url2img .seo-section h2{
+  color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:10px;
+  margin-bottom:20px;font-size:1.5rem;-webkit-text-fill-color:var(--accent);background:none;
+}
+#tsxv5-url2img .seo-section p,#tsxv5-url2img .seo-section li{color:var(--muted);line-height:1.8;margin-bottom:10px;}
+#tsxv5-url2img .seo-section ul{padding-left:25px;}
+#tsxv5-url2img .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;}
+#tsxv5-url2img .feature-item{background:var(--card);padding:20px;border-radius:12px;border:1px solid var(--border);transition:all 0.3s ease;}
+#tsxv5-url2img .feature-item:hover{border-color:var(--accent);transform:translateY(-3px);}
+#tsxv5-url2img .feature-item strong{color:var(--accent);display:block;margin-bottom:8px;}
+#tsxv5-url2img .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px;}
+#tsxv5-url2img .related-link{
+  display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:14px;text-decoration:none;transition:all .2s ease;
+}
+#tsxv5-url2img .related-link:hover{border-color:var(--accent);transform:translateY(-2px);text-decoration:none;}
+#tsxv5-url2img .related-icon{font-size:1.6rem;flex-shrink:0;}
+#tsxv5-url2img .related-link strong{display:block;color:var(--text);font-size:0.9rem;margin-bottom:2px;}
+#tsxv5-url2img .related-link .rl-desc{color:var(--muted);font-size:0.78rem;line-height:1.4;}
+#tsxv5-url2img .faq-item{margin-bottom:15px;background:var(--card);padding:15px;border-radius:10px;border:1px solid var(--border);}
+#tsxv5-url2img .faq-q{font-weight:700;color:var(--accent);margin-bottom:5px;cursor:pointer;display:block;}
+#tsxv5-url2img .faq-item p{margin:0;color:var(--muted);line-height:1.6;}
+#tsxv5-url2img a{color:var(--accent);font-weight:600;text-decoration:none;transition:color 0.2s;}
+#tsxv5-url2img a:hover{text-decoration:underline;color:var(--accent-hover);}
+#tsxv5-url2img footer{text-align:center;margin-top:50px;color:var(--muted);font-size:0.9rem;padding:20px 0;}
+
+/* Standard breakpoints (480px, 768px, 1024px) */
+@media(max-width:768px){
+  #tsxv5-url2img .feature-grid{grid-template-columns:1fr;}
+  #tsxv5-url2img .related-grid{grid-template-columns:1fr;}
+  #tsxv5-url2img .action-area{flex-direction:column;}
+  #tsxv5-url2img h2{font-size:1.8rem;}
+  #tsxv5-url2img .tool-card{padding:20px;}
+  #tsxv5-url2img{padding:30px 16px 60px;}
+}
+@media(max-width:480px){
+  #tsxv5-url2img{padding:20px 12px 40px;}
+  #tsxv5-url2img textarea{min-height:120px;font-size:12px;}
+  #tsxv5-url2img button{padding:12px;font-size:0.9rem;}
+  #tsxv5-url2img .feature-item{padding:16px;}
+}
+@media(min-width:1024px){
+  #tsxv5-url2img{padding:64px 40px 100px;}
+  #tsxv5-url2img .feature-grid{grid-template-columns:1fr 1fr;}
+  #tsxv5-url2img .related-grid{grid-template-columns:repeat(3,1fr);}
+}
+@media(prefers-reduced-motion:reduce){
+  #tsxv5-url2img *,#tsxv5-url2img *::before,#tsxv5-url2img *::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}
+}
+</style>
+
+<div class="header">
+  <h2>URL to Image Converter</h2>
+  <p class="tagline">Convert any Image URL or Base64 string into a high-quality Image file.</p>
+</div>
+
+<div class="tool-card">
+  <label for="tsxv5-inputUrl">Apna Image URL ya Base64 String yahan paste karein:</label>
+  <textarea id="tsxv5-inputUrl" maxlength="7000000" placeholder="Example: data:image/png;base64,iVBORw0KGgo... or https://example.com/image.jpg"></textarea>
+
+  <div class="action-area">
+    <button type="button" class="btn-clear" id="tsxv5-clearBtn">Clear</button>
+    <button type="button" class="btn-convert" id="tsxv5-convertBtn">Convert &amp; Preview</button>
+  </div>
+
+  <div class="status-msg" id="tsxv5-status" role="status" aria-live="polite"></div>
+
+  <div class="preview-section" id="tsxv5-previewSection">
+    <label>Image Preview:</label>
+    <div class="image-preview-container">
+      <img id="tsxv5-outputImage" class="output-image" src="" alt="Converted image preview">
+    </div>
+    <a id="tsxv5-downloadLink" class="download-btn" download="toolsx-image.png" rel="noopener noreferrer">Download Image</a>
+  </div>
+</div>
+
+<section class="seo-section">
+  <h2>URL to Image Converter Kaise Kaam Karta Hai?</h2>
+  <p>Tools-X URL to Image Converter ek lightweight browser-based utility hai jo do kaam karta hai: Base64 string ko real image file mein decode karna, aur kisi bhi direct image URL ko preview karke download-ready banana. Base64 ek encoding format hai jisme poori image ka binary data text ke roop mein store hota hai — isliye aap ise email, code ya chat mein easily share kar sakte hain. Yeh tool us text ko wapas readable image (PNG, JPG, GIF, WebP) mein badal deta hai. Sab processing aapke browser ke andar hoti hai — koi upload nahi, koi server nahi, koi sign-up nahi.</p>
+  <div class="feature-grid">
+    <div class="feature-item">
+      <strong>1. Base64 to Image:</strong> Jab aapke paas lamba Base64 code ho (jaise data:image/png;base64,iVBOR...), to use textarea mein paste karein aur Convert &amp; Preview dabayein. Tool string ko validate karta hai, image ko preview mein render karta hai, aur ek click mein download-ready file bana deta hai. Format automatic detect hota hai — PNG, JPEG, GIF ya WebP — isliye file ko sahi extension ke saath save kiya jaata hai. Developers ke liye yeh workflow API responses, database-stored images aur email signatures se mili Base64 strings ko test karne ke liye bahut handy hai.
+    </div>
+    <div class="feature-item">
+      <strong>2. Web URL Preview &amp; Download:</strong> Agar aapke paas kisi image ka direct link hai (https://example.com/image.jpg), to tool use preview mein load karta hai taaki aap save karne se pehle image verify kar sakein. Download button click karne par tool image ko blob ke roop mein fetch karke aapke device par save karta hai. Kuch servers CORS policy ki wajah se direct download block karte hain — aise mein tool aapko image ko naye tab mein kholne ka safe option deta hai, taaki aap manually save kar sakein. Yeh feature designers ke liye useful hai jo stock sites ya CDN se assets collect karte hain.
+    </div>
+  </div>
+  <p><strong>Step-by-step:</strong> (1) Base64 string ya image URL paste karein, (2) Convert &amp; Preview par click karein, (3) preview mein image verify karein, (4) Download Image button se file save karein. Clear button se input turant reset ho jaata hai, taaki aap agli string ke saath fresh start kar sakein.</p>
+</section>
+
+<section class="seo-section">
+  <h2>💡 Extra Tip: Base64 Kab Use Karein?</h2>
+  <p><strong>Base64 encoding</strong> tab useful hota hai jab aapko image ko directly HTML/CSS mein embed karna ho, ya jab aap email templates bana rahe ho jahan external links block ho sakte hain. Lekin yaad rakho — Base64 images file size ko ~33% badha deti hain, isliye website performance ke liye chhoti icons tak hi embed karna behtar hai; badi images ke liye hosted URL use karein aur embed karne se pehle image ko optimize zaroor karein. Agar aap regularly Base64 strings ke saath kaam karte ho, toh is tool ko bookmark kar lein — developers ke liye yeh ek quick debugging utility hai, aur designers ke liye assets preview karne ka fast way. Ek aur useful scenario: jab aapko kisi third-party API se image data milta hai jo Base64 format mein hota hai, tab aap is tool se turant verify kar sakte ho ki image sahi ban raha hai ya nahi, bina kisi local file save kiye.</p>
+</section>
+
+<section class="seo-section">
+  <h2>Privacy &amp; Best Practices</h2>
+  <p>Kyunki poora process client-side hai, aapki paste ki gayi strings kabhi kisi server par nahi jaati — yeh un teams ke liye zaroori hai jo confidential screenshots ya unreleased assets handle karti hain. Best results ke liye: 5MB tak ki Base64 strings use karein, paste karne se pehle string ke aage-peeche spaces hatayein, aur sirf trusted sources ke links paste karein. Email template builders ke liye Base64 ab bhi sabse safe option hai jab external hosting block hoti hai. Agar aap shared computer par kaam kar rahe hain, to conversion ke baad Clear button zaroor use karein taaki koi aur aapki string na dekh sake.</p>
+</section>
+
+<section class="seo-section">
+  <h2>Mukhya Features (Corporate Quality)</h2>
+  <ul>
+    <li><strong>100% Private:</strong> Aapka data hamare server par nahi jaata. Sab kuch aapke local browser mein hota hai.</li>
+    <li><strong>No API Required:</strong> Kisi external service ya payment ki zaroorat nahi hai.</li>
+    <li><strong>Fast Conversion:</strong> JavaScript processing ki wajah se result instant milta hai.</li>
+    <li><strong>Smart Validation:</strong> Sirf data:image Base64 aur https image links accept hote hain — unsafe inputs reject.</li>
+    <li><strong>Cross-Platform:</strong> Yeh Mobile, Tablet aur PC sabhi browsers par smoothly kaam karta hai.</li>
+  </ul>
+</section>
+
+<section class="seo-section">
+  <h2>🚀 Related Tools — Hamari Banayi Hui Posts</h2>
+  <div class="related-grid">
+    <a class="related-link" href="../tools/boost-karein-seo-meta-tag-generator-ai.html" rel="noopener noreferrer" title="SEO Meta Tag Generator">
+      <span class="related-icon">🏷️</span>
+      <div><strong>SEO Meta Tag Generator</strong><span class="rl-desc">Open Graph, Twitter Cards &amp; JSON-LD schema with live SERP preview</span></div>
+    </a>
+    <a class="related-link" href="https://www.toolsx.in/2026/08/explore-karein-200-ai-prompts-hub-ai-lab.html" rel="noopener noreferrer" title="200+ AI Prompt Library">
+      <span class="related-icon">📚</span>
+      <div><strong>200+ AI Prompt Library</strong><span class="rl-desc">Ready-to-use image &amp; copy prompts — search, copy, export</span></div>
+    </a>
+    <a class="related-link" href="../tools/audit-karein-code-bugs-aur-security-ai.html" rel="noopener noreferrer" title="Code Intelligence Studio">
+      <span class="related-icon">🔬</span>
+      <div><strong>Code Intelligence Studio</strong><span class="rl-desc">11 developer tools: bug fixer, security audit, transpiler &amp; more</span></div>
+    </a>
+  </div>
+</section>
+
+<section class="seo-section">
+  <h2>Frequently Asked Questions (FAQ)</h2>
+  <div class="faq-item">
+    <div class="faq-q">Kya main Base64 ko JPG mein badal sakta hoon?</div>
+    <p>Haan, yah tool Base64 string ko readable image format mein badalkar download karne ki suvidha deta hai. Format automatic detect hota hai — PNG, JPEG, GIF ya WebP.</p>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Kya isme file size ki koi limit hai?</div>
+    <p>Browser ki capacity ke anusar aap badi Base64 files ko bhi convert kar sakte hain, lekin best performance ke liye 5MB tak ki strings recommend ki jaati hain.</p>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Kya mere links safe hain?</div>
+    <p>Bilkul! Tool client-side processing par chalta hai, yani aapki strings kabhi kisi server par nahi jaati. Sirf https image links aur data:image Base64 strings accept hoti hain.</p>
+  </div>
+</section>
+
+<p style="margin-top:30px;line-height:1.8;">Yeh <strong>URL to Image Converter</strong> developers, designers, aur content creators ke liye perfect hai jo frequently images ke saath kaam karte hain. Chahe aapko Base64 decode karna ho ya kisi website se image download karni ho — yeh tool sab handle karta hai, woh bhi bina kisi upload ya sign-up ke. CORS-friendly download, automatic format detection, aur 100% offline processing ke saath, yeh aapke daily image workflow ka quick companion hai. 🚀</p>
+
+<footer>
+  Powered by <strong>Tools-X</strong> · toolsx.in
+</footer>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+var W=document.getElementById('tsxv5-url2img');
+if(!W)return;
+
+var inputBox=document.getElementById('tsxv5-inputUrl');
+var previewSection=document.getElementById('tsxv5-previewSection');
+var outputImage=document.getElementById('tsxv5-outputImage');
+var downloadLink=document.getElementById('tsxv5-downloadLink');
+var statusEl=document.getElementById('tsxv5-status');
+var convertBtn=document.getElementById('tsxv5-convertBtn');
+var clearBtn=document.getElementById('tsxv5-clearBtn');
+
+var ALLOWED_EXT=['png','jpg','jpeg','gif','webp','bmp','ico'];
+var MAX_LEN=7000000;
+var currentObjectUrl=null;
+
+function setStatus(type,msg){
+  statusEl.className='status-msg'+(type?' '+type:'');
+  statusEl.textContent=msg||'';
+}
+
+function safeExt(ext){
+  ext=String(ext||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  return ALLOWED_EXT.indexOf(ext)>-1?ext:'png';
+}
+
+function releaseObjectUrl(){
+  if(currentObjectUrl){URL.revokeObjectURL(currentObjectUrl);currentObjectUrl=null;}
+}
+
+function convertToImage(){
+  var input=inputBox.value.trim();
+  previewSection.style.display='none';
+  setStatus('','');
+
+  if(!input){setStatus('error','Please paste a valid URL or Base64 string!');return;}
+  if(input.length>MAX_LEN){setStatus('error','String bahut lambi hai — best performance ke liye 5MB tak ki Base64 use karein.');return;}
+
+  var isData=input.indexOf('data:image/')===0;
+  var isHttps=input.indexOf('https://')===0;
+  if(!isData&&!isHttps){
+    setStatus('error','Sirf data:image/ Base64 strings ya https:// image links support hote hain.');
+    return;
+  }
+
+  releaseObjectUrl();
+  outputImage.onload=null;
+  outputImage.onerror=null;
+  outputImage.src=input;
+
+  outputImage.onload=function(){
+    previewSection.style.display='block';
+    if(isData){
+      var ext=input.split(';')[0].split('/')[1]||'png';
+      downloadLink.href=input;
+      downloadLink.removeAttribute('target');
+      downloadLink.download='toolsx-image.'+safeExt(ext);
+      downloadLink.textContent='Download Image';
+      setStatus('done','Conversion complete! Download button use karein.');
+    }else{
+      fetch(input,{mode:'cors'}).then(function(r){
+        if(!r.ok)throw new Error('HTTP '+r.status);
+        return r.blob();
+      }).then(function(blob){
+        currentObjectUrl=URL.createObjectURL(blob);
+        downloadLink.href=currentObjectUrl;
+        downloadLink.removeAttribute('target');
+        var m=(blob.type||'').match(/image\/([a-z0-9.+-]+)/i);
+        downloadLink.download='toolsx-image.'+safeExt(m?m[1]:'png');
+        downloadLink.textContent='Download Image';
+        setStatus('done','Image ready! Download button use karein.');
+      }).catch(function(){
+        downloadLink.href=input;
+        downloadLink.setAttribute('target','_blank');
+        downloadLink.setAttribute('rel','noopener noreferrer');
+        downloadLink.removeAttribute('download');
+        downloadLink.textContent='Open Image (New Tab)';
+        setStatus('warn','CORS ki wajah se direct download possible nahi — image new tab mein open hogi, wahan se save karein.');
+      });
+    }
+    previewSection.scrollIntoView({behavior:'smooth',block:'center'});
+  };
+
+  outputImage.onerror=function(){
+    previewSection.style.display='none';
+    setStatus('error','Invalid Link or Base64! Please check the format again.');
+  };
+}
+
+function clearAll(){
+  inputBox.value='';
+  previewSection.style.display='none';
+  outputImage.onload=null;
+  outputImage.onerror=null;
+  outputImage.src='';
+  releaseObjectUrl();
+  setStatus('','');
+  inputBox.focus();
+}
+
+convertBtn.addEventListener('click',convertToImage);
+clearBtn.addEventListener('click',clearAll);
+
+console.log('Tools-X URL to Image Converter initialized | toolsx.in');
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

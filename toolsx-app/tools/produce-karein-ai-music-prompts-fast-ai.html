@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>AI Music Generator: Create Lo-Fi &amp; Retro Cassette Tracks – ToolsX App</title>
+<meta name="description" content="Create original lo-fi and retro cassette-style music free with AI. Generate tracks instantly, no instruments needed.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>AI Music Generator: Create Lo-Fi &amp; Retro Cassette Tracks</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-synthdeck" class="tsxv5-wrapper">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+/* ═══════════════════════════════════════════════════════════
+   TOOLS-X SYNTHDECK v5.1 — SCOPED DESIGN SYSTEM
+   Default: LIGHT mode | Dark: via Blogger global selectors
+   ═══════════════════════════════════════════════════════════ */
+
+#tsxv5-synthdeck{
+  --bg:#f8fafc;--bg2:#f1f5f9;
+  --panel:rgba(255,255,255,.92);--panel2:rgba(241,245,249,.8);
+  --line:rgba(15,23,42,.12);--text:#0f172a;--muted:#64748b;
+  --emerald:#28d6a3;--amber:#ffb454;--sky:#5ab0ff;--rose:#ff6b8a;
+  --radius:16px;
+  --header-bg:rgba(248,250,252,.92);
+  --input-bg:#ffffff;--input-border:#cbd5e1;
+  --range-track:#cbd5e1;--scrollbar-thumb:#cbd5e1;
+  --console-shadow:0 30px 60px -30px rgba(0,0,0,.12);
+  font-family:'Sora',system-ui,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 500px at 12% -8%,rgba(40,214,163,.05),transparent),
+    radial-gradient(800px 500px at 95% 5%,rgba(90,176,255,.05),transparent),
+    var(--bg);
+  line-height:1.5;margin:0;max-width:100%;box-sizing:border-box;
+  transition:background .3s,color .3s;
+}
+
+body.dark-mode #tsxv5-synthdeck,
+html.dark-mode #tsxv5-synthdeck,
+[data-theme="dark"] #tsxv5-synthdeck,
+body[data-theme="dark"] #tsxv5-synthdeck,
+html[data-theme="dark"] #tsxv5-synthdeck,
+.dark-mode #tsxv5-synthdeck,
+.night-mode #tsxv5-synthdeck{
+  --bg:#0a0f1a;--bg2:#0e1626;
+  --panel:rgba(20,30,48,.72);--panel2:rgba(30,42,66,.55);
+  --line:rgba(120,160,220,.14);--text:#e8eefc;--muted:#8ea0c4;
+  --header-bg:rgba(10,15,26,.82);
+  --input-bg:#0c1526;--input-border:rgba(120,160,220,.14);
+  --range-track:#20304c;--scrollbar-thumb:#22314c;
+  --console-shadow:0 30px 60px -30px rgba(0,0,0,.8);
+  background:
+    radial-gradient(900px 500px at 12% -8%,rgba(40,214,163,.10),transparent),
+    radial-gradient(800px 500px at 95% 5%,rgba(90,176,255,.10),transparent),
+    var(--bg);
+}
+
+#tsxv5-synthdeck *,#tsxv5-synthdeck *::before,#tsxv5-synthdeck *::after{box-sizing:border-box;margin:0;padding:0;}
+#tsxv5-synthdeck .mono{font-family:'DM Mono',monospace;}
+#tsxv5-synthdeck .wrap{max-width:1160px;margin:0 auto;padding:0 18px;}
+
+#tsxv5-synthdeck ::-webkit-scrollbar{width:8px;height:8px;}
+#tsxv5-synthdeck ::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:8px;}
+
+#tsxv5-synthdeck header.top{position:sticky;top:0;z-index:30;background:var(--header-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
+#tsxv5-synthdeck .top-in{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;max-width:1160px;margin:0 auto;gap:16px;}
+#tsxv5-synthdeck .brand{display:flex;align-items:center;gap:12px;}
+#tsxv5-synthdeck .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--emerald),var(--sky));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px -6px rgba(40,214,163,.6);flex-shrink:0;}
+#tsxv5-synthdeck .logo svg{width:22px;height:22px;stroke:#06111f;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+#tsxv5-synthdeck .brand-name{font-size:16px;font-weight:800;letter-spacing:.3px;color:var(--text);}
+#tsxv5-synthdeck .brand p{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.16em;}
+#tsxv5-synthdeck nav{display:none;gap:22px;font-size:13px;align-items:center;}
+#tsxv5-synthdeck nav a{color:var(--muted);text-decoration:none;transition:.2s;}
+#tsxv5-synthdeck nav a:hover{color:var(--emerald);}
+@media(min-width:820px){#tsxv5-synthdeck nav{display:flex;}}
+#tsxv5-synthdeck .live{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);border:1px solid var(--line);padding:7px 12px;border-radius:100px;}
+#tsxv5-synthdeck .live b{width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 10px var(--emerald);animation:tsxv5pl 1.6s infinite;}
+@keyframes tsxv5pl{50%{opacity:.3;}}
+
+#tsxv5-synthdeck .hero{padding:46px 0 26px;display:grid;gap:28px;grid-template-columns:1fr;}
+@media(min-width:960px){#tsxv5-synthdeck .hero{grid-template-columns:1.25fr .9fr;align-items:center;}}
+#tsxv5-synthdeck .eyebrow{font-size:12px;color:var(--emerald);letter-spacing:.16em;text-transform:uppercase;margin:0 0 12px;}
+#tsxv5-synthdeck .hero h2{font-size:clamp(28px,4.6vw,46px);line-height:1.12;font-weight:800;color:var(--text);}
+#tsxv5-synthdeck .hero h2 span{background:linear-gradient(120deg,var(--emerald),var(--sky));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+#tsxv5-synthdeck .hero p.sub{color:var(--muted);max-width:520px;margin:16px 0 24px;font-size:16px;}
+#tsxv5-synthdeck .cta{display:flex;gap:12px;flex-wrap:wrap;}
+
+#tsxv5-synthdeck .btn{font-family:'Sora',system-ui,sans-serif;font-size:14px;font-weight:600;padding:12px 20px;border-radius:12px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:transform .12s,box-shadow .2s;min-height:44px;}
+#tsxv5-synthdeck .btn:active{transform:translateY(1px);}
+#tsxv5-synthdeck .btn-pri{background:linear-gradient(135deg,var(--emerald),#1ba97f);color:#06111f;box-shadow:0 8px 24px -8px rgba(40,214,163,.7);}
+#tsxv5-synthdeck .btn-ghost{background:var(--panel2);color:var(--text);border:1px solid var(--line);}
+#tsxv5-synthdeck .btn-icn{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+#tsxv5-synthdeck .console{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--console-shadow);}
+#tsxv5-synthdeck .console-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+#tsxv5-synthdeck .console-top .tag{font-size:11px;color:var(--amber);}
+#tsxv5-synthdeck .scope{height:90px;border-radius:12px;background:linear-gradient(180deg,#0b1322,#0a1120);border:1px solid var(--line);display:flex;align-items:flex-end;gap:3px;padding:8px 10px;overflow:hidden;}
+#tsxv5-synthdeck .sc-bar{flex:1;background:linear-gradient(to top,var(--emerald),var(--sky));border-radius:3px 3px 0 0;height:20%;transition:height .12s;}
+#tsxv5-synthdeck .hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
+#tsxv5-synthdeck .hstats div{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center;}
+#tsxv5-synthdeck .hstats .k{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+#tsxv5-synthdeck .hstats .v{font-size:15px;font-weight:700;margin-top:3px;color:var(--text);}
+
+#tsxv5-synthdeck section.block{padding:30px 0;}
+#tsxv5-synthdeck .b-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+#tsxv5-synthdeck .b-head .num{font-family:'DM Mono',monospace;font-size:12px;color:var(--emerald);border:1px solid var(--line);border-radius:8px;padding:4px 9px;}
+#tsxv5-synthdeck .b-head h3{font-size:20px;font-weight:700;color:var(--text);}
+#tsxv5-synthdeck .b-head .r{margin-left:auto;font-size:11px;color:var(--muted);}
+
+#tsxv5-synthdeck .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;}
+#tsxv5-synthdeck .grid{display:grid;gap:16px;}
+@media(min-width:640px){#tsxv5-synthdeck .g2{grid-template-columns:1fr 1fr;}}
+@media(min-width:960px){#tsxv5-synthdeck .g4{grid-template-columns:repeat(4,1fr);}#tsxv5-synthdeck .lg2{grid-template-columns:1fr 1fr;}}
+
+#tsxv5-synthdeck label.fl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:8px;}
+#tsxv5-synthdeck select,#tsxv5-synthdeck input[type=number]{width:100%;background:var(--input-bg);color:var(--text);border:1px solid var(--input-border);border-radius:10px;padding:11px 12px;font-size:16px;font-family:'Sora',system-ui,sans-serif;max-width:100%;box-sizing:border-box;}
+#tsxv5-synthdeck select:focus,#tsxv5-synthdeck input:focus{outline:none;border-color:var(--emerald);}
+#tsxv5-synthdeck select option{background:var(--panel);color:var(--text);}
+#tsxv5-synthdeck .row-between{display:flex;justify-content:space-between;align-items:center;}
+#tsxv5-synthdeck .val{color:var(--emerald);font-weight:700;font-family:'DM Mono',monospace;}
+#tsxv5-synthdeck input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:99px;background:var(--range-track);margin-top:12px;}
+#tsxv5-synthdeck input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--emerald);cursor:pointer;box-shadow:0 0 12px rgba(40,214,163,.6);}
+#tsxv5-synthdeck input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--emerald);border:none;cursor:pointer;}
+#tsxv5-synthdeck .tempo{font-size:12px;color:var(--muted);margin-top:8px;font-family:'DM Mono',monospace;}
+
+#tsxv5-synthdeck .chips{display:flex;flex-wrap:wrap;gap:8px;}
+#tsxv5-synthdeck .chip{flex:1;min-width:66px;text-align:center;font-size:12px;padding:9px 6px;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;transition:.15s;font-family:'DM Mono',monospace;min-height:44px;}
+#tsxv5-synthdeck .chip[data-active=true]{background:var(--emerald);color:#06111f;border-color:var(--emerald);font-weight:600;}
+
+#tsxv5-synthdeck .tl-head{display:flex;justify-content:space-between;margin-bottom:14px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);}
+#tsxv5-synthdeck .tl-head b{color:var(--amber);}
+#tsxv5-synthdeck .tl{display:flex;flex-direction:column;gap:8px;}
+@media(min-width:640px){#tsxv5-synthdeck .tl{flex-direction:row;}}
+#tsxv5-synthdeck .clip{flex:1;min-width:92px;border-radius:11px;padding:12px;border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),transparent);position:relative;overflow:hidden;}
+#tsxv5-synthdeck .clip::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;}
+#tsxv5-synthdeck .clip.c0::before{background:var(--emerald);}
+#tsxv5-synthdeck .clip.c1::before{background:var(--sky);}
+#tsxv5-synthdeck .clip.c2::before{background:var(--amber);}
+#tsxv5-synthdeck .clip .nm{font-size:12px;font-weight:700;font-family:'DM Mono',monospace;text-transform:uppercase;color:var(--text);}
+#tsxv5-synthdeck .clip .tm{font-size:11px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace;}
+
+#tsxv5-synthdeck .rhyme{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-family:'DM Mono',monospace;text-align:center;}
+#tsxv5-synthdeck .rc{padding:12px 4px;border-radius:9px;border:1px solid;font-size:12px;font-weight:600;}
+#tsxv5-synthdeck .ra{background:rgba(40,214,163,.12);color:#1a9e78;border-color:rgba(40,214,163,.4);}
+#tsxv5-synthdeck .rb{background:rgba(90,176,255,.12);color:#3a8fd4;border-color:rgba(90,176,255,.4);}
+body.dark-mode #tsxv5-synthdeck .ra,html.dark-mode #tsxv5-synthdeck .ra,[data-theme="dark"] #tsxv5-synthdeck .ra,body[data-theme="dark"] #tsxv5-synthdeck .ra,html[data-theme="dark"] #tsxv5-synthdeck .ra,.dark-mode #tsxv5-synthdeck .ra,.night-mode #tsxv5-synthdeck .ra{color:var(--emerald);}
+body.dark-mode #tsxv5-synthdeck .rb,html.dark-mode #tsxv5-synthdeck .rb,[data-theme="dark"] #tsxv5-synthdeck .rb,body[data-theme="dark"] #tsxv5-synthdeck .rb,html[data-theme="dark"] #tsxv5-synthdeck .rb,.dark-mode #tsxv5-synthdeck .rb,.night-mode #tsxv5-synthdeck .rb{color:var(--sky);}
+#tsxv5-synthdeck .hint{font-size:12px;color:var(--muted);margin-top:12px;}
+
+#tsxv5-synthdeck .syl{display:flex;align-items:flex-end;gap:6px;height:76px;}
+#tsxv5-synthdeck .syl div{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--amber),rgba(255,180,84,.15));display:flex;align-items:flex-end;justify-content:center;}
+#tsxv5-synthdeck .syl div span{font-size:9px;font-family:'DM Mono',monospace;color:#06111f;margin-bottom:3px;font-weight:600;}
+
+#tsxv5-synthdeck .tex{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+#tsxv5-synthdeck .tex button{text-align:left;font-size:13px;padding:10px 12px;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;transition:.15s;font-family:'Sora',system-ui,sans-serif;min-height:44px;}
+#tsxv5-synthdeck .tex button[data-active=true]{border-color:var(--emerald);background:rgba(40,214,163,.1);}
+
+#tsxv5-synthdeck .prompt{background:#060c17;border:1px solid var(--line);border-radius:12px;padding:18px;min-height:120px;}
+#tsxv5-synthdeck #tsxv5-sd-promptOut{font-family:'DM Mono',monospace;font-size:13px;color:var(--emerald);white-space:pre-wrap;line-height:1.7;margin:0;}
+#tsxv5-synthdeck .p-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+#tsxv5-synthdeck .p-actions .btn{flex:1;justify-content:center;min-width:130px;}
+#tsxv5-synthdeck .btn-amber{background:transparent;border:1px solid var(--amber);color:var(--amber);}
+#tsxv5-synthdeck .btn-sky{background:transparent;border:1px solid var(--sky);color:var(--sky);}
+
+#tsxv5-synthdeck .chord-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+#tsxv5-synthdeck .chord{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:14px 6px;text-align:center;cursor:pointer;transition:.15s;min-height:44px;}
+#tsxv5-synthdeck .chord:hover{border-color:var(--emerald);transform:translateY(-2px);}
+#tsxv5-synthdeck .chord .cn{font-size:18px;font-weight:800;color:var(--sky);}
+#tsxv5-synthdeck .chord .cd{font-size:9px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:3px;}
+#tsxv5-synthdeck .play-progression-btn{margin-top:14px;width:100%;justify-content:center;}
+
+#tsxv5-synthdeck .delay{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media(min-width:520px){#tsxv5-synthdeck .delay{grid-template-columns:repeat(4,1fr);}}
+#tsxv5-synthdeck .dc{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:14px 6px;text-align:center;}
+#tsxv5-synthdeck .dc .l{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;}
+#tsxv5-synthdeck .dc .n{font-size:19px;font-weight:800;color:var(--amber);margin:5px 0;}
+#tsxv5-synthdeck .dc .u{font-size:9px;color:var(--muted);font-family:'DM Mono',monospace;}
+
+#tsxv5-synthdeck .cam{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:14px;}
+#tsxv5-synthdeck .camc{border-radius:9px;border:1px solid var(--line);background:var(--panel2);padding:9px 2px;text-align:center;cursor:pointer;transition:.15s;min-height:44px;}
+#tsxv5-synthdeck .camc .cc{font-size:11px;font-family:'DM Mono',monospace;color:var(--text);}
+#tsxv5-synthdeck .camc .ck{font-size:9px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#tsxv5-synthdeck .camc[data-hl=true]{box-shadow:0 0 0 2px var(--sky);}
+#tsxv5-synthdeck .camc[data-sel=true]{box-shadow:0 0 0 2px var(--emerald);background:rgba(40,214,163,.1);}
+#tsxv5-synthdeck .compat{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+#tsxv5-synthdeck .cpill{font-size:11px;font-family:'DM Mono',monospace;padding:5px 10px;border-radius:7px;background:rgba(90,176,255,.12);border:1px solid rgba(90,176,255,.4);color:var(--sky);}
+
+#tsxv5-synthdeck .presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+#tsxv5-synthdeck .pchip{display:flex;align-items:center;gap:6px;font-size:11px;font-family:'DM Mono',monospace;padding:6px 10px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);}
+#tsxv5-synthdeck .pchip button{background:none;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;min-height:44px;}
+#tsxv5-synthdeck .pchip .ld{color:var(--emerald);}
+#tsxv5-synthdeck .pchip .dl{color:var(--rose);}
+
+/* How to Use / Guide – minimal scoped styles */
+.htu-box{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin:30px 0;}
+.htu-box h2{font-size:24px;font-weight:800;margin:0 0 20px;color:var(--text);}
+.htu-box h3{font-size:18px;font-weight:700;color:var(--emerald);margin:20px 0 10px;}
+.htu-box p{font-size:15px;line-height:1.7;color:var(--muted);margin:0 0 12px;}
+.htu-box ol{margin:0 0 12px 20px;font-size:15px;color:var(--muted);line-height:1.8;}
+.htu-box li{margin-bottom:8px;}
+.htu-box strong{color:var(--text);}
+
+/* FAQ plain styles */
+.faq-plain{margin:30px 0;}
+.faq-plain h2{font-size:24px;font-weight:800;margin:0 0 20px;text-align:center;color:var(--text);}
+.faq-plain h3{font-size:16px;font-weight:700;color:var(--emerald);margin:18px 0 6px;}
+.faq-plain p{font-size:14px;line-height:1.7;color:var(--muted);margin:0 0 12px;}
+
+.synth-related{padding:28px 20px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:30px 0;}
+.synth-related-title{font-size:20px;font-weight:800;margin:0 0 18px;color:var(--sky);text-transform:uppercase;letter-spacing:1px;}
+.synth-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+.synth-related-link{background:var(--panel2);border:1px solid var(--line);padding:18px;text-decoration:none;transition:all .3s;display:flex;align-items:center;gap:12px;border-radius:var(--radius);}
+.synth-related-link:hover{border-color:var(--emerald);transform:translateY(-3px);box-shadow:0 8px 20px rgba(40,214,163,.15);}
+.synth-related-icon{font-size:2rem;}
+.synth-related-link strong{color:var(--emerald);display:block;font-size:16px;margin-bottom:4px;}
+.synth-related-link span{color:var(--muted);font-size:13px;line-height:1.5;}
+
+#tsxv5-synthdeck footer{border-top:1px solid var(--line);padding:22px 0;margin-top:20px;}
+#tsxv5-synthdeck .foot{display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-align:center;}
+@media(min-width:640px){#tsxv5-synthdeck .foot{flex-direction:row;justify-content:space-between;text-align:left;}}
+#tsxv5-synthdeck .foot-powered{font-size:11px;opacity:0.7;margin-top:8px;}
+
+#tsxv5-sd-toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,150%);z-index:50;padding:12px 20px;border-radius:10px;font-size:13px;font-family:'DM Mono',monospace;background:var(--emerald);color:#06111f;font-weight:600;transition:transform .35s cubic-bezier(.2,.9,.3,1.3);box-shadow:0 10px 30px -8px rgba(0,0,0,.6);pointer-events:none;}
+#tsxv5-sd-toast.show{transform:translate(-50%,0);}
+
+@media(max-width:480px){
+  #tsxv5-synthdeck .hero{padding:30px 0 20px;}
+  #tsxv5-synthdeck .hero h2{font-size:24px;}
+  #tsxv5-synthdeck .chord-grid{grid-template-columns:repeat(2,1fr);}
+  #tsxv5-synthdeck .cam{grid-template-columns:repeat(4,1fr);}
+  #tsxv5-synthdeck .tex{grid-template-columns:1fr;}
+  #tsxv5-synthdeck .rhyme{grid-template-columns:repeat(2,1fr);}
+  #tsxv5-synthdeck .g4{grid-template-columns:1fr !important;}
+  #tsxv5-synthdeck .lg2{grid-template-columns:1fr !important;}
+}
+
+@media(max-width:768px){
+  #tsxv5-synthdeck .hero{padding:35px 0 22px;}
+  #tsxv5-synthdeck .g4{grid-template-columns:1fr 1fr;}
+  #tsxv5-synthdeck .lg2{grid-template-columns:1fr;}
+  #tsxv5-synthdeck .chord-grid{grid-template-columns:repeat(3,1fr);}
+}
+
+@media(min-width:1024px){
+  #tsxv5-synthdeck .wrap{max-width:1160px;}
+}
+
+@media(prefers-reduced-motion:reduce){#tsxv5-synthdeck *,#tsxv5-synthdeck *::before,#tsxv5-synthdeck *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+</style>
+
+<!-- SEO Schema: SoftwareApplication -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"SynthDeck Studio","description":"Free browser-based music composition tool with real audio preview, chord progressions, and AI prompt generation.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","featureList":"Song Structure Builder, AI Prompt Generator, Chord Progression Suggester with Real Audio, BPM Delay Calculator, Camelot Key Matcher, Preset Save/Load System, Play Progression","softwareVersion":"5.1"}
+</script>
+
+<!-- SEO Schema: HowTo -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Use SynthDeck Studio","description":"Complete guide to creating professional music compositions with SynthDeck Studio.","totalTime":"PT5M","step":[{"@type":"HowToStep","position":1,"name":"Set Genre & Mood","text":"Choose your music genre, mood, and language from the Builder section."},{"@type":"HowToStep","position":2,"name":"Adjust BPM","text":"Use the BPM slider (60-180) to set your song tempo."},{"@type":"HowToStep","position":3,"name":"Preview Groove","text":"Click Preview Groove to hear a real audio preview with metronome and chord."},{"@type":"HowToStep","position":4,"name":"Explore Chords","text":"Tap chord progressions in the Chords section to hear them with real audio, or use Play Progression."},{"@type":"HowToStep","position":5,"name":"Generate Prompt","text":"Use Prompt Engine to create Suno/Udio-ready prompts."},{"@type":"HowToStep","position":6,"name":"Export Blueprint","text":"Save your complete song blueprint as a text file."}]}
+</script>
+
+<!-- SEO Schema: FAQPage -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is SynthDeck Studio free?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is 100% free. No signup or hidden charges. All processing happens in your browser, and your data never leaves your device."}},{"@type":"Question","name":"How does the chord progression audio work?","acceptedAnswer":{"@type":"Answer","text":"Each chord plays real audio using the Web Audio API. The tones are generated procedurally, so they are copyright-free and require no samples. Triad notes play together for an authentic sound."}},{"@type":"Question","name":"What is Groove Preview?","acceptedAnswer":{"@type":"Answer","text":"Groove Preview plays a 2-bar metronome click pattern at your selected BPM along with the tonic chord. It is real-time audio synthesis inside your browser."}},{"@type":"Question","name":"What is the Camelot Key system?","acceptedAnswer":{"@type":"Answer","text":"The Camelot system helps DJs and producers with harmonic mixing. Each key gets a code like 8A (A Minor). Compatible keys can be mixed smoothly without clashing."}},{"@type":"Question","name":"How do I save presets?","acceptedAnswer":{"@type":"Answer","text":"Click the Save button to store your current settings in localStorage. You can load or delete presets later from the preset chips."}},{"@type":"Question","name":"Can I use the generated prompts in Suno or Udio?","acceptedAnswer":{"@type":"Answer","text":"Yes. The Prompt Engine creates AI-optimized prompts. Copy the text and paste it into Suno, Udio, or any similar music generator."}},{"@type":"Question","name":"How does the BPM Delay Calculator work?","acceptedAnswer":{"@type":"Answer","text":"Enter your song BPM and the calculator automatically shows 1/4, 1/8, 1/16, and dotted delay times in milliseconds for your DAW."}},{"@type":"Question","name":"Is my data private?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. Everything runs client-side. No data is uploaded to any server, and presets are stored only in your browser's localStorage."}}]}
+</script>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <div class="logo"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+      <div><span class="brand-name">SynthDeck</span><p>Music Studio</p></div>
+    </div>
+    <nav>
+      <a href="#tsxv5-sd-builder">Builder</a>
+      <a href="#tsxv5-sd-prompt">Prompt</a>
+      <a href="#tsxv5-sd-chords">Chords</a>
+      <a href="#tsxv5-sd-utility">Utilities</a>
+    </nav>
+    <div class="live"><b></b> Live · Local</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow">◆ Browser Composition Deck</p>
+      <h2>Design your track before you <span>ever hit record.</span></h2>
+      <p class="sub">Map the arrangement, auto-suggest chord progressions, cut Suno &amp; Udio-ready prompts, and run beat-matching math — with a real audio preview. Everything runs locally, nothing leaves your device.</p>
+      <div class="cta">
+        <button class="btn btn-pri" id="tsxv5-sd-previewBtn" type="button"><svg class="btn-icn" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Preview Groove</button>
+        <a href="#tsxv5-sd-builder" class="btn btn-ghost">Start Building</a>
+      </div>
+    </div>
+    <div class="console">
+      <div class="console-top"><span class="fl" style="margin:0;">Master Scope</span><span class="tag mono" id="tsxv5-sd-scopeTag">92 BPM · Mid-tempo</span></div>
+      <div class="scope" id="tsxv5-sd-scope"></div>
+      <div class="hstats">
+        <div><div class="k">Key</div><div class="v" id="tsxv5-sd-hKey">A Minor</div></div>
+        <div><div class="k">Camelot</div><div class="v" id="tsxv5-sd-hCam">8A</div></div>
+        <div><div class="k">Mood</div><div class="v" id="tsxv5-sd-hMood">Emotional</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tsxv5-sd-builder" class="block">
+    <div class="b-head"><span class="num">01</span><h3>Song Structure &amp; Lyric Flow</h3><span class="r">Arrangement</span></div>
+    <div class="grid g4" style="margin-bottom:16px;">
+      <div class="panel"><label class="fl" for="tsxv5-sd-genre">Genre</label>
+        <select id="tsxv5-sd-genre"><option>Lofi</option><option selected>Sad Melodic</option><option>Hip-Hop/Rap</option><option>EDM</option><option>Bollywood Pop</option><option>Cinematic Acoustic</option></select>
+      </div>
+      <div class="panel"><label class="fl" for="tsxv5-sd-mood">Mood</label>
+        <select id="tsxv5-sd-mood"><option selected>Emotional</option><option>Dark</option><option>Upbeat</option><option>Chill</option><option>Energetic</option></select>
+      </div>
+      <div class="panel"><label class="fl">Language</label>
+        <div class="chips" id="tsxv5-sd-lang">
+          <button class="chip" type="button" data-lang="English" data-active="true">Eng</button>
+          <button class="chip" type="button" data-lang="Hindi">Hindi</button>
+          <button class="chip" type="button" data-lang="Hinglish">Hing</button>
+        </div>
+      </div>
+      <div class="panel"><label class="fl row-between" for="tsxv5-sd-bpm"><span>Session BPM</span><span class="val" id="tsxv5-sd-bpmD">92</span></label>
+        <input type="range" min="60" max="180" value="92" id="tsxv5-sd-bpm"><p class="tempo" id="tsxv5-sd-bpmT">Mid-tempo</p>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:16px;">
+      <div class="tl-head"><span>Arrangement Timeline</span><span>Total: <b id="tsxv5-sd-totDur">0:00</b></span></div>
+      <div class="tl" id="tsxv5-sd-tl"></div>
+    </div>
+
+    <div class="grid g2">
+      <div class="panel">
+        <label class="fl">Rhyme Scheme</label>
+        <div class="chips" id="tsxv5-sd-rhyme" style="margin-bottom:14px;">
+          <button class="chip" type="button" data-s="AABB" data-active="true">AABB</button>
+          <button class="chip" type="button" data-s="ABAB">ABAB</button>
+          <button class="chip" type="button" data-s="ABBA">ABBA</button>
+        </div>
+        <div class="rhyme" id="tsxv5-sd-rhymeV"></div>
+        <p class="hint" id="tsxv5-sd-rhymeE"></p>
+      </div>
+      <div class="panel">
+        <label class="fl">Syllable Meter — <span style="color:var(--emerald)" id="tsxv5-sd-sylG">Sad Melodic</span></label>
+        <div class="syl" id="tsxv5-sd-syl"></div>
+        <p class="hint" id="tsxv5-sd-sylR"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="tsxv5-sd-prompt" class="block">
+    <div class="b-head"><span class="num">02</span><h3>Suno / Udio Prompt Engine</h3><span class="r">AI Ready</span></div>
+    <div class="grid lg2">
+      <div class="grid" style="gap:16px;">
+        <div class="panel"><label class="fl" for="tsxv5-sd-vocal">Vocal Type</label>
+          <select id="tsxv5-sd-vocal"><option>Deep Male Vocals</option><option>Airy Female Whispers</option><option>Auto-tuned Melodic Rap</option><option>Emotional Acoustic Solos</option><option>Soulful Female Powerhouse</option><option>Whispered Spoken Word</option></select>
+        </div>
+        <div class="panel"><label class="fl" for="tsxv5-sd-key">Musical Key</label><select id="tsxv5-sd-key"></select></div>
+        <div class="panel"><label class="fl">Production Texture</label><div class="tex" id="tsxv5-sd-tex"></div></div>
+        <div class="panel"><button class="btn btn-sky" id="tsxv5-sd-inspireBtn" type="button" style="width:100%;justify-content:center;"><svg class="btn-icn" viewBox="0 0 24 24"><path d="M12 3l1.9 4.9L19 9.8l-4.9 1.9L12 17l-1.9-5.3L5 9.8l5.1-1.9L12 3z"/></svg> Inspire Me (Randomize)</button></div>
+      </div>
+      <div class="panel" style="display:flex;flex-direction:column;">
+        <label class="fl">Live Prompt Preview</label>
+        <div class="prompt" style="flex:1;"><pre id="tsxv5-sd-promptOut"></pre></div>
+        <div class="p-actions">
+          <button class="btn btn-pri" id="tsxv5-sd-copyBtn" type="button"><svg class="btn-icn" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg> Copy</button>
+          <button class="btn btn-amber" id="tsxv5-sd-exportBtn" type="button"><svg class="btn-icn" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg> Export .TXT</button>
+          <button class="btn btn-sky" id="tsxv5-sd-saveBtn" type="button"><svg class="btn-icn" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg> Save</button>
+        </div>
+        <div class="presets" id="tsxv5-sd-presets"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tsxv5-sd-chords" class="block">
+    <div class="b-head"><span class="num">03</span><h3>Chord Progression Suggester</h3><span class="r">Tap to hear</span></div>
+    <div class="panel">
+      <p class="hint" style="margin:0 0 14px;">Suggested diatonic progression for <b style="color:var(--emerald)" id="tsxv5-sd-chordKey">A Minor</b> — tap each chord to hear it, or use the Play Progression button.</p>
+      <div class="chord-grid" id="tsxv5-sd-chordGrid"></div>
+      <button class="btn btn-sky play-progression-btn" id="tsxv5-sd-playProgBtn" type="button"><svg class="btn-icn" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Progression</button>
+    </div>
+  </section>
+
+  <section id="tsxv5-sd-utility" class="block" style="padding-bottom:30px;">
+    <div class="b-head"><span class="num">04</span><h3>Beat &amp; Key Utilities</h3><span class="r">Mixing Math</span></div>
+    <div class="grid lg2">
+      <div class="panel">
+        <label class="fl" for="tsxv5-sd-delayBpm">BPM → Delay / Reverb</label>
+        <input type="number" id="tsxv5-sd-delayBpm" value="92" min="20" max="300" style="margin-bottom:14px;">
+        <div class="delay" id="tsxv5-sd-delayR"></div>
+        <p class="hint">Millisecond values for tempo-synced delay &amp; reverb pre-delay in your DAW.</p>
+      </div>
+      <div class="panel">
+        <label class="fl" for="tsxv5-sd-camKey">Camelot Key Matcher</label>
+        <select id="tsxv5-sd-camKey" style="margin-bottom:14px;"></select>
+        <div class="cam" id="tsxv5-sd-camWheel"></div>
+        <div class="compat" id="tsxv5-sd-compat"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Use Section (rewritten, semantic HTML) -->
+  <section class="htu-box" id="how-to-use">
+    <h2>✅ How to Use SynthDeck Studio</h2>
+    <p><strong>SynthDeck Studio</strong> helps you plan a complete song before recording. Follow these steps to create a professional blueprint.</p>
+    <ol>
+      <li><strong>Choose your genre, mood, and language</strong> in the Builder section.</li>
+      <li><strong>Set the tempo</strong> with the BPM slider. The arrangement timeline updates automatically.</li>
+      <li><strong>Preview the groove</strong> by clicking the Preview Groove button to hear a metronome and tonic chord.</li>
+      <li><strong>Explore chord progressions</strong> — tap any chord to hear it, or click Play Progression to hear the full sequence.</li>
+      <li><strong>Generate an AI prompt</strong> using the Prompt Engine. Customize vocal type, key, and textures, then copy the result for Suno or Udio.</li>
+      <li><strong>Export your blueprint</strong> as a text file to save your arrangement and prompt for later use.</li>
+    </ol>
+    <p>💡 <strong>Tip:</strong> Use the Inspire Me button to quickly generate fresh musical ideas when you feel stuck.</p>
+  </section>
+
+  <!-- FAQ Section (plain HTML) -->
+  <section class="faq-plain" id="faq">
+    <h2>❓ Frequently Asked Questions</h2>
+    <h3>Is SynthDeck Studio free?</h3>
+    <p>Yes, it is 100% free. No signup or hidden charges. All processing happens in your browser, and your data never leaves your device.</p>
+    <h3>How does the chord progression audio work?</h3>
+    <p>Each chord plays real audio using the Web Audio API. The tones are generated procedurally, so they are copyright-free and require no samples. Triad notes play together for an authentic sound.</p>
+    <h3>What is Groove Preview?</h3>
+    <p>Groove Preview plays a 2-bar metronome click pattern at your selected BPM along with the tonic chord. It is real-time audio synthesis inside your browser.</p>
+    <h3>What is the Camelot Key system?</h3>
+    <p>The Camelot system helps DJs and producers with harmonic mixing. Each key gets a code like 8A (A Minor). Compatible keys can be mixed smoothly without clashing.</p>
+    <h3>How do I save presets?</h3>
+    <p>Click the Save button to store your current settings in localStorage. You can load or delete presets later from the preset chips.</p>
+    <h3>Can I use the generated prompts in Suno or Udio?</h3>
+    <p>Yes. The Prompt Engine creates AI-optimized prompts. Copy the text and paste it into Suno, Udio, or any similar music generator.</p>
+    <h3>How does the BPM Delay Calculator work?</h3>
+    <p>Enter your song BPM and the calculator automatically shows 1/4, 1/8, 1/16, and dotted delay times in milliseconds for your DAW.</p>
+    <h3>Is my data private?</h3>
+    <p>Absolutely. Everything runs client-side. No data is uploaded to any server, and presets are stored only in your browser's localStorage.</p>
+  </section>
+
+  <!-- Related Tools (Internal Links) -->
+  <aside class="synth-related" aria-label="Related Tools">
+    <h2 class="synth-related-title">🚀 Next Try — More Creative Tools</h2>
+    <div class="synth-related-grid">
+      <a href="../tools/generate-karein-text-se-ai-image-free.html" rel="noopener noreferrer" title="Text to AI Image Generator" class="synth-related-link">
+        <span class="synth-related-icon">🎨</span>
+        <div><strong>Text to AI Image Generator</strong><span>Turn your words into stunning AI art instantly</span></div>
+      </a>
+      <a href="../tools/create-hd-wallpaper-without-sign-up-ai.html" rel="noopener noreferrer" title="HD Wallpaper Generator" class="synth-related-link">
+        <span class="synth-related-icon">🖼️</span>
+        <div><strong>HD Wallpaper Generator</strong><span>Create high-resolution wallpapers without sign-up</span></div>
+      </a>
+      <a href="../tools/cinemaforge-ai-movie-poster-studio.html" rel="noopener noreferrer" title="CinemaForge AI Movie Poster Studio" class="synth-related-link">
+        <span class="synth-related-icon">🎬</span>
+        <div><strong>CinemaForge AI Movie Poster Studio</strong><span>Design cinematic posters with AI</span></div>
+      </a>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <span>🎹 <strong>SynthDeck Studio v5.1</strong> — runs entirely in your browser.</span>
+      <p class="foot-powered">Powered by <strong>Tools-X</strong> · toolsx.in · Real audio preview · Copyright-free</p>
+    </div>
+    <span>© 2026 toolsx.in</span>
+  </div>
+</footer>
+
+<div id="tsxv5-sd-toast">Copied</div>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+var W=document.getElementById('tsxv5-synthdeck');
+if(!W)return;
+
+var $=function(s,el){return(el||document).querySelector(s);};
+var $$=function(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s));};
+
+var KEYS=[
+{key:'Ab Minor',c:'1A'},{key:'B Major',c:'1B'},{key:'Eb Minor',c:'2A'},{key:'F# Major',c:'2B'},
+{key:'Bb Minor',c:'3A'},{key:'Db Major',c:'3B'},{key:'F Minor',c:'4A'},{key:'Ab Major',c:'4B'},
+{key:'C Minor',c:'5A'},{key:'Eb Major',c:'5B'},{key:'G Minor',c:'6A'},{key:'Bb Major',c:'6B'},
+{key:'D Minor',c:'7A'},{key:'F Major',c:'7B'},{key:'A Minor',c:'8A'},{key:'C Major',c:'8B'},
+{key:'E Minor',c:'9A'},{key:'G Major',c:'9B'},{key:'B Minor',c:'10A'},{key:'D Major',c:'10B'},
+{key:'F# Minor',c:'11A'},{key:'A Major',c:'11B'},{key:'Db Minor',c:'12A'},{key:'E Major',c:'12B'}
+];
+var TEXTURES=['Vinyl Crackle','Heavy Sub-Bass','808 Drums','Acoustic Guitar','Atmospheric Reverb','Lo-fi Tape Hiss','Analog Synth Pads','Orchestral Strings'];
+var STRUCTURE=[{n:'Intro',b:4},{n:'Verse 1',b:8},{n:'Chorus',b:8},{n:'Verse 2',b:8},{n:'Bridge',b:4},{n:'Outro',b:4}];
+var SYL={'Lofi':[6,9],'Sad Melodic':[7,10],'Hip-Hop/Rap':[11,16],'EDM':[5,8],'Bollywood Pop':[8,12],'Cinematic Acoustic':[7,10]};
+var NF={C:261.63,'C#':277.18,D:293.66,'D#':311.13,E:329.63,F:349.23,'F#':369.99,G:392.00,'G#':415.30,A:440.00,'A#':466.16,B:493.88};
+var SCALE_MINOR=[0,2,3,5,7,8,10],SCALE_MAJOR=[0,2,4,5,7,9,11];
+var CHROMA=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+var MINOR_QUAL=['m','dim','','m','m','',''];
+var MAJOR_QUAL=['','m','m','','','m','dim'];
+
+function tempoLabel(b){return b<85?'Slow Jam':b<110?'Mid-tempo':b<140?'Upbeat':'High Energy';}
+
+function sanitizeFilename(name){
+  return String(name||'synthdeck-blueprint').replace(/[^a-zA-Z0-9._-]/g,'').substring(0,100)||'synthdeck-blueprint';
+}
+
+var state={genre:'Sad Melodic',mood:'Emotional',language:'English',bpm:92,scheme:'AABB',
+vocal:'Deep Male Vocals',key:KEYS.filter(function(k){return k.key==='A Minor';})[0],
+textures:['Atmospheric Reverb']};
+var progressionNotes=[]; // store chord notes for play progression
+
+var toastTimer;
+function toast(m){var t=document.getElementById('tsxv5-sd-toast');if(!t)return;t.textContent=m;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.classList.remove('show');},2200);}
+
+var actx=null;
+function ac(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx;}
+function playFreq(f,t,dur,type,vol){var c=ac(),o=c.createOscillator(),g=c.createGain();
+o.type=type||'triangle';o.frequency.value=f;
+g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(vol||0.15,t+0.02);
+g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur+0.05);}
+function clickSound(t){var c=ac(),o=c.createOscillator(),g=c.createGain();o.type='square';o.frequency.value=1600;
+g.gain.setValueAtTime(0.25,t);g.gain.exponentialRampToValueAtTime(0.0001,t+0.05);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+0.06);}
+function playChord(notes){var c=ac();c.resume();var t=c.currentTime;notes.forEach(function(n,i){playFreq(NF[n]||440,t+i*0.02,1.1,'triangle',0.12);});}
+
+function previewGroove(){
+var c=ac();c.resume();var beat=60/state.bpm;var t0=c.currentTime+0.08;
+var root=state.key.key.split(' ')[0];
+var chord=buildTriad(root,/Minor/.test(state.key.key)?'m':'');
+for(var i=0;i<8;i++){clickSound(t0+i*beat*0.5);}
+playChord(chord);
+setTimeout(function(){playChord(chord);},beat*2000);
+toast('Playing groove preview');
+}
+document.getElementById('tsxv5-sd-previewBtn').addEventListener('click',previewGroove);
+
+function buildTriad(root,qual){
+var i=CHROMA.indexOf(root);if(i<0)i=0;
+var third=(qual==='m'||qual==='dim')?3:4;
+var fifth=(qual==='dim')?6:7;
+return[CHROMA[i],CHROMA[(i+third)%12],CHROMA[(i+fifth)%12]];
+}
+
+var scopeBars=[];
+(function(){var s=document.getElementById('tsxv5-sd-scope');if(!s)return;for(var i=0;i<40;i++){var b=document.createElement('div');b.className='sc-bar';s.appendChild(b);scopeBars.push(b);}})();
+function animateScope(){var intensity=state.bpm/180;scopeBars.forEach(function(b,i){
+var h=20+Math.abs(Math.sin(i*0.5+Date.now()/(400-intensity*250)))*70*(0.5+intensity*0.5);
+b.style.height=h+'%';});requestAnimationFrame(animateScope);}
+animateScope();
+
+function renderTL(){
+var tl=document.getElementById('tsxv5-sd-tl');if(!tl)return;tl.innerHTML='';var cum=0,spb=60/state.bpm,tot=0;
+STRUCTURE.forEach(function(s,idx){var start=cum*spb;cum+=s.b*4;tot=cum*spb;
+var mm=Math.floor(start/60),ss=('0'+Math.floor(start%60)).slice(-2);
+var d=document.createElement('div');d.className='clip c'+(idx%3);
+d.innerHTML='<div class="nm">'+s.n+'</div><div class="tm">'+mm+':'+ss+' · '+s.b+' bars</div>';tl.appendChild(d);});
+var td=document.getElementById('tsxv5-sd-totDur');if(td)td.textContent=Math.floor(tot/60)+':'+('0'+Math.floor(tot%60)).slice(-2);
+}
+function renderRhyme(){
+var g=document.getElementById('tsxv5-sd-rhymeV');if(!g)return;g.innerHTML='';
+var pat=state.scheme==='AABB'?['A','A','B','B']:state.scheme==='ABAB'?['A','B','A','B']:['A','B','B','A'];
+pat.forEach(function(l,i){var c=document.createElement('div');c.className='rc '+(l==='A'?'ra':'rb');c.textContent='L'+(i+1)+': '+l;g.appendChild(c);});
+var re=document.getElementById('tsxv5-sd-rhymeE');if(re)re.textContent=state.scheme==='AABB'?'Couplet rhyme — strong for hooks & rap cadence.':state.scheme==='ABAB'?'Alternating rhyme — common in ballads.':'Enclosed rhyme — cinematic, emotional feel.';
+}
+function renderSyl(){var r=SYL[state.genre],min=r[0],max=r[1];
+var sg=document.getElementById('tsxv5-sd-sylG');if(sg)sg.textContent=state.genre;
+var m=document.getElementById('tsxv5-sd-syl');if(!m)return;m.innerHTML='';for(var i=min;i<=max;i++){var pct=((i-min+1)/(max-min+1))*100;
+var b=document.createElement('div');b.style.height=pct+'%';b.innerHTML='<span>'+i+'</span>';m.appendChild(b);}
+var sr=document.getElementById('tsxv5-sd-sylR');if(sr)sr.textContent='Target: '+min+'–'+max+' syllables per line';
+}
+function updatePrompt(){var tex=state.textures.length?state.textures.join(', '):'Clean Studio Mix';
+var p='[Genre: '+state.mood+' '+state.genre+' ('+state.language+'), Vocals: '+state.vocal+', BPM: '+state.bpm+' ('+tempoLabel(state.bpm)+'), Key: '+state.key.key+', Instrumentation: '+tex+']';
+var po=document.getElementById('tsxv5-sd-promptOut');if(po)po.textContent=p;return p;}
+function renderChords(){
+var root=state.key.key.split(' ')[0];var isMin=/Minor/.test(state.key.key);
+var scale=isMin?SCALE_MINOR:SCALE_MAJOR;var qual=isMin?MINOR_QUAL:MAJOR_QUAL;
+var rootIdx=CHROMA.indexOf(root);if(rootIdx<0)rootIdx=9;
+var romNum=isMin?['i','ii°','III','iv','v','VI','VII']:['I','ii','iii','IV','V','vi','vii°'];
+var order=isMin?[0,5,2,3]:[0,4,5,3];
+var g=document.getElementById('tsxv5-sd-chordGrid');if(!g)return;g.innerHTML='';
+var ck=document.getElementById('tsxv5-sd-chordKey');if(ck)ck.textContent=state.key.key;
+progressionNotes=[]; // reset
+order.forEach(function(deg){
+var noteIdx=(rootIdx+scale[deg])%12;var note=CHROMA[noteIdx];var q=qual[deg];
+var name=note+(q==='m'?'m':q==='dim'?'dim':'');
+var tri=buildTriad(note,q);
+progressionNotes.push(tri);
+var el=document.createElement('div');el.className='chord';
+el.innerHTML='<div class="cn">'+name+'</div><div class="cd">'+romNum[deg]+' · '+tri.join(' ')+'</div>';
+el.addEventListener('click',function(){playChord(tri);});
+g.appendChild(el);
+});
+}
+function playProgression(){
+if(!progressionNotes.length){toast('No progression loaded');return;}
+var c=ac();c.resume();
+var i=0;
+function next(){
+if(i>=progressionNotes.length){toast('Progression finished');return;}
+playChord(progressionNotes[i]);
+i++;
+setTimeout(next,800); // chord every 0.8s
+}
+next();
+toast('Playing progression');
+}
+document.getElementById('tsxv5-sd-playProgBtn').addEventListener('click',playProgression);
+
+function renderDelay(){var db=document.getElementById('tsxv5-sd-delayBpm');var bpm=parseFloat(db?db.value:'92')||state.bpm;var q=60000/bpm;
+var r=[['1/4',q],['1/8',q/2],['1/16',q/4],['1/8 Dot',q*0.75]];
+var dr=document.getElementById('tsxv5-sd-delayR');if(dr)dr.innerHTML=r.map(function(x){return'<div class="dc"><div class="l">'+x[0]+'</div><div class="n">'+x[1].toFixed(0)+'</div><div class="u">ms</div></div>';}).join('');}
+function camNeighbors(code){var n=parseInt(code),l=code.slice(-1),o=l==='A'?'B':'A';
+return[(n)+o,(n===1?12:n-1)+l,(n===12?1:n+1)+l];}
+function renderCam(){
+var w=document.getElementById('tsxv5-sd-camWheel');if(!w)return;w.innerHTML='';var nb=camNeighbors(state.key.c);
+var sorted=KEYS.slice().sort(function(a,b){var na=parseInt(a.c),nb2=parseInt(b.c);return na!==nb2?na-nb2:a.c.localeCompare(b.c);});
+sorted.forEach(function(k){var c=document.createElement('div');c.className='camc';
+c.innerHTML='<div class="cc">'+k.c+'</div><div class="ck">'+k.key.split(' ')[0]+'</div>';
+if(k.c===state.key.c)c.setAttribute('data-sel','true');else if(nb.indexOf(k.c)>=0)c.setAttribute('data-hl','true');
+c.addEventListener('click',function(){setKey(k);});w.appendChild(c);});
+var cp=document.getElementById('tsxv5-sd-compat');if(cp)cp.innerHTML=nb.map(function(code){var m=KEYS.filter(function(k){return k.c===code;})[0];
+return'<span class="cpill">'+code+' · '+(m?m.key:'')+'</span>';}).join('');
+}
+function setKey(k){state.key=k;
+var hk=document.getElementById('tsxv5-sd-hKey');if(hk)hk.textContent=k.key;
+var hc=document.getElementById('tsxv5-sd-hCam');if(hc)hc.textContent=k.c;
+var ks=document.getElementById('tsxv5-sd-key');if(ks)ks.value=k.key;
+var cs=document.getElementById('tsxv5-sd-camKey');if(cs)cs.value=k.key;
+updatePrompt();renderCam();renderChords();}
+
+function fillKeySelects(){
+var opts=KEYS.map(function(k){return'<option value="'+k.key+'"'+(k.key==='A Minor'?' selected':'')+'>'+k.key+' ('+k.c+')</option>';}).join('');
+var ks=document.getElementById('tsxv5-sd-key');if(ks)ks.innerHTML=opts;
+var cs=document.getElementById('tsxv5-sd-camKey');if(cs)cs.innerHTML=opts;
+if(ks)ks.addEventListener('change',function(e){setKey(KEYS.filter(function(k){return k.key===e.target.value;})[0]);});
+if(cs)cs.addEventListener('change',function(e){setKey(KEYS.filter(function(k){return k.key===e.target.value;})[0]);});
+}
+function fillTex(){var g=document.getElementById('tsxv5-sd-tex');if(!g)return;g.innerHTML='';TEXTURES.forEach(function(t){
+var b=document.createElement('button');b.type='button';b.textContent=t;if(state.textures.indexOf(t)>=0)b.setAttribute('data-active','true');
+b.addEventListener('click',function(){var i=state.textures.indexOf(t);
+if(i>=0){state.textures.splice(i,1);b.removeAttribute('data-active');}else{state.textures.push(t);b.setAttribute('data-active','true');}
+updatePrompt();});g.appendChild(b);});}
+
+function syncBpm(v){state.bpm=v;
+var bp=document.getElementById('tsxv5-sd-bpm');if(bp)bp.value=v;
+var bd=document.getElementById('tsxv5-sd-bpmD');if(bd)bd.textContent=v;
+var bt=document.getElementById('tsxv5-sd-bpmT');if(bt)bt.textContent=tempoLabel(v);
+var st=document.getElementById('tsxv5-sd-scopeTag');if(st)st.textContent=v+' BPM · '+tempoLabel(v);
+var db=document.getElementById('tsxv5-sd-delayBpm');if(db)db.value=v;
+renderTL();renderDelay();updatePrompt();}
+
+var gs=document.getElementById('tsxv5-sd-genre');if(gs)gs.addEventListener('change',function(e){state.genre=e.target.value;renderSyl();updatePrompt();});
+var ms=document.getElementById('tsxv5-sd-mood');if(ms)ms.addEventListener('change',function(e){state.mood=e.target.value;var hm=document.getElementById('tsxv5-sd-hMood');if(hm)hm.textContent=e.target.value;updatePrompt();});
+$$('#tsxv5-sd-lang button').forEach(function(b){b.addEventListener('click',function(){$$('#tsxv5-sd-lang button').forEach(function(x){x.removeAttribute('data-active');});b.setAttribute('data-active','true');state.language=b.dataset.lang;updatePrompt();});});
+$$('#tsxv5-sd-rhyme button').forEach(function(b){b.addEventListener('click',function(){$$('#tsxv5-sd-rhyme button').forEach(function(x){x.removeAttribute('data-active');});b.setAttribute('data-active','true');state.scheme=b.dataset.s;renderRhyme();});});
+var bp=document.getElementById('tsxv5-sd-bpm');if(bp)bp.addEventListener('input',function(e){syncBpm(parseInt(e.target.value));});
+var vs=document.getElementById('tsxv5-sd-vocal');if(vs)vs.addEventListener('change',function(e){state.vocal=e.target.value;updatePrompt();});
+var db=document.getElementById('tsxv5-sd-delayBpm');if(db)db.addEventListener('input',renderDelay);
+
+document.getElementById('tsxv5-sd-copyBtn').addEventListener('click',function(){var t=updatePrompt();
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){toast('Prompt copied');}).catch(function(){fallbackCopy(t);});}else fallbackCopy(t);
+function fallbackCopy(txt){var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Prompt copied');}catch(e){toast('Copy failed');}document.body.removeChild(ta);}});
+
+document.getElementById('tsxv5-sd-exportBtn').addEventListener('click',function(){var p=updatePrompt();var tl='',cum=0,spb=60/state.bpm;
+STRUCTURE.forEach(function(s){var st=cum*spb;cum+=s.b*4;var mm=Math.floor(st/60),ss=('0'+Math.floor(st%60)).slice(-2);tl+='  '+(s.n+'          ').slice(0,10)+'— '+mm+':'+ss+'  ('+s.b+' bars)\n';});
+var bp='SYNTHDECK — SONG BLUEPRINT\n==============================\nGenre: '+state.genre+'\nMood: '+state.mood+'\nLanguage: '+state.language+'\nBPM: '+state.bpm+' ('+tempoLabel(state.bpm)+')\nKey: '+state.key.key+' (Camelot '+state.key.c+')\nRhyme: '+state.scheme+'\n\nARRANGEMENT\n------------------------------\n'+tl+'\nPROMPT\n------------------------------\n'+p+'\n\nGenerated by SynthDeck Studio · toolsx.in\n';
+var safeName=sanitizeFilename(state.genre+'-'+state.bpm+'bpm');
+var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([bp],{type:'text/plain'}));a.download=safeName+'-blueprint.txt';a.click();URL.revokeObjectURL(a.href);toast('Blueprint exported');});
+
+document.getElementById('tsxv5-sd-inspireBtn').addEventListener('click',function(){
+var g=['Lofi','Sad Melodic','Hip-Hop/Rap','EDM','Bollywood Pop','Cinematic Acoustic'];
+var m=['Emotional','Dark','Upbeat','Chill','Energetic'];
+var v=['Deep Male Vocals','Airy Female Whispers','Auto-tuned Melodic Rap','Emotional Acoustic Solos','Soulful Female Powerhouse'];
+state.genre=g[Math.floor(Math.random()*g.length)];state.mood=m[Math.floor(Math.random()*m.length)];
+state.vocal=v[Math.floor(Math.random()*v.length)];var k=KEYS[Math.floor(Math.random()*KEYS.length)];
+var bpm=60+Math.floor(Math.random()*90);
+state.textures=TEXTURES.filter(function(){return Math.random()>0.55;});if(!state.textures.length)state.textures=['Atmospheric Reverb'];
+var gs2=document.getElementById('tsxv5-sd-genre');if(gs2)gs2.value=state.genre;
+var ms2=document.getElementById('tsxv5-sd-mood');if(ms2)ms2.value=state.mood;
+var vs2=document.getElementById('tsxv5-sd-vocal');if(vs2)vs2.value=state.vocal;
+var hm=document.getElementById('tsxv5-sd-hMood');if(hm)hm.textContent=state.mood;
+syncBpm(bpm);setKey(k);fillTex();renderSyl();updatePrompt();toast('New idea generated');});
+
+function loadPresets(){var p=[];try{p=JSON.parse(localStorage.getItem('tsxv5-synthdeck')||'[]');}catch(e){}
+var pr=document.getElementById('tsxv5-sd-presets');if(!pr)return;
+pr.innerHTML=p.map(function(x,i){return'<span class="pchip" data-i="'+i+'"><button type="button" class="ld">'+x.name+'</button><button type="button" class="dl">✕</button></span>';}).join('');
+$$('#tsxv5-sd-presets .ld').forEach(function(b){b.addEventListener('click',function(e){var i=+e.target.closest('[data-i]').dataset.i;applyPreset(p[i]);toast('Preset loaded');});});
+$$('#tsxv5-sd-presets .dl').forEach(function(b){b.addEventListener('click',function(e){var i=+e.target.closest('[data-i]').dataset.i;p.splice(i,1);localStorage.setItem('tsxv5-synthdeck',JSON.stringify(p));loadPresets();});});}
+function applyPreset(x){state.genre=x.genre;state.mood=x.mood;state.language=x.language;state.vocal=x.vocal;state.textures=x.textures.slice();
+var gs2=document.getElementById('tsxv5-sd-genre');if(gs2)gs2.value=x.genre;
+var ms2=document.getElementById('tsxv5-sd-mood');if(ms2)ms2.value=x.mood;
+var vs2=document.getElementById('tsxv5-sd-vocal');if(vs2)vs2.value=x.vocal;
+var hm=document.getElementById('tsxv5-sd-hMood');if(hm)hm.textContent=x.mood;
+var k=KEYS.filter(function(k){return k.key===x.key;})[0]||state.key;syncBpm(x.bpm);setKey(k);fillTex();renderSyl();
+$$('#tsxv5-sd-lang button').forEach(function(bb){bb.setAttribute('data-active',bb.dataset.lang===x.language?'true':'');if(bb.dataset.lang!==x.language)bb.removeAttribute('data-active');});updatePrompt();}
+document.getElementById('tsxv5-sd-saveBtn').addEventListener('click',function(){var p=[];try{p=JSON.parse(localStorage.getItem('tsxv5-synthdeck')||'[]');}catch(e){}
+p.push({name:state.genre.slice(0,6)+' '+state.bpm,genre:state.genre,mood:state.mood,language:state.language,vocal:state.vocal,key:state.key.key,bpm:state.bpm,textures:state.textures.slice()});
+localStorage.setItem('tsxv5-synthdeck',JSON.stringify(p));loadPresets();toast('Preset saved');});
+
+// FAQ accordion removed – now plain HTML
+
+fillKeySelects();fillTex();renderTL();renderRhyme();renderSyl();renderDelay();renderCam();renderChords();updatePrompt();loadPresets();
+
+console.log('SynthDeck Studio v5.1 loaded | toolsx.in');
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

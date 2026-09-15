@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Free Domain Name Availability Checker – .com, .in &amp; More – ToolsX App</title>
+<meta name="description" content="Check domain name availability instantly across .com, .in and more extensions. Free, fast, no signup required.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Free Domain Name Availability Checker – .com, .in &amp; More</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"Advanced Domain Name Checker - 8+ Extensions","applicationCategory":"UtilityApplication","operatingSystem":"Any","browserRequirements":"Modern browser with JavaScript and localStorage","description":"Free online tool to check domain availability across 8+ extensions (.com, .in, .net, .org, .io, .co, .tech, .ai) with quality scoring, smart suggestions, and one-click registrar links. 100% client-side processing with no data upload.","featureList":["Multi-extension availability check (8 TLDs)","Domain quality scoring algorithm","Smart alternative suggestions generator","One-click copy to clipboard","Direct registrar purchase links (Namecheap, GoDaddy, WHOIS)","Local search history (last 10 searches)","Real-time input sanitization","100% browser-based processing"]},{"@type":"HowTo","name":"How to Use Advanced Domain Name Checker","description":"Check domain availability in three simple steps.","step":[{"@type":"HowToStep","name":"Enter Domain Name","text":"Type your desired domain name in the input field. The tool automatically sanitizes invalid characters."},{"@type":"HowToStep","name":"Check Availability","text":"Click 'Check Availability' or press Enter. The tool scans 8 extensions simultaneously."},{"@type":"HowToStep","name":"Review Results","text":"See which extensions are available, view quality scores, and use one-click links to register or WHOIS."}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.toolsx.in/"},{"@type":"ListItem","position":2,"name":"Domain Checker"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does this tool show real-time availability?","acceptedAnswer":{"@type":"Answer","text":"This is a smart simulation tool that predicts availability based on real-world patterns. Always verify on an authorized registrar like GoDaddy or Namecheap before purchasing."}},{"@type":"Question","name":"Can I use this on my own website?","acceptedAnswer":{"@type":"Answer","text":"Absolutely! This tool is 100% copyright-free and open source. You can use it in personal or commercial projects without any restrictions."}},{"@type":"Question","name":"How do I choose a good domain name?","acceptedAnswer":{"@type":"Answer","text":"Short (6-12 characters), memorable, easy to spell, and brand-relevant names work best. .com is the most trusted, but .io, .ai, and .co are excellent for startups."}},{"@type":"Question","name":"Is my data safe?","acceptedAnswer":{"@type":"Answer","text":"100% safe! No data is sent to any server, no analytics, no third-party tracking. Everything processes privately in your browser."}}]}]}
+</script>
+
+<div class="tsxv5-dom-wrap" id="tsxv5-domApp">
+
+<style>
+/* ═══════════════════════════════════════════════════════════
+   ADVANCED DOMAIN CHECKER — DESIGN REFRESH v2
+   Structure & classes untouched — only visual upgrade.
+   ═══════════════════════════════════════════════════════════ */
+#tsxv5-domApp{
+  --ad-primary:#4f46e5;--ad-primary-hover:#4338ca;--ad-accent:#a855f7;
+  --ad-accent2:#ec4899;
+  --ad-success:#10b981;--ad-success-t:#047857;
+  --ad-danger:#ef4444;--ad-danger-t:#b91c1c;
+  --ad-warning:#f59e0b;
+  --ad-bg:#f6f7fb;--ad-bg2:#eef0f8;
+  --ad-surface:#ffffff;--ad-surface2:#f9fafb;
+  --ad-text:#0b1220;--ad-text-dim:#475569;--ad-text-muted:#7c8798;
+  --ad-line:#e6e8f0;--ad-line2:#d5d9e6;
+  --ad-glass-bg:rgba(255,255,255,0.85);--ad-glass-border:rgba(15,23,42,0.08);
+  --ad-shadow-sm:0 1px 2px rgba(15,23,42,0.05);
+  --ad-shadow:0 10px 30px -10px rgba(15,23,42,0.14),0 4px 8px -4px rgba(15,23,42,0.06);
+  --ad-shadow-lg:0 20px 50px -20px rgba(79,70,229,0.28),0 8px 20px -10px rgba(15,23,42,0.1);
+  font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+  background:var(--ad-bg);
+  background-image:radial-gradient(circle at 0% 0%,rgba(79,70,229,0.05),transparent 45%),radial-gradient(circle at 100% 0%,rgba(168,85,247,0.05),transparent 45%);
+  color:var(--ad-text) !important;
+  padding:20px 10px;line-height:1.6;box-sizing:border-box;width:100%;
+}
+body.dark-mode #tsxv5-domApp,
+html.dark-mode #tsxv5-domApp,
+[data-theme="dark"] #tsxv5-domApp,
+body[data-theme="dark"] #tsxv5-domApp,
+html[data-theme="dark"] #tsxv5-domApp,
+.dark-mode #tsxv5-domApp,
+.night-mode #tsxv5-domApp,
+[data-bs-theme="dark"] #tsxv5-domApp{
+  --ad-primary:#818cf8;--ad-primary-hover:#a5b4fc;--ad-accent:#c084fc;--ad-accent2:#f472b6;
+  --ad-bg:#0a0d18;--ad-bg2:#101528;
+  --ad-surface:rgba(255,255,255,0.04);--ad-surface2:rgba(255,255,255,0.025);
+  --ad-text:#f4f7fc;--ad-text-dim:#c7d2e0;--ad-text-muted:#8b98ad;
+  --ad-line:rgba(255,255,255,0.08);--ad-line2:rgba(255,255,255,0.14);
+  --ad-glass-bg:rgba(255,255,255,0.05);--ad-glass-border:rgba(255,255,255,0.1);
+  --ad-success-t:#34d399;--ad-danger-t:#fca5a5;
+  --ad-shadow:0 12px 36px -12px rgba(0,0,0,0.6);
+  --ad-shadow-lg:0 24px 60px -20px rgba(129,140,248,0.35);
+  background-image:radial-gradient(circle at 0% 0%,rgba(129,140,248,0.08),transparent 45%),radial-gradient(circle at 100% 0%,rgba(192,132,252,0.08),transparent 45%);
+}
+#tsxv5-domApp *,#tsxv5-domApp *::before,#tsxv5-domApp *::after{box-sizing:border-box;margin:0;padding:0;}
+
+.tsxv5-dom-container{max-width:920px;margin:auto;width:100%;}
+
+/* ── Header ─────────────────────────────── */
+.tsxv5-dom-header{text-align:center;padding:32px 12px 22px;position:relative;}
+.tsxv5-dom-header h2{
+  font-size:clamp(1.7rem,4.2vw,2.5rem);font-weight:900;letter-spacing:-0.02em;
+  background:linear-gradient(135deg,#4f46e5 0%,#a855f7 50%,#ec4899 100%);
+  background-size:200% 200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:12px;line-height:1.2;
+  animation:tsxv5DomShimmer 6s ease-in-out infinite;
+}
+@keyframes tsxv5DomShimmer{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+body.dark-mode .tsxv5-dom-header h2,
+html.dark-mode .tsxv5-dom-header h2,
+[data-theme="dark"] .tsxv5-dom-header h2,
+.dark-mode .tsxv5-dom-header h2,
+.night-mode .tsxv5-dom-header h2{
+  background:linear-gradient(135deg,#a5b4fc 0%,#c084fc 50%,#f472b6 100%);
+  background-size:200% 200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.tsxv5-dom-header p{color:var(--ad-text-dim) !important;font-size:1rem;max-width:680px;margin:0 auto 16px;line-height:1.65;}
+.tsxv5-dom-badges{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.tsxv5-dom-badge{
+  background:var(--ad-glass-bg);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid var(--ad-glass-border);
+  padding:6px 14px;border-radius:50px;font-size:.78rem;font-weight:700;color:var(--ad-text) !important;
+  transition:all .2s ease;letter-spacing:.01em;
+}
+.tsxv5-dom-badge:hover{border-color:var(--ad-primary);color:var(--ad-primary) !important;transform:translateY(-1px);}
+
+/* ── Card ──────────────────────────────── */
+.tsxv5-dom-card{
+  background:var(--ad-surface);
+  border:1px solid var(--ad-line);
+  border-radius:22px;padding:24px 20px;
+  box-shadow:var(--ad-shadow);
+  margin-bottom:22px;position:relative;overflow:hidden;
+}
+.tsxv5-dom-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#4f46e5,#a855f7,#ec4899);
+  opacity:.9;
+}
+
+/* ── Input ─────────────────────────────── */
+.tsxv5-dom-input-wrap{position:relative;margin-bottom:14px;width:100%;}
+.tsxv5-dom-input{
+  width:100% !important;display:block !important;
+  min-height:58px !important;
+  padding:16px 82px 16px 52px !important;
+  border:2px solid var(--ad-line2) !important;
+  border-radius:14px !important;
+  background:var(--ad-surface2) !important;
+  color:var(--ad-text) !important;
+  font-size:1.05rem !important;
+  outline:none !important;
+  transition:border-color .2s,box-shadow .2s,background .2s;
+  font-weight:600;font-family:inherit;
+}
+/* search icon via pseudo — visually appealing, no markup change */
+.tsxv5-dom-input-wrap::before{
+  content:'';position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  width:18px;height:18px;pointer-events:none;z-index:2;
+  background:no-repeat center/18px url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c8798' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='m21 21-4.3-4.3'/></svg>");
+}
+.tsxv5-dom-input:focus{
+  border-color:var(--ad-primary) !important;
+  box-shadow:0 0 0 4px rgba(79,70,229,0.18) !important;
+  background:var(--ad-surface) !important;
+}
+.tsxv5-dom-input::placeholder{color:var(--ad-text-muted);font-weight:400;}
+
+.tsxv5-dom-char-count{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  font-size:.75rem;color:var(--ad-text-muted) !important;
+  background:var(--ad-glass-bg);padding:4px 10px;border-radius:8px;font-weight:700;
+  pointer-events:none;border:1px solid var(--ad-glass-border);
+  letter-spacing:.02em;
+}
+.tsxv5-dom-char-count.warn{color:var(--ad-warning) !important;border-color:rgba(245,158,11,0.35);}
+.tsxv5-dom-char-count.danger{color:var(--ad-danger) !important;border-color:rgba(239,68,68,0.35);}
+
+/* ── Buttons ───────────────────────────── */
+.tsxv5-dom-btn-row{display:flex;gap:12px;flex-wrap:wrap;}
+.tsxv5-dom-btn{
+  padding:14px 22px;border:none;border-radius:12px;
+  font-weight:700;font-size:1rem;letter-spacing:.01em;
+  cursor:pointer;transition:all .22s cubic-bezier(.2,.7,.3,1.4);
+  background:linear-gradient(135deg,#4f46e5,#a855f7);
+  color:#fff !important;
+  box-shadow:0 6px 18px -6px rgba(79,70,229,0.55),inset 0 1px 0 rgba(255,255,255,0.25);
+  display:inline-flex;align-items:center;gap:8px;font-family:inherit;
+  flex:1 1 180px;justify-content:center;min-height:50px;position:relative;overflow:hidden;
+}
+.tsxv5-dom-btn::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(180deg,rgba(255,255,255,0.18),rgba(255,255,255,0) 55%);
+  pointer-events:none;
+}
+.tsxv5-dom-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 26px -8px rgba(79,70,229,0.6),inset 0 1px 0 rgba(255,255,255,0.3);}
+.tsxv5-dom-btn:active:not(:disabled){transform:translateY(0);}
+.tsxv5-dom-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+.tsxv5-dom-btn.secondary{
+  background:var(--ad-surface2);border:1px solid var(--ad-line2);color:var(--ad-text) !important;
+  box-shadow:none;
+}
+.tsxv5-dom-btn.secondary::after{display:none;}
+.tsxv5-dom-btn.secondary:hover:not(:disabled){border-color:var(--ad-primary);color:var(--ad-primary) !important;background:var(--ad-surface);}
+
+/* ── Live info ─────────────────────────── */
+.tsxv5-dom-live-info{
+  margin-top:14px;padding:14px 16px;background:var(--ad-surface2);
+  border:1px solid var(--ad-line);border-radius:12px;
+  font-size:.85rem;color:var(--ad-text-dim) !important;display:none;
+}
+.tsxv5-dom-live-info.show{display:block;animation:tsxv5DomFade .3s ease;}
+@keyframes tsxv5DomFade{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+.tsxv5-dom-score-bar{height:6px;background:var(--ad-line);border-radius:50px;overflow:hidden;margin-top:10px;}
+.tsxv5-dom-score-fill{
+  height:100%;background:linear-gradient(90deg,#ef4444,#f59e0b,#10b981);
+  transition:width .4s cubic-bezier(.2,.7,.3,1);width:0%;border-radius:50px;
+}
+
+/* ── Results ───────────────────────────── */
+.tsxv5-dom-results{margin-top:20px;display:grid;gap:10px;}
+
+.tsxv5-dom-result-item{
+  background:var(--ad-surface2);
+  border:1px solid var(--ad-line);
+  border-left:4px solid var(--ad-line2);
+  padding:16px 18px;border-radius:14px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all .22s ease;flex-wrap:wrap;gap:12px;
+  position:relative;
+}
+.tsxv5-dom-result-item:hover{transform:translateX(2px);box-shadow:var(--ad-shadow-sm);}
+.tsxv5-dom-result-item:has(.status-pill-available){border-left-color:var(--ad-success);background:linear-gradient(90deg,rgba(16,185,129,0.05),transparent 30%);}
+.tsxv5-dom-result-item:has(.status-pill-taken){border-left-color:var(--ad-danger);background:linear-gradient(90deg,rgba(239,68,68,0.045),transparent 30%);}
+body.dark-mode .tsxv5-dom-result-item:has(.status-pill-available),
+html.dark-mode .tsxv5-dom-result-item:has(.status-pill-available),
+[data-theme="dark"] .tsxv5-dom-result-item:has(.status-pill-available),
+.dark-mode .tsxv5-dom-result-item:has(.status-pill-available){background:linear-gradient(90deg,rgba(16,185,129,0.08),transparent 30%);}
+body.dark-mode .tsxv5-dom-result-item:has(.status-pill-taken),
+html.dark-mode .tsxv5-dom-result-item:has(.status-pill-taken),
+[data-theme="dark"] .tsxv5-dom-result-item:has(.status-pill-taken),
+.dark-mode .tsxv5-dom-result-item:has(.status-pill-taken){background:linear-gradient(90deg,rgba(239,68,68,0.08),transparent 30%);}
+
+.tsxv5-dom-result-left{display:flex;align-items:center;gap:12px;flex:1 1 200px;flex-wrap:wrap;}
+.tsxv5-dom-result-name{
+  font-size:1.05rem;font-weight:700;color:var(--ad-text) !important;
+  font-family:'SF Mono','Courier New',ui-monospace,monospace;
+  letter-spacing:-0.01em;
+}
+
+/* Status pill */
+.tsxv5-dom-status-pill{
+  padding:5px 12px;border-radius:50px;font-size:.75rem;font-weight:800;
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  letter-spacing:.03em;text-transform:uppercase;
+}
+.tsxv5-dom-status-pill::before{
+  content:'';width:7px;height:7px;border-radius:50%;background:currentColor;
+  box-shadow:0 0 8px currentColor;
+}
+.status-pill-available{
+  background:linear-gradient(135deg,rgba(16,185,129,0.14),rgba(16,185,129,0.06));
+  color:var(--ad-success-t) !important;
+  border:1px solid rgba(16,185,129,0.35);
+}
+.status-pill-taken{
+  background:linear-gradient(135deg,rgba(239,68,68,0.12),rgba(239,68,68,0.05));
+  color:var(--ad-danger-t) !important;
+  border:1px solid rgba(239,68,68,0.3);
+}
+body.dark-mode .status-pill-available,
+html.dark-mode .status-pill-available,
+[data-theme="dark"] .status-pill-available,
+.dark-mode .status-pill-available{color:#6ee7b7 !important;}
+body.dark-mode .status-pill-taken,
+html.dark-mode .status-pill-taken,
+[data-theme="dark"] .status-pill-taken,
+.dark-mode .status-pill-taken{color:#fca5a5 !important;}
+
+.tsxv5-dom-result-actions{display:flex;gap:8px;flex:1 1 auto;justify-content:flex-end;flex-wrap:wrap;}
+.tsxv5-dom-mini-btn{
+  padding:9px 16px;border-radius:10px;border:1px solid var(--ad-line2);
+  background:var(--ad-surface);color:var(--ad-text) !important;
+  font-size:.82rem;cursor:pointer;transition:all .2s ease;font-weight:700;
+  text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  font-family:inherit;min-height:40px;letter-spacing:.01em;
+}
+.tsxv5-dom-mini-btn:hover{background:var(--ad-surface2);border-color:var(--ad-primary);color:var(--ad-primary) !important;text-decoration:none;transform:translateY(-1px);}
+.tsxv5-dom-mini-btn.buy{
+  background:linear-gradient(135deg,#4f46e5,#a855f7);border-color:transparent;color:#fff !important;
+  box-shadow:0 4px 12px -4px rgba(79,70,229,0.5);
+}
+.tsxv5-dom-mini-btn.buy:hover{box-shadow:0 8px 18px -6px rgba(79,70,229,0.6);color:#fff !important;}
+.tsxv5-dom-mini-btn.whois{background:var(--ad-surface2);border-color:var(--ad-line2);color:var(--ad-text-dim) !important;}
+.tsxv5-dom-mini-btn.whois:hover{border-color:var(--ad-text-dim);color:var(--ad-text) !important;}
+
+/* ── Loading ───────────────────────────── */
+.tsxv5-dom-loading{text-align:center;padding:28px;color:var(--ad-text-muted) !important;}
+.tsxv5-dom-spinner{
+  display:inline-block;width:32px;height:32px;
+  border:3px solid var(--ad-line);
+  border-top-color:var(--ad-primary);
+  border-right-color:var(--ad-accent);
+  border-radius:50%;animation:tsxv5DomSpin .8s linear infinite;
+  margin-bottom:10px;
+}
+@keyframes tsxv5DomSpin{to{transform:rotate(360deg);}}
+
+/* ── Suggestions ───────────────────────── */
+.tsxv5-dom-suggestions{
+  margin-top:20px;padding:18px;
+  background:linear-gradient(135deg,rgba(168,85,247,0.07),rgba(236,72,153,0.04));
+  border:1px solid rgba(168,85,247,0.22);
+  border-radius:14px;display:none;
+}
+.tsxv5-dom-suggestions.show{display:block;animation:tsxv5DomFade .35s ease;}
+.tsxv5-dom-suggestions h4{color:var(--ad-accent) !important;margin-bottom:12px;font-size:.95rem;font-weight:800;letter-spacing:.02em;}
+.tsxv5-dom-suggestion-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.tsxv5-dom-chip{
+  padding:8px 14px;background:var(--ad-surface);
+  border:1px solid var(--ad-line2);border-radius:50px;
+  font-size:.82rem;cursor:pointer;transition:all .2s ease;color:var(--ad-text) !important;
+  font-weight:600;min-height:38px;display:inline-flex;align-items:center;
+}
+.tsxv5-dom-chip:hover{
+  background:linear-gradient(135deg,#4f46e5,#a855f7);
+  border-color:transparent;color:#fff !important;transform:translateY(-1px);
+  box-shadow:0 4px 12px -4px rgba(79,70,229,0.5);
+}
+
+/* ── History ───────────────────────────── */
+.tsxv5-dom-history{
+  margin-top:18px;padding:16px;background:var(--ad-surface2);
+  border:1px solid var(--ad-line);border-radius:14px;display:none;
+}
+.tsxv5-dom-history.show{display:block;}
+.tsxv5-dom-history h4{
+  color:var(--ad-text) !important;margin-bottom:12px;font-size:.88rem;font-weight:800;
+  display:flex;justify-content:space-between;align-items:center;
+  letter-spacing:.02em;text-transform:uppercase;
+}
+.tsxv5-dom-history-clear{
+  font-size:.72rem;color:var(--ad-text-muted) !important;cursor:pointer;background:none;
+  border:none;font-family:inherit;font-weight:700;padding:4px 8px;border-radius:6px;
+  transition:all .2s;text-transform:none;letter-spacing:0;
+}
+.tsxv5-dom-history-clear:hover{background:rgba(239,68,68,0.1);color:var(--ad-danger) !important;}
+.tsxv5-dom-history-items{display:flex;flex-wrap:wrap;gap:8px;}
+
+/* ── Toast ─────────────────────────────── */
+.tsxv5-dom-toast{
+  position:fixed;bottom:24px;right:24px;left:24px;margin:auto;max-width:340px;
+  background:linear-gradient(135deg,#059669,#10b981);
+  color:#fff !important;padding:12px 20px;border-radius:12px;font-weight:700;
+  box-shadow:0 16px 40px -10px rgba(16,185,129,0.5),0 4px 12px rgba(0,0,0,0.15);
+  z-index:10000;font-size:.88rem;text-align:center;
+  animation:tsxv5DomToastIn .3s cubic-bezier(.2,.7,.3,1.4);
+}
+@keyframes tsxv5DomToastIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+.tsxv5-dom-toast.error{background:linear-gradient(135deg,#dc2626,#ef4444);box-shadow:0 16px 40px -10px rgba(239,68,68,0.5),0 4px 12px rgba(0,0,0,0.15);}
+.tsxv5-dom-toast.info{background:linear-gradient(135deg,#4f46e5,#a855f7);box-shadow:0 16px 40px -10px rgba(79,70,229,0.5),0 4px 12px rgba(0,0,0,0.15);}
+
+/* ── Guide ─────────────────────────────── */
+.tsxv5-dom-guide{
+  background:var(--ad-surface);border:1px solid var(--ad-line);
+  border-radius:22px;padding:26px 22px;
+  box-shadow:var(--ad-shadow);margin-bottom:22px;
+  position:relative;overflow:hidden;
+}
+.tsxv5-dom-guide::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#ec4899,#a855f7,#4f46e5);
+  opacity:.9;
+}
+.tsxv5-dom-guide h2{
+  font-size:1.35rem;font-weight:800;color:var(--ad-text) !important;
+  margin-bottom:14px;padding-left:14px;
+  border-left:4px solid;
+  border-image:linear-gradient(180deg,#4f46e5,#a855f7) 1;
+  letter-spacing:-.01em;
+}
+.tsxv5-dom-guide h3{font-size:1.05rem;font-weight:700;color:var(--ad-primary) !important;margin:20px 0 8px;}
+.tsxv5-dom-guide>p{color:var(--ad-text-dim) !important;font-size:.95rem;line-height:1.7;margin-bottom:12px;}
+.tsxv5-dom-guide-steps{list-style:none;counter-reset:step;padding:0;margin:14px 0;}
+.tsxv5-dom-guide-steps li{
+  background:var(--ad-surface2);
+  border:1px solid var(--ad-line);
+  padding:14px 16px 14px 52px;border-radius:12px;margin-bottom:10px;
+  position:relative;counter-increment:step;
+  font-size:.92rem;line-height:1.6;color:var(--ad-text-dim) !important;
+  transition:all .2s ease;
+}
+.tsxv5-dom-guide-steps li:hover{border-color:var(--ad-line2);transform:translateX(2px);}
+.tsxv5-dom-guide-steps li strong{color:var(--ad-text) !important;display:block;margin-bottom:3px;}
+.tsxv5-dom-guide-steps li::before{
+  content:counter(step);position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;
+  background:linear-gradient(135deg,#4f46e5,#a855f7);
+  color:#fff !important;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.78rem;
+  box-shadow:0 4px 10px -2px rgba(79,70,229,0.5);
+}
+
+/* ── FAQ ───────────────────────────────── */
+.tsxv5-dom-faq{margin-top:20px;display:grid;gap:10px;}
+.tsxv5-dom-faq-item{
+  background:var(--ad-surface);padding:16px 18px;border-radius:12px;
+  border:1px solid var(--ad-line);cursor:pointer;
+  transition:all .22s ease;
+}
+.tsxv5-dom-faq-item:hover{border-color:var(--ad-line2);box-shadow:var(--ad-shadow-sm);}
+.tsxv5-dom-faq-item.open{border-color:var(--ad-primary);box-shadow:0 0 0 3px rgba(79,70,229,0.1);}
+.tsxv5-dom-faq-q{
+  font-weight:700;color:var(--ad-text) !important;font-size:.95rem;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+}
+.tsxv5-dom-faq-q::after{
+  content:'+';font-size:1.4rem;color:var(--ad-primary);font-weight:400;
+  transition:transform .25s ease;line-height:1;
+}
+.tsxv5-dom-faq-item.open .tsxv5-dom-faq-q::after{transform:rotate(135deg);}
+.tsxv5-dom-faq-a{color:var(--ad-text-dim) !important;font-size:.88rem;line-height:1.7;margin-top:10px;display:none;padding-top:10px;border-top:1px solid var(--ad-line);}
+.tsxv5-dom-faq-item.open .tsxv5-dom-faq-a{display:block;animation:tsxv5DomFade .3s ease;}
+
+/* ── Disclaimer ────────────────────────── */
+.tsxv5-dom-disclaimer{
+  background:linear-gradient(135deg,rgba(239,68,68,0.06),rgba(245,158,11,0.04));
+  border:1px solid rgba(239,68,68,0.18);
+  border-left:4px solid var(--ad-warning);
+  border-radius:12px;padding:14px 16px;margin-top:20px;
+  color:var(--ad-text-dim) !important;font-size:.83rem;line-height:1.6;
+}
+.tsxv5-dom-disclaimer strong{color:var(--ad-text) !important;}
+
+/* ── Related links ─────────────────────── */
+.tsxv5-dom-links{
+  background:var(--ad-surface);border:1px solid var(--ad-line);
+  border-radius:18px;padding:22px 20px;margin-bottom:22px;
+  box-shadow:var(--ad-shadow);
+}
+.tsxv5-dom-links h3{color:var(--ad-text) !important;font-size:1.1rem;margin-bottom:16px;font-weight:800;letter-spacing:-.01em;}
+.tsxv5-dom-link-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
+.tsxv5-dom-link-card{
+  background:var(--ad-surface2);border:1px solid var(--ad-line);padding:16px;border-radius:12px;
+  text-decoration:none;color:var(--ad-text) !important;display:block;
+  transition:all .22s ease;position:relative;overflow:hidden;
+}
+.tsxv5-dom-link-card::after{
+  content:'→';position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  color:var(--ad-primary);font-weight:800;opacity:0;transition:all .25s ease;
+}
+.tsxv5-dom-link-card:hover{
+  border-color:var(--ad-primary);text-decoration:none;
+  transform:translateY(-2px);box-shadow:0 8px 20px -8px rgba(79,70,229,0.35);
+  padding-right:38px;
+}
+.tsxv5-dom-link-card:hover::after{opacity:1;right:12px;}
+.tsxv5-dom-link-card strong{display:block;font-size:.95rem;margin-bottom:4px;color:var(--ad-text) !important;font-weight:700;}
+.tsxv5-dom-link-card span{font-size:.8rem;color:var(--ad-text-dim) !important;line-height:1.5;}
+
+/* ── Footer ────────────────────────────── */
+.tsxv5-dom-footer{text-align:center;padding:22px 0 10px;color:var(--ad-text-muted) !important;font-size:.82rem;}
+.tsxv5-dom-footer a{color:var(--ad-primary) !important;text-decoration:none;font-weight:700;}
+.tsxv5-dom-footer a:hover{text-decoration:underline;}
+
+/* ── Mobile ────────────────────────────── */
+@media(max-width:540px){
+  #tsxv5-domApp{padding:14px 8px;}
+  .tsxv5-dom-header{padding:20px 10px 14px;}
+  .tsxv5-dom-card,.tsxv5-dom-guide,.tsxv5-dom-links{padding:20px 16px;border-radius:18px;}
+  .tsxv5-dom-btn{flex:1 1 100%;width:100%;}
+  .tsxv5-dom-input{font-size:1rem !important;padding-left:48px !important;padding-right:74px !important;}
+  .tsxv5-dom-input-wrap::before{left:16px;}
+  .tsxv5-dom-result-item{flex-direction:column;align-items:flex-start;}
+  .tsxv5-dom-result-actions{width:100%;justify-content:stretch;margin-top:6px;}
+  .tsxv5-dom-mini-btn{flex:1;text-align:center;min-height:44px;}
+  .tsxv5-dom-toast{left:14px;right:14px;bottom:14px;max-width:none;}
+}
+</style>
+
+<div class="tsxv5-dom-container">
+
+  <header class="tsxv5-dom-header">
+    <h2>Advanced Domain Name Checker</h2>
+    <p>Instantly check domain availability across 8+ popular extensions with quality scoring, smart suggestions & one-click registrar links</p>
+    <div class="tsxv5-dom-badges">
+      <span class="tsxv5-dom-badge">✦ 100% Free</span>
+      <span class="tsxv5-dom-badge">✦ No Signup</span>
+      <span class="tsxv5-dom-badge">✦ Privacy Safe</span>
+      <span class="tsxv5-dom-badge">✦ Quality Score</span>
+    </div>
+  </header>
+
+  <main class="tsxv5-dom-card">
+    <div class="tsxv5-dom-input-wrap">
+      <input type="text" class="tsxv5-dom-input" id="tsxv5-domInput" placeholder="Enter dream domain (e.g. mybrand)" maxlength="63" autocomplete="off" spellcheck="false" aria-label="Domain name input">
+      <span class="tsxv5-dom-char-count" id="tsxv5-domCharCount">0/63</span>
+    </div>
+    
+    <div class="tsxv5-dom-btn-row">
+      <button type="button" class="tsxv5-dom-btn" id="tsxv5-domCheckBtn">Check Availability</button>
+      <button type="button" class="tsxv5-dom-btn secondary" id="tsxv5-domClearBtn">Clear</button>
+    </div>
+
+    <div class="tsxv5-dom-live-info" id="tsxv5-domLiveInfo" aria-live="polite">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <span><strong>Domain Quality Score:</strong> <span id="tsxv5-domScoreText">--</span></span>
+        <span><strong>Length:</strong> <span id="tsxv5-domLengthText">--</span></span>
+      </div>
+      <div class="tsxv5-dom-score-bar">
+        <div class="tsxv5-dom-score-fill" id="tsxv5-domScoreFill"></div>
+      </div>
+    </div>
+
+    <div class="tsxv5-dom-results" id="tsxv5-domResults">
+      <p style="color:var(--ad-text-muted) !important;text-align:center;padding:16px;font-size:.88rem;">
+        Enter a name above and click "Check Availability"
+      </p>
+    </div>
+
+    <div class="tsxv5-dom-suggestions" id="tsxv5-domSuggestions">
+      <h4>Alternative Suggestions</h4>
+      <div class="tsxv5-dom-suggestion-chips" id="tsxv5-domSuggestionChips"></div>
+    </div>
+
+    <div class="tsxv5-dom-history" id="tsxv5-domHistory">
+      <h4>
+        Recent Searches
+        <button type="button" class="tsxv5-dom-history-clear" id="tsxv5-domHistoryClear">Clear All</button>
+      </h4>
+      <div class="tsxv5-dom-history-items" id="tsxv5-domHistoryItems"></div>
+    </div>
+  </main>
+
+  <section class="tsxv5-dom-guide">
+    <h2>How to Use This Domain Checker</h2>
+    <p>Enter a domain name, click Check, and instantly see availability across 8 extensions. The tool sanitizes input, scores quality, and suggests alternatives if taken.</p>
+    <ol class="tsxv5-dom-guide-steps">
+      <li><strong>Type your domain</strong> – Only letters, numbers, and hyphens are allowed. Invalid characters are removed automatically.</li>
+      <li><strong>Click "Check Availability"</strong> or press Enter. The tool scans .com, .in, .net, .org, .io, .co, .tech, and .ai together.</li>
+      <li><strong>Review results</strong> – Each extension shows Available or Taken, with copy and Buy/WHOIS buttons.</li>
+    </ol>
+    <h3>Privacy</h3>
+    <p>All processing happens locally. No data leaves your browser. No API, no tracking.</p>
+  </section>
+
+  <section class="tsxv5-dom-faq">
+    <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:12px;">Frequently Asked Questions</h2>
+    <div class="tsxv5-dom-faq-item"><div class="tsxv5-dom-faq-q">Does this tool show real-time availability?</div><div class="tsxv5-dom-faq-a">This is a smart simulation tool that predicts availability based on real-world patterns. Always verify on an authorized registrar like GoDaddy or Namecheap before purchasing.</div></div>
+    <div class="tsxv5-dom-faq-item"><div class="tsxv5-dom-faq-q">Can I use this on my own website?</div><div class="tsxv5-dom-faq-a">Absolutely! This tool is 100% copyright-free and open source. You can use it in personal or commercial projects without any restrictions.</div></div>
+    <div class="tsxv5-dom-faq-item"><div class="tsxv5-dom-faq-q">How do I choose a good domain name?</div><div class="tsxv5-dom-faq-a">Short (6-12 characters), memorable, easy to spell, and brand-relevant names work best. .com is the most trusted, but .io, .ai, and .co are excellent for startups.</div></div>
+    <div class="tsxv5-dom-faq-item"><div class="tsxv5-dom-faq-q">Is my data safe?</div><div class="tsxv5-dom-faq-a">100% safe! No data is sent to any server, no analytics, no third-party tracking. Everything processes privately in your browser.</div></div>
+  </section>
+
+  <div class="tsxv5-dom-disclaimer">
+    <strong>Disclaimer:</strong> This tool is for educational and demonstration purposes only. It does not connect directly to any real domain registry. Always verify availability with an authorized registrar before making a purchase.
+  </div>
+
+  <aside class="tsxv5-dom-links" aria-label="Related Tools">
+    <h3>Level Up Your Digital Journey</h3>
+    <div class="tsxv5-dom-link-grid">
+      <a href="https://www.toolsx.in/2026/08/google-gemini-vs-xai-grok-next-gen-ai.html" class="tsxv5-dom-link-card" rel="noopener">
+        <strong>Gemini vs Grok AI</strong>
+        <span>Compare next-gen AI models for your projects</span>
+      </a>
+      <a href="../tools/free-ai-video-generator-text-to-video.html" class="tsxv5-dom-link-card" rel="noopener">
+        <strong>Free AI Video Generator</strong>
+        <span>Turn text into stunning videos effortlessly</span>
+      </a>
+      <a href="https://www.toolsx.in/2026/08/chatgpt-vs-claude-ai-kaunsa-best.html" class="tsxv5-dom-link-card" rel="noopener">
+        <strong>ChatGPT vs Claude</strong>
+        <span>Which AI assistant is best for you?</span>
+      </a>
+    </div>
+  </aside>
+
+  <footer class="tsxv5-dom-footer">
+    <p>Advanced Domain Checker · 100% Free · No Signup · 8+ Extensions</p>
+    <p style="font-size:.75rem;opacity:.7;margin-top:6px;">Powered by <strong><a href="https://www.toolsx.in" rel="noopener">Tools-X</a></strong></p>
+  </footer>
+
+</div>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+
+var W=document.getElementById('tsxv5-domApp');
+if(!W)return;
+
+function $(id){return document.getElementById(id);}
+function setText(el,s){if(el)el.textContent=String(s==null?'':s);}
+
+var input=$('tsxv5-domInput');
+var checkBtn=$('tsxv5-domCheckBtn');
+var clearBtn=$('tsxv5-domClearBtn');
+var resultsArea=$('tsxv5-domResults');
+var charCount=$('tsxv5-domCharCount');
+var liveInfo=$('tsxv5-domLiveInfo');
+var scoreFill=$('tsxv5-domScoreFill');
+var scoreText=$('tsxv5-domScoreText');
+var lengthText=$('tsxv5-domLengthText');
+var suggestionsBox=$('tsxv5-domSuggestions');
+var suggestionChips=$('tsxv5-domSuggestionChips');
+var historyBox=$('tsxv5-domHistory');
+var historyItems=$('tsxv5-domHistoryItems');
+var historyClear=$('tsxv5-domHistoryClear');
+
+var EXTENSIONS=['.com','.in','.net','.org','.io','.co','.tech','.ai'];
+var STORAGE_KEY='tsxv5_dom_history_v1';
+
+function sanitize(str){
+  if(typeof str!=='string')return'';
+  return str.replace(/[^a-zA-Z0-9-]/g,'').toLowerCase().substring(0,63);
+}
+
+function calcQualityScore(domain){
+  var score=100;
+  var len=domain.length;
+  
+  if(len<3)score-=40;
+  else if(len<5)score-=20;
+  else if(len<=8)score+=0;
+  else if(len<=12)score-=5;
+  else if(len<=18)score-=15;
+  else score-=30;
+  
+  var hyphenCount=(domain.match(/-/g)||[]).length;
+  score-=hyphenCount*10;
+  
+  if(/\d/.test(domain))score-=10;
+  if(/(.)\1{2,}/.test(domain))score-=15;
+  if(domain.startsWith('-')||domain.endsWith('-'))score-=20;
+  
+  return Math.max(0,Math.min(100,score));
+}
+
+function getScoreLabel(score){
+  if(score>=85)return'Excellent';
+  if(score>=70)return'Very Good';
+  if(score>=55)return'Good';
+  if(score>=40)return'Average';
+  return'Poor';
+}
+
+function getLengthLabel(len){
+  if(len<3)return'Too Short';
+  if(len<=8)return'Ideal';
+  if(len<=12)return'Good';
+  if(len<=18)return'Long';
+  return'Very Long';
+}
+
+function checkAvailability(domain,ext){
+  var full=domain+ext;
+  var hash=0;
+  for(var i=0;i<full.length;i++){
+    hash=((hash<<5)-hash)+full.charCodeAt(i);
+    hash=hash&hash;
+  }
+  var len=domain.length;
+  
+  if(ext==='.com'&&len<=4)return true;
+  if(ext==='.com'&&len<=6)return Math.abs(hash)%5!==0;
+  
+  if(len<=5&&['.net','.org','.io'].indexOf(ext)>=0){
+    return Math.abs(hash)%3!==0;
+  }
+  
+  return(Math.abs(hash)+len)%3!==0;
+}
+
+function generateSuggestions(domain){
+  var suggestions={};
+  var prefixes=['get','my','try','use','go','the'];
+  var suffixes=['app','hq','hub','io','lab','now','co'];
+  
+  prefixes.slice(0,3).forEach(function(p){suggestions[p+domain]=1;});
+  suffixes.slice(0,3).forEach(function(s){suggestions[domain+s]=1;});
+  
+  if(!/\d/.test(domain)&&domain.length<10){
+    suggestions[domain+'24']=1;
+    suggestions[domain+'365']=1;
+  }
+  
+  return Object.keys(suggestions).slice(0,6);
+}
+
+function getHistory(){
+  try{
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+  }catch(e){
+    return[];
+  }
+}
+
+function addToHistory(domain){
+  var history=getHistory().filter(function(h){return h!==domain;});
+  history.unshift(domain);
+  var trimmed=history.slice(0,10);
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(trimmed));
+  }catch(e){}
+  renderHistory();
+}
+
+function renderHistory(){
+  var history=getHistory();
+  if(history.length===0){
+    historyBox.classList.remove('show');
+    return;
+  }
+  historyBox.classList.add('show');
+  historyItems.innerHTML='';
+  history.forEach(function(h){
+    var chip=document.createElement('button');
+    chip.type='button';
+    chip.className='tsxv5-dom-chip';
+    setText(chip,h);
+    chip.addEventListener('click',function(){
+      input.value=h;
+      updateLiveInfo();
+      checkDomains();
+    });
+    historyItems.appendChild(chip);
+  });
+}
+
+function showToast(msg,type){
+  type=type||'success';
+  var existing=document.querySelector('.tsxv5-dom-toast');
+  if(existing)existing.remove();
+  
+  var toast=document.createElement('div');
+  toast.className='tsxv5-dom-toast '+type;
+  setText(toast,msg);
+  document.body.appendChild(toast);
+  setTimeout(function(){
+    if(toast.parentNode){
+      toast.style.opacity='0';
+      toast.style.transition='opacity 0.3s';
+      setTimeout(function(){if(toast.parentNode)toast.remove();},300);
+    }
+  },2200);
+}
+
+function updateLiveInfo(){
+  var raw=input.value;
+  var clean=sanitize(raw);
+  var len=clean.length;
+  
+  setText(charCount,raw.length+'/63');
+  charCount.className='tsxv5-dom-char-count';
+  if(raw.length>50)charCount.classList.add('warn');
+  if(raw.length>60)charCount.classList.add('danger');
+  
+  if(raw!==clean&&raw.length>0){
+    var cursorPos=input.selectionStart;
+    input.value=clean;
+    input.setSelectionRange(Math.min(cursorPos,clean.length),Math.min(cursorPos,clean.length));
+  }
+  
+  if(len===0){
+    liveInfo.classList.remove('show');
+    return;
+  }
+  
+  liveInfo.classList.add('show');
+  var score=calcQualityScore(clean);
+  scoreFill.style.width=score+'%';
+  setText(scoreText,score+'/100 — '+getScoreLabel(score));
+  setText(lengthText,len+' chars — '+getLengthLabel(len));
+}
+
+function checkDomains(){
+  var query=sanitize(input.value);
+  
+  if(!query||query.length<2){
+    showToast('Please enter at least 2 characters','error');
+    return;
+  }
+  
+  if(query.startsWith('-')||query.endsWith('-')){
+    showToast('Domain cannot start or end with hyphen','error');
+    return;
+  }
+  
+  resultsArea.innerHTML='<div class="tsxv5-dom-loading"><div class="tsxv5-dom-spinner"></div><p>Scanning 8 extensions...</p></div>';
+  suggestionsBox.classList.remove('show');
+  checkBtn.disabled=true;
+  
+  setTimeout(function(){
+    resultsArea.innerHTML='';
+    var fragment=document.createDocumentFragment();
+    var availableCount=0;
+    var takenCount=0;
+    
+    EXTENSIONS.forEach(function(ext){
+      var fullDomain=query+ext;
+      var isTaken=checkAvailability(query,ext);
+      
+      if(isTaken)takenCount++;
+      else availableCount++;
+      
+      var item=document.createElement('div');
+      item.className='tsxv5-dom-result-item';
+      
+      var left=document.createElement('div');
+      left.className='tsxv5-dom-result-left';
+      
+      var nameSpan=document.createElement('span');
+      nameSpan.className='tsxv5-dom-result-name';
+      setText(nameSpan,fullDomain);
+      left.appendChild(nameSpan);
+      
+      var status=document.createElement('span');
+      status.className='tsxv5-dom-status-pill '+(isTaken?'status-pill-taken':'status-pill-available');
+      setText(status,isTaken?'Taken':'Available');
+      left.appendChild(status);
+      
+      var actions=document.createElement('div');
+      actions.className='tsxv5-dom-result-actions';
+      
+      var copyBtn=document.createElement('button');
+      copyBtn.type='button';
+      copyBtn.className='tsxv5-dom-mini-btn';
+      setText(copyBtn,'Copy');
+      copyBtn.addEventListener('click',function(){
+        if(navigator.clipboard&&navigator.clipboard.writeText){
+          navigator.clipboard.writeText(fullDomain).then(function(){
+            showToast('Copied: '+fullDomain,'success');
+          }).catch(function(){
+            fallbackCopy(fullDomain);
+          });
+        }else{
+          fallbackCopy(fullDomain);
+        }
+      });
+      actions.appendChild(copyBtn);
+      
+      var buyBtn=document.createElement('a');
+      buyBtn.className='tsxv5-dom-mini-btn '+(isTaken?'whois':'buy');
+      setText(buyBtn,isTaken?'WHOIS':'Buy Now');
+      buyBtn.href=isTaken
+        ?'https://www.whois.com/whois/'+fullDomain
+        :'https://www.namecheap.com/domains/registration/results/?domain='+encodeURIComponent(fullDomain);
+      buyBtn.target='_blank';
+      buyBtn.rel='noopener noreferrer';
+      actions.appendChild(buyBtn);
+      
+      item.appendChild(left);
+      item.appendChild(actions);
+      fragment.appendChild(item);
+    });
+    
+    resultsArea.appendChild(fragment);
+    checkBtn.disabled=false;
+    
+    if(takenCount>=4){
+      showSuggestions(query);
+    }else{
+      suggestionsBox.classList.remove('show');
+    }
+    
+    addToHistory(query);
+    showToast('Found '+availableCount+' available domains!','success');
+    
+  },600);
+}
+
+function fallbackCopy(text){
+  try{
+    var ta=document.createElement('textarea');
+    ta.value=text;
+    ta.style.position='fixed';
+    ta.style.opacity='0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Copied: '+text,'success');
+  }catch(e){
+    showToast('Copy failed','error');
+  }
+}
+
+function showSuggestions(query){
+  var suggestions=generateSuggestions(query);
+  suggestionChips.innerHTML='';
+  suggestions.forEach(function(s){
+    var chip=document.createElement('button');
+    chip.type='button';
+    chip.className='tsxv5-dom-chip';
+    setText(chip,s);
+    chip.addEventListener('click',function(){
+      input.value=s;
+      updateLiveInfo();
+      checkDomains();
+    });
+    suggestionChips.appendChild(chip);
+  });
+  suggestionsBox.classList.add('show');
+}
+
+input.addEventListener('input',updateLiveInfo);
+
+input.addEventListener('keypress',function(e){
+  if(e.key==='Enter'){
+    e.preventDefault();
+    checkDomains();
+  }
+});
+
+checkBtn.addEventListener('click',checkDomains);
+
+clearBtn.addEventListener('click',function(){
+  input.value='';
+  resultsArea.innerHTML='<p style="color:var(--ad-text-muted) !important;text-align:center;padding:16px;font-size:.88rem;">Enter a name above and click "Check Availability"</p>';
+  suggestionsBox.classList.remove('show');
+  liveInfo.classList.remove('show');
+  setText(charCount,'0/63');
+  charCount.className='tsxv5-dom-char-count';
+  input.focus();
+});
+
+historyClear.addEventListener('click',function(){
+  try{
+    localStorage.removeItem(STORAGE_KEY);
+  }catch(e){}
+  renderHistory();
+  showToast('History cleared','info');
+});
+
+W.querySelectorAll('.tsxv5-dom-faq-item').forEach(function(item){
+  item.addEventListener('click',function(){
+    this.classList.toggle('open');
+  });
+});
+
+renderHistory();
+
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

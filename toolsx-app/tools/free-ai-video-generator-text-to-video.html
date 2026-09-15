@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Free AI Video Generator – Text to Video, No Watermark – ToolsX App</title>
+<meta name="description" content="Turn text into video free online, no watermark. Fast AI text-to-video generator, no software or signup required.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Free AI Video Generator – Text to Video, No Watermark</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Text to Video Converter with AI Voice",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Modern browser with JavaScript, HTML5 Canvas, Web Audio API, MediaRecorder, Web Speech API",
+      "description": "Free online tool to convert shayari or text into cinematic 9:16 videos with AI voiceover, auto-generated ambient music, and copyright-free Pexels video backgrounds. No API key required. Perfect for Instagram Reels, YouTube Shorts, and WhatsApp Status.",
+      "featureList": [
+        "AI Voice Generation (Hindi and English via free TTS)",
+        "Copyright-free video backgrounds from Pexels CDN",
+        "Auto-generated ambient music via Web Audio API",
+        "5 text animations (Line-by-Line, Word-by-Word, Typewriter, Fade, Slide)",
+        "4 text effects (Shadow, Glow, Outline, Neon)",
+        "8 mood presets (Romantic, Sad, Motivational, Peaceful, Ocean, Night, Nature, Sunset)",
+        "9:16 vertical video format for Reels/Shorts",
+        "MediaRecorder with VP9/VP8 codec fallback",
+        "100% browser-based processing with no server upload"
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "How to Use Text to Video Converter",
+      "description": "Create cinematic shayari videos in four simple steps.",
+      "step": [
+        { "@type": "HowToStep", "name": "Enter Your Text", "text": "Type or paste your shayari, quote, or message (up to 400 characters)." },
+        { "@type": "HowToStep", "name": "Customize Settings", "text": "Choose mood, duration, font, text color, effect, and animation style." },
+        { "@type": "HowToStep", "name": "Enable AI Voice & Music", "text": "Toggle voiceover and background music, then select voice style and speed." },
+        { "@type": "HowToStep", "name": "Generate & Download", "text": "Click Generate, preview the video, then download with voice and music embedded." }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.toolsx.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Text to Video Converter" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this tool really 100% free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! This tool is completely free. No hidden charges, API keys, or subscriptions needed. All features including AI voice, music, and video generation are free."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are the generated videos copyright-free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! Videos use free-license clips from Pexels, the music is auto-generated (100% original), and voices come from free TTS services. You can use them on YouTube, Instagram, or any platform."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data safe?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely! Everything processes in your browser. Your text is never saved on a server, there's no tracking, and no cookies are used. 100% private and secure."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this work on mobile?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! This tool is fully mobile-responsive and works perfectly on Android and iOS. Chrome, Safari, Firefox — all modern browsers support it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is my video download failing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If the download fails: (1) Update your browser, (2) Use Chrome or Edge for best support, (3) If voice embedding fails, try turning the voice toggle off. Preview will always work."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<div class="tsxv5-tv-wrap" id="tsxv5-tvApp">
+
+<style>
+#tsxv5-tvApp{
+  --tv-bg:#f8fafc;--tv-bg2:#f1f5f9;
+  --tv-surface:#ffffff;--tv-surface2:#f8fafc;
+  --tv-text:#0f172a;--tv-text-dim:#475569;--tv-text-muted:#64748b;
+  --tv-line:#e2e8f0;--tv-line2:#cbd5e1;
+  --tv-accent1:#7c3aed;--tv-accent2:#ec4899;--tv-accent3:#06b6d4;
+  --tv-success:#10b981;--tv-danger:#ef4444;--tv-warning:#f59e0b;
+  --tv-input-bg:#f1f5f9;--tv-input-border:#cbd5e1;
+  --tv-shadow:0 4px 20px rgba(0,0,0,0.06);
+  --tv-glow:0 0 40px rgba(124,58,237,0.15);
+  font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--tv-bg);color:var(--tv-text) !important;
+  min-height:100vh;overflow-x:hidden;line-height:1.6;max-width:100%;
+  margin:0 auto;padding:0;position:relative;box-sizing:border-box;
+}
+body.dark-mode #tsxv5-tvApp,
+html.dark-mode #tsxv5-tvApp,
+[data-theme="dark"] #tsxv5-tvApp,
+body[data-theme="dark"] #tsxv5-tvApp,
+html[data-theme="dark"] #tsxv5-tvApp,
+.dark-mode #tsxv5-tvApp,
+.night-mode #tsxv5-tvApp,
+[data-bs-theme="dark"] #tsxv5-tvApp{
+  --tv-bg:#0a0a1a;--tv-bg2:#12122a;
+  --tv-surface:rgba(255,255,255,0.05);--tv-surface2:rgba(255,255,255,0.03);
+  --tv-text:#ffffff;--tv-text-dim:#a1a1b5;--tv-text-muted:#6b6b80;
+  --tv-line:rgba(255,255,255,0.1);--tv-line2:rgba(255,255,255,0.15);
+  --tv-input-bg:rgba(0,0,0,0.3);--tv-input-border:rgba(255,255,255,0.1);
+  --tv-shadow:0 8px 32px rgba(0,0,0,0.4);
+  --tv-glow:0 0 40px rgba(124,58,237,0.3);
+}
+#tsxv5-tvApp *,#tsxv5-tvApp *::before,#tsxv5-tvApp *::after{margin:0;padding:0;box-sizing:border-box;}
+
+.tsxv5-tv-bg{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;pointer-events:none;}
+.tsxv5-tv-bg::before{
+  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(circle at 20% 80%,rgba(124,58,237,0.08) 0%,transparent 50%),
+              radial-gradient(circle at 80% 20%,rgba(236,72,153,0.08) 0%,transparent 50%),
+              radial-gradient(circle at 40% 40%,rgba(6,182,212,0.05) 0%,transparent 50%);
+  animation:tsxv5TvBgFloat 20s ease-in-out infinite;
+}
+body.dark-mode #tsxv5-tvApp .tsxv5-tv-bg::before,[data-theme="dark"] #tsxv5-tvApp .tsxv5-tv-bg::before{
+  background:radial-gradient(circle at 20% 80%,rgba(124,58,237,0.15) 0%,transparent 50%),
+              radial-gradient(circle at 80% 20%,rgba(236,72,153,0.15) 0%,transparent 50%),
+              radial-gradient(circle at 40% 40%,rgba(6,182,212,0.1) 0%,transparent 50%);
+}
+@keyframes tsxv5TvBgFloat{
+  0%,100%{transform:translate(0,0) rotate(0);}
+  33%{transform:translate(30px,-30px) rotate(1deg);}
+  66%{transform:translate(-20px,20px) rotate(-1deg);}
+}
+
+.tsxv5-tv-particle{position:absolute;border-radius:50%;pointer-events:none;animation:tsxv5TvParticleFloat linear infinite;opacity:.4;}
+body.dark-mode #tsxv5-tvApp .tsxv5-tv-particle,[data-theme="dark"] #tsxv5-tvApp .tsxv5-tv-particle{opacity:.6;}
+@keyframes tsxv5TvParticleFloat{
+  0%{transform:translateY(100vh) rotate(0);opacity:0;}
+  10%{opacity:.6;}90%{opacity:.6;}
+  100%{transform:translateY(-100vh) rotate(720deg);opacity:0;}
+}
+
+.tsxv5-tv-container{max-width:900px;margin:0 auto;padding:20px;position:relative;z-index:1;}
+
+.tsxv5-tv-header{text-align:center;padding:40px 20px 30px;margin-bottom:30px;}
+.tsxv5-tv-logo{font-size:64px;margin-bottom:16px;animation:tsxv5TvLogoPulse 2s ease-in-out infinite;display:inline-block;}
+@keyframes tsxv5TvLogoPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.15) rotate(-5deg);}}
+.tsxv5-tv-title{
+  font-size:clamp(24px,5vw,36px);font-weight:800;
+  background:linear-gradient(135deg,var(--tv-accent1),var(--tv-accent2),var(--tv-accent3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:8px;color:transparent !important;
+}
+.tsxv5-tv-subtitle{font-size:clamp(14px,2.5vw,15px);color:var(--tv-text-dim) !important;margin-bottom:16px;}
+.tsxv5-tv-subtitle strong{color:var(--tv-text) !important;}
+.tsxv5-tv-badge{
+  display:inline-block;padding:6px 16px;
+  background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(6,182,212,0.15));
+  border:1px solid rgba(16,185,129,0.3);border-radius:20px;font-size:12px;font-weight:600;
+  color:var(--tv-success) !important;text-transform:uppercase;letter-spacing:1px;
+}
+.tsxv5-tv-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;justify-content:center;}
+.tsxv5-tv-tag{
+  padding:6px 14px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.25);
+  border-radius:20px;font-size:12px;color:var(--tv-accent1) !important;font-weight:500;
+}
+body.dark-mode #tsxv5-tvApp .tsxv5-tv-tag,[data-theme="dark"] #tsxv5-tvApp .tsxv5-tv-tag{
+  background:rgba(124,58,237,0.15);border-color:rgba(124,58,237,0.3);color:#a78bfa !important;
+}
+
+.tsxv5-tv-card{
+  background:var(--tv-surface);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--tv-line);border-radius:24px;padding:28px;margin-bottom:24px;
+  transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;
+}
+.tsxv5-tv-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(124,58,237,0.2),transparent);
+}
+.tsxv5-tv-card:hover{border-color:rgba(124,58,237,0.3);box-shadow:var(--tv-glow);}
+.tsxv5-tv-card-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.tsxv5-tv-card-icon{
+  width:44px;height:44px;border-radius:12px;display:flex;align-items:center;
+  justify-content:center;font-size:22px;flex-shrink:0;
+}
+.tsxv5-tv-card-icon.purple{background:linear-gradient(135deg,#7c3aed,#a855f7);}
+.tsxv5-tv-card-icon.pink{background:linear-gradient(135deg,#ec4899,#f472b6);}
+.tsxv5-tv-card-icon.cyan{background:linear-gradient(135deg,#06b6d4,#22d3ee);}
+.tsxv5-tv-card-icon.green{background:linear-gradient(135deg,#10b981,#34d399);}
+.tsxv5-tv-card-title{font-size:18px;font-weight:600;color:var(--tv-text) !important;}
+.tsxv5-tv-card-desc{font-size:13px;color:var(--tv-text-muted) !important;margin-top:2px;}
+
+.tsxv5-tv-fg{margin-bottom:18px;}
+.tsxv5-tv-label{display:block;font-size:13px;font-weight:500;color:var(--tv-text-dim) !important;margin-bottom:8px;}
+.tsxv5-tv-textarea,.tsxv5-tv-input,.tsxv5-tv-select{
+  width:100%;padding:14px 16px;background:var(--tv-input-bg);border:1px solid var(--tv-input-border);
+  border-radius:12px;color:var(--tv-text) !important;font-family:'Poppins',sans-serif;font-size:14px;
+  transition:all .3s;outline:none;
+}
+.tsxv5-tv-textarea{min-height:120px;resize:vertical;line-height:1.7;}
+.tsxv5-tv-textarea:focus,.tsxv5-tv-input:focus,.tsxv5-tv-select:focus{
+  border-color:var(--tv-accent1);box-shadow:0 0 0 3px rgba(124,58,237,0.15);
+}
+.tsxv5-tv-textarea::placeholder,.tsxv5-tv-input::placeholder{color:var(--tv-text-muted);}
+.tsxv5-tv-select{
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center;padding-right:40px;cursor:pointer;
+}
+.tsxv5-tv-select option{background:var(--tv-surface);color:var(--tv-text);}
+
+.tsxv5-tv-mood-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-top:10px;}
+.tsxv5-tv-mood{
+  background:var(--tv-input-bg);border:1px solid var(--tv-input-border);border-radius:12px;
+  padding:14px 8px;text-align:center;cursor:pointer;transition:all .3s;user-select:none;
+}
+.tsxv5-tv-mood:hover{background:rgba(124,58,237,0.1);border-color:rgba(124,58,237,0.3);transform:translateY(-2px);}
+.tsxv5-tv-mood.active{
+  background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(236,72,153,0.2));
+  border-color:var(--tv-accent2);box-shadow:0 0 20px rgba(236,72,153,0.25);
+}
+.tsxv5-tv-mood-emoji{font-size:28px;display:block;margin-bottom:6px;}
+.tsxv5-tv-mood-label{font-size:11px;font-weight:500;color:var(--tv-text-dim) !important;}
+.tsxv5-tv-mood.active .tsxv5-tv-mood-label{color:var(--tv-text) !important;}
+
+.tsxv5-tv-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;
+  border-radius:12px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;
+  border:none;cursor:pointer;transition:all .3s;text-decoration:none;outline:none;
+  min-height:44px;
+}
+.tsxv5-tv-btn-primary{
+  background:linear-gradient(135deg,var(--tv-accent1),var(--tv-accent2));color:#fff !important;
+  box-shadow:0 4px 15px rgba(124,58,237,0.3);
+}
+.tsxv5-tv-btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(124,58,237,0.4);}
+.tsxv5-tv-btn-secondary{
+  background:var(--tv-input-bg);color:var(--tv-text) !important;border:1px solid var(--tv-line);
+}
+.tsxv5-tv-btn-secondary:hover{background:rgba(124,58,237,0.1);border-color:var(--tv-accent1);}
+.tsxv5-tv-btn-success{
+  background:linear-gradient(135deg,var(--tv-success),#059669);color:#fff !important;
+  box-shadow:0 4px 15px rgba(16,185,129,0.3);
+}
+.tsxv5-tv-btn-success:hover{transform:translateY(-2px);}
+.tsxv5-tv-btn-full{width:100%;}
+.tsxv5-tv-btn-lg{padding:16px 32px;font-size:16px;border-radius:16px;}
+.tsxv5-tv-btn:disabled{opacity:.5;cursor:not-allowed;transform:none !important;}
+.tsxv5-tv-btn-group{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+.tsxv5-tv-btn-group .tsxv5-tv-btn{flex:1;min-width:120px;}
+
+.tsxv5-tv-toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--tv-input-bg);border:1px solid var(--tv-line);border-radius:12px;
+  padding:14px 16px;margin-bottom:12px;gap:12px;
+}
+.tsxv5-tv-toggle-label{
+  font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px;flex:1;flex-wrap:wrap;
+  color:var(--tv-text) !important;
+}
+.tsxv5-tv-toggle-sub{font-size:11px;color:var(--tv-text-muted) !important;display:block;width:100%;}
+.tsxv5-tv-switch{position:relative;width:52px;height:28px;flex-shrink:0;}
+.tsxv5-tv-switch input{opacity:0;width:0;height:0;}
+.tsxv5-tv-slider{
+  position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;
+  background:var(--tv-line);border-radius:28px;transition:.3s;
+}
+.tsxv5-tv-slider:before{
+  position:absolute;content:"";height:22px;width:22px;left:3px;bottom:3px;
+  background:#fff;border-radius:50%;transition:.3s;
+}
+.tsxv5-tv-switch input:checked+.tsxv5-tv-slider{background:linear-gradient(135deg,var(--tv-accent1),var(--tv-accent2));}
+.tsxv5-tv-switch input:checked+.tsxv5-tv-slider:before{transform:translateX(24px);}
+
+.tsxv5-tv-preview{display:none;margin-top:20px;}
+.tsxv5-tv-preview.active{display:block;animation:tsxv5TvFadeInUp .5s ease;}
+@keyframes tsxv5TvFadeInUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.tsxv5-tv-preview-wrap{
+  position:relative;width:100%;max-width:360px;margin:0 auto;border-radius:24px;
+  overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);border:2px solid var(--tv-line);
+  background:#000;
+}
+.tsxv5-tv-canvas{display:block;width:100%;aspect-ratio:9/16;background:#000;}
+.tsxv5-tv-src-video{display:none;}
+
+.tsxv5-tv-status{
+  display:flex;align-items:center;gap:8px;padding:12px 16px;
+  background:var(--tv-input-bg);border-radius:12px;margin-bottom:16px;font-size:13px;
+  color:var(--tv-text-dim) !important;
+}
+.tsxv5-tv-status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.tsxv5-tv-status-dot.idle{background:var(--tv-text-muted);}
+.tsxv5-tv-status-dot.processing{background:var(--tv-warning);animation:tsxv5TvStatusPulse 1s ease infinite;}
+.tsxv5-tv-status-dot.success{background:var(--tv-success);}
+.tsxv5-tv-status-dot.error{background:var(--tv-danger);}
+@keyframes tsxv5TvStatusPulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+.tsxv5-tv-progress{margin-top:12px;display:none;}
+.tsxv5-tv-progress.active{display:block;}
+.tsxv5-tv-progress-bg{width:100%;height:6px;background:var(--tv-line);border-radius:3px;overflow:hidden;}
+.tsxv5-tv-progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--tv-accent1),var(--tv-accent2),var(--tv-accent3));
+  border-radius:3px;transition:width .3s ease;width:0%;background-size:200% 100%;
+  animation:tsxv5TvProgressShimmer 2s linear infinite;
+}
+@keyframes tsxv5TvProgressShimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.tsxv5-tv-progress-text{font-size:12px;color:var(--tv-text-dim) !important;margin-top:6px;text-align:center;}
+
+.tsxv5-tv-download{
+  display:none;text-align:center;padding:24px;
+  background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(6,182,212,0.08));
+  border:1px solid rgba(16,185,129,0.3);border-radius:16px;margin-top:20px;
+}
+.tsxv5-tv-download.active{display:block;animation:tsxv5TvFadeInUp .5s ease;}
+.tsxv5-tv-download-icon{font-size:48px;margin-bottom:12px;}
+.tsxv5-tv-download-title{font-size:18px;font-weight:600;margin-bottom:6px;color:var(--tv-text) !important;}
+.tsxv5-tv-download-desc{font-size:13px;color:var(--tv-text-dim) !important;margin-bottom:16px;}
+
+.tsxv5-tv-alert{
+  padding:14px 18px;border-radius:12px;font-size:13px;margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+.tsxv5-tv-alert-success{
+  background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);color:var(--tv-success) !important;
+}
+
+.tsxv5-tv-settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+.tsxv5-tv-setting{
+  background:var(--tv-input-bg);border:1px solid var(--tv-line);border-radius:12px;padding:14px;
+}
+.tsxv5-tv-setting-label{
+  font-size:11px;color:var(--tv-text-muted) !important;text-transform:uppercase;
+  letter-spacing:.5px;margin-bottom:8px;
+}
+
+.tsxv5-tv-info{margin-top:40px;padding-top:40px;border-top:1px solid var(--tv-line);}
+.tsxv5-tv-info-title{
+  font-size:clamp(20px,4vw,24px);font-weight:700;text-align:center;margin-bottom:24px;
+  background:linear-gradient(135deg,var(--tv-accent1),var(--tv-accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  color:transparent !important;
+}
+.tsxv5-tv-info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.tsxv5-tv-info-card{
+  background:var(--tv-surface);backdrop-filter:blur(20px);border:1px solid var(--tv-line);
+  border-radius:16px;padding:24px;transition:all .3s;
+}
+.tsxv5-tv-info-card:hover{transform:translateY(-4px);box-shadow:var(--tv-glow);}
+.tsxv5-tv-info-num{
+  display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;
+  border-radius:50%;background:linear-gradient(135deg,var(--tv-accent1),var(--tv-accent2));
+  font-size:14px;font-weight:700;margin-bottom:12px;color:#fff !important;
+}
+.tsxv5-tv-info-card-title{font-size:16px;font-weight:600;margin-bottom:8px;color:var(--tv-text) !important;}
+.tsxv5-tv-info-card-text{font-size:13px;color:var(--tv-text-dim) !important;line-height:1.7;}
+
+.tsxv5-tv-timeline{margin-top:30px;}
+.tsxv5-tv-timeline-item{display:flex;gap:16px;margin-bottom:20px;position:relative;}
+.tsxv5-tv-timeline-item::before{
+  content:'';position:absolute;left:19px;top:40px;bottom:-20px;width:2px;background:var(--tv-line);
+}
+.tsxv5-tv-timeline-item:last-child::before{display:none;}
+.tsxv5-tv-timeline-dot{
+  width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--tv-accent1),var(--tv-accent2));
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;
+  flex-shrink:0;z-index:1;color:#fff !important;
+}
+.tsxv5-tv-timeline-content{flex:1;padding-top:8px;}
+.tsxv5-tv-timeline-title{font-size:15px;font-weight:600;margin-bottom:4px;color:var(--tv-text) !important;}
+.tsxv5-tv-timeline-desc{font-size:13px;color:var(--tv-text-dim) !important;}
+
+.tsxv5-tv-footer{
+  text-align:center;padding:30px 20px;margin-top:40px;color:var(--tv-text-muted) !important;
+  font-size:13px;border-top:1px solid var(--tv-line);
+}
+.tsxv5-tv-footer a{color:var(--tv-accent1) !important;text-decoration:none;}
+
+.tsxv5-tv-spinner{
+  width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;
+  border-radius:50%;animation:tsxv5TvSpin .8s linear infinite;display:inline-block;
+}
+@keyframes tsxv5TvSpin{to{transform:rotate(360deg);}}
+
+.tsxv5-tv-char-counter{text-align:right;font-size:11px;color:var(--tv-text-muted) !important;margin-top:4px;}
+.tsxv5-tv-char-counter.warning{color:var(--tv-warning) !important;}
+.tsxv5-tv-char-counter.danger{color:var(--tv-danger) !important;}
+
+.tsxv5-tv-style-options{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.tsxv5-tv-style-btn{
+  padding:8px 16px;background:var(--tv-input-bg);border:1px solid var(--tv-line);
+  border-radius:8px;color:var(--tv-text-dim) !important;font-size:12px;cursor:pointer;
+  transition:all .3s;font-family:inherit;min-height:44px;
+}
+.tsxv5-tv-style-btn:hover{background:rgba(124,58,237,0.1);color:var(--tv-text) !important;}
+.tsxv5-tv-style-btn.active{
+  background:linear-gradient(135deg,var(--tv-accent1),var(--tv-accent2));
+  color:#fff !important;border-color:transparent;
+}
+
+.tsxv5-tv-toast-container{
+  position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:8px;
+}
+.tsxv5-tv-toast{
+  background:var(--tv-surface);border:1px solid var(--tv-line);border-radius:12px;
+  padding:14px 20px;font-size:13px;box-shadow:0 10px 40px rgba(0,0,0,0.2);
+  animation:tsxv5TvToastSlideIn .3s ease;display:flex;align-items:center;gap:10px;
+  min-width:280px;max-width:400px;color:var(--tv-text) !important;
+}
+.tsxv5-tv-toast.success{border-left:3px solid var(--tv-success);}
+.tsxv5-tv-toast.error{border-left:3px solid var(--tv-danger);}
+.tsxv5-tv-toast.info{border-left:3px solid var(--tv-accent3);}
+.tsxv5-tv-toast.warning{border-left:3px solid var(--tv-warning);}
+@keyframes tsxv5TvToastSlideIn{from{transform:translateX(100%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+.tsxv5-tv-noapi-badge{
+  display:inline-flex;align-items:center;gap:6px;padding:8px 16px;
+  background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(6,182,212,0.15));
+  border:1px solid rgba(16,185,129,0.3);border-radius:20px;font-size:12px;font-weight:600;
+  color:var(--tv-success) !important;margin-bottom:16px;
+}
+.tsxv5-tv-noapi-badge::before{
+  content:'✓';width:18px;height:18px;background:var(--tv-success);color:#fff !important;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;
+}
+
+.tsxv5-tv-related{
+  background:var(--tv-surface);border-radius:20px;padding:28px;border:1px solid var(--tv-line);
+  margin-bottom:30px;
+}
+.tsxv5-tv-related-title{color:var(--tv-text) !important;font-size:1.2rem;font-weight:800;margin-bottom:16px;}
+.tsxv5-tv-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
+.tsxv5-tv-related-link{
+  background:var(--tv-input-bg);border:1px solid var(--tv-line);padding:16px;border-radius:12px;
+  text-decoration:none;color:var(--tv-text) !important;transition:all .3s;display:block;min-height:44px;
+}
+.tsxv5-tv-related-link:hover{border-color:var(--tv-accent1);transform:translateY(-2px);text-decoration:none;}
+.tsxv5-tv-related-icon{font-size:1.5rem;margin-bottom:6px;display:block;}
+.tsxv5-tv-related-link strong{display:block;font-size:.95rem;margin-bottom:4px;color:var(--tv-text) !important;}
+.tsxv5-tv-related-link span{font-size:.82rem;color:var(--tv-text-dim) !important;line-height:1.5;}
+
+.tsxv5-tv-faq{margin-top:20px;display:grid;gap:10px;}
+.tsxv5-tv-faq-item{
+  background:var(--tv-input-bg);padding:14px 18px;border-radius:12px;
+  border:1px solid var(--tv-line);cursor:pointer;transition:all .2s;
+}
+.tsxv5-tv-faq-item:hover{border-color:var(--tv-accent1);}
+.tsxv5-tv-faq-q{
+  font-weight:700;font-size:.95rem;color:var(--tv-text) !important;
+  display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:44px;
+}
+.tsxv5-tv-faq-q::after{content:'+';font-size:1.3rem;color:var(--tv-accent1);transition:transform .3s;flex-shrink:0;}
+.tsxv5-tv-faq-item.open .tsxv5-tv-faq-q::after{transform:rotate(45deg);}
+.tsxv5-tv-faq-a{color:var(--tv-text-dim) !important;font-size:.88rem;line-height:1.7;margin-top:10px;display:none;}
+.tsxv5-tv-faq-item.open .tsxv5-tv-faq-a{display:block;}
+
+@media(max-width:480px){
+  #tsxv5-tvApp .tsxv5-tv-container{padding:12px;}
+  .tsxv5-tv-header{padding:20px 10px 20px;}
+  .tsxv5-tv-logo{font-size:48px;}
+  .tsxv5-tv-title{font-size:20px;}
+  .tsxv5-tv-subtitle{font-size:13px;}
+  .tsxv5-tv-tags{gap:6px;}
+  .tsxv5-tv-tag{padding:4px 10px;font-size:11px;}
+  .tsxv5-tv-card{padding:16px;border-radius:16px;}
+  .tsxv5-tv-card-title{font-size:16px;}
+  .tsxv5-tv-btn-lg{padding:14px 20px;font-size:14px;}
+  .tsxv5-tv-mood-grid{grid-template-columns:repeat(3,1fr);gap:8px;}
+  .tsxv5-tv-mood{padding:10px 6px;}
+  .tsxv5-tv-mood-emoji{font-size:24px;}
+  .tsxv5-tv-btn-group{flex-direction:column;}
+  .tsxv5-tv-btn-group .tsxv5-tv-btn{min-width:100%;}
+  .tsxv5-tv-settings-grid{grid-template-columns:1fr;}
+  .tsxv5-tv-toast{min-width:250px;max-width:90vw;}
+  .tsxv5-tv-toast-container{right:10px;left:10px;}
+  .tsxv5-tv-toggle-row{flex-direction:column;align-items:flex-start;padding:12px;}
+  .tsxv5-tv-switch{margin-top:8px;}
+  .tsxv5-tv-info-grid{grid-template-columns:1fr;}
+  .tsxv5-tv-timeline-item{gap:12px;}
+  .tsxv5-tv-timeline-dot{width:32px;height:32px;font-size:12px;}
+  .tsxv5-tv-timeline-item::before{left:15px;top:32px;}
+  .tsxv5-tv-style-options{gap:6px;}
+  .tsxv5-tv-style-btn{padding:6px 12px;font-size:11px;min-height:44px;}
+  .tsxv5-tv-related-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  .tsxv5-tv-info-grid{grid-template-columns:1fr;}
+}
+@media(min-width:1024px){
+  .tsxv5-tv-info-grid{grid-template-columns:repeat(2,1fr);}
+  .tsxv5-tv-settings-grid{grid-template-columns:repeat(4,1fr);}
+}
+@media(prefers-reduced-motion:reduce){#tsxv5-tvApp *,#tsxv5-tvApp *::before,#tsxv5-tvApp *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+</style>
+
+<div class="tsxv5-tv-bg"></div>
+<div class="tsxv5-tv-toast-container" id="tsxv5-tvToastContainer"></div>
+
+<div class="tsxv5-tv-container">
+
+  <header class="tsxv5-tv-header">
+    <div class="tsxv5-tv-logo">🎬</div>
+    <h2 class="tsxv5-tv-title">Text to Video Converter</h2>
+    <p class="tsxv5-tv-subtitle">Shayari + <strong>Real AI Voice</strong> + Music → Cinematic Video. <strong>100% Free, No API Key!</strong></p>
+    <div class="tsxv5-tv-noapi-badge">Zero Setup • AI Voice Included</div>
+    <div class="tsxv5-tv-tags">
+      <span class="tsxv5-tv-tag">🎙️ AI Voiceover</span>
+      <span class="tsxv5-tv-tag">🎵 Auto Music</span>
+      <span class="tsxv5-tv-tag">🎥 9:16 Reels</span>
+      <span class="tsxv5-tv-tag">🆓 Copyright Free</span>
+      <span class="tsxv5-tv-tag">🔑 No API Key</span>
+    </div>
+  </header>
+
+  <section class="tsxv5-tv-card">
+    <div class="tsxv5-tv-card-head">
+      <div class="tsxv5-tv-card-icon purple">✍️</div>
+      <div>
+        <h3 class="tsxv5-tv-card-title">Your Shayari / Text</h3>
+        <p class="tsxv5-tv-card-desc">This text will appear in the video AND be spoken by AI voice</p>
+      </div>
+    </div>
+    <div class="tsxv5-tv-fg">
+      <label class="tsxv5-tv-label" for="tsxv5-tvTextInput">Text Content</label>
+      <textarea class="tsxv5-tv-textarea" id="tsxv5-tvTextInput" maxlength="400" placeholder="Type your shayari or quote here...
+
+Example:
+After every night comes a dawn,
+After every difficulty comes relief..."></textarea>
+      <div class="tsxv5-tv-char-counter" id="tsxv5-tvCharCounter">0 / 400</div>
+    </div>
+    <div class="tsxv5-tv-btn-group">
+      <button type="button" class="tsxv5-tv-btn tsxv5-tv-btn-secondary" id="tsxv5-tvClearBtn">🗑️ Clear</button>
+      <button type="button" class="tsxv5-tv-btn tsxv5-tv-btn-secondary" id="tsxv5-tvSampleBtn">📝 Sample</button>
+      <button type="button" class="tsxv5-tv-btn tsxv5-tv-btn-secondary" id="tsxv5-tvRandomBtn">🎲 Random</button>
+    </div>
+  </section>
+
+  <section class="tsxv5-tv-card">
+    <div class="tsxv5-tv-card-head">
+      <div class="tsxv5-tv-card-icon pink">⚙️</div>
+      <div>
+        <h3 class="tsxv5-tv-card-title">Video Settings</h3>
+        <p class="tsxv5-tv-card-desc">Mood, style, and customization</p>
+      </div>
+    </div>
+
+    <div class="tsxv5-tv-fg">
+      <label class="tsxv5-tv-label">🎭 Mood / Vibe</label>
+      <div class="tsxv5-tv-mood-grid" id="tsxv5-tvMoodGrid">
+        <div class="tsxv5-tv-mood active" data-mood="romantic"><span class="tsxv5-tv-mood-emoji">💕</span><span class="tsxv5-tv-mood-label">Romantic</span></div>
+        <div class="tsxv5-tv-mood" data-mood="sad"><span class="tsxv5-tv-mood-emoji">🌧️</span><span class="tsxv5-tv-mood-label">Sad</span></div>
+        <div class="tsxv5-tv-mood" data-mood="motivational"><span class="tsxv5-tv-mood-emoji">🔥</span><span class="tsxv5-tv-mood-label">Motivational</span></div>
+        <div class="tsxv5-tv-mood" data-mood="peaceful"><span class="tsxv5-tv-mood-emoji">🌿</span><span class="tsxv5-tv-mood-label">Peaceful</span></div>
+        <div class="tsxv5-tv-mood" data-mood="ocean"><span class="tsxv5-tv-mood-emoji">🌊</span><span class="tsxv5-tv-mood-label">Ocean</span></div>
+        <div class="tsxv5-tv-mood" data-mood="night"><span class="tsxv5-tv-mood-emoji">🌙</span><span class="tsxv5-tv-mood-label">Night</span></div>
+        <div class="tsxv5-tv-mood" data-mood="nature"><span class="tsxv5-tv-mood-emoji">🌲</span><span class="tsxv5-tv-mood-label">Nature</span></div>
+        <div class="tsxv5-tv-mood" data-mood="sunset"><span class="tsxv5-tv-mood-emoji">🌅</span><span class="tsxv5-tv-mood-label">Sunset</span></div>
+      </div>
+    </div>
+
+    <div class="tsxv5-tv-settings-grid">
+      <div class="tsxv5-tv-setting">
+        <div class="tsxv5-tv-setting-label">⏱️ Duration</div>
+        <select class="tsxv5-tv-select" id="tsxv5-tvDurationSelect">
+          <option value="8">8 Seconds</option>
+          <option selected value="10">10 Seconds</option>
+          <option value="15">15 Seconds</option>
+          <option value="20">20 Seconds</option>
+        </select>
+      </div>
+      <div class="tsxv5-tv-setting">
+        <div class="tsxv5-tv-setting-label">🔤 Font</div>
+        <select class="tsxv5-tv-select" id="tsxv5-tvFontSelect">
+          <option value="Poppins">Poppins (Modern)</option>
+          <option value="Playfair Display">Playfair (Classic)</option>
+          <option value="Georgia">Georgia (Elegant)</option>
+          <option value="Dancing Script">Dancing (Script)</option>
+        </select>
+      </div>
+      <div class="tsxv5-tv-setting">
+        <div class="tsxv5-tv-setting-label">🎨 Text Color</div>
+        <select class="tsxv5-tv-select" id="tsxv5-tvTextColorSelect">
+          <option value="#ffffff">White</option>
+          <option value="#ffd700">Gold</option>
+          <option value="#ff6b9d">Pink</option>
+          <option value="#6ee7b7">Green</option>
+          <option value="#93c5fd">Blue</option>
+        </select>
+      </div>
+      <div class="tsxv5-tv-setting">
+        <div class="tsxv5-tv-setting-label">✨ Effect</div>
+        <select class="tsxv5-tv-select" id="tsxv5-tvEffectSelect">
+          <option value="shadow">Shadow</option>
+          <option value="glow">Glow</option>
+          <option value="outline">Outline</option>
+          <option value="neon">Neon</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="tsxv5-tv-fg" style="margin-top:14px;">
+      <label class="tsxv5-tv-label">🎬 Text Animation</label>
+      <div class="tsxv5-tv-style-options" id="tsxv5-tvAnimationOptions">
+        <button type="button" class="tsxv5-tv-style-btn active" data-anim="line-by-line">Line by Line</button>
+        <button type="button" class="tsxv5-tv-style-btn" data-anim="word-by-word">Word by Word</button>
+        <button type="button" class="tsxv5-tv-style-btn" data-anim="typewriter">Typewriter</button>
+        <button type="button" class="tsxv5-tv-style-btn" data-anim="fade">Fade In</button>
+        <button type="button" class="tsxv5-tv-style-btn" data-anim="slide">Slide Up</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="tsxv5-tv-card">
+    <div class="tsxv5-tv-card-head">
+      <div class="tsxv5-tv-card-icon cyan">🎙️</div>
+      <div>
+        <h3 class="tsxv5-tv-card-title">AI Voice &amp; Music</h3>
+        <p class="tsxv5-tv-card-desc">Real voice will speak your shayari + background music</p>
+      </div>
+    </div>
+
+    <div class="tsxv5-tv-toggle-row">
+      <div class="tsxv5-tv-toggle-label">🎙️ AI Voiceover <span class="tsxv5-tv-toggle-sub">Video will speak your shayari</span></div>
+      <label class="tsxv5-tv-switch"><input checked id="tsxv5-tvVoiceToggle" type="checkbox"><span class="tsxv5-tv-slider"></span></label>
+    </div>
+
+    <div class="tsxv5-tv-toggle-row">
+      <div class="tsxv5-tv-toggle-label">🎵 Background Music <span class="tsxv5-tv-toggle-sub">Soft ambient music (copyright-free, auto-generated)</span></div>
+      <label class="tsxv5-tv-switch"><input checked id="tsxv5-tvMusicToggle" type="checkbox"><span class="tsxv5-tv-slider"></span></label>
+    </div>
+
+    <div class="tsxv5-tv-settings-grid" style="margin-top:14px;">
+      <div class="tsxv5-tv-setting">
+        <div class="tsxv5-tv-setting-label">🗣️ Voice Style</div>
+        <select class="tsxv5-tv-select" id="tsxv5-tvVoiceSelect">
+          <option value="Aditi|hi-IN|female">Hindi — Female (Aditi)</option>
+          <option value="Hemant|hi-IN|male">Hindi — Male (Hemant)</option>
+          <option value="Sneha|hi-IN|female">Hindi — Female (Sneha)</option>
+          <option value="Amy|en-GB|female">English — Female (Amy)</option>
+          <option value="Brian|en-GB|male">English — Male (Brian)</option>
+        </select>
+      </div>
+      <div class="tsxv5-tv-setting">
+        <div class="tsxv5-tv-setting-label">⚡ Voice Speed</div>
+        <select class="tsxv5-tv-select" id="tsxv5-tvRateSelect">
+          <option value="0.8">Slow (0.8x)</option>
+          <option selected value="0.9">Normal (0.9x)</option>
+          <option value="1.0">Fast (1.0x)</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="button" class="tsxv5-tv-btn tsxv5-tv-btn-secondary tsxv5-tv-btn-full" id="tsxv5-tvTestVoiceBtn" style="margin-top:14px;">
+      🔊 Test Voice
+    </button>
+  </section>
+
+  <section class="tsxv5-tv-card">
+    <div class="tsxv5-tv-card-head">
+      <div class="tsxv5-tv-card-icon green">🚀</div>
+      <div>
+        <h3 class="tsxv5-tv-card-title">Generate Video</h3>
+        <p class="tsxv5-tv-card-desc">No API key needed — everything is automatic</p>
+      </div>
+    </div>
+
+    <div class="tsxv5-tv-status">
+      <div class="tsxv5-tv-status-dot idle" id="tsxv5-tvStatusDot"></div>
+      <span id="tsxv5-tvStatusText">Ready — type your text and click Generate</span>
+    </div>
+
+    <div class="tsxv5-tv-progress" id="tsxv5-tvProgressContainer">
+      <div class="tsxv5-tv-progress-bg"><div class="tsxv5-tv-progress-fill" id="tsxv5-tvProgressFill"></div></div>
+      <div class="tsxv5-tv-progress-text" id="tsxv5-tvProgressText">Initializing...</div>
+    </div>
+
+    <button type="button" class="tsxv5-tv-btn tsxv5-tv-btn-primary tsxv5-tv-btn-lg tsxv5-tv-btn-full" id="tsxv5-tvGenerateBtn">
+      🎬 Generate My Video
+    </button>
+
+    <div class="tsxv5-tv-preview" id="tsxv5-tvPreviewContainer">
+      <div class="tsxv5-tv-preview-wrap">
+        <canvas height="1920" id="tsxv5-tvCanvas" width="1080" class="tsxv5-tv-canvas"></canvas>
+        <video class="tsxv5-tv-src-video" id="tsxv5-tvSourceVideo" loop muted playsinline></video>
+      </div>
+      <div class="tsxv5-tv-btn-group">
+        <button type="button" class="tsxv5-tv-btn tsxv5-tv-btn-secondary" id="tsxv5-tvTogglePreviewBtn"><span id="tsxv5-tvPreviewBtnText">⏸️ Pause</span></button>
+        <button type="button" class="tsxv5-tv-btn tsxv5-tv-btn-secondary" id="tsxv5-tvRegenerateBtn">🔄 New Video</button>
+      </div>
+    </div>
+
+    <div class="tsxv5-tv-download" id="tsxv5-tvDownloadSection">
+      <div class="tsxv5-tv-download-icon">🎉</div>
+      <h3 class="tsxv5-tv-download-title">Video Ready!</h3>
+      <p class="tsxv5-tv-download-desc">Download now — voice, music, and text all included!</p>
+      <button type="button" class="tsxv5-tv-btn tsxv5-tv-btn-success tsxv5-tv-btn-lg" id="tsxv5-tvDownloadBtn">⬇️ Download Video (With Voice)</button>
+      <div class="tsxv5-tv-btn-group" style="justify-content:center;">
+        <button type="button" class="tsxv5-tv-btn tsxv5-tv-btn-secondary" id="tsxv5-tvShareBtn">📤 Share</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="tsxv5-tv-info">
+    <h2 class="tsxv5-tv-info-title">🛠️ How This Text to Video Tool Works</h2>
+
+    <p style="color:var(--tv-text-dim) !important;font-size:1rem;line-height:1.8;margin-bottom:20px;text-align:center;max-width:800px;margin-left:auto;margin-right:auto;"><strong style="color:var(--tv-text) !important;">Tools-X Text to Video Converter</strong> is an advanced browser-based multimedia tool that transforms your written shayari, quotes, or any text into cinematic 9:16 vertical videos — complete with AI voiceover, auto-generated ambient music, and copyright-free Pexels video backgrounds. The entire process runs 100% offline in your browser — no API key, no server upload, no signup. Perfect for Instagram Reels, YouTube Shorts, WhatsApp Status, and TikTok content creators.</p>
+
+    <div class="tsxv5-tv-info-grid">
+      <div class="tsxv5-tv-info-card">
+        <div class="tsxv5-tv-info-num">1</div>
+        <h3 class="tsxv5-tv-info-card-title">Text + Mood Input</h3>
+        <p class="tsxv5-tv-info-card-text">User writes shayari and selects mood. System detects lines and calculates timing based on total duration.</p>
+      </div>
+      <div class="tsxv5-tv-info-card">
+        <div class="tsxv5-tv-info-num">2</div>
+        <h3 class="tsxv5-tv-info-card-title">Free Video Library</h3>
+        <p class="tsxv5-tv-info-card-text">Copyright-free videos load directly from Pexels CDN — no API key. Sequential loader tries multiple URLs. Fallback animated gradient mode ensures the tool never fails!</p>
+      </div>
+      <div class="tsxv5-tv-info-card">
+        <div class="tsxv5-tv-info-num">3</div>
+        <h3 class="tsxv5-tv-info-card-title">AI Voice (Text-to-Speech)</h3>
+        <p class="tsxv5-tv-info-card-text">Two free engines: StreamElements TTS (for MP3 download) and Browser Web Speech API (for live preview). Hindi/English voices available — Aditi, Hemant, Amy, Brian.</p>
+      </div>
+      <div class="tsxv5-tv-info-card">
+        <div class="tsxv5-tv-info-num">4</div>
+        <h3 class="tsxv5-tv-info-card-title">Auto Music + Recording</h3>
+        <p class="tsxv5-tv-info-card-text">Web Audio API oscillators generate pleasant ambient chords (100% original, zero copyright). MediaRecorder mixes canvas + voice + music into final video.</p>
+      </div>
+    </div>
+
+    <div class="tsxv5-tv-timeline">
+      <h3 style="font-size:18px;margin:30px 0 20px;text-align:center;color:var(--tv-text) !important;">📋 Step-by-Step Working Process</h3>
+      <div class="tsxv5-tv-timeline-item"><div class="tsxv5-tv-timeline-dot">1</div><div class="tsxv5-tv-timeline-content"><div class="tsxv5-tv-timeline-title">User Input</div><div class="tsxv5-tv-timeline-desc">Shayari is pasted. Lines count and duration are calculated automatically.</div></div></div>
+      <div class="tsxv5-tv-timeline-item"><div class="tsxv5-tv-timeline-dot">2</div><div class="tsxv5-tv-timeline-content"><div class="tsxv5-tv-timeline-title">Video Fetch</div><div class="tsxv5-tv-timeline-desc">Copyright-free video loads from Pexels CDN based on selected mood with 6-second timeout per URL.</div></div></div>
+      <div class="tsxv5-tv-timeline-item"><div class="tsxv5-tv-timeline-dot">3</div><div class="tsxv5-tv-timeline-content"><div class="tsxv5-tv-timeline-title">Fallback Mode</div><div class="tsxv5-tv-timeline-desc">If video fails, canvas uses animated gradient background — video still gets created!</div></div></div>
+      <div class="tsxv5-tv-timeline-item"><div class="tsxv5-tv-timeline-dot">4</div><div class="tsxv5-tv-timeline-content"><div class="tsxv5-tv-timeline-title">Text Animation</div><div class="tsxv5-tv-timeline-desc">Canvas renders text every frame with line-by-line, typewriter, fade, slide animations.</div></div></div>
+      <div class="tsxv5-tv-timeline-item"><div class="tsxv5-tv-timeline-dot">5</div><div class="tsxv5-tv-timeline-content"><div class="tsxv5-tv-timeline-title">AI Voice Generation</div><div class="tsxv5-tv-timeline-desc">StreamElements free TTS creates MP3. Web Audio API decodes and mixes it into recording.</div></div></div>
+      <div class="tsxv5-tv-timeline-item"><div class="tsxv5-tv-timeline-dot">6</div><div class="tsxv5-tv-timeline-content"><div class="tsxv5-tv-timeline-title">Music Synthesis</div><div class="tsxv5-tv-timeline-desc">Web Audio oscillators generate pleasant ambient chords — 100% original.</div></div></div>
+      <div class="tsxv5-tv-timeline-item"><div class="tsxv5-tv-timeline-dot">7</div><div class="tsxv5-tv-timeline-content"><div class="tsxv5-tv-timeline-title">Final Recording</div><div class="tsxv5-tv-timeline-desc">MediaRecorder records canvas + audio at 30fps. VP9/VP8 codec fallback system.</div></div></div>
+      <div class="tsxv5-tv-timeline-item"><div class="tsxv5-tv-timeline-dot">8</div><div class="tsxv5-tv-timeline-content"><div class="tsxv5-tv-timeline-title">Download &amp; Share</div><div class="tsxv5-tv-timeline-desc">One-click download. Upload to Instagram Reels, YouTube Shorts, WhatsApp Status.</div></div></div>
+    </div>
+
+    <div class="tsxv5-tv-card" style="background:linear-gradient(135deg,rgba(16,185,129,0.05),rgba(6,182,212,0.05));border-color:rgba(16,185,129,0.3);margin-top:30px;">
+      <div class="tsxv5-tv-card-head">
+        <div class="tsxv5-tv-card-icon green">🔒</div>
+        <div><h3 class="tsxv5-tv-card-title">Security &amp; Copyright Safe</h3><p class="tsxv5-tv-card-desc">100% safe, secure and legal</p></div>
+      </div>
+      <div style="color:var(--tv-text-dim) !important;font-size:13px;line-height:1.8;">
+        <p>✅ <strong style="color:var(--tv-text) !important;">No Virus/Malware:</strong> No hidden or malicious code. Pure vanilla JavaScript.</p>
+        <p>✅ <strong style="color:var(--tv-text) !important;">No API Keys:</strong> All free open sources — Pexels CDN, StreamElements TTS, Web Speech API, Web Audio API.</p>
+        <p>✅ <strong style="color:var(--tv-text) !important;">Copyright Free:</strong> Pexels videos are free-license; music is self-generated; voices come from free TTS services.</p>
+        <p>✅ <strong style="color:var(--tv-text) !important;">Privacy:</strong> Your text is never saved on a server. All processing happens in the browser.</p>
+        <p>✅ <strong style="color:var(--tv-text) !important;">HTTPS Only:</strong> All external resources load via encrypted connections.</p>
+      </div>
+    </div>
+
+    <div class="tsxv5-tv-faq" style="margin-top:30px;">
+      <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:20px;color:var(--tv-text) !important;">❓ Frequently Asked Questions</h2>
+      <div class="tsxv5-tv-faq-item"><div class="tsxv5-tv-faq-q">Is this tool really 100% free?</div><div class="tsxv5-tv-faq-a">Yes! This tool is completely free. No hidden charges, API keys, or subscriptions needed. All features including AI voice, music, and video generation are free.</div></div>
+      <div class="tsxv5-tv-faq-item"><div class="tsxv5-tv-faq-q">Are the generated videos copyright-free?</div><div class="tsxv5-tv-faq-a">Yes! Videos use free-license clips from Pexels, the music is auto-generated (100% original), and voices come from free TTS services. You can use them on YouTube, Instagram, or any platform.</div></div>
+      <div class="tsxv5-tv-faq-item"><div class="tsxv5-tv-faq-q">Is my data safe?</div><div class="tsxv5-tv-faq-a">Absolutely! Everything processes in your browser. Your text is never saved on a server, there's no tracking, and no cookies are used. 100% private and secure.</div></div>
+      <div class="tsxv5-tv-faq-item"><div class="tsxv5-tv-faq-q">Does this work on mobile?</div><div class="tsxv5-tv-faq-a">Yes! This tool is fully mobile-responsive and works perfectly on Android and iOS. Chrome, Safari, Firefox — all modern browsers support it.</div></div>
+      <div class="tsxv5-tv-faq-item"><div class="tsxv5-tv-faq-q">Why is my video download failing?</div><div class="tsxv5-tv-faq-a">If the download fails: (1) Update your browser, (2) Use Chrome or Edge for best support, (3) If voice embedding fails, try turning the voice toggle off. Preview will always work.</div></div>
+    </div>
+  </section>
+
+  <aside class="tsxv5-tv-related" aria-label="Related Tools">
+    <h3 class="tsxv5-tv-related-title">🔗 More Useful Tools to Try</h3>
+    <div class="tsxv5-tv-related-grid">
+      <a href="../tools/check-domain-name-availability-free-com.html" class="tsxv5-tv-related-link" rel="noopener">
+        <span class="tsxv5-tv-related-icon">🌐</span>
+        <strong>Domain Name Availability Checker</strong>
+        <span>Check if your desired domain is free</span>
+      </a>
+      <a href="../tools/video-analyzer-thumbnail-download-tags.html" class="tsxv5-tv-related-link" rel="noopener">
+        <span class="tsxv5-tv-related-icon">📊</span>
+        <strong>Video Analyzer &amp; Thumbnail Downloader</strong>
+        <span>Analyze videos, download thumbnails, extract tags</span>
+      </a>
+      <a href="../tools/live-code-editor-preview-html-css-js.html" class="tsxv5-tv-related-link" rel="noopener">
+        <span class="tsxv5-tv-related-icon">💻</span>
+        <strong>Live Code Editor</strong>
+        <span>Edit HTML, CSS, JS with real-time preview</span>
+      </a>
+    </div>
+  </aside>
+
+  <footer class="tsxv5-tv-footer">
+    <p>🎬 Text to Video Converter v5.0 — AI Voice Edition</p>
+    <p style="margin-top:6px;">100% Free • No API Key • Copyright Free</p>
+    <p style="margin-top:6px;font-size:.75rem;opacity:.7;">Powered by <strong><a href="https://www.toolsx.in" rel="noopener">Tools-X</a></strong></p>
+  </footer>
+
+</div>
+
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+
+var W=document.getElementById('tsxv5-tvApp');
+if(!W)return;
+
+function $(id){return document.getElementById(id);}
+function setText(el,s){if(el)el.textContent=String(s==null?'':s);}
+function sanitizeFilename(s){return String(s||'tsxv5-video').replace(/[^a-zA-Z0-9._\-]/g,'').substring(0,80)||'tsxv5-video';}
+
+var AppState={
+  selectedMood:'romantic',
+  selectedAnimation:'line-by-line',
+  text:'',
+  isPlaying:false,
+  isGenerating:false,
+  generatedBlob:null,
+  animationId:null,
+  videoMode:false,
+  currentLineIndex:-1,
+  audioCtx:null
+};
+
+var PEXELS={
+  a:'https://videos.pexels.com/video-files/3196600/3196600-hd_1280_720_25fps.mp4',
+  b:'https://videos.pexels.com/video-files/3173312/3173312-hd_1280_720_30fps.mp4',
+  c:'https://videos.pexels.com/video-files/1409899/1409899-hd_1280_720_25fps.mp4',
+  d:'https://videos.pexels.com/video-files/2848072/2848072-sd_640_360_30fps.mp4',
+  e:'https://videos.pexels.com/video-files/2818546/2818546-sd_640_360_24fps.mp4',
+  f:'https://videos.pexels.com/video-files/3765952/3765952-sd_640_360_24fps.mp4',
+  g:'https://videos.pexels.com/video-files/5595130/5595130-sd_640_360_30fps.mp4',
+  h:'https://videos.pexels.com/video-files/7481859/7481859-sd_640_338_25fps.mp4',
+  i:'https://videos.pexels.com/video-files/9986239/9986239-sd_640_338_25fps.mp4',
+  j:'https://videos.pexels.com/video-files/7802455/7802455-sd_640_338_25fps.mp4'
+};
+var FLOWER='https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4';
+
+var VIDEO_LIBRARY={
+  romantic:[PEXELS.c,FLOWER,PEXELS.a,PEXELS.f,PEXELS.g],
+  sad:[PEXELS.e,PEXELS.i,PEXELS.j,PEXELS.b,PEXELS.h],
+  motivational:[PEXELS.b,PEXELS.a,PEXELS.d,PEXELS.g,PEXELS.c],
+  peaceful:[FLOWER,PEXELS.f,PEXELS.g,PEXELS.c,PEXELS.e],
+  ocean:[PEXELS.d,PEXELS.g,PEXELS.f,FLOWER,PEXELS.a],
+  night:[PEXELS.j,PEXELS.i,PEXELS.h,PEXELS.b,PEXELS.e],
+  nature:[FLOWER,PEXELS.g,PEXELS.f,PEXELS.c,PEXELS.d],
+  sunset:[PEXELS.c,PEXELS.a,PEXELS.h,FLOWER,PEXELS.f]
+};
+
+var SAMPLE_TEXTS=[
+  "After every night comes a dawn,\nAfter every difficulty comes relief,\nThose who overcome challenges,\nFind love in life.",
+  "Dreams are not what come in sleep,\nDreams are what keep you awake,\nWork so silently,\nThat success makes a noise.",
+  "Destination is for those,\nWhose dreams have life,\nWings don't matter,\nCourage makes the flight.",
+  "Life is a beautiful journey,\nWho knows what tomorrow brings,\nSomething new at every turn,\nEncouragement at every step.",
+  "Meeting yourself is also a journey,\nThat very few take,\nAnd those who do,\nLearn to live life."
+];
+
+function createParticles(){
+  var wrapper=W;
+  if(!wrapper)return;
+  var colors=['rgba(124,58,237,0.3)','rgba(236,72,153,0.3)','rgba(6,182,212,0.3)'];
+  for(var i=0;i<15;i++){
+    var p=document.createElement('div');
+    p.className='tsxv5-tv-particle';
+    p.style.width=p.style.height=(Math.random()*6+2)+'px';
+    p.style.background=colors[Math.floor(Math.random()*colors.length)];
+    p.style.left=Math.random()*100+'%';
+    p.style.animationDuration=(Math.random()*20+15)+'s';
+    p.style.animationDelay=Math.random()*10+'s';
+    wrapper.appendChild(p);
+  }
+}
+
+W.querySelectorAll('.tsxv5-tv-mood').forEach(function(card){
+  card.addEventListener('click',function(){
+    W.querySelectorAll('.tsxv5-tv-mood').forEach(function(c){c.classList.remove('active');});
+    this.classList.add('active');
+    AppState.selectedMood=this.getAttribute('data-mood');
+  });
+});
+
+W.querySelectorAll('#tsxv5-tvAnimationOptions .tsxv5-tv-style-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    W.querySelectorAll('#tsxv5-tvAnimationOptions .tsxv5-tv-style-btn').forEach(function(b){b.classList.remove('active');});
+    this.classList.add('active');
+    AppState.selectedAnimation=this.getAttribute('data-anim');
+  });
+});
+
+var ta=$('tsxv5-tvTextInput');
+ta.addEventListener('input',function(){
+  this.style.height='auto';
+  this.style.height=this.scrollHeight+'px';
+  AppState.text=this.value;
+  var len=this.value.length;
+  var counter=$('tsxv5-tvCharCounter');
+  setText(counter,len+' / 400');
+  counter.className='tsxv5-tv-char-counter'+(len>320?' warning':'')+(len>380?' danger':'');
+});
+
+if('speechSynthesis' in window){
+  window.speechSynthesis.onvoiceschanged=function(){};
+}
+
+function clearText(){
+  $('tsxv5-tvTextInput').value='';
+  AppState.text='';
+  setText($('tsxv5-tvCharCounter'),'0 / 400');
+  $('tsxv5-tvCharCounter').className='tsxv5-tv-char-counter';
+}
+
+function loadSample(){
+  var s=SAMPLE_TEXTS[Math.floor(Math.random()*SAMPLE_TEXTS.length)];
+  $('tsxv5-tvTextInput').value=s;
+  AppState.text=s;
+  setText($('tsxv5-tvCharCounter'),s.length+' / 400');
+  showToast('✨ Sample loaded!','success');
+}
+
+function getVoiceSettings(){
+  var parts=$('tsxv5-tvVoiceSelect').value.split('|');
+  return{polly:parts[0],lang:parts[1],gender:parts[2],rate:parseFloat($('tsxv5-tvRateSelect').value)};
+}
+
+function speakLine(text){
+  if(!('speechSynthesis' in window))return;
+  var v=getVoiceSettings();
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(text);
+  u.lang=v.lang;u.rate=v.rate;u.pitch=1;
+  var voices=window.speechSynthesis.getVoices();
+  var localVoices=voices.filter(function(vo){return vo.localService===true;});
+  var allVoices=localVoices.length?localVoices:voices;
+  var match=allVoices.find(function(vo){
+    return vo.lang.replace('_','-').startsWith(v.lang.split('-')[0])&&
+      (v.gender==='female'?/female|woman|Aditi|Swara|Heera|Kalpana/i.test(vo.name):/male|man|Hemant|Madhur|Ravi/i.test(vo.name));
+  })||allVoices.find(function(vo){return vo.lang.replace('_','-').startsWith(v.lang.split('-')[0]);});
+  if(match)u.voice=match;
+  window.speechSynthesis.speak(u);
+}
+
+function testVoice(){
+  var sample=$('tsxv5-tvTextInput').value.trim().split('\n')[0]||'Hello! This is the AI voice for your video.';
+  showToast('🔊 Testing voice...','info');
+  speakLine(sample);
+}
+
+function fetchTTSMP3(text){
+  var v=getVoiceSettings();
+  var url='https://api.streamelements.com/kappa/v2/speech?voice='+
+    encodeURIComponent(v.polly)+'&text='+encodeURIComponent(text);
+  return fetch(url).then(function(res){
+    if(!res.ok)throw new Error('TTS fetch failed: HTTP '+res.status);
+    return res.arrayBuffer();
+  }).then(function(buf){
+    if(!buf||buf.byteLength<1000)throw new Error('TTS response empty');
+    return buf;
+  });
+}
+
+function startAmbientMusic(ctx,dest,duration){
+  var master=ctx.createGain();
+  master.gain.value=0.12;
+  var filter=ctx.createBiquadFilter();
+  filter.type='lowpass';filter.frequency.value=900;
+  master.connect(filter);filter.connect(dest);
+  if(ctx.destination&&ctx.state==='running')filter.connect(ctx.destination);
+  var chords=[[220,261.63,329.63],[174.61,220,261.63],[196,246.94,293.66],[220,261.63,329.63]];
+  var chordDur=4;
+  var stopAt=ctx.currentTime+duration+1;
+  var t=ctx.currentTime;var ci=0;
+  while(t<stopAt){
+    var chord=chords[ci%chords.length];
+    chord.forEach(function(freq,idx){
+      var osc=ctx.createOscillator();var g=ctx.createGain();
+      osc.type=idx===0?'triangle':'sine';osc.frequency.value=freq;
+      g.gain.setValueAtTime(0.0001,t);
+      g.gain.linearRampToValueAtTime(0.5,t+1.2);
+      g.gain.linearRampToValueAtTime(0.0001,t+chordDur);
+      osc.connect(g);g.connect(master);
+      osc.start(t);osc.stop(t+chordDur+0.1);
+    });
+    t+=chordDur;ci++;
+  }
+  return master;
+}
+
+function tryLoadVideo(videoEl,urls,timeoutMs){
+  return new Promise(function(resolve){
+    var idx=0;var settled=false;
+    videoEl.muted=true;videoEl.loop=true;videoEl.playsInline=true;
+    videoEl.setAttribute('playsinline','');videoEl.setAttribute('webkit-playsinline','');
+    function tryNext(){
+      if(settled)return;
+      if(idx>=urls.length){resolve(false);return;}
+      var url=urls[idx++];
+      var timer=setTimeout(function(){videoEl.onerror=null;tryNext();},timeoutMs);
+      videoEl.onerror=function(){clearTimeout(timer);videoEl.onerror=null;tryNext();};
+      videoEl.oncanplay=function(){clearTimeout(timer);settled=true;resolve(true);};
+      videoEl.crossOrigin='anonymous';
+      videoEl.src=url;videoEl.load();
+    }
+    tryNext();
+  });
+}
+
+function generateVideo(){
+  var text=$('tsxv5-tvTextInput').value.trim();
+  if(!text){showToast('❌ Please write text or load a sample first!','error');return;}
+  if(AppState.isGenerating)return;
+  AppState.isGenerating=true;AppState.text=text;
+  var btn=$('tsxv5-tvGenerateBtn');
+  btn.disabled=true;btn.innerHTML='<span class="tsxv5-tv-spinner"></span> Generating...';
+  var pc=$('tsxv5-tvProgressContainer');
+  pc.classList.add('active');
+
+  function finish(){
+    AppState.isGenerating=false;
+    btn.disabled=false;btn.innerHTML='🎬 Generate My Video';
+    setTimeout(function(){pc.classList.remove('active');},1500);
+  }
+
+  updateStatus('processing','Loading background video...');
+  updateProgress(15,'Fetching copyright-free video...');
+
+  var video=$('tsxv5-tvSourceVideo');
+  video.pause();
+  var urls=VIDEO_LIBRARY[AppState.selectedMood]||VIDEO_LIBRARY.romantic;
+
+  tryLoadVideo(video,urls,6000).then(function(loaded){
+    AppState.videoMode=loaded;
+    if(loaded){
+      updateProgress(50,'Video ready! Canvas rendering...');
+      showToast('🎥 Real video background loaded!','success');
+    }else{
+      updateProgress(50,'Animated background mode...');
+      showToast('🎨 Animated background mode (offline-safe)','warning');
+    }
+    $('tsxv5-tvPreviewContainer').classList.add('active');
+    updateProgress(75,'Text animations + voice sync...');
+    startRenderLoop();
+    AppState.isPlaying=true;
+    setText($('tsxv5-tvPreviewBtnText'),'⏸️ Pause');
+    return new Promise(function(r){setTimeout(r,400);});
+  }).then(function(){
+    updateProgress(100,'Complete!');
+    updateStatus('success','Video ready! Preview is playing 🎉');
+    $('tsxv5-tvDownloadSection').classList.add('active');
+    showToast('🎉 Video ready! Now download it.','success');
+    $('tsxv5-tvPreviewContainer').scrollIntoView({behavior:'smooth',block:'center'});
+    finish();
+  }).catch(function(e){
+    updateStatus('error','Error: '+e.message);
+    showToast('❌ '+e.message,'error');
+    finish();
+  });
+}
+
+function startRenderLoop(){
+  var canvas=$('tsxv5-tvCanvas');
+  var ctx=canvas.getContext('2d');
+  var video=$('tsxv5-tvSourceVideo');
+  var font=$('tsxv5-tvFontSelect').value;
+  var textColor=$('tsxv5-tvTextColorSelect').value;
+  var effect=$('tsxv5-tvEffectSelect').value;
+  var duration=parseInt($('tsxv5-tvDurationSelect').value);
+  var voiceOn=$('tsxv5-tvVoiceToggle').checked;
+
+  if(AppState.animationId)cancelAnimationFrame(AppState.animationId);
+  AppState.animationId=null;AppState.currentLineIndex=-1;
+
+  var lines=AppState.text.split('\n').map(function(l){return l.trim();}).filter(Boolean);
+  var lineDuration=duration/Math.max(lines.length,1);
+  var startTime=Date.now();
+
+  if(AppState.videoMode&&video.readyState>=2){
+    video.currentTime=0;video.play().catch(function(){});
+  }
+
+  function render(){
+    var elapsed=(Date.now()-startTime)/1000;
+    var t=elapsed%duration;
+    if(AppState.videoMode&&video.readyState>=2){
+      drawCover(ctx,video,canvas.width,canvas.height);
+    }else{
+      drawGradient(ctx,canvas,elapsed);
+    }
+    ctx.fillStyle='rgba(0,0,0,0.42)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    var lineIndex=Math.min(Math.floor(t/lineDuration),lines.length-1);
+    var lineProgress=(t%lineDuration)/lineDuration;
+    if(lineIndex!==AppState.currentLineIndex){
+      AppState.currentLineIndex=lineIndex;
+      if(voiceOn&&AppState.isPlaying)speakLine(lines[lineIndex]);
+    }
+    if(lines[lineIndex]){
+      drawAnimatedText(ctx,lines[lineIndex],lineProgress,font,textColor,effect,AppState.selectedAnimation,canvas);
+    }
+    ctx.font='24px Poppins';ctx.fillStyle='rgba(255,255,255,0.45)';ctx.textAlign='right';
+    ctx.fillText('Tools-X',canvas.width-24,canvas.height-32);
+    AppState.animationId=requestAnimationFrame(render);
+  }
+  render();
+}
+
+function drawCover(ctx,video,cw,ch){
+  var vw=video.videoWidth,vh=video.videoHeight;
+  if(!vw||!vh)return;
+  var scale=Math.max(cw/vw,ch/vh);
+  var w=vw*scale,h=vh*scale;
+  ctx.drawImage(video,(cw-w)/2,(ch-h)/2,w,h);
+}
+
+function drawGradient(ctx,canvas,time){
+  var g=ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+  g.addColorStop(0,'hsl('+((time*12)%360)+',65%,22%)');
+  g.addColorStop(0.5,'hsl('+((time*12+120)%360)+',65%,18%)');
+  g.addColorStop(1,'hsl('+((time*12+240)%360)+',65%,22%)');
+  ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);
+  for(var i=0;i<6;i++){
+    var x=canvas.width/2+Math.cos(time*0.6+i*1.1)*300;
+    var y=canvas.height/2+Math.sin(time*0.5+i*0.9)*400;
+    var r=150+Math.sin(time+i)*60;
+    var rg=ctx.createRadialGradient(x,y,0,x,y,r);
+    rg.addColorStop(0,'rgba(255,255,255,0.10)');rg.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=rg;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
+  }
+}
+
+function drawAnimatedText(ctx,text,progress,font,color,effect,animation,canvas){
+  var fontSize=56;
+  if(text.length>40)fontSize=44;
+  if(text.length>60)fontSize=38;
+  if(text.length>80)fontSize=32;
+  ctx.font='bold '+fontSize+'px '+font;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  var opacity=1,offsetY=0,displayText=text;
+  switch(animation){
+    case 'fade':opacity=progress<0.12?progress/0.12:progress>0.9?(1-progress)/0.1:1;break;
+    case 'line-by-line':opacity=progress<0.06?progress/0.06:progress>0.94?(1-progress)/0.06:1;offsetY=progress<0.1?(1-progress/0.1)*30:0;break;
+    case 'word-by-word':var w=text.split(' ');displayText=w.slice(0,Math.max(1,Math.ceil(progress*w.length))).join(' ');break;
+    case 'typewriter':displayText=text.substring(0,Math.ceil(progress*text.length));break;
+    case 'slide':opacity=progress<0.12?progress/0.12:progress>0.9?(1-progress)/0.1:1;offsetY=progress<0.12?(1-progress/0.12)*120:0;break;
+  }
+  ctx.globalAlpha=Math.max(0,Math.min(1,opacity));
+  var x=canvas.width/2,y=canvas.height/2+offsetY;
+  ctx.shadowColor='transparent';ctx.shadowBlur=0;
+  switch(effect){
+    case 'shadow':ctx.shadowColor='rgba(0,0,0,0.85)';ctx.shadowBlur=22;ctx.shadowOffsetY=5;ctx.fillStyle=color;wrapText(ctx,displayText,x,y,canvas.width-90,fontSize*1.35);break;
+    case 'glow':ctx.shadowColor=color;ctx.shadowBlur=32;ctx.fillStyle=color;wrapText(ctx,displayText,x,y,canvas.width-90,fontSize*1.35);break;
+    case 'outline':ctx.strokeStyle='rgba(0,0,0,0.85)';ctx.lineWidth=7;ctx.lineJoin='round';wrapText(ctx,displayText,x,y,canvas.width-90,fontSize*1.35,true);ctx.fillStyle=color;wrapText(ctx,displayText,x,y,canvas.width-90,fontSize*1.35);break;
+    case 'neon':ctx.shadowColor=color;ctx.shadowBlur=45;ctx.fillStyle=color;wrapText(ctx,displayText,x,y,canvas.width-90,fontSize*1.35);ctx.shadowBlur=18;ctx.fillStyle='#fff';wrapText(ctx,displayText,x,y,canvas.width-90,fontSize*1.35);break;
+  }
+  ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.globalAlpha=1;
+}
+
+function wrapText(ctx,text,x,y,maxWidth,lineHeight,strokeOnly){
+  var words=text.split(' ');var line='';var lines=[];
+  for(var i=0;i<words.length;i++){
+    var test=line+words[i]+' ';
+    if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=words[i]+' ';}
+    else line=test;
+  }
+  lines.push(line);
+  var startY=y-(lines.length*lineHeight)/2+lineHeight/2;
+  lines.forEach(function(l,i){
+    if(strokeOnly)ctx.strokeText(l.trim(),x,startY+i*lineHeight);
+    else ctx.fillText(l.trim(),x,startY+i*lineHeight);
+  });
+}
+
+function downloadVideo(){
+  var btn=$('tsxv5-tvDownloadBtn');
+  btn.disabled=true;btn.innerHTML='<span class="tsxv5-tv-spinner"></span> Recording with voice...';
+  showToast('📹 Recording... voice + music mixing','info');
+  var duration=parseInt($('tsxv5-tvDurationSelect').value);
+  var voiceOn=$('tsxv5-tvVoiceToggle').checked;
+  var musicOn=$('tsxv5-tvMusicToggle').checked;
+
+  if(AppState.animationId)cancelAnimationFrame(AppState.animationId);
+  AppState.isPlaying=true;startRenderLoop();
+
+  var canvas=$('tsxv5-tvCanvas');
+  var canvasStream=canvas.captureStream(30);
+  var tracks=Array.from(canvasStream.getVideoTracks());
+  var ctx=null;
+
+  function finalize(){
+    var stream=new MediaStream(tracks);
+    var mimes=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4'];
+    var mime=mimes.find(function(m){return window.MediaRecorder&&MediaRecorder.isTypeSupported(m);});
+    if(!mime){
+      showToast('❌ Browser does not support recording.','error');
+      btn.disabled=false;btn.innerHTML='⬇️ Download Video (With Voice)';
+      return;
+    }
+    var rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:5000000});
+    var chunks=[];
+    rec.ondataavailable=function(e){if(e.data.size)chunks.push(e.data);};
+    rec.onerror=function(e){showToast('❌ Recording error','error');};
+    rec.onstop=function(){
+      var blob=new Blob(chunks,{type:mime});
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      a.href=url;
+      var baseName=sanitizeFilename('toolsx-shayari-video-'+Date.now());
+      a.download=baseName+(mime.indexOf('mp4')>=0?'.mp4':'.webm');
+      document.body.appendChild(a);a.click();a.remove();
+      setTimeout(function(){URL.revokeObjectURL(url);},5000);
+      AppState.generatedBlob=blob;
+      btn.disabled=false;btn.innerHTML='⬇️ Download Video (With Voice)';
+      updateStatus('success','Video downloaded! 🎉');
+      showToast('✅ Video downloaded!','success');
+      if(ctx)setTimeout(function(){try{ctx.close();}catch(e){}},1000);
+    };
+    rec.start();
+    setTimeout(function(){if(rec.state==='recording')rec.stop();},duration*1000);
+  }
+
+  if(voiceOn||musicOn){
+    ctx=new(window.AudioContext||window.webkitAudioContext)();
+    AppState.audioCtx=ctx;
+    ctx.resume().then(function(){
+      var dest=ctx.createMediaStreamDestination();
+      if(musicOn)startAmbientMusic(ctx,dest,duration);
+      if(voiceOn){
+        updateStatus('processing','Generating AI voice...');
+        fetchTTSMP3(AppState.text).then(function(mp3){
+          return ctx.decodeAudioData(mp3);
+        }).then(function(audioBuf){
+          var src=ctx.createBufferSource();src.buffer=audioBuf;
+          var g=ctx.createGain();g.gain.value=1.0;
+          src.connect(g);g.connect(dest);src.start();
+          showToast('🎙️ AI voice embedded!','success');
+          tracks.push.apply(tracks,dest.stream.getAudioTracks());
+          finalize();
+        }).catch(function(e){
+          showToast('⚠️ Voice service busy — video will be without voice.','warning');
+          tracks.push.apply(tracks,dest.stream.getAudioTracks());
+          finalize();
+        });
+      }else{
+        tracks.push.apply(tracks,dest.stream.getAudioTracks());
+        finalize();
+      }
+    });
+  }else{
+    finalize();
+  }
+}
+
+function shareVideo(){
+  if(!AppState.generatedBlob){showToast('Please download the video first!','info');return;}
+  if(navigator.share&&navigator.canShare){
+    var file=new File([AppState.generatedBlob],'toolsx-shayari-video.webm',{type:AppState.generatedBlob.type});
+    if(navigator.canShare({files:[file]})){
+      navigator.share({title:'My Shayari Video',files:[file]}).catch(function(){});
+      return;
+    }
+  }
+  showToast('📋 Download and share manually (WhatsApp/Instagram)','info');
+}
+
+function togglePreview(){
+  var btnText=$('tsxv5-tvPreviewBtnText');
+  if(AppState.isPlaying){
+    AppState.isPlaying=false;
+    if(AppState.animationId)cancelAnimationFrame(AppState.animationId);
+    $('tsxv5-tvSourceVideo').pause();
+    if('speechSynthesis' in window)window.speechSynthesis.cancel();
+    setText(btnText,'▶️ Play');
+  }else{
+    AppState.isPlaying=true;startRenderLoop();
+    setText(btnText,'⏸️ Pause');
+  }
+}
+
+function regenerateVideo(){
+  if(AppState.animationId)cancelAnimationFrame(AppState.animationId);
+  if('speechSynthesis' in window)window.speechSynthesis.cancel();
+  $('tsxv5-tvDownloadSection').classList.remove('active');
+  generateVideo();
+}
+
+function updateStatus(type,text){
+  $('tsxv5-tvStatusDot').className='tsxv5-tv-status-dot '+type;
+  setText($('tsxv5-tvStatusText'),text);
+}
+
+function updateProgress(p,text){
+  $('tsxv5-tvProgressFill').style.width=p+'%';
+  setText($('tsxv5-tvProgressText'),text);
+}
+
+function showToast(message,type){
+  type=type||'info';
+  var c=$('tsxv5-tvToastContainer');
+  var t=document.createElement('div');
+  t.className='tsxv5-tv-toast '+type;
+  var icons={success:'✅',error:'❌',info:'ℹ️',warning:'⚠️'};
+  var iconSpan=document.createElement('span');
+  setText(iconSpan,icons[type]||'ℹ️');
+  var msgSpan=document.createElement('span');
+  setText(msgSpan,message);
+  t.appendChild(iconSpan);t.appendChild(msgSpan);
+  c.appendChild(t);
+  setTimeout(function(){
+    t.style.opacity='0';t.style.transition='opacity .3s';
+    setTimeout(function(){if(t.parentNode)t.remove();},300);
+  },4000);
+}
+
+$('tsxv5-tvClearBtn').addEventListener('click',clearText);
+$('tsxv5-tvSampleBtn').addEventListener('click',loadSample);
+$('tsxv5-tvRandomBtn').addEventListener('click',loadSample);
+$('tsxv5-tvTestVoiceBtn').addEventListener('click',testVoice);
+$('tsxv5-tvGenerateBtn').addEventListener('click',generateVideo);
+$('tsxv5-tvTogglePreviewBtn').addEventListener('click',togglePreview);
+$('tsxv5-tvRegenerateBtn').addEventListener('click',regenerateVideo);
+$('tsxv5-tvDownloadBtn').addEventListener('click',downloadVideo);
+$('tsxv5-tvShareBtn').addEventListener('click',shareVideo);
+
+W.querySelectorAll('.tsxv5-tv-faq-item').forEach(function(item){
+  item.addEventListener('click',function(){this.classList.toggle('open');});
+});
+
+createParticles();
+
+})();
+//]]>
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

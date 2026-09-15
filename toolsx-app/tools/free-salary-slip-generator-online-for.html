@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Free Salary Slip Generator Online for Employers &amp; Employees – ToolsX App</title>
+<meta name="description" content="Create a free salary slip online with auto-filled HRA, PF, Professional Tax &amp; ESI. Editable, print-ready payslip generator for small businesses.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Free Salary Slip Generator Online for Employers &amp; Employees</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<p>Running payroll for a small team or paying yourself as a freelancer shouldn't need expensive software. This free <strong>Salary Slip Generator</strong> creates a professional, itemised payslip in your browser — with common statutory items like HRA, PF, Professional Tax and ESI auto-suggested from the Basic Salary you enter, and fully editable afterwards. Nothing you type ever leaves your device.</p>
+
+<div class="px-app">
+
+<div class="px-card px-toolbar">
+  <h4 class="px-widget-heading">🧾 Salary Slip Generator</h4>
+  <p class="px-widget-sub">Fill in the details below — the payslip preview updates instantly.</p>
+  <div class="px-field" style="max-width:360px">
+    <label for="pxGenMode">👤 Who's generating this payslip?</label>
+    <select id="pxGenMode">
+      <option value="employer">Employer — generating for an employee</option>
+      <option value="employee">Employee — generating my own payslip</option>
+    </select>
+  </div>
+</div>
+
+<div class="px-grid">
+
+  <div class="px-card">
+    <h4 class="px-widget-heading" id="pxCompanyCardHeading">🏢 Company Details</h4>
+    <div class="px-field"><label for="pxCompanyName">Company Name</label><input type="text" id="pxCompanyName" placeholder="e.g. Sharma Textiles Pvt Ltd"></div>
+    <div class="px-field"><label for="pxCompanyAddr">Company Address</label><input type="text" id="pxCompanyAddr" placeholder="City, State, PIN"></div>
+    <div class="px-field"><label for="pxLogoInput">Company Logo (optional)</label><input type="file" id="pxLogoInput" accept="image/png,image/jpeg,image/webp"></div>
+    <div class="px-logo-preview" id="pxLogoPreview" hidden><img id="pxLogoImg" alt="Company logo preview"></div>
+    <button type="button" class="px-btn px-btn-ghost" id="pxSaveCompany">💾 Remember these company details</button>
+  </div>
+
+  <div class="px-card">
+    <h4 class="px-widget-heading" id="pxEmpCardHeading">👤 Employee Details</h4>
+    <div class="px-field-row">
+      <div class="px-field"><label for="pxEmpName">Employee Name</label><input type="text" id="pxEmpName" placeholder="Full name"></div>
+      <div class="px-field"><label for="pxEmpId">Employee ID</label><input type="text" id="pxEmpId" placeholder="EMP-001"></div>
+    </div>
+    <div class="px-field-row">
+      <div class="px-field"><label for="pxDesignation">Designation</label><input type="text" id="pxDesignation" placeholder="e.g. Graphic Designer"></div>
+      <div class="px-field"><label for="pxDept">Department</label><input type="text" id="pxDept" placeholder="e.g. Design"></div>
+    </div>
+    <div class="px-field-row">
+      <div class="px-field"><label for="pxPan">PAN</label><input type="text" id="pxPan" placeholder="ABCDE1234F"></div>
+      <div class="px-field"><label for="pxUan">UAN / PF No.</label><input type="text" id="pxUan" placeholder="Optional"></div>
+    </div>
+    <div class="px-field-row">
+      <div class="px-field"><label for="pxBankAcc">Bank Account No.</label><input type="text" id="pxBankAcc" placeholder="Optional"></div>
+      <div class="px-field"><label for="pxIfsc">IFSC Code</label><input type="text" id="pxIfsc" placeholder="Optional"></div>
+    </div>
+    <div class="px-field-row">
+      <div class="px-field"><label for="pxPayMonth">Pay Period</label><input type="month" id="pxPayMonth"></div>
+      <div class="px-field"><label for="pxPaidDays">Days Paid</label><input type="text" id="pxPaidDays" placeholder="e.g. 30"></div>
+    </div>
+  </div>
+
+  <div class="px-card">
+    <div class="px-section-head">
+      <h4 class="px-widget-heading">➕ Earnings</h4>
+      <button type="button" class="px-btn px-btn-small" id="pxAddEarning">Add row</button>
+    </div>
+    <p class="px-mini-note">HRA fills in automatically once you type Basic Salary — tap any amount to edit it.</p>
+    <div id="pxEarningsList"></div>
+  </div>
+
+  <div class="px-card">
+    <div class="px-section-head">
+      <h4 class="px-widget-heading">➖ Deductions</h4>
+      <button type="button" class="px-btn px-btn-small" id="pxAddDeduction">Add row</button>
+    </div>
+    <p class="px-mini-note">PF, Professional Tax &amp; ESI fill in automatically — tap any amount to edit it.</p>
+    <div id="pxDeductionsList"></div>
+  </div>
+
+  <div class="px-card px-lop-card">
+    <h4 class="px-widget-heading">📉 Loss of Pay (optional)</h4>
+    <div class="px-field-row">
+      <div class="px-field"><label for="pxTotalDays">Total Working Days</label><input type="number" id="pxTotalDays" min="1" placeholder="e.g. 30"></div>
+      <div class="px-field"><label for="pxLopDays">LOP Days</label><input type="number" id="pxLopDays" min="0" placeholder="e.g. 2"></div>
+    </div>
+    <label class="px-checkbox"><input type="checkbox" id="pxApplyLop"><span>Apply LOP proration to earnings automatically</span></label>
+  </div>
+
+</div>
+
+<div class="px-card px-summary" id="pxSummary">
+  <h4 class="px-widget-heading">📊 Summary</h4>
+  <div class="px-summary-row"><span>Gross Earnings</span><strong id="pxGross">₹0.00</strong></div>
+  <div class="px-summary-row"><span>Total Deductions</span><strong id="pxTotalDed">₹0.00</strong></div>
+  <div class="px-summary-row px-net"><span>Net Pay</span><strong id="pxNet">₹0.00</strong></div>
+  <p class="px-words" id="pxWords">Amount in words: —</p>
+</div>
+
+<div class="px-actions">
+  <button type="button" class="px-btn px-btn-primary" id="pxDownload">⬇️ Download / Print Payslip</button>
+  <button type="button" class="px-btn px-btn-ghost" id="pxReset">↺ Reset Form</button>
+</div>
+
+<div class="px-payslip" id="pxPayslip">
+  <p class="px-mode-badge" id="pxModeBadge">Generated by: Employer</p>
+  <div class="px-payslip-head">
+    <div class="px-payslip-brand">
+      <img id="pxPayslipLogo" alt="" hidden>
+      <div>
+        <p class="px-payslip-company" id="pxOutCompany">Company Name</p>
+        <p class="px-payslip-addr" id="pxOutAddr">Company Address</p>
+      </div>
+    </div>
+    <p class="px-payslip-title">Payslip for <span id="pxOutMonth">—</span></p>
+  </div>
+  <div class="px-payslip-emp">
+    <div><span>Employee Name</span><strong id="pxOutName">—</strong></div>
+    <div><span>Employee ID</span><strong id="pxOutId">—</strong></div>
+    <div><span>Designation</span><strong id="pxOutDesig">—</strong></div>
+    <div><span>Department</span><strong id="pxOutDept">—</strong></div>
+    <div><span>PAN</span><strong id="pxOutPan">—</strong></div>
+    <div><span>UAN / PF No.</span><strong id="pxOutUan">—</strong></div>
+    <div><span>Bank Account</span><strong id="pxOutBank">—</strong></div>
+    <div><span>Days Paid</span><strong id="pxOutDays">—</strong></div>
+  </div>
+  <div class="px-payslip-tables">
+    <div>
+      <p class="px-table-head">Earnings</p>
+      <div id="pxOutEarnings"></div>
+    </div>
+    <div>
+      <p class="px-table-head">Deductions</p>
+      <div id="pxOutDeductions"></div>
+    </div>
+  </div>
+  <div class="px-payslip-net">
+    <span>Net Pay</span>
+    <strong id="pxOutNet">₹0.00</strong>
+  </div>
+  <p class="px-payslip-words" id="pxOutWords">Amount in words: —</p>
+  <p class="px-payslip-footnote">This is a computer-generated payslip and does not require a signature.</p>
+</div>
+
+</div>
+
+<style>
+.px-app{--px-bg:#ffffff;--px-surface:#f7f8fb;--px-text:#1a1a2e;--px-muted:#5c6270;--px-border:#e3e6ec;--px-primary:#2f6fed;--px-primary-dark:#1d4fbf;--px-danger:#d84343;--px-shadow:0 2px 10px rgba(20,20,40,.06);font-family:inherit;color:var(--px-text);max-width:100%;box-sizing:border-box}
+.px-app *{box-sizing:border-box}
+.dark-mode .px-app,[data-theme="dark"] .px-app,html.dark .px-app,body.dark .px-app{--px-bg:#171a25;--px-surface:#1e2230;--px-text:#edeff5;--px-muted:#a7acbd;--px-border:#2c3143;--px-shadow:0 2px 14px rgba(0,0,0,.45)}
+.px-card{background:var(--px-bg);border:1px solid var(--px-border);border-radius:12px;padding:clamp(12px,3vw,18px);margin-bottom:14px;box-shadow:var(--px-shadow)}
+.px-widget-heading{margin:0 0 8px;font-size:clamp(15px,3.6vw,17px);font-weight:700;color:var(--px-text)}
+.px-widget-sub{margin:0 0 8px;color:var(--px-muted);font-size:clamp(12.5px,3vw,14px)}
+.px-grid{display:grid;grid-template-columns:1fr;gap:0;width:100%}
+@media(min-width:768px){.px-grid{grid-template-columns:1fr 1fr;gap:14px}}
+.px-field{margin-bottom:10px;width:100%}
+.px-field label{display:block;font-size:13px;color:var(--px-muted);margin-bottom:4px}
+.px-field input,.px-field select{width:100%;font-size:16px;padding:11px 12px;border:1px solid var(--px-border);border-radius:8px;background:var(--px-surface);color:var(--px-text);min-height:44px}
+.px-field input:focus,.px-field select:focus{outline:2px solid var(--px-primary);outline-offset:1px}
+.px-field-row{display:flex;flex-wrap:wrap;gap:10px}
+.px-field-row .px-field{flex:1 1 140px;min-width:140px}
+.px-logo-preview{margin:8px 0}
+.px-logo-preview img{max-width:120px;height:auto;border-radius:8px;border:1px solid var(--px-border)}
+.px-section-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.px-row-item{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+.px-row-item input[type="text"]{flex:1 1 120px;font-size:16px;padding:10px;border:1px solid var(--px-border);border-radius:8px;background:var(--px-surface);color:var(--px-text);min-height:44px}
+.px-row-item input[type="number"]{width:110px;font-size:16px;padding:10px;border:1px solid var(--px-border);border-radius:8px;background:var(--px-surface);color:var(--px-text);min-height:44px}
+.px-row-item.px-auto-row{border:1px dashed var(--px-primary);border-radius:8px;padding:6px}
+.px-row-remove{min-width:44px;min-height:44px;border:1px solid var(--px-border);background:transparent;color:var(--px-danger);border-radius:8px;font-size:16px;cursor:pointer}
+.px-row-remove:disabled{opacity:.35;cursor:not-allowed}
+.px-mini-note{margin:-2px 0 10px;font-size:12.5px;color:var(--px-muted)}
+.px-checkbox{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--px-text);min-height:44px;padding:4px 0}
+.px-checkbox input[type="checkbox"]{-webkit-appearance:checkbox;-moz-appearance:checkbox;appearance:checkbox;accent-color:var(--px-primary);width:20px;height:20px;flex:0 0 20px;margin-top:2px}
+.px-checkbox span{flex:1 1 auto;min-width:0}
+.px-btn{min-height:44px;padding:10px 16px;border-radius:9px;border:1px solid var(--px-border);background:var(--px-surface);color:var(--px-text);font-size:14px;font-weight:600;cursor:pointer;transition:transform .15s ease,background .2s ease}
+.px-btn:hover{transform:translateY(-1px)}
+.px-btn-primary{background:var(--px-primary);border-color:var(--px-primary);color:#fff}
+.px-btn-primary:hover{background:var(--px-primary-dark)}
+.px-btn-ghost{background:transparent}
+.px-btn-small{padding:8px 12px;font-size:13px}
+.px-actions{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 18px}
+.px-summary-row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px;border-bottom:1px dashed var(--px-border)}
+.px-summary-row.px-net{font-size:17px;color:var(--px-primary);border-bottom:none}
+.px-words{margin:8px 0 0;font-size:13px;color:var(--px-muted);word-break:break-word}
+.px-payslip{background:var(--px-bg);border:1px solid var(--px-border);border-radius:14px;padding:clamp(14px,4vw,24px);box-shadow:var(--px-shadow)}
+.px-mode-badge{margin:0 0 8px;font-size:11.5px;color:var(--px-muted);text-transform:uppercase;letter-spacing:.03em}
+.px-payslip-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;border-bottom:2px solid var(--px-border);padding-bottom:12px;margin-bottom:12px}
+.px-payslip-brand{display:flex;gap:10px;align-items:center;min-width:0}
+.px-payslip-brand img{max-width:56px;height:auto;border-radius:6px}
+.px-payslip-company{margin:0;font-weight:700;font-size:clamp(15px,4vw,18px);word-break:break-word}
+.px-payslip-addr{margin:0;color:var(--px-muted);font-size:13px;word-break:break-word}
+.px-payslip-title{margin:0;font-weight:600;color:var(--px-primary);align-self:center}
+.px-payslip-emp{display:grid;grid-template-columns:1fr;gap:6px;margin-bottom:14px;font-size:13.5px}
+@media(min-width:560px){.px-payslip-emp{grid-template-columns:1fr 1fr}}
+.px-payslip-emp div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dotted var(--px-border);padding:4px 0;word-break:break-word}
+.px-payslip-emp span{color:var(--px-muted)}
+.px-payslip-tables{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:12px}
+@media(min-width:620px){.px-payslip-tables{grid-template-columns:1fr 1fr}}
+.px-table-head{font-weight:700;margin:0 0 6px;font-size:14px}
+.px-out-row{display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0;border-bottom:1px dotted var(--px-border);word-break:break-word}
+.px-payslip-net{display:flex;justify-content:space-between;align-items:center;background:var(--px-surface);border-radius:9px;padding:12px 14px;font-size:clamp(15px,4vw,18px);font-weight:700;color:var(--px-primary)}
+.px-payslip-words{font-size:13px;color:var(--px-muted);margin:8px 0 0;word-break:break-word}
+.px-payslip-footnote{font-size:11.5px;color:var(--px-muted);margin-top:10px}
+</style>
+
+<script>
+(function(){
+  var RUPEE="\u20B9";
+  var DASH="\u2014";
+
+  var earnings=[
+    {key:"basic",n:"Basic Salary",a:0,removable:false},
+    {key:"hra",n:"House Rent Allowance (HRA)",a:0,auto:true,touched:false,removable:false},
+    {key:"conv",n:"Conveyance Allowance",a:0,removable:false},
+    {key:"special",n:"Special Allowance",a:0,removable:false},
+    {key:"ot",n:"Overtime / Bonus",a:0,removable:false}
+  ];
+  var deductions=[
+    {key:"pf",n:"Provident Fund (PF)",a:0,auto:true,touched:false,removable:false},
+    {key:"pt",n:"Professional Tax",a:0,auto:true,touched:false,removable:false},
+    {key:"esi",n:"ESI",a:0,auto:true,touched:false,removable:false},
+    {key:"tds",n:"TDS",a:0,removable:false}
+  ];
+
+  function fmt(n){ n=isNaN(n)?0:n; return RUPEE+n.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+  function numToWords(num){
+    num=Math.round(num);
+    if(num===0) return "Zero Rupees Only";
+    var a=["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"];
+    var b=["","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];
+    function two(n){ if(n<20) return a[n]; return b[Math.floor(n/10)]+(n%10?" "+a[n%10]:""); }
+    function three(n){ if(n>99) return a[Math.floor(n/100)]+" Hundred"+(n%100?" "+two(n%100):""); return two(n); }
+    var crore=Math.floor(num/10000000); num%=10000000;
+    var lakh=Math.floor(num/100000); num%=100000;
+    var thousand=Math.floor(num/1000); num%=1000;
+    var rest=num;
+    var out=[];
+    if(crore) out.push(three(crore)+" Crore");
+    if(lakh) out.push(three(lakh)+" Lakh");
+    if(thousand) out.push(three(thousand)+" Thousand");
+    if(rest) out.push(three(rest));
+    return out.join(" ")+" Rupees Only";
+  }
+
+  function findItem(list,key){ for(var i=0;i<list.length;i++){ if(list[i].key===key) return list[i]; } return null; }
+
+  function renderRows(list, containerId){
+    var el=document.getElementById(containerId);
+    el.innerHTML="";
+    list.forEach(function(item,idx){
+      var row=document.createElement("div");
+      row.className="px-row-item"+(item.auto?" px-auto-row":"");
+      var nameInput=document.createElement("input");
+      nameInput.type="text"; nameInput.value=item.n; nameInput.placeholder="Label";
+      nameInput.addEventListener("input",function(){ item.n=nameInput.value; calculate(); });
+      var amtInput=document.createElement("input");
+      amtInput.type="number"; amtInput.min="0"; amtInput.value=item.a||"";
+      amtInput.placeholder="Amount";
+      amtInput.addEventListener("input",function(){
+        item.a=parseFloat(amtInput.value)||0;
+        if(item.auto){ item.touched=true; }
+        if(item.key==="basic"){ autoCalcFromBasic(); }
+        calculate();
+      });
+      var rm=document.createElement("button");
+      rm.type="button"; rm.className="px-row-remove"; rm.setAttribute("aria-label","Remove row"); rm.textContent="\u2715";
+      if(item.removable===false){ rm.disabled=true; }
+      rm.addEventListener("click",function(){
+        if(item.removable===false) return;
+        list.splice(idx,1); renderRows(list, containerId); calculate();
+      });
+      row.appendChild(nameInput); row.appendChild(amtInput); row.appendChild(rm);
+      el.appendChild(row);
+    });
+  }
+
+  function autoCalcFromBasic(){
+    if(!document.getElementById("pxAutoCalc").checked) return;
+    var basicItem=findItem(earnings,"basic");
+    var basic=basicItem?(basicItem.a||0):0;
+
+    var hraItem=findItem(earnings,"hra");
+    if(hraItem && !hraItem.touched){ hraItem.a=Math.round(basic*0.4); }
+
+    var hraAmt=(hraItem&&hraItem.a)||0;
+    var grossApprox=basic+hraAmt;
+
+    var pfEligible=document.getElementById("pxPfEligible").checked;
+    var pfCeiling=document.getElementById("pxPfCeiling").checked;
+    var pfItem=findItem(deductions,"pf");
+    if(pfItem && !pfItem.touched){
+      if(pfEligible){
+        var pfBase=pfCeiling?Math.min(basic,15000):basic;
+        pfItem.a=Math.round(pfBase*0.12);
+      } else { pfItem.a=0; }
+    }
+
+    var ptItem=findItem(deductions,"pt");
+    if(ptItem && !ptItem.touched){ ptItem.a=(grossApprox>15000)?200:0; }
+
+    var esiEligible=document.getElementById("pxEsiEligible").checked;
+    var esiItem=findItem(deductions,"esi");
+    if(esiItem && !esiItem.touched){
+      esiItem.a=(esiEligible && grossApprox<=21000)?Math.round(grossApprox*0.0075):0;
+    }
+
+    renderRows(earnings,"pxEarningsList");
+    renderRows(deductions,"pxDeductionsList");
+  }
+
+  function calculate(){
+    var applyLop=document.getElementById("pxApplyLop").checked;
+    var totalDays=parseFloat(document.getElementById("pxTotalDays").value)||0;
+    var lopDays=parseFloat(document.getElementById("pxLopDays").value)||0;
+    var factor=1;
+    if(applyLop && totalDays>0){ factor=Math.max(0,(totalDays-lopDays)/totalDays); }
+
+    var gross=0, ded=0;
+    var outE=document.getElementById("pxOutEarnings"); outE.innerHTML="";
+    earnings.forEach(function(item){
+      var amt=(item.a||0)*factor;
+      gross+=amt;
+      var r=document.createElement("div"); r.className="px-out-row";
+      var s1=document.createElement("span"); s1.textContent=item.n||"Earning";
+      var s2=document.createElement("span"); s2.textContent=fmt(amt);
+      r.appendChild(s1); r.appendChild(s2);
+      outE.appendChild(r);
+    });
+    var outD=document.getElementById("pxOutDeductions"); outD.innerHTML="";
+    deductions.forEach(function(item){
+      ded+=(item.a||0);
+      var r=document.createElement("div"); r.className="px-out-row";
+      var s1=document.createElement("span"); s1.textContent=item.n||"Deduction";
+      var s2=document.createElement("span"); s2.textContent=fmt(item.a||0);
+      r.appendChild(s1); r.appendChild(s2);
+      outD.appendChild(r);
+    });
+
+    var net=gross-ded;
+    document.getElementById("pxGross").textContent=fmt(gross);
+    document.getElementById("pxTotalDed").textContent=fmt(ded);
+    document.getElementById("pxNet").textContent=fmt(net);
+    document.getElementById("pxOutNet").textContent=fmt(net);
+    var words="Amount in words: "+numToWords(net);
+    document.getElementById("pxWords").textContent=words;
+    document.getElementById("pxOutWords").textContent=words;
+
+    document.getElementById("pxOutCompany").textContent=document.getElementById("pxCompanyName").value||"Company Name";
+    document.getElementById("pxOutAddr").textContent=document.getElementById("pxCompanyAddr").value||"Company Address";
+    document.getElementById("pxOutName").textContent=document.getElementById("pxEmpName").value||DASH;
+    document.getElementById("pxOutId").textContent=document.getElementById("pxEmpId").value||DASH;
+    document.getElementById("pxOutDesig").textContent=document.getElementById("pxDesignation").value||DASH;
+    document.getElementById("pxOutDept").textContent=document.getElementById("pxDept").value||DASH;
+    document.getElementById("pxOutPan").textContent=document.getElementById("pxPan").value||DASH;
+    document.getElementById("pxOutUan").textContent=document.getElementById("pxUan").value||DASH;
+    var bankVal=document.getElementById("pxBankAcc").value||DASH;
+    var ifscVal=document.getElementById("pxIfsc").value;
+    document.getElementById("pxOutBank").textContent=bankVal+(ifscVal?(" / "+ifscVal):"");
+    document.getElementById("pxOutDays").textContent=document.getElementById("pxPaidDays").value||DASH;
+    var mv=document.getElementById("pxPayMonth").value;
+    document.getElementById("pxOutMonth").textContent=mv?monthLabel(mv):DASH;
+
+    var mode=document.getElementById("pxGenMode").value;
+    document.getElementById("pxModeBadge").textContent="Generated by: "+(mode==="employee"?"Employee (self-generated)":"Employer");
+  }
+
+  function monthLabel(v){
+    var parts=v.split("-"); var names=["January","February","March","April","May","June","July","August","September","October","November","December"];
+    return names[parseInt(parts[1],10)-1]+" "+parts[0];
+  }
+
+  function bindTextInputs(){
+    ["pxCompanyName","pxCompanyAddr","pxEmpName","pxEmpId","pxDesignation","pxDept","pxPan","pxUan","pxBankAcc","pxIfsc","pxPayMonth","pxPaidDays","pxTotalDays","pxLopDays"].forEach(function(id){
+      document.getElementById(id).addEventListener("input",calculate);
+      document.getElementById(id).addEventListener("change",calculate);
+    });
+    document.getElementById("pxApplyLop").addEventListener("change",calculate);
+    document.getElementById("pxAutoCalc").addEventListener("change",function(){ autoCalcFromBasic(); calculate(); });
+    document.getElementById("pxPfEligible").addEventListener("change",function(){ autoCalcFromBasic(); calculate(); });
+    document.getElementById("pxPfCeiling").addEventListener("change",function(){ autoCalcFromBasic(); calculate(); });
+    document.getElementById("pxEsiEligible").addEventListener("change",function(){ autoCalcFromBasic(); calculate(); });
+    document.getElementById("pxGenMode").addEventListener("change",function(){
+      var mode=document.getElementById("pxGenMode").value;
+      if(mode==="employee"){
+        document.getElementById("pxCompanyCardHeading").textContent="🏢 Employer / Company Details";
+        document.getElementById("pxEmpCardHeading").textContent="👤 Your Details";
+      } else {
+        document.getElementById("pxCompanyCardHeading").textContent="🏢 Company Details";
+        document.getElementById("pxEmpCardHeading").textContent="👤 Employee Details";
+      }
+      calculate();
+    });
+  }
+
+  document.getElementById("pxAddEarning").addEventListener("click",function(){
+    earnings.push({key:"custom"+Date.now(),n:"",a:0,removable:true}); renderRows(earnings,"pxEarningsList"); calculate();
+  });
+  document.getElementById("pxAddDeduction").addEventListener("click",function(){
+    deductions.push({key:"custom"+Date.now(),n:"",a:0,removable:true}); renderRows(deductions,"pxDeductionsList"); calculate();
+  });
+
+  document.getElementById("pxDownload").addEventListener("click",function(){
+    var slip=document.getElementById("pxPayslip");
+    var w=window.open("","_blank","width=800,height=900");
+    if(!w){ alert("Please allow pop-ups for this site to download or print the payslip."); return; }
+    var css="body{font-family:Arial,Helvetica,sans-serif;color:#1a1a2e;margin:24px;background:#fff}"+
+      ".px-mode-badge{margin:0 0 8px;font-size:11.5px;color:#5c6270;text-transform:uppercase;letter-spacing:.03em}"+
+      ".px-payslip-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border-bottom:2px solid #e3e6ec;padding-bottom:12px;margin-bottom:12px}"+
+      ".px-payslip-brand{display:flex;gap:10px;align-items:center}"+
+      ".px-payslip-brand img{max-width:56px;height:auto;border-radius:6px}"+
+      ".px-payslip-company{margin:0;font-weight:700;font-size:18px}"+
+      ".px-payslip-addr{margin:0;color:#5c6270;font-size:13px}"+
+      ".px-payslip-title{margin:0;font-weight:600;color:#2f6fed}"+
+      ".px-payslip-emp{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;font-size:13.5px}"+
+      ".px-payslip-emp div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dotted #e3e6ec;padding:4px 0}"+
+      ".px-payslip-emp span{color:#5c6270}"+
+      ".px-payslip-tables{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px}"+
+      ".px-table-head{font-weight:700;margin:0 0 6px;font-size:14px}"+
+      ".px-out-row{display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0;border-bottom:1px dotted #e3e6ec}"+
+      ".px-payslip-net{display:flex;justify-content:space-between;align-items:center;background:#f7f8fb;border-radius:9px;padding:12px 14px;font-size:18px;font-weight:700;color:#2f6fed}"+
+      ".px-payslip-words{font-size:13px;color:#5c6270;margin:8px 0 0}"+
+      ".px-payslip-footnote{font-size:11.5px;color:#5c6270;margin-top:10px}";
+    w.document.open();
+    w.document.write("<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>Payslip</title><style>"+css+"</style></head><body>"+slip.innerHTML+"</body></html>");
+    w.document.close();
+    setTimeout(function(){ try{ w.focus(); w.print(); }catch(e){} },350);
+  });
+
+  document.getElementById("pxReset").addEventListener("click",function(){
+    document.querySelectorAll(".px-app input[type=text], .px-app input[type=month], .px-app input[type=number]").forEach(function(i){ i.value=""; });
+    document.getElementById("pxApplyLop").checked=false;
+    document.getElementById("pxAutoCalc").checked=true;
+    document.getElementById("pxPfEligible").checked=true;
+    document.getElementById("pxPfCeiling").checked=true;
+    document.getElementById("pxEsiEligible").checked=false;
+    document.getElementById("pxGenMode").value="employer";
+    earnings=[
+      {key:"basic",n:"Basic Salary",a:0,removable:false},
+      {key:"hra",n:"House Rent Allowance (HRA)",a:0,auto:true,touched:false,removable:false},
+      {key:"conv",n:"Conveyance Allowance",a:0,removable:false},
+      {key:"special",n:"Special Allowance",a:0,removable:false},
+      {key:"ot",n:"Overtime / Bonus",a:0,removable:false}
+    ];
+    deductions=[
+      {key:"pf",n:"Provident Fund (PF)",a:0,auto:true,touched:false,removable:false},
+      {key:"pt",n:"Professional Tax",a:0,auto:true,touched:false,removable:false},
+      {key:"esi",n:"ESI",a:0,auto:true,touched:false,removable:false},
+      {key:"tds",n:"TDS",a:0,removable:false}
+    ];
+    renderRows(earnings,"pxEarningsList"); renderRows(deductions,"pxDeductionsList");
+    document.getElementById("pxLogoPreview").hidden=true;
+    document.getElementById("pxCompanyCardHeading").textContent="🏢 Company Details";
+    document.getElementById("pxEmpCardHeading").textContent="👤 Employee Details";
+    calculate();
+  });
+
+  // Logo upload — re-encoded via canvas to strip any hidden payload/metadata
+  document.getElementById("pxLogoInput").addEventListener("change",function(e){
+    var file=e.target.files[0];
+    if(!file || !file.type.indexOf) { return; }
+    if(file.type.indexOf("image/")!==0){ return; }
+    if(file.size > 2*1024*1024){ alert("Logo must be under 2MB."); return; }
+    var img=new Image();
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      img.onload=function(){
+        var canvas=document.createElement("canvas");
+        var max=240;
+        var scale=Math.min(1,max/Math.max(img.width,img.height));
+        canvas.width=img.width*scale; canvas.height=img.height*scale;
+        var ctx=canvas.getContext("2d");
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        var dataUrl=canvas.toDataURL("image/png");
+        document.getElementById("pxLogoImg").src=dataUrl;
+        document.getElementById("pxLogoPreview").hidden=false;
+        document.getElementById("pxPayslipLogo").src=dataUrl;
+        document.getElementById("pxPayslipLogo").hidden=false;
+      };
+      img.src=ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById("pxSaveCompany").addEventListener("click",function(){
+    try{
+      var data={
+        name:document.getElementById("pxCompanyName").value,
+        addr:document.getElementById("pxCompanyAddr").value,
+        logo:document.getElementById("pxPayslipLogo").src||""
+      };
+      localStorage.setItem("toolsx_payslip_company", JSON.stringify(data));
+      alert("Company details saved on this device for next time.");
+    }catch(e){ alert("Could not save — your browser may be blocking local storage."); }
+  });
+
+  function loadSavedCompany(){
+    try{
+      var raw=localStorage.getItem("toolsx_payslip_company");
+      if(!raw) return;
+      var data=JSON.parse(raw);
+      if(data.name) document.getElementById("pxCompanyName").value=data.name;
+      if(data.addr) document.getElementById("pxCompanyAddr").value=data.addr;
+      if(data.logo){
+        document.getElementById("pxLogoImg").src=data.logo;
+        document.getElementById("pxLogoPreview").hidden=false;
+        document.getElementById("pxPayslipLogo").src=data.logo;
+        document.getElementById("pxPayslipLogo").hidden=false;
+      }
+    }catch(e){}
+  }
+
+  renderRows(earnings,"pxEarningsList");
+  renderRows(deductions,"pxDeductionsList");
+  bindTextInputs();
+  loadSavedCompany();
+  calculate();
+})();
+</script>
+
+<h2>How to Use the Salary Slip Generator</h2>
+<div class="px-htu-box">
+<ol>
+<li>✅ Choose whether you're an <strong>Employer</strong> generating this for someone, or an <strong>Employee</strong> generating your own payslip.</li>
+<li>✅ Enter <strong>company name, address</strong> and, if you like, upload a logo — it stays only in your browser.</li>
+<li>✅ Fill in <strong>employee details</strong> and type the <strong>Basic Salary</strong> — HRA, PF, Professional Tax and ESI auto-fill using common statutory rules.</li>
+<li>✅ Edit any auto-filled amount directly in its box if your company's actual policy differs — your edit is kept and won't be overwritten.</li>
+<li>✅ If needed, enable <strong>Loss of Pay</strong> for unpaid-leave proration, then tap <strong>Download / Print Payslip</strong> to save it as a PDF (only the payslip prints, not the rest of the page).</li>
+</ol>
+</div>
+
+<h3>📌 Tip</h3>
+<p>Use "Remember these company details" once — your company name, address and logo auto-fill next time on this device, so you only need to enter employee details each month.</p>
+
+<h2>❓ Frequently Asked Questions</h2>
+<h3>Is this Salary Slip Generator free to use?</h3>
+<p>Yes, it's completely free with no sign-up, and the downloaded PDF has no watermark.</p>
+<h3>How accurate are the auto-filled PF, HRA and Professional Tax amounts?</h3>
+<p>They follow common Indian payroll conventions — 40% of Basic for HRA, 12% employee PF (optionally capped at the ₹15,000 EPFO wage ceiling), and a typical Professional Tax slab. Professional Tax and PF policy can vary by state and employer, so review and edit any amount before finalising.</p>
+<h3>Is my salary data uploaded anywhere?</h3>
+<p>No. All calculations happen locally in your browser, and saved company details stay only on your own device.</p>
+<h3>Can employees generate their own payslip, not just employers?</h3>
+<p>Yes — select "Employee — generating my own payslip" at the top, and the form relabels itself for that use case.</p>
+<h3>Why does only the payslip print, not the whole webpage?</h3>
+<p>Download / Print opens the payslip alone in a separate print view, so your printed or saved PDF never includes site navigation or other page content.</p>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Is this Salary Slip Generator free to use?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is completely free with no sign-up, and the downloaded PDF has no watermark."}},
+    {"@type":"Question","name":"How accurate are the auto-filled PF, HRA and Professional Tax amounts?","acceptedAnswer":{"@type":"Answer","text":"They follow common Indian payroll conventions such as 40 percent of Basic for HRA and 12 percent employee PF, optionally capped at the 15,000 rupee EPFO wage ceiling. Professional Tax and PF policy can vary by state and employer, so review and edit before finalising."}},
+    {"@type":"Question","name":"Is my salary data uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. All calculations happen locally in the browser and nothing is sent to any server."}},
+    {"@type":"Question","name":"Can employees generate their own payslip, not just employers?","acceptedAnswer":{"@type":"Answer","text":"Yes, selecting the employee option at the top relabels the form for generating a self-made payslip."}},
+    {"@type":"Question","name":"Why does only the payslip print, not the whole webpage?","acceptedAnswer":{"@type":"Answer","text":"Download and Print opens the payslip alone in a separate print view so the saved or printed PDF never includes site navigation or other page content."}}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Generate a Salary Slip Online",
+  "step": [
+    {"@type":"HowToStep","text":"Choose Employer or Employee mode."},
+    {"@type":"HowToStep","text":"Enter company name, address and optional logo."},
+    {"@type":"HowToStep","text":"Fill in employee details and Basic Salary; HRA, PF, Professional Tax and ESI auto-fill."},
+    {"@type":"HowToStep","text":"Edit any auto-filled amount if your company's policy differs."},
+    {"@type":"HowToStep","text":"Optionally apply Loss of Pay proration, then download or print the payslip."}
+  ]
+}
+</script>
+
+<style>
+.px-htu-box{background:var(--px-surface,#f7f8fb);border:1px solid var(--px-border,#e3e6ec);border-radius:10px;padding:14px 16px;margin:10px 0}
+.dark-mode .px-htu-box,[data-theme="dark"] .px-htu-box,html.dark .px-htu-box{background:#1e2230;border-color:#2c3143}
+.px-htu-box ol{margin:0;padding-left:20px}
+.px-htu-box li{margin-bottom:8px;line-height:1.5}
+</style>
+
+<h3>🔗 Related Tools on ToolsX</h3>
+<ul>
+<li><a href="../tools/gst-invoice-generator-for-business.html">GST Invoice Generator for Business</a> — for billing customers, separate from paying employees.</li>
+<li><a href="../tools/free-emi-calculator-with-down-payment.html">EMI Calculator</a> — useful for employees checking loan affordability against their net pay.</li>
+<li><a href="../tools/banayein-free-ai-resume-online-live.html">AI Resume Builder</a> — for HR teams onboarding new hires alongside their first payslip.</li>
+</ul>
+
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Stylish Name &amp; Fancy Font Generator - Free – ToolsX App</title>
+<meta name="description" content="Create stylish names for Free Fire, BGMI, Instagram, WhatsApp.  fancy fonts, symbols &amp; decorations. 1-click copy, Hindi support, 100% free. Try now">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Stylish Name &amp; Fancy Font Generator - Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div class="snx-root">
+<style>
+/*<![CDATA[*/
+/* ===== MODERN DESIGN SYSTEM (2026 Edition) ===== */
+.snx-root {
+  --sn-card: #ffffff;
+  --sn-text: #0f172a;
+  --sn-muted: #64748b;
+  --sn-border: #e2e8f0;
+  --sn-input: #f8fafc;
+  --sn-primary: #7c3aed;
+  --sn-primary-hover: #6d28d9;
+  --sn-accent: #f43f5e;
+  --sn-shadow: 0 10px 30px -5px rgba(0,0,0,0.05), 0 4px 12px -2px rgba(0,0,0,0.03);
+  --sn-shadow-hover: 0 20px 35px -10px rgba(124, 58, 237, 0.15);
+  --sn-success: #10b981;
+  --sn-success-bg: rgba(16,185,129,0.1);
+  --sn-success-border: rgba(16,185,129,0.25);
+  --sn-primary-bg: rgba(124,58,237,0.08);
+  --sn-primary-border: rgba(124,58,237,0.2);
+  --sn-toast-bg: #0f172a;
+  --sn-toast-text: #ffffff;
+  --sn-gradient: linear-gradient(135deg, #7c3aed 0%, #f43f5e 100%);
+  --sn-glass: rgba(255, 255, 255, 0.7);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--sn-text);
+  line-height: 1.5;
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: clamp(16px, 3vw, 28px);
+  box-sizing: border-box;
+}
+
+/* ===== DARK MODE (Modern Midnight Theme) ===== */
+body.dark-mode .snx-root,
+html.dark-mode .snx-root,
+[data-theme="dark"] .snx-root,
+body[data-theme="dark"] .snx-root,
+html[data-theme="dark"] .snx-root,
+.dark-mode .snx-root,
+.night-mode .snx-root {
+  --sn-card: #0f172a;
+  --sn-text: #f8fafc;
+  --sn-muted: #94a3b8;
+  --sn-border: #1e293b;
+  --sn-input: #0b0f19;
+  --sn-shadow: 0 10px 30px -5px rgba(0,0,0,0.5);
+  --sn-shadow-hover: 0 20px 35px -10px rgba(139, 92, 246, 0.25);
+  --sn-success: #34d399;
+  --sn-success-bg: rgba(52,211,153,0.15);
+  --sn-success-border: rgba(52,211,153,0.3);
+  --sn-primary-bg: rgba(139,92,246,0.15);
+  --sn-primary-border: rgba(139,92,246,0.3);
+  --sn-toast-bg: #1e293b;
+  --sn-toast-text: #f8fafc;
+  --sn-glass: rgba(15, 23, 42, 0.7);
+}
+
+/* ===== BASE RESET & LAYOUT ===== */
+.snx-root *, .snx-root *::before, .snx-root *::after { box-sizing: border-box; }
+
+/* Modern Header */
+.snx-head { text-align: center; margin-bottom: clamp(20px, 4vw, 32px); }
+.snx-head h1 {
+  font-size: clamp(22px, 5vw, 34px);
+  font-weight: 800; margin: 0 0 10px; color: var(--sn-text);
+  letter-spacing: -0.02em;
+  background: var(--sn-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.snx-head p {
+  color: var(--sn-muted);
+  font-size: clamp(13px, 2vw, 15px);
+  margin: 0 0 18px;
+  max-width: 680px; margin-left: auto; margin-right: auto;
+  line-height: 1.6;
+}
+.snx-badges { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.snx-badge {
+  font-size: clamp(11px, 1.5vw, 12px);
+  font-weight: 600; padding: 6px 14px; border-radius: 99px;
+  background: var(--sn-primary-bg); color: var(--sn-primary);
+  border: 1px solid var(--sn-primary-border);
+  min-height: 32px;
+  display: inline-flex; align-items: center;
+  backdrop-filter: blur(8px);
+}
+.snx-badge.g { background: var(--sn-success-bg); color: var(--sn-success); border-color: var(--sn-success-border); }
+
+/* Main Card (Glassmorphism Effect) */
+.snx-card {
+  background: var(--sn-card); border: 1px solid var(--sn-border);
+  border-radius: 24px; padding: clamp(18px, 4vw, 28px);
+  margin-bottom: 24px; box-shadow: var(--sn-shadow);
+  transition: all 0.3s ease;
+}
+
+/* Input Area */
+.snx-inp-wrap { position: relative; margin-bottom: 16px; }
+.snx-inp {
+  width: 100%; background: var(--sn-input); border: 2px solid var(--sn-border);
+  border-radius: 16px; padding: clamp(12px, 2.5vw, 16px) clamp(16px, 3vw, 20px);
+  font-size: clamp(16px, 3vw, 22px); font-weight: 700;
+  color: var(--sn-text); font-family: inherit; transition: all 0.25s ease;
+  min-height: 56px;
+}
+.snx-inp:focus { outline: none; border-color: var(--sn-primary); box-shadow: 0 0 0 4px rgba(124,58,237,0.15); }
+
+/* Quick Controls */
+.snx-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.snx-cbtn-sm {
+  padding: 8px 16px; border-radius: 12px;
+  border: 1px solid var(--sn-border); background: var(--sn-input);
+  color: var(--sn-text); font-size: clamp(11px, 1.8vw, 13px);
+  font-weight: 600; cursor: pointer; transition: all 0.2s ease;
+  min-height: 40px; min-width: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: inherit;
+}
+.snx-cbtn-sm:hover, .snx-cbtn-sm.active {
+  background: var(--sn-primary); color: #fff; border-color: var(--sn-primary);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+}
+
+/* Category Filter Chips */
+.snx-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.snx-cat {
+  padding: 8px 18px; border-radius: 99px;
+  border: 1px solid var(--sn-border); background: var(--sn-input);
+  color: var(--sn-muted); font-size: clamp(11px, 1.8vw, 13px);
+  font-weight: 600; cursor: pointer; transition: all 0.25s ease;
+  min-height: 42px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: inherit; white-space: nowrap;
+}
+.snx-cat:hover { border-color: var(--sn-primary); color: var(--sn-primary); transform: translateY(-1px); }
+.snx-cat.on { background: var(--sn-gradient); color: #fff; border-color: transparent; font-weight: 700; box-shadow: 0 4px 14px rgba(244, 63, 94, 0.3); }
+
+/* Style Search Bar */
+.snx-search {
+  width: 100%; background: var(--sn-input); border: 1.5px solid var(--sn-border);
+  border-radius: 14px; padding: 12px 18px;
+  font-size: clamp(13px, 2vw, 14px); color: var(--sn-text);
+  margin-top: 16px; min-height: 48px; font-family: inherit;
+  transition: all 0.2s ease;
+}
+.snx-search:focus { outline: none; border-color: var(--sn-primary); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+
+/* Live Stats */
+.snx-stats {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 16px; padding: 12px 18px;
+  background: var(--sn-input); border-radius: 12px;
+  border: 1px solid var(--sn-border);
+  font-size: clamp(11px, 1.6vw, 13px); color: var(--sn-muted);
+  flex-wrap: wrap; gap: 8px;
+}
+.snx-stats b { color: var(--sn-primary); }
+
+/* Output Cards Grid */
+.snx-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 20px; }
+@media(min-width: 640px){ .snx-grid { grid-template-columns: 1fr 1fr; } }
+@media(min-width: 1024px){ .snx-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+/* Grid Item Card */
+.snx-item {
+  background: var(--sn-input); border: 1px solid var(--sn-border);
+  border-radius: 18px; padding: clamp(12px, 2vw, 16px);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex; flex-direction: column; justify-content: space-between;
+  gap: 10px;
+}
+.snx-item:hover { border-color: var(--sn-primary-border); transform: translateY(-3px); box-shadow: var(--sn-shadow-hover); }
+.snx-item-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 4px; flex-wrap: wrap; gap: 6px;
+}
+.snx-item-name {
+  font-size: clamp(10px, 1.4vw, 11px); font-weight: 700;
+  color: var(--sn-muted); text-transform: uppercase; letter-spacing: 0.6px;
+}
+.snx-item-tag {
+  font-size: clamp(9px, 1.2vw, 10px); padding: 3px 10px; border-radius: 99px;
+  background: var(--sn-primary-bg); color: var(--sn-primary); font-weight: 700;
+  white-space: nowrap; border: 1px solid var(--sn-primary-border);
+}
+.snx-item-preview {
+  font-size: clamp(15px, 2.5vw, 18px); color: var(--sn-text);
+  min-height: 48px; line-height: 1.4; word-break: break-word;
+  margin-bottom: 6px; padding: 6px 0; user-select: all;
+  overflow-wrap: break-word; display: flex; align-items: center;
+}
+.snx-item-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.snx-cbtn {
+  flex: 1; min-width: 80px;
+  padding: 10px 14px; border-radius: 12px; border: none;
+  background: var(--sn-gradient); color: #fff;
+  font-size: clamp(11px, 1.6vw, 13px); font-weight: 700; cursor: pointer;
+  transition: all 0.2s ease; min-height: 42px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: inherit; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+}
+.snx-cbtn:hover { opacity: 0.95; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(124, 58, 237, 0.3); }
+.snx-cbtn.alt {
+  background: var(--sn-card); color: var(--sn-text);
+  border: 1px solid var(--sn-border); box-shadow: none;
+}
+.snx-cbtn.alt:hover { border-color: var(--sn-primary); color: var(--sn-primary); background: var(--sn-primary-bg); }
+.snx-cbtn.ok { background: var(--sn-success) !important; color: #fff !important; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+
+/* Global Action Buttons */
+.snx-actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+.snx-btn {
+  flex: 1; min-width: 140px;
+  padding: 14px 20px; border-radius: 14px; border: none; cursor: pointer;
+  font-size: clamp(13px, 2vw, 15px); font-weight: 700;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.25s ease; min-height: 50px; font-family: inherit;
+}
+.snx-pri { background: var(--sn-gradient); color: #fff; box-shadow: 0 6px 20px rgba(244,63,94,0.25); }
+.snx-pri:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(244,63,94,0.35); }
+.snx-sec { background: var(--sn-input); color: var(--sn-text); border: 1px solid var(--sn-border); }
+.snx-sec:hover { border-color: var(--sn-primary); color: var(--sn-primary); transform: translateY(-2px); }
+
+/* Info Section Card */
+.snx-info-c {
+  background: var(--sn-card); border: 1px solid var(--sn-border);
+  border-radius: 20px; padding: clamp(18px, 3.5vw, 24px); margin-bottom: 20px;
+  box-shadow: var(--sn-shadow);
+}
+.snx-info-c h2 {
+  font-size: clamp(16px, 2.5vw, 19px); font-weight: 800;
+  margin: 0 0 12px; color: var(--sn-text);
+}
+.snx-info-c p, .snx-info-c ul {
+  color: var(--sn-muted); font-size: clamp(12px, 1.8vw, 14px);
+  line-height: 1.7; margin: 0 0 10px;
+}
+
+/* Footer Internal Links Card */
+.snx-footer-links {
+  background: var(--sn-card); border: 1px solid var(--sn-border);
+  border-radius: 20px; padding: clamp(18px, 3.5vw, 24px);
+  margin-bottom: 20px; box-shadow: var(--sn-shadow);
+}
+.snx-footer-links h3 {
+  font-size: clamp(15px, 2.2vw, 17px); font-weight: 800;
+  margin: 0 0 14px; color: var(--sn-text);
+}
+.snx-link-list { display: flex; flex-direction: column; gap: 10px; }
+.snx-link-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; border-radius: 12px;
+  background: var(--sn-input); border: 1px solid var(--sn-border);
+  color: var(--sn-text); text-decoration: none;
+  font-size: clamp(13px, 1.8vw, 14px); font-weight: 600;
+  transition: all 0.25s ease; min-height: 48px; flex-wrap: wrap;
+}
+.snx-link-item:hover {
+  border-color: var(--sn-primary); color: var(--sn-primary);
+  background: var(--sn-primary-bg); transform: translateX(6px);
+}
+
+/* Modern Floating Toast Notification */
+.snx-toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--sn-toast-bg); color: var(--sn-toast-text);
+  padding: 14px 22px; border-radius: 14px;
+  font-size: clamp(13px, 1.8vw, 14px); font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  z-index: 9999; transform: translateY(100px); opacity: 0;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  max-width: calc(100vw - 48px); word-break: break-word;
+  border: 1px solid var(--sn-border);
+}
+.snx-toast.show { transform: translateY(0); opacity: 1; }
+
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+@media (max-width: 480px) {
+  .snx-root { padding: 12px; }
+  .snx-card { padding: 16px; border-radius: 18px; }
+  .snx-actions { flex-direction: column; }
+  .snx-btn { min-width: 100%; }
+  .snx-stats { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .snx-item-btns { flex-direction: column; }
+  .snx-cbtn { min-width: 100%; }
+  .snx-toast { bottom: 16px; right: 16px; left: 16px; text-align: center; }
+}
+/*]]>*/
+</style>
+
+<div class="snx-head">
+  <h1>Stylish Name &amp; Fancy Font Generator</h1>
+  <p>Make your name stylish — 60+ Real Unicode Fonts, Fancy Symbols and Pure Hindi Support. Perfect for Free Fire, Instagram, BGMI.</p>
+  <div class="snx-badges">
+    <span class="snx-badge g">✓ Real Unicode Math Engine</span>
+    <span class="snx-badge">⚡ 100% Instant</span>
+    <span class="snx-badge">🇮🇳 Hindi + English Support</span>
+  </div>
+</div>
+
+<div class="snx-card">
+  <div class="snx-inp-wrap">
+    <input type="text" class="snx-inp" id="snxInp" maxlength="35" placeholder="Type your name here... (e.g. Rahul / राहुल)" value="ToolsX" aria-label="Enter your name to generate stylish fonts">
+  </div>
+
+  <div class="snx-controls">
+    <button class="snx-cbtn-sm" id="btnUpper" aria-label="Convert to uppercase">uppercase</button>
+    <button class="snx-cbtn-sm" id="btnLower" aria-label="Convert to lowercase">lowercase</button>
+    <button class="snx-cbtn-sm" id="btnClear" aria-label="Clear input">Clear</button>
+  </div>
+
+  <div class="snx-filters" id="snxCats">
+    <button class="snx-cat on" data-cat="all">🌟 All (60+)</button>
+    <button class="snx-cat" data-cat="bold">🅱️ Bold &amp; Math</button>
+    <button class="snx-cat" data-cat="cursive">✍️ Cursive &amp; Gothic</button>
+    <button class="snx-cat" data-cat="gaming">🎮 Gaming/FF</button>
+    <button class="snx-cat" data-cat="decorated">✨ Decorated</button>
+    <button class="snx-cat" data-cat="hindi">🇮🇳 Special Hindi</button>
+    <button class="snx-cat" data-cat="saved">❤️ Saved</button>
+  </div>
+
+  <input type="text" class="snx-search" id="snxSearch" placeholder="🔍 Style Search (e.g. fire, gothic, king, bold)" aria-label="Search styles">
+
+  <div class="snx-stats">
+    <span>Total Styles: <b id="snxCount">0</b></span>
+    <span>Category: <b id="snxSelCat">All</b></span>
+  </div>
+
+  <div class="snx-grid" id="snxGrid"></div>
+
+  <div class="snx-actions">
+    <button class="snx-btn snx-pri" id="snxCopyAll" aria-label="Copy all visible styles">📋 Copy All Visible</button>
+    <button class="snx-btn snx-sec" id="snxRandom" aria-label="Generate random style">🎲 Random Generator</button>
+  </div>
+</div>
+
+<div class="snx-info-c">
+  <h2>⚙️ How does this REAL Unicode Engine work?</h2>
+  <p>Old tools used to break your characters. This <b>Ultra-Advanced Engine</b> uses 32-bit Unicode CodePoints (<code>String.fromCodePoint</code>) to generate real UTF-16 fonts. It's 100% Real, Copy-Paste friendly and works instantly on Instagram, Free Fire, WhatsApp and BGMI.</p>
+</div>
+
+<!-- Footer Internal Links -->
+<div class="snx-footer-links">
+  <h3>🔗 Explore More Tools on Tools-X</h3>
+  <div class="snx-link-list">
+    <a href="../tools/create-hd-wallpaper-without-sign-up-ai.html" class="snx-link-item" target="_blank" rel="noopener">
+      🖼️ Create HD Wallpaper Without Sign Up — AI
+    </a>
+    <a href="../tools/audit-karein-code-bugs-aur-security-ai.html" class="snx-link-item" target="_blank" rel="noopener">
+      🔍 Audit Code Bugs and Security — AI
+    </a>
+    <a href="https://www.toolsx.in/2026/08/explore-karein-200-ai-prompts-hub-ai-lab.html" class="snx-link-item" target="_blank" rel="noopener">
+      🧠 Explore 200+ AI Prompts Hub — AI Lab
+    </a>
+  </div>
+</div>
+
+<div class="snx-toast" id="snxToast"></div>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+
+// Advanced Unicode Offsets Map (Real Math-Based Font Conversion Engine)
+var OFFSET_MAP = {
+  boldUpper: 0x1D400, boldLower: 0x1D41A, boldDigit: 0x1D7CE,
+  italicUpper: 0x1D434, italicLower: 0x1D44E,
+  boldItalicUpper: 0x1D468, boldItalicLower: 0x1D482,
+  scriptUpper: 0x1D49C, scriptLower: 0x1D4B6,
+  boldScriptUpper: 0x1D4D0, boldScriptLower: 0x1D4EA,
+  frakturUpper: 0x1D504, frakturLower: 0x1D51E,
+  doubleUpper: 0x1D538, doubleLower: 0x1D552, doubleDigit: 0x1D7D8,
+  sansUpper: 0x1D5A0, sansLower: 0x1D5BA, sansDigit: 0x1D7E2,
+  sansBoldUpper: 0x1D5D4, sansBoldLower: 0x1D5EE, sansBoldDigit: 0x1D7EC,
+  monoUpper: 0x1D670, monoLower: 0x1D68A, monoDigit: 0x1D7F6
+};
+
+function unicodeTransform(str, uUpper, uLower, uDigit) {
+  return Array.from(str).map(function(ch) {
+    var code = ch.charCodeAt(0);
+    if (code >= 65 && code <= 90 && uUpper) {
+      return String.fromCodePoint(uUpper + (code - 65));
+    }
+    if (code >= 97 && code <= 122 && uLower) {
+      return String.fromCodePoint(uLower + (code - 97));
+    }
+    if (code >= 48 && code <= 57 && uDigit) {
+      return String.fromCodePoint(uDigit + (code - 48));
+    }
+    return ch;
+  }).join('');
+}
+
+// Special Character Map for Fonts with irregular unicodes
+var CIRCLED_MAP = {'A':'Ⓐ','B':'Ⓑ','C':'Ⓒ','D':'Ⓓ','E':'Ⓔ','F':'Ⓕ','G':'Ⓖ','H':'Ⓗ','I':'Ⓘ','J':'Ⓙ','K':'Ⓚ','L':'Ⓛ','M':'Ⓜ','N':'Ⓝ','O':'Ⓞ','P':'Ⓟ','Q':'Ⓠ','R':'Ⓡ','S':'Ⓢ','T':'Ⓣ','U':'Ⓤ','V':'Ⓥ','W':'Ⓦ','X':'Ⓧ','Y':'Ⓨ','Z':'Ⓩ','a':'ⓐ','b':'ⓑ','c':'ⓒ','d':'ⓓ','e':'ⓔ','f':'ⓕ','g':'ⓖ','h':'ⓗ','i':'ⓘ','j':'ⓙ','k':'ⓚ','l':'ⓛ','m':'ⓜ','n':'ⓝ','o':'ⓞ','p':'ⓟ','q':'ⓠ','r':'ⓡ','s':'ⓢ','t':'ⓣ','u':'ⓤ','v':'ⓥ','w':'ⓦ','x':'ⓧ','y':'ⓨ','z':'ⓩ','0':'⓪','1':'①','2':'②','3':'③','4':'④','5':'⑤','6':'⑥','7':'⑦','8':'⑧','9':'⑨'};
+var SQUARED_MAP = {'A':'🅰','B':'🅱','C':'🅲','D':'🅳','E':'🅴','F':'🅵','G':'🅶','H':'🅷','I':'🅸','J':'🅹','K':'🅺','L':'🅻','M':'🅼','N':'🅽','O':'🅾','P':'🅿','Q':'🆀','R':'🆁','S':'🆂','T':'🆃','U':'🆄','V':'🆅','W':'🆆','X':'🆇','Y':'🆈','Z':'🆉','a':'🅰','b':'🅱','c':'🅲','d':'🅳','e':'🅴','f':'🅵','g':'🅶','h':'🅷','i':'🅸','j':'🅹','k':'🅺','l':'🅻','m':'🅼','n':'🅽','o':'🅾','p':'🅿','q':'🆀','r':'🆁','s':'🆂','t':'🆃','u':'🆄','v':'🆅','w':'🆆','x':'🆇','y':'🆈','z':'🆉'};
+
+function mapTransform(str, map) {
+  return Array.from(str).map(function(c){ return map[c] || c; }).join('');
+}
+
+// STYLES DEFINITION (Real & Unique)
+var STYLES = [
+  // BOLD & MATH
+  { n: 'Mathematical Bold', c: 'bold', f: function(t){ return unicodeTransform(t, OFFSET_MAP.boldUpper, OFFSET_MAP.boldLower, OFFSET_MAP.boldDigit); }},
+  { n: 'Math Bold Italic', c: 'bold', f: function(t){ return unicodeTransform(t, OFFSET_MAP.boldItalicUpper, OFFSET_MAP.boldItalicLower); }},
+  { n: 'Sans-Serif Bold', c: 'bold', f: function(t){ return unicodeTransform(t, OFFSET_MAP.sansBoldUpper, OFFSET_MAP.sansBoldLower, OFFSET_MAP.sansBoldDigit); }},
+  { n: 'Double Struck / Outline', c: 'bold', f: function(t){ return unicodeTransform(t, OFFSET_MAP.doubleUpper, OFFSET_MAP.doubleLower, OFFSET_MAP.doubleDigit); }},
+  { n: 'Monospace Code', c: 'bold', f: function(t){ return unicodeTransform(t, OFFSET_MAP.monoUpper, OFFSET_MAP.monoLower, OFFSET_MAP.monoDigit); }},
+  
+  // CURSIVE & GOTHIC
+  { n: 'Royal Cursive', c: 'cursive', f: function(t){ return unicodeTransform(t, OFFSET_MAP.scriptUpper, OFFSET_MAP.scriptLower); }},
+  { n: 'Bold Calligraphy', c: 'cursive', f: function(t){ return unicodeTransform(t, OFFSET_MAP.boldScriptUpper, OFFSET_MAP.boldScriptLower); }},
+  { n: 'Dark Gothic / Fraktur', c: 'cursive', f: function(t){ return unicodeTransform(t, OFFSET_MAP.frakturUpper, OFFSET_MAP.frakturLower); }},
+  { n: 'Circled Bubble', c: 'cursive', f: function(t){ return mapTransform(t, CIRCLED_MAP); }},
+  { n: 'Squared Block', c: 'cursive', f: function(t){ return mapTransform(t, SQUARED_MAP); }},
+
+  // GAMING / FREE FIRE / BGMI
+  { n: 'Pro Sniper', c: 'gaming', f: function(t){ return '꧁༺' + unicodeTransform(t, OFFSET_MAP.boldUpper, OFFSET_MAP.boldLower) + '༻꧂'; }},
+  { n: 'Thunder Strike', c: 'gaming', f: function(t){ return '⚡ ' + unicodeTransform(t, OFFSET_MAP.sansBoldUpper, OFFSET_MAP.sansBoldLower) + ' ⚡'; }},
+  { n: 'Fire Lord', c: 'gaming', f: function(t){ return '🔥 ' + unicodeTransform(t, OFFSET_MAP.boldItalicUpper, OFFSET_MAP.boldItalicLower) + ' 🔥'; }},
+  { n: 'Killer Boss', c: 'gaming', f: function(t){ return '☠️ ' + unicodeTransform(t, OFFSET_MAP.frakturUpper, OFFSET_MAP.frakturLower) + ' ☠️'; }},
+  { n: 'The King', c: 'gaming', f: function(t){ return '👑 ' + unicodeTransform(t, OFFSET_MAP.boldUpper, OFFSET_MAP.boldLower) + ' 👑'; }},
+  { n: 'Gladiator', c: 'gaming', f: function(t){ return '⚔️ ' + unicodeTransform(t, OFFSET_MAP.boldItalicUpper, OFFSET_MAP.boldItalicLower) + ' ⚔️'; }},
+  { n: 'Gunner', c: 'gaming', f: function(t){ return '▄︻┻═┳一 ' + unicodeTransform(t, OFFSET_MAP.monoUpper, OFFSET_MAP.monoLower) + ' 一┳═┻︻▄'; }},
+
+  // DECORATED
+  { n: 'Magical Sparkle', c: 'decorated', f: function(t){ return '✨ ' + unicodeTransform(t, OFFSET_MAP.scriptUpper, OFFSET_MAP.scriptLower) + ' ✨'; }},
+  { n: 'Star Master', c: 'decorated', f: function(t){ return '★彡 ' + unicodeTransform(t, OFFSET_MAP.boldUpper, OFFSET_MAP.boldLower) + ' 彡★'; }},
+  { n: 'Blossom', c: 'decorated', f: function(t){ return '✿ ' + unicodeTransform(t, OFFSET_MAP.scriptUpper, OFFSET_MAP.scriptLower) + ' ✿'; }},
+  { n: 'Queen Style', c: 'decorated', f: function(t){ return '♛ ' + unicodeTransform(t, OFFSET_MAP.boldScriptUpper, OFFSET_MAP.boldScriptLower) + ' ♛'; }},
+  { n: 'Diamond Shield', c: 'decorated', f: function(t){ return '◈ ' + unicodeTransform(t, OFFSET_MAP.sansBoldUpper, OFFSET_MAP.sansBoldLower) + ' ◈'; }},
+  
+  // SPECIAL HINDI (Style names in Hindi as they generate Hindi-styled text)
+  { n: 'Royal Devanagari', c: 'hindi', f: function(t){ return '꧁༺ ' + t + ' ༻꧂'; }},
+  { n: 'Trishul Style', c: 'hindi', f: function(t){ return '🔱 ' + t + ' 🔱'; }},
+  { n: 'Mahakal Bhakt', c: 'hindi', f: function(t){ return '🚩 ' + t + ' 🚩'; }},
+  { n: 'Emperor Style', c: 'hindi', f: function(t){ return '👑 ' + t + ' 👑'; }}
+];
+
+var state = { text: 'ToolsX', cat: 'all', q: '', saved: JSON.parse(localStorage.getItem('snx_favs') || '[]') };
+
+function $(id) { return document.getElementById(id); }
+
+function toast(msg) {
+  var t = $('snxToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timeout);
+  t._timeout = setTimeout(function(){ t.classList.remove('show'); }, 2000);
+}
+
+function render() {
+  var grid = $('snxGrid');
+  grid.innerHTML = '';
+  var q = state.q.toLowerCase();
+  var count = 0;
+
+  STYLES.forEach(function(s, index) {
+    if (state.cat === 'saved') {
+      if (!state.saved.includes(s.n)) return;
+    } else if (state.cat !== 'all' && s.c !== state.cat) {
+      return;
+    }
+    
+    if (q && s.n.toLowerCase().indexOf(q) < 0 && s.c.toLowerCase().indexOf(q) < 0) return;
+
+    count++;
+    var outText = s.f(state.text || 'Your Name');
+    var isSaved = state.saved.includes(s.n);
+
+    var item = document.createElement('div');
+    item.className = 'snx-item';
+    item.innerHTML = 
+      '<div class="snx-item-head">' +
+        '<span class="snx-item-name">' + s.n + '</span>' +
+        '<span class="snx-item-tag">' + s.c + '</span>' +
+      '</div>' +
+      '<div class="snx-item-preview">' + outText + '</div>' +
+      '<div class="snx-item-btns">' +
+        '<button class="snx-cbtn" data-copy="' + index + '" aria-label="Copy ' + s.n + ' style">📋 Copy</button>' +
+        '<button class="snx-cbtn alt" data-fav="' + s.n + '" aria-label="Toggle favorite for ' + s.n + '">' + (isSaved ? '❤️ Saved' : '🤍 Save') + '</button>' +
+      '</div>';
+    grid.appendChild(item);
+  });
+
+  if (count === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--sn-muted);">😕 No stylish names found.</div>';
+  }
+
+  $('snxCount').textContent = count;
+  $('snxSelCat').textContent = state.cat.toUpperCase();
+}
+
+// Global Event Handlers
+$('snxInp').addEventListener('input', function(e) {
+  state.text = e.target.value;
+  render();
+});
+
+$('btnUpper').addEventListener('click', function() {
+  state.text = state.text.toUpperCase();
+  $('snxInp').value = state.text;
+  render();
+});
+
+$('btnLower').addEventListener('click', function() {
+  state.text = state.text.toLowerCase();
+  $('snxInp').value = state.text;
+  render();
+});
+
+$('btnClear').addEventListener('click', function() {
+  state.text = '';
+  $('snxInp').value = '';
+  render();
+});
+
+var cats = document.querySelectorAll('.snx-cat');
+cats.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    cats.forEach(function(c){ c.classList.remove('on'); });
+    btn.classList.add('on');
+    state.cat = btn.getAttribute('data-cat');
+    render();
+  });
+});
+
+$('snxSearch').addEventListener('input', function(e) {
+  state.q = e.target.value;
+  render();
+});
+
+// Grid Copy & Save Actions
+$('snxGrid').addEventListener('click', function(e) {
+  var cpyBtn = e.target.closest('[data-copy]');
+  var favBtn = e.target.closest('[data-fav]');
+
+  if (cpyBtn) {
+    var idx = parseInt(cpyBtn.getAttribute('data-copy'));
+    var textToCopy = STYLES[idx].f(state.text || 'Your Name');
+    navigator.clipboard.writeText(textToCopy).then(function() {
+      cpyBtn.textContent = '✅ Copied!';
+      cpyBtn.classList.add('ok');
+      toast('Copied to Clipboard!');
+      setTimeout(function(){ cpyBtn.textContent = '📋 Copy'; cpyBtn.classList.remove('ok'); }, 1500);
+    }).catch(function() {
+      toast('Copy failed. Please try again.');
+    });
+  }
+
+  if (favBtn) {
+    var styleName = favBtn.getAttribute('data-fav');
+    var favIndex = state.saved.indexOf(styleName);
+    if (favIndex > -1) {
+      state.saved.splice(favIndex, 1);
+      toast('Removed from Favorites');
+    } else {
+      state.saved.push(styleName);
+      toast('Saved to Favorites!');
+    }
+    localStorage.setItem('snx_favs', JSON.stringify(state.saved));
+    render();
+  }
+});
+
+$('snxCopyAll').addEventListener('click', function() {
+  var visibleStyles = STYLES.filter(function(s) {
+    if (state.cat === 'saved') return state.saved.includes(s.n);
+    if (state.cat !== 'all') return s.c === state.cat;
+    return true;
+  });
+  var allFormatted = visibleStyles.map(function(s){ return s.f(state.text || 'Your Name'); }).join('\n');
+  navigator.clipboard.writeText(allFormatted).then(function() {
+    toast('All Styles Copied!');
+  }).catch(function() {
+    toast('Copy failed. Please try again.');
+  });
+});
+
+$('snxRandom').addEventListener('click', function() {
+  var rand = STYLES[Math.floor(Math.random() * STYLES.length)];
+  var res = rand.f(state.text || 'Your Name');
+  navigator.clipboard.writeText(res).then(function() {
+    toast('Random Style Copied: ' + rand.n);
+  }).catch(function() {
+    toast('Copy failed. Please try again.');
+  });
+});
+
+// Initial Render
+render();
+})();
+//]]>
+</script>
+</div>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

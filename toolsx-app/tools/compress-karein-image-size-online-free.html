@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Free Image Compressor Online – Compress Image &amp; Reduce Size – ToolsX App</title>
+<meta name="description" content="Free online image compressor to reduce JPG, PNG and WebP file size. Compress images quickly while maintaining excellent visual quality.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Free Image Compressor Online – Compress Image &amp; Reduce Size</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<style>
+/* ============================================
+   toolsx.in Image Compressor — Complete CSS
+   Mobile-first. Light mode base. Dark override.
+   ============================================ */
+.tx-tool {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(14px, 2.5vw, 16px);
+  line-height: 1.6;
+  color: #0F172A;
+  background: #F8FAFC;
+  padding: 16px 12px;
+  margin: 0 auto;
+  max-width: 1200px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+.tx-tool *, .tx-tool *::before, .tx-tool *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.tx-tool img { max-width: 100%; height: auto; display: block; }
+html.dark-mode .tx-tool, [data-theme="dark"] .tx-tool, body.dark-mode .tx-tool { color: #F9FAFB; background: #0B1120; }
+.tx-tool h2 { font-size: clamp(1.5rem, 5vw, 2.25rem); font-weight: 800; line-height: 1.2; margin-bottom: 12px; color: #0F172A; }
+.tx-tool h3 { font-size: clamp(1.1rem, 3vw, 1.3rem); font-weight: 700; color: #0F172A; }
+html.dark-mode .tx-tool h2, [data-theme="dark"] .tx-tool h2, body.dark-mode .tx-tool h2,
+html.dark-mode .tx-tool h3, [data-theme="dark"] .tx-tool h3, body.dark-mode .tx-tool h3 { color: #F9FAFB; }
+.tx-gradient-text { background: linear-gradient(135deg, #4F46E5, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.tx-muted { color: #64748B; }
+html.dark-mode .tx-muted, [data-theme="dark"] .tx-muted, body.dark-mode .tx-muted { color: #9CA3AF; }
+.tx-hero { background: linear-gradient(135deg, #EEF2FF 0%, #FAF5FF 100%); border: 1px solid #E2E8F0; border-radius: 16px; padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 28px); text-align: center; margin-bottom: 24px; }
+html.dark-mode .tx-hero, [data-theme="dark"] .tx-hero, body.dark-mode .tx-hero { background: linear-gradient(135deg, #1E1B4B 0%, #2E1065 100%); border-color: #374151; }
+.tx-hero p { font-size: clamp(0.95rem, 2.5vw, 1.08rem); color: #64748B; max-width: 600px; margin: 0 auto 20px auto; }
+html.dark-mode .tx-hero p, [data-theme="dark"] .tx-hero p, body.dark-mode .tx-hero p { color: #9CA3AF; }
+.tx-badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.tx-badge { background: #ffffff; padding: 6px 12px; border-radius: 999px; font-size: clamp(0.75rem, 2vw, 0.85rem); font-weight: 600; color: #64748B; border: 1px solid #E2E8F0; }
+html.dark-mode .tx-badge, [data-theme="dark"] .tx-badge, body.dark-mode .tx-badge { background: #1F2937; border-color: #374151; color: #D1D5DB; }
+.tx-dropzone { background: #ffffff; border: 2px dashed #CBD5E1; border-radius: 16px; padding: clamp(28px, 6vw, 44px) 20px; text-align: center; cursor: pointer; transition: all 0.25s ease; max-width: 600px; margin: 0 auto; min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.tx-dropzone:hover, .tx-dropzone.dragover { border-color: #4F46E5; background: #F5F3FF; transform: translateY(-2px); }
+html.dark-mode .tx-dropzone, [data-theme="dark"] .tx-dropzone, body.dark-mode .tx-dropzone { background: #1F2937; border-color: #4B5563; }
+html.dark-mode .tx-dropzone:hover, [data-theme="dark"] .tx-dropzone:hover, body.dark-mode .tx-dropzone:hover,
+html.dark-mode .tx-dropzone.dragover, [data-theme="dark"] .tx-dropzone.dragover, body.dark-mode .tx-dropzone.dragover { background: #312E81; border-color: #6366F1; }
+.tx-dropzone-icon { font-size: clamp(2.5rem, 8vw, 3.5rem); display: block; margin-bottom: 12px; }
+.tx-dropzone h3 { font-size: clamp(1.05rem, 3vw, 1.2rem); margin-bottom: 6px; }
+.tx-dropzone p { color: #64748B; margin-bottom: 16px; font-size: clamp(0.9rem, 2.4vw, 1rem); }
+html.dark-mode .tx-dropzone p, [data-theme="dark"] .tx-dropzone p, body.dark-mode .tx-dropzone p { color: #9CA3AF; }
+.tx-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 12px 20px; border-radius: 10px; border: none; font-size: clamp(0.9rem, 2.5vw, 1rem); font-weight: 600; cursor: pointer; transition: all 0.2s ease; text-decoration: none; font-family: inherit; -webkit-tap-highlight-color: transparent; }
+.tx-btn-primary { background: linear-gradient(135deg, #4F46E5, #7C3AED); color: #ffffff; box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3); }
+.tx-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4); }
+.tx-btn-success { background: #16A34A; color: #ffffff; }
+.tx-btn-success:hover { background: #15803D; }
+.tx-btn-outline { background: transparent; color: #0F172A; border: 1px solid #E2E8F0; }
+.tx-btn-outline:hover { background: #F1F5F9; }
+html.dark-mode .tx-btn-outline, [data-theme="dark"] .tx-btn-outline, body.dark-mode .tx-btn-outline { color: #F9FAFB; border-color: #374151; }
+html.dark-mode .tx-btn-outline:hover, [data-theme="dark"] .tx-btn-outline:hover, body.dark-mode .tx-btn-outline:hover { background: #374151; }
+.tx-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.tx-workspace { display: none; gap: 20px; margin-bottom: 32px; }
+.tx-workspace.active { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .tx-workspace.active { grid-template-columns: 320px 1fr; gap: 24px; } .tx-settings { position: sticky; top: 20px; } }
+.tx-settings { background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: clamp(16px, 4vw, 24px); height: fit-content; }
+html.dark-mode .tx-settings, [data-theme="dark"] .tx-settings, body.dark-mode .tx-settings { background: #1F2937; border-color: #374151; }
+.tx-settings h3 { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+.tx-setting-group { margin-bottom: 20px; }
+.tx-setting-group > label { display: block; font-size: clamp(0.88rem, 2.4vw, 0.95rem); font-weight: 600; margin-bottom: 10px; }
+.tx-slider-row { display: flex; align-items: center; gap: 12px; }
+.tx-slider { flex: 1; height: 6px; -webkit-appearance: none; appearance: none; background: #F1F5F9; border-radius: 3px; outline: none; min-height: 44px; margin: 0; padding: 19px 0; }
+html.dark-mode .tx-slider, [data-theme="dark"] .tx-slider, body.dark-mode .tx-slider { background: #374151; }
+.tx-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, #4F46E5, #7C3AED); cursor: pointer; box-shadow: 0 2px 6px rgba(79, 70, 229, 0.4); border: 3px solid #ffffff; }
+.tx-slider::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; border: 3px solid #ffffff; background: linear-gradient(135deg, #4F46E5, #7C3AED); cursor: pointer; }
+.tx-slider-val { background: #4F46E5; color: #ffffff; padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; min-width: 52px; text-align: center; }
+.tx-slider-hints { display: flex; justify-content: space-between; font-size: clamp(0.7rem, 1.8vw, 0.78rem); color: #94A3B8; margin-top: 4px; }
+.tx-radio-group { display: flex; flex-direction: column; gap: 8px; }
+.tx-radio-option { display: flex; align-items: center; gap: 10px; padding: 12px; min-height: 44px; background: #F8FAFC; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; border: 2px solid transparent; }
+html.dark-mode .tx-radio-option, [data-theme="dark"] .tx-radio-option, body.dark-mode .tx-radio-option { background: #111827; }
+.tx-radio-option:hover { background: #F1F5F9; }
+html.dark-mode .tx-radio-option:hover, [data-theme="dark"] .tx-radio-option:hover, body.dark-mode .tx-radio-option:hover { background: #374151; }
+.tx-radio-option input[type="radio"] { accent-color: #4F46E5; cursor: pointer; width: 18px; height: 18px; flex-shrink: 0; }
+.tx-radio-label { font-size: clamp(0.88rem, 2.4vw, 0.95rem); }
+.tx-radio-label small { display: block; font-size: clamp(0.72rem, 1.9vw, 0.78rem); color: #64748B; margin-top: 2px; font-weight: 400; }
+html.dark-mode .tx-radio-label small, [data-theme="dark"] .tx-radio-label small, body.dark-mode .tx-radio-label small { color: #9CA3AF; }
+.tx-radio-option:has(input:checked) { border-color: #4F46E5; background: #ffffff; }
+html.dark-mode .tx-radio-option:has(input:checked), [data-theme="dark"] .tx-radio-option:has(input:checked), body.dark-mode .tx-radio-option:has(input:checked) { background: #1F2937; border-color: #6366F1; }
+.tx-select { width: 100%; padding: 12px; min-height: 44px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; font-size: clamp(0.88rem, 2.4vw, 0.95rem); color: #0F172A; cursor: pointer; outline: none; font-family: inherit; }
+html.dark-mode .tx-select, [data-theme="dark"] .tx-select, body.dark-mode .tx-select { background: #111827; border-color: #374151; color: #F9FAFB; }
+.tx-select:focus { border-color: #4F46E5; }
+.tx-checkbox-group { display: flex; flex-direction: column; gap: 10px; }
+.tx-checkbox-option { display: flex; align-items: center; gap: 10px; cursor: pointer; min-height: 44px; padding: 8px 0; }
+.tx-checkbox-option input[type="checkbox"] { accent-color: #4F46E5; cursor: pointer; width: 18px; height: 18px; flex-shrink: 0; }
+.tx-results-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+.tx-count { background: #4F46E5; color: #ffffff; padding: 4px 12px; border-radius: 999px; font-size: 0.85rem; font-weight: 600; margin-left: 8px; }
+.tx-results-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 540px) { .tx-results-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .tx-results-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1200px) { .tx-results-grid { grid-template-columns: repeat(4, 1fr); } }
+.tx-result-card { background: #ffffff; border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden; transition: all 0.25s ease; position: relative; display: flex; flex-direction: column; }
+.tx-result-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+html.dark-mode .tx-result-card, [data-theme="dark"] .tx-result-card, body.dark-mode .tx-result-card { background: #1F2937; border-color: #374151; }
+.tx-result-img { height: 160px; background: #F1F5F9; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+html.dark-mode .tx-result-img, [data-theme="dark"] .tx-result-img, body.dark-mode .tx-result-img { background: #111827; }
+.tx-result-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.tx-result-badge { position: absolute; top: 8px; right: 8px; background: #16A34A; color: #ffffff; padding: 4px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; opacity: 0; transition: opacity 0.3s ease; }
+.tx-result-badge.visible { opacity: 1; }
+.tx-progress { position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #E2E8F0; overflow: hidden; display: none; }
+html.dark-mode .tx-progress, [data-theme="dark"] .tx-progress, body.dark-mode .tx-progress { background: #374151; }
+.tx-progress-bar { height: 100%; background: linear-gradient(90deg, #4F46E5, #7C3AED); width: 0%; transition: width 0.3s ease; }
+.tx-result-body { padding: 14px; flex: 1; display: flex; flex-direction: column; }
+.tx-result-name { font-weight: 600; font-size: clamp(0.85rem, 2.3vw, 0.92rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; }
+.tx-result-stats { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+.tx-stat-row { display: flex; justify-content: space-between; font-size: clamp(0.8rem, 2.2vw, 0.88rem); }
+.tx-stat-label { color: #64748B; }
+html.dark-mode .tx-stat-label, [data-theme="dark"] .tx-stat-label, body.dark-mode .tx-stat-label { color: #9CA3AF; }
+.tx-stat-value { font-weight: 600; }
+.tx-stat-saved { color: #16A34A; font-weight: 700; }
+.tx-result-actions { display: flex; gap: 6px; margin-top: auto; }
+.tx-result-actions button { flex: 1; min-height: 40px; padding: 8px 10px; border-radius: 8px; border: 1px solid #E2E8F0; background: #F8FAFC; color: #0F172A; font-size: clamp(0.78rem, 2.1vw, 0.85rem); font-weight: 600; cursor: pointer; transition: all 0.2s ease; font-family: inherit; }
+html.dark-mode .tx-result-actions button, [data-theme="dark"] .tx-result-actions button, body.dark-mode .tx-result-actions button { background: #111827; border-color: #374151; color: #F9FAFB; }
+.tx-result-actions button:hover:not(:disabled) { border-color: #4F46E5; color: #4F46E5; background: #ffffff; }
+html.dark-mode .tx-result-actions button:hover:not(:disabled), [data-theme="dark"] .tx-result-actions button:hover:not(:disabled), body.dark-mode .tx-result-actions button:hover:not(:disabled) { background: #374151; color: #818CF8; border-color: #6366F1; }
+.tx-result-actions .download { background: #4F46E5; color: #ffffff; border-color: #4F46E5; }
+.tx-result-actions .download:hover:not(:disabled) { background: #4338CA; color: #ffffff; }
+.tx-result-actions button:disabled { opacity: 0.4; cursor: not-allowed; }
+.tx-bulk-actions { background: #ffffff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px 20px; margin-top: 20px; display: none; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.tx-bulk-actions.active { display: flex; }
+html.dark-mode .tx-bulk-actions, [data-theme="dark"] .tx-bulk-actions, body.dark-mode .tx-bulk-actions { background: #1F2937; border-color: #374151; }
+.tx-bulk-info { font-size: clamp(0.88rem, 2.4vw, 0.95rem); color: #64748B; }
+html.dark-mode .tx-bulk-info, [data-theme="dark"] .tx-bulk-info, body.dark-mode .tx-bulk-info { color: #9CA3AF; }
+.tx-bulk-info strong { color: #16A34A; }
+.tx-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.92); z-index: 9999; justify-content: center; align-items: center; padding: 12px; }
+.tx-modal.active { display: flex; }
+.tx-modal-content { background: #ffffff; padding: clamp(16px, 4vw, 24px); border-radius: 16px; max-width: 95%; max-height: 95vh; width: 900px; overflow-y: auto; position: relative; }
+html.dark-mode .tx-modal-content, [data-theme="dark"] .tx-modal-content, body.dark-mode .tx-modal-content { background: #1F2937; color: #F9FAFB; }
+.tx-modal-close { position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; border-radius: 50%; border: none; background: #F1F5F9; color: #0F172A; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; font-family: inherit; }
+html.dark-mode .tx-modal-close, [data-theme="dark"] .tx-modal-close, body.dark-mode .tx-modal-close { background: #374151; color: #F9FAFB; }
+.tx-modal-title { text-align: center; font-size: clamp(1.1rem, 3vw, 1.3rem); font-weight: 700; margin-bottom: 16px; padding: 0 44px; }
+.tx-compare-container { position: relative; max-width: 100%; background: #F1F5F9; border-radius: 12px; overflow: hidden; min-height: 200px; }
+html.dark-mode .tx-compare-container, [data-theme="dark"] .tx-compare-container, body.dark-mode .tx-compare-container { background: #111827; }
+.tx-compare-container img { display: block; max-width: 100%; max-height: 60vh; object-fit: contain; width: 100%; margin: 0 auto; }
+.tx-compare-container .tx-img-compressed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; clip-path: inset(0 50% 0 0); }
+.tx-compare-labels { position: absolute; top: 10px; left: 0; right: 0; display: flex; justify-content: space-between; padding: 0 12px; pointer-events: none; z-index: 5; }
+.tx-compare-label { background: rgba(0, 0, 0, 0.7); color: #ffffff; padding: 4px 10px; border-radius: 6px; font-size: clamp(0.7rem, 1.9vw, 0.8rem); font-weight: 600; }
+.tx-compare-slider { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 80%; z-index: 10; accent-color: #4F46E5; min-height: 44px; }
+.tx-compare-stats { text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid #E2E8F0; display: flex; justify-content: center; gap: clamp(16px, 4vw, 40px); flex-wrap: wrap; }
+html.dark-mode .tx-compare-stats, [data-theme="dark"] .tx-compare-stats, body.dark-mode .tx-compare-stats { border-color: #374151; }
+.tx-compare-stat .label { font-size: clamp(0.72rem, 1.9vw, 0.82rem); color: #64748B; margin-bottom: 4px; }
+html.dark-mode .tx-compare-stat .label, [data-theme="dark"] .tx-compare-stat .label, body.dark-mode .tx-compare-stat .label { color: #9CA3AF; }
+.tx-compare-stat .value { font-size: clamp(1rem, 2.8vw, 1.2rem); font-weight: 700; }
+.tx-compare-stat .value.success { color: #16A34A; }
+.tx-workspace-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.tx-workspace-actions .tx-btn { flex: 1; min-width: 140px; }
+.tx-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #EF4444; color: #ffffff; padding: 14px 24px; border-radius: 10px; font-weight: 600; z-index: 10000; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); opacity: 0; transition: all 0.3s ease; max-width: 90%; text-align: center; }
+.tx-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+@media (max-width: 640px) { .tx-hero { padding: 24px 16px; } .tx-workspace-actions .tx-btn { min-width: 100%; } }
+.tx-htu-section { margin-top: 40px; padding: 28px 24px; background: #ffffff; border: 1px solid #e5e5e5; border-radius: 12px; color: #0F172A; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.7; }
+html.dark-mode .tx-htu-section, [data-theme="dark"] .tx-htu-section, body.dark-mode .tx-htu-section { background: #1F2937; border-color: #374151; color: #F9FAFB; }
+.tx-htu-section h2 { font-size: clamp(1.5rem, 4vw, 1.75rem); margin: 0 0 12px 0; color: #4F46E5; font-weight: 700; }
+.tx-htu-section h3 { font-size: clamp(1.15rem, 3vw, 1.3rem); margin: 24px 0 10px 0; color: inherit; font-weight: 600; }
+.tx-htu-section p { margin: 0 0 12px 0; font-size: clamp(0.95rem, 2.5vw, 1.02rem); color: #334155; }
+html.dark-mode .tx-htu-section p, [data-theme="dark"] .tx-htu-section p, body.dark-mode .tx-htu-section p { color: #D1D5DB; }
+.tx-htu-steps { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 20px 20px 20px 40px; margin: 16px 0; }
+html.dark-mode .tx-htu-steps, [data-theme="dark"] .tx-htu-steps, body.dark-mode .tx-htu-steps { background: #111827; border-color: #374151; }
+.tx-htu-steps li { margin-bottom: 10px; font-size: clamp(0.95rem, 2.5vw, 1rem); color: #334155; }
+html.dark-mode .tx-htu-steps li, [data-theme="dark"] .tx-htu-steps li, body.dark-mode .tx-htu-steps li { color: #E5E7EB; }
+.tx-htu-tip { background: #EEF2FF; border-left: 4px solid #4F46E5; padding: 12px 16px; border-radius: 6px; margin: 16px 0; font-size: clamp(0.9rem, 2.4vw, 0.98rem); color: #1E1B4B; }
+html.dark-mode .tx-htu-tip, [data-theme="dark"] .tx-htu-tip, body.dark-mode .tx-htu-tip { background: #312E81; color: #E0E7FF; border-color: #6366F1; }
+.tx-faq-section { margin-top: 40px; padding: 28px 24px; background: #ffffff; border: 1px solid #e5e5e5; border-radius: 12px; color: #0F172A; }
+html.dark-mode .tx-faq-section, [data-theme="dark"] .tx-faq-section, body.dark-mode .tx-faq-section { background: #1F2937; border-color: #374151; color: #F9FAFB; }
+.tx-faq-section h2 { font-size: clamp(1.5rem, 4vw, 1.75rem); margin: 0 0 20px 0; color: #4F46E5; font-weight: 700; }
+.tx-faq-item { border-bottom: 1px solid #E2E8F0; padding: 16px 0; }
+html.dark-mode .tx-faq-item, [data-theme="dark"] .tx-faq-item, body.dark-mode .tx-faq-item { border-color: #374151; }
+.tx-faq-item:last-child { border-bottom: none; }
+.tx-faq-item h3 { font-size: clamp(1rem, 2.8vw, 1.1rem); margin: 0 0 8px 0; color: #0F172A; font-weight: 600; }
+html.dark-mode .tx-faq-item h3, [data-theme="dark"] .tx-faq-item h3, body.dark-mode .tx-faq-item h3 { color: #F9FAFB; }
+.tx-faq-item p { font-size: clamp(0.92rem, 2.4vw, 0.98rem); color: #475569; margin: 0; line-height: 1.7; }
+html.dark-mode .tx-faq-item p, [data-theme="dark"] .tx-faq-item p, body.dark-mode .tx-faq-item p { color: #D1D5DB; }
+.tx-related-tools { margin-top: 40px; padding: 28px 24px; background: #ffffff; border: 1px solid #e5e5e5; border-radius: 12px; }
+html.dark-mode .tx-related-tools, [data-theme="dark"] .tx-related-tools, body.dark-mode .tx-related-tools { background: #1F2937; border-color: #374151; }
+.tx-related-tools h2 { font-size: clamp(1.4rem, 3.5vw, 1.6rem); margin: 0 0 20px 0; color: #4F46E5; font-weight: 700; }
+.tx-related-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 540px) { .tx-related-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .tx-related-grid { grid-template-columns: repeat(3, 1fr); } }
+.tx-related-card { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 16px; text-decoration: none; transition: all 0.2s ease; display: block; min-height: 44px; }
+.tx-related-card:hover { border-color: #4F46E5; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15); }
+html.dark-mode .tx-related-card, [data-theme="dark"] .tx-related-card, body.dark-mode .tx-related-card { background: #111827; border-color: #374151; }
+html.dark-mode .tx-related-card:hover, [data-theme="dark"] .tx-related-card:hover, body.dark-mode .tx-related-card:hover { border-color: #6366F1; }
+.tx-related-card h4 { font-size: clamp(0.95rem, 2.5vw, 1.05rem); margin: 0 0 4px 0; color: #0F172A; font-weight: 600; }
+html.dark-mode .tx-related-card h4, [data-theme="dark"] .tx-related-card h4, body.dark-mode .tx-related-card h4 { color: #F9FAFB; }
+.tx-related-card p { font-size: clamp(0.82rem, 2.2vw, 0.88rem); color: #64748B; margin: 0; }
+html.dark-mode .tx-related-card p, [data-theme="dark"] .tx-related-card p, body.dark-mode .tx-related-card p { color: #9CA3AF; }
+</style>
+
+<div class="tx-tool" id="tx-compressor-app">
+
+<section class="tx-hero">
+  <h2>Free Online <span class="tx-gradient-text">Image Compressor</span></h2>
+  <p>Compress JPG, PNG &amp; WebP images up to 80% smaller without losing noticeable quality. Fast, free, and 100% private — all processing happens in your browser.</p>
+  <div class="tx-badges">
+    <span class="tx-badge">✓ JPG</span>
+    <span class="tx-badge">✓ PNG</span>
+    <span class="tx-badge">✓ WebP</span>
+    <span class="tx-badge">✓ 100% Free</span>
+    <span class="tx-badge">🔒 Secure</span>
+  </div>
+  <div class="tx-dropzone" id="tx-dropzone">
+    <span class="tx-dropzone-icon">📤</span>
+    <h3>Upload Your Images</h3>
+    <p>Drag &amp; drop your images here or tap to browse</p>
+    <button type="button" class="tx-btn tx-btn-primary" id="tx-select-btn">Choose Images</button>
+    <input type="file" id="tx-file-input" multiple accept="image/jpeg,image/png,image/webp" hidden>
+    <p style="margin-top:16px; font-size:0.85rem;" class="tx-muted">Batch process up to 50 images at once</p>
+  </div>
+</section>
+
+<div class="tx-workspace" id="tx-workspace">
+  <aside class="tx-settings">
+    <h3>⚙️ Compression Settings</h3>
+    <div class="tx-setting-group">
+      <label>Quality: <span class="tx-slider-val" id="tx-quality-val">80%</span></label>
+      <div class="tx-slider-row">
+        <input type="range" min="10" max="100" value="80" class="tx-slider" id="tx-quality-slider">
+      </div>
+      <div class="tx-slider-hints"><span>Smaller</span><span>Better</span></div>
+    </div>
+    <div class="tx-setting-group">
+      <label>Compression Mode</label>
+      <div class="tx-radio-group">
+        <label class="tx-radio-option">
+          <input type="radio" name="tx-mode" value="balanced" checked>
+          <span class="tx-radio-label">⚖️ Balanced <small>Best mix of size &amp; quality</small></span>
+        </label>
+        <label class="tx-radio-option">
+          <input type="radio" name="tx-mode" value="quality">
+          <span class="tx-radio-label">✨ Best Quality <small>Minimal quality loss</small></span>
+        </label>
+        <label class="tx-radio-option">
+          <input type="radio" name="tx-mode" value="smallest">
+          <span class="tx-radio-label">📉 Smallest File <small>Maximum compression</small></span>
+        </label>
+      </div>
+    </div>
+    <div class="tx-setting-group">
+      <label>Output Format</label>
+      <select class="tx-select" id="tx-output-format">
+        <option value="original">Original Format</option>
+        <option value="image/jpeg">JPEG</option>
+        <option value="image/webp">WebP</option>
+      </select>
+    </div>
+    <div class="tx-setting-group">
+      <label>Options</label>
+      <div class="tx-checkbox-group">
+        <label class="tx-checkbox-option">
+          <input type="checkbox" id="tx-remove-meta" checked>
+          <span>Remove Metadata (EXIF)</span>
+        </label>
+        <label class="tx-checkbox-option">
+          <input type="checkbox" id="tx-optimize" checked>
+          <span>Optimize Image</span>
+        </label>
+      </div>
+    </div>
+    <div class="tx-workspace-actions">
+      <button type="button" class="tx-btn tx-btn-primary" id="tx-recompress-btn">🔄 Apply Settings</button>
+      <button type="button" class="tx-btn tx-btn-outline" id="tx-clear-btn">🗑️ Clear All</button>
+    </div>
+  </aside>
+  <div class="tx-results-area">
+    <div class="tx-results-header">
+      <h2 style="font-size:clamp(1.1rem,3vw,1.3rem);">Your Images <span class="tx-count" id="tx-image-count">0</span></h2>
+      <button type="button" class="tx-btn tx-btn-success" id="tx-download-all" style="display:none;">⬇️ Download All (ZIP)</button>
+    </div>
+    <div class="tx-results-grid" id="tx-results-grid"></div>
+    <div class="tx-bulk-actions" id="tx-bulk-actions">
+      <span class="tx-bulk-info">Total saved: <strong id="tx-total-saved">0%</strong></span>
+    </div>
+  </div>
+</div>
+
+<div class="tx-modal" id="tx-compare-modal" role="dialog" aria-modal="true">
+  <div class="tx-modal-content">
+    <button type="button" class="tx-modal-close" aria-label="Close">×</button>
+    <h3 class="tx-modal-title">Before vs After Comparison</h3>
+    <div class="tx-compare-container">
+      <img id="tx-compare-original" src="" alt="Original image">
+      <img id="tx-compare-compressed" class="tx-img-compressed" src="" alt="Compressed image">
+      <div class="tx-compare-labels">
+        <span class="tx-compare-label">ORIGINAL</span>
+        <span class="tx-compare-label">COMPRESSED</span>
+      </div>
+      <input type="range" min="0" max="100" value="50" class="tx-compare-slider" id="tx-compare-slider-input" aria-label="Comparison slider">
+    </div>
+    <div class="tx-compare-stats">
+      <div class="tx-compare-stat">
+        <div class="label">Original Size</div>
+        <div class="value" id="tx-compare-original-size">—</div>
+      </div>
+      <div class="tx-compare-stat">
+        <div class="label">Compressed Size</div>
+        <div class="value" id="tx-compare-compressed-size">—</div>
+      </div>
+      <div class="tx-compare-stat">
+        <div class="label">Size Saved</div>
+        <div class="value success" id="tx-compare-saved">—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tx-toast" id="tx-toast"></div>
+
+</div>
+
+<section class="tx-htu-section">
+  <h2>How to Compress Images Online on toolsx.in</h2>
+  <p>Reduce the file size of your JPG, PNG, or WebP photos without sacrificing visible quality. This browser-based compressor processes your images locally, so your files never leave your device and no registration is required.</p>
+  <h3>📋 Step-by-Step Guide</h3>
+  <ol class="tx-htu-steps">
+    <li><strong>Upload:</strong> Drag and drop your images into the upload zone, or tap "Choose Images" to browse. You can select up to 50 files at once.</li>
+    <li><strong>Configure:</strong> Adjust the quality slider or choose a preset mode — Balanced (default), Best Quality, or Smallest File. You can also switch the output format to JPEG or WebP.</li>
+    <li><strong>Compress:</strong> Tap "Apply Settings" and watch each image compress in real time. The tool automatically skips re-encoding if compression would make the file larger.</li>
+    <li><strong>Verify:</strong> Tap the 👁 Compare button on any card to open a slider view where you can visually inspect original vs compressed quality.</li>
+    <li><strong>Download:</strong> Save individual files, or grab the "Download All (ZIP)" button to get every image bundled in a single archive.</li>
+  </ol>
+  <div class="tx-htu-tip">💡 <strong>Pro tip:</strong> For website photos, the Balanced mode at 80% usually gives the best trade-off. For social media or messaging, try Smallest File at 45% to minimize data usage.</div>
+  <h3>🎯 When to Use This Tool</h3>
+  <p>Compressing images is ideal before uploading to blogs, attaching to emails, posting on social media, or archiving personal photos. Smaller files load faster on websites (improving SEO and user experience), consume less mobile data, and save cloud storage space.</p>
+  <h3>🔒 Privacy Guarantee</h3>
+  <p>Unlike most online compressors, toolsx.in processes every image entirely in your browser using WebAssembly and the Canvas API. No file is uploaded to any server, which means even sensitive documents and personal photos remain 100% private.</p>
+</section>
+
+<section class="tx-faq-section">
+  <h2>Frequently Asked Questions</h2>
+  <div class="tx-faq-item">
+    <h3>❓ Is my image uploaded to any server?</h3>
+    <p>No. Every image is processed entirely in your browser using JavaScript and the Canvas API. Your files never leave your device, which guarantees 100% privacy — even for sensitive documents and personal photos.</p>
+  </div>
+  <div class="tx-faq-item">
+    <h3>❓ What image formats does this compressor support?</h3>
+    <p>The tool handles JPEG (JPG), PNG, and WebP formats. You can also convert between these formats using the output format selector. WebP typically produces the smallest files for web use.</p>
+  </div>
+  <div class="tx-faq-item">
+    <h3>❓ How much can I reduce my image file size?</h3>
+    <p>Most JPEG photos see 50–80% reduction using the Balanced mode. PNG savings depend on content complexity. Use the Compare slider to visually verify quality before finalizing.</p>
+  </div>
+  <div class="tx-faq-item">
+    <h3>❓ What is the difference between the three compression modes?</h3>
+    <p>Balanced (80%) offers the best mix of size reduction and visual quality. Best Quality (92%) preserves maximum detail with smaller savings. Smallest File (45%) maximizes compression, which may cause some visible quality loss on complex photos.</p>
+  </div>
+  <div class="tx-faq-item">
+    <h3>❓ Can I compress multiple images at once?</h3>
+    <p>Yes. You can upload and batch-compress up to 50 images in a single session. After processing, use the "Download All (ZIP)" button to grab everything as one archive file.</p>
+  </div>
+  <div class="tx-faq-item">
+    <h3>❓ Is the tool really free with no watermarks?</h3>
+    <p>Yes, 100% free with no registration, no watermarks, no hidden limits, and no daily usage caps. You can use it as many times as you need.</p>
+  </div>
+</section>
+
+<section class="tx-related-tools">
+  <h2>Related Tools You Might Need</h2>
+  <div class="tx-related-grid">
+    <a href="/p/image-resizer.html" class="tx-related-card">
+      <h4>📏 Image Resizer</h4>
+      <p>Change image dimensions in pixels for any website or social media</p>
+    </a>
+    <a href="/p/image-converter.html" class="tx-related-card">
+      <h4>🔄 Image Converter</h4>
+      <p>Convert between JPG, PNG, WebP, and other formats instantly</p>
+    </a>
+    <a href="/p/png-to-jpg.html" class="tx-related-card">
+      <h4>🖼️ PNG to JPG Converter</h4>
+      <p>Convert transparent PNGs to smaller JPG files for the web</p>
+    </a>
+    <a href="/p/webp-to-jpg.html" class="tx-related-card">
+      <h4>🌐 WebP to JPG Converter</h4>
+      <p>Convert WebP images to universally supported JPG format</p>
+    </a>
+    <a href="/p/image-cropper.html" class="tx-related-card">
+      <h4>✂️ Image Cropper</h4>
+      <p>Crop photos to exact dimensions for Instagram, Facebook, or print</p>
+    </a>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is my image uploaded to any server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Every image is processed entirely in your browser using JavaScript and the Canvas API. Your files never leave your device, which guarantees 100% privacy."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What image formats does this compressor support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The tool handles JPEG (JPG), PNG, and WebP formats. You can also convert between these formats using the output format selector."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much can I reduce my image file size?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most JPEG photos see 50–80% reduction using the Balanced mode. PNG savings depend on content complexity."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between the three compression modes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Balanced (80%) offers the best mix of size reduction and visual quality. Best Quality (92%) preserves maximum detail. Smallest File (45%) maximizes compression with some visible quality loss."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I compress multiple images at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can upload and batch-compress up to 50 images in a single session, then download all as a ZIP file."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the tool really free with no watermarks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, 100% free with no registration, no watermarks, no hidden limits, and no daily usage caps."
+      }
+    }
+  ]
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/compressorjs/1.2.1/compressor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<script>
+(function() {
+  'use strict';
+  var dropzone = document.getElementById('tx-dropzone');
+  var fileInput = document.getElementById('tx-file-input');
+  var selectBtn = document.getElementById('tx-select-btn');
+  var qualitySlider = document.getElementById('tx-quality-slider');
+  var qualityVal = document.getElementById('tx-quality-val');
+  var resultsGrid = document.getElementById('tx-results-grid');
+  var workspace = document.getElementById('tx-workspace');
+  var recompressBtn = document.getElementById('tx-recompress-btn');
+  var clearBtn = document.getElementById('tx-clear-btn');
+  var downloadAllBtn = document.getElementById('tx-download-all');
+  var outputFormat = document.getElementById('tx-output-format');
+  var removeMeta = document.getElementById('tx-remove-meta');
+  var imageCount = document.getElementById('tx-image-count');
+  var totalSavedEl = document.getElementById('tx-total-saved');
+  var bulkActions = document.getElementById('tx-bulk-actions');
+  var modal = document.getElementById('tx-compare-modal');
+  var modalClose = modal.querySelector('.tx-modal-close');
+  var compareSlider = document.getElementById('tx-compare-slider-input');
+  var compareOriginal = document.getElementById('tx-compare-original');
+  var compareCompressed = document.getElementById('tx-compare-compressed');
+  var toast = document.getElementById('tx-toast');
+  var MAX_FILES = 50;
+  var MAX_FILE_SIZE = 50 * 1024 * 1024;
+  var ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+  var MAGIC_BYTES = { 'image/jpeg': [255, 216, 255], 'image/png': [137, 80, 78, 71] };
+  var files = [];
+  var compressedBlobs = [];
+  var isProcessing = false;
+
+  function showToast(message, duration) {
+    duration = duration || 3000;
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, duration);
+  }
+
+  function formatBytes(bytes, decimals) {
+    if (decimals === undefined) decimals = 2;
+    if (bytes === 0) return '0 B';
+    var k = 1024;
+    var dm = decimals < 0 ? 0 : decimals;
+    var sizes = ['B', 'KB', 'MB', 'GB'];
+    var i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
+
+  function sanitizeFilename(name) {
+    return name.replace(/[^a-zA-Z0-9._-]/g, '_').replace(/^\.+/, '').substring(0, 100);
+  }
+
+  function validateMagicBytes(file, expectedType, callback) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var bytes = new Uint8Array(e.target.result);
+      if (expectedType === 'image/webp') {
+        var isRiff = bytes.length >= 4 && bytes[0] === 82 && bytes[1] === 73 && bytes[2] === 70 && bytes[3] === 70;
+        var isWebp = bytes.length >= 12 && bytes[8] === 87 && bytes[9] === 69 && bytes[10] === 66 && bytes[11] === 80;
+        callback(isRiff && isWebp);
+      } else {
+        var expected = MAGIC_BYTES[expectedType];
+        if (!expected) { callback(true); return; }
+        var match = true;
+        for (var i = 0; i < expected.length; i++) {
+          if (bytes[i] !== expected[i]) { match = false; break; }
+        }
+        callback(match);
+      }
+    };
+    reader.onerror = function() { callback(false); };
+    reader.readAsArrayBuffer(file.slice(0, 12));
+  }
+
+  function getExtFromBlob(blob) {
+    if (blob.type === 'image/jpeg') return 'jpg';
+    if (blob.type === 'image/png') return 'png';
+    if (blob.type === 'image/webp') return 'webp';
+    return null;
+  }
+
+  function getExtFromName(name) {
+    var m = name.match(/\.([^/.]+)$/);
+    return m ? m[1].toLowerCase() : 'jpg';
+  }
+
+  selectBtn.addEventListener('click', function(e) { e.stopPropagation(); fileInput.click(); });
+  dropzone.addEventListener('click', function(e) {
+    if (e.target === dropzone || (e.target.closest('.tx-dropzone') && !e.target.closest('button'))) {
+      fileInput.click();
+    }
+  });
+  dropzone.addEventListener('dragover', function(e) { e.preventDefault(); dropzone.classList.add('dragover'); });
+  dropzone.addEventListener('dragleave', function() { dropzone.classList.remove('dragover'); });
+  dropzone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dropzone.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+  });
+  fileInput.addEventListener('change', function(e) { handleFiles(e.target.files); });
+  qualitySlider.addEventListener('input', function(e) { qualityVal.textContent = e.target.value + '%'; });
+
+  var modeRadios = document.querySelectorAll('input[name="tx-mode"]');
+  for (var i = 0; i < modeRadios.length; i++) {
+    modeRadios[i].addEventListener('change', function(e) {
+      var presets = { balanced: 80, quality: 92, smallest: 45 };
+      var val = presets[e.target.value];
+      qualitySlider.value = val;
+      qualityVal.textContent = val + '%';
+    });
+  }
+
+  function handleFiles(fileList) {
+    var newFiles = [];
+    var pending = fileList.length;
+    var checked = 0;
+
+    if (fileList.length === 0) return;
+
+    for (var i = 0; i < fileList.length; i++) {
+      (function(file) {
+        if (ALLOWED_TYPES.indexOf(file.type) === -1) {
+          showToast('Skipped ' + file.name + ': unsupported format');
+          checked++;
+          if (checked === pending) finishHandle(newFiles);
+          return;
+        }
+        if (file.size > MAX_FILE_SIZE) {
+          showToast('Skipped ' + file.name + ': exceeds 50MB limit');
+          checked++;
+          if (checked === pending) finishHandle(newFiles);
+          return;
+        }
+        validateMagicBytes(file, file.type, function(valid) {
+          if (!valid) {
+            showToast('Skipped ' + file.name + ': invalid file signature');
+          } else {
+            newFiles.push(file);
+          }
+          checked++;
+          if (checked === pending) finishHandle(newFiles);
+        });
+      })(fileList[i]);
+    }
+  }
+
+  function finishHandle(newFiles) {
+    if (newFiles.length === 0) return;
+    if (files.length + newFiles.length > MAX_FILES) {
+      showToast('Maximum ' + MAX_FILES + ' images allowed');
+      return;
+    }
+    files = files.concat(newFiles);
+    for (var i = 0; i < newFiles.length; i++) compressedBlobs.push(null);
+    renderFileList();
+    workspace.classList.add('active');
+    dropzone.style.display = 'none';
+    compressAll();
+  }
+
+  function renderFileList() {
+    resultsGrid.innerHTML = '';
+    imageCount.textContent = files.length;
+    for (var index = 0; index < files.length; index++) {
+      (function(index) {
+        var file = files[index];
+        var card = document.createElement('div');
+        card.className = 'tx-result-card';
+        card.id = 'tx-card-' + index;
+        var originalSize = formatBytes(file.size);
+        card.innerHTML =
+          '<div class="tx-result-img">' +
+            '<img src="' + URL.createObjectURL(file) + '" alt="' + sanitizeFilename(file.name) + '">' +
+            '<div class="tx-result-badge" id="tx-badge-' + index + '">0% Saved</div>' +
+            '<div class="tx-progress" id="tx-progress-' + index + '">' +
+              '<div class="tx-progress-bar"></div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="tx-result-body">' +
+            '<div class="tx-result-name" title="' + file.name + '">' + sanitizeFilename(file.name) + '</div>' +
+            '<div class="tx-result-stats">' +
+              '<div class="tx-stat-row"><span class="tx-stat-label">Original</span><span class="tx-stat-value">' + originalSize + '</span></div>' +
+              '<div class="tx-stat-row"><span class="tx-stat-label">Compressed</span><span class="tx-stat-value" id="tx-size-' + index + '">—</span></div>' +
+              '<div class="tx-stat-row"><span class="tx-stat-label">Dimensions</span><span class="tx-stat-value" id="tx-dim-' + index + '">—</span></div>' +
+              '<div class="tx-stat-row"><span class="tx-stat-label">Saved</span><span class="tx-stat-value tx-stat-saved" id="tx-saved-' + index + '">—</span></div>' +
+            '</div>' +
+            '<div class="tx-result-actions">' +
+              '<button type="button" class="compare" data-index="' + index + '" disabled>👁 Compare</button>' +
+              '<button type="button" class="download" data-index="' + index + '" disabled>⬇ Download</button>' +
+            '</div>' +
+          '</div>';
+        resultsGrid.appendChild(card);
+        var img = new Image();
+        img.src = URL.createObjectURL(file);
+        img.onload = function() {
+          var dimEl = document.getElementById('tx-dim-' + index);
+          if (dimEl) dimEl.textContent = img.width + '×' + img.height;
+        };
+        card.querySelector('.compare').addEventListener('click', function(e) {
+          openCompare(parseInt(e.target.dataset.index));
+        });
+        card.querySelector('.download').addEventListener('click', function(e) {
+          downloadOne(parseInt(e.target.dataset.index));
+        });
+      })(index);
+    }
+  }
+
+  function getCompressionSettings() {
+    var quality = qualitySlider.value / 100;
+    var mode = document.querySelector('input[name="tx-mode"]:checked').value;
+    var targetFormat = outputFormat.value;
+    if (targetFormat === 'original') targetFormat = null;
+    return { quality: quality, mode: mode, targetFormat: targetFormat, removeMeta: removeMeta.checked };
+  }
+
+  function compressAll() {
+    if (isProcessing) return;
+    isProcessing = true;
+    recompressBtn.disabled = true;
+    recompressBtn.textContent = '⏳ Processing...';
+    var settings = getCompressionSettings();
+    var i = 0;
+
+    function processNext() {
+      if (i >= files.length) {
+        isProcessing = false;
+        recompressBtn.disabled = false;
+        recompressBtn.textContent = '🔄 Apply Settings';
+        updateBulkStats();
+        downloadAllBtn.style.display = 'inline-flex';
+        bulkActions.classList.add('active');
+        return;
+      }
+      var index = i;
+      var progressContainer = document.getElementById('tx-progress-' + index);
+      var progressBar = progressContainer.querySelector('.tx-progress-bar');
+      progressContainer.style.display = 'block';
+      progressBar.style.width = '50%';
+
+      compressFile(files[index], settings, function(result) {
+        compressedBlobs[index] = result.blob;
+        var originalSize = files[index].size;
+        var newSize = result.blob.size;
+        var savedPercent = (((originalSize - newSize) / originalSize) * 100).toFixed(1);
+        document.getElementById('tx-size-' + index).textContent = formatBytes(newSize);
+        document.getElementById('tx-saved-' + index).textContent = savedPercent + '%';
+        var badge = document.getElementById('tx-badge-' + index);
+        badge.textContent = savedPercent + '% Saved';
+        badge.classList.add('visible');
+        progressBar.style.width = '100%';
+        setTimeout(function() { progressContainer.style.display = 'none'; }, 600);
+        var card = document.getElementById('tx-card-' + index);
+        card.querySelector('.compare').disabled = false;
+        card.querySelector('.download').disabled = false;
+        i++;
+        processNext();
+      }, function(err) {
+        console.error(err);
+        document.getElementById('tx-size-' + index).textContent = 'Error';
+        progressContainer.style.display = 'none';
+        i++;
+        processNext();
+      });
+    }
+    processNext();
+  }
+
+  function compressFile(file, settings, onSuccess, onError) {
+    var opts = {
+      quality: settings.quality,
+      retainExif: !settings.removeMeta,
+      mimeType: settings.targetFormat || undefined,
+      maxWidth: 4096,
+      maxHeight: 4096,
+      success: function(result) {
+        if (result.size >= file.size && !settings.targetFormat) {
+          onSuccess({ blob: file });
+        } else {
+          onSuccess({ blob: result });
+        }
+      },
+      error: function(err) { onError(err); }
+    };
+    try {
+      new Compressor(file, opts);
+    } catch (err) {
+      onError(err);
+    }
+  }
+
+  function updateBulkStats() {
+    var totalOriginal = 0, totalCompressed = 0;
+    for (var i = 0; i < files.length; i++) {
+      totalOriginal += files[i].size;
+      if (compressedBlobs[i]) totalCompressed += compressedBlobs[i].size;
+    }
+    if (totalOriginal > 0) {
+      var saved = (((totalOriginal - totalCompressed) / totalOriginal) * 100).toFixed(1);
+      totalSavedEl.textContent = saved + '%';
+    }
+  }
+
+  function openCompare(index) {
+    compareOriginal.src = URL.createObjectURL(files[index]);
+    compareCompressed.src = URL.createObjectURL(compressedBlobs[index]);
+    compareSlider.value = 50;
+    updateCompare(50);
+    var origSize = formatBytes(files[index].size);
+    var compSize = formatBytes(compressedBlobs[index].size);
+    var saved = (((files[index].size - compressedBlobs[index].size) / files[index].size) * 100).toFixed(1);
+    document.getElementById('tx-compare-original-size').textContent = origSize;
+    document.getElementById('tx-compare-compressed-size').textContent = compSize;
+    document.getElementById('tx-compare-saved').textContent = saved + '%';
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function updateCompare(val) {
+    compareCompressed.style.clipPath = 'inset(0 ' + (100 - val) + '% 0 0)';
+  }
+
+  compareSlider.addEventListener('input', function(e) { updateCompare(e.target.value); });
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function downloadOne(index) {
+    var blob = compressedBlobs[index];
+    if (!blob) return;
+    var originalName = sanitizeFilename(files[index].name);
+    var ext = getExtFromBlob(blob) || getExtFromName(originalName);
+    var baseName = originalName.replace(/\.[^/.]+$/, '');
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = baseName + '-compressed.' + ext;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  downloadAllBtn.addEventListener('click', function() {
+    if (typeof JSZip === 'undefined') {
+      showToast('Loading ZIP library, please try again');
+      return;
+    }
+    downloadAllBtn.disabled = true;
+    downloadAllBtn.textContent = '⏳ Creating ZIP...';
+    var zip = new JSZip();
+    var folder = zip.folder('toolsx-compressed');
+    for (var i = 0; i < compressedBlobs.length; i++) {
+      if (compressedBlobs[i]) {
+        var ext = getExtFromBlob(compressedBlobs[i]) || getExtFromName(files[i].name);
+        var baseName = sanitizeFilename(files[i].name).replace(/\.[^/.]+$/, '');
+        folder.file(baseName + '-compressed.' + ext, compressedBlobs[i]);
+      }
+    }
+    zip.generateAsync({ type: 'blob' }).then(function(content) {
+      var url = URL.createObjectURL(content);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'toolsx-compressed-images.zip';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+      downloadAllBtn.disabled = false;
+      downloadAllBtn.textContent = '⬇️ Download All (ZIP)';
+    }).catch(function(err) {
+      showToast('Error creating ZIP');
+      console.error(err);
+      downloadAllBtn.disabled = false;
+      downloadAllBtn.textContent = '⬇️ Download All (ZIP)';
+    });
+  });
+
+  recompressBtn.addEventListener('click', function() {
+    if (files.length > 0 && !isProcessing) compressAll();
+  });
+
+  clearBtn.addEventListener('click', function() {
+    if (!confirm('Clear all images?')) return;
+    files = [];
+    compressedBlobs = [];
+    resultsGrid.innerHTML = '';
+    workspace.classList.remove('active');
+    dropzone.style.display = '';
+    downloadAllBtn.style.display = 'none';
+    bulkActions.classList.remove('active');
+    fileInput.value = '';
+  });
+
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

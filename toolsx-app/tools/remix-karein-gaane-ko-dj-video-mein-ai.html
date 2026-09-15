@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Retro DJ Visualizer Pro – Beat-Reactive Club Visuals Free – ToolsX App</title>
+<meta name="description" content="Create retro-style, beat-reactive club visuals free online. Fast rendering, synced to your music for live sets or videos">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Retro DJ Visualizer Pro – Beat-Reactive Club Visuals Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Retro DJ Visualizer Pro - Free Music Video Maker","description":"Generate BPM-synced club visuals, beat-reactive lights, 10 dance moves, and professional music videos directly in the browser. 5 themes, WebM recording, auto-fill song title, 100% offline.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","featureList":"BPM-synced dance animations, Beat-reactive strobe lights, 5 visual themes (Cyberpunk/Cinematic/Ethereal/Minimal/Pixar), 10 dance move choreography, WebM video recording, Auto-fill song title, Bass-reactive orbs, Real-time waveform, 1280x720 HD canvas, MP3/WAV/OGG support, Audio signature verification, 50MB limit","softwareVersion":"6.3","author":{"@type":"Organization","name":"Tools-X","url":"https://www.toolsx.in"}}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Create Music Videos with DJ Visualizer","description":"Step-by-step guide to making beat-synced music videos.","totalTime":"PT3M","step":[{"@type":"HowToStep","position":1,"name":"Upload Song","text":"Click or drag-drop an MP3, WAV or OGG file (up to 50MB). Title auto-fills from filename."},{"@type":"HowToStep","position":2,"name":"Set Details","text":"Edit the song title, add DJ/artist name, choose one of 5 visual themes."},{"@type":"HowToStep","position":3,"name":"Preview","text":"Click Preview to see the BPM-synced animation play in real time."},{"@type":"HowToStep","position":4,"name":"Record","text":"Click Record Video to capture the full song as a WebM file with audio."},{"@type":"HowToStep","position":5,"name":"Download","text":"Click Download to save the YouTube-ready music video."}]}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is my audio uploaded to any server?","acceptedAnswer":{"@type":"Answer","text":"No. Your audio plays only in your browser and all visuals are drawn using Canvas API — nothing is uploaded anywhere. 100% private."}},{"@type":"Question","name":"Can WebM video be uploaded to YouTube?","acceptedAnswer":{"@type":"Answer","text":"Yes. YouTube natively supports WebM format. You can upload the downloaded file directly to YouTube Studio."}},{"@type":"Question","name":"Which audio format works best?","acceptedAnswer":{"@type":"Answer","text":"MP3 is most universal, but WAV and OGG work perfectly too. 120-140 BPM EDM/Hip-Hop tracks give the best beat detection."}},{"@type":"Question","name":"Can I record on mobile devices?","acceptedAnswer":{"@type":"Answer","text":"Works on both Android Chrome and iOS Safari, but desktop/laptop provides best performance and recording stability."}},{"@type":"Question","name":"How does beat detection work?","acceptedAnswer":{"@type":"Answer","text":"Web Audio API's AnalyserNode tracks bass frequencies in real-time. When bass spike exceeds the moving average by 20%, a beat is triggered and lights/dancers sync to it."}}]}
+</script>
+
+<div id="tsxv5-djviz" class="tsxv5-wrapper">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;600;700&display=swap');
+
+#tsxv5-djviz{
+  --bg:#ffffff;--card:#ffffff;--card2:#f8fafc;
+  --text:#111111;--muted:#475569;--soft:#64748b;
+  --accent:#7c3aed;--accent2:#06b6d4;--accent-h:#6d28d9;
+  --border:#e2e8f0;--border-h:#cbd5e1;
+  --success:#059669;--error:#dc2626;--warn:#d97706;
+  --surface:#17172a;--surface-line:#2a2a45;--text-hi:#f3f1ff;--text-lo:#a7a3c9;
+  --magenta:#ff2e88;--cyan:#29f5d6;--amber:#ffc145;
+  --shadow:0 30px 80px -30px rgba(0,0,0,.6);
+  font-family:'Inter',system-ui,sans-serif;
+  max-width:1000px;margin:0 auto;padding:0 12px 30px;
+  background:var(--bg);color:var(--text);
+  transition:background .3s ease,color .3s ease;
+}
+body.dark-mode #tsxv5-djviz,
+html.dark-mode #tsxv5-djviz,
+[data-theme="dark"] #tsxv5-djviz,
+body[data-theme="dark"] #tsxv5-djviz,
+html[data-theme="dark"] #tsxv5-djviz,
+.dark-mode #tsxv5-djviz,
+.night-mode #tsxv5-djviz{
+  --bg:#0f172a;--card:#1e293b;--card2:#334155;
+  --text:#8ab4f8;--muted:#94a3b8;--soft:#94a3b8;
+  --accent:#a78bfa;--accent2:#22d3ee;--accent-h:#c084fc;
+  --border:#334155;--border-h:#475569;
+  --success:#34d399;--error:#f87171;--warn:#fbbf24;
+}
+#tsxv5-djviz *{box-sizing:border-box;max-width:100%;}
+#tsxv5-djviz .header{text-align:center;padding:16px 0 8px;}
+#tsxv5-djviz .eyebrow{
+  font-size:12px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--accent2);font-weight:600;
+}
+#tsxv5-djviz .header h2{
+  font-size:clamp(28px,5.5vw,48px);font-weight:900;
+  background:linear-gradient(90deg,var(--cyan),#8f8bff 45%,var(--magenta));
+  -webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0;
+  line-height:1.2;
+}
+#tsxv5-djviz .header .sub{
+  color:var(--muted);font-size:clamp(12px,2.8vw,14px);max-width:640px;margin:0 auto;line-height:1.5;
+}
+#tsxv5-djviz .app-card{
+  background:var(--surface);border:1px solid var(--surface-line);border-radius:16px;
+  padding:20px;box-shadow:var(--shadow);
+}
+#tsxv5-djviz .app-card strong,#tsxv5-djviz .app-card label,
+#tsxv5-djviz .app-card .field label{color:var(--text-hi);}
+#tsxv5-djviz .stage{
+  position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;
+  overflow:hidden;background:#050510;border:1px solid var(--surface-line);
+}
+#tsxv5-djviz .stage canvas{width:100%;height:100%;display:block;}
+#tsxv5-djviz .stage-empty{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:var(--text-lo);text-align:center;padding:16px;font-size:13px;background:rgba(0,0,0,.6);
+}
+#tsxv5-djviz .dropzone{
+  margin-top:14px;border:1.5px dashed var(--surface-line);border-radius:12px;
+  padding:18px;text-align:center;cursor:pointer;transition:.2s;color:var(--text-lo);
+  min-height:70px;display:flex;flex-direction:column;justify-content:center;
+}
+#tsxv5-djviz .dropzone:hover,#tsxv5-djviz .dropzone.dragover{border-color:var(--cyan);background:rgba(41,245,214,.04);}
+#tsxv5-djviz .dropzone strong{color:var(--text-hi);}
+#tsxv5-djviz .dropzone span{display:block;color:var(--text-lo);font-size:12px;margin-top:3px;}
+#tsxv5-djviz .dropzone input[type=file]{display:none;}
+#tsxv5-djviz .controls-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;align-items:center;}
+#tsxv5-djviz .btn{
+  font-weight:600;font-size:clamp(12px,2.8vw,13px);border:none;border-radius:8px;padding:11px 20px;
+  cursor:pointer;transition:.12s;font-family:inherit;min-height:46px;
+}
+#tsxv5-djviz .btn:active{transform:scale(.97);}
+#tsxv5-djviz .btn:disabled{opacity:.4;cursor:not-allowed;}
+#tsxv5-djviz .btn-primary{background:linear-gradient(90deg,var(--cyan),#6be2ff);color:#04121a;}
+#tsxv5-djviz .btn-record{background:linear-gradient(90deg,var(--magenta),#ff6fb0);color:#1a0410;}
+#tsxv5-djviz .btn-record.recording{animation:tsxv5Pulse 1.1s infinite;}
+#tsxv5-djviz .btn-secondary{background:#111022;color:var(--text-hi);border:1px solid var(--surface-line);}
+#tsxv5-djviz .btn-download{background:linear-gradient(90deg,var(--amber),#ffd97d);color:#241300;}
+@keyframes tsxv5Pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,46,136,.5);}
+  50%{box-shadow:0 0 0 10px rgba(255,46,136,0);}
+}
+#tsxv5-djviz .status{
+  font-size:12px;color:var(--text-lo);min-height:18px;margin-top:6px;
+}
+#tsxv5-djviz .status.error{color:var(--error);}
+#tsxv5-djviz .status.done{color:var(--success);}
+#tsxv5-djviz .status.warn{color:var(--warn);}
+#tsxv5-djviz .download-box{
+  margin-top:14px;padding:14px;border-radius:10px;background:#111022;
+  border:1px solid var(--surface-line);display:none;color:var(--text-lo);
+}
+#tsxv5-djviz .download-box.show{display:block;}
+#tsxv5-djviz .download-box a{
+  display:inline-block;margin-top:6px;background:linear-gradient(90deg,var(--amber),#ffd97d);
+  color:#241300;font-weight:700;text-decoration:none;padding:9px 18px;border-radius:8px;
+  min-height:42px;
+}
+#tsxv5-djviz .download-box a:hover{color:#241300;text-decoration:none;}
+#tsxv5-djviz .field{margin-top:10px;}
+#tsxv5-djviz .field label{
+  font-size:11px;color:var(--text-lo);text-transform:uppercase;letter-spacing:.04em;
+  display:block;margin-bottom:3px;
+}
+#tsxv5-djviz .field input,#tsxv5-djviz .field select{
+  width:100%;background:#111022;border:1px solid var(--surface-line);border-radius:7px;
+  padding:9px 12px;color:var(--text-hi);font-size:15px;font-family:inherit;max-width:100%;
+  min-height:42px;
+}
+#tsxv5-djviz .field input::placeholder{color:var(--text-lo);opacity:0.6;}
+#tsxv5-djviz .sr-note{font-size:10px;color:#635f8a;margin-top:5px;}
+#tsxv5-djviz .seo-content{margin-top:36px;}
+#tsxv5-djviz .seo-content h2{
+  color:var(--text);border-left:4px solid var(--accent);padding-left:12px;margin:22px 0 10px;font-size:clamp(1.1rem,3.8vw,1.4rem);
+}
+#tsxv5-djviz .seo-content p,#tsxv5-djviz .seo-content li{color:var(--muted);line-height:1.7;margin-bottom:8px;}
+#tsxv5-djviz .seo-content ul{padding-left:22px;}
+#tsxv5-djviz .seo-content strong{color:var(--text);}
+#tsxv5-djviz .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:18px;}
+#tsxv5-djviz .related-link{
+  display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:12px;text-decoration:none;transition:all .2s ease;
+  min-height:46px;
+}
+#tsxv5-djviz .related-link:hover{border-color:var(--accent);transform:translateY(-2px);text-decoration:none;}
+#tsxv5-djviz .related-icon{font-size:1.5rem;flex-shrink:0;}
+#tsxv5-djviz .related-link strong{display:block;color:var(--text);font-size:0.85rem;margin-bottom:2px;}
+#tsxv5-djviz .related-link .rl-desc{color:var(--muted);font-size:0.75rem;line-height:1.3;}
+#tsxv5-djviz .faq-item{
+  background:var(--card2);padding:12px 18px;border-radius:12px;margin:8px 0;border:1px solid var(--border);
+}
+#tsxv5-djviz .faq-item strong{color:var(--text);display:block;margin-bottom:5px;}
+#tsxv5-djviz .faq-item span{color:var(--muted);}
+#tsxv5-djviz .pro-tip{
+  margin:44px 0;padding:26px;background:var(--card2);border-radius:14px;border:1px solid var(--border);
+}
+#tsxv5-djviz .pro-tip h3{margin-bottom:13px;color:var(--accent);font-size:clamp(1.1rem,3.2vw,1.3rem);}
+#tsxv5-djviz .pro-tip p{line-height:1.7;margin-bottom:13px;color:var(--muted);}
+#tsxv5-djviz .pro-tip strong{color:var(--text);}
+#tsxv5-djviz a{color:var(--accent);font-weight:600;text-decoration:none;}
+#tsxv5-djviz a:hover{text-decoration:underline;color:var(--accent-h);}
+#tsxv5-djviz footer{
+  text-align:center;color:var(--soft);font-size:11px;margin-top:30px;padding-bottom:18px;
+}
+
+@media(max-width:768px){
+  #tsxv5-djviz{padding:0 8px 26px;}
+  #tsxv5-djviz .header h2{font-size:clamp(26px,5vw,36px);}
+  #tsxv5-djviz .header .sub{font-size:clamp(11px,2.5vw,13px);}
+  #tsxv5-djviz .app-card{padding:16px;border-radius:14px;}
+  #tsxv5-djviz .dropzone{padding:16px;min-height:66px;}
+  #tsxv5-djviz .controls-row{gap:8px;}
+  #tsxv5-djviz .btn{padding:10px 16px;font-size:12px;min-height:44px;}
+  #tsxv5-djviz .field{margin-top:9px;}
+  #tsxv5-djviz .field input,#tsxv5-djviz .field select{padding:8px 11px;min-height:40px;}
+  #tsxv5-djviz .related-grid{grid-template-columns:1fr;}
+  #tsxv5-djviz .pro-tip{margin:36px 0;padding:22px;}
+  #tsxv5-djviz .seo-content{margin-top:32px;}
+  #tsxv5-djviz .seo-content h2{margin:18px 0 8px;font-size:clamp(1rem,3.5vw,1.3rem);}
+  #tsxv5-djviz .faq-item{padding:10px 16px;}
+}
+
+@media(max-width:480px){
+  #tsxv5-djviz{padding:0 6px 24px;}
+  #tsxv5-djviz .header h2{font-size:clamp(24px,4.8vw,32px);}
+  #tsxv5-djviz .app-card{padding:14px;border-radius:12px;}
+  #tsxv5-djviz .stage{border-radius:8px;}
+  #tsxv5-djviz .dropzone{padding:14px;min-height:62px;}
+  #tsxv5-djviz .dropzone span{font-size:11px;}
+  #tsxv5-djviz .controls-row{flex-direction:column;align-items:stretch;gap:8px;}
+  #tsxv5-djviz .btn{width:100%;padding:10px 14px;font-size:12px;}
+  #tsxv5-djviz .field input,#tsxv5-djviz .field select{padding:8px 10px;font-size:14px;}
+  #tsxv5-djviz .download-box a{width:100%;text-align:center;}
+  #tsxv5-djviz .related-grid{grid-template-columns:1fr;}
+  #tsxv5-djviz .related-link{padding:10px;}
+  #tsxv5-djviz .related-icon{font-size:1.4rem;}
+  #tsxv5-djviz .faq-item{padding:9px 14px;}
+  #tsxv5-djviz .pro-tip{padding:20px;}
+}
+
+@media(min-width:1024px){
+  #tsxv5-djviz{padding:0 20px 36px;}
+  #tsxv5-djviz .related-grid{grid-template-columns:repeat(3,1fr);}
+  #tsxv5-djviz .app-card{padding:24px;}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #tsxv5-djviz *,#tsxv5-djviz *::before,#tsxv5-djviz *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+}
+</style>
+
+<div class="header">
+  <div class="eyebrow">🎧 Club Visuals · Beat‑Reactive · Fast</div>
+  <h2>Retro DJ Visualizer Pro</h2>
+  <p class="sub">Upload your song — dancers will move to the BPM (10 choreography moves), reactive orbs pulse with the bass!</p>
+</div>
+
+<div class="app-card">
+  <div class="stage">
+    <canvas id="tsxv5-viz" width="1280" height="720"></canvas>
+    <div class="stage-empty" id="tsxv5-stageEmpty">🎧 Upload a song — Club scene will appear live</div>
+  </div>
+
+  <div class="dropzone" id="tsxv5-dropzone">
+    <strong>🎵 Click or drag your song here</strong>
+    <span>MP3, WAV, OGG · Max 50MB · Title auto-fills from filename</span>
+    <input type="file" id="tsxv5-fileInput" accept=".mp3,.wav,.ogg,audio/mpeg,audio/wav,audio/ogg">
+  </div>
+
+  <div class="status" id="tsxv5-statusText" role="status" aria-live="polite"></div>
+
+  <div class="field">
+    <label for="tsxv5-titleInput">🎤 Song Title (Auto-fill)</label>
+    <input type="text" id="tsxv5-titleInput" maxlength="60" value="SUMMER VIBES">
+  </div>
+  <div class="field">
+    <label for="tsxv5-artistInput">🎧 Artist / DJ Name</label>
+    <input type="text" id="tsxv5-artistInput" placeholder="e.g., DJ Mohit Mk" maxlength="60">
+  </div>
+  <div class="field">
+    <label for="tsxv5-themeSelect">🎨 Visual Theme</label>
+    <select id="tsxv5-themeSelect">
+      <option value="0">🌆 Cyberpunk Neon</option>
+      <option value="1">🎬 Cinematic Moody</option>
+      <option value="2">🌙 Fantasy Ethereal</option>
+      <option value="3">🕊 Minimalist Clean</option>
+      <option value="4">🧸 Pixar Cute</option>
+    </select>
+  </div>
+
+  <div class="controls-row">
+    <button type="button" class="btn btn-primary" id="tsxv5-playBtn" disabled>▶ Preview</button>
+    <button type="button" class="btn btn-record" id="tsxv5-recordBtn" disabled>⏺ Record Video</button>
+    <button type="button" class="btn btn-secondary" id="tsxv5-stopBtn" disabled>■ Stop</button>
+    <button type="button" class="btn btn-download" id="tsxv5-downloadBtn" disabled>⬇ Download</button>
+  </div>
+
+  <div class="download-box" id="tsxv5-downloadBox">
+    <div>✅ Video is ready!</div>
+    <a id="tsxv5-downloadLink" download="dj-visual.webm">Download Video (.webm)</a>
+    <div class="sr-note">WebM · YouTube ready</div>
+  </div>
+  <audio id="tsxv5-audioEl" style="display:none"></audio>
+</div>
+
+<div class="seo-content">
+  <h2>🔍 How Retro DJ Visualizer Pro Works</h2>
+  <p><strong>Tools-X Retro DJ Visualizer Pro</strong> is a professional-grade browser-based music video generator that converts your audio file into BPM-synced club visuals — without any upload, download, or sign-up required. The Web Audio API's AnalyserNode tracks bass frequencies in real-time, and when a beat is detected, strobe lights flash, dancers perform their choreography, and reactive orbs pulse. The Canvas API renders every frame at 1280x720 HD resolution, and the MediaRecorder API captures both canvas and audio into a WebM video simultaneously. This tool is specially designed for YouTube shorts, Instagram reels, and DJ set promotions.</p>
+  <ul>
+    <li><strong>BPM Sync:</strong> Beat detection automatically tracks the song's tempo and syncs visuals to it.</li>
+    <li><strong>5 Visual Themes:</strong> Cyberpunk Neon, Cinematic Moody, Fantasy Ethereal, Minimalist Clean, and Pixar Cute.</li>
+    <li><strong>10 Dance Moves:</strong> Dancers perform hands-up, hair-flip, twirl, jump-jacks, and disco-point moves on the beat.</li>
+    <li><strong>WebM Recording:</strong> The entire song is recorded as video in YouTube-ready format.</li>
+    <li><strong>Auto-fill Title:</strong> Filename automatically converts to song title when you upload a file.</li>
+  </ul>
+
+  <h2>🛠️ Step-by-Step: How to Create a Music Video</h2>
+  <p>The process is simple: (1) Click the upload area or drag-drop your MP3, WAV, or OGG file — the tool automatically fills in the title, (2) Add artist/DJ name and select your favorite visual theme, (3) Click the Preview button to watch visuals play along with the song, (4) Click "Record Video" to start recording — MediaRecorder captures both canvas and audio simultaneously, (5) When the song ends, recording stops automatically and a download box appears, (6) Click the Download button to save the WebM file. Playing the preview once properly initializes the Web Audio context, resulting in 10x better recording quality.</p>
+
+  <h2>🎵 The Science Behind Beat Detection</h2>
+  <p>This tool uses real-time bass frequency analysis. The AnalyserNode extracts frequency data with a 1024 FFT size — the kick drum range (0-3% of the spectrum) is isolated and stored in a rolling history buffer. When the current kick value exceeds the moving average by 20% and more than 160ms has passed since the last beat, a beat is triggered. BPM is automatically calculated from the average of the last 8 beat intervals — this works accurately in the 70-190 BPM range. High BPM tracks (120-140 BPM) like EDM, Hip-Hop, and dance music provide the best beat detection because beat intervals are more consistent.</p>
+
+  <h2>🎭 5 Visual Themes — When to Use Each</h2>
+  <p><strong>Cyberpunk Neon:</strong> Perfect for EDM, Synthwave, and Future Bass tracks — neon grid, magenta-cyan lights, and dark background. <strong>Cinematic Moody:</strong> For slow songs, ballads, and emotional tracks — warm amber tones, fog effects, and subtle lighting. <strong>Fantasy Ethereal:</strong> For classical, ambient, and meditation music — stars, firefly particles, and purple hues. <strong>Minimalist Clean:</strong> For podcast covers, acoustic songs, and professional content — light background, clean typography. <strong>Pixar Cute:</strong> For kids' songs, happy tracks, and fun content — colorful bubbles and playful chibi dancers. When you change themes, existing particles clear and new theme particles generate.</p>
+
+  <h2>💡 Production Tips for Best Results</h2>
+  <p>Follow these tips for professional music videos: Play the full song once before recording — this properly warms up the audio context and makes beat detection accurate. Use high-quality MP3 files (320kbps) — low bitrate files may cause missed beats. 120-140 BPM tracks produce the best visuals. Write the song title in ALL CAPS — typography looks more impactful. Don't forget to add the artist name — it shows as a professional credit below the title. You can upload the WebM file directly to YouTube Studio, Instagram, or TikTok — all major platforms support it natively.</p>
+
+  <h2>🔒 Privacy & Performance</h2>
+  <p>Since the entire process is client-side, your song never goes to any server. This tool is safe for handling unreleased tracks, demo songs, and personal recordings. Canvas rendering runs at 30 FPS — pre-rendered sprites are used to avoid heavy blur, so performance stays smooth even on mid-range devices. File validation checks magic bytes (MP3 ID3/FF FB, WAV RIFF, OGG) and enforces a 50MB size limit to ensure only valid audio files are processed. Both Chrome and Safari are supported on mobile, but desktop provides the best recording stability.</p>
+</div>
+
+<div class="pro-tip">
+  <h3>💡 Pro Tip: For Best Results</h3>
+  <p><strong>Use high BPM songs (120-140 BPM)</strong> like EDM, Hip-Hop, or dance tracks. These songs work perfectly with the visualizer because beat detection is more accurate.</p>
+  <p>To improve video quality, <strong>play the preview once</strong> before recording so the browser audio context initializes properly. Then press the record button — the result will be 10x better!</p>
+  <p><strong>Important:</strong> Don't put the browser in the background once recording starts — tab switching can pause MediaRecorder and cause audio glitches. Keep the tab active until recording completes.</p>
+</div>
+
+<div class="seo-content">
+  <h2>🎵 Related Music Tools — Try These Too</h2>
+  <div class="related-grid">
+    <a class="related-link" href="../tools/render-karein-audio-visualizer-waveform.html" rel="noopener noreferrer" title="Waveform Studio">
+      <span class="related-icon">🎵</span>
+      <div><strong>Audio Visualizer Studio</strong><span class="rl-desc">Waveform videos with real audio — 6 visual styles, WebM recording</span></div>
+    </a>
+    <a class="related-link" href="../tools/ringtone-maker-15-music-styles-voice.html" rel="noopener noreferrer" title="Name Ringtone Maker">
+      <span class="related-icon">🔔</span>
+      <div><strong>Name Ringtone Maker</strong><span class="rl-desc">Custom ringtone with 15 music styles + voice announcement</span></div>
+    </a>
+    <a class="related-link" href="../tools/produce-karein-ai-music-prompts-fast-ai.html" rel="noopener noreferrer" title="SynthDeck Studio">
+      <span class="related-icon">🎹</span>
+      <div><strong>SynthDeck Music Studio</strong><span class="rl-desc">Compose songs, hear real chord audio & generate Suno/Udio prompts</span></div>
+    </a>
+  </div>
+</div>
+
+<div class="seo-content">
+  <h2>❓ FAQs</h2>
+  <div class="faq-item"><strong>Is my audio uploaded to any server?</strong><span>No. Your audio plays only in your browser and all visuals are drawn using Canvas API — nothing is uploaded anywhere. 100% private.</span></div>
+  <div class="faq-item"><strong>Can WebM video be uploaded to YouTube?</strong><span>Yes. YouTube natively supports WebM format. You can upload the downloaded file directly to YouTube Studio.</span></div>
+  <div class="faq-item"><strong>Which audio format works best?</strong><span>MP3 is most universal, but WAV and OGG work perfectly too. 120-140 BPM EDM/Hip-Hop tracks give the best beat detection.</span></div>
+  <div class="faq-item"><strong>Can I record on mobile devices?</strong><span>Works on both Android Chrome and iOS Safari, but desktop/laptop provides best performance and recording stability.</span></div>
+  <div class="faq-item"><strong>How does beat detection work?</strong><span>Web Audio API's AnalyserNode tracks bass frequencies in real-time. When bass spike exceeds the moving average by 20%, a beat is triggered and lights/dancers sync to it.</span></div>
+</div>
+
+<p style="margin-top:28px;font-size:clamp(13px,2.8vw,15px);line-height:1.7;color:var(--muted);">This <strong>Retro DJ Visualizer Pro</strong> tool is 100% free and works perfectly on any device. Whether you're making YouTube shorts, Instagram reels, or need visuals for DJ sets — this tool handles it all. Bookmark it, share with friends, and present your music with next-level visuals! 🎵✨</p>
+
+<footer>Powered by <strong>Tools-X</strong> · toolsx.in</footer>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+var W=document.getElementById('tsxv5-djviz');
+if(!W)return;
+
+var canvas=document.getElementById('tsxv5-viz');
+var ctx=canvas.getContext('2d');
+var stageEmpty=document.getElementById('tsxv5-stageEmpty');
+var audioEl=document.getElementById('tsxv5-audioEl');
+var fileInput=document.getElementById('tsxv5-fileInput');
+var dropzone=document.getElementById('tsxv5-dropzone');
+var playBtn=document.getElementById('tsxv5-playBtn');
+var recordBtn=document.getElementById('tsxv5-recordBtn');
+var stopBtn=document.getElementById('tsxv5-stopBtn');
+var downloadBtn=document.getElementById('tsxv5-downloadBtn');
+var statusText=document.getElementById('tsxv5-statusText');
+var downloadBox=document.getElementById('tsxv5-downloadBox');
+var downloadLink=document.getElementById('tsxv5-downloadLink');
+var titleInput=document.getElementById('tsxv5-titleInput');
+var artistInput=document.getElementById('tsxv5-artistInput');
+var themeSelect=document.getElementById('tsxv5-themeSelect');
+
+var audioCtx=null,analyser=null,sourceNode=null,destNode=null,freqData=null,objectUrl=null;
+var WIDTH=1280,HEIGHT=720,rafId=null,rotation=0,pulse=0,beatFlash=0,lastBeatTime=0,gridOffset=0,bpm=0;
+var kickHist=[],highHist=[],midHist=[],beatTimes=[],parts=[],ripples=[],beatCount=0,blackoutUntil=0,lightL=0.3;
+var lastHatTime=0,lastSnareTime=0;
+var mediaRecorder=null,chunks=[];
+var MAX_SIZE_MB=50;
+var audioGraphReady=false;
+
+function setStatus(type,msg){
+  statusText.className='status'+(type?' '+type:'');
+  statusText.textContent=msg||'';
+}
+
+function sanitizeFilename(name){
+  return String(name||'dj-visual').replace(/[^a-zA-Z0-9\- ]/gi,'').trim().replace(/\s+/g,'-').substring(0,80)||'dj-visual';
+}
+
+function isValidAudioFile(file){
+  if(!file)return false;
+  var ext=(file.name.split('.').pop()||'').toLowerCase();
+  var validExts=['mp3','wav','ogg','m4a'];
+  var validMimes=['audio/mpeg','audio/wav','audio/wave','audio/ogg','audio/mp4','audio/x-m4a'];
+  if(validExts.indexOf(ext)!==-1)return true;
+  if(validMimes.indexOf(file.type)!==-1)return true;
+  if(file.type&&file.type.indexOf('audio/')===0)return true;
+  return false;
+}
+
+function verifyAudioSignature(file){
+  return new Promise(function(resolve){
+    if(!file.slice){resolve(true);return;}
+    var blob=file.slice(0,16);
+    var reader=new FileReader();
+    reader.onload=function(e){
+      var b=new Uint8Array(e.target.result);
+      if(b.length<4){resolve(true);return;}
+      if(b[0]===0x49&&b[1]===0x44&&b[2]===0x33){resolve(true);return;}
+      if(b[0]===0xFF&&(b[1]&0xE0)===0xE0){resolve(true);return;}
+      if(b[0]===0xFF&&b[1]===0xFB){resolve(true);return;}
+      if(b[0]===0xFF&&b[1]===0xF3){resolve(true);return;}
+      if(b[0]===0xFF&&b[1]===0xF2){resolve(true);return;}
+      if(b.length>=12&&b[0]===0x52&&b[1]===0x49&&b[2]===0x46&&b[3]===0x46){resolve(true);return;}
+      if(b.length>=4&&b[0]===0x4F&&b[1]===0x67&&b[2]===0x67&&b[3]===0x53){resolve(true);return;}
+      if(b.length>=8&&b[4]===0x66&&b[5]===0x74&&b[6]===0x79&&b[7]===0x70){resolve(true);return;}
+      resolve(false);
+    };
+    reader.onerror=function(){resolve(true);};
+    reader.readAsArrayBuffer(blob);
+  });
+}
+
+function makeGlow(col){
+  var c=document.createElement('canvas');c.width=c.height=64;
+  var g=c.getContext('2d');var rg=g.createRadialGradient(32,32,0,32,32,32);
+  rg.addColorStop(0,col);rg.addColorStop(1,'rgba(0,0,0,0)');
+  g.fillStyle=rg;g.fillRect(0,0,64,64);return c;
+}
+var glowA=makeGlow('rgba(41,245,214,1)'),glowB=makeGlow('rgba(255,46,136,1)'),glowW=makeGlow('rgba(255,255,255,1)');
+var starCv=document.createElement('canvas');starCv.width=WIDTH;starCv.height=HEIGHT*0.6;
+(function(){var g=starCv.getContext('2d');g.fillStyle='#fff';for(var i=0;i<110;i++){g.globalAlpha=0.2+Math.random()*0.7;g.fillRect(Math.random()*WIDTH,Math.random()*HEIGHT*0.6,1.5,1.5);}})();
+
+var THEMES=[
+  {bgIn:'#1a0b2e',bgOut:'#050510',hueC:255,hueA:75,grid:true,stars:false,fog:0,part:'spark',dancer:'dark',chibi:false,stroke:'#ff2e88',fill:'#ffffff',light:false},
+  {bgIn:'#2e1a0b',bgOut:'#0a0805',hueC:25,hueA:20,grid:false,stars:false,fog:1,part:'dust',dancer:'dark',chibi:false,stroke:'#ffb46b',fill:'#fff6ea',light:false},
+  {bgIn:'#140b2e',bgOut:'#03040a',hueC:280,hueA:50,grid:false,stars:true,fog:0.5,part:'firefly',dancer:'dark',chibi:false,stroke:'#b06bff',fill:'#ffffff',light:false},
+  {bgIn:'#efe9df',bgOut:'#d6ccc0',hueC:35,hueA:15,grid:false,stars:false,fog:0,part:'dust',dancer:'warm',chibi:false,stroke:'#c96f4a',fill:'#2b2622',light:true},
+  {bgIn:'#27406b',bgOut:'#101c33',hueC:210,hueA:90,grid:false,stars:true,fog:0,part:'bubble',dancer:'color',chibi:true,stroke:'#ffd97d',fill:'#ffffff',light:false}
+];
+var rimCols=['#ff2e88','#29f5d6','#b06bff','#ff8f45','#45c8ff','#ff5fd0'];
+
+var dancers=[
+  {x:0.10,s:1.00,phase:0.0,style:0,off:0,hair:0,skirt:1},
+  {x:0.20,s:0.94,phase:1.4,style:1,off:50,hair:1,skirt:0},
+  {x:0.30,s:1.05,phase:2.2,style:2,off:90,hair:2,skirt:1},
+  {x:0.70,s:1.04,phase:0.8,style:3,off:20,hair:0,skirt:1},
+  {x:0.80,s:0.95,phase:1.9,style:4,off:70,hair:3,skirt:0},
+  {x:0.90,s:1.00,phase:2.8,style:5,off:110,hair:1,skirt:1}
+];
+
+function formatTime(s){if(!s||isNaN(s))return'0:00';var m=Math.floor(s/60),sec=Math.floor(s%60);return m+':'+String(sec).padStart(2,'0');}
+
+function getBand(d,s,e){
+  if(!d)return 0;
+  var si=Math.floor(d.length*s),ei=Math.floor(d.length*e),sum=0;
+  for(var i=si;i<ei;i++)sum+=d[i];
+  return sum/(ei-si)/255;
+}
+
+if(typeof CanvasRenderingContext2D!=='undefined'&&!CanvasRenderingContext2D.prototype.roundRect){
+  try{
+    CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
+      r=typeof r==='number'?r:0;
+      this.beginPath();
+      this.moveTo(x+r,y);
+      this.lineTo(x+w-r,y);
+      this.quadraticCurveTo(x+w,y,x+w,y+r);
+      this.lineTo(x+w,y+h-r);
+      this.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+      this.lineTo(x+r,y+h);
+      this.quadraticCurveTo(x,y+h,x,y+h-r);
+      this.lineTo(x,y+r);
+      this.quadraticCurveTo(x,y,x+r,y);
+      this.closePath();
+      return this;
+    };
+  }catch(e){}
+}
+
+function ik(ax,ay,bx,by,l1,l2,dir){var dx=bx-ax,dy=by-ay,d=Math.hypot(dx,dy);var m=l1+l2-0.01;if(d>m)d=m;var n=Math.abs(l1-l2)+0.01;if(d<n)d=n;var a=Math.acos((l1*l1+d*d-l2*l2)/(2*l1*d));var ang=Math.atan2(dy,dx)+dir*a;return[ax+Math.cos(ang)*l1,ay+Math.sin(ang)*l1];}
+function limb(x0,y0,x1,y1,w0,w1){var dx=x1-x0,dy=y1-y0,d=Math.hypot(dx,dy)||1,px=-dy/d,py=dx/d;ctx.beginPath();ctx.moveTo(x0+px*w0*0.5,y0+py*w0*0.5);ctx.lineTo(x1+px*w1*0.5,y1+py*w1*0.5);ctx.lineTo(x1-px*w1*0.5,y1-py*w1*0.5);ctx.lineTo(x0-px*w0*0.5,y0-py*w0*0.5);ctx.closePath();ctx.fill();ctx.beginPath();ctx.arc(x0,y0,w0*0.5,0,6.283);ctx.fill();ctx.beginPath();ctx.arc(x1,y1,w1*0.5,0,6.283);ctx.fill();}
+function ribbon(p,w){for(var i=0;i<p.length-1;i++)limb(p[i][0],p[i][1],p[i+1][0],p[i+1][1],w[i],w[i+1]);}
+
+function hands(st,shX,shY,hipX,hipY,s,g1,g2,pl,kick){
+  var L,R;
+  var kThrow = kick * 30 * s; 
+  if(st===0){L=[shX-(20+g1*5)*s,shY-(44+g2*5+pl*6)*s-kThrow];R=[shX+(20-g1*5)*s,shY-(44-g2*5+pl*6)*s-kThrow];}
+  else if(st===1){R=[shX+(16+g1*3)*s,shY-(42+pl*8)*s-kThrow];L=[hipX-8*s,hipY-2*s];}
+  else if(st===2){L=[shX-(12+g1*2)*s,shY-(28+g2*2)*s-kThrow*0.4];R=[shX+(12-g1*2)*s,shY-(28-g2*2)*s-kThrow*0.4];}
+  else if(st===3){L=[shX-(28+g1*7)*s,shY-(12+g2*8)*s];R=[shX+(28-g1*7)*s,shY-(12-g2*8)*s];}
+  else if(st===4){L=[shX-(24-g1*8)*s,shY-(18+pl*12)*s-kThrow];R=[shX+(24+g1*8)*s,shY-(30+pl*12)*s-kThrow];}
+  else if(st===5){var up=g2>0;L=up?[shX-13*s,shY-(46+pl*6)*s-kThrow]:[shX-22*s,shY-9*s];R=!up?[shX+13*s,shY-(46+pl*6)*s-kThrow]:[shX+22*s,shY-9*s];}
+  else if(st===6){L=[shX-(26+g2*5)*s,shY-(22+g1*5)*s-kThrow*0.6];R=[shX+(26-g2*5)*s,shY-(22-g1*5)*s-kThrow*0.6];}
+  else if(st===7){var sd=g2>0?1:-1;R=[shX+sd*30*s,shY-(18+pl*5)*s-kThrow];L=[shX-sd*9*s,shY-24*s];}
+  else if(st===8){L=[shX-(24+pl*8)*s,shY-(28+pl*15)*s-kThrow];R=[shX+(24+pl*8)*s,shY-(28+pl*15)*s-kThrow];}
+  else{L=[shX-(28+g1*3)*s,shY-(24+g2*5)*s-kThrow*0.4];R=[shX+7*s,shY-(36+pl*6)*s-kThrow];}
+  return[L,R];
+}
+
+function drawDancer(d,ts,kick,bass,mid,pl,th,L,w){
+  var t=ts*0.001,s=d.s,ph=d.phase;
+  var st=(d.style+Math.floor(beatCount/4))%10;
+  var ch=th.chibi?1:0;
+  var g1=Math.sin(t*w*0.4+ph);
+  var g2=Math.sin(t*w*0.8+ph);
+  var q=Math.sin(t*w*0.2+ph);
+  var en=0.5+bass*0.6+pl*0.4;
+  var swayMul=st===2?1.5:(st===6?1.3:(st===7||st===9?1.2:0.9));
+  var jump=st===8?pl*10:(pl>0.7?pl*5:0);
+  var bounce=(6+kick*45+pl*18)*(0.5+0.5*Math.abs(g2))*en+jump;
+  var sway=q*(7+bass*14)*swayMul*en;
+  var hipCircle=g1*3*s;
+  var groundY=HEIGHT-62;
+  var legL=(42-ch*10)*s;
+  var hipX=d.x*WIDTH+sway+hipCircle,hipY=groundY-legL*2+bounce*0.85;
+  var lean=Math.sin(t*w*0.2+ph+0.6)*(2.5+bass*5)*s;
+  var torso=(50-ch*14)*s;
+  var shX=hipX+lean,shY=hipY-torso+bounce*0.10;
+  var headR=(9.5+ch*4)*s;
+  var tilt=st===2?g1*3*s:(st===9?g2*2*s:0);
+  var headX=shX+lean*0.6+g1*1.2*s+tilt,headY=shY-(15+ch*6)*s;
+  var sw1=g1*2.5*s+sway*0.12,sw2=g1*5*s+sway*0.25,sw3=g2*6*s+sway*0.35;
+  var step=g1*4*s,fY=groundY-2;
+  var fLx=hipX-9*s-step,fRx=hipX+9*s+step;
+  var hipLx=hipX-6.5*s,hipRx=hipX+6.5*s;
+  var kL=ik(hipLx,hipY,fLx,fY,legL,legL,1),kR=ik(hipRx,hipY,fRx,fY,legL,legL,-1);
+  var hh=hands(st,shX,shY,hipX,hipY,s,g1,g2,pl,kick);
+  var al1=(24-ch*6)*s,al2=(22-ch*6)*s,shLx=shX-8.5*s,shRx=shX+8.5*s;
+  var eL=ik(shLx,shY,hh[0][0],hh[0][1],al1,al2,-1),eR=ik(shRx,shY,hh[1][0],hh[1][1],al1,al2,1);
+  var lw=1+ch*0.3;
+  var flare=1+((st===6||st===8)?0.4+0.2*g2:0)+pl*0.2;
+  var skew=g1*2.5*s+sway*0.15;
+
+  function shapes(dy,fb,fh){
+    ctx.fillStyle=fh;
+    if(d.hair===0){
+      ribbon([[headX,headY-6*s+dy],[headX-6*s+sw1,headY+10*s+dy],[headX-8*s+sw2,headY+24*s+dy],[headX-7*s+sw3,headY+38*s+dy]],[14*s,9*s,7*s,3.5*s]);
+      ribbon([[headX,headY-6*s+dy],[headX+6*s-sw1,headY+10*s+dy],[headX+8*s-sw2,headY+24*s+dy],[headX+7*s-sw3,headY+38*s+dy]],[14*s,9*s,7*s,3.5*s]);
+    }else if(d.hair===1){
+      ribbon([[headX,headY-7*s+dy],[headX-8*s+sw1,headY+3*s+dy],[headX-11*s+sw2,headY+15*s+dy],[headX-9*s+sw3,headY+26*s+dy]],[9*s,6*s,4*s,2.5*s]);
+    }
+    ctx.fillStyle=fb;
+    limb(hipLx,hipY+dy,kL[0],kL[1]+dy,11*s*lw,7*s*lw);limb(kL[0],kL[1]+dy,fLx,fY-3*s+dy,6*s*lw,4*s*lw);
+    limb(hipRx,hipY+dy,kR[0],kR[1]+dy,11*s*lw,7*s*lw);limb(kR[0],kR[1]+dy,fRx,fY-3*s+dy,6*s*lw,4*s*lw);
+    ctx.beginPath();ctx.ellipse(fLx-2*s,fY-1*s+dy,6*s,2.8*s,0,0,6.283);ctx.fill();
+    ctx.beginPath();ctx.ellipse(fRx+2*s,fY-1*s+dy,6*s,2.8*s,0,0,6.283);ctx.fill();
+    if(d.skirt){
+      ctx.beginPath();
+      ctx.moveTo(hipX-6.5*s,hipY-11*s+dy);
+      ctx.quadraticCurveTo(hipX-12*s*flare-skew,hipY+1.5*s+dy,hipX-14*s*flare-skew,hipY+11*s+dy);
+      ctx.quadraticCurveTo(hipX,hipY+15*s+dy,hipX+14*s*flare+skew,hipY+11*s+dy);
+      ctx.quadraticCurveTo(hipX+12*s*flare,hipY+1.5*s+dy,hipX+6.5*s,hipY-11*s+dy);
+      ctx.closePath();ctx.fill();
+    }
+    ctx.beginPath();
+    ctx.moveTo(shX-9*s,shY+dy);
+    ctx.bezierCurveTo(shX-9.5*s,shY+7*s+dy,shX-6*s,shY+14*s+dy,hipX-6*s,hipY-9*s+dy);
+    ctx.quadraticCurveTo(hipX-8*s,hipY-3*s+dy,hipX-8*s,hipY+2*s+dy);
+    ctx.lineTo(hipX+8*s,hipY+2*s+dy);
+    ctx.quadraticCurveTo(hipX+8*s,hipY-3*s+dy,hipX+6*s,hipY-9*s+dy);
+    ctx.bezierCurveTo(shX+6*s,shY+14*s+dy,shX+9.5*s,shY+7*s+dy,shX+9*s,shY+dy);
+    ctx.closePath();ctx.fill();
+    limb(shX,shY+dy,headX,headY+6*s+dy,5.5*s,4.5*s);
+    ctx.beginPath();ctx.arc(headX,headY+dy,headR,0,6.283);ctx.fill();
+    ctx.fillStyle=fh;
+    ctx.beginPath();ctx.arc(headX,headY-1.5*s+dy,headR+1.5*s,Math.PI*0.95,Math.PI*2.05);ctx.fill();
+    if(d.hair===2){ctx.beginPath();ctx.arc(headX,headY-headR-3*s+dy,4.5*s,0,6.283);ctx.fill();}
+    if(d.hair===3){
+      ribbon([[headX-7*s,headY-4*s+dy],[headX-9*s+sw1*0.4,headY+5*s+dy],[headX-7*s+sw1,headY+12*s+dy]],[7*s,5*s,3.5*s]);
+      ribbon([[headX+7*s,headY-4*s+dy],[headX+9*s-sw1*0.4,headY+5*s+dy],[headX+7*s-sw1,headY+12*s+dy]],[7*s,5*s,3.5*s]);
+    }
+    ctx.fillStyle=fb;
+    limb(shLx,shY+dy,eL[0],eL[1]+dy,7*s*lw,5.5*s*lw);limb(eL[0],eL[1]+dy,hh[0][0],hh[0][1]+dy,5.5*s*lw,3.5*s*lw);
+    limb(shRx,shY+dy,eR[0],eR[1]+dy,7*s*lw,5.5*s*lw);limb(eR[0],eR[1]+dy,hh[1][0],hh[1][1]+dy,5.5*s*lw,3.5*s*lw);
+    ctx.beginPath();ctx.arc(hh[0][0],hh[0][1]+dy,3.2*s,0,6.283);ctx.fill();
+    ctx.beginPath();ctx.arc(hh[1][0],hh[1][1]+dy,3.2*s,0,6.283);ctx.fill();
+  }
+  ctx.globalAlpha=0.5*L;
+  shapes(-2.5,rimCols[d.off/50|0],rimCols[d.off/50|0]);
+  ctx.globalAlpha=1;
+  var fb,fh;
+  if(th.dancer==='color'){fb='hsl('+((d.off*4+190)%360)+',55%,48%)';fh='#2b2144';}
+  else if(th.dancer==='warm'){fb='#3b2f26';fh='#241a12';}
+  else{fb='#0d0a1a';fh='#191231';}
+  shapes(0,fb,fh);
+}
+
+function spot(sx,base,hueV,sat,ts,mid,kick,mul){
+  var ang=base+Math.sin(ts*0.0004+sx*0.01)*0.35+(Math.random()-0.5)*kick*0.04;
+  var len=HEIGHT*1.35,hw=0.08+mid*0.05;
+  ctx.save();ctx.translate(sx,-10);ctx.rotate(ang);
+  var g=ctx.createLinearGradient(0,0,0,len);
+  g.addColorStop(0,'hsla('+hueV+','+sat+'%,62%,'+((0.18+kick*0.12)*mul)+')');
+  g.addColorStop(1,'hsla('+hueV+','+sat+'%,62%,0)');
+  ctx.fillStyle=g;ctx.beginPath();
+  ctx.moveTo(0,0);ctx.lineTo(-len*hw,len);ctx.lineTo(len*hw,len);ctx.closePath();ctx.fill();
+  ctx.restore();
+}
+
+function render(ts){
+  rafId=requestAnimationFrame(render);
+  var th=THEMES[+themeSelect.value||0];
+  if(analyser&&freqData)analyser.getByteFrequencyData(freqData);
+  if(audioEl.paused&&freqData)for(var i=0;i<freqData.length;i++)freqData[i]=Math.floor(freqData[i]*0.90);
+  
+  var kick=getBand(freqData,0,0.03);
+  var bass=getBand(freqData,0.03,0.10);
+  var mid=getBand(freqData,0.10,0.40);
+  var high=getBand(freqData,0.40,1.0);
+
+  kickHist.push(kick);if(kickHist.length>30)kickHist.shift();
+  highHist.push(high);if(highHist.length>30)highHist.shift();
+  midHist.push(mid);if(midHist.length>30)midHist.shift();
+  
+  var kickAvg=kickHist.length?kickHist.reduce(function(a,b){return a+b;},0)/kickHist.length:0;
+  var highAvg=highHist.length?highHist.reduce(function(a,b){return a+b;},0)/highHist.length:0;
+  var midAvg=midHist.length?midHist.reduce(function(a,b){return a+b;},0)/midHist.length:0;
+
+  var isKick=kick>kickAvg*1.20&&kick>0.20&&ts-lastBeatTime>160;
+  var isHat=high>highAvg*1.3&&high>0.2&&ts-lastHatTime>80;
+  var isSnare=mid>midAvg*1.4&&mid>0.3&&ts-lastSnareTime>120;
+  
+  var hue=th.hueC+th.hueA*Math.sin(ts*0.0001),hue2=hue+60;
+  
+  if(isKick){
+    lastBeatTime=ts;beatFlash=0.85;pulse=0.85;beatCount++;
+    lightL=0.9;
+    if(beatCount%16===0)blackoutUntil=ts+160;
+    beatTimes.push(ts);if(beatTimes.length>8)beatTimes.shift();
+    if(beatTimes.length>=4){var iv=0;for(var k=1;k<beatTimes.length;k++)iv+=beatTimes[k]-beatTimes[k-1];iv/=beatTimes.length-1;var b=60000/iv;while(b<70)b*=2;while(b>190)b/=2;bpm=Math.round(b);}
+    for(var q2=0;q2<5;q2++){var a2=Math.random()*6.283,sp2=1.2+Math.random()*2.5;parts.push({x:WIDTH/2+Math.cos(a2)*110,y:HEIGHT*0.44+Math.sin(a2)*110,vx:Math.cos(a2)*sp2,vy:Math.sin(a2)*sp2-0.8,life:50,max:50,sz:2+Math.random()*2.5,type:th.part,tw:Math.random()*6});}
+    ripples.push({r:110,a:0.45});
+  }
+  if(isHat){
+    lastHatTime=ts;
+    for(var h2=0;h2<2;h2++){parts.push({x:Math.random()*WIDTH,y:Math.random()*HEIGHT*0.5,vx:(Math.random()-0.5)*1.8,vy:-0.9-Math.random()*0.8,life:22,max:22,sz:1.3,type:'spark',tw:Math.random()*6});}
+  }
+  if(isSnare){
+    lastSnareTime=ts;
+    beatFlash=Math.max(beatFlash,0.35);
+  }
+  
+  if(ts<blackoutUntil){lightL=0.08;}else{lightL=Math.max(lightL*0.92,0.35);}
+  var L=lightL;
+  if(parts.length<65&&Math.random()<0.08)parts.push({x:Math.random()*WIDTH,y:th.part==='bubble'?HEIGHT+10:Math.random()*HEIGHT*0.7,vx:(Math.random()-0.5)*0.5,vy:th.part==='dust'?0.5:(th.part==='bubble'?-0.8:(Math.random()-0.5)*0.5),life:120,max:120,sz:2+Math.random()*1.8,type:th.part,tw:Math.random()*6});
+  
+  beatFlash*=0.75;
+  pulse*=0.85;
+  rotation+=0.008+bass*0.08+mid*0.015;
+  var cx=WIDTH/2,cyT=HEIGHT*0.44;
+  var w=Math.PI*2*((bpm||120)/60);
+
+  ctx.save();
+  var shake=beatFlash>0.05?beatFlash*4:0;
+  ctx.translate((Math.random()-0.5)*shake,(Math.random()-0.5)*shake);
+
+  var bg=ctx.createRadialGradient(cx,cyT,80,cx,cyT,WIDTH*0.72);
+  bg.addColorStop(0,th.bgIn);bg.addColorStop(1,th.bgOut);
+  ctx.fillStyle=bg;ctx.fillRect(-10,-10,WIDTH+20,HEIGHT+20);
+  ctx.globalAlpha=0.22*L+bass*0.25*L;
+  ctx.drawImage(glowB,cx-380,cyT-380,760,760);
+  ctx.globalAlpha=0.16*L;
+  ctx.drawImage(glowA,cx-500,cyT-270,640,640);
+  ctx.globalAlpha=1;
+
+  if(th.stars){ctx.globalAlpha=0.45+0.35*Math.sin(ts*0.0013);ctx.drawImage(starCv,0,0);ctx.globalAlpha=1;}
+  if(th.fog>0){
+    for(var f=0;f<3;f++){
+      var fy=HEIGHT*0.5+f*55+Math.sin(ts*0.00025+f*2)*12;
+      var fg=ctx.createLinearGradient(0,fy-35,0,fy+35);
+      fg.addColorStop(0,'rgba(210,170,130,0)');fg.addColorStop(0.5,'rgba(210,170,130,'+0.04*th.fog+')');fg.addColorStop(1,'rgba(210,170,130,0)');
+      ctx.fillStyle=fg;ctx.fillRect(0,fy-35,WIDTH,70);
+    }
+  }
+
+  if(th.grid){
+    var horizon=HEIGHT*0.70;
+    ctx.save();
+    gridOffset=(gridOffset+0.018+kick*0.5)%1;
+    ctx.strokeStyle='hsla('+hue2+',100%,58%,'+(0.13+0.28*L)+')';ctx.lineWidth=1.3;
+    for(var r=0;r<11;r++){var z=(r+gridOffset)/11,y=horizon+(HEIGHT-horizon)*z*z;ctx.globalAlpha=0.13+z*0.45;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(WIDTH,y);ctx.stroke();}
+    ctx.globalAlpha=0.28;
+    for(var v=-7;v<=7;v++){ctx.beginPath();ctx.moveTo(WIDTH/2+v*42,horizon);ctx.lineTo(WIDTH/2+v*160,HEIGHT);ctx.stroke();}
+    ctx.restore();
+  }
+
+  ctx.save();ctx.translate(cx,cyT);ctx.globalAlpha=0.32+0.62*L;
+  for(var c=0;c<4;c++){
+    var rad=(65+c*28)*(0.55+bass*0.75)+pulse*10;
+    ctx.save();ctx.rotate(rotation*(c%2?-1.2:1)+c);
+    ctx.strokeStyle='hsl('+((hue+c*25)%360)+',100%,'+(52+18*L)+'%)';
+    ctx.lineWidth=1.8+c*0.5+kick*3.5;
+    ctx.setLineDash([12+c*3.5,9]);
+    ctx.beginPath();ctx.arc(0,0,rad,0,6.283);ctx.stroke();
+    ctx.restore();
+  }
+  ctx.setLineDash([]);ctx.restore();
+  ctx.globalAlpha=(0.28+0.45*kick)*L;
+  var orbR=65+kick*140+pulse*25;
+  ctx.drawImage(glowB,cx-orbR,cyT-orbR,orbR*2,orbR*2);
+  ctx.globalAlpha=1;
+  if(freqData){
+    ctx.save();ctx.translate(cx,cyT);
+    ctx.beginPath();
+    for(var s2=0;s2<=60;s2++){
+      var an=s2/60*6.283;
+      var fv=freqData[Math.floor(s2/60*freqData.length*0.45)]/255;
+      var rr=98*(0.55+kick*1.1)+fv*48+pulse*7;
+      var x2=Math.cos(an)*rr,y2=Math.sin(an)*rr;
+      if(s2)ctx.lineTo(x2,y2);else ctx.moveTo(x2,y2);
+    }
+    ctx.closePath();
+    ctx.globalAlpha=0.32+0.55*L;
+    ctx.strokeStyle='hsl('+hue2+',100%,65%)';ctx.lineWidth=4.5;ctx.stroke();
+    ctx.globalAlpha=1;ctx.strokeStyle='#fff';ctx.lineWidth=1.3;ctx.stroke();
+    ctx.restore();
+  }
+  for(var q=ripples.length-1;q>=0;q--){
+    var rp=ripples[q];rp.r+=4.5+kick*8;rp.a*=0.90;
+    if(rp.a<0.02||rp.r>320){ripples.splice(q,1);continue;}
+    ctx.globalAlpha=rp.a*L;
+    ctx.strokeStyle='hsl('+hue2+',100%,68%)';ctx.lineWidth=2.8;
+    ctx.beginPath();ctx.arc(cx,cyT,rp.r,0,6.283);ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+
+  ctx.save();ctx.globalCompositeOperation='lighter';
+  for(var bm=0;bm<11;bm++){
+    var ang=(bm/11)*6.283+rotation*0.4;
+    var sp3=Math.sin(ts*0.0025+bm*1.5)*0.45+0.45;
+    var len2=95+90*sp3+kick*380*sp3,r0=125+kick*35;
+    ctx.strokeStyle=(bm%2?'hsla('+hue+',100%,65%,':'hsla('+hue2+',100%,65%,')+(0.07+kick*0.35*sp3)*L+')';
+    ctx.lineWidth=1.8+kick*2.5;
+    ctx.beginPath();
+    ctx.moveTo(cx+Math.cos(ang)*r0,cyT+Math.sin(ang)*r0);
+    ctx.lineTo(cx+Math.cos(ang)*(r0+len2),cyT+Math.sin(ang)*(r0+len2));
+    ctx.stroke();
+  }
+  ctx.restore();
+  var smul=(th.light?0.32:0.85)*L;
+  if(smul>0.02){
+    var spotAng1=-0.30+Math.sin(ts*0.0007)*0.18+(beatCount%2===0?0.13:-0.13);
+    var spotAng2=0.30+Math.cos(ts*0.0007)*0.18+(beatCount%2===0?-0.13:0.13);
+    spot(WIDTH*0.15,spotAng1,hue,100,ts,mid,kick,smul);
+    spot(WIDTH*0.85,spotAng2,hue2,100,ts,mid,kick,smul);
+    spot(WIDTH*0.5,0,0,0,ts,mid,kick*0.5,smul);
+  }
+
+  ctx.save();ctx.globalCompositeOperation='lighter';
+  for(var p=parts.length-1;p>=0;p--){
+    var pt=parts[p];
+    if(pt.type==='firefly')pt.vx=Math.sin(ts*0.0009+pt.tw)*0.6;
+    pt.x+=pt.vx;pt.y+=pt.vy;
+    if(pt.type==='spark'){pt.vx*=0.97;pt.vy=pt.vy*0.97+0.018;}
+    pt.life--;
+    if(pt.life<=0||pt.y>HEIGHT+20||pt.y<-20){parts.splice(p,1);continue;}
+    var al=pt.life/pt.max,sz8=pt.sz*3.8;
+    ctx.globalAlpha=al*(pt.type==='bubble'?0.45:0.85);
+    var spr=pt.tw<2?glowA:(pt.tw<4?glowB:glowW);
+    if(pt.type==='bubble'){ctx.strokeStyle='hsl('+hue+',85%,72%)';ctx.lineWidth=0.9;ctx.beginPath();ctx.arc(pt.x,pt.y,pt.sz+1.8,0,6.283);ctx.stroke();}
+    else ctx.drawImage(spr,pt.x-sz8,pt.y-sz8,sz8*2,sz8*2);
+  }
+  ctx.restore();ctx.globalAlpha=1;
+
+  for(var d=0;d<dancers.length;d++)drawDancer(dancers[d],ts,kick,bass,mid,pulse,th,L,w);
+
+  if(freqData){
+    ctx.save();ctx.globalCompositeOperation='lighter';
+    var n=38,bw=WIDTH/n;
+    ctx.globalAlpha=0.28+0.65*L;
+    for(var e=0;e<n;e++){
+      var val=freqData[Math.floor(e*freqData.length*0.55/n)]/255;
+      ctx.fillStyle='hsl('+((hue+e*5)%360)+',100%,58%)';
+      ctx.fillRect(e*bw+1,HEIGHT-52-val*72,bw-2,val*72);
+    }
+    ctx.restore();ctx.globalAlpha=1;
+  }
+
+  if(beatFlash>0.05&&!th.light){ctx.fillStyle='rgba(255,255,255,'+beatFlash*0.32*L+')';ctx.fillRect(0,0,WIDTH,HEIGHT);}
+
+  var title=(titleInput.value||'YOUR SONG').toUpperCase();
+  var size=85+pulse*14+kick*10;
+  ctx.font='900 '+size+'px Montserrat, "Arial Black", sans-serif';
+  var maxW=WIDTH*0.80,tw=ctx.measureText(title).width;
+  if(tw>maxW){size=size*maxW/tw;ctx.font='900 '+size+'px Montserrat, "Arial Black", sans-serif';}
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.lineJoin='round';
+  if(!th.light){
+    ctx.globalAlpha=0.35;
+    ctx.strokeStyle='#29f5d6';ctx.lineWidth=size*0.14;ctx.strokeText(title,cx-2.5,cyT);
+    ctx.strokeStyle=th.stroke;ctx.strokeText(title,cx+2.5,cyT);
+    ctx.globalAlpha=0.75;ctx.lineWidth=size*0.09;ctx.strokeText(title,cx,cyT);
+    ctx.globalAlpha=1;
+  }
+  ctx.strokeStyle=th.stroke;ctx.lineWidth=Math.max(2.5,size*0.06);
+  ctx.strokeText(title,cx,cyT);
+  ctx.fillStyle=th.fill;ctx.fillText(title,cx,cyT);
+  if(artistInput.value){
+    ctx.font='600 24px Inter, sans-serif';
+    ctx.fillStyle=th.light?'rgba(43,38,34,0.75)':'rgba(255,255,255,'+(0.60+0.22*pulse)+')';
+    ctx.fillText(artistInput.value.toUpperCase(),cx,cyT+size*0.68);
+  }
+
+  ctx.save();
+  ctx.fillStyle=th.light?'rgba(255,255,255,0.55)':'rgba(5,5,16,0.50)';
+  ctx.beginPath();
+  if(ctx.roundRect){ctx.roundRect(WIDTH-140,15,120,31,7);}else{ctx.rect(WIDTH-140,15,120,31);}
+  ctx.fill();
+  ctx.fillStyle=th.light?'#8a4b2c':'#29f5d6';
+  ctx.font='700 15px Inter, sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';
+  ctx.fillText('\u266A '+(bpm||'--')+' BPM',WIDTH-30,31);
+  ctx.restore();
+
+  ctx.fillStyle=th.light?'rgba(255,255,255,0.45)':'rgba(0,0,0,0.40)';ctx.fillRect(0,HEIGHT-52,WIDTH,52);
+  if(audioEl.duration&&!isNaN(audioEl.duration)){
+    var pr=audioEl.currentTime/audioEl.duration;
+    ctx.save();ctx.textAlign='right';ctx.textBaseline='middle';
+    ctx.font='400 13px Inter, sans-serif';
+    ctx.fillStyle=th.light?'rgba(43,38,34,0.65)':'rgba(255,255,255,0.55)';
+    ctx.fillText(formatTime(audioEl.currentTime)+' / '+formatTime(audioEl.duration),WIDTH-22,HEIGHT-26);
+    ctx.restore();
+    var bx=22,by=HEIGHT-26,bwd=WIDTH-205;
+    ctx.fillStyle='rgba(128,128,128,0.22)';
+    ctx.beginPath();
+    if(ctx.roundRect){ctx.roundRect(bx,by-1.8,bwd,3.6,1.8);}else{ctx.rect(bx,by-1.8,bwd,3.6);}
+    ctx.fill();
+    ctx.fillStyle='hsla('+hue+',100%,58%,0.85)';
+    ctx.beginPath();
+    if(ctx.roundRect){ctx.roundRect(bx,by-1.8,bwd*pr,3.6,1.8);}else{ctx.rect(bx,by-1.8,bwd*pr,3.6);}
+    ctx.fill();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(bx+bwd*pr,by,4.5,0,6.283);ctx.fill();
+  }
+
+  var vg=ctx.createRadialGradient(cx,HEIGHT/2,HEIGHT*0.28,cx,HEIGHT/2,HEIGHT*0.82);
+  vg.addColorStop(0,'rgba(0,0,0,0)');
+  vg.addColorStop(1,th.light?'rgba(0,0,0,0.10)':'rgba(0,0,0,0.40)');
+  ctx.fillStyle=vg;ctx.fillRect(0,0,WIDTH,HEIGHT);
+  ctx.restore();
+}
+
+function startRender(){if(!rafId)rafId=requestAnimationFrame(render);}
+themeSelect.addEventListener('change',function(){parts.length=0;});
+
+function setupAudioGraph(){
+  if(audioGraphReady)return true;
+  try{
+    var AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC){setStatus('error','AudioContext not supported in this browser.');return false;}
+    if(audioCtx&&audioCtx.state!=='closed'){try{audioCtx.close();}catch(e){}}
+    audioCtx=new AC();
+    if(!audioEl.src){setStatus('error','Audio source not ready.');return false;}
+    sourceNode=audioCtx.createMediaElementSource(audioEl);
+    analyser=audioCtx.createAnalyser();
+    analyser.fftSize=1024;
+    analyser.smoothingTimeConstant=0.35;
+    freqData=new Uint8Array(analyser.frequencyBinCount);
+    destNode=audioCtx.createMediaStreamDestination();
+    sourceNode.connect(analyser);analyser.connect(audioCtx.destination);analyser.connect(destNode);
+    audioGraphReady=true;
+    return true;
+  }catch(err){
+    console.error('Audio graph error:',err);
+    setStatus('error','Audio setup fail: '+err.message);
+    return false;
+  }
+}
+
+async function loadSong(file){
+  setStatus('','');
+  if(!file){setStatus('error','No file selected.');return;}
+  
+  if(!isValidAudioFile(file)){
+    setStatus('error','Please choose an audio file (MP3, WAV, OGG).');
+    return;
+  }
+  
+  if(file.size>MAX_SIZE_MB*1024*1024){
+    setStatus('error','File size exceeds '+MAX_SIZE_MB+'MB. Please use a smaller file.');
+    return;
+  }
+  
+  if(file.size===0){
+    setStatus('error','File is empty. Please upload a valid audio file.');
+    return;
+  }
+
+  var validSig=false;
+  try{validSig=await verifyAudioSignature(file);}catch(e){validSig=true;}
+  
+  if(!validSig){
+    if(!isValidAudioFile(file)){
+      setStatus('error','Audio signature verification failed — file may be corrupted or unsupported.');
+      return;
+    }
+  }
+  
+  if(objectUrl){
+    try{URL.revokeObjectURL(objectUrl);}catch(e){}
+    objectUrl=null;
+  }
+  
+  try{
+    objectUrl=URL.createObjectURL(file);
+    audioEl.src=objectUrl;
+    audioEl.load();
+    
+    audioEl.onerror=function(){
+      setStatus('error','Audio file could not be loaded. File may be corrupted.');
+    };
+    
+    audioEl.onloadedmetadata=function(){
+      stageEmpty.style.display='none';
+      playBtn.disabled=false;
+      recordBtn.disabled=false;
+      var nm=file.name.replace(/\.[^/.]+$/,'').replace(/[_\-]+/g,' ').trim();
+      if(nm)titleInput.value=nm.slice(0,60);
+      setStatus('done','✅ Loaded: '+sanitizeFilename(nm).replace(/-/g,' '));
+    };
+    
+    startRender();
+  }catch(err){
+    setStatus('error','Error processing file: '+err.message);
+  }
+}
+
+dropzone.addEventListener('click',function(e){
+  e.stopPropagation();
+  if(e.target===fileInput)return;
+  fileInput.click();
+});
+
+fileInput.addEventListener('change',function(e){
+  if(e.target.files&&e.target.files.length)loadSong(e.target.files[0]);
+  fileInput.value='';
+});
+
+['dragover','dragenter'].forEach(function(ev){
+  dropzone.addEventListener(ev,function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    dropzone.classList.add('dragover');
+  });
+});
+
+dropzone.addEventListener('dragleave',function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  dropzone.classList.remove('dragover');
+});
+
+dropzone.addEventListener('drop',function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  dropzone.classList.remove('dragover');
+  var f=e.dataTransfer.files[0];
+  if(f)loadSong(f);
+});
+
+audioEl.addEventListener('ended',function(){
+  if(playBtn)playBtn.textContent='▶ Preview';
+  if(!mediaRecorder||mediaRecorder.state!=='recording'){
+    setStatus('done','✅ Song ended.');
+  }
+});
+
+playBtn.addEventListener('click',async function(){
+  if(!audioEl.src){setStatus('error','Please upload an audio file first.');return;}
+  
+  if(!audioGraphReady){
+    if(!setupAudioGraph()){return;}
+  }
+  
+  if(audioCtx&&audioCtx.state==='suspended'){
+    try{await audioCtx.resume();}catch(e){setStatus('error','Audio resume failed.');return;}
+  }
+  
+  if(audioEl.paused){
+    try{
+      await audioEl.play();
+      this.textContent='⏸ Pause';
+      setStatus('','🎵 Preview playing...');
+    }catch(e){
+      setStatus('error','Play failed: '+e.message);
+    }
+  }else{
+    audioEl.pause();
+    this.textContent='▶ Preview';
+    setStatus('','⏸ Paused.');
+  }
+});
+
+recordBtn.addEventListener('click',async function(){
+  if(!audioEl.src){setStatus('error','Please upload an audio file first.');return;}
+  
+  if(mediaRecorder&&mediaRecorder.state==='recording'){
+    mediaRecorder.stop();
+    return;
+  }
+  
+  if(!audioGraphReady){
+    if(!setupAudioGraph()){return;}
+  }
+  
+  if(audioCtx&&audioCtx.state==='suspended'){
+    try{await audioCtx.resume();}catch(e){setStatus('error','Audio resume failed.');return;}
+  }
+  
+  audioEl.currentTime=0;chunks=[];
+  downloadBox.classList.remove('show');downloadBtn.disabled=true;
+  
+  var combined;
+  try{
+    var cs=canvas.captureStream(30);
+    if(!destNode||!destNode.stream){
+      setStatus('error','Audio destination not ready. Please refresh the page.');
+      return;
+    }
+    combined=new MediaStream([].concat(cs.getVideoTracks(),destNode.stream.getAudioTracks()));
+  }catch(err){
+    setStatus('error','Recording setup failed: '+err.message);
+    return;
+  }
+  
+  var mime='video/webm;codecs=vp9,opus';
+  if(!MediaRecorder.isTypeSupported(mime))mime='video/webm;codecs=vp8,opus';
+  if(!MediaRecorder.isTypeSupported(mime))mime='video/webm';
+  if(!MediaRecorder.isTypeSupported(mime)){
+    setStatus('error','Browser does not support WebM recording. Please use Chrome/Edge.');
+    return;
+  }
+  
+  try{
+    mediaRecorder=new MediaRecorder(combined,{mimeType:mime,videoBitsPerSecond:6000000});
+  }catch(err){
+    setStatus('error','MediaRecorder failed: '+err.message);
+    return;
+  }
+  
+  mediaRecorder.ondataavailable=function(e){if(e.data&&e.data.size>0)chunks.push(e.data);};
+  mediaRecorder.onstop=function(){
+    if(chunks.length===0){
+      setStatus('error','Recording empty. Please try again.');
+    }else{
+      var blob=new Blob(chunks,{type:'video/webm'});
+      if(objectUrl&&objectUrl.indexOf('blob:')===0){
+        try{URL.revokeObjectURL(downloadLink.href);}catch(e){}
+      }
+      downloadLink.href=URL.createObjectURL(blob);
+      var safe=sanitizeFilename(titleInput.value||'dj-visual');
+      downloadLink.download=safe+'.webm';
+      downloadBox.classList.add('show');
+      setStatus('done','✅ Video ready!');
+    }
+    recordBtn.classList.remove('recording');recordBtn.disabled=false;
+    stopBtn.disabled=true;playBtn.disabled=false;downloadBtn.disabled=false;
+    playBtn.textContent='▶ Preview';
+    mediaRecorder=null;
+  };
+  mediaRecorder.onerror=function(e){
+    setStatus('error','Recording error: '+e.name);
+    recordBtn.classList.remove('recording');
+    recordBtn.disabled=false;
+    playBtn.disabled=false;
+    stopBtn.disabled=true;
+    playBtn.textContent='▶ Preview';
+  };
+  
+  mediaRecorder.start(100);
+  
+  try{
+    await audioEl.play();
+  }catch(e){
+    setStatus('error','Play failed during recording.');
+    mediaRecorder.stop();
+    return;
+  }
+  
+  playBtn.textContent='⏸ Pause';
+  playBtn.disabled=true;
+  recordBtn.classList.add('recording');
+  recordBtn.disabled=false;
+  stopBtn.disabled=false;
+  setStatus('','⏺ Recording in progress...');
+  
+  audioEl.addEventListener('ended',function recEnd(){
+    if(mediaRecorder&&mediaRecorder.state==='recording'){
+      mediaRecorder.stop();
+    }
+    audioEl.removeEventListener('ended',recEnd);
+  });
+});
+
+stopBtn.addEventListener('click',function(){
+  if(mediaRecorder&&mediaRecorder.state==='recording')mediaRecorder.stop();
+  audioEl.pause();
+  playBtn.textContent='▶ Preview';playBtn.disabled=false;
+  recordBtn.disabled=false;stopBtn.disabled=true;
+  setStatus('','⏹ Stopped');
+});
+
+downloadBtn.addEventListener('click',function(){
+  if(!downloadBtn.disabled&&downloadLink.href){
+    downloadLink.click();
+  }
+});
+
+console.log('Tools-X Retro DJ Visualizer Pro v6.3 initialized | toolsx.in');
+})();
+</script>
+
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

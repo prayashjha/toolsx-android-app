@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Image to Text Converter – Free Online OCR Tool – ToolsX App</title>
+<meta name="description" content="Extract text from any image free online with our OCR tool. Fast, accurate, and supports multiple languages.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Image to Text Converter – Free Online OCR Tool</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<style>
+.tsx-v5-ocr-wrap{width:100%;max-width:920px;margin:30px auto;padding:clamp(20px,4vw,40px);background:#ffffff;border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,0.08);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;box-sizing:border-box;overflow-wrap:break-word;word-break:break-word}
+.dark-mode .tsx-v5-ocr-wrap,body.dark-mode .tsx-v5-ocr-wrap,html.dark-mode .tsx-v5-ocr-wrap,[data-theme="dark"] .tsx-v5-ocr-wrap,body[data-theme="dark"] .tsx-v5-ocr-wrap,html[data-theme="dark"] .tsx-v5-ocr-wrap,.night-mode .tsx-v5-ocr-wrap{background:#111318;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.tsx-v5-ocr-hdr{text-align:center;margin-bottom:30px}
+.tsx-v5-ocr-hdr h2{margin:0 0 12px;font-size:clamp(1.6rem,4vw,2.2rem);color:#1e40af;font-weight:700;line-height:1.3}
+.dark-mode .tsx-v5-ocr-hdr h2,body.dark-mode .tsx-v5-ocr-hdr h2,html.dark-mode .tsx-v5-ocr-hdr h2,[data-theme="dark"] .tsx-v5-ocr-hdr h2,body[data-theme="dark"] .tsx-v5-ocr-hdr h2,html[data-theme="dark"] .tsx-v5-ocr-hdr h2,.night-mode .tsx-v5-ocr-hdr h2{color:#8ab4f8}
+.tsx-v5-ocr-sub{margin:0;font-size:clamp(0.95rem,2.5vw,1.05rem);color:#4b5563;line-height:1.6}
+.dark-mode .tsx-v5-ocr-sub,body.dark-mode .tsx-v5-ocr-sub,html.dark-mode .tsx-v5-ocr-sub,[data-theme="dark"] .tsx-v5-ocr-sub,body[data-theme="dark"] .tsx-v5-ocr-sub,html[data-theme="dark"] .tsx-v5-ocr-sub,.night-mode .tsx-v5-ocr-sub{color:#9aa7c7}
+.tsx-v5-ocr-upbox{padding:clamp(25px,4vw,45px) 20px;text-align:center;border:3px dashed #3b82f6;border-radius:16px;background:#eff6ff;margin-bottom:25px;transition:all 0.3s ease}
+.dark-mode .tsx-v5-ocr-upbox,body.dark-mode .tsx-v5-ocr-upbox,html.dark-mode .tsx-v5-ocr-upbox,[data-theme="dark"] .tsx-v5-ocr-upbox,body[data-theme="dark"] .tsx-v5-ocr-upbox,html[data-theme="dark"] .tsx-v5-ocr-upbox,.night-mode .tsx-v5-ocr-upbox{background:#1e3a5f;border-color:#60a5fa}
+.tsx-v5-ocr-upbox:hover{border-color:#1d4ed8;background:#dbeafe}
+.dark-mode .tsx-v5-ocr-upbox:hover,body.dark-mode .tsx-v5-ocr-upbox:hover,html.dark-mode .tsx-v5-ocr-upbox:hover,[data-theme="dark"] .tsx-v5-ocr-upbox:hover,body[data-theme="dark"] .tsx-v5-ocr-upbox:hover,html[data-theme="dark"] .tsx-v5-ocr-upbox:hover,.night-mode .tsx-v5-ocr-upbox:hover{background:rgba(30,64,175,0.25);border-color:#93c5fd}
+.tsx-v5-ocr-upbox p{margin:0 0 16px;font-size:clamp(1rem,2.8vw,1.1rem);color:#1e40af;font-weight:600}
+.dark-mode .tsx-v5-ocr-upbox p,body.dark-mode .tsx-v5-ocr-upbox p,html.dark-mode .tsx-v5-ocr-upbox p,[data-theme="dark"] .tsx-v5-ocr-upbox p,body[data-theme="dark"] .tsx-v5-ocr-upbox p,html[data-theme="dark"] .tsx-v5-ocr-upbox p,.night-mode .tsx-v5-ocr-upbox p{color:#93c5fd}
+.tsx-v5-ocr-file{width:100%;max-width:100%;padding:14px;background:#ffffff;border:2px solid #cbd5e1;border-radius:10px;cursor:pointer;font-size:clamp(0.95rem,2.5vw,1rem);color:#1f2937;box-sizing:border-box}
+.dark-mode .tsx-v5-ocr-file,body.dark-mode .tsx-v5-ocr-file,html.dark-mode .tsx-v5-ocr-file,[data-theme="dark"] .tsx-v5-ocr-file,body[data-theme="dark"] .tsx-v5-ocr-file,html[data-theme="dark"] .tsx-v5-ocr-file,.night-mode .tsx-v5-ocr-file{background:#1f2937;border-color:#4b5563;color:#e5e7eb}
+.tsx-v5-ocr-prev{display:none;width:100%;max-width:100%;max-height:350px;height:auto;object-fit:contain;margin:20px 0;padding:10px;border:2px solid #e5e7eb;border-radius:12px;background:#f9fafb;box-sizing:border-box}
+.dark-mode .tsx-v5-ocr-prev,body.dark-mode .tsx-v5-ocr-prev,html.dark-mode .tsx-v5-ocr-prev,[data-theme="dark"] .tsx-v5-ocr-prev,body[data-theme="dark"] .tsx-v5-ocr-prev,html[data-theme="dark"] .tsx-v5-ocr-prev,.night-mode .tsx-v5-ocr-prev{background:#1f2937;border-color:#374151}
+.tsx-v5-ocr-row{display:flex;gap:12px;margin:20px 0;flex-wrap:wrap}
+.tsx-v5-ocr-sel,.tsx-v5-ocr-btn{min-height:52px;padding:14px 18px;border-radius:10px;font-size:clamp(0.95rem,2.5vw,1.05rem);font-weight:600;border:none;cursor:pointer;transition:all 0.2s ease;box-sizing:border-box;max-width:100%}
+.tsx-v5-ocr-sel{flex:1;min-width:180px;border:2px solid #cbd5e1;background:#ffffff;color:#1f2937}
+.dark-mode .tsx-v5-ocr-sel,body.dark-mode .tsx-v5-ocr-sel,html.dark-mode .tsx-v5-ocr-sel,[data-theme="dark"] .tsx-v5-ocr-sel,body[data-theme="dark"] .tsx-v5-ocr-sel,html[data-theme="dark"] .tsx-v5-ocr-sel,.night-mode .tsx-v5-ocr-sel{background:#1f2937;border-color:#4b5563;color:#e5e7eb}
+.tsx-v5-ocr-ext{flex:1;min-width:180px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#ffffff;box-shadow:0 4px 14px rgba(59,130,246,0.3)}
+.tsx-v5-ocr-ext:hover:not(:disabled){background:linear-gradient(135deg,#2563eb,#1e40af);transform:translateY(-2px);box-shadow:0 6px 18px rgba(59,130,246,0.4)}
+.tsx-v5-ocr-ext:disabled{background:#9ca3af;cursor:not-allowed;box-shadow:none;transform:none}
+.tsx-v5-ocr-clr{background:linear-gradient(135deg,#ef4444,#dc2626);color:#ffffff;box-shadow:0 4px 14px rgba(239,68,68,0.25)}
+.tsx-v5-ocr-clr:hover:not(:disabled){background:linear-gradient(135deg,#dc2626,#b91c1c);transform:translateY(-2px)}
+.tsx-v5-ocr-stat{min-height:28px;margin:20px 0;padding:14px;text-align:center;color:#1e40af;font-weight:600;font-size:clamp(0.9rem,2.5vw,1rem);background:#dbeafe;border-radius:10px;line-height:1.5}
+.dark-mode .tsx-v5-ocr-stat,body.dark-mode .tsx-v5-ocr-stat,html.dark-mode .tsx-v5-ocr-stat,[data-theme="dark"] .tsx-v5-ocr-stat,body[data-theme="dark"] .tsx-v5-ocr-stat,html[data-theme="dark"] .tsx-v5-ocr-stat,.night-mode .tsx-v5-ocr-stat{background:#1e3a5f;color:#8ab4f8}
+.tsx-v5-ocr-rhdr{display:flex;justify-content:space-between;align-items:center;margin:25px 0 12px;flex-wrap:wrap;gap:10px}
+.tsx-v5-ocr-rhdr h3{margin:0;font-size:clamp(1.2rem,3.5vw,1.5rem);color:#1e40af;font-weight:700}
+.dark-mode .tsx-v5-ocr-rhdr h3,body.dark-mode .tsx-v5-ocr-rhdr h3,html.dark-mode .tsx-v5-ocr-rhdr h3,[data-theme="dark"] .tsx-v5-ocr-rhdr h3,body[data-theme="dark"] .tsx-v5-ocr-rhdr h3,html[data-theme="dark"] .tsx-v5-ocr-rhdr h3,.night-mode .tsx-v5-ocr-rhdr h3{color:#8ab4f8}
+.tsx-v5-ocr-wc{font-size:clamp(0.85rem,2.3vw,0.95rem);color:#6b7280;font-weight:500}
+.dark-mode .tsx-v5-ocr-wc,body.dark-mode .tsx-v5-ocr-wc,html.dark-mode .tsx-v5-ocr-wc,[data-theme="dark"] .tsx-v5-ocr-wc,body[data-theme="dark"] .tsx-v5-ocr-wc,html[data-theme="dark"] .tsx-v5-ocr-wc,.night-mode .tsx-v5-ocr-wc{color:#9aa7c7}
+.tsx-v5-ocr-txt{width:100%;max-width:100%;min-height:280px;padding:16px;resize:vertical;border:2px solid #cbd5e1;border-radius:12px;font-size:clamp(0.95rem,2.8vw,1.05rem);line-height:1.7;color:#1f2937;background:#ffffff;font-family:'Courier New',monospace;box-sizing:border-box}
+.tsx-v5-ocr-txt:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 4px rgba(59,130,246,0.15)}
+.dark-mode .tsx-v5-ocr-txt,body.dark-mode .tsx-v5-ocr-txt,html.dark-mode .tsx-v5-ocr-txt,[data-theme="dark"] .tsx-v5-ocr-txt,body[data-theme="dark"] .tsx-v5-ocr-txt,html[data-theme="dark"] .tsx-v5-ocr-txt,.night-mode .tsx-v5-ocr-txt{background:#1f2937;border-color:#4b5563;color:#e5e7eb}
+.tsx-v5-ocr-cpy{flex:1;min-width:150px;background:linear-gradient(135deg,#10b981,#059669);color:#ffffff;box-shadow:0 4px 14px rgba(16,185,129,0.25)}
+.tsx-v5-ocr-cpy:hover:not(:disabled){background:linear-gradient(135deg,#059669,#047857);transform:translateY(-2px)}
+.tsx-v5-ocr-dl{flex:1;min-width:150px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#ffffff;box-shadow:0 4px 14px rgba(139,92,246,0.25)}
+.tsx-v5-ocr-dl:hover:not(:disabled){background:linear-gradient(135deg,#7c3aed,#6d28d9);transform:translateY(-2px)}
+.tsx-v5-ocr-tip{margin-top:25px;padding:16px;background:#fef3c7;border-left:5px solid #f59e0b;border-radius:10px;font-size:clamp(0.9rem,2.3vw,1rem);line-height:1.6;color:#92400e}
+.dark-mode .tsx-v5-ocr-tip,body.dark-mode .tsx-v5-ocr-tip,html.dark-mode .tsx-v5-ocr-tip,[data-theme="dark"] .tsx-v5-ocr-tip,body[data-theme="dark"] .tsx-v5-ocr-tip,html[data-theme="dark"] .tsx-v5-ocr-tip,.night-mode .tsx-v5-ocr-tip{background:rgba(69,26,3,0.25);border-color:#fbbf24;color:#fde68a}
+.tsx-v5-ocr-tip strong{color:#78350f}
+.dark-mode .tsx-v5-ocr-tip strong,body.dark-mode .tsx-v5-ocr-tip strong,html.dark-mode .tsx-v5-ocr-tip strong,[data-theme="dark"] .tsx-v5-ocr-tip strong,body[data-theme="dark"] .tsx-v5-ocr-tip strong,html[data-theme="dark"] .tsx-v5-ocr-tip strong,.night-mode .tsx-v5-ocr-tip strong{color:#fcd34d}
+.tsx-v5-htu-section{margin-top:45px;padding:clamp(20px,4vw,35px);background:#f8fafc;border-radius:16px;border:1px solid #e2e8f0}
+.dark-mode .tsx-v5-htu-section,body.dark-mode .tsx-v5-htu-section,html.dark-mode .tsx-v5-htu-section,[data-theme="dark"] .tsx-v5-htu-section,body[data-theme="dark"] .tsx-v5-htu-section,html[data-theme="dark"] .tsx-v5-htu-section,.night-mode .tsx-v5-htu-section{background:#151820;border-color:#2a2f3a}
+.tsx-v5-htu-section h2{margin:0 0 15px;font-size:clamp(1.4rem,3.5vw,1.8rem);color:#1e40af;font-weight:700}
+.dark-mode .tsx-v5-htu-section h2,body.dark-mode .tsx-v5-htu-section h2,html.dark-mode .tsx-v5-htu-section h2,[data-theme="dark"] .tsx-v5-htu-section h2,body[data-theme="dark"] .tsx-v5-htu-section h2,html[data-theme="dark"] .tsx-v5-htu-section h2,.night-mode .tsx-v5-htu-section h2{color:#8ab4f8}
+.tsx-v5-htu-section h3{margin:20px 0 10px;font-size:clamp(1.1rem,3vw,1.3rem);color:#1e3a8a;font-weight:600}
+.dark-mode .tsx-v5-htu-section h3,body.dark-mode .tsx-v5-htu-section h3,html.dark-mode .tsx-v5-htu-section h3,[data-theme="dark"] .tsx-v5-htu-section h3,body[data-theme="dark"] .tsx-v5-htu-section h3,html[data-theme="dark"] .tsx-v5-htu-section h3,.night-mode .tsx-v5-htu-section h3{color:#a8c7fa}
+.tsx-v5-htu-section p{margin:0 0 14px;font-size:clamp(0.95rem,2.5vw,1.05rem);color:#374151;line-height:1.7}
+.dark-mode .tsx-v5-htu-section p,body.dark-mode .tsx-v5-htu-section p,html.dark-mode .tsx-v5-htu-section p,[data-theme="dark"] .tsx-v5-htu-section p,body[data-theme="dark"] .tsx-v5-htu-section p,html[data-theme="dark"] .tsx-v5-htu-section p,.night-mode .tsx-v5-htu-section p{color:#9aa7c7}
+.tsx-v5-htu-section ol,.tsx-v5-htu-section ul{margin:0 0 18px;padding-left:24px;color:#374151;font-size:clamp(0.95rem,2.5vw,1.05rem);line-height:1.7}
+.dark-mode .tsx-v5-htu-section ol,.dark-mode .tsx-v5-htu-section ul,body.dark-mode .tsx-v5-htu-section ol,body.dark-mode .tsx-v5-htu-section ul,html.dark-mode .tsx-v5-htu-section ol,html.dark-mode .tsx-v5-htu-section ul,[data-theme="dark"] .tsx-v5-htu-section ol,[data-theme="dark"] .tsx-v5-htu-section ul,body[data-theme="dark"] .tsx-v5-htu-section ol,body[data-theme="dark"] .tsx-v5-htu-section ul,html[data-theme="dark"] .tsx-v5-htu-section ol,html[data-theme="dark"] .tsx-v5-htu-section ul,.night-mode .tsx-v5-htu-section ol,.night-mode .tsx-v5-htu-section ul{color:#9aa7c7}
+.tsx-v5-htu-section li{margin-bottom:10px}
+.tsx-v5-htu-section a{color:#2563eb;text-decoration:none;font-weight:500}
+.tsx-v5-htu-section a:hover{text-decoration:underline}
+.dark-mode .tsx-v5-htu-section a,body.dark-mode .tsx-v5-htu-section a,html.dark-mode .tsx-v5-htu-section a,[data-theme="dark"] .tsx-v5-htu-section a,body[data-theme="dark"] .tsx-v5-htu-section a,html[data-theme="dark"] .tsx-v5-htu-section a,.night-mode .tsx-v5-htu-section a{color:#60a5fa}
+@media(max-width:768px){.tsx-v5-ocr-wrap{margin:15px auto;padding:18px}.tsx-v5-ocr-row,.tsx-v5-ocr-acts{flex-direction:column}.tsx-v5-ocr-sel,.tsx-v5-ocr-btn{width:100%;min-width:100%}}
+@media(max-width:480px){.tsx-v5-ocr-wrap{padding:14px;border-radius:14px}.tsx-v5-ocr-upbox{padding:20px 12px}}
+</style>
+
+<div class="tsx-v5-ocr-wrap">
+<div class="tsx-v5-ocr-hdr">
+<h2>Image to Text Converter — Extract Text from Images Instantly</h2>
+<p class="tsx-v5-ocr-sub">Transform any image containing printed or typed text into fully editable digital text using advanced OCR technology on Tools-X. Perfect for digitizing documents, screenshots, receipts, and scanned pages without installing any software.</p>
+</div>
+
+<div class="tsx-v5-ocr-upbox">
+<p>📸 Select an Image to Extract Text</p>
+<input type="file" class="tsx-v5-ocr-file" accept="image/png,image/jpeg,image/jpg,image/webp" aria-label="Upload image file for text extraction">
+</div>
+
+<img class="tsx-v5-ocr-prev" alt="Preview of uploaded image for OCR processing">
+
+<div class="tsx-v5-ocr-row">
+<select class="tsx-v5-ocr-sel" aria-label="Select language for text recognition">
+<option value="eng">English Text Recognition</option>
+<option value="hin">Hindi Text Recognition</option>
+</select>
+<button class="tsx-v5-ocr-btn tsx-v5-ocr-ext" disabled>Extract Text Now</button>
+<button class="tsx-v5-ocr-btn tsx-v5-ocr-clr" disabled>Clear All</button>
+</div>
+
+<div class="tsx-v5-ocr-stat">⬆️ Upload an image above to begin text extraction.</div>
+
+<div class="tsx-v5-ocr-rhdr">
+<h3>Extracted Text Output</h3>
+<span class="tsx-v5-ocr-wc">0 words · 0 characters</span>
+</div>
+
+<textarea class="tsx-v5-ocr-txt" placeholder="Your extracted text will appear here after processing..." readonly aria-label="Extracted text output area"></textarea>
+
+<div class="tsx-v5-ocr-row tsx-v5-ocr-acts">
+<button class="tsx-v5-ocr-btn tsx-v5-ocr-cpy" disabled>📋 Copy to Clipboard</button>
+<button class="tsx-v5-ocr-btn tsx-v5-ocr-dl" disabled>💾 Download as TXT</button>
+</div>
+
+<div class="tsx-v5-ocr-tip">
+<strong>💡 Pro Tip:</strong> For the highest accuracy, upload clear, well-lit images with minimal background noise. Higher resolution images allow the OCR engine to distinguish characters more precisely. Ensure the text in your image is horizontal and not heavily distorted.
+</div>
+
+<div class="tsx-v5-htu-section">
+<h2>How to Use This Free Image to Text Converter</h2>
+<p>This professional optical character recognition tool built by Tools-X transforms visual text embedded inside images into fully editable, searchable digital text within seconds. Whether you are a student trying to extract notes from a whiteboard photograph, a business professional digitizing printed invoices, or a researcher pulling quotes from scanned book pages, this utility eliminates the tedious process of manual retyping. The underlying OCR engine analyzes pixel patterns, identifies character shapes, and reconstructs them into standard Unicode text that you can immediately copy, edit, or download. Unlike basic converters that struggle with mixed layouts, this implementation uses Engine 2 processing for superior layout retention and multi-language support, specifically optimized for both English and Hindi scripts.</p>
+
+<h3>✅ Step-by-Step Instructions</h3>
+<ol>
+<li><strong>Upload Your Image:</strong> Click the designated upload area or tap the file input to select a PNG, JPEG, or WebP image from your device. The system enforces a strict 10MB maximum file size and validates the actual file signature to ensure only genuine image formats are processed securely.</li>
+<li><strong>Select the Recognition Language:</strong> Choose between English and Hindi from the dropdown menu. Selecting the correct language helps the OCR engine apply the appropriate character dictionary, significantly improving accuracy for regional scripts and reducing misrecognized characters.</li>
+<li><strong>Verify the Preview:</strong> Once uploaded, a preview of your image appears below the upload box. Take a moment to confirm that the text you want to extract is clearly visible, properly oriented, and not obscured by heavy shadows or overlapping graphics.</li>
+<li><strong>Initiate Extraction:</strong> Press the Extract Text Now button. The tool securely transmits your image to the processing server via an encrypted connection. During this brief period, the interface disables other controls to prevent duplicate requests and displays a real-time status update.</li>
+<li><strong>Review and Edit Results:</strong> The recognized text populates the output textarea automatically. A live word and character counter updates instantly so you can verify completeness. You can click inside the text area to manually correct any minor recognition errors before exporting.</li>
+<li><strong>Export Your Text:</strong> Use the Copy to Clipboard button to instantly paste the results into emails, documents, or messaging applications. Alternatively, click Download as TXT to save a sanitized, plain-text file directly to your local storage for future reference.</li>
+</ol>
+
+<h3>⚡ Key Features and Capabilities</h3>
+<ul>
+<li><strong>Advanced Magic Byte Validation:</strong> Rather than trusting file extensions alone, the tool reads the actual binary signature of your upload to guarantee it is a legitimate PNG, JPEG, or WebP file, protecting against disguised malicious payloads.</li>
+<li><strong>Real-Time Word and Character Counting:</strong> An integrated counter dynamically tracks your extracted text length, making it easy to verify if all content was captured or if you need to crop and re-upload a specific section.</li>
+<li><strong>Bilingual Engine Support:</strong> Dedicated recognition models for both English and Hindi ensure that Devanagari characters and Latin alphabets are processed with equal precision, avoiding the garbled output common in single-language tools.</li>
+<li><strong>Automatic Memory Management:</strong> Object URLs created for image previews are systematically revoked when no longer needed or when a new file is selected, preventing browser memory leaks during extended usage sessions.</li>
+<li><strong>Request Timeout Protection:</strong> A built-in thirty-second abort controller ensures that if the processing server is unresponsive, the tool gracefully cancels the request and returns control to you instead of freezing indefinitely.</li>
+</ul>
+
+<h3>📌 Practical Applications Across Industries</h3>
+<p>The versatility of extracting text from images extends far beyond simple document scanning. Legal professionals frequently use OCR utilities to digitize legacy contracts and court filings that only exist in physical paper form. In the healthcare sector, administrators convert printed patient intake forms into electronic health records rapidly. Students benefit immensely during exam preparation by snapping photos of library books and converting crucial paragraphs into searchable digital notes. E-commerce operators extract product descriptions from supplier catalogs, while journalists pull quotes from press release photographs. By removing the bottleneck of manual transcription, this tool accelerates workflows across virtually every knowledge-based profession.</p>
+
+<h3>❓ Frequently Asked Questions</h3>
+
+<h3>What image formats does this converter accept?</h3>
+<p>The tool exclusively processes PNG, JPEG, and WebP image files up to 10 megabytes in size. These formats provide the optimal balance of quality and compression for accurate character recognition. Other formats like BMP, TIFF, or GIF are intentionally excluded to maintain processing speed and security standards.</p>
+
+<h3>Is my uploaded image stored permanently on your servers?</h3>
+<p>No. Your image is transmitted securely over HTTPS solely for the duration of the OCR processing. Once the text is extracted and returned to your browser, the file is not retained, archived, or shared. All temporary processing data is discarded immediately by the recognition engine.</p>
+
+<h3>Why did the tool fail to extract text from my image?</h3>
+<p>Extraction failures typically occur when the source image has extremely low resolution, severe motion blur, heavy shadowing, or stylized decorative fonts that deviate significantly from standard typography. Try capturing a clearer photo with better lighting and higher contrast between the text and its background.</p>
+
+<h3>Can I extract text from mobile phone screenshots?</h3>
+<p>Absolutely. Screenshots are among the best candidates for OCR because they contain digitally rendered text with perfect sharpness and high contrast. App interfaces, chat histories, error messages, and web page captures all yield near-perfect extraction accuracy.</p>
+
+<h3>Does the extracted text retain original formatting like bold or italics?</h3>
+<p>The OCR engine extracts plain Unicode text. While it preserves line breaks and paragraph spacing to maintain readability, stylistic formatting such as bold, italics, font sizes, or colors is not carried over. The output is designed for content extraction rather than visual replication.</p>
+
+<h3>Is there a limit to how much text can be extracted at once?</h3>
+<p>The limitation is tied to the image file size rather than the text volume. As long as your image remains under the 10MB threshold and the text is legible, the engine will process everything visible in the frame, whether it is a single sentence or a densely packed full page.</p>
+
+<h2>Related Tools You May Find Useful</h2>
+<p>If this image-to-text converter streamlined your workflow, explore these complementary utilities available on Tools-X to further enhance your productivity:</p>
+<ul>
+<li><a href="../tools/free-pdf-tools-online-compress-merge.html">Free PDF Tools — Compress, Merge and Convert PDF Files</a> — Easily manage, compress, and merge your newly extracted text documents into professional PDF formats.</li>
+<li><a href="../tools/ai-code-detector-free-online-tool-to.html">AI Code Detector — Identify AI-Generated Content</a> — Verify the authenticity and origin of your extracted text or any written content using advanced detection algorithms.</li>
+<li><a href="../tools/ailab-photo-studio-pro-advanced-online.html">Photo Studio Pro — Advanced Online Image Editing</a> — Enhance brightness, contrast, and sharpness of your images before uploading them to this OCR tool for significantly better extraction accuracy.</li>
+</ul>
+<p>Bookmark this page on Tools-X for instant access whenever you need to bridge the gap between physical documents and digital text. Regular updates ensure the recognition engine stays aligned with the latest optical character processing advancements.</p>
+</div>
+</div>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Image to Text Converter","operatingSystem":"Web Browser","applicationCategory":"UtilityApplication","description":"Free online OCR tool to extract editable text from images, screenshots, and scanned documents in English and Hindi.","url":"../tools/image-to-text-converter-online-free.html","author":{"@type":"Organization","name":"Tools-X","url":"https://www.toolsx.in"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What image formats does this converter accept?","acceptedAnswer":{"@type":"Answer","text":"The tool exclusively processes PNG, JPEG, and WebP image files up to 10 megabytes in size. These formats provide the optimal balance of quality and compression for accurate character recognition."}},{"@type":"Question","name":"Is my uploaded image stored permanently on your servers?","acceptedAnswer":{"@type":"Answer","text":"No. Your image is transmitted securely over HTTPS solely for the duration of the OCR processing. Once the text is extracted and returned to your browser, the file is not retained, archived, or shared."}},{"@type":"Question","name":"Why did the tool fail to extract text from my image?","acceptedAnswer":{"@type":"Answer","text":"Extraction failures typically occur when the source image has extremely low resolution, severe motion blur, heavy shadowing, or stylized decorative fonts. Try capturing a clearer photo with better lighting and higher contrast."}},{"@type":"Question","name":"Can I extract text from mobile phone screenshots?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. Screenshots are among the best candidates for OCR because they contain digitally rendered text with perfect sharpness and high contrast, yielding near-perfect extraction accuracy."}},{"@type":"Question","name":"Does the extracted text retain original formatting like bold or italics?","acceptedAnswer":{"@type":"Answer","text":"The OCR engine extracts plain Unicode text. While it preserves line breaks and paragraph spacing, stylistic formatting such as bold, italics, or colors is not carried over to the final output."}},{"@type":"Question","name":"Is there a limit to how much text can be extracted at once?","acceptedAnswer":{"@type":"Answer","text":"The limitation is tied to the image file size rather than the text volume. As long as your image remains under the 10MB threshold, the engine will process everything visible in the frame."}}]}
+</script>
+
+<script>
+(function(){
+var w=document.querySelector('.tsx-v5-ocr-wrap');
+if(!w)return;
+var fi=w.querySelector('.tsx-v5-ocr-file'),pv=w.querySelector('.tsx-v5-ocr-prev'),sl=w.querySelector('.tsx-v5-ocr-sel'),eb=w.querySelector('.tsx-v5-ocr-ext'),cb=w.querySelector('.tsx-v5-ocr-clr'),cpb=w.querySelector('.tsx-v5-ocr-cpy'),dlb=w.querySelector('.tsx-v5-ocr-dl'),ta=w.querySelector('.tsx-v5-ocr-txt'),st=w.querySelector('.tsx-v5-ocr-stat'),wc=w.querySelector('.tsx-v5-ocr-wc');
+var sf=null,pu=null;
+var mx=10485760;
+var al=['image/png','image/jpeg','image/jpg','image/webp'];
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+
+function sn(n){return n.replace(/[^a-zA-Z0-9._-]/g,'').substring(0,100)||'extracted-text'}
+
+function ust(m,e){st.textContent=m;if(e){st.style.background='#fee2e2';st.style.color='#991b1b'}else{st.style.background='';st.style.color=''}}
+
+function uwc(t){var x=t.trim();var ws=x?x.split(/\s+/).length:0;var cs=t.length;wc.textContent=ws+' word'+(ws!==1?'s':'')+' \u00B7 '+cs+' character'+(cs!==1?'s':'')}
+
+function vfb(f){return new Promise(function(r){var rd=new FileReader();rd.onload=function(ev){var ar=new Uint8Array(ev.target.result);var hx='';for(var i=0;i<Math.min(ar.length,12);i++){hx+=ar[i].toString(16).padStart(2,'0').toUpperCase()}if(hx.indexOf('89504E47')===0)r('png');else if(hx.indexOf('FFD8FF')===0)r('jpeg');else if(hx.indexOf('52494646')===0&&hx.indexOf('57454250')>=0)r('webp');else r(null)};rd.onerror=function(){r(null)};rd.readAsArrayBuffer(f.slice(0,12))})}
+
+fi.addEventListener('change',function(){
+var f=this.files[0];if(!f)return;
+if(al.indexOf(f.type)===-1){alert('Invalid file type. Please upload a PNG, JPEG, or WebP image.');this.value='';return}
+if(f.size>mx){alert('File exceeds the 10MB size limit. Please choose a smaller image.');this.value='';return}
+vfb(f).then(function(sig){
+if(!sig){alert('Invalid image signature detected. Please upload a genuine image file.');fi.value='';return}
+sf=f;
+if(pu){URL.revokeObjectURL(pu);pu=null}
+pu=URL.createObjectURL(f);
+pv.src=pu;pv.style.display='block';
+ta.value='';uwc('');
+eb.disabled=false;cb.disabled=false;cpb.disabled=true;dlb.disabled=true;
+ust('\u2705 Image uploaded successfully. Click Extract Text Now to proceed.',false);
+})});
+
+eb.addEventListener('click',function(){
+if(!sf){ust('\u26A0\uFE0F Please upload an image first.',true);return}
+eb.disabled=true;cb.disabled=true;cpb.disabled=true;dlb.disabled=true;
+eb.textContent='Processing...';
+ust('\uD83D\uDD04 Analyzing image and extracting text...',false);
+ta.value='';uwc('');
+var ct=new AbortController();
+var tm=setTimeout(function(){ct.abort()},30000);
+var fd=new FormData();
+fd.append('file',sf);
+fd.append('language',sl.value);
+fd.append('isOverlayRequired','false');
+fd.append('OCREngine','2');
+fetch('https://api.ocr.space/parse/image',{method:'POST',headers:{'apikey':'helloworld'},body:fd,signal:ct.signal}).then(function(rs){
+clearTimeout(tm);
+if(!rs.ok)throw new Error('Server responded with status '+rs.status);
+return rs.json()
+}).then(function(dt){
+if(dt.IsErroredOnProcessing){var em='Processing failed.';if(Array.isArray(dt.ErrorMessage))em=dt.ErrorMessage.join(' ');else if(dt.ErrorMessage)em=dt.ErrorMessage;throw new Error(em)}
+var ex='';
+if(dt.ParsedResults&&dt.ParsedResults.length>0){ex=dt.ParsedResults.map(function(i){return i.ParsedText||''}).join('\n').trim()}
+if(!ex){ta.value='No readable text was found in this image. Try a clearer picture.';uwc(ta.value);ust('\u26A0\uFE0F No text detected. Please try a higher quality image.',true)}
+else{ta.value=ex;uwc(ex);cpb.disabled=false;dlb.disabled=false;ust('\u2705 Text extraction completed successfully!',false)}
+}).catch(function(er){
+clearTimeout(tm);
+if(er.name==='AbortError'){ust('\u26A0\uFE0F Request timed out. Please try again with a smaller image.',true);ta.value='Error: Request timeout.'}
+else{ust('\u26A0\uFE0F Error: '+er.message,true);ta.value='Error: '+er.message}
+uwc(ta.value)
+}).finally(function(){eb.disabled=false;cb.disabled=false;eb.textContent='Extract Text Now'})
+});
+
+cpb.addEventListener('click',function(){
+var t=ta.value.trim();if(!t){alert('No text available to copy.');return}
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){ust('\uD83D\uDCCB Text copied to clipboard successfully!',false)}).catch(function(){fbc(t)})}else{fbc(t)}
+});
+
+function fbc(t){ta.select();try{document.execCommand('copy');ust('\uD83D\uDCCB Text copied to clipboard successfully!',false)}catch(e){alert('Copy failed. Please select and copy manually.')}}
+
+dlb.addEventListener('click',function(){
+var t=ta.value.trim();if(!t){alert('No text available to download.');return}
+var bl=new Blob([t],{type:'text/plain;charset=utf-8'});
+var ur=URL.createObjectURL(bl);
+var lk=document.createElement('a');
+lk.href=ur;lk.download=sn('extracted-text')+'.txt';
+document.body.appendChild(lk);lk.click();document.body.removeChild(lk);
+URL.revokeObjectURL(ur);
+ust('\uD83D\uDCBE Text file downloaded successfully!',false)
+});
+
+cb.addEventListener('click',function(){
+sf=null;fi.value='';
+if(pu){URL.revokeObjectURL(pu);pu=null}
+pv.src='';pv.style.display='none';
+ta.value='';uwc('');
+eb.disabled=true;cpb.disabled=true;dlb.disabled=true;
+ust('\u2B06\uFE0F Upload an image above to begin text extraction.',false)
+});
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

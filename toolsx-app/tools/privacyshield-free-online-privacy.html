@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>PrivacyShield – Free Online Privacy &amp; Secret Scanner – ToolsX App</title>
+<meta name="description" content="Free browser-based tool to scan text, code, JSON or logs for emails, phone numbers, API keys, tokens and passwords — then redact them instantly">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>PrivacyShield – Free Online Privacy &amp; Secret Scanner</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<!-- ========================================================================================= -->
+<!-- TOOLSX PRIVACYSHIELD SCANNER (FIXED — THEME-ISOLATED / BLOGGER-SAFE)                      -->
+<!-- FIX: root now uses all:initial + !important on every rule so the Blogger theme's own     -->
+<!-- CSS (including its dark-mode overrides) can no longer bleed in and break contrast.        -->
+<!-- FIX: 16px font-size on inputs/select (stops iOS Safari auto-zoom) • 44px touch targets    -->
+<!-- FIX: local file read now has a size guard so a huge file can't freeze the tab             -->
+<!-- ========================================================================================= -->
+
+<div id="toolsxPrivacyShield" class="ps-engine-root">
+<style>
+#toolsxPrivacyShield{
+all:initial !important;
+--ps-bg:#f5f8fc;
+--ps-panel:#ffffff;
+--ps-panel2:#f8fafc;
+--ps-text:#102033;
+--ps-text2:#34485e;
+--ps-muted:#64778c;
+--ps-border:#dbe4ee;
+--ps-input:#f8fafc;
+--ps-input-text:#102033;
+--ps-blue:#087ff5;
+--ps-blue2:#0067d9;
+--ps-green:#08a66a;
+--ps-red:#dc3155;
+--ps-yellow:#b87500;
+--ps-shadow:0 15px 45px rgba(15,35,55,.10);
+--ps-radius:18px;
+display:block !important;
+font-family:Arial,Helvetica,sans-serif !important;
+color:var(--ps-text) !important;
+background:var(--ps-bg) !important;
+width:100% !important;
+max-width:1180px !important;
+margin:20px auto !important;
+border:1px solid var(--ps-border) !important;
+border-radius:24px !important;
+overflow:hidden !important;
+box-shadow:var(--ps-shadow) !important;
+line-height:1.5 !important;
+text-align:left !important;
+position:relative !important;
+}
+#toolsxPrivacyShield *,
+#toolsxPrivacyShield *::before,
+#toolsxPrivacyShield *::after{
+box-sizing:border-box !important;
+}
+#toolsxPrivacyShield p,
+#toolsxPrivacyShield div,
+#toolsxPrivacyShield span,
+#toolsxPrivacyShield strong,
+#toolsxPrivacyShield label,
+#toolsxPrivacyShield h2{
+color:var(--ps-text) !important;
+margin:0 !important;
+padding:0 !important;
+font-family:Arial,Helvetica,sans-serif !important;
+line-height:1.5 !important;
+}
+#toolsxPrivacyShield button,
+#toolsxPrivacyShield input,
+#toolsxPrivacyShield textarea,
+#toolsxPrivacyShield select{
+font-family:inherit !important;
+margin:0 !important;
+}
+#toolsxPrivacyShield button{
+-webkit-appearance:none !important;
+appearance:none !important;
+text-transform:none !important;
+letter-spacing:normal !important;
+text-decoration:none !important;
+}
+#toolsxPrivacyShield .ps-header{
+display:flex !important;
+align-items:center !important;
+justify-content:space-between !important;
+gap:18px !important;
+padding:22px !important;
+background:var(--ps-panel) !important;
+border-bottom:1px solid var(--ps-border) !important;
+}
+#toolsxPrivacyShield .ps-brand{
+display:flex !important;
+align-items:center !important;
+gap:13px !important;
+min-width:0 !important;
+}
+#toolsxPrivacyShield .ps-logo{
+width:50px !important;
+height:50px !important;
+border-radius:15px !important;
+display:grid !important;
+place-items:center !important;
+flex:none !important;
+font-weight:900 !important;
+font-size:18px !important;
+color:#ffffff !important;
+background:linear-gradient(135deg,#087ff5,#11c98a) !important;
+box-shadow:0 8px 22px rgba(8,127,245,.22) !important;
+}
+#toolsxPrivacyShield .ps-title{
+margin:0 !important;
+font-size:clamp(22px,4vw,32px) !important;
+line-height:1.1 !important;
+font-weight:800 !important;
+color:var(--ps-text) !important;
+letter-spacing:-.6px !important;
+}
+#toolsxPrivacyShield .ps-subtitle{
+margin:5px 0 0 !important;
+font-size:13px !important;
+color:var(--ps-muted) !important;
+}
+#toolsxPrivacyShield .ps-controls{
+display:flex !important;
+align-items:center !important;
+gap:7px !important;
+flex-wrap:wrap !important;
+justify-content:flex-end !important;
+}
+#toolsxPrivacyShield .ps-theme{
+border:1px solid var(--ps-border) !important;
+background:var(--ps-panel2) !important;
+color:var(--ps-text) !important;
+border-radius:10px !important;
+padding:10px 11px !important;
+min-height:44px !important;
+outline:none !important;
+cursor:pointer !important;
+font-size:16px !important;
+max-width:100% !important;
+}
+#toolsxPrivacyShield.ps-dark .ps-theme option{
+background:#0d1b2b !important;
+color:#f3f8ff !important;
+}
+#toolsxPrivacyShield .ps-private{
+font-size:11px !important;
+font-weight:800 !important;
+color:var(--ps-green) !important;
+border:1px solid rgba(8,166,106,.28) !important;
+background:rgba(8,166,106,.08) !important;
+padding:8px 11px !important;
+border-radius:999px !important;
+white-space:nowrap !important;
+}
+#toolsxPrivacyShield .ps-main{padding:20px !important;}
+#toolsxPrivacyShield .ps-grid{
+display:grid !important;
+grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr) !important;
+gap:18px !important;
+}
+#toolsxPrivacyShield .ps-card{
+background:var(--ps-panel) !important;
+border:1px solid var(--ps-border) !important;
+border-radius:var(--ps-radius) !important;
+padding:18px !important;
+min-width:0 !important;
+}
+#toolsxPrivacyShield .ps-card-title{
+font-size:15px !important;
+font-weight:800 !important;
+margin:0 0 12px !important;
+color:var(--ps-text) !important;
+}
+#toolsxPrivacyShield .ps-input{
+width:100% !important;
+min-height:330px !important;
+resize:vertical !important;
+display:block !important;
+border:1px solid var(--ps-border) !important;
+border-radius:14px !important;
+background:var(--ps-input) !important;
+color:var(--ps-input-text) !important;
+padding:15px !important;
+outline:none !important;
+font-family:ui-monospace,SFMono-Regular,Consolas,monospace !important;
+font-size:16px !important;
+line-height:1.65 !important;
+caret-color:var(--ps-blue) !important;
+}
+#toolsxPrivacyShield .ps-input::placeholder{
+color:var(--ps-muted) !important;
+opacity:1 !important;
+}
+#toolsxPrivacyShield .ps-input:focus{
+border-color:var(--ps-blue) !important;
+box-shadow:0 0 0 3px rgba(8,127,245,.11) !important;
+}
+#toolsxPrivacyShield .ps-actions{
+display:flex !important;
+flex-wrap:wrap !important;
+gap:8px !important;
+margin-top:12px !important;
+}
+#toolsxPrivacyShield .ps-btn{
+border:1px solid var(--ps-border) !important;
+border-radius:10px !important;
+padding:12px 13px !important;
+min-height:44px !important;
+font-size:12px !important;
+font-weight:800 !important;
+cursor:pointer !important;
+color:var(--ps-text) !important;
+background:var(--ps-panel2) !important;
+transition:transform .15s ease,box-shadow .15s ease !important;
+display:inline-flex !important;
+align-items:center !important;
+justify-content:center !important;
+}
+#toolsxPrivacyShield .ps-btn:hover{transform:translateY(-1px) !important;}
+#toolsxPrivacyShield .ps-btn-primary{
+border-color:transparent !important;
+color:#ffffff !important;
+background:linear-gradient(135deg,var(--ps-blue),var(--ps-blue2)) !important;
+}
+#toolsxPrivacyShield .ps-btn-green{
+border-color:transparent !important;
+color:#ffffff !important;
+background:linear-gradient(135deg,#08a66a,#07885a) !important;
+}
+#toolsxPrivacyShield .ps-btn-danger{
+color:var(--ps-red) !important;
+border-color:rgba(220,49,85,.25) !important;
+background:rgba(220,49,85,.07) !important;
+}
+#toolsxPrivacyShield .ps-file{
+display:inline-flex !important;
+align-items:center !important;
+justify-content:center !important;
+gap:7px !important;
+cursor:pointer !important;
+border:1px solid var(--ps-border) !important;
+background:var(--ps-panel2) !important;
+color:var(--ps-text) !important;
+border-radius:10px !important;
+padding:12px 13px !important;
+min-height:44px !important;
+font-size:12px !important;
+font-weight:800 !important;
+}
+#toolsxPrivacyShield .ps-file input{display:none !important;}
+#toolsxPrivacyShield .ps-status{
+margin-top:10px !important;
+font-size:11px !important;
+min-height:17px !important;
+color:var(--ps-muted) !important;
+}
+#toolsxPrivacyShield .ps-scorebox{
+display:flex !important;
+align-items:center !important;
+gap:15px !important;
+padding:15px !important;
+border:1px solid var(--ps-border) !important;
+background:var(--ps-panel2) !important;
+border-radius:15px !important;
+}
+#toolsxPrivacyShield .ps-score{
+width:82px !important;
+height:82px !important;
+border-radius:50% !important;
+display:grid !important;
+place-items:center !important;
+flex:none !important;
+font-size:21px !important;
+font-weight:900 !important;
+color:var(--ps-text) !important;
+border:7px solid var(--ps-border) !important;
+}
+#toolsxPrivacyShield .ps-risk{
+font-size:18px !important;
+font-weight:900 !important;
+color:var(--ps-text) !important;
+}
+#toolsxPrivacyShield .ps-riskdesc{
+font-size:11px !important;
+color:var(--ps-muted) !important;
+margin-top:3px !important;
+}
+#toolsxPrivacyShield .ps-stats{
+display:grid !important;
+grid-template-columns:repeat(2,1fr) !important;
+gap:9px !important;
+margin-top:12px !important;
+}
+#toolsxPrivacyShield .ps-stat{
+padding:13px !important;
+border:1px solid var(--ps-border) !important;
+background:var(--ps-panel2) !important;
+border-radius:13px !important;
+}
+#toolsxPrivacyShield .ps-stat strong{
+display:block !important;
+font-size:20px !important;
+color:var(--ps-text) !important;
+}
+#toolsxPrivacyShield .ps-stat span{
+display:block !important;
+font-size:10px !important;
+color:var(--ps-muted) !important;
+margin-top:2px !important;
+}
+#toolsxPrivacyShield .ps-findings{
+margin-top:13px !important;
+max-height:370px !important;
+overflow:auto !important;
+padding-right:2px !important;
+}
+#toolsxPrivacyShield .ps-finding{
+border:1px solid var(--ps-border) !important;
+background:var(--ps-panel2) !important;
+border-radius:12px !important;
+padding:12px !important;
+margin-bottom:8px !important;
+}
+#toolsxPrivacyShield .ps-finding-top{
+display:flex !important;
+align-items:center !important;
+justify-content:space-between !important;
+gap:8px !important;
+}
+#toolsxPrivacyShield .ps-finding-name{
+font-size:12px !important;
+font-weight:900 !important;
+color:var(--ps-text) !important;
+}
+#toolsxPrivacyShield .ps-badge{
+font-size:9px !important;
+font-weight:900 !important;
+padding:4px 7px !important;
+border-radius:999px !important;
+background:rgba(8,127,245,.10) !important;
+color:var(--ps-blue) !important;
+white-space:nowrap !important;
+}
+#toolsxPrivacyShield .ps-badge-medium{
+background:rgba(184,117,0,.12) !important;
+color:var(--ps-yellow) !important;
+}
+#toolsxPrivacyShield .ps-badge-high{
+background:rgba(220,49,85,.12) !important;
+color:var(--ps-red) !important;
+}
+#toolsxPrivacyShield .ps-match{
+margin-top:7px !important;
+font-family:ui-monospace,monospace !important;
+font-size:11px !important;
+word-break:break-all !important;
+color:var(--ps-text2) !important;
+}
+#toolsxPrivacyShield .ps-line{
+margin-top:5px !important;
+font-size:9px !important;
+color:var(--ps-muted) !important;
+}
+#toolsxPrivacyShield .ps-empty{
+padding:28px 10px !important;
+text-align:center !important;
+font-size:12px !important;
+color:var(--ps-muted) !important;
+}
+#toolsxPrivacyShield .ps-progress{
+height:4px !important;
+margin-top:11px !important;
+border-radius:99px !important;
+background:var(--ps-border) !important;
+overflow:hidden !important;
+display:none !important;
+}
+#toolsxPrivacyShield .ps-progress-bar{
+height:100% !important;
+width:0 !important;
+background:linear-gradient(90deg,var(--ps-blue),var(--ps-green)) !important;
+transition:width .18s ease !important;
+}
+#toolsxPrivacyShield .ps-section{
+margin-top:18px !important;
+background:var(--ps-panel) !important;
+border:1px solid var(--ps-border) !important;
+border-radius:var(--ps-radius) !important;
+padding:20px !important;
+}
+#toolsxPrivacyShield .ps-section h2{
+margin:0 0 10px !important;
+font-size:19px !important;
+color:var(--ps-text) !important;
+}
+#toolsxPrivacyShield .ps-section p{
+margin:8px 0 !important;
+font-size:13px !important;
+line-height:1.8 !important;
+color:var(--ps-text2) !important;
+}
+#toolsxPrivacyShield .ps-section strong{color:var(--ps-text) !important;}
+#toolsxPrivacyShield .ps-faq{border-top:1px solid var(--ps-border) !important;}
+#toolsxPrivacyShield .ps-faq:first-of-type{border-top:0 !important;}
+#toolsxPrivacyShield .ps-faq-q{
+width:100% !important;
+display:flex !important;
+justify-content:space-between !important;
+align-items:center !important;
+gap:12px !important;
+padding:14px 0 !important;
+min-height:44px !important;
+border:0 !important;
+background:transparent !important;
+color:var(--ps-text) !important;
+font-size:13px !important;
+font-weight:800 !important;
+text-align:left !important;
+cursor:pointer !important;
+}
+#toolsxPrivacyShield .ps-faq-a{
+display:none !important;
+padding:0 0 14px !important;
+font-size:12px !important;
+line-height:1.75 !important;
+color:var(--ps-text2) !important;
+}
+#toolsxPrivacyShield .ps-footer{
+text-align:center !important;
+padding:17px !important;
+font-size:10px !important;
+color:var(--ps-muted) !important;
+border-top:1px solid var(--ps-border) !important;
+background:var(--ps-panel) !important;
+}
+#toolsxPrivacyShield .ps-noscript{
+padding:15px !important;
+color:#b00020 !important;
+background:#fff0f3 !important;
+}
+#toolsxPrivacyShield.ps-dark{
+--ps-bg:#07111d;
+--ps-panel:#0d1b2b;
+--ps-panel2:#101f31;
+--ps-text:#f3f8ff;
+--ps-text2:#c1cfdd;
+--ps-muted:#94a9bc;
+--ps-border:#263d55;
+--ps-input:#06111e;
+--ps-input-text:#f3f8ff;
+--ps-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+#toolsxPrivacyShield.ps-dark .ps-input::placeholder{color:#8095aa !important;}
+@media(max-width:850px){
+#toolsxPrivacyShield .ps-grid{grid-template-columns:1fr !important;}
+}
+@media(max-width:600px){
+#toolsxPrivacyShield{margin:8px auto !important;border-radius:17px !important;}
+#toolsxPrivacyShield .ps-header{padding:16px !important;align-items:flex-start !important;flex-wrap:wrap !important;}
+#toolsxPrivacyShield .ps-main{padding:12px !important;}
+#toolsxPrivacyShield .ps-card,
+#toolsxPrivacyShield .ps-section{padding:14px !important;}
+#toolsxPrivacyShield .ps-controls{width:100% !important;justify-content:flex-start !important;}
+#toolsxPrivacyShield .ps-input{min-height:260px !important;font-size:16px !important;}
+#toolsxPrivacyShield .ps-btn,
+#toolsxPrivacyShield .ps-file{flex:1 1 auto !important;}
+}
+</style>
+
+<div class="ps-header">
+<div class="ps-brand">
+<div class="ps-logo">PS</div>
+<div>
+<div class="ps-title">PrivacyShield</div>
+<div class="ps-subtitle">Smart Data Privacy &amp; Secret Scanner</div>
+</div>
+</div>
+
+<div class="ps-controls">
+<select class="ps-theme" id="psTheme" aria-label="Theme">
+<option value="auto">Auto Theme</option>
+<option value="light">Light Mode</option>
+<option value="dark">Dark Mode</option>
+</select>
+<div class="ps-private">● Browser Only</div>
+</div>
+</div>
+
+<div class="ps-main">
+
+<div class="ps-grid">
+
+<div class="ps-card">
+<div class="ps-card-title">Scan Text, Code, Logs or Data</div>
+
+<textarea
+id="psInput"
+class="ps-input"
+spellcheck="false"
+placeholder="Paste text, source code, logs, JSON, CSV or configuration here...
+
+PrivacyShield can check for:
+• Email addresses
+• Phone numbers
+• IP addresses
+• URLs
+• API-key-like values
+• Bearer tokens
+• JWT-like tokens
+• Password / secret fields"></textarea>
+
+<div class="ps-progress" id="psProgress">
+<div class="ps-progress-bar" id="psProgressBar"></div>
+</div>
+
+<div class="ps-actions">
+<button class="ps-btn ps-btn-primary" id="psScan" type="button">Scan for Risks</button>
+<button class="ps-btn ps-btn-green" id="psRedact" type="button">Redact All</button>
+<button class="ps-btn" id="psCopy" type="button">Copy Result</button>
+<button class="ps-btn" id="psDownload" type="button">Download</button>
+<button class="ps-btn ps-btn-danger" id="psClear" type="button">Clear</button>
+<label class="ps-file">
+📄 Local File
+<input id="psFile" type="file" accept=".txt,.log,.csv,.json,.xml,.yaml,.yml,.md,.js,.css,.html,.htm,.env,.conf,.ini">
+</label>
+</div>
+
+<div class="ps-status" id="psStatus">
+Your content stays in this browser during normal use.
+</div>
+</div>
+
+<div class="ps-card">
+
+<div class="ps-card-title">Privacy Risk Overview</div>
+
+<div class="ps-scorebox">
+<div class="ps-score" id="psScore">0</div>
+<div>
+<div class="ps-risk" id="psRisk">Not Scanned</div>
+<div class="ps-riskdesc" id="psRiskDesc">
+Run a scan to check the content.
+</div>
+</div>
+</div>
+
+<div class="ps-stats">
+<div class="ps-stat">
+<strong id="psCount">0</strong>
+<span>Findings</span>
+</div>
+<div class="ps-stat">
+<strong id="psHigh">0</strong>
+<span>High Risk</span>
+</div>
+<div class="ps-stat">
+<strong id="psLines">0</strong>
+<span>Lines</span>
+</div>
+<div class="ps-stat">
+<strong id="psWords">0</strong>
+<span>Words</span>
+</div>
+</div>
+
+<div class="ps-findings" id="psFindings">
+<div class="ps-empty">No scan performed yet.</div>
+</div>
+
+</div>
+
+</div>
+
+<div class="ps-section">
+<h2>How to Use PrivacyShield</h2>
+
+<p>
+PrivacyShield is a browser-based privacy and sensitive-data scanner designed to help you review text before publishing, sharing or uploading it. To begin, paste your text, source code, configuration, JSON, CSV, application log or other text-based content into the scanner. You can also select a supported text file directly from your device. The selected file is read locally by your browser.
+</p>
+
+<p>
+After adding your content, click <strong>Scan for Risks</strong>. PrivacyShield checks the content against several pattern-based rules for potentially exposed information. These include email addresses, phone numbers, IPv4 addresses, URLs, credential-like fields, API-key-like values, bearer tokens and JWT-like strings. Each detected item is shown with a category, risk level and approximate line number so that you can quickly locate the content that needs review.
+</p>
+
+<p>
+If you want to clean the content, click <strong>Redact All</strong>. The tool replaces detected values with readable redaction labels such as <strong>[REDACTED:EMAIL_ADDRESS]</strong>. You can then use <strong>Copy Result</strong> to copy the cleaned content or use <strong>Download</strong> to save it as a text file. Always review the cleaned output before publishing it because automated pattern matching cannot understand every possible type of confidential information.
+</p>
+
+<p>
+PrivacyShield is designed with a local-first approach. The core scanner does not need an account, external API or server-side processing. This means the text is processed with JavaScript inside your browser during normal use. However, PrivacyShield is not a replacement for a professional security audit, antivirus product or penetration test. If a real password, private key, API credential or production secret has already been exposed, follow the appropriate security procedure and rotate or revoke the credential where necessary.
+</p>
+</div>
+
+<div class="ps-section">
+<h2>Frequently Asked Questions</h2>
+
+<div class="ps-faq">
+<button class="ps-faq-q" type="button">
+Does PrivacyShield upload my text?
+<span>+</span>
+</button>
+<div class="ps-faq-a">
+No external scanning API is required for the core tool. The supplied content is processed by JavaScript in your browser during normal use.
+</div>
+</div>
+
+<div class="ps-faq">
+<button class="ps-faq-q" type="button">
+What type of information can it detect?
+<span>+</span>
+</button>
+<div class="ps-faq-a">
+It checks for patterns commonly associated with email addresses, phone numbers, IPv4 addresses, URLs, API-key-like strings, bearer tokens, JWT-like strings and credential-style fields.
+</div>
+</div>
+
+<div class="ps-faq">
+<button class="ps-faq-q" type="button">
+Can I scan programming code?
+<span>+</span>
+</button>
+<div class="ps-faq-a">
+Yes. You can paste JavaScript, HTML, CSS, JSON, configuration files, logs and many other text-based formats.
+</div>
+</div>
+
+<div class="ps-faq">
+<button class="ps-faq-q" type="button">
+Can I remove detected sensitive values?
+<span>+</span>
+</button>
+<div class="ps-faq-a">
+Yes. Redact All replaces detected values with descriptive redaction placeholders. Review the result before using it.
+</div>
+</div>
+
+<div class="ps-faq">
+<button class="ps-faq-q" type="button">
+Does the tool guarantee that my content is safe?
+<span>+</span>
+</button>
+<div class="ps-faq-a">
+No. PrivacyShield uses pattern-based detection. It can miss unusual sensitive information and can also produce false positives. No finding should be treated as proof that content is completely safe.
+</div>
+</div>
+
+<div class="ps-faq">
+<button class="ps-faq-q" type="button">
+Is PrivacyShield a complete security scanner?
+<span>+</span>
+</button>
+<div class="ps-faq-a">
+No. It is a privacy and data-exposure checking utility. It does not replace professional security testing, malware analysis, vulnerability assessment or penetration testing.
+</div>
+</div>
+
+<div class="ps-faq">
+<button class="ps-faq-q" type="button">
+Can I use it on a mobile phone?
+<span>+</span>
+</button>
+<div class="ps-faq-a">
+Yes. The interface is responsive and designed for both mobile and desktop browsers.
+</div>
+</div>
+
+</div>
+
+<div class="ps-section">
+<h2>Security &amp; Privacy</h2>
+
+<p>
+PrivacyShield uses a browser-first design for its core scanning functions. It does not require users to create an account or send their text to a remote scanning service. Local file selection is also processed through the browser's FileReader interface.
+</p>
+
+<p>
+The scanner should be considered a privacy review assistant rather than a guarantee of security. Pattern matching cannot identify every possible secret, personal identifier or confidential business value. For genuinely exposed credentials, passwords, private keys or production API tokens, take the appropriate remediation action instead of relying only on redaction.
+</p>
+</div>
+
+</div>
+
+<div class="ps-footer">
+PrivacyShield • Privacy review utility for toolsx.in • Local browser processing
+</div>
+
+<noscript class="ps-noscript">
+PrivacyShield requires JavaScript to perform scanning and redaction.
+</noscript>
+
+<script>
+(function () {
+"use strict";
+
+var root = document.getElementById("toolsxPrivacyShield");
+if (!root) { return; }
+
+function q(sel) { return root.querySelector(sel); }
+
+var input        = q("#psInput");
+var scanBtn      = q("#psScan");
+var redactBtn    = q("#psRedact");
+var copyBtn      = q("#psCopy");
+var downloadBtn  = q("#psDownload");
+var clearBtn     = q("#psClear");
+var fileInput    = q("#psFile");
+var themeSelect  = q("#psTheme");
+
+var scoreEl      = q("#psScore");
+var riskEl       = q("#psRisk");
+var riskDescEl   = q("#psRiskDesc");
+var countEl      = q("#psCount");
+var highEl       = q("#psHigh");
+var linesEl      = q("#psLines");
+var wordsEl      = q("#psWords");
+var findingsEl   = q("#psFindings");
+var statusEl     = q("#psStatus");
+var progressEl   = q("#psProgress");
+var progressBar  = q("#psProgressBar");
+
+var findings = [];
+var dirty = false;
+var MAX_RENDER = 400;
+var MAX_FILE_BYTES = 5 * 1024 * 1024; /* FIX: 5MB local-file guard */
+
+/* ---------------- helpers ---------------- */
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, function (ch) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+  });
+}
+
+function setStatus(msg) { statusEl.textContent = msg; }
+
+function mask(value) {
+  value = String(value);
+  if (value.length <= 5) { return "••••"; }
+  if (value.length <= 10) { return value.slice(0, 1) + "••••" + value.slice(-1); }
+  return value.slice(0, 3) + "••••••" + value.slice(-3);
+}
+
+/* fast line lookup (built once per scan) */
+function buildLineIndex(text) {
+  var starts = [0];
+  for (var i = 0; i < text.length; i++) {
+    if (text.charCodeAt(i) === 10) { starts.push(i + 1); }
+  }
+  return starts;
+}
+
+function lineAt(starts, index) {
+  var lo = 0, hi = starts.length - 1, mid;
+  while (lo < hi) {
+    mid = (lo + hi + 1) >> 1;
+    if (starts[mid] <= index) { lo = mid; } else { hi = mid - 1; }
+  }
+  return lo + 1;
+}
+
+/* ---------------- detection rules ----------------
+   Ordered from highest priority to lowest.
+   Overlapping matches are dropped, so a URL containing
+   an email only reports the email, etc.
+-------------------------------------------------- */
+
+var RULES = [
+  {
+    name: "AWS Access Key",
+    risk: 4,
+    re: /\b(?:AKIA|ASIA)[0-9A-Z]{16}\b/g
+  },
+  {
+    name: "JWT-like Token",
+    risk: 4,
+    re: /\beyJ[A-Za-z0-9_-]{6,}\.[A-Za-z0-9_-]{6,}\.[A-Za-z0-9_-]{6,}\b/g
+  },
+  {
+    name: "Bearer Token",
+    risk: 4,
+    re: /\bBearer\s+[A-Za-z0-9._~+/=-]{12,}/g
+  },
+  {
+    name: "Private Key Block",
+    risk: 4,
+    re: /-----BEGIN (?:RSA |EC |DSA |OPENSSH |PGP )?PRIVATE KEY-----/g
+  },
+  {
+    name: "API Key / Secret",
+    risk: 4,
+    valueGroup: 1,
+    re: /\b(?:api[_-]?key|apikey|access[_-]?token|auth[_-]?token|secret[_-]?key|client[_-]?secret|private[_-]?key)\b\s*[:=]\s*["']?([A-Za-z0-9_\-.\/+=]{12,})["']?/gi
+  },
+  {
+    name: "Password / Credential",
+    risk: 4,
+    valueGroup: 1,
+    re: /\b(?:password|passwd|pwd|secret)\b\s*[:=]\s*["']?([^\s"',;}\]]{4,})["']?/gi
+  },
+  {
+    name: "Email Address",
+    risk: 2,
+    re: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g
+  },
+  {
+    name: "IPv4 Address",
+    risk: 2,
+    re: /\b(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}\b/g,
+    check: function (value, text, index) {
+      var before = index > 0 ? text.charAt(index - 1) : "";
+      var after = text.charAt(index + value.length);
+      return !/[0-9.]/.test(before) && !/[0-9.]/.test(after);
+    }
+  },
+  {
+    name: "Phone Number",
+    risk: 2,
+    re: /\+?\d[\d \t().-]{6,16}\d/g,
+    check: function (value, text, index) {
+      var digits = value.replace(/\D/g, "");
+      if (digits.length < 8 || digits.length > 15) { return false; }
+
+      var before = index > 0 ? text.charAt(index - 1) : "";
+      var after = text.charAt(index + value.length);
+      if (/[0-9.]/.test(before) || /[0-9.]/.test(after)) { return false; }
+
+      var hasSep = /[ \t().-]/.test(value);
+      var hasPlus = value.charAt(0) === "+";
+      if (!hasSep && !hasPlus && (digits.length < 10 || digits.length > 13)) { return false; }
+
+      return true;
+    }
+  },
+  {
+    name: "URL",
+    risk: 1,
+    re: /\bhttps?:\/\/[^\s<>"']+/gi
+  }
+];
+
+/* ---------------- scanning ---------------- */
+
+function overlaps(aStart, aEnd, bStart, bEnd) {
+  return aStart < bEnd && bStart < aEnd;
+}
+
+function addFinding(name, risk, value, index, lineIndex) {
+  if (!value) { return; }
+
+  var end = index + value.length;
+
+  for (var i = 0; i < findings.length; i++) {
+    var f = findings[i];
+    if (overlaps(index, end, f.index, f.index + f.value.length)) {
+      return; /* overlapping already-accepted finding */
+    }
+  }
+
+  findings.push({
+    name: name,
+    risk: risk,
+    value: value,
+    index: index,
+    line: lineAt(lineIndex, index)
+  });
+}
+
+function scan(callback) {
+  var text = input.value || "";
+
+  findings = [];
+  dirty = false;
+
+  if (!text.trim()) {
+    render();
+    setStatus("Paste or load some content before scanning.");
+    if (typeof callback === "function") { callback(); }
+    return;
+  }
+
+  progressEl.style.display = "block";
+  progressBar.style.width = "6%";
+
+  /* let the browser paint the progress bar first */
+  setTimeout(function () {
+
+    var lineIndex = buildLineIndex(text);
+
+    for (var i = 0; i < RULES.length; i++) {
+      var rule = RULES[i];
+      var re = rule.re;
+      var m;
+
+      re.lastIndex = 0;
+
+      while ((m = re.exec(text)) !== null) {
+
+        var value = m[0];
+        var index = m.index;
+
+        if (!value) { re.lastIndex++; continue; }
+
+        if (rule.valueGroup && m[rule.valueGroup] !== undefined) {
+          var group = m[rule.valueGroup];
+          var pos = m[0].lastIndexOf(group);
+          if (pos > -1) {
+            value = group;
+            index = m.index + pos;
+          }
+        }
+
+        if (typeof rule.check === "function" &&
+            !rule.check(value, text, index)) {
+          continue;
+        }
+
+        addFinding(rule.name, rule.risk, value, index, lineIndex);
+      }
+
+      progressBar.style.width =
+        Math.round(6 + ((i + 1) / RULES.length) * 88) + "%";
+    }
+
+    findings.sort(function (a, b) { return a.index - b.index; });
+
+    render();
+
+    progressBar.style.width = "100%";
+    setTimeout(function () {
+      progressEl.style.display = "none";
+      progressBar.style.width = "0";
+    }, 300);
+
+    setStatus("Scan complete • " + findings.length +
+              " potential finding(s) detected.");
+
+    if (typeof callback === "function") { callback(); }
+
+  }, 30);
+}
+
+/* ---------------- rendering ---------------- */
+
+function render() {
+  var text = input.value || "";
+  var totalRisk = 0;
+  var highRisk = 0;
+
+  findings.forEach(function (item) {
+    totalRisk += item.risk;
+    if (item.risk >= 4) { highRisk++; }
+  });
+
+  var score = 0;
+  if (findings.length) {
+    score = Math.min(100, Math.round(
+      (totalRisk * 100) / Math.max(10, findings.length * 4 + 6)
+    ));
+  }
+
+  var risk = "Clean";
+  var description = "No matching high-risk pattern was detected.";
+
+  if (findings.length) {
+    if (score >= 70) {
+      risk = "Critical";
+      description = "Several high-risk patterns require immediate review.";
+    } else if (score >= 45) {
+      risk = "High";
+      description = "Potentially sensitive information requires review.";
+    } else if (score >= 20) {
+      risk = "Medium";
+      description = "Some potentially exposed information was detected.";
+    } else {
+      risk = "Low";
+      description = "A small number of low-risk patterns were detected.";
+    }
+  }
+
+  scoreEl.textContent = score;
+  riskEl.textContent = risk;
+  riskDescEl.textContent = description;
+
+  countEl.textContent = findings.length;
+  highEl.textContent = highRisk;
+  linesEl.textContent = text ? text.split("\n").length : 0;
+  wordsEl.textContent = text.trim() ? text.trim().split(/\s+/).length : 0;
+
+  if (!findings.length) {
+    findingsEl.innerHTML = dirty
+      ? '<div class="ps-empty">Content changed — run a scan again.</div>'
+      : '<div class="ps-empty">✓ No matching privacy or secret patterns detected.</div>';
+    return;
+  }
+
+  var list = findings.slice(0, MAX_RENDER);
+  var html = list.map(function (item) {
+    var badgeClass = "";
+    if (item.risk >= 4) { badgeClass = "ps-badge-high"; }
+    else if (item.risk >= 2) { badgeClass = "ps-badge-medium"; }
+
+    var level = item.risk >= 4 ? "HIGH" : (item.risk >= 2 ? "MEDIUM" : "LOW");
+
+    return '<div class="ps-finding">' +
+      '<div class="ps-finding-top">' +
+        '<div class="ps-finding-name">' + escapeHtml(item.name) + '</div>' +
+        '<span class="ps-badge ' + badgeClass + '">' + level + '</span>' +
+      '</div>' +
+      '<div class="ps-match">' + escapeHtml(mask(item.value)) + '</div>' +
+      '<div class="ps-line">Approx. line ' + item.line + '</div>' +
+    '</div>';
+  }).join("");
+
+  if (findings.length > MAX_RENDER) {
+    html += '<div class="ps-empty">+' +
+            (findings.length - MAX_RENDER) +
+            ' more finding(s) not shown (all are still redacted).</div>';
+  }
+
+  findingsEl.innerHTML = html;
+}
+
+/* ---------------- redaction ---------------- */
+
+function performRedaction() {
+  var text = input.value || "";
+
+  var sorted = findings.slice().sort(function (a, b) {
+    return b.index - a.index;
+  });
+
+  sorted.forEach(function (item) {
+    var label = item.name.toUpperCase().replace(/[^A-Z0-9]+/g, "_");
+    text = text.slice(0, item.index) +
+           "[REDACTED:" + label + "]" +
+           text.slice(item.index + item.value.length);
+  });
+
+  input.value = text;
+  findings = [];
+  dirty = false;
+
+  render();
+
+  setStatus("Detected values were replaced with redaction placeholders. " +
+            "Review the result before sharing.");
+}
+
+function redact() {
+  var text = input.value || "";
+
+  if (!text.trim()) {
+    setStatus("There is nothing to redact.");
+    return;
+  }
+
+  if (dirty || !findings.length) {
+    scan(function () {
+      if (!findings.length) {
+        setStatus("No matching patterns were found to redact.");
+        return;
+      }
+      performRedaction();
+    });
+    return;
+  }
+
+  performRedaction();
+}
+
+/* ---------------- clipboard / download / clear ---------------- */
+
+function copyText() {
+  var text = input.value || "";
+
+  if (!text) {
+    setStatus("Nothing to copy.");
+    return;
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function () {
+      var old = copyBtn.textContent;
+      copyBtn.textContent = "Copied ✓";
+      setStatus("Result copied to clipboard.");
+      setTimeout(function () { copyBtn.textContent = old; }, 1200);
+    }).catch(function () {
+      fallbackCopy(text);
+    });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  var temp = document.createElement("textarea");
+  temp.value = text;
+  temp.style.position = "fixed";
+  temp.style.left = "-9999px";
+  document.body.appendChild(temp);
+  temp.focus();
+  temp.select();
+
+  try {
+    document.execCommand("copy");
+    setStatus("Result copied to clipboard.");
+  } catch (e) {
+    setStatus("Copy was blocked by the browser.");
+  }
+
+  temp.remove();
+}
+
+function downloadText() {
+  var text = input.value || "";
+
+  if (!text) {
+    setStatus("Nothing to download.");
+    return;
+  }
+
+  var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  var url = URL.createObjectURL(blob);
+  var link = document.createElement("a");
+
+  link.href = url;
+  link.download = "privacyshield-cleaned.txt";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+
+  setStatus("Cleaned text downloaded.");
+}
+
+function clearAll() {
+  input.value = "";
+  findings = [];
+  dirty = false;
+  render();
+  setStatus("Scanner cleared. Your next scan starts with a fresh input.");
+}
+
+function readFile(event) {
+  var file = event.target.files && event.target.files[0];
+  if (!file) { return; }
+
+  /* FIX: guard against huge files that would freeze the tab */
+  if (file.size > MAX_FILE_BYTES) {
+    setStatus("That file is larger than 5MB. Please choose a smaller text file.");
+    event.target.value = "";
+    return;
+  }
+
+  var reader = new FileReader();
+
+  reader.onload = function () {
+    input.value = String(reader.result || "");
+    setStatus("Loaded " + file.name + " • Scanning…");
+    scan();
+  };
+
+  reader.onerror = function () {
+    setStatus("Unable to read this local file.");
+  };
+
+  reader.readAsText(file);
+
+  /* allow re-selecting the same file */
+  event.target.value = "";
+}
+
+/* ---------------- theme handling ---------------- */
+
+var THEME_KEY = "toolsx_privacyshield_theme";
+var themeMode = "auto";
+var themeTimer = null;
+
+function parseRgb(str) {
+  var m = /rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s\/]+([\d.]+))?\s*\)/i.exec(str || "");
+  if (!m) { return null; }
+  return {
+    r: +m[1],
+    g: +m[2],
+    b: +m[3],
+    a: (m[4] === undefined ? 1 : +m[4])
+  };
+}
+
+function luminance(c) {
+  return 0.299 * c.r + 0.587 * c.g + 0.114 * c.b;
+}
+
+/* FIX: wider token coverage for common Blogger/theme dark-mode class names */
+var DARK_TOKENS  = /^(dark|darkmode|dark-mode|dark-theme|darktheme|theme-dark|mode-dark|is-dark|night|nightmode|night-mode|dim|dimmed|black|midnight)$/;
+var LIGHT_TOKENS = /^(light|lightmode|light-mode|light-theme|lighttheme|theme-light|mode-light|is-light|day|day-mode|daymode|white)$/;
+
+function explicitTheme() {
+  var nodes = [document.documentElement, document.body];
+  var attrs = ["data-theme", "data-mode", "data-color-mode",
+               "data-color-scheme", "data-scheme", "data-bs-theme",
+               "data-dark", "data-layout"];
+  var i, j, el, v, k, t;
+
+  /* 1. explicit data-* attributes win */
+  for (i = 0; i < nodes.length; i++) {
+    el = nodes[i];
+    if (!el || !el.getAttribute) { continue; }
+    for (j = 0; j < attrs.length; j++) {
+      v = String(el.getAttribute(attrs[j]) || "").toLowerCase();
+      if (!v) { continue; }
+      if (v.indexOf("dark") >= 0 || v.indexOf("night") >= 0) { return "dark"; }
+      if (v.indexOf("light") >= 0 || v.indexOf("day") >= 0) { return "light"; }
+    }
+  }
+
+  /* 2. exact class tokens */
+  for (i = 0; i < nodes.length; i++) {
+    el = nodes[i];
+    if (!el || !el.classList) { continue; }
+    for (k = 0; k < el.classList.length; k++) {
+      t = el.classList[k].toLowerCase();
+      if (DARK_TOKENS.test(t)) { return "dark"; }
+      if (LIGHT_TOKENS.test(t)) { return "light"; }
+    }
+  }
+
+  return null;
+}
+
+function detectSiteTheme() {
+  var ex = explicitTheme();
+  if (ex) { return ex; }
+
+  /* 3. real background colour of the page */
+  var nodes = [document.body, document.documentElement];
+  for (var i = 0; i < nodes.length; i++) {
+    var el = nodes[i];
+    if (!el || !window.getComputedStyle) { continue; }
+    var c = parseRgb(window.getComputedStyle(el).backgroundColor);
+    if (c && c.a > 0.5) {
+      return luminance(c) < 128 ? "dark" : "light";
+    }
+  }
+
+  /* 4. OS preference */
+  if (window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    return "dark";
+  }
+
+  return "light";
+}
+
+function applyTheme() {
+  var resolved = (themeMode === "auto") ? detectSiteTheme() : themeMode;
+
+  if (resolved === "dark") {
+    root.classList.add("ps-dark");
+  } else {
+    root.classList.remove("ps-dark");
+  }
+}
+
+function scheduleThemeCheck() {
+  if (themeMode !== "auto") { return; }
+  if (themeTimer) { return; }
+  themeTimer = setTimeout(function () {
+    themeTimer = null;
+    applyTheme();
+  }, 120);
+}
+
+function watchThemeChanges() {
+  var opts = {
+    attributes: true,
+    attributeFilter: ["class", "style", "data-theme", "data-mode",
+                      "data-color-mode", "data-color-scheme",
+                      "data-scheme", "data-bs-theme", "data-dark"]
+  };
+
+  try {
+    new MutationObserver(scheduleThemeCheck)
+      .observe(document.documentElement, opts);
+
+    if (document.body) {
+      new MutationObserver(scheduleThemeCheck)
+        .observe(document.body, opts);
+    }
+  } catch (e) { /* MutationObserver unsupported */ }
+
+  /* theme toggles are almost always clicks */
+  document.addEventListener("click", scheduleThemeCheck, true);
+
+  /* OS theme change */
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) {
+      mq.addEventListener("change", scheduleThemeCheck);
+    } else if (mq.addListener) {
+      mq.addListener(scheduleThemeCheck);
+    }
+  }
+}
+
+/* ---------------- events ---------------- */
+
+scanBtn.addEventListener("click", function () { scan(); });
+redactBtn.addEventListener("click", redact);
+copyBtn.addEventListener("click", copyText);
+downloadBtn.addEventListener("click", downloadText);
+clearBtn.addEventListener("click", clearAll);
+fileInput.addEventListener("change", readFile);
+
+themeSelect.addEventListener("change", function () {
+  themeMode = themeSelect.value;
+  try { localStorage.setItem(THEME_KEY, themeMode); } catch (e) {}
+  applyTheme();
+});
+
+/* FAQ accordion */
+root.querySelectorAll(".ps-faq-q").forEach(function (button) {
+  button.addEventListener("click", function () {
+    var answer = this.nextElementSibling;
+    var symbol = this.querySelector("span");
+    var isOpen = answer.style.display === "block";
+
+    root.querySelectorAll(".ps-faq-a").forEach(function (item) {
+      item.style.display = "none";
+    });
+    root.querySelectorAll(".ps-faq-q span").forEach(function (item) {
+      item.textContent = "+";
+    });
+
+    if (!isOpen) {
+      answer.style.display = "block";
+      if (symbol) { symbol.textContent = "−"; }
+    }
+  });
+});
+
+/* mark results as stale whenever the user edits the text */
+var inputTimer = null;
+input.addEventListener("input", function () {
+  dirty = true;
+  findings = [];
+
+  if (inputTimer) { clearTimeout(inputTimer); }
+  inputTimer = setTimeout(function () {
+    inputTimer = null;
+    render();
+  }, 200);
+});
+
+/* ---------------- init ---------------- */
+
+var savedTheme = "auto";
+try {
+  var stored = localStorage.getItem(THEME_KEY);
+  if (stored === "dark" || stored === "light" || stored === "auto") {
+    savedTheme = stored;
+  }
+} catch (e) {}
+
+themeMode = savedTheme;
+themeSelect.value = savedTheme;
+
+applyTheme();
+watchThemeChanges();
+render();
+
+/* re-check once the page has fully settled (webfonts, late scripts, etc.) */
+setTimeout(applyTheme, 400);
+setTimeout(applyTheme, 1500);
+
+})();
+</script>
+</div>
+<!-- ========================================================================================= -->
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

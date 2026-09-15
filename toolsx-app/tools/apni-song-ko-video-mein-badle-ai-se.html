@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Lyric Video &amp; Music Visualizer Maker – Audio to Video Free – ToolsX App</title>
+<meta name="description" content="Turn any song into a lyric video or music visualizer free online. Auto-sync text and visuals in minutes.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Lyric Video &amp; Music Visualizer Maker – Audio to Video Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"Tools-X AI Music Video Studio","applicationCategory":"MultimediaApplication","operatingSystem":"Any","browserRequirements":"Modern browser with Canvas and MediaRecorder","description":"Free online AI music video generator. Auto-synced lyrics from LRCLIB, copyright-free AI scenes via Pollinations, HD 1080p WebM export, live audio visualizer, SEO metadata generator. Video length matches song length with no duration cap.","featureList":["4x parallel turbo rendering","Synced LRC lyrics via LRCLIB","1080p HD WebM export","Live audio visualizer","Copyright-free CC0 visuals via Pollinations","SEO metadata generator","Unlimited duration","6 transition styles","6 image styles"],"author":{"@type":"Organization","name":"Tools-X","url":"https://www.toolsx.in"}},{"@type":"HowTo","name":"How to make an AI music video with Tools-X","step":[{"@type":"HowToStep","position":1,"text":"Upload your song (MP3, WAV, M4A, FLAC)."},{"@type":"HowToStep","position":2,"text":"Enter artist and title to auto-extract synced lyrics."},{"@type":"HowToStep","position":3,"text":"Choose transition, image style, quality and scene duration."},{"@type":"HowToStep","position":4,"text":"Click Generate to render AI scenes in parallel."},{"@type":"HowToStep","position":5,"text":"Record and download your HD copyright-free video."}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this AI music video generator really free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free. No hidden charges, no premium version, no signup, no API key. You can generate and download unlimited videos."}},{"@type":"Question","name":"Are generated videos copyright-free?","acceptedAnswer":{"@type":"Answer","text":"All visuals are AI-generated via Pollinations AI (CC0/royalty-free). You can safely monetize on YouTube. Upload your own or royalty-free music."}},{"@type":"Question","name":"How long does video generation take?","acceptedAnswer":{"@type":"Answer","text":"4x parallel turbo rendering generates 12 scenes typically in one minute. 720p quality provides faster results."}},{"@type":"Question","name":"What format is the video downloaded in?","acceptedAnswer":{"@type":"Answer","text":"WebM format (VP9/VP8 + Opus audio) with burned-in lyrics and visualizer. Uploads directly to YouTube, WhatsApp, Telegram."}},{"@type":"Question","name":"Is my audio file uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Audio file is processed only in your browser via Web Audio API. No server upload, complete privacy."}},{"@type":"Question","name":"Is there any song length limit?","acceptedAnswer":{"@type":"Answer","text":"No! Video length automatically matches your song length. 3 minutes or 10 minutes - full video is generated."}},{"@type":"Question","name":"What if lyrics cannot be fetched?","acceptedAnswer":{"@type":"Answer","text":"If LRCLIB and lyrics.ovh fail, AI generates mood-based lyrics. You can also paste lyrics manually."}},{"@type":"Question","name":"Will it work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes, fully responsive. Chrome, Edge, Firefox recommended. Connect phone to charger for recording."}}]}]}
+</script>
+
+<div id="tsxv5-mvstudio" class="tsxv5-wrapper">
+
+<style>
+#tsxv5-mvstudio{
+  --bg:#ffffff;--bg2:#f8fafc;--card:#ffffff;--card2:#f1f5f9;
+  --line:#e2e8f0;--txt:#0f172a;--txt2:#475569;--txt3:#64748b;
+  --g1:linear-gradient(135deg,#ff6b35,#ff2e63);--g2:linear-gradient(135deg,#7c3aed,#ec4899);
+  --ok:#059669;--err:#dc2626;--warn:#d97706;--acc:#ff6b35;--acc2:#ff2e63;
+  --r:18px;--glow:0 0 50px rgba(255,46,99,.12);
+  font-family:'Inter',system-ui,sans-serif;line-height:1.7;font-size:16px;
+  color:var(--txt);background:var(--bg);
+  transition:background .3s ease,color .3s ease;
+}
+body.dark-mode #tsxv5-mvstudio,
+html.dark-mode #tsxv5-mvstudio,
+[data-theme="dark"] #tsxv5-mvstudio,
+body[data-theme="dark"] #tsxv5-mvstudio,
+html[data-theme="dark"] #tsxv5-mvstudio,
+.dark-mode #tsxv5-mvstudio,
+.night-mode #tsxv5-mvstudio{
+  --bg:#07070c;--bg2:#0d0d16;--card:rgba(255,255,255,.045);--card2:rgba(255,255,255,.07);
+  --line:rgba(255,255,255,.08);--txt:#ffffff;--txt2:#9c9cb0;--txt3:#64748b;
+  --glow:0 0 50px rgba(255,46,99,.18);
+}
+#tsxv5-mvstudio *,#tsxv5-mvstudio *::before,#tsxv5-mvstudio *::after{box-sizing:border-box;margin:0;padding:0;max-width:100%;}
+#tsxv5-mvstudio img,#tsxv5-mvstudio svg,#tsxv5-mvstudio canvas{display:block;max-width:100%;}
+#tsxv5-mvstudio .hidden{display:none!important;}
+
+#tsxv5-mvstudio .amvs{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:24px 16px 50px;}
+
+#tsxv5-mvstudio .amvs-breadcrumb{padding:14px 18px;background:var(--card);border-radius:8px;font-size:0.875rem;color:var(--txt2);margin-bottom:18px;border:1px solid var(--line);}
+#tsxv5-mvstudio .amvs-breadcrumb a{color:var(--acc);text-decoration:none;transition:color 0.2s ease;}
+#tsxv5-mvstudio .amvs-breadcrumb a:hover{color:var(--acc2);}
+
+#tsxv5-mvstudio .amvs-header{text-align:center;padding:34px 16px 28px;border-bottom:1px solid var(--line);margin-bottom:26px;position:relative;}
+#tsxv5-mvstudio .amvs-header::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:240px;height:3px;background:var(--g1);border-radius:3px;}
+#tsxv5-mvstudio h2.amvs-title{font-family:'Sora',system-ui,sans-serif;font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-1.5px;background:linear-gradient(90deg,#ff6b35,#ff2e63,#7c3aed,#ff6b35);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:tsxv5Shine 6s linear infinite;}
+@keyframes tsxv5Shine{to{background-position:300% 0;}}
+#tsxv5-mvstudio .amvs-sub{color:var(--txt2);font-size:clamp(14px,1.4vw,17px);margin-top:10px;font-weight:300;}
+#tsxv5-mvstudio .badge-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px;}
+#tsxv5-mvstudio .badge{background:var(--card);border:1px solid var(--line);padding:7px 18px;border-radius:30px;font-size:12px;color:var(--txt2);display:inline-flex;align-items:center;gap:7px;transition:.3s;}
+#tsxv5-mvstudio .badge:hover{border-color:rgba(255,107,53,.5);color:var(--acc);transform:translateY(-2px);}
+
+#tsxv5-mvstudio .seo-intro{color:var(--txt2);font-size:14px;line-height:1.8;text-align:center;max-width:860px;margin:0 auto 26px;}
+#tsxv5-mvstudio .seo-intro strong{color:var(--acc);}
+#tsxv5-mvstudio .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:28px;}
+#tsxv5-mvstudio .feature{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 14px;text-align:center;transition:.3s;}
+#tsxv5-mvstudio .feature:hover{transform:translateY(-4px);border-color:rgba(255,107,53,.4);}
+#tsxv5-mvstudio .feature-icon{font-size:24px;background:var(--g1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;display:inline-block;}
+#tsxv5-mvstudio .feature h3{font-size:13px;font-weight:700;margin-bottom:5px;color:var(--txt);}
+#tsxv5-mvstudio .feature p{font-size:11px;color:var(--txt2);line-height:1.5;}
+
+#tsxv5-mvstudio .tool-card{background:linear-gradient(180deg,#0b0d16,#0d0d16);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:26px 22px;box-shadow:0 10px 40px rgba(0,0,0,.35);margin-bottom:28px;color:#ffffff;transition:border-color .3s;}
+#tsxv5-mvstudio .tool-card:hover{border-color:rgba(255,107,53,.25);}
+#tsxv5-mvstudio .tool-header{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08);}
+#tsxv5-mvstudio .tool-icon{width:50px;height:50px;background:var(--g1);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;box-shadow:0 6px 20px rgba(255,46,99,.35);}
+#tsxv5-mvstudio .tool-title{font-size:19px;font-weight:700;font-family:'Sora',system-ui,sans-serif;color:#ffffff;}
+#tsxv5-mvstudio .tool-sub{color:#9c9cb0;font-size:12.5px;margin-top:3px;}
+#tsxv5-mvstudio .tool-badge{margin-left:auto;background:rgba(255,107,53,.12);color:#ff6b35;font-size:11px;font-weight:700;padding:5px 14px;border-radius:30px;border:1px solid rgba(255,107,53,.25);white-space:nowrap;}
+
+#tsxv5-mvstudio .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:8px;}
+#tsxv5-mvstudio .form-group{margin-bottom:18px;}
+#tsxv5-mvstudio .form-label{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:#9c9cb0;text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px;}
+#tsxv5-mvstudio .form-label-icon{color:#ff6b35;}
+#tsxv5-mvstudio .form-input,#tsxv5-mvstudio .form-textarea,#tsxv5-mvstudio .form-select{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 15px;color:#ffffff;font-family:'Inter',sans-serif;font-size:16px;outline:none;transition:.25s;min-height:44px;}
+#tsxv5-mvstudio .form-input:focus,#tsxv5-mvstudio .form-textarea:focus,#tsxv5-mvstudio .form-select:focus{border-color:#ff6b35;box-shadow:0 0 0 3px rgba(255,107,53,.12);}
+#tsxv5-mvstudio .form-textarea{min-height:90px;resize:vertical;}
+#tsxv5-mvstudio .form-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239c9cb0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;}
+#tsxv5-mvstudio .form-select option{background:#12121a;color:#ffffff;}
+#tsxv5-mvstudio .mini-label{display:block;font-size:10.5px;color:#9c9cb0;margin-bottom:4px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+
+#tsxv5-mvstudio .upload-zone{border:2px dashed rgba(255,255,255,.15);border-radius:14px;padding:30px 18px;text-align:center;cursor:pointer;transition:.3s;position:relative;background:rgba(255,255,255,.02);min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+#tsxv5-mvstudio .upload-zone:hover,#tsxv5-mvstudio .upload-zone.drag{border-color:#ff6b35;background:rgba(255,107,53,.06);}
+#tsxv5-mvstudio .upload-zone-icon{font-size:34px;background:var(--g1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;display:block;}
+#tsxv5-mvstudio .upload-zone p{color:#9c9cb0;font-size:13.5px;}
+#tsxv5-mvstudio .upload-zone small{color:#9c9cb0;font-size:11px;opacity:.7;display:block;margin-top:4px;}
+#tsxv5-mvstudio .upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+#tsxv5-mvstudio .audio-info{display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);border-radius:10px;margin-top:10px;}
+#tsxv5-mvstudio .audio-info-icon{color:var(--ok);font-size:19px;}
+#tsxv5-mvstudio .audio-info span{color:#9c9cb0;font-size:13px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+#tsxv5-mvstudio .lyrics-box{max-height:210px;overflow-y:auto;background:rgba(255,255,255,.02);border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,.08);}
+#tsxv5-mvstudio .lyric-line{padding:6px 10px;margin-bottom:3px;border-radius:7px;background:rgba(255,255,255,.02);border-left:3px solid transparent;display:flex;align-items:center;gap:8px;transition:.25s;}
+#tsxv5-mvstudio .lyric-line .num{color:#9c9cb0;font-size:11px;font-weight:600;min-width:24px;}
+#tsxv5-mvstudio .lyric-line .txt{flex:1;font-size:13px;color:#ffffff;word-break:break-word;}
+#tsxv5-mvstudio .lyric-line .st{font-size:10px;padding:2px 10px;border-radius:20px;background:rgba(255,255,255,.06);color:#9c9cb0;white-space:nowrap;}
+#tsxv5-mvstudio .lyric-line.active{background:rgba(255,107,53,.12);border-left-color:#ff6b35;}
+
+#tsxv5-mvstudio .btn-primary{width:100%;padding:15px 24px;background:var(--g1);border:none;border-radius:12px;color:#ffffff;font-size:15.5px;font-weight:700;cursor:pointer;transition:.3s;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 8px 26px -8px rgba(255,46,99,.5);min-height:48px;}
+#tsxv5-mvstudio .btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 14px 34px -8px rgba(255,46,99,.6);}
+#tsxv5-mvstudio .btn-primary:disabled{opacity:.55;cursor:not-allowed;}
+#tsxv5-mvstudio .btn-secondary{padding:10px 18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#ffffff;font-size:12.5px;font-weight:600;cursor:pointer;transition:.25s;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:7px;min-height:44px;}
+#tsxv5-mvstudio .btn-secondary:hover{border-color:#ff6b35;color:#ff6b35;transform:translateY(-1px);}
+#tsxv5-mvstudio .action-row{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
+#tsxv5-mvstudio .action-row>*{flex:1;justify-content:center;min-width:90px;}
+
+#tsxv5-mvstudio .progress-section{margin-top:16px;display:none;}
+#tsxv5-mvstudio .progress-section.visible{display:block;animation:tsxv5FadeUp .4s ease;}
+@keyframes tsxv5FadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+#tsxv5-mvstudio .progress-bar{width:100%;height:8px;background:rgba(255,255,255,.07);border-radius:5px;overflow:hidden;}
+#tsxv5-mvstudio .progress-fill{height:100%;width:0%;background:var(--g1);background-size:28px 28px;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.18) 0,rgba(255,255,255,.18) 8px,transparent 8px,transparent 16px),var(--g1);border-radius:5px;transition:width .4s ease;animation:tsxv5Stripes 1s linear infinite;}
+@keyframes tsxv5Stripes{to{background-position:28px 0,0 0;}}
+#tsxv5-mvstudio .progress-text{display:flex;justify-content:space-between;margin-top:8px;font-size:12.5px;color:#9c9cb0;}
+#tsxv5-mvstudio .progress-text .pct{color:#ff6b35;font-weight:800;}
+#tsxv5-mvstudio .current-preview{background:#000;border-radius:10px;margin-top:10px;min-height:50px;overflow:hidden;border:1px solid rgba(255,255,255,.08);}
+#tsxv5-mvstudio .current-preview img{width:100%;max-height:130px;object-fit:cover;display:block;animation:tsxv5FadeUp .4s ease;}
+
+#tsxv5-mvstudio .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-top:12px;}
+#tsxv5-mvstudio .gallery-item{border-radius:12px;overflow:hidden;position:relative;aspect-ratio:16/9;background:#111;transition:.3s;cursor:pointer;}
+#tsxv5-mvstudio .gallery-item:hover{transform:scale(1.05);z-index:2;box-shadow:0 12px 34px rgba(0,0,0,.6);}
+#tsxv5-mvstudio .gallery-item img{width:100%;height:100%;object-fit:cover;}
+#tsxv5-mvstudio .gallery-item .ov{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.88));padding:8px 11px;}
+#tsxv5-mvstudio .gallery-item .ov .t{font-size:10.5px;color:#ffffff;font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+#tsxv5-mvstudio .gallery-item .ov .n{font-size:9px;color:#9c9cb0;margin-top:2px;}
+
+#tsxv5-mvstudio .stats-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+#tsxv5-mvstudio .stat-chip{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:8px 14px;font-size:12px;color:#9c9cb0;display:flex;align-items:center;gap:8px;}
+#tsxv5-mvstudio .stat-chip-icon{color:#ff6b35;}
+#tsxv5-mvstudio .stat-chip b{color:#ffffff;}
+
+#tsxv5-mvstudio .video-wrapper{position:relative;border-radius:var(--r) var(--r) 0 0;overflow:hidden;background:#000;}
+#tsxv5-mvstudio .video-wrapper canvas{width:100%;display:block;aspect-ratio:16/9;background:#000;}
+#tsxv5-mvstudio .video-controls{display:flex;gap:10px;padding:11px 16px;background:rgba(0,0,0,.75);flex-wrap:wrap;align-items:center;}
+#tsxv5-mvstudio .video-controls button{padding:9px 16px;border:none;border-radius:9px;background:rgba(255,255,255,.09);color:#ffffff;cursor:pointer;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;transition:.2s;display:flex;align-items:center;gap:7px;min-height:44px;}
+#tsxv5-mvstudio .video-controls button:hover{background:rgba(255,255,255,.18);}
+#tsxv5-mvstudio .video-controls .primary-btn{background:var(--g1);}
+#tsxv5-mvstudio .video-timeline{flex:1;min-width:90px;height:6px;background:rgba(255,255,255,.12);border-radius:3px;position:relative;cursor:pointer;transition:height .2s;}
+#tsxv5-mvstudio .video-timeline:hover{height:10px;}
+#tsxv5-mvstudio .video-timeline .fill{height:100%;width:0%;background:var(--g1);border-radius:3px;}
+#tsxv5-mvstudio .video-time{font-size:12px;color:#9c9cb0;font-variant-numeric:tabular-nums;min-width:86px;text-align:right;}
+#tsxv5-mvstudio .rec-badge{display:none;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#ff4757;letter-spacing:1px;}
+#tsxv5-mvstudio .rec-badge.on{display:inline-flex;}
+#tsxv5-mvstudio .rec-badge-dot{animation:tsxv5Blink 1s steps(2) infinite;}
+@keyframes tsxv5Blink{50%{opacity:.15;}}
+
+#tsxv5-mvstudio .social-share{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
+#tsxv5-mvstudio .social-share a{display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:10px;color:#ffffff;text-decoration:none;font-size:12.5px;font-weight:700;transition:.25s;min-height:44px;}
+#tsxv5-mvstudio .social-share a:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.35);}
+#tsxv5-mvstudio .whatsapp{background:#25D366;}
+#tsxv5-mvstudio .facebook{background:#1877F2;}
+#tsxv5-mvstudio .twitter{background:#0f1419;}
+#tsxv5-mvstudio .telegram{background:#0088cc;}
+
+#tsxv5-mvstudio .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(90px);opacity:0;background:rgba(18,18,26,.92);border:1px solid rgba(255,255,255,.08);padding:14px 26px;border-radius:14px;color:#ffffff;font-family:'Inter',sans-serif;font-size:13.5px;z-index:99999;box-shadow:0 20px 60px rgba(0,0,0,.55);max-width:92%;display:flex;align-items:center;gap:11px;pointer-events:none;transition:.45s cubic-bezier(.16,1,.3,1);}
+#tsxv5-mvstudio .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+#tsxv5-mvstudio .toast.success{border-color:rgba(34,197,94,.4);}
+#tsxv5-mvstudio .toast.error{border-color:rgba(255,46,99,.4);}
+#tsxv5-mvstudio .toast-icon-success{color:var(--ok);}
+#tsxv5-mvstudio .toast-icon-error{color:var(--err);}
+#tsxv5-mvstudio .toast-icon-info{color:#ff6b35;}
+
+#tsxv5-mvstudio .how-it-works,#tsxv5-mvstudio .faq-section{margin-top:28px;padding:26px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);}
+#tsxv5-mvstudio .how-it-works h2,#tsxv5-mvstudio .faq-section h2{font-size:21px;margin-bottom:18px;display:flex;align-items:center;gap:10px;font-family:'Sora',system-ui,sans-serif;color:var(--txt);}
+#tsxv5-mvstudio .section-icon{color:var(--acc);}
+#tsxv5-mvstudio .how-it-works h3{font-size:1.15rem;font-weight:600;color:var(--acc);margin:20px 0 10px;line-height:1.4;}
+#tsxv5-mvstudio .how-it-works p{font-size:14px;line-height:1.8;color:var(--txt2);margin-bottom:14px;}
+#tsxv5-mvstudio .how-it-works ol{padding-left:22px;color:var(--txt2);font-size:13.5px;line-height:2.1;}
+#tsxv5-mvstudio .how-it-works ul{padding-left:22px;color:var(--txt2);font-size:13.5px;line-height:2;margin:10px 0;}
+#tsxv5-mvstudio .how-it-works li{margin-bottom:8px;}
+#tsxv5-mvstudio .how-it-works li strong{color:var(--txt);}
+#tsxv5-mvstudio .tip{margin-top:16px;padding:14px 16px;background:rgba(255,107,53,.07);border-radius:10px;border:1px solid rgba(255,107,53,.15);color:var(--txt2);font-size:13px;line-height:1.7;}
+#tsxv5-mvstudio .tip strong{color:var(--acc);}
+
+#tsxv5-mvstudio .faq-item{margin-bottom:14px;padding:18px;background:var(--card2);border-radius:12px;border:1px solid var(--line);cursor:pointer;transition:all 0.2s;}
+#tsxv5-mvstudio .faq-item:hover{border-color:var(--acc);}
+#tsxv5-mvstudio .faq-item h3{font-weight:700;color:var(--txt);margin-bottom:10px;font-size:14px;line-height:1.4;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+#tsxv5-mvstudio .faq-item h3::after{content:'+';font-size:1.4rem;color:var(--acc);transition:transform 0.3s;flex-shrink:0;font-weight:300;}
+#tsxv5-mvstudio .faq-item.open h3::after{transform:rotate(45deg);}
+#tsxv5-mvstudio .faq-item p{color:var(--txt2);line-height:1.7;font-size:13px;margin-top:10px;display:none;}
+#tsxv5-mvstudio .faq-item.open p{display:block;}
+
+#tsxv5-mvstudio .related{max-width:1200px;margin:40px auto 0;padding:28px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);}
+#tsxv5-mvstudio .related-title{color:var(--acc);font-size:1.2rem;font-weight:700;margin-bottom:18px;text-transform:uppercase;letter-spacing:1px;font-family:'Sora',system-ui,sans-serif;}
+#tsxv5-mvstudio .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+#tsxv5-mvstudio .related-link{background:var(--card2);border:1px solid var(--line);padding:18px;text-decoration:none;transition:all 0.3s;display:flex;align-items:center;gap:12px;border-radius:12px;min-height:48px;}
+#tsxv5-mvstudio .related-link:hover{border-color:var(--acc);transform:translateY(-3px);}
+#tsxv5-mvstudio .related-icon{font-size:2rem;flex-shrink:0;}
+#tsxv5-mvstudio .related-link strong{color:var(--acc);display:block;font-size:0.95rem;margin-bottom:4px;}
+#tsxv5-mvstudio .related-link span{color:var(--txt2);font-size:0.82rem;line-height:1.5;}
+
+#tsxv5-mvstudio footer{text-align:center;padding:30px 16px 8px;color:var(--txt2);font-size:13px;border-top:1px solid var(--line);margin-top:30px;}
+#tsxv5-mvstudio footer .small{font-size:11.5px;opacity:.55;margin-top:6px;}
+
+@media(max-width:900px){#tsxv5-mvstudio .grid-2{grid-template-columns:1fr;}}
+@media(max-width:768px){
+#tsxv5-mvstudio .amvs{padding:12px 10px 30px;}
+#tsxv5-mvstudio .tool-card{padding:16px;}
+#tsxv5-mvstudio .tool-title{font-size:16px;}
+#tsxv5-mvstudio .tool-icon{width:42px;height:42px;font-size:17px;}
+#tsxv5-mvstudio .tool-badge{display:none;}
+#tsxv5-mvstudio .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}
+#tsxv5-mvstudio .video-time{min-width:70px;font-size:11px;}
+#tsxv5-mvstudio .how-it-works,#tsxv5-mvstudio .faq-section,#tsxv5-mvstudio .related{padding:20px 16px;}
+#tsxv5-mvstudio .related-grid{grid-template-columns:1fr;}
+}
+@media(prefers-reduced-motion:reduce){#tsxv5-mvstudio *,#tsxv5-mvstudio *::before,#tsxv5-mvstudio *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+</style>
+
+<div class="amvs">
+
+  <nav class="amvs-breadcrumb" aria-label="Breadcrumb">
+    <a href="https://www.toolsx.in">Home</a> › <a href="../index.html">Music Tools</a> › AI Music Video Studio
+  </nav>
+
+  <header class="amvs-header">
+    <h2 class="amvs-title">🎬 AI Music Video Studio</h2>
+    <p class="amvs-sub">Free Online AI Music Video Generator – Upload Song → Auto-Synced Lyrics → AI Scenes → HD 1080p Copyright-Free Video</p>
+    <div class="badge-row">
+      <span class="badge">● 100% Free</span>
+      <span class="badge">● No API Key</span>
+      <span class="badge">● Synced Lyrics</span>
+      <span class="badge">● No Copyright</span>
+      <span class="badge">● 1080p HD</span>
+      <span class="badge">● No Watermark</span>
+      <span class="badge">● <strong>Unlimited Duration</strong></span>
+    </div>
+  </header>
+
+  <p class="seo-intro">Create <strong>copyright-free AI music videos</strong> online in minutes. This <strong>free AI lyric video maker</strong> automatically extracts synced lyrics, generates unique AI scenes for every line, adds a live audio visualizer, and exports an <strong>HD 1080p video with no watermark</strong> — perfect for YouTube, Shorts, Reels and social media. <strong>No limit on song length — video is as long as your song.</strong> No signup, no API key, no editing skills needed.</p>
+
+  <section class="features" aria-label="Features">
+    <div class="feature"><span class="feature-icon">⚡</span><h3>4x Turbo Rendering</h3><p>Parallel AI image generation for fast video creation</p></div>
+    <div class="feature"><span class="feature-icon">🎤</span><h3>Auto Synced Lyrics</h3><p>Real-time LRC lyrics with karaoke highlighting</p></div>
+    <div class="feature"><span class="feature-icon">🎬</span><h3>1080p HD Export</h3><p>Crisp WebM download with audio, no watermark</p></div>
+    <div class="feature"><span class="feature-icon">©️</span><h3>Copyright Free</h3><p>CC0 AI visuals via Pollinations — safe to monetize</p></div>
+    <div class="feature"><span class="feature-icon">📊</span><h3>Live Visualizer</h3><p>Real-time audio spectrum bars rendered in video</p></div>
+    <div class="feature"><span class="feature-icon">∞</span><h3>Unlimited Duration</h3><p>Video length matches your song — no cap</p></div>
+  </section>
+
+  <div class="tool-card">
+    <div class="tool-header">
+      <div class="tool-icon">🎬</div>
+      <div>
+        <div class="tool-title">AI Music Video Generator</div>
+        <div class="tool-sub">Upload audio → auto lyrics → AI scenes → HD video (full song length)</div>
+      </div>
+      <span class="tool-badge">⚡ Unlimited Duration</span>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="form-group">
+          <label class="form-label" for="tsxv5-songUpload"><span class="form-label-icon">🎵</span> Upload Song</label>
+          <div class="upload-zone" id="tsxv5-uploadZone">
+            <span class="upload-zone-icon">☁️</span>
+            <p>Drop audio file or <span style="color:#ff6b35;font-weight:700">browse</span></p>
+            <small>MP3, WAV, M4A, FLAC • Processed locally (private) • <strong>Any length</strong> • Max 50MB</small>
+            <input accept=".mp3,.wav,.m4a,.flac,.ogg,.aac,audio/mpeg,audio/wav,audio/mp4,audio/flac,audio/ogg,audio/aac" id="tsxv5-songUpload" type="file" aria-label="Upload song">
+          </div>
+          <div class="audio-info hidden" id="tsxv5-audioInfo">
+            <span class="audio-info-icon">✅</span>
+            <span id="tsxv5-audioFileName"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label"><span class="form-label-icon">✨</span> Auto Extract Lyrics</label>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <input class="form-input" id="tsxv5-artistInput" placeholder="Artist (e.g. Ed Sheeran)" style="flex:1;min-width:110px" maxlength="80">
+            <input class="form-input" id="tsxv5-titleInput" placeholder="Song Title (e.g. Perfect)" style="flex:1;min-width:110px" maxlength="120">
+            <button type="button" class="btn-primary" id="tsxv5-extractLyricsBtn" style="flex:0 0 auto;width:auto;padding:10px 20px;font-size:13.5px">🔍 Get Lyrics</button>
+          </div>
+          <div id="tsxv5-lyricsSourceBadge" style="display:none;margin-top:8px"></div>
+          <p style="color:#9c9cb0;font-size:11px;margin-top:6px">ℹ️ LRCLIB (synced) + lyrics.ovh fallback. If not found, AI generates mood-based lyrics. <strong>No limit — as many lines as scenes.</strong></p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label"><span class="form-label-icon">📜</span> Lyrics <span id="tsxv5-lyricCount" style="text-transform:none;font-weight:400">(0 lines)</span></label>
+          <div class="lyrics-box" id="tsxv5-lyricsContainer">
+            <div style="color:#9c9cb0;font-size:13px;padding:22px 0;text-align:center">
+              <span style="display:block;font-size:26px;margin-bottom:10px;opacity:.3">🎵</span>
+              Upload song &amp; click "Get Lyrics"
+            </div>
+          </div>
+          <textarea class="form-textarea" id="tsxv5-lyricsInput" placeholder="Or paste lyrics manually... (one line = one scene)" style="margin-top:8px;min-height:60px" maxlength="10000"></textarea>
+          <div class="action-row">
+            <button type="button" class="btn-secondary" id="tsxv5-applyLyricsBtn">✓ Apply</button>
+            <button type="button" class="btn-secondary" id="tsxv5-clearLyricsBtn">✕ Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-group">
+          <label class="form-label"><span class="form-label-icon">🎛️</span> Video Settings</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div><label class="mini-label" for="tsxv5-transitionType">Transition</label>
+              <select class="form-select" id="tsxv5-transitionType">
+                <option value="fade">Fade</option><option value="vertical">Vertical Slide</option>
+                <option value="horizontal">Horizontal Slide</option><option value="zoom">Zoom</option>
+                <option value="kenburns">Ken Burns</option><option value="random" selected>🎲 Auto Mix</option>
+              </select></div>
+            <div><label class="mini-label" for="tsxv5-imageStyle">Image Style</label>
+              <select class="form-select" id="tsxv5-imageStyle">
+                <option value="cinematic">Cinematic</option><option value="realistic">Realistic Photo</option>
+                <option value="anime">Anime Art</option><option value="neon">Neon Cyberpunk</option>
+                <option value="watercolor">Watercolor</option><option value="abstract">Abstract Art</option>
+              </select></div>
+            <div><label class="mini-label" for="tsxv5-videoQuality">Quality</label>
+              <select class="form-select" id="tsxv5-videoQuality"><option value="720">HD 720p (Fast)</option><option value="1080" selected>Full HD 1080p</option></select></div>
+            <div><label class="mini-label" for="tsxv5-sceneDuration">Scene Duration</label>
+              <select class="form-select" id="tsxv5-sceneDuration"><option value="2.5">2.5s (Dynamic)</option><option value="3.5" selected>3.5s (Balanced)</option><option value="5">5s (Chill)</option></select></div>
+          </div>
+          <p style="color:#9c9cb0;font-size:11px;margin-top:7px">ℹ️ Images: Pollinations AI (CC0, free, no copyright). <strong>Video length = song length — unlimited.</strong></p>
+        </div>
+
+        <button type="button" class="btn-primary" id="tsxv5-generateBtn"><span style="display:flex;align-items:center;gap:10px">🎬 Generate AI Music Video</span></button>
+
+        <div class="progress-section" id="tsxv5-progressSection">
+          <div class="progress-bar"><div class="progress-fill" id="tsxv5-progressFill"></div></div>
+          <div class="progress-text"><span id="tsxv5-progressLabel">Initializing...</span><span class="pct" id="tsxv5-progressPct">0%</span></div>
+          <div class="current-preview" id="tsxv5-currentPreview"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hidden" id="tsxv5-gallerySection">
+    <div class="tool-card">
+      <div class="tool-header">
+        <div class="tool-icon">🖼️</div>
+        <div><div class="tool-title">Generated Scenes <span id="tsxv5-sceneCount" style="color:#9c9cb0;font-size:13px;font-weight:400"></span></div>
+        <div class="tool-sub">Unique copyright-free AI image for every lyric line</div></div>
+      </div>
+      <div class="gallery-grid" id="tsxv5-galleryGrid"></div>
+    </div>
+  </div>
+
+  <div class="hidden" id="tsxv5-videoSection">
+    <div class="tool-card" style="overflow:hidden;padding:0">
+      <div class="video-wrapper" id="tsxv5-videoWrapper">
+        <canvas id="tsxv5-videoCanvas" width="1280" height="720"></canvas>
+        <div class="video-controls">
+          <button type="button" class="primary-btn" id="tsxv5-playBtn">▶ Play</button>
+          <button type="button" id="tsxv5-downloadBtn">⬇ Record &amp; Download</button>
+          <button type="button" id="tsxv5-fullscreenBtn" title="Fullscreen (F)">⛶</button>
+          <span class="rec-badge" id="tsxv5-recBadge"><span class="rec-badge-dot">●</span> REC</span>
+          <div class="video-timeline" id="tsxv5-timeline"><div class="fill" id="tsxv5-timelineFill"></div></div>
+          <span class="video-time" id="tsxv5-timeDisplay">0:00 / 0:00</span>
+        </div>
+      </div>
+      <div style="padding:16px">
+        <div class="stats-row" id="tsxv5-statsRow"></div>
+        <div class="social-share" style="margin-top:14px">
+          <a class="whatsapp" id="tsxv5-shareWhatsapp" target="_blank" rel="noopener noreferrer">📱 WhatsApp</a>
+          <a class="facebook" id="tsxv5-shareFacebook" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
+          <a class="twitter" id="tsxv5-shareTwitter" target="_blank" rel="noopener noreferrer">🐦 Twitter</a>
+          <a class="telegram" id="tsxv5-shareTelegram" target="_blank" rel="noopener noreferrer">✈️ Telegram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hidden" id="tsxv5-metadataSection">
+    <div class="tool-card">
+      <div class="tool-header">
+        <div class="tool-icon">🏷️</div>
+        <div><div class="tool-title">SEO Metadata Generator</div>
+        <div class="tool-sub">YouTube-ready title, description, tags &amp; hashtags (LLM/SEO optimized)</div></div>
+        <span class="tool-badge">Auto</span>
+      </div>
+      <div class="grid-2" style="gap:12px">
+        <input class="form-input" id="tsxv5-videoTitle" placeholder="Video Title" style="grid-column:1/-1" maxlength="120">
+        <input class="form-input" id="tsxv5-videoTags" placeholder="Tags (comma separated)" style="grid-column:1/-1" maxlength="500">
+        <textarea class="form-textarea" id="tsxv5-videoDescription" placeholder="Video Description" style="grid-column:1/-1" maxlength="2000"></textarea>
+      </div>
+      <div class="action-row">
+        <button type="button" class="btn-secondary" id="tsxv5-copyTitleBtn">📋 Copy Title</button>
+        <button type="button" class="btn-secondary" id="tsxv5-copyDescBtn">📋 Copy Description</button>
+        <button type="button" class="btn-secondary" id="tsxv5-copyTagsBtn">📋 Copy Tags</button>
+        <button type="button" class="btn-secondary" id="tsxv5-exportMetaBtn">📤 Export JSON</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="how-it-works">
+    <h2><span class="section-icon">💡</span> How This AI Music Video Studio Works</h2>
+    
+    <p><strong>Tools-X AI Music Video Studio</strong> is a revolutionary free tool that converts your uploaded song into a professional lyric video — completely automatic! This tool is specially designed for content creators, musicians, and YouTubers who want to create copyright-free, high-quality music videos without any editing skills. The best part is that the video length matches your song exactly — no limits, no cutoffs.</p>
+
+    <h3>AI Technology: Pollinations Engine + LRCLIB</h3>
+    <p>The tool has two powerful backends. <strong>Pollinations AI</strong> is an open-source, free AI image generation platform that uses cutting-edge diffusion models — it generates images with CC0 (Creative Commons Zero) license, meaning you can use them commercially, monetize on YouTube. <strong>LRCLIB API</strong> fetches synced lyrics — it is connected to official lyrics databases, so you get accurate time-synced LRC format lyrics.</p>
+
+    <h3>Step-by-Step: How Music Video Is Created</h3>
+    <ol>
+      <li><strong>Upload Song:</strong> Upload MP3/WAV/M4A/FLAC file — no length limit (100% local &amp; private).</li>
+      <li><strong>Auto Lyrics:</strong> Enter Artist + Title and click "Get Lyrics" — synced LRC lyrics are fetched, otherwise AI generates mood-based lyrics. As many lines as scenes.</li>
+      <li><strong>Settings:</strong> Choose Transition (Auto Mix recommended), Image Style, Quality (720p/1080p) and Scene Duration.</li>
+      <li><strong>Generate:</strong> Turbo parallel rendering creates unique copyright-free AI scene for each line — entire song is covered.</li>
+      <li><strong>Play &amp; Record:</strong> Play video (with visualizer + karaoke lyrics), then save HD WebM via "Record &amp; Download" — video length = song length.</li>
+      <li><strong>SEO &amp; Share:</strong> Copy auto-generated title/description/tags, export JSON, and share on social media.</li>
+    </ol>
+
+    <h3>4x Turbo Rendering &amp; Transitions</h3>
+    <p>4x parallel processing is used — 4 scenes generate simultaneously, reducing rendering time by 75%. If any Pollinations request fails, the Flux model is automatically tried, and if that also fails, a beautiful gradient-based fallback scene is generated. Transition options include Fade, Vertical Slide, Horizontal Slide, Zoom, Ken Burns, and Auto Mix — Auto Mix gives the most dynamic result as it randomly applies different transitions to each scene.</p>
+
+    <h3>Live Audio Visualizer &amp; Karaoke Lyrics</h3>
+    <p>Real-time audio spectrum bars are added to the video — using Web Audio API, the song's frequency data is analyzed and 56 animated bars are rendered that move with the music beats. Karaoke-style lyrics display the current lyric line at the bottom of each scene — with bold typography, shadow effects, and smooth fade-in animation. If LRC synced lyrics are available, lyrics change at exact timing, otherwise fixed scene duration is used.</p>
+
+    <h3>Privacy &amp; Security</h3>
+    <p>This tool does not collect any personal data. Your uploaded song is processed only in your browser — Web Audio API analyzes audio locally, nothing is uploaded to any server. Only text prompts are sent to Pollinations AI, no audio data. The generated video downloads directly to your device — no cloud storage. File validation (magic bytes + 50MB size limit) ensures only valid audio files are processed.</p>
+
+    <div class="tip"><strong>💡 Pro Tip:</strong> Transition "Auto Mix" + Scene Duration "3.5s" gives best results. Keyboard shortcuts: <strong>Space</strong> = Play/Pause, <strong>F</strong> = Fullscreen, <strong>M</strong> = Mute. Use Chrome or Edge browser for best performance.</div>
+  </section>
+
+  <section class="faq-section">
+    <h2><span class="section-icon">❓</span> Frequently Asked Questions (FAQ)</h2>
+    
+    <div class="faq-item"><h3>Is this AI music video generator really free?</h3><p>Yes, completely free. No hidden charges, no premium version, no credit system, no signup, no API key. You can generate and download unlimited videos — for personal or commercial use.</p></div>
+    <div class="faq-item"><h3>Are generated videos copyright-free?</h3><p>All visuals are AI-generated from Pollinations AI (CC0 / royalty-free), so you can safely upload to YouTube and social media and monetize. But you should upload your own or royalty-free music.</p></div>
+    <div class="faq-item"><h3>How long does video generation take?</h3><p>4x parallel turbo rendering is used, so 12 scenes typically render within one minute. Selecting 720p quality gives even faster results.</p></div>
+    <div class="faq-item"><h3>What format is the video downloaded in?</h3><p>In WebM format (VP9/VP8 codec + Opus audio) — with your song, visualizer, and burned-in lyrics via real-time recording. Uploads directly to YouTube, WhatsApp, Telegram.</p></div>
+    <div class="faq-item"><h3>Is my audio file uploaded anywhere?</h3><p>No, absolutely not. Your audio file is processed only in your browser through Web Audio API. Nothing is uploaded to any server, no cloud storage. Complete privacy.</p></div>
+    <div class="faq-item"><h3>Is there any song length limit?</h3><p>No! Video length automatically matches your song length. As long as the song, as long the video — no cap.</p></div>
+    <div class="faq-item"><h3>What if lyrics cannot be fetched?</h3><p>If both LRCLIB and lyrics.ovh APIs fail, AI automatically generates mood-based lyrics — themed according to song title. You can also paste lyrics manually.</p></div>
+    <div class="faq-item"><h3>Will it work on mobile?</h3><p>Yes, fully responsive — works perfectly on mobile, tablet, desktop. But Chrome, Edge, or Firefox are recommended for video recording. Connect phone to charger — recording consumes battery.</p></div>
+  </section>
+
+  <footer>
+    <p>⚡ Powered by Pollinations AI • LRCLIB • Web Audio API</p>
+    <p class="small">Free AI Music Video Generator Online | Made for Creators • Unlimited Duration</p>
+    <p style="font-size:0.75rem;opacity:0.7;margin-top:8px;">Powered by <strong>Tools-X</strong> · toolsx.in</p>
+  </footer>
+</div>
+
+<aside class="related" aria-label="Related Tools-X Tools">
+  <h2 class="related-title">🎬 Try Next — More Creative Tools</h2>
+  <div class="related-grid">
+    <a href="../tools/render-karein-audio-visualizer-waveform.html" rel="noopener noreferrer" title="Audio Visualizer Studio" class="related-link">
+      <span class="related-icon">🎵</span>
+      <div><strong>Audio Visualizer Studio</strong><span>Waveform videos with real audio — 6 visual styles, WebM recording</span></div>
+    </a>
+    <a href="../tools/ringtone-maker-15-music-styles-voice.html" rel="noopener noreferrer" title="Name Ringtone Maker" class="related-link">
+      <span class="related-icon">🔔</span>
+      <div><strong>Name Ringtone Maker</strong><span>Custom ringtone with 15 music styles + voice announcement</span></div>
+    </a>
+    <a href="../tools/ai-lab-analog-tape-deck-studio-ai-music.html" rel="noopener noreferrer" title="Analog Tape Deck Studio" class="related-link">
+      <span class="related-icon">🎛️</span>
+      <div><strong>Analog Tape Deck Studio</strong><span>Professional music composition with Suno/Udio prompt generation</span></div>
+    </a>
+  </div>
+</aside>
+
+<div class="toast" id="tsxv5-toast" role="status"><span id="tsxv5-toastIcon">ℹ️</span><span id="tsxv5-toastMsg">Done!</span></div>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+var W=document.getElementById('tsxv5-mvstudio');
+if(!W)return;
+
+var $=function(id){return document.getElementById(id);};
+var clamp=function(v,a,b){return Math.max(a,Math.min(b,v));};
+var smooth=function(t){return t*t*(3-2*t);};
+var fmtTime=function(t){t=Math.max(0,t||0);var m=Math.floor(t/60),s=Math.floor(t%60);return m+':'+String(s).padStart(2,'0');};
+function escapeHtml(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+function sanitizeFilename(name){return String(name||'ai-music-video').replace(/[^\w\- ]+/g,'').trim().replace(/\s+/g,'-').substring(0,80)||'ai-music-video';}
+
+var MAX_AUDIO_MB=50;
+
+function isValidAudioFile(file){
+  if(!file)return false;
+  var ext=(file.name.split('.').pop()||'').toLowerCase();
+  var validExts=['mp3','wav','m4a','flac','ogg','aac'];
+  var validMimes=['audio/mpeg','audio/wav','audio/wave','audio/mp4','audio/flac','audio/ogg','audio/aac','audio/x-m4a'];
+  if(validExts.indexOf(ext)!==-1)return true;
+  if(validMimes.indexOf(file.type)!==-1)return true;
+  if(file.type&&file.type.indexOf('audio/')===0)return true;
+  return false;
+}
+
+function verifyAudioSignature(file){
+  return new Promise(function(resolve){
+    if(!file.slice){resolve(true);return;}
+    var blob=file.slice(0,16);
+    var reader=new FileReader();
+    reader.onload=function(e){
+      var b=new Uint8Array(e.target.result);
+      if(b.length<4){resolve(true);return;}
+      if(b[0]===0x49&&b[1]===0x44&&b[2]===0x33){resolve(true);return;}
+      if(b[0]===0xFF&&(b[1]&0xE0)===0xE0){resolve(true);return;}
+      if(b[0]===0xFF&&b[1]===0xFB){resolve(true);return;}
+      if(b[0]===0xFF&&b[1]===0xF3){resolve(true);return;}
+      if(b[0]===0xFF&&b[1]===0xF2){resolve(true);return;}
+      if(b.length>=12&&b[0]===0x52&&b[1]===0x49&&b[2]===0x46&&b[3]===0x46){resolve(true);return;}
+      if(b.length>=4&&b[0]===0x66&&b[1]===0x4C&&b[2]===0x61&&b[3]===0x43){resolve(true);return;}
+      if(b.length>=4&&b[0]===0x4F&&b[1]===0x67&&b[2]===0x67&&b[3]===0x53){resolve(true);return;}
+      if(b.length>=8&&b[4]===0x66&&b[5]===0x74&&b[6]===0x79&&b[7]===0x70){resolve(true);return;}
+      resolve(true);
+    };
+    reader.onerror=function(){resolve(true);};
+    reader.readAsArrayBuffer(blob);
+  });
+}
+
+var songUpload=$('tsxv5-songUpload'),uploadZone=$('tsxv5-uploadZone'),audioInfo=$('tsxv5-audioInfo'),audioFileName=$('tsxv5-audioFileName');
+var artistInput=$('tsxv5-artistInput'),titleInput=$('tsxv5-titleInput'),extractLyricsBtn=$('tsxv5-extractLyricsBtn');
+var lyricsInput=$('tsxv5-lyricsInput'),lyricsContainer=$('tsxv5-lyricsContainer'),lyricCount=$('tsxv5-lyricCount'),lyricsSourceBadge=$('tsxv5-lyricsSourceBadge');
+var applyLyricsBtn=$('tsxv5-applyLyricsBtn'),clearLyricsBtn=$('tsxv5-clearLyricsBtn');
+var transition_select=$('tsxv5-transitionType'),styleSelect=$('tsxv5-imageStyle'),qualitySelect=$('tsxv5-videoQuality'),sceneDurSelect=$('tsxv5-sceneDuration');
+var generateBtn=$('tsxv5-generateBtn'),progressSection=$('tsxv5-progressSection'),progressFill=$('tsxv5-progressFill'),progressLabel=$('tsxv5-progressLabel'),progressPct=$('tsxv5-progressPct'),currentPreview=$('tsxv5-currentPreview');
+var gallerySection=$('tsxv5-gallerySection'),galleryGrid=$('tsxv5-galleryGrid'),sceneCount=$('tsxv5-sceneCount'),statsRow=$('tsxv5-statsRow');
+var videoSection=$('tsxv5-videoSection'),videoWrapper=$('tsxv5-videoWrapper'),canvas=$('tsxv5-videoCanvas'),ctx=canvas.getContext('2d');
+var playBtn=$('tsxv5-playBtn'),downloadBtn=$('tsxv5-downloadBtn'),fullscreenBtn=$('tsxv5-fullscreenBtn'),recBadge=$('tsxv5-recBadge');
+var timeline=$('tsxv5-timeline'),timelineFill=$('tsxv5-timelineFill'),timeDisplay=$('tsxv5-timeDisplay');
+var metadataSection=$('tsxv5-metadataSection'),videoTitle=$('tsxv5-videoTitle'),videoTags=$('tsxv5-videoTags'),videoDescription=$('tsxv5-videoDescription');
+var exportMetaBtn=$('tsxv5-exportMetaBtn'),copyTitleBtn=$('tsxv5-copyTitleBtn'),copyDescBtn=$('tsxv5-copyDescBtn'),copyTagsBtn=$('tsxv5-copyTagsBtn');
+var shareW=$('tsxv5-shareWhatsapp'),shareF=$('tsxv5-shareFacebook'),shareT=$('tsxv5-shareTwitter'),shareTg=$('tsxv5-shareTelegram');
+var toastEl=$('tsxv5-toast'),toastMsg=$('tsxv5-toastMsg'),toastIcon=$('tsxv5-toastIcon');
+
+var songFile=null,audioURL=null,videoAudio=null,audioDuration=0;
+var audioCtx=null,srcNode=null,analyser=null,gainNode=null,streamDest=null,freqData=null,muted=false;
+var lyricsData=[],lyricsSource='manual',scenes=[],scenesEnd=0;
+var isGenerating=false,isPlaying=false,recording=false,recCancelled=false;
+var currentTime=0,totalDuration=0,rafId=null,playStamp=0,lastHl=-1;
+var mediaRecorder=null,recChunks=[];
+
+var toastTimer=null;
+function showToast(msg,type){
+  type=type||'info';
+  toastMsg.textContent=msg;
+  toastEl.className='toast show '+(type||'');
+  toastIcon.className=type==='success'?'toast-icon-success':type==='error'?'toast-icon-error':'toast-icon-info';
+  toastIcon.textContent=type==='success'?'✅':type==='error'?'❌':'ℹ️';
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){toastEl.classList.remove('show');},3500);
+}
+
+function updateCanvasSize(){
+  if(qualitySelect.value==='1080'){canvas.width=1920;canvas.height=1080;}else{canvas.width=1280;canvas.height=720;}
+  ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height);
+  if(scenes.length)drawFrame(currentTime);
+}
+
+function parseLRC(lrc){
+  var out=[],re=/\[(\d{1,2}):(\d{1,2})(?:[.:](\d{1,3}))?\]/g,lines=lrc.split('\n');
+  lines.forEach(function(raw){
+    var times=[],m,text;re.lastIndex=0;
+    while((m=re.exec(raw))){var ms=String(m[3]||'0');ms=(ms+'00').slice(0,3);times.push(+m[1]*60+ +m[2]+ +ms/1000);}
+    text=raw.replace(re,'').trim();
+    if(text&&times.length)times.forEach(function(t){out.push({t:t,text:text});});
+  });
+  out.sort(function(a,b){return a.t-b.t;});
+  return out.length?out:null;
+}
+function cleanLines(arr){
+  return arr.filter(function(l){var t=(l.text||l).trim();return t.length>1&&!/^[\[(]/.test(t)&&!/:$/.test(t)&&t.length<120;}).map(function(l){return typeof l==='string'?{t:null,text:l.trim()}:{t:l.t,text:l.text.trim()};});
+}
+
+async function fetchLRCLIB(a,t){
+  try{
+    var r=await fetch('https://lrclib.net/api/get?artist_name='+encodeURIComponent(a)+'&track_name='+encodeURIComponent(t));
+    if(!r.ok)return null;var d=await r.json();
+    if(d.syncedLyrics){var p=parseLRC(d.syncedLyrics);if(p)return cleanLines(p);}
+    if(d.plainLyrics)return cleanLines(d.plainLyrics.split('\n').map(function(x){return{t:null,text:x};}));
+    return null;
+  }catch(e){return null;}
+}
+async function fetchOVH(a,t){
+  try{
+    var r=await fetch('https://api.lyrics.ovh/v1/'+encodeURIComponent(a)+'/'+encodeURIComponent(t));
+    if(!r.ok)return null;var d=await r.json();
+    if(d.lyrics)return cleanLines(d.lyrics.split('\n').map(function(x){return{t:null,text:x};}));
+    return null;
+  }catch(e){return null;}
+}
+
+function detectMood(s){
+  s=s.toLowerCase();
+  if(/(sad|cry|tear|broken|alone|hurt|pain|goodbye|miss)/.test(s))return'sad';
+  if(/(happy|smile|dance|party|fun|joy|celebrate|sunshine)/.test(s))return'happy';
+  if(/(fight|win|strong|power|rise|champion|hero|warrior)/.test(s))return'motivation';
+  if(/(chill|relax|peace|calm|dream|sleep|ocean|sky)/.test(s))return'chill';
+  return'love';
+}
+function generateAILyrics(artist,title){
+  var T={
+    love:[title+' in my heart','Every beat reminds me of you','Lost in your eyes tonight','Forever starts right here','You are my everything','Dancing in the moonlight','My heart beats for you alone','Together we are unstoppable','Love like never before','You complete my soul','In your arms I found home','Our love story begins now'],
+    sad:['Tears fall like rain tonight','Memories fade away','Broken pieces of my heart','Wish you were here with me','The silence speaks so loud','Fading into the dark','Holding on to yesterday','Empty rooms and empty dreams','Goodbye is never easy','Healing takes its time','Shadows of what we were','Rain washes away the pain'],
+    happy:['Feel the rhythm in your soul','Dancing like nobody is watching','Sunshine in my pocket','Living my best life now','Smile and let it go','Party all night long','Good vibes only here','Shine brighter than the stars','This moment is everything','Joy is in the air','Life is beautiful today','Happiness is contagious'],
+    motivation:['Rise up and never fall','Chase your dreams tonight','Stronger than before','Break the chains and fly','Unstoppable force of nature','Fight for what you believe','Victory is calling my name','No limits no boundaries','Power runs through my veins','Legends never die','Believe in yourself always','The future starts today'],
+    chill:['Breathe and let it flow','Waves crashing on the shore','Peace within the storm','Drifting through the clouds','Sunset paints the sky','Gentle breeze on my skin','Time stands still right now','Serenity in every note','Floating on a dream','Calm before the dawn','Nature sings its song','Tranquility in my heart']
+  };
+  var list=T[detectMood(title)].slice();
+  if(artist)list.unshift(artist+' brings the magic');
+  list.unshift(title+' - this is our anthem');
+  return list.slice(0,80).map(function(x){return{t:null,text:x};});
+}
+
+async function autoExtractLyrics(){
+  var artist=artistInput.value.trim(),title=titleInput.value.trim();
+  if(!title){showToast('Please enter Song Title!','error');return;}
+  extractLyricsBtn.disabled=true;extractLyricsBtn.innerHTML='⏳ Fetching...';
+  lyricsSourceBadge.style.display='none';
+  try{
+    var lyrics=await fetchLRCLIB(artist,title);
+    if(lyrics&&lyrics.length)lyricsSource='api';
+    else{lyrics=await fetchOVH(artist,title);if(lyrics&&lyrics.length)lyricsSource='api';}
+    if(!lyrics||!lyrics.length){lyrics=generateAILyrics(artist,title);lyricsSource='ai';}
+    lyricsData=lyrics;
+    lyricsInput.value=lyrics.map(function(l){return l.text;}).join('\n');
+    renderLyrics();updateSourceBadge();
+    showToast(lyrics[0].t!=null?'✅ '+lyrics.length+' synced lyrics loaded!':'✅ '+lyrics.length+' lyrics loaded!','success');
+  }catch(e){showToast('Error fetching lyrics.','error');}
+  finally{extractLyricsBtn.disabled=false;extractLyricsBtn.innerHTML='🔍 Get Lyrics';}
+}
+function updateSourceBadge(){
+  var b=lyricsSourceBadge;b.style.display='inline-flex';b.style.cssText+=';padding:3px 13px;border-radius:20px;font-size:11px;font-weight:700;align-items:center;gap:6px';
+  if(lyricsSource==='api'){b.style.background='rgba(34,197,94,.15)';b.style.color='#22c55e';b.innerHTML='✅ Real Lyrics (API)'+(lyricsData[0]&&lyricsData[0].t!=null?' • ⏱ Synced':'');}
+  else if(lyricsSource==='ai'){b.style.background='rgba(124,58,237,.15)';b.style.color='#a78bfa';b.innerHTML='🤖 AI Generated Lyrics';}
+  else{b.style.background='rgba(255,255,255,.06)';b.style.color='#9c9cb0';b.innerHTML='✋ Manual Lyrics';}
+}
+
+function renderLyrics(){
+  lyricCount.textContent='('+lyricsData.length+' lines)';lastHl=-1;
+  if(!lyricsData.length){lyricsContainer.innerHTML='<div style="color:#9c9cb0;font-size:13px;padding:22px 0;text-align:center"><span style="display:block;font-size:26px;margin-bottom:10px;opacity:.3">🎵</span>Upload song & click "Get Lyrics"</div>';return;}
+  var html='';
+  lyricsData.forEach(function(l,i){
+    html+='<div class="lyric-line" id="tsxv5-line-'+i+'"><span class="num">'+(i+1)+'</span><span class="txt">'+escapeHtml(l.text)+'</span><span class="st" id="tsxv5-st-'+i+'">Pending</span></div>';
+  });
+  lyricsContainer.innerHTML=html;
+}
+function setLineStatus(i,state){
+  var el=$('tsxv5-st-'+i),row=$('tsxv5-line-'+i);if(!el)return;
+  if(state==='gen'){el.textContent='⚡ Rendering';el.style.background='rgba(255,107,53,.15)';el.style.color='#ff6b35';if(row)row.style.borderLeftColor='#ff6b35';}
+  else if(state==='done'){el.textContent='✅ Done';el.style.background='rgba(34,197,94,.15)';el.style.color='#22c55e';if(row)row.style.borderLeftColor='#22c55e';}
+  else if(state==='err'){el.textContent='❌ Retry';el.style.background='rgba(255,46,99,.15)';el.style.color='#ff2e63';if(row)row.style.borderLeftColor='#ff2e63';}
+}
+
+async function generateImageForLine(text,index,style){
+  var styleMap={
+    cinematic:'cinematic movie scene, dramatic lighting, film grain, professional cinematography, high detail, 8k, masterpiece, ',
+    realistic:'photorealistic, highly detailed, professional photography, natural light, sharp focus, DSLR quality, ',
+    anime:'anime style illustration, vibrant colors, studio ghibli inspired, beautiful anime art, high quality, ',
+    neon:'cyberpunk neon style, glowing lights, futuristic city, synthwave, neon colors, vibrant, ',
+    watercolor:'watercolor painting, soft colors, artistic illustration, beautiful brushstrokes, ',
+    abstract:'abstract digital art, colorful composition, modern art, geometric shapes, vibrant, '
+  };
+  var clean=text.replace(/\b(bus|taxi|car|cars|vehicle|vehicles|transport)\b/gi,'').trim()||text;
+  var basePrompt=(styleMap[style]||styleMap.cinematic)+clean+', beautiful composition, 16:9 aspect ratio, masterpiece, high quality, no text, no watermark, no logo, no letters';
+  var prompt=encodeURIComponent(basePrompt);
+  var seed=1000+index*13+Math.floor(Math.random()*100);
+  
+  var models=['flux','turbo','flux-realism'];
+  for(var m=0;m<models.length;m++){
+    try{
+      var url='https://image.pollinations.ai/prompt/'+prompt+'?width=1280&height=720&nologo=true&seed='+seed+'&model='+models[m]+'&enhance=true';
+      var response=await fetch(url,{mode:'cors'});
+      if(!response.ok)continue;
+      var blob=await response.blob();
+      if(!blob.type.startsWith('image'))continue;
+      var objUrl=URL.createObjectURL(blob);
+      var img=await new Promise(function(res,rej){
+        var im=new Image();
+        im.crossOrigin='anonymous';
+        im.onload=function(){res({img:im,url:objUrl});};
+        im.onerror=function(){URL.revokeObjectURL(objUrl);rej(new Error('decode'));};
+        im.src=objUrl;
+      });
+      if(img.img.width>100&&img.img.height>100){
+        return img;
+      }
+    }catch(e){continue;}
+  }
+  return await makeFallbackScene(text,index);
+}
+
+async function makeFallbackScene(text,i){
+  var c=document.createElement('canvas');c.width=1280;c.height=720;var x=c.getContext('2d');
+  var hue=(i*47+200)%360;
+  var g=x.createLinearGradient(0,0,1280,720);g.addColorStop(0,'hsl('+hue+',60%,18%)');g.addColorStop(1,'hsl('+((hue+80)%360)+',70%,8%)');
+  x.fillStyle=g;x.fillRect(0,0,1280,720);
+  for(var k=0;k<7;k++){x.beginPath();x.arc((k*197+i*53)%1280,(k*131+i*97)%720,50+((k*67)%120),0,7);x.fillStyle='hsla('+((hue+k*30)%360)+',80%,55%,0.09)';x.fill();}
+  x.fillStyle='#fff';x.font='700 34px Inter,sans-serif';x.textAlign='center';x.textBaseline='middle';
+  var words=text.split(/\s+/),wrap='',y=340;
+  words.forEach(function(w){var t=wrap?wrap+' '+w:w;if(x.measureText(t).width>950&&wrap){x.fillText(wrap,640,y);y+=46;wrap=w;}else wrap=t;});
+  if(wrap)x.fillText(wrap,640,y);
+  x.font='500 16px Inter,sans-serif';x.fillStyle='rgba(255,255,255,.35)';x.fillText('Scene '+(i+1)+' • Tools-X AI Music Video Studio',640,y+56);
+  var img=new Image();
+  await new Promise(function(res){img.onload=res;img.src=c.toDataURL('image/png');});
+  return{img:img,url:img.src};
+}
+
+async function runPool(total,worker,concurrency){
+  var i=0;
+  async function next(){while(i<total){var idx=i++;await worker(idx);}}
+  var arr=[];for(var n=0;n<Math.min(concurrency,total);n++)arr.push(next());
+  await Promise.all(arr);
+}
+
+function clearScenes(){scenes.forEach(function(s){if(s.url&&s.url.indexOf('blob:')===0)URL.revokeObjectURL(s.url);});scenes=[];}
+function updateProgress(pct,label){progressFill.style.width=pct+'%';progressPct.textContent=Math.round(pct)+'%';if(label)progressLabel.textContent=label;}
+
+async function startGeneration(){
+  if(isGenerating)return;
+  if(!songFile){showToast('Please upload a song first!','error');return;}
+  if(!lyricsData.length){showToast('Load lyrics – click "Get Lyrics" or paste manually.','error');return;}
+  isGenerating=true;generateBtn.disabled=true;
+  generateBtn.innerHTML='<span style="display:flex;align-items:center;gap:10px">⏳ Turbo Rendering...</span>';
+  progressSection.classList.add('visible');
+  gallerySection.classList.add('hidden');videoSection.classList.add('hidden');metadataSection.classList.add('hidden');
+  if(isPlaying)pause();
+  clearScenes();updateCanvasSize();
+  var style=styleSelect.value,total=lyricsData.length,done=0;
+  scenes=new Array(total);
+  updateProgress(2,'Starting parallel rendering (4x)...');
+  
+  await runPool(total,async function(i){
+    setLineStatus(i,'gen');
+    try{
+      var r=await generateImageForLine(lyricsData[i].text,i,style);
+      scenes[i]={img:r.img,url:r.url,text:lyricsData[i].text,start:0,dur:0};
+      setLineStatus(i,'done');
+      currentPreview.innerHTML='<img src="'+r.url+'" alt="Scene '+(i+1)+'">';
+    }catch(e){setLineStatus(i,'err');}
+    done++;updateProgress(4+(done/total)*86,'Rendering scene '+done+'/'+total+' (parallel)...');
+  },4);
+  
+  for(var i=0;i<total;i++){
+    if(!scenes[i]){
+      setLineStatus(i,'gen');
+      try{var r2=await generateImageForLine(lyricsData[i].text,i,style);scenes[i]={img:r2.img,url:r2.url,text:lyricsData[i].text,start:0,dur:0};setLineStatus(i,'done');}
+      catch(e){var fb=await makeFallbackScene(lyricsData[i].text,i);scenes[i]={img:fb.img,url:fb.url,text:lyricsData[i].text,start:0,dur:0};setLineStatus(i,'done');}
+    }
+  }
+  scenes=scenes.filter(Boolean);
+  buildTimeline();renderGallery();
+  updateProgress(94,'Building video & audio graph...');
+  await prepareAudio();
+  updateProgress(100,'✅ Complete!');
+  videoSection.classList.remove('hidden');metadataSection.classList.remove('hidden');
+  updateStats();autoFillMetadata();updateSocialLinks();
+  generateBtn.disabled=false;isGenerating=false;
+  generateBtn.innerHTML='<span style="display:flex;align-items:center;gap:10px">🎬 Generate AI Music Video</span>';
+  showToast('🎉 Video ready! '+scenes.length+' scenes • '+fmtTime(totalDuration),'success');
+  videoSection.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function buildTimeline(){
+  var base=parseFloat(sceneDurSelect.value)||3.5,synced=lyricsData.length&&lyricsData[0].t!=null,t0=0;
+  scenes.forEach(function(s,i){
+    var ld=lyricsData[i];
+    if(synced&&ld&&ld.t!=null){
+      s.start=ld.t;
+      var nt=lyricsData[i+1]?lyricsData[i+1].t:null;
+      s.dur=clamp((nt!=null?nt-s.start:base),2,10);
+    }else{s.start=t0;s.dur=base;}
+    t0=s.start+s.dur;
+  });
+  scenesEnd=t0;
+}
+function findSceneIdx(t){
+  var lo=0,hi=scenes.length-1,ans=0;
+  while(lo<=hi){var mid=(lo+hi)>>1;if(scenes[mid].start<=t){ans=mid;lo=mid+1;}else hi=mid-1;}
+  return ans;
+}
+
+function disposeAudio(){
+  if(videoAudio){videoAudio.pause();videoAudio.src='';videoAudio=null;}
+  if(audioCtx){try{audioCtx.close();}catch(e){}audioCtx=null;analyser=null;streamDest=null;gainNode=null;srcNode=null;}
+  if(audioURL){URL.revokeObjectURL(audioURL);audioURL=null;}
+}
+function prepareAudio(){
+  return new Promise(function(res){
+    disposeAudio();
+    audioURL=URL.createObjectURL(songFile);
+    videoAudio=new Audio();videoAudio.src=audioURL;videoAudio.preload='auto';
+    var done=false,fin=function(){if(done)return;done=true;
+      totalDuration=Math.max(scenesEnd,audioDuration||0);
+      updateTimeUI();drawFrame(0);res();
+    };
+    videoAudio.addEventListener('loadedmetadata',function(){audioDuration=videoAudio.duration||0;setupGraph();fin();},{once:true});
+    videoAudio.addEventListener('error',function(){audioDuration=0;fin();},{once:true});
+    setTimeout(fin,4000);
+  });
+}
+function setupGraph(){
+  try{
+    var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+    audioCtx=new AC();
+    srcNode=audioCtx.createMediaElementSource(videoAudio);
+    analyser=audioCtx.createAnalyser();analyser.fftSize=128;analyser.smoothingTimeConstant=0.82;
+    gainNode=audioCtx.createGain();
+    streamDest=audioCtx.createMediaStreamDestination();
+    srcNode.connect(analyser);analyser.connect(gainNode);
+    gainNode.connect(audioCtx.destination);gainNode.connect(streamDest);
+    freqData=new Uint8Array(analyser.frequencyBinCount);
+  }catch(e){analyser=null;}
+}
+
+function drawImg(img,scale,alpha){
+  var w=canvas.width,h=canvas.height,zw=w*scale,zh=h*scale;
+  ctx.save();ctx.globalAlpha=alpha;ctx.drawImage(img,(w-zw)/2,(h-zh)/2,zw,zh);ctx.restore();
+}
+function drawWithTrans(cur,nxt,trans,tt,p){
+  var w=canvas.width,h=canvas.height;
+  switch(trans){
+    case'vertical':ctx.drawImage(cur,0,-tt*h,w,h);if(tt>0&&nxt)ctx.drawImage(nxt,0,h-tt*h,w,h);break;
+    case'horizontal':ctx.drawImage(cur,-tt*w,0,w,h);if(tt>0&&nxt)ctx.drawImage(nxt,w-tt*w,0,w,h);break;
+    case'zoom':drawImg(cur,1+tt*0.3,1-tt);if(tt>0&&nxt)drawImg(nxt,1,tt);break;
+    case'kenburns':drawImg(cur,1+0.10*p,1);if(tt>0&&nxt)drawImg(nxt,1+0.10*0,tt);break;
+    default:drawImg(cur,1,1);if(tt>0&&nxt)drawImg(nxt,1,tt);
+  }
+}
+function drawCaption(text,p){
+  var w=canvas.width,h=canvas.height,fs=Math.round(h*0.042);
+  ctx.font='600 '+fs+'px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='alphabetic';
+  var words=text.split(/\s+/),lines=[],cur='';
+  words.forEach(function(wd){var t=cur?cur+' '+wd:wd;if(ctx.measureText(t).width>w*0.86&&cur){lines.push(cur);cur=wd;}else cur=t;});
+  if(cur)lines.push(cur);
+  var lh=fs*1.35,blockH=lines.length*lh+h*0.1;
+  var g=ctx.createLinearGradient(0,h-blockH,0,h);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,.78)');
+  ctx.fillStyle=g;ctx.fillRect(0,h-blockH,w,blockH);
+  var a=clamp(p*5,0,1);
+  ctx.shadowColor='rgba(0,0,0,.85)';ctx.shadowBlur=12;
+  ctx.fillStyle='rgba(255,255,255,'+(0.96*a)+')';
+  var y=h-h*0.045-(lines.length-1)*lh;
+  lines.forEach(function(ln){ctx.fillText(ln,w/2,y);y+=lh;});
+  ctx.shadowBlur=0;
+}
+function drawVisualizer(){
+  if(!analyser||!freqData)return;
+  analyser.getByteFrequencyData(freqData);
+  var w=canvas.width,h=canvas.height,bars=56,bw=w/bars;
+  ctx.save();ctx.globalAlpha=0.55;
+  for(var b=0;b<bars;b++){
+    var v=freqData[Math.floor(b*freqData.length/bars)]/255;
+    var bh=v*h*0.14;
+    var g=ctx.createLinearGradient(0,h-h*0.16-bh,0,h-h*0.16);
+    g.addColorStop(0,'#ff6b35');g.addColorStop(1,'#ff2e63');
+    ctx.fillStyle=g;
+    ctx.fillRect(b*bw+2,h-h*0.15-bh,bw-4,bh);
+  }
+  ctx.restore();
+}
+function drawFrame(time){
+  var w=canvas.width,h=canvas.height;
+  ctx.fillStyle='#000';ctx.fillRect(0,0,w,h);
+  if(!scenes.length)return;
+  var i=findSceneIdx(time),s=scenes[i],nxt=scenes[i+1]||null;
+  var p=clamp((time-s.start)/s.dur,0,1);
+  var tt=p<0.72?0:smooth((p-0.72)/0.28);
+  var trans=transition_select.value;
+  if(trans==='random')trans=['fade','vertical','horizontal','zoom','kenburns'][i%5];
+  drawWithTrans(s.img,nxt?nxt.img:null,trans,tt,p);
+  if(analyser&&isPlaying)drawVisualizer();
+  drawCaption(s.text,p);
+  if(recording){
+    ctx.save();ctx.fillStyle='rgba(0,0,0,.5)';var rw=Math.round(w*0.085);
+    if(ctx.roundRect){ctx.beginPath();ctx.roundRect(w-rw-20,16,rw,Math.round(h*0.05),8);ctx.fill();}
+    else{ctx.fillRect(w-rw-20,16,rw,Math.round(h*0.05));}
+    ctx.fillStyle='#ff4757';ctx.beginPath();ctx.arc(w-rw-4,16+Math.round(h*0.025),Math.round(h*0.011),0,7);ctx.fill();
+    ctx.fillStyle='#fff';ctx.font='700 '+Math.round(h*0.026)+'px Inter,sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';
+    ctx.fillText('REC',w-rw+8,17+Math.round(h*0.025));ctx.restore();
+  }
+}
+
+function loop(){
+  if(!isPlaying)return;
+  currentTime=(performance.now()-playStamp)/1000;
+  if(currentTime>=totalDuration){currentTime=totalDuration;drawFrame(Math.max(0,totalDuration-0.05));pause(true);updateTimeUI();return;}
+  drawFrame(currentTime);highlightLine();updateTimeUI();
+  rafId=requestAnimationFrame(loop);
+}
+function highlightLine(){
+  var idx=findSceneIdx(currentTime);
+  if(idx===lastHl)return;
+  var old=$('tsxv5-line-'+lastHl);if(old)old.classList.remove('active');
+  var el=$('tsxv5-line-'+idx);if(el){el.classList.add('active');el.scrollIntoView({block:'nearest',behavior:'smooth'});}
+  lastHl=idx;
+}
+function togglePlay(){
+  if(!scenes.length){showToast('Please generate video first!','error');return;}
+  if(isPlaying){pause();return;}
+  if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
+  if(currentTime>=totalDuration)currentTime=0;
+  if(videoAudio){videoAudio.currentTime=currentTime;videoAudio.play().catch(function(){});}
+  isPlaying=true;playStamp=performance.now()-currentTime*1000;
+  playBtn.innerHTML='⏸ Pause';
+  loop();
+}
+function pause(ended){
+  isPlaying=false;
+  if(videoAudio)videoAudio.pause();
+  cancelAnimationFrame(rafId);
+  playBtn.innerHTML='▶ Play';
+  if(ended)currentTime=0;
+  if(recording)stopRecording(false);
+}
+function seekTo(t){
+  currentTime=clamp(t,0,totalDuration);
+  if(isPlaying){playStamp=performance.now()-currentTime*1000;if(videoAudio)videoAudio.currentTime=currentTime;}
+  drawFrame(currentTime);highlightLine();updateTimeUI();
+}
+function updateTimeUI(){
+  timeDisplay.textContent=fmtTime(currentTime)+' / '+fmtTime(totalDuration);
+  timelineFill.style.width=(totalDuration?clamp(currentTime/totalDuration*100,0,100):0)+'%';
+}
+function updateStats(){
+  statsRow.innerHTML=
+    '<span class="stat-chip"><span class="stat-chip-icon">🎬</span> <b>'+scenes.length+'</b> Scenes</span>'+
+    '<span class="stat-chip"><span class="stat-chip-icon">⏱️</span> <b>'+fmtTime(totalDuration)+'</b> Duration</span>'+
+    '<span class="stat-chip"><span class="stat-chip-icon">📺</span> <b>'+qualitySelect.value+'p</b> HD</span>'+
+    '<span class="stat-chip"><span class="stat-chip-icon">🎨</span> <b>'+styleSelect.value+'</b></span>'+
+    '<span class="stat-chip"><span class="stat-chip-icon">©️</span> <b>CC0</b> Free</span>';
+}
+
+function chooseMime(){
+  if(!window.MediaRecorder)return'';
+  var c=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4'];
+  for(var i=0;i<c.length;i++){if(MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(c[i]))return c[i];}
+  return'';
+}
+function startRecording(){
+  if(!scenes.length){showToast('Please generate video first!','error');return;}
+  if(recording){stopRecording(false);return;}
+  var mime=chooseMime();
+  if(!mime||!canvas.captureStream){showToast('Recording not supported in this browser.','error');return;}
+  var stream=canvas.captureStream(30);
+  if(streamDest&&streamDest.stream.getAudioTracks().length)stream.addTrack(streamDest.stream.getAudioTracks()[0]);
+  recChunks=[];recCancelled=false;
+  try{mediaRecorder=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:qualitySelect.value==='1080'?8000000:5000000});}
+  catch(e){mediaRecorder=new MediaRecorder(stream);}
+  mediaRecorder.ondataavailable=function(e){if(e.data&&e.data.size)recChunks.push(e.data);};
+  mediaRecorder.onstop=function(){
+    stream.getTracks().forEach(function(t){t.stop();});
+    if(recCancelled){showToast('Recording cancelled.','info');return;}
+    var blob=new Blob(recChunks,{type:mime||'video/webm'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');a.href=url;
+    a.download=sanitizeFilename(videoTitle.value||'ai-music-video')+'.webm';
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},5000);
+    showToast('✅ Video saved! ('+(blob.size/1048576).toFixed(1)+' MB)','success');
+  };
+  mediaRecorder.start(500);
+  recording=true;recBadge.classList.add('on');
+  downloadBtn.innerHTML='⏹ Stop & Save';
+  seekTo(0);
+  if(!isPlaying)togglePlay();
+  showToast('🎬 Recording on – video will record in real-time.','info');
+}
+function stopRecording(cancel){
+  if(!recording)return;
+  recording=false;recCancelled=!!cancel;
+  recBadge.classList.remove('on');
+  downloadBtn.innerHTML='⬇ Record & Download';
+  if(mediaRecorder&&mediaRecorder.state!=='inactive')mediaRecorder.stop();
+}
+
+function toggleFS(){
+  if(document.fullscreenElement){document.exitFullscreen().catch(function(){});}
+  else if(videoWrapper.requestFullscreen){videoWrapper.requestFullscreen().catch(function(){showToast('Fullscreen not allowed.','error');});}
+  else showToast('Fullscreen not supported.','error');
+}
+document.addEventListener('fullscreenchange',function(){
+  fullscreenBtn.innerHTML=document.fullscreenElement?'⛶':'⛶';
+});
+
+function autoFillMetadata(){
+  var artist=artistInput.value.trim(),title=titleInput.value.trim()||(songFile?songFile.name.replace(/\.[^/.]+$/,''):'AI Music Video');
+  var style=styleSelect.value;
+  videoTitle.value=title+(artist?' - '+artist:'')+' | Official Lyric Video (AI Generated) [No Copyright]';
+  videoDescription.value='🎬 '+title+(artist?' - '+artist:'')+' | AI Generated Music Video\n\n'+
+    'Create your own FREE AI music video in minutes – 100% copyright-free visuals, HD 1080p export, auto-synced lyrics, live audio visualizer & SEO-ready metadata. No watermark, no signup.\n\n'+
+    '🔥 Style: '+style+' • '+scenes.length+' AI scenes • '+qualitySelect.value+'p HD\n'+
+    '⚡ Tool: Tools-X AI Music Video Studio – Free Online AI Music Video Generator\n\n'+
+    '#AIMusicVideo #'+title.replace(/[^\w]+/g,'')+' #LyricVideo #NoCopyrightMusic #FreeVideoMaker #'+style+'\n\n'+
+    '📌 All visuals AI-generated (CC0). Audio: uploaded by user.';
+  videoTags.value=[artist,title,'ai music video','lyric video','ai music video generator','free music video maker','no copyright video','hd lyric video',style+' style video','copyright free music video','ai video generator online'].filter(Boolean).join(', ');
+}
+function copyText(txt,msg){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){showToast(msg,'success');},function(){fallbackCopy(txt,msg);});}
+  else fallbackCopy(txt,msg);
+}
+function fallbackCopy(txt,msg){
+  var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');showToast(msg,'success');}catch(e){showToast('Copy failed','error');}
+  ta.remove();
+}
+function updateSocialLinks(){
+  var title=videoTitle.value||'My AI Music Video',desc=videoDescription.value||'Check out this AI-generated music video!',url=window.location.href;
+  var text=encodeURIComponent(title+'\n'+desc);
+  shareW.href='https://wa.me/?text='+text;
+  shareF.href='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url)+'&quote='+text;
+  shareT.href='https://twitter.com/intent/tweet?text='+text+'&url='+encodeURIComponent(url);
+  shareTg.href='https://t.me/share/url?url='+encodeURIComponent(url)+'&text='+text;
+}
+function exportMetadata(){
+  var meta={title:videoTitle.value,description:videoDescription.value,tags:videoTags.value.split(',').map(function(t){return t.trim();}).filter(Boolean),lyrics:lyricsData.map(function(l){return l.text;}),scenes:scenes.length,duration:fmtTime(totalDuration),transition:transition_select.value,style:styleSelect.value,quality:qualitySelect.value+'p',copyright:'CC0 - AI Generated (Pollinations)',generatedAt:new Date().toISOString()};
+  var blob=new Blob([JSON.stringify(meta,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='video-metadata-'+Date.now()+'.json';a.click();
+  setTimeout(function(){URL.revokeObjectURL(url);},3000);
+  showToast('📄 Metadata JSON exported!','success');
+}
+
+function renderGallery(){
+  galleryGrid.innerHTML='';
+  scenes.forEach(function(s,i){
+    var d=document.createElement('div');d.className='gallery-item';
+    d.innerHTML='<img src="'+s.url+'" alt="AI scene '+(i+1)+': '+escapeHtml(s.text)+'" loading="lazy"><div class="ov"><div class="t">'+escapeHtml(s.text)+'</div><div class="n">#'+(i+1)+' • '+s.dur.toFixed(1)+'s</div></div>';
+    galleryGrid.appendChild(d);
+  });
+  gallerySection.classList.remove('hidden');
+  sceneCount.textContent='('+scenes.length+')';
+}
+
+songUpload.addEventListener('change',async function(e){
+  var f=e.target.files[0];if(!f)return;
+  
+  if(!isValidAudioFile(f)){
+    showToast('Please upload an audio file (MP3, WAV, M4A, FLAC)!','error');
+    return;
+  }
+  
+  if(f.size>MAX_AUDIO_MB*1024*1024){
+    showToast('File size exceeds '+MAX_AUDIO_MB+'MB. Please use a smaller file.','error');
+    return;
+  }
+  
+  if(f.size===0){
+    showToast('File is empty. Please upload a valid audio file.','error');
+    return;
+  }
+  
+  songFile=f;audioInfo.classList.remove('hidden');
+  var safeName=String(f.name).replace(/[^\w.\- ]/g,'').substring(0,80);
+  audioFileName.textContent=safeName+' ('+(f.size/1048576).toFixed(1)+' MB)';
+  var base=f.name.replace(/\.[^/.]+$/,'').replace(/[-_]/g,' ').trim();
+  var parts=base.split(/\s*[-–—]\s*/);
+  if(parts.length>=2){artistInput.value=parts[0].trim().substring(0,80);titleInput.value=parts.slice(1).join(' - ').trim().substring(0,120);}
+  else titleInput.value=base.substring(0,120);
+  showToast('✅ Song loaded: '+safeName,'success');
+});
+
+uploadZone.addEventListener('click',function(e){
+  e.stopPropagation();
+  if(e.target===songUpload)return;
+  songUpload.click();
+});
+
+uploadZone.addEventListener('dragover',function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  uploadZone.classList.add('drag');
+});
+
+uploadZone.addEventListener('dragleave',function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  uploadZone.classList.remove('drag');
+});
+
+uploadZone.addEventListener('drop',function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  uploadZone.classList.remove('drag');
+  if(e.dataTransfer.files.length){
+    songUpload.files=e.dataTransfer.files;
+    songUpload.dispatchEvent(new Event('change'));
+  }
+});
+
+extractLyricsBtn.addEventListener('click',autoExtractLyrics);
+applyLyricsBtn.addEventListener('click',function(){
+  var text=lyricsInput.value.trim();
+  if(!text){showToast('Please paste lyrics first.','error');return;}
+  lyricsData=cleanLines(text.split('\n').map(function(x){return{t:null,text:x};}));
+  lyricsSource='manual';updateSourceBadge();renderLyrics();
+  showToast('✅ '+lyricsData.length+' lyrics applied.','success');
+});
+clearLyricsBtn.addEventListener('click',function(){
+  lyricsInput.value='';lyricsData=[];lyricsSource='manual';
+  updateSourceBadge();renderLyrics();showToast('🧹 Lyrics cleared.','info');
+});
+generateBtn.addEventListener('click',startGeneration);
+playBtn.addEventListener('click',togglePlay);
+downloadBtn.addEventListener('click',startRecording);
+fullscreenBtn.addEventListener('click',toggleFS);
+exportMetaBtn.addEventListener('click',exportMetadata);
+copyTitleBtn.addEventListener('click',function(){copyText(videoTitle.value,'📋 Title copied!');});
+copyDescBtn.addEventListener('click',function(){copyText(videoDescription.value,'📋 Description copied!');});
+copyTagsBtn.addEventListener('click',function(){copyText(videoTags.value,'📋 Tags copied!');});
+qualitySelect.addEventListener('change',updateCanvasSize);
+sceneDurSelect.addEventListener('change',function(){if(scenes.length){buildTimeline();totalDuration=Math.max(scenesEnd,audioDuration||0);updateTimeUI();updateStats();drawFrame(currentTime);}});
+[videoTitle,videoDescription,videoTags].forEach(function(el){el.addEventListener('input',updateSocialLinks);});
+
+var dragging=false;
+function seekFromEvent(e){var r=timeline.getBoundingClientRect();seekTo(((e.clientX-r.left)/r.width)*totalDuration);}
+timeline.addEventListener('pointerdown',function(e){dragging=true;seekFromEvent(e);});
+window.addEventListener('pointermove',function(e){if(dragging)seekFromEvent(e);});
+window.addEventListener('pointerup',function(){dragging=false;});
+
+document.addEventListener('keydown',function(e){
+  var tag=(e.target.tagName||'').toLowerCase();
+  if(tag==='input'||tag==='textarea'||tag==='select'||e.target.isContentEditable)return;
+  if(e.code==='Space'||e.key==='k'){e.preventDefault();togglePlay();}
+  else if(e.key==='f'){toggleFS();}
+  else if(e.key==='m'){muted=!muted;if(gainNode)gainNode.gain.value=muted?0:1;if(videoAudio)videoAudio.muted=muted;showToast(muted?'🔇 Muted':'🔊 Unmuted','info');}
+  else if(e.key==='Escape'&&recording){stopRecording(true);}
+});
+
+W.querySelectorAll('.faq-item').forEach(function(item){
+  item.addEventListener('click',function(){this.classList.toggle('open');});
+});
+
+updateCanvasSize();
+renderLyrics();
+console.log('Tools-X AI Music Video Studio v6.0 initialized | toolsx.in');
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

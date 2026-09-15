@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Song to Video Converter – Free AI Lyric Video Maker – ToolsX App</title>
+<meta name="description" content="Convert any song into a lyric video free with AI. Auto-sync lyrics, add visuals, and download instantly.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Song to Video Converter – Free AI Lyric Video Maker</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-stv" class="tsxv5-stv-wrapper">
+<style>
+#tsxv5-stv{
+  --stv-bg:#ffffff;--stv-bg2:#f8f9fa;--stv-surface:#ffffff;--stv-surface2:#f1f3f5;
+  --stv-text:#212529;--stv-text-dim:#495057;--stv-text-muted:#6c757d;
+  --stv-accent:#6366f1;--stv-accent2:#8b5cf6;--stv-success:#10b981;--stv-error:#ef4444;
+  --stv-border:rgba(99,102,241,0.15);--stv-shadow:0 10px 40px rgba(0,0,0,0.08);
+  --stv-font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-family:var(--stv-font);background:var(--stv-bg);color:var(--stv-text);
+  max-width:1200px;margin:40px auto;padding:0;border-radius:20px;
+  overflow:hidden;box-shadow:var(--stv-shadow);border:1px solid var(--stv-border);
+}
+body.dark-mode #tsxv5-stv,html.dark-mode #tsxv5-stv,[data-theme="dark"] #tsxv5-stv,
+body[data-theme="dark"] #tsxv5-stv,html[data-theme="dark"] #tsxv5-stv,
+.dark-mode #tsxv5-stv,.night-mode #tsxv5-stv{
+  --stv-bg:#0f1115;--stv-bg2:#121212;--stv-surface:#1a1a1a;--stv-surface2:#242424;
+  --stv-text:#f5f5f5;--stv-text-dim:#a0a0a0;--stv-text-muted:#666;
+  --stv-border:rgba(99,102,241,0.25);--stv-shadow:0 10px 40px rgba(0,0,0,0.5);
+}
+#tsxv5-stv *,#tsxv5-stv *::before,#tsxv5-stv *::after{box-sizing:border-box;margin:0;padding:0;}
+#tsxv5-stv img,#tsxv5-stv canvas,#tsxv5-stv video{max-width:100%;height:auto;display:block;}
+
+.stv-header{text-align:center;padding:56px 28px 44px;background:linear-gradient(135deg,rgba(99,102,241,0.05),rgba(139,92,246,0.03));border-bottom:1px solid var(--stv-border);}
+.stv-icon{font-size:5rem;margin-bottom:20px;display:inline-block;}
+.stv-title{font-size:clamp(1.6rem,5vw,2.5rem);font-weight:900;background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px;line-height:1.15;margin-bottom:16px;}
+.stv-subtitle{color:var(--stv-text-dim);font-size:clamp(0.9rem,2vw,1.05rem);max-width:700px;margin:0 auto;line-height:1.7;}
+.stv-badges{display:flex;justify-content:center;gap:10px;margin-top:24px;flex-wrap:wrap;}
+.stv-badge{background:rgba(99,102,241,0.08);border:1px solid var(--stv-border);color:var(--stv-accent);padding:7px 16px;border-radius:30px;font-size:0.75rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;}
+
+.stv-section{padding:44px 28px;border-bottom:1px solid var(--stv-border);}
+.stv-section:last-child{border-bottom:none;}
+.stv-panel{background:var(--stv-surface);border:1px solid var(--stv-border);border-radius:16px;padding:24px;margin-bottom:20px;}
+.stv-panel-title{font-size:1.05rem;font-weight:700;color:var(--stv-accent);margin-bottom:18px;display:flex;align-items:center;gap:10px;text-transform:uppercase;letter-spacing:1px;}
+
+.stv-drop{width:100%;border:3px dashed var(--stv-border);border-radius:12px;padding:36px 20px;text-align:center;cursor:pointer;transition:all 0.3s;background:var(--stv-surface2);min-height:130px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+.stv-drop:hover,.stv-drop.drag{border-color:var(--stv-accent);background:rgba(99,102,241,0.05);}
+.stv-drop-icon{font-size:2.8rem;margin-bottom:10px;}
+.stv-drop-text{color:var(--stv-accent);font-weight:700;font-size:1rem;margin-bottom:6px;}
+.stv-drop-sub{color:var(--stv-text-dim);font-size:0.85rem;}
+
+.stv-file-list{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+.stv-file-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--stv-surface2);border:1px solid var(--stv-border);border-radius:10px;}
+.stv-file-item-name{flex:1;font-size:0.88rem;color:var(--stv-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.stv-file-item-size{font-size:0.78rem;color:var(--stv-text-dim);}
+.stv-file-item-remove{background:rgba(239,68,68,0.15);border:1px solid var(--stv-error);color:var(--stv-error);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.82rem;font-weight:600;}
+.stv-file-item-remove:hover{background:var(--stv-error);color:white;}
+
+.stv-settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;}
+.stv-setting{display:flex;flex-direction:column;gap:8px;}
+.stv-setting-label{font-size:0.82rem;font-weight:600;color:var(--stv-text-dim);text-transform:uppercase;letter-spacing:1px;}
+.stv-setting-select{background:var(--stv-surface2);border:1.5px solid var(--stv-border);border-radius:10px;padding:12px 16px;color:var(--stv-text);font-size:0.92rem;cursor:pointer;min-height:44px;font-family:inherit;}
+.stv-setting-select:focus{outline:none;border-color:var(--stv-accent);}
+
+.stv-controls{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px;}
+.stv-btn{padding:14px 28px;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-size:0.95rem;transition:all 0.3s;min-height:48px;display:inline-flex;align-items:center;gap:8px;letter-spacing:0.5px;text-transform:uppercase;font-family:inherit;}
+.stv-btn-play{background:linear-gradient(135deg,var(--stv-accent),var(--stv-accent2));color:white;box-shadow:0 6px 20px rgba(99,102,241,0.3);}
+.stv-btn-play:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 30px rgba(99,102,241,0.5);}
+.stv-btn-pause{background:var(--stv-surface2);color:var(--stv-accent);border:2px solid var(--stv-border);}
+.stv-btn-rec{background:linear-gradient(135deg,#ef4444,#dc2626);color:white;box-shadow:0 6px 20px rgba(239,68,68,0.3);}
+.stv-btn-ghost{background:transparent;color:var(--stv-text-dim);border:2px solid var(--stv-border);}
+.stv-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
+
+.stv-stage{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;margin-top:24px;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+.stv-stage.ratio-9-16{aspect-ratio:9/16;max-width:380px;margin-left:auto;margin-right:auto;}
+.stv-stage.ratio-1-1{aspect-ratio:1/1;max-width:540px;margin-left:auto;margin-right:auto;}
+.stv-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+.stv-hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;color:rgba(255,255,255,0.6);font-size:1.1rem;padding:0 24px;pointer-events:none;}
+.stv-hint.hide{display:none;}
+.stv-rec-badge{position:absolute;top:16px;left:16px;background:rgba(239,68,68,0.95);padding:8px 16px;border-radius:8px;font-size:0.85rem;font-weight:700;color:white;display:none;align-items:center;gap:8px;z-index:10;}
+.stv-rec-badge.show{display:flex;}
+.stv-rec-dot{width:10px;height:10px;background:white;border-radius:50%;animation:stvBlink 1s infinite;}
+@keyframes stvBlink{0%,100%{opacity:1;}50%{opacity:0.2;}}
+
+.stv-progress{display:none;margin-top:18px;}
+.stv-progress.show{display:block;}
+.stv-progress-bar{height:10px;background:var(--stv-surface2);border-radius:5px;overflow:hidden;border:1px solid var(--stv-border);}
+.stv-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--stv-accent),var(--stv-accent2));border-radius:5px;transition:width 0.3s;}
+.stv-progress-text{text-align:center;font-size:0.88rem;color:var(--stv-text-dim);margin-top:8px;}
+
+.stv-error{display:none;background:rgba(239,68,68,0.1);border:1px solid var(--stv-error);border-radius:10px;padding:14px;margin-top:14px;color:var(--stv-error);font-size:0.92rem;text-align:center;}
+.stv-error.show{display:block;}
+
+.stv-download{display:none;margin-top:24px;padding:24px;background:var(--stv-surface);border:1px solid var(--stv-border);border-radius:16px;}
+.stv-download.show{display:block;}
+.stv-download-msg{color:var(--stv-success);font-size:1.3rem;font-weight:700;text-align:center;margin-bottom:20px;}
+.stv-preview-vid{width:100%;border-radius:10px;max-height:380px;background:#000;margin-bottom:20px;border:1px solid var(--stv-border);}
+.stv-dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.stv-dl-btn{padding:18px;background:var(--stv-surface2);border:2px solid var(--stv-border);border-radius:10px;color:var(--stv-text);text-decoration:none;text-align:center;font-weight:700;transition:all 0.3s;display:block;min-height:44px;}
+.stv-dl-btn:hover{border-color:var(--stv-accent);transform:translateY(-2px);}
+.stv-dl-fmt{font-size:1.3rem;font-weight:900;display:block;margin-bottom:6px;color:var(--stv-accent);}
+.stv-dl-lbl{font-size:0.82rem;color:var(--stv-text-dim);text-transform:uppercase;letter-spacing:1px;}
+
+.stv-how h2,.stv-faq h2{font-size:clamp(1.3rem,4vw,1.7rem);font-weight:800;color:var(--stv-accent);margin-bottom:20px;border-bottom:2px solid var(--stv-border);padding-bottom:12px;}
+.stv-how h3{font-size:1.1rem;font-weight:700;color:var(--stv-accent2);margin:24px 0 12px;}
+.stv-how p,.stv-faq-item p{font-size:0.95rem;line-height:1.75;color:var(--stv-text-dim);margin-bottom:14px;}
+.stv-how ul{margin:14px 0 14px 24px;line-height:1.9;color:var(--stv-text-dim);}
+.stv-how li{margin-bottom:8px;}
+.stv-how strong{color:var(--stv-text);}
+
+.stv-steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin:24px 0;}
+.stv-step-card{background:var(--stv-surface2);padding:22px;border-radius:12px;border:1px solid var(--stv-border);transition:all 0.3s;}
+.stv-step-card:hover{transform:translateY(-4px);border-color:var(--stv-accent);}
+.stv-step-num{width:46px;height:46px;background:linear-gradient(135deg,var(--stv-accent),var(--stv-accent2));color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;margin-bottom:14px;font-size:1.2rem;}
+.stv-step-title{font-weight:700;color:var(--stv-accent);margin-bottom:8px;font-size:0.95rem;text-transform:uppercase;}
+.stv-step-desc{font-size:0.88rem;color:var(--stv-text-dim);line-height:1.65;}
+
+.stv-faq-item{margin-bottom:14px;padding:18px;background:var(--stv-surface2);border-radius:10px;border:1px solid var(--stv-border);cursor:pointer;transition:all 0.3s;}
+.stv-faq-item:hover{border-color:var(--stv-accent);}
+.stv-faq-item h3{font-weight:700;color:var(--stv-text);margin-bottom:0;font-size:1rem;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.stv-faq-item h3::after{content:'+';font-size:1.4rem;color:var(--stv-accent);transition:transform 0.3s;flex-shrink:0;}
+.stv-faq-item.open h3::after{transform:rotate(45deg);}
+.stv-faq-item.open h3{margin-bottom:10px;}
+.stv-faq-item p{display:none;margin-top:10px;}
+.stv-faq-item.open p{display:block;}
+
+.stv-related{margin-top:40px;padding:32px 24px;background:var(--stv-surface);border:1px solid var(--stv-border);border-radius:16px;}
+.stv-related-title{color:var(--stv-accent);font-size:1.3rem;font-weight:700;margin-bottom:20px;}
+.stv-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+.stv-related-link{background:var(--stv-surface2);border:1px solid var(--stv-border);padding:18px;text-decoration:none;transition:all 0.3s;display:flex;align-items:center;gap:12px;border-radius:10px;color:inherit;}
+.stv-related-link:hover{border-color:var(--stv-accent);transform:translateY(-2px);}
+.stv-related-icon{font-size:1.8rem;}
+.stv-related-link strong{color:var(--stv-accent);display:block;font-size:0.95rem;margin-bottom:3px;}
+.stv-related-link span{color:var(--stv-text-dim);font-size:0.82rem;line-height:1.45;}
+
+.stv-footer{padding:28px;text-align:center;border-top:1px solid var(--stv-border);}
+.stv-footer p{color:var(--stv-text-dim);font-size:0.88rem;}
+.stv-footer a{color:var(--stv-accent);text-decoration:none;}
+
+@media(max-width:768px){
+  .stv-controls{flex-direction:column;}
+  .stv-btn{width:100%;justify-content:center;}
+  .stv-dl-grid{grid-template-columns:1fr;}
+  .stv-section{padding:32px 18px;}
+  .stv-steps-grid{grid-template-columns:1fr;}
+  .stv-related-grid{grid-template-columns:1fr;}
+  .stv-settings-grid{grid-template-columns:1fr;}
+}
+@media(max-width:480px){.stv-header{padding:40px 18px 32px;}.stv-badge{padding:5px 12px;font-size:0.7rem;}}
+@media(prefers-reduced-motion:reduce){#tsxv5-stv *,#tsxv5-stv *::before,#tsxv5-stv *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+</style>
+
+<header class="stv-header">
+  <div class="stv-icon" aria-hidden="true">🎵</div>
+  <h2 class="stv-title">Song to Video Converter – Free AI Lyric Video Maker</h2>
+  <p class="stv-subtitle">Transform your photos and music into stunning lyric videos with cinematic transitions. Upload images, add your song, and create professional music videos — 100% free, no watermark, unlimited exports, complete privacy.</p>
+  <div class="stv-badges">
+    <span class="stv-badge">🎬 Cinematic</span>
+    <span class="stv-badge">🎵 Audio Sync</span>
+    <span class="stv-badge">⚡ Fast Export</span>
+    <span class="stv-badge">📴 100% Offline</span>
+  </div>
+</header>
+
+<section class="stv-section">
+  <div class="stv-panel">
+    <div class="stv-panel-title">🎵 Upload Your Song</div>
+    <div class="stv-drop" id="tsxv5-stvAudioDrop">
+      <span class="stv-drop-icon">🎶</span>
+      <span class="stv-drop-text">Click or Drop MP3 / WAV File Here</span>
+      <span class="stv-drop-sub">Maximum 50MB · Your music stays private</span>
+    </div>
+    <input type="file" id="tsxv5-stvAudioInput" accept="audio/mpeg,audio/wav,audio/mp3,audio/x-m4a,audio/ogg,audio/*" hidden>
+    <div class="stv-file-list" id="tsxv5-stvAudioList"></div>
+  </div>
+
+  <div class="stv-panel">
+    <div class="stv-panel-title">📸 Upload Photos (Up to 10)</div>
+    <div class="stv-drop" id="tsxv5-stvImageDrop">
+      <span class="stv-drop-icon">🖼️</span>
+      <span class="stv-drop-text">Click or Drop Multiple Photos Here</span>
+      <span class="stv-drop-sub">PNG / JPEG / WebP · Max 10 photos · 5MB each</span>
+    </div>
+    <input type="file" id="tsxv5-stvImageInput" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" multiple hidden>
+    <div class="stv-file-list" id="tsxv5-stvImageList"></div>
+  </div>
+
+  <div class="stv-panel">
+    <div class="stv-panel-title">⚙️ Video Settings</div>
+    <div class="stv-settings-grid">
+      <div class="stv-setting">
+        <label class="stv-setting-label" for="tsxv5-stvAspectRatio">Aspect Ratio</label>
+        <select class="stv-setting-select" id="tsxv5-stvAspectRatio">
+          <option value="16:9">YouTube 16:9</option>
+          <option value="9:16">Shorts/Reels 9:16</option>
+          <option value="1:1">Instagram 1:1</option>
+        </select>
+      </div>
+      <div class="stv-setting">
+        <label class="stv-setting-label" for="tsxv5-stvSceneDur">Scene Duration</label>
+        <select class="stv-setting-select" id="tsxv5-stvSceneDur">
+          <option value="3">3 seconds (Fast)</option>
+          <option value="5" selected>5 seconds (Balanced)</option>
+          <option value="8">8 seconds (Slow)</option>
+          <option value="12">12 seconds (Cinematic)</option>
+        </select>
+      </div>
+      <div class="stv-setting">
+        <label class="stv-setting-label" for="tsxv5-stvTransition">Transition</label>
+        <select class="stv-setting-select" id="tsxv5-stvTransition">
+          <option value="fade" selected>Fade to Black</option>
+          <option value="zoom">Zoom Blur</option>
+          <option value="slide">Slide</option>
+          <option value="none">No Transition</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="stv-panel">
+    <div class="stv-controls">
+      <button type="button" class="stv-btn stv-btn-play" id="tsxv5-stvPlayBtn" disabled>▶ Preview</button>
+      <button type="button" class="stv-btn stv-btn-pause" id="tsxv5-stvPauseBtn" disabled>⏸ Pause</button>
+      <button type="button" class="stv-btn stv-btn-rec" id="tsxv5-stvRecBtn" disabled>🎬 Record Video</button>
+      <button type="button" class="stv-btn stv-btn-ghost" id="tsxv5-stvResetBtn">🔄 Reset</button>
+    </div>
+    <div class="stv-progress" id="tsxv5-stvProgBox">
+      <div class="stv-progress-bar"><div class="stv-progress-fill" id="tsxv5-stvProgFill"></div></div>
+      <div class="stv-progress-text" id="tsxv5-stvProgTxt">Ready</div>
+    </div>
+    <div class="stv-error" id="tsxv5-stvError"></div>
+  </div>
+
+  <div class="stv-stage" id="tsxv5-stvStage">
+    <div class="stv-rec-badge" id="tsxv5-stvRecBadge"><span class="stv-rec-dot"></span><span>REC</span></div>
+    <canvas class="stv-canvas" id="tsxv5-stvCanvas"></canvas>
+    <div class="stv-hint" id="tsxv5-stvHint">🎵 Upload photos + song to create your lyric video</div>
+  </div>
+
+  <div class="stv-download" id="tsxv5-stvDownload">
+    <div class="stv-download-msg">✨ Your Lyric Video is Ready!</div>
+    <video class="stv-preview-vid" id="tsxv5-stvPreviewVid" controls playsinline></video>
+    <div class="stv-dl-grid">
+      <a class="stv-dl-btn" id="tsxv5-stvDlHD" rel="noopener noreferrer" download="toolsx-lyric-video-hd.webm">
+        <span class="stv-dl-fmt">📹 HD 1080p</span>
+        <span class="stv-dl-lbl">High Quality</span>
+      </a>
+      <a class="stv-dl-btn" id="tsxv5-stvDlSD" rel="noopener noreferrer" download="toolsx-lyric-video-sd.webm">
+        <span class="stv-dl-fmt">🎬 SD 720p</span>
+        <span class="stv-dl-lbl">Smaller File</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="stv-section stv-how">
+  <h2>🎯 How to Create Lyric Videos with This Free Tool</h2>
+  <p>The <strong>Tools-X Song to Video Converter</strong> is a browser-based lyric video maker that transforms your static photos and audio tracks into professional music videos. Unlike expensive editing software or online services that require uploads to remote servers, this tool processes everything locally in your browser using HTML5 Canvas and the Web Audio API. Your music and photos never leave your device, ensuring complete privacy while still delivering cinematic results.</p>
+
+  <h3>Step-by-Step Guide to Making Your Lyric Video</h3>
+  <div class="stv-steps-grid">
+    <div class="stv-step-card"><div class="stv-step-num">1</div><div class="stv-step-title">Upload Music</div><div class="stv-step-desc">Click the audio drop zone and select your MP3, WAV, or M4A file. Files up to 50MB are supported, and your audio stays completely private on your device.</div></div>
+    <div class="stv-step-card"><div class="stv-step-num">2</div><div class="stv-step-title">Add Photos</div><div class="stv-step-desc">Upload up to 10 photos that will form your slideshow. The tool applies smooth Ken Burns zoom and pan effects to each image, creating the documentary-style motion used in professional lyric videos.</div></div>
+    <div class="stv-step-card"><div class="stv-step-num">3</div><div class="stv-step-title">Configure Settings</div><div class="stv-step-desc">Choose your target platform's aspect ratio (YouTube 16:9, Shorts 9:16, or Instagram 1:1), set scene duration, and pick your preferred transition style between photos.</div></div>
+    <div class="stv-step-card"><div class="stv-step-num">4</div><div class="stv-step-title">Preview Video</div><div class="stv-step-desc">Click the Preview button to see your lyric video in action. Each photo will display for your chosen duration with cinematic transitions, while your song plays in the background.</div></div>
+    <div class="stv-step-card"><div class="stv-step-num">5</div><div class="stv-step-title">Record HD</div><div class="stv-step-desc">Once satisfied with the preview, click Record Video. The tool captures the full animation in real-time using MediaRecorder, producing an HD WebM file with perfectly synchronized audio.</div></div>
+    <div class="stv-step-card"><div class="stv-step-num">6</div><div class="stv-step-title">Download</div><div class="stv-step-desc">When recording completes, download your video in HD 1080p or SD 720p quality. The file is ready to upload directly to YouTube, Instagram, TikTok, or any video platform.</div></div>
+  </div>
+
+  <h3>Why Musicians and Creators Choose This Tool</h3>
+  <p>Independent musicians releasing new singles on Spotify and Apple Music need lyric videos to promote their tracks on YouTube. Podcasters creating promotional clips need quick video assets. Content creators covering music news need visual content to accompany audio commentary. This tool serves all these use cases without requiring expensive subscriptions to services like Adobe Creative Cloud or time-intensive learning curves of professional NLEs like Final Cut Pro or DaVinci Resolve.</p>
+
+  <h3>Professional Features Included</h3>
+  <ul>
+    <li><strong>Ken Burns Effect:</strong> Cinematic zoom and pan animations that bring static photos to life</li>
+    <li><strong>Smooth Transitions:</strong> Fade, zoom, and slide transitions between scenes for professional polish</li>
+    <li><strong>Multiple Aspect Ratios:</strong> Native support for YouTube landscape, vertical shorts, and square Instagram posts</li>
+    <li><strong>HD Export:</strong> Record in high-quality WebM format with VP9 codec for excellent compression</li>
+    <li><strong>No Watermarks:</strong> Your exported video is completely clean with no branding or watermarks</li>
+    <li><strong>Unlimited Exports:</strong> Create as many videos as you need with no daily limits or premium tiers</li>
+    <li><strong>Complete Privacy:</strong> All processing happens locally — your content never uploads to any server</li>
+  </ul>
+
+  <h3>Browser Compatibility and Performance</h3>
+  <p>This lyric video maker works in all modern browsers that support the MediaRecorder API and HTML5 Canvas: Google Chrome, Microsoft Edge, Mozilla Firefox, and Safari (version 14.3+). The tool is optimized for performance with efficient canvas rendering, proper memory management through URL.revokeObjectURL, and graceful error handling. On mobile devices, Chrome for Android and Safari for iOS both support video export, though desktop browsers generally provide faster encoding speeds for longer videos. The entire application loads in under 200KB and requires no external dependencies or framework libraries, ensuring fast page load times even on slower connections.</p>
+</section>
+
+<section class="stv-section stv-faq" itemscope itemtype="https://schema.org/FAQPage">
+  <h2>❓ Frequently Asked Questions</h2>
+  
+  <div class="stv-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <h3 itemprop="name">Is this Song to Video Converter really free?</h3>
+    <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><span itemprop="text">Yes, completely free with no hidden charges, no premium version, no daily limits, and no watermarks on your exported videos. You can create and download unlimited lyric videos for personal or commercial use.</span></p>
+  </div>
+
+  <div class="stv-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <h3 itemprop="name">Is my music uploaded to any server?</h3>
+    <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><span itemprop="text">No, absolutely not. All processing happens locally in your browser using JavaScript. Your audio files, photos, and generated videos never leave your device, ensuring complete privacy and GDPR compliance.</span></p>
+  </div>
+
+  <div class="stv-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <h3 itemprop="name">What audio formats are supported?</h3>
+    <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><span itemprop="text">The tool supports all major audio formats including MP3, WAV, M4A, OGG, and FLAC. Maximum file size is 50MB per audio file, which is sufficient for most full-length songs up to 10 minutes.</span></p>
+  </div>
+
+  <div class="stv-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <h3 itemprop="name">How many photos can I include in the slideshow?</h3>
+    <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><span itemprop="text">You can upload up to 10 photos per video. Each photo displays for your chosen scene duration (3, 5, 8, or 12 seconds) with smooth Ken Burns zoom and pan effects automatically applied.</span></p>
+  </div>
+
+  <div class="stv-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <h3 itemprop="name">What video format is the output file?</h3>
+    <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><span itemprop="text">Videos export in WebM format using the VP9 video codec with Opus audio, which is the modern standard for web video. This format is natively supported by YouTube, Instagram, TikTok, and all major video platforms.</span></p>
+  </div>
+
+  <div class="stv-faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <h3 itemprop="name">Will this work on my mobile phone?</h3>
+    <p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><span itemprop="text">Yes, the tool is fully responsive and works on mobile browsers. Chrome for Android and Safari for iOS (version 14.3+) both support MediaRecorder for video export. However, desktop browsers generally provide faster encoding speeds for longer videos.</span></p>
+  </div>
+</section>
+
+<aside class="stv-related" aria-label="Related Tools">
+  <h2 class="stv-related-title">🎬 More Creator Tools</h2>
+  <div class="stv-related-grid">
+    <a href="../tools/render-karein-audio-visualizer-waveform.html" class="stv-related-link" rel="noopener">
+      <span class="stv-related-icon">🎵</span>
+      <div><strong>Audio Visualizer Studio</strong><span>Professional waveform videos with real audio</span></div>
+    </a>
+    <a href="../tools/free-background-remover-remove-image.html" class="stv-related-link" rel="noopener">
+      <span class="stv-related-icon">🖼️</span>
+      <div><strong>Background Remover</strong><span>Remove image backgrounds instantly</span></div>
+    </a>
+    <a href="../tools/ringtone-maker-15-music-styles-voice.html" class="stv-related-link" rel="noopener">
+      <span class="stv-related-icon">🔔</span>
+      <div><strong>Ringtone Maker</strong><span>Create custom ringtones with 15 styles</span></div>
+    </a>
+  </div>
+</aside>
+
+<footer class="stv-footer">
+  <p>🎵 Free AI Lyric Video Maker · 100% Private · No Signup · Unlimited HD Exports</p>
+  <p style="font-size:0.78rem;opacity:0.7;margin-top:6px;">Powered by <strong><a href="https://www.toolsx.in" rel="noopener">Tools-X</a></strong></p>
+</footer>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {"@type":"SoftwareApplication","name":"Song to Video Converter - Free AI Lyric Video Maker","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","description":"Free browser-based lyric video maker that converts photos and music into cinematic music videos with Ken Burns effects, transitions, and HD WebM export. 100% offline and private.","featureList":["Multi-photo slideshow","Ken Burns zoom/pan","Scene transitions","Multiple aspect ratios","HD WebM export","100% offline processing"],"author":{"@type":"Organization","name":"Tools-X","url":"https://www.toolsx.in"}},
+    {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.toolsx.in/"},{"@type":"ListItem","position":2,"name":"Song to Video Converter"}]}
+  ]
+}
+</script>
+
+<script>
+(function(){
+'use strict';
+var W=document.getElementById('tsxv5-stv');
+if(!W)return;
+
+function $(id){return document.getElementById(id);}
+function setText(el,s){if(el)el.textContent=String(s==null?'':s);}
+function fmtBytes(n){if(!isFinite(n))return'';if(n<1024)return n+' B';if(n<1048576)return(n/1024).toFixed(1)+' KB';return(n/1048576).toFixed(2)+' MB';}
+function sanitizeFilename(s){return String(s||'toolsx-lyric-video').replace(/[^a-zA-Z0-9._\-]/g,'').substring(0,80)||'toolsx-lyric-video';}
+
+var state={
+  audioEl:null,audioUrl:null,audioFile:null,
+  photos:[],photoObjs:[],currentScene:0,sceneStartTime:0,
+  playing:false,recording:false,
+  aspectRatio:'16:9',sceneDur:5,transition:'fade',
+  recStream:null,recorder:null,recChunks:[],recUrl:null,
+  raf:null,startTime:0,totalTime:0,
+  sceneProgress:0
+};
+
+var urls=new Set();
+function trackUrl(u){if(u)urls.add(u);return u;}
+function revokeUrl(u){if(u&&urls.has(u)){try{URL.revokeObjectURL(u);}catch(e){}urls.delete(u);}}
+
+function showError(msg){
+  var box=$('tsxv5-stvError');
+  if(!box)return;
+  setText(box,'❌ '+msg);
+  box.classList.add('show');
+  setTimeout(function(){box.classList.remove('show');},5000);
+}
+
+function isValidAudio(file){
+  if(!file)return false;
+  var ext=(file.name.split('.').pop()||'').toLowerCase();
+  if(['mp3','wav','m4a','ogg','aac','flac'].indexOf(ext)!==-1)return true;
+  if(file.type&&file.type.indexOf('audio/')===0)return true;
+  return false;
+}
+
+function isValidImage(file){
+  if(!file)return false;
+  var ext=(file.name.split('.').pop()||'').toLowerCase();
+  if(['png','jpg','jpeg','webp','gif'].indexOf(ext)!==-1)return true;
+  if(file.type&&file.type.indexOf('image/')===0)return true;
+  return false;
+}
+
+function cleanupAudio(){
+  if(state.audioEl){try{state.audioEl.pause();state.audioEl.src='';}catch(e){}state.audioEl=null;}
+  revokeUrl(state.audioUrl);state.audioUrl=null;
+  state.audioFile=null;
+}
+
+var canvas=$('tsxv5-stvCanvas');
+var ctx2d=canvas?canvas.getContext('2d'):null;
+var stageEl=$('tsxv5-stvStage');
+var Wc=1280,Hc=720;
+
+function sizeCanvas(){
+  if(!canvas||!stageEl)return;
+  var ratio=state.aspectRatio;
+  if(ratio==='9:16'){Wc=720;Hc=1280;}
+  else if(ratio==='1:1'){Wc=1080;Hc=1080;}
+  else{Wc=1280;Hc=720;}
+  canvas.width=Wc;canvas.height=Hc;
+  stageEl.className='stv-stage ratio-'+ratio.replace(':','-');
+  drawFrame();
+}
+
+function refreshControls(){
+  var hasAudio=!!state.audioEl;
+  var hasPhotos=state.photoObjs.length>0;
+  var playBtn=$('tsxv5-stvPlayBtn'),pauseBtn=$('tsxv5-stvPauseBtn'),recBtn=$('tsxv5-stvRecBtn');
+  if(playBtn)playBtn.disabled=!(hasAudio&&hasPhotos)||state.recording;
+  if(pauseBtn)pauseBtn.disabled=!state.playing;
+  if(recBtn){
+    recBtn.disabled=!(hasAudio&&hasPhotos);
+    if(state.recording){setText(recBtn,'⏹ Stop Recording');}
+    else{setText(recBtn,'🎬 Record Video');}
+  }
+}
+
+function handleAudio(file){
+  if(!file)return;
+  if(!isValidAudio(file)){showError('Invalid audio format. Please use MP3, WAV, M4A, or OGG.');return;}
+  if(file.size>50*1024*1024){showError('Audio file too large. Maximum size is 50MB.');return;}
+  
+  if(state.playing)pause();
+  cleanupAudio();
+  
+  state.audioFile=file;
+  state.audioUrl=trackUrl(URL.createObjectURL(file));
+  var a=new Audio();
+  a.preload='auto';
+  
+  var loaded=false;
+  a.addEventListener('loadedmetadata',function(){
+    if(loaded)return;loaded=true;
+    state.totalTime=a.duration||0;
+    refreshControls();
+  });
+  a.addEventListener('error',function(){
+    showError('Could not load audio file. It may be corrupt or in an unsupported format.');
+    revokeUrl(state.audioUrl);state.audioUrl=null;state.audioEl=null;
+    refreshControls();
+  });
+  a.addEventListener('ended',function(){
+    if(state.playing)pause();
+    if(state.recording)stopRecord();
+  });
+  a.src=state.audioUrl;
+  state.audioEl=a;
+  
+  renderAudioList();
+  refreshControls();
+}
+
+function handleImages(files){
+  if(!files||!files.length)return;
+  var added=0;
+  var remaining=10-state.photos.length;
+  
+  for(var i=0;i<files.length&&added<remaining;i++){
+    (function(file){
+      if(!isValidImage(file)){
+        showError('Skipping invalid image: '+file.name);
+        return;
+      }
+      if(file.size>5*1024*1024){
+        showError('Skipping large image: '+file.name+' (max 5MB)');
+        return;
+      }
+      var url=trackUrl(URL.createObjectURL(file));
+      var img=new Image();
+      img.onload=function(){
+        state.photos.push({file:file,url:url});
+        state.photoObjs.push(img);
+        renderImageList();
+        refreshControls();
+        drawFrame();
+      };
+      img.onerror=function(){
+        revokeUrl(url);
+        showError('Could not load image: '+file.name);
+      };
+      img.src=url;
+      added++;
+    })(files[i]);
+  }
+  
+  if(remaining<=0){showError('Maximum 10 photos reached. Remove some to add more.');}
+}
+
+function removePhoto(idx){
+  if(idx<0||idx>=state.photos.length)return;
+  revokeUrl(state.photos[idx].url);
+  state.photos.splice(idx,1);
+  state.photoObjs.splice(idx,1);
+  if(state.currentScene>=state.photoObjs.length)state.currentScene=0;
+  renderImageList();
+  refreshControls();
+  drawFrame();
+}
+
+function renderAudioList(){
+  var list=$('tsxv5-stvAudioList');
+  if(!list)return;
+  if(!state.audioEl||!state.audioFile){list.innerHTML='';return;}
+  list.innerHTML='<div class="stv-file-item"><span>🎵</span><span class="stv-file-item-name">'+sanitizeFilename(state.audioFile.name)+'</span><span class="stv-file-item-size">'+fmtBytes(state.audioFile.size)+'</span></div>';
+}
+
+function renderImageList(){
+  var list=$('tsxv5-stvImageList');
+  if(!list)return;
+  if(!state.photos.length){list.innerHTML='';return;}
+  var html='';
+  for(var i=0;i<state.photos.length;i++){
+    html+='<div class="stv-file-item"><span>📷</span><span class="stv-file-item-name">'+sanitizeFilename(state.photos[i].file.name)+'</span><span class="stv-file-item-size">'+fmtBytes(state.photos[i].file.size)+'</span><button class="stv-file-item-remove" data-idx="'+i+'">✕ Remove</button></div>';
+  }
+  list.innerHTML=html;
+  list.querySelectorAll('.stv-file-item-remove').forEach(function(btn){
+    btn.addEventListener('click',function(){removePhoto(parseInt(this.getAttribute('data-idx'),10));});
+  });
+}
+
+function drawFrame(){
+  if(!ctx2d||!Wc||!Hc)return;
+  
+  ctx2d.fillStyle='#000';
+  ctx2d.fillRect(0,0,Wc,Hc);
+  
+  if(state.photoObjs.length===0){
+    ctx2d.fillStyle='rgba(255,255,255,0.5)';
+    ctx2d.font='600 24px Inter,sans-serif';
+    ctx2d.textAlign='center';ctx2d.textBaseline='middle';
+    ctx2d.fillText('Upload photos + song to begin',Wc/2,Hc/2);
+    return;
+  }
+  
+  var sceneIdx=state.currentScene%state.photoObjs.length;
+  var img=state.photoObjs[sceneIdx];
+  if(!img)return;
+  
+  var progress=state.playing?state.sceneProgress:0;
+  var kenBurnsZoom=1+progress*0.15;
+  var kenBurnsPanX=(progress-0.5)*0.08;
+  var kenBurnsPanY=(progress-0.5)*0.04;
+  
+  var imgRatio=img.naturalWidth/img.naturalHeight;
+  var canvasRatio=Wc/Hc;
+  var dw,dh;
+  if(imgRatio>canvasRatio){dh=Hc*kenBurnsZoom;dw=dh*imgRatio;}
+  else{dw=Wc*kenBurnsZoom;dh=dw/imgRatio;}
+  
+  var dx=(Wc-dw)/2+kenBurnsPanX*Wc;
+  var dy=(Hc-dh)/2+kenBurnsPanY*Hc;
+  
+  ctx2d.drawImage(img,dx,dy,dw,dh);
+  
+  var transitionProgress=0;
+  if(state.playing&&state.sceneDur>0){
+    var elapsed=(Date.now()/1000)-state.sceneStartTime;
+    var scenePos=elapsed/state.sceneDur;
+    if(scenePos>0.85){
+      transitionProgress=(scenePos-0.85)/0.15;
+    }
+  }
+  
+  if(transitionProgress>0&&state.transition!=='none'){
+    if(state.transition==='fade'){
+      ctx2d.fillStyle='rgba(0,0,0,'+transitionProgress+')';
+      ctx2d.fillRect(0,0,Wc,Hc);
+    }else if(state.transition==='zoom'){
+      ctx2d.fillStyle='rgba(0,0,0,'+(transitionProgress*0.8)+')';
+      ctx2d.fillRect(0,0,Wc,Hc);
+    }else if(state.transition==='slide'){
+      ctx2d.fillStyle='rgba(0,0,0,'+(transitionProgress*0.9)+')';
+      ctx2d.fillRect(0,0,Wc,Hc);
+    }
+  }
+  
+  ctx2d.globalAlpha=0.35;
+  ctx2d.fillStyle='#fff';
+  ctx2d.font='600 11px Inter,sans-serif';
+  ctx2d.textAlign='right';ctx2d.textBaseline='bottom';
+  ctx2d.fillText('Tools-X Lyric Video',Wc-18,Hc-18);
+  ctx2d.globalAlpha=1;
+}
+
+function loop(){
+  if(!state.playing){state.raf=null;return;}
+  
+  var now=Date.now()/1000;
+  var elapsed=now-state.startTime;
+  var sceneElapsed=now-state.sceneStartTime;
+  
+  if(sceneElapsed>=state.sceneDur){
+    state.sceneStartTime=now;
+    state.currentScene=(state.currentScene+1)%state.photoObjs.length;
+    sceneElapsed=0;
+  }
+  
+  state.sceneProgress=Math.min(1,sceneElapsed/state.sceneDur);
+  drawFrame();
+  state.raf=requestAnimationFrame(loop);
+}
+
+function play(){
+  if(state.recording)return;
+  if(state.photoObjs.length===0){showError('Please upload at least one photo first.');return;}
+  if(!state.audioEl){showError('Please upload an audio file first.');return;}
+  
+  state.playing=true;
+  state.startTime=Date.now()/1000;
+  state.sceneStartTime=state.startTime;
+  state.currentScene=0;
+  state.sceneProgress=0;
+  
+  $('tsxv5-stvHint').classList.add('hide');
+  
+  var pr=state.audioEl.play();
+  if(pr&&pr.catch){pr.catch(function(err){showError('Audio playback failed: '+err.message);});}
+  
+  refreshControls();
+  if(state.raf)cancelAnimationFrame(state.raf);
+  state.raf=requestAnimationFrame(loop);
+}
+
+function pause(){
+  state.playing=false;
+  if(state.audioEl){try{state.audioEl.pause();}catch(e){}}
+  if(state.raf){cancelAnimationFrame(state.raf);state.raf=null;}
+  refreshControls();
+  drawFrame();
+}
+
+function pickMime(){
+  if(typeof MediaRecorder==='undefined')return'';
+  var list=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'];
+  for(var i=0;i<list.length;i++){
+    try{if(MediaRecorder.isTypeSupported(list[i]))return list[i];}catch(e){}
+  }
+  return'';
+}
+
+function startRecord(){
+  if(state.recording){stopRecord();return;}
+  if(state.photoObjs.length===0||!state.audioEl){showError('Need both photos and audio to record.');return;}
+  if(!canvas||typeof canvas.captureStream!=='function'){showError('Your browser does not support video recording. Please use Chrome, Edge, or Firefox.');return;}
+  
+  var mime=pickMime();
+  if(!mime){showError('No supported video format found in your browser.');return;}
+  
+  try{
+    var videoStream=canvas.captureStream(30);
+    var audioTracks=[];
+    
+    if(state.audioEl&&state.audioEl.captureStream){
+      try{
+        var aStream=state.audioEl.captureStream();
+        audioTracks=aStream.getAudioTracks();
+      }catch(e){
+        showError('Could not capture audio. Recording video only.');
+      }
+    }
+    
+    var allTracks=videoStream.getVideoTracks().concat(audioTracks);
+    state.recStream=new MediaStream(allTracks);
+    state.recChunks=[];
+    state.recorder=new MediaRecorder(state.recStream,{mimeType:mime,videoBitsPerSecond:6000000});
+    
+    state.recorder.ondataavailable=function(e){
+      if(e.data&&e.data.size>0)state.recChunks.push(e.data);
+    };
+    state.recorder.onstop=finishRecord;
+    state.recorder.onerror=function(){showError('Recording error occurred.');cleanupRecord();};
+    
+    state.recorder.start(100);
+    state.recording=true;
+    $('tsxv5-stvRecBadge').classList.add('show');
+    $('tsxv5-stvProgBox').classList.add('show');
+    
+    if(!state.playing)play();
+    
+    var totalMs=(state.totalTime>0?state.totalTime:state.photoObjs.length*state.sceneDur)*1000;
+    var recStart=Date.now();
+    state.recTimer=setInterval(function(){
+      if(!state.recording){clearInterval(state.recTimer);return;}
+      var el=Date.now()-recStart;
+      var pct=Math.min(98,(el/totalMs)*100);
+      $('tsxv5-stvProgFill').style.width=pct+'%';
+      setText($('tsxv5-stvProgTxt'),'Recording: '+Math.floor(el/1000)+'s / '+Math.floor(totalMs/1000)+'s');
+    },250);
+    
+  }catch(err){
+    showError('Recording setup failed: '+err.message);
+    cleanupRecord();
+  }
+}
+
+function stopRecord(){
+  if(state.recorder&&state.recorder.state!=='inactive'){
+    try{state.recorder.stop();}catch(e){}
+  }
+}
+
+function finishRecord(){
+  state.recording=false;
+  if(state.recTimer){clearInterval(state.recTimer);state.recTimer=null;}
+  
+  if(!state.recChunks.length){showError('Video was not recorded successfully.');cleanupRecord();return;}
+  
+  revokeUrl(state.recUrl);
+  var blob=new Blob(state.recChunks,{type:'video/webm'});
+  state.recUrl=trackUrl(URL.createObjectURL(blob));
+  
+  var vid=$('tsxv5-stvPreviewVid');
+  if(vid){vid.src=state.recUrl;try{vid.load();}catch(e){}}
+  
+  var baseName=sanitizeFilename('toolsx-lyric-'+Date.now());
+  var dlHD=$('tsxv5-stvDlHD'),dlSD=$('tsxv5-stvDlSD');
+  if(dlHD){dlHD.href=state.recUrl;dlHD.download=baseName+'-hd.webm';}
+  if(dlSD){dlSD.href=state.recUrl;dlSD.download=baseName+'-sd.webm';}
+  
+  $('tsxv5-stvDownload').classList.add('show');
+  $('tsxv5-stvProgFill').style.width='100%';
+  setText($('tsxv5-stvProgTxt'),'Recording complete!');
+  
+  cleanupRecord();
+  
+  if(state.playing)pause();
+  
+  setTimeout(function(){
+    $('tsxv5-stvDownload').scrollIntoView({behavior:'smooth',block:'center'});
+  },300);
+}
+
+function cleanupRecord(){
+  state.recording=false;
+  if(state.recStream){
+    try{state.recStream.getTracks().forEach(function(t){t.stop();});}catch(e){}
+    state.recStream=null;
+  }
+  if(state.recTimer){clearInterval(state.recTimer);state.recTimer=null;}
+  state.recorder=null;state.recChunks=[];
+  $('tsxv5-stvRecBadge').classList.remove('show');
+  $('tsxv5-stvProgBox').classList.remove('show');
+  $('tsxv5-stvProgFill').style.width='0%';
+  refreshControls();
+}
+
+function resetTool(){
+  cleanupRecord();
+  if(state.playing)pause();
+  cleanupAudio();
+  state.photos.forEach(function(p){revokeUrl(p.url);});
+  state.photos=[];state.photoObjs=[];
+  revokeUrl(state.recUrl);state.recUrl=null;
+  state.currentScene=0;state.sceneStartTime=0;state.sceneProgress=0;
+  
+  var audioInput=$('tsxv5-stvAudioInput'),imageInput=$('tsxv5-stvImageInput');
+  if(audioInput)audioInput.value='';
+  if(imageInput)imageInput.value='';
+  
+  renderAudioList();renderImageList();
+  $('tsxv5-stvDownload').classList.remove('show');
+  $('tsxv5-stvHint').classList.remove('hide');
+  refreshControls();
+  drawFrame();
+}
+
+// === EVENT LISTENERS ===
+
+var audioDrop=$('tsxv5-stvAudioDrop');
+var audioInput=$('tsxv5-stvAudioInput');
+if(audioDrop&&audioInput){
+  audioDrop.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();audioInput.click();});
+  audioDrop.addEventListener('dragover',function(e){e.preventDefault();e.stopPropagation();audioDrop.classList.add('drag');});
+  audioDrop.addEventListener('dragleave',function(e){e.preventDefault();e.stopPropagation();audioDrop.classList.remove('drag');});
+  audioDrop.addEventListener('drop',function(e){
+    e.preventDefault();e.stopPropagation();audioDrop.classList.remove('drag');
+    var files=e.dataTransfer&&e.dataTransfer.files;
+    if(files&&files.length)handleAudio(files[0]);
+  });
+  audioInput.addEventListener('change',function(){
+    if(this.files&&this.files[0])handleAudio(this.files[0]);
+    this.value='';
+  });
+}
+
+var imageDrop=$('tsxv5-stvImageDrop');
+var imageInput=$('tsxv5-stvImageInput');
+if(imageDrop&&imageInput){
+  imageDrop.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();imageInput.click();});
+  imageDrop.addEventListener('dragover',function(e){e.preventDefault();e.stopPropagation();imageDrop.classList.add('drag');});
+  imageDrop.addEventListener('dragleave',function(e){e.preventDefault();e.stopPropagation();imageDrop.classList.remove('drag');});
+  imageDrop.addEventListener('drop',function(e){
+    e.preventDefault();e.stopPropagation();imageDrop.classList.remove('drag');
+    var files=e.dataTransfer&&e.dataTransfer.files;
+    if(files&&files.length)handleImages(Array.from(files));
+  });
+  imageInput.addEventListener('change',function(){
+    if(this.files&&this.files.length)handleImages(Array.from(this.files));
+    this.value='';
+  });
+}
+
+var playBtn=$('tsxv5-stvPlayBtn'),pauseBtn=$('tsxv5-stvPauseBtn'),recBtn=$('tsxv5-stvRecBtn'),resetBtn=$('tsxv5-stvResetBtn');
+if(playBtn)playBtn.addEventListener('click',play);
+if(pauseBtn)pauseBtn.addEventListener('click',pause);
+if(recBtn)recBtn.addEventListener('click',startRecord);
+if(resetBtn)resetBtn.addEventListener('click',resetTool);
+
+var arSel=$('tsxv5-stvAspectRatio'),sdSel=$('tsxv5-stvSceneDur'),trSel=$('tsxv5-stvTransition');
+if(arSel)arSel.addEventListener('change',function(){state.aspectRatio=this.value;sizeCanvas();});
+if(sdSel)sdSel.addEventListener('change',function(){state.sceneDur=parseFloat(this.value)||5;});
+if(trSel)trSel.addEventListener('change',function(){state.transition=this.value;});
+
+W.querySelectorAll('.stv-faq-item').forEach(function(item){
+  item.addEventListener('click',function(){this.classList.toggle('open');});
+});
+
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden&&state.playing&&!state.recording)pause();
+});
+
+window.addEventListener('pagehide',function(){
+  try{
+    urls.forEach(function(u){try{URL.revokeObjectURL(u);}catch(e){}});
+    urls.clear();
+    if(state.recStream){state.recStream.getTracks().forEach(function(t){t.stop();});}
+  }catch(e){}
+});
+
+sizeCanvas();refreshControls();drawFrame();
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

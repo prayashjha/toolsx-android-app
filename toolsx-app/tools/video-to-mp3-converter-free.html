@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Video to MP3 Converter – Extract High-Quality Audio Free – ToolsX App</title>
+<meta name="description" content="Convert any video to high-quality MP3 audio free online. Fast extraction, no software install, download instantly.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Video to MP3 Converter – Extract High-Quality Audio Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-vid2mp3" class="tsxv5-wrapper">
+
+<style>
+#tsxv5-vid2mp3{
+  --bg:#ffffff;
+  --surface:#f8fafc;
+  --surface-2:#f1f5f9;
+  --line:#e2e8f0;
+  --teal:#0d9488;
+  --teal-hover:#0f766e;
+  --amber:#d97706;
+  --amber-hover:#b45309;
+  --text:#111111;
+  --muted:#475569;
+  --shadow:rgba(15,23,42,0.08);
+  --success:#059669;
+  --error:#dc2626;
+  --btn-text:#ffffff;
+  --btn-dark-text:#062521;
+  font-family:'Inter',-apple-system,'Segoe UI',Roboto,sans-serif;
+  line-height:1.6;
+  max-width:720px;
+  margin:0 auto;
+  padding:48px 20px 80px;
+  background:var(--bg);
+  color:var(--text);
+  transition:background 0.3s ease,color 0.3s ease;
+}
+body.dark-mode #tsxv5-vid2mp3,
+html.dark-mode #tsxv5-vid2mp3,
+[data-theme="dark"] #tsxv5-vid2mp3,
+body[data-theme="dark"] #tsxv5-vid2mp3,
+html[data-theme="dark"] #tsxv5-vid2mp3,
+.dark-mode #tsxv5-vid2mp3,
+.night-mode #tsxv5-vid2mp3{
+  --bg:#0f172a;
+  --surface:#1e293b;
+  --surface-2:#334155;
+  --line:#475569;
+  --teal:#2dd4bf;
+  --teal-hover:#14b8a6;
+  --amber:#f5a623;
+  --amber-hover:#fbbf24;
+  --text:#8ab4f8;
+  --muted:#94a3b8;
+  --shadow:rgba(0,0,0,0.3);
+  --success:#34d399;
+  --error:#f87171;
+  --btn-text:#062521;
+  --btn-dark-text:#062521;
+}
+#tsxv5-vid2mp3 *{box-sizing:border-box;max-width:100%;}
+#tsxv5-vid2mp3 h2{
+  font-family:'Space Grotesk','Inter',sans-serif;
+  font-size:clamp(26px,5vw,34px);
+  font-weight:700;
+  margin:0 0 8px;
+  letter-spacing:-0.02em;
+  color:var(--text);
+}
+#tsxv5-vid2mp3 .subtitle{
+  color:var(--muted);
+  margin:0 0 28px;
+  font-size:15px;
+  line-height:1.6;
+}
+#tsxv5-vid2mp3 .card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:28px;
+  box-shadow:0 10px 30px var(--shadow);
+}
+#tsxv5-vid2mp3 .eq{
+  display:flex;
+  align-items:flex-end;
+  gap:4px;
+  height:44px;
+  margin-bottom:20px;
+}
+#tsxv5-vid2mp3 .eq span{
+  flex:1;
+  background:linear-gradient(180deg,var(--teal),#12857a);
+  border-radius:3px;
+  height:20%;
+  transform-origin:bottom;
+  transition:height 0.15s ease;
+}
+#tsxv5-vid2mp3 .eq.active span{animation:tsxv5Bounce 1.1s ease-in-out infinite;}
+#tsxv5-vid2mp3 .eq span:nth-child(1){animation-delay:0s;}
+#tsxv5-vid2mp3 .eq span:nth-child(2){animation-delay:0.1s;}
+#tsxv5-vid2mp3 .eq span:nth-child(3){animation-delay:0.2s;}
+#tsxv5-vid2mp3 .eq span:nth-child(4){animation-delay:0.3s;}
+#tsxv5-vid2mp3 .eq span:nth-child(5){animation-delay:0.15s;}
+#tsxv5-vid2mp3 .eq span:nth-child(6){animation-delay:0.25s;}
+#tsxv5-vid2mp3 .eq span:nth-child(7){animation-delay:0.05s;}
+#tsxv5-vid2mp3 .eq span:nth-child(8){animation-delay:0.35s;}
+@keyframes tsxv5Bounce{0%,100%{height:20%;}50%{height:90%;}}
+@media(prefers-reduced-motion:reduce){
+  #tsxv5-vid2mp3 .eq.active span{animation:none;height:60%;}
+}
+#tsxv5-vid2mp3 .drop{
+  position:relative; /* FIX: hidden input ko contain karne ke liye */
+  border:1.5px dashed var(--line);
+  border-radius:12px;
+  padding:24px;
+  text-align:center;
+  background:var(--surface-2);
+  cursor:pointer;
+  transition:border-color 0.15s ease,background 0.15s ease;
+}
+#tsxv5-vid2mp3 .drop:hover,
+#tsxv5-vid2mp3 .drop.dragover{border-color:var(--teal);}
+body.dark-mode #tsxv5-vid2mp3 .drop:hover,
+body.dark-mode #tsxv5-vid2mp3 .drop.dragover,
+html.dark-mode #tsxv5-vid2mp3 .drop:hover,
+html.dark-mode #tsxv5-vid2mp3 .drop.dragover,
+[data-theme="dark"] #tsxv5-vid2mp3 .drop:hover,
+[data-theme="dark"] #tsxv5-vid2mp3 .drop.dragover,
+body[data-theme="dark"] #tsxv5-vid2mp3 .drop:hover,
+body[data-theme="dark"] #tsxv5-vid2mp3 .drop.dragover,
+html[data-theme="dark"] #tsxv5-vid2mp3 .drop:hover,
+html[data-theme="dark"] #tsxv5-vid2mp3 .drop.dragover,
+.dark-mode #tsxv5-vid2mp3 .drop:hover,
+.dark-mode #tsxv5-vid2mp3 .drop.dragover,
+.night-mode #tsxv5-vid2mp3 .drop:hover,
+.night-mode #tsxv5-vid2mp3 .drop.dragover{background:#2d3748;}
+
+/* FIX: display:none hata diya - ab input invisible hai but clickable/triggerable on all browsers incl. iOS */
+#tsxv5-vid2mp3 .drop input{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+  opacity:0;
+}
+
+#tsxv5-vid2mp3 .drop .label{font-size:14px;color:var(--muted);}
+#tsxv5-vid2mp3 .drop .filename{
+  margin-top:8px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  color:var(--text);
+  word-break:break-all;
+}
+#tsxv5-vid2mp3 .row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-top:18px;
+  flex-wrap:wrap;
+}
+#tsxv5-vid2mp3 .row label{
+  font-size:13px;
+  color:var(--muted);
+  font-weight:600;
+}
+#tsxv5-vid2mp3 select{
+  background:var(--surface-2);
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:8px 10px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  cursor:pointer;
+  max-width:100%;
+  box-sizing:border-box;
+}
+#tsxv5-vid2mp3 button.primary{
+  margin-top:20px;
+  width:100%;
+  background:var(--teal);
+  color:var(--btn-dark-text)!important;
+  border:none;
+  padding:14px 20px;
+  border-radius:10px;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+  transition:transform 0.1s ease,background 0.15s ease;
+  min-height:44px;
+}
+#tsxv5-vid2mp3 button.primary:hover:not(:disabled){background:var(--teal-hover);}
+#tsxv5-vid2mp3 button.primary:disabled{
+  background:var(--surface-2);
+  color:var(--muted);
+  cursor:not-allowed;
+}
+#tsxv5-vid2mp3 .progress-wrap{
+  margin-top:16px;
+  background:var(--surface-2);
+  border-radius:8px;
+  height:10px;
+  overflow:hidden;
+  display:none;
+}
+#tsxv5-vid2mp3 .progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--teal),var(--amber));
+  transition:width 0.2s ease;
+}
+#tsxv5-vid2mp3 .status{
+  margin-top:12px;
+  font-size:13.5px;
+  color:var(--muted);
+  font-family:'IBM Plex Mono',monospace;
+  min-height:18px;
+}
+#tsxv5-vid2mp3 .status.error{color:var(--error);}
+#tsxv5-vid2mp3 .status.done{color:var(--success);}
+#tsxv5-vid2mp3 a.download-btn{
+  display:none;
+  margin-top:14px;
+  text-align:center;
+  background:var(--amber);
+  color:var(--btn-text)!important;
+  text-decoration:none;
+  padding:13px 20px;
+  border-radius:10px;
+  font-weight:700;
+  font-size:14.5px;
+  transition:background 0.2s ease;
+  min-height:44px;
+}
+#tsxv5-vid2mp3 a.download-btn:hover{background:var(--amber-hover);}
+#tsxv5-vid2mp3 .meta{
+  display:flex;
+  gap:16px;
+  margin-top:10px;
+  font-size:12.5px;
+  color:var(--muted);
+  font-family:'IBM Plex Mono',monospace;
+  flex-wrap:wrap;
+}
+#tsxv5-vid2mp3 section.info{margin-top:56px;}
+#tsxv5-vid2mp3 section.info h3{
+  font-family:'Space Grotesk','Inter',sans-serif;
+  font-size:20px;
+  margin:0 0 14px;
+  color:var(--text);
+  font-weight:700;
+}
+#tsxv5-vid2mp3 .steps{
+  list-style:none;
+  margin:0;
+  padding:0;
+  counter-reset:step;
+}
+#tsxv5-vid2mp3 .steps li{
+  counter-increment:step;
+  display:flex;
+  gap:14px;
+  padding:14px 0;
+  border-bottom:1px solid var(--line);
+}
+#tsxv5-vid2mp3 .steps li:last-child{border-bottom:none;}
+#tsxv5-vid2mp3 .steps li::before{
+  content:counter(step);
+  flex:0 0 30px;
+  height:30px;
+  border-radius:50%;
+  background:var(--surface-2);
+  border:1px solid var(--line);
+  color:var(--teal);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;
+  font-weight:700;
+}
+#tsxv5-vid2mp3 .steps .step-text strong{
+  display:block;
+  margin-bottom:2px;
+  font-size:14.5px;
+  color:var(--text);
+}
+#tsxv5-vid2mp3 .steps .step-text span{
+  color:var(--muted);
+  font-size:13.5px;
+  line-height:1.6;
+}
+#tsxv5-vid2mp3 .faq .faq-item{margin-bottom:14px;}
+#tsxv5-vid2mp3 .faq .faq-item h3{
+  font-weight:600;
+  font-size:14.5px;
+  color:var(--text);
+  margin-bottom:8px;
+}
+#tsxv5-vid2mp3 .faq .faq-item p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+  margin:0;
+}
+#tsxv5-vid2mp3 .privacy-note{
+  margin-top:22px;
+  font-size:13px;
+  color:var(--muted);
+  border-left:3px solid var(--teal);
+  padding:10px 14px;
+  background:var(--surface-2);
+  border-radius:0 8px 8px 0;
+  line-height:1.6;
+}
+#tsxv5-vid2mp3 .creator-tip{
+  margin-top:40px;
+  padding:24px;
+  background:linear-gradient(135deg,rgba(45,212,191,0.08) 0%,rgba(245,166,35,0.05) 100%);
+  border-radius:16px;
+  border:1px solid var(--line);
+}
+#tsxv5-vid2mp3 .creator-tip h3{
+  margin-bottom:12px;
+  color:var(--teal);
+}
+#tsxv5-vid2mp3 .creator-tip p{
+  color:var(--muted);
+  line-height:1.7;
+  margin-bottom:10px;
+}
+#tsxv5-vid2mp3 .creator-tip a{
+  color:var(--teal);
+  font-weight:600;
+  text-decoration:none;
+}
+#tsxv5-vid2mp3 .creator-tip a:hover{text-decoration:underline;}
+#tsxv5-vid2mp3 a{
+  color:var(--teal);
+  font-weight:600;
+  text-decoration:none;
+  transition:color 0.2s;
+}
+#tsxv5-vid2mp3 a:hover{text-decoration:underline;}
+#tsxv5-vid2mp3 footer{
+  margin-top:50px;
+  text-align:center;
+  font-size:12.5px;
+  color:var(--muted);
+  padding:20px 0;
+}
+#tsxv5-vid2mp3 .related-tools{
+  margin-top:40px;
+}
+#tsxv5-vid2mp3 .related-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:12px;
+  margin-top:18px;
+}
+#tsxv5-vid2mp3 .related-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:16px;
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  transition:border-color 0.2s, transform 0.2s;
+}
+#tsxv5-vid2mp3 .related-card:hover{
+  border-color:var(--teal);
+  transform:translateY(-3px);
+}
+#tsxv5-vid2mp3 .related-card strong{
+  color:var(--teal);
+  font-size:14px;
+}
+#tsxv5-vid2mp3 .related-card span{
+  color:var(--muted);
+  font-size:12.5px;
+  line-height:1.4;
+}
+@media(max-width:768px){
+  #tsxv5-vid2mp3{padding:30px 16px 60px;}
+  #tsxv5-vid2mp3 .card{padding:18px;}
+  #tsxv5-vid2mp3 h2{font-size:22px;}
+  #tsxv5-vid2mp3 .row{flex-direction:column;align-items:stretch;}
+  #tsxv5-vid2mp3 .meta{flex-direction:column;gap:6px;}
+}
+@media(max-width:480px){
+  #tsxv5-vid2mp3 .related-grid{grid-template-columns:1fr;}
+}
+@media(min-width:1024px){
+  #tsxv5-vid2mp3{
+    padding:64px 40px 100px;
+  }
+  #tsxv5-vid2mp3 .related-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+</style>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Video to MP3 Converter","description":"Extract MP3 audio from video files directly in your browser. 100% client-side, no upload required. Supports 128/192/320 kbps quality options.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","featureList":"Browser-based conversion, No upload required, Multiple bitrate options (128/192/320 kbps), Support for MP4/WEBM/MOV, Privacy-first processing","softwareVersion":"5.1"}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Convert Video to MP3","description":"Step-by-step guide to extracting MP3 audio from video files.","totalTime":"PT2M","step":[{"@type":"HowToStep","position":1,"name":"Select Video","text":"Click the drop zone or drag-drop your video file (MP4, WEBM, MOV)."},{"@type":"HowToStep","position":2,"name":"Choose Quality","text":"Select MP3 bitrate: 128 kbps (standard), 192 kbps (high), or 320 kbps (studio)."},{"@type":"HowToStep","position":3,"name":"Convert","text":"Click Convert to MP3 button and wait for processing."},{"@type":"HowToStep","position":4,"name":"Download","text":"Click the download button to save your MP3 file."}]}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is the video uploaded to a server for conversion?","acceptedAnswer":{"@type":"Answer","text":"No. This tool runs entirely in your browser, so your video never leaves your device and remains private."}},{"@type":"Question","name":"Which video formats are supported?","acceptedAnswer":{"@type":"Answer","text":"MP4, WEBM, MOV, and any format your browser can natively play. Modern browsers support all major formats."}},{"@type":"Question","name":"Is this tool free and copyright-free?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is completely free with no signup or payment required. The output MP3 belongs to you with no restrictions."}},{"@type":"Question","name":"What is the quality of the output MP3?","acceptedAnswer":{"@type":"Answer","text":"You can choose between 128, 192, or 320 kbps. Higher bitrate means better quality but larger file size."}},{"@type":"Question","name":"Can long videos (1 hour+) be converted?","acceptedAnswer":{"@type":"Answer","text":"Yes, but browser memory limits apply. For best results, videos under 30 minutes are recommended. Longer videos should be trimmed first."}}]}
+</script>
+
+<h2>🎵 Video to MP3 Converter — Made for Creators</h2>
+<p class="subtitle">Extract crystal-clear MP3 audio from your videos — directly in the browser, with no upload or installation required.</p>
+
+<div class="card">
+  <div class="eq" id="tsxv5-eq">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="drop" id="tsxv5-dropZone">
+    <input type="file" id="tsxv5-videoInput" accept="video/*,video/mp4,video/webm,video/quicktime,video/x-matroska,.mp4,.webm,.mov,.mkv,.avi">
+    <div class="label">🎬 Drop your video here or <strong style="color:var(--teal)">click to choose</strong></div>
+    <div class="filename" id="tsxv5-fileName"></div>
+  </div>
+
+  <div class="row">
+    <label for="tsxv5-bitrate">🎚️ MP3 Quality:</label>
+    <select id="tsxv5-bitrate">
+      <option value="128" selected>128 kbps (Standard - Podcasts)</option>
+      <option value="192">192 kbps (High - Music)</option>
+      <option value="320">320 kbps (Studio - Audiophile)</option>
+    </select>
+  </div>
+
+  <button type="button" class="primary" id="tsxv5-convertBtn" disabled>🎧 Convert to MP3</button>
+
+  <div class="progress-wrap" id="tsxv5-progressWrap">
+    <div class="progress-bar" id="tsxv5-progressBar"></div>
+  </div>
+  <div class="status" id="tsxv5-status"></div>
+  <div class="meta" id="tsxv5-meta"></div>
+  <a class="download-btn" id="tsxv5-downloadLink">⬇️ Download MP3</a>
+
+  <div class="privacy-note">🔒 This tool never uploads your video file — conversion happens entirely on your device/browser. 100% private, secure, and GDPR compliant.</div>
+</div>
+
+<section class="info">
+  <h3>🔧 How This Tool Works</h3>
+  <ul class="steps">
+    <li><div class="step-text"><strong>Select your video</strong><span>Choose or drag-and-drop your MP4, WEBM, or MOV file. The tool supports files up to 100MB.</span></div></li>
+    <li><div class="step-text"><strong>Browser decodes audio</strong><span>Using the Web Audio API, the browser extracts hidden audio from the video — the file never leaves your device.</span></div></li>
+    <li><div class="step-text"><strong>Real-time MP3 encoding</strong><span>The extracted audio is encoded to MP3 at your chosen bitrate (128/192/320 kbps) using a JavaScript MP3 encoder (LAME).</span></div></li>
+    <li><div class="step-text"><strong>Instant download</strong><span>Once conversion is complete, a ready MP3 download link appears — no waiting, no server queue.</span></div></li>
+  </ul>
+</section>
+
+<section class="info">
+  <h3>🎤 Creator's Corner: Legal Audio Extraction Tips</h3>
+  <p><strong>First and foremost — respect copyright!</strong> Use this tool only for videos you own or that are Creative Commons / royalty-free. Extracting and monetizing someone else's content without permission is against YouTube, Instagram, and copyright laws.</p>
+  <p><strong>Perfect use cases for creators:</strong></p>
+  <ul style="padding-left:20px;color:var(--muted);line-height:1.8;">
+    <li>Separate background music from your own YouTube video to create a podcast version</li>
+    <li>Extract raw audio from events you shot (weddings, vlogs)</li>
+    <li>Pull sound effects from royalty-free stock videos for your editing library</li>
+    <li>Clean audio from your guitar/vocal practice videos and upload to SoundCloud</li>
+  </ul>
+  <p><strong>Pro tip:</strong> If your browser can't preview the video, check the file format — sometimes MOV files only work well in Safari, not Chrome. In that case, convert the video to MP4 first using a free tool.</p>
+  <p>Wondering what else you can do with extracted audio? Check out the <strong>Related Tools</strong> below.</p>
+</section>
+
+<section class="info">
+  <h3>🎚️ Audio Quality Guide: 128 vs 192 vs 320 kbps</h3>
+  <ul class="steps">
+    <li><div class="step-text"><strong>128 kbps — Standard Quality</strong><span>Best for podcasts, voiceovers, and spoken content. Smallest file size, mobile-friendly streaming. 128 kbps is perfectly sufficient for human voice.</span></div></li>
+    <li><div class="step-text"><strong>192 kbps — High Quality</strong><span>Ideal for music tracks, YouTube background scores, and casual listening. Balanced file size and quality — the most popular choice among creators.</span></div></li>
+    <li><div class="step-text"><strong>320 kbps — Studio Quality</strong><span>For audiophiles, professional musicians, and high-end headphone users. Highest fidelity but also largest file size. Use when quality cannot be compromised.</span></div></li>
+  </ul>
+</section>
+
+<section class="info">
+  <h3>🔊 Pro Tips for Smooth Conversion</h3>
+  <ul class="steps">
+    <li><div class="step-text"><strong>Prefer smaller files</strong><span>Videos longer than 30 minutes can strain browser memory. If possible, trim the video first with a video editor.</span></div></li>
+    <li><div class="step-text"><strong>Use Chrome or Edge</strong><span>These browsers offer the best compatibility with Web Audio API and the LAME encoder. Firefox works too but may be slower.</span></div></li>
+    <li><div class="step-text"><strong>Close background apps</strong><span>During conversion, close heavy applications (video editing, gaming) so the CPU can focus and conversion completes faster.</span></div></li>
+    <li><div class="step-text"><strong>Verify with headphones</strong><span>After download, listen to the MP3 with good headphones to verify quality, especially if you used 128 kbps.</span></div></li>
+  </ul>
+</section>
+
+<section class="info faq">
+  <h3>❓ Frequently Asked Questions</h3>
+  <div class="faq-item">
+    <h3>Is the video uploaded to a server for conversion?</h3>
+    <p>No. This tool runs entirely in your browser, so your video never leaves your device and remains private.</p>
+  </div>
+  <div class="faq-item">
+    <h3>Which video formats are supported?</h3>
+    <p>MP4, WEBM, MOV, and any format your browser can natively play. Modern browsers support all major formats.</p>
+  </div>
+  <div class="faq-item">
+    <h3>Is this tool free and copyright-free?</h3>
+    <p>Yes, it is completely free with no signup or payment required. The output MP3 belongs to you with no restrictions.</p>
+  </div>
+  <div class="faq-item">
+    <h3>What is the quality of the output MP3?</h3>
+    <p>You can choose between 128, 192, or 320 kbps. Higher bitrate means better quality but larger file size.</p>
+  </div>
+  <div class="faq-item">
+    <h3>Can long videos (1 hour+) be converted?</h3>
+    <p>Yes, but browser memory limits apply. For best results, videos under 30 minutes are recommended. Longer videos should be trimmed first.</p>
+  </div>
+</section>
+
+<section class="info related-tools">
+  <h3>🧰 Related Tools</h3>
+  <div class="related-grid">
+    <a href="../tools/free-background-remover-remove-image.html" class="related-card">
+      <strong>🎭 Background Remover</strong>
+      <span>Erase backgrounds from images instantly with AI precision.</span>
+    </a>
+    <a href="../tools/free-passport-photo-maker-online-ai.html" class="related-card">
+      <strong>📸 Passport Photo Maker</strong>
+      <span>Create professional passport photos online with automatic sizing.</span>
+    </a>
+    <a href="../tools/edit-karein-image-compress-enhance-crop.html" class="related-card">
+      <strong>🖼️ Image Compress & Enhance</strong>
+      <span>Compress, crop, and enhance your images in one easy tool.</span>
+    </a>
+  </div>
+</section>
+
+<p style="margin-top:30px;line-height:1.8;">This <strong>Video to MP3 Converter</strong> is an essential tool for anyone working with audio content. Whether you're a podcaster, musician, or YouTuber, this tool gives you the power to extract clean audio from your videos without expensive software. Use the related tools above to take your extracted audio even further.</p>
+
+<footer>
+  Powered by <strong>Tools-X</strong> · toolsx.in
+</footer>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+
+var dropZone=document.getElementById('tsxv5-dropZone');
+var videoInput=document.getElementById('tsxv5-videoInput');
+var fileNameEl=document.getElementById('tsxv5-fileName');
+var convertBtn=document.getElementById('tsxv5-convertBtn');
+var bitrateSel=document.getElementById('tsxv5-bitrate');
+var progressWrap=document.getElementById('tsxv5-progressWrap');
+var progressBar=document.getElementById('tsxv5-progressBar');
+var statusEl=document.getElementById('tsxv5-status');
+var metaEl=document.getElementById('tsxv5-meta');
+var downloadLink=document.getElementById('tsxv5-downloadLink');
+var eq=document.getElementById('tsxv5-eq');
+
+var selectedFile=null;
+var MAX_SIZE=100*1024*1024;
+var objectUrl=null;
+var lamejsLoaded=false;
+
+function sanitizeFilename(name){
+  return String(name||'audio').replace(/[^a-zA-Z0-9._-]/g,'').substring(0,100)||'audio';
+}
+
+function validateFile(file){
+  if(file.size>MAX_SIZE){
+    return 'File size exceeds 100MB. Please use a smaller file.';
+  }
+  var validTypes=['video/mp4','video/webm','video/quicktime','video/x-matroska','video/avi'];
+  var ext=(file.name.split('.').pop()||'').toLowerCase();
+  if(!validTypes.includes(file.type)&&!['mp4','webm','mov','mkv','avi'].includes(ext)){
+    return 'Unsupported video format. Please use MP4, WEBM, or MOV.';
+  }
+  return null;
+}
+
+function revokeObjectUrl(){
+  if(objectUrl){
+    URL.revokeObjectURL(objectUrl);
+    objectUrl=null;
+  }
+}
+
+/* FIX: click handler ab multiple tarike se try karega */
+function openFilePicker(){
+  try{
+    videoInput.click();
+  }catch(err){
+    try{
+      var evt=document.createEvent('MouseEvents');
+      evt.initMouseEvent('click',true,true,window,0,0,0,0,0,false,false,false,false,0,null);
+      videoInput.dispatchEvent(evt);
+    }catch(e2){
+      console.warn('File picker open failed',e2);
+    }
+  }
+}
+
+dropZone.addEventListener('click',function(e){
+  /* Agar user ne directly input pe click kiya ho to dobara na khole */
+  if(e.target && e.target===videoInput) return;
+  e.preventDefault();
+  e.stopPropagation();
+  openFilePicker();
+});
+
+dropZone.addEventListener('dragover',function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  dropZone.classList.add('dragover');
+});
+
+dropZone.addEventListener('dragleave',function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  dropZone.classList.remove('dragover');
+});
+
+/* FIX: DataTransfer use kiya taaki videoInput.files reliably set ho */
+dropZone.addEventListener('drop',function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  dropZone.classList.remove('dragover');
+  var files=e.dataTransfer&&e.dataTransfer.files;
+  if(files&&files.length){
+    var f=files[0];
+    try{
+      var dt=new DataTransfer();
+      dt.items.add(f);
+      videoInput.files=dt.files;
+    }catch(err){
+      /* DataTransfer not supported - ignore, handleFile still called with file */
+    }
+    handleFile(f);
+  }
+});
+
+videoInput.addEventListener('change',function(){
+  if(videoInput.files&&videoInput.files.length) handleFile(videoInput.files[0]);
+});
+
+function handleFile(file){
+  var error=validateFile(file);
+  if(error){
+    statusEl.className='status error';
+    statusEl.textContent='⚠️ '+error;
+    convertBtn.disabled=true;
+    return;
+  }
+  selectedFile=file;
+  fileNameEl.textContent=file.name+' ('+(file.size/(1024*1024)).toFixed(2)+' MB)';
+  convertBtn.disabled=false;
+  statusEl.textContent='';
+  statusEl.className='status';
+  downloadLink.style.display='none';
+  progressWrap.style.display='none';
+  metaEl.textContent='';
+  revokeObjectUrl();
+  downloadLink.href='#';
+}
+
+function floatTo16BitPCM(input){
+  var output=new Int16Array(input.length);
+  for(var i=0;i<input.length;i++){
+    var s=Math.max(-1,Math.min(1,input[i]));
+    output[i]=s<0?s*32768:s*32767;
+  }
+  return output;
+}
+
+function setProgress(pct){
+  progressWrap.style.display='block';
+  progressBar.style.width=pct+'%';
+}
+
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
+
+async function loadLameJS(){
+  if(typeof lamejs!=='undefined'){
+    lamejsLoaded=true;
+    return;
+  }
+  
+  var cdnUrls=[
+    'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.all.min.js',
+    'https://unpkg.com/lamejs@1.2.1/lame.all.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.all.min.js'
+  ];
+  
+  for(var i=0;i<cdnUrls.length;i++){
+    try{
+      await new Promise(function(resolve,reject){
+        var script=document.createElement('script');
+        script.src=cdnUrls[i];
+        script.onload=resolve;
+        script.onerror=reject;
+        document.head.appendChild(script);
+      });
+      
+      if(typeof lamejs!=='undefined'){
+        lamejsLoaded=true;
+        return;
+      }
+    }catch(e){
+      console.warn('Failed to load lamejs from',cdnUrls[i],e);
+      continue;
+    }
+  }
+  
+  throw new Error('MP3 encoder library failed to load from all CDN sources');
+}
+
+async function encodeToMp3(audioBuffer,kbps){
+  var channels=audioBuffer.numberOfChannels>=2?2:1;
+  var sampleRate=audioBuffer.sampleRate;
+
+  var mp3encoder=new lamejs.Mp3Encoder(channels,sampleRate,kbps);
+  var mp3Data=[];
+  var sampleBlockSize=1152;
+
+  var left=floatTo16BitPCM(audioBuffer.getChannelData(0));
+  var right=channels===2?floatTo16BitPCM(audioBuffer.getChannelData(1)):null;
+  var total=left.length;
+
+  var processedSinceYield=0;
+  for(var i=0;i<total;i+=sampleBlockSize){
+    var leftChunk=left.subarray(i,i+sampleBlockSize);
+    var mp3buf;
+    if(channels===2){
+      var rightChunk=right.subarray(i,i+sampleBlockSize);
+      mp3buf=mp3encoder.encodeBuffer(leftChunk,rightChunk);
+    }else{
+      mp3buf=mp3encoder.encodeBuffer(leftChunk);
+    }
+    if(mp3buf.length>0)mp3Data.push(mp3buf);
+
+    processedSinceYield++;
+    if(processedSinceYield>=60){
+      processedSinceYield=0;
+      setProgress(Math.min(95,Math.round((i/total)*100)));
+      await sleep(0);
+    }
+  }
+  var end=mp3encoder.flush();
+  if(end.length>0)mp3Data.push(end);
+
+  setProgress(100);
+  return new Blob(mp3Data,{type:'audio/mp3'});
+}
+
+convertBtn.addEventListener('click',async function(){
+  if(!selectedFile)return;
+  convertBtn.disabled=true;
+  downloadLink.style.display='none';
+  metaEl.textContent='';
+  eq.classList.add('active');
+  statusEl.className='status';
+  statusEl.textContent='Loading MP3 encoder...';
+  setProgress(5);
+
+  try{
+    await loadLameJS();
+    
+    statusEl.textContent='Decoding audio track...';
+    var arrayBuffer=await selectedFile.arrayBuffer();
+    var AudioContextClass=window.AudioContext||window.webkitAudioContext;
+    var ctx=new AudioContextClass();
+    
+    var audioBuffer=await new Promise(function(resolve,reject){
+      ctx.decodeAudioData(arrayBuffer,resolve,function(e){
+        reject(new Error('Audio decoding failed'));
+      });
+    });
+
+    statusEl.textContent='Encoding to MP3...';
+    var kbps=parseInt(bitrateSel.value,10);
+    var mp3Blob=await encodeToMp3(audioBuffer,kbps);
+
+    revokeObjectUrl();
+    objectUrl=URL.createObjectURL(mp3Blob);
+    var baseName=selectedFile.name.replace(/\.[^/.]+$/,'');
+    var safeName=sanitizeFilename(baseName);
+    downloadLink.href=objectUrl;
+    downloadLink.download=safeName+'.mp3';
+    downloadLink.style.display='block';
+
+    var durationMin=Math.floor(audioBuffer.duration/60);
+    var durationSec=Math.round(audioBuffer.duration%60);
+    metaEl.textContent='Duration: '+durationMin+'m '+durationSec+'s  ·  Output: '+(mp3Blob.size/(1024*1024)).toFixed(2)+' MB  ·  '+kbps+' kbps';
+
+    statusEl.className='status done';
+    statusEl.textContent='✅ Conversion complete!';
+    if(ctx.state!=='closed'){
+      ctx.close();
+    }
+  }catch(err){
+    statusEl.className='status error';
+    if(err.message&&err.message.includes('library failed')){
+      statusEl.textContent='⚠️ MP3 encoder library failed to load. Please check your internet connection and refresh the page.';
+    }else{
+      statusEl.textContent='⚠️ Error: Could not decode audio from this video. Check the format or try another file.';
+    }
+    console.error(err);
+  }finally{
+    eq.classList.remove('active');
+    convertBtn.disabled=false;
+  }
+});
+
+console.log('Tools-X Video to MP3 Converter initialized | toolsx.in');
+})();
+</script>
+
+</div>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

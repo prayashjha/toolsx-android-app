@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>QR &amp; Image Link Extractor – Scan Hidden URLs Instantly – ToolsX App</title>
+<meta name="description" content="Scan QR codes or images free to extract and copy hidden URLs instantly. Simple, fast, and works right in your browser.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>QR &amp; Image Link Extractor – Scan Hidden URLs Instantly</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Image to URL Converter (Base64 Data URL)","description":"Convert JPG, PNG, GIF, WebP images to Base64 Data URLs directly in your browser. No upload, no API, fully offline. Generates ready-to-paste HTML embed code for blogs and email templates.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","featureList":"Base64 Data URL generation, HTML embed code, Live polaroid preview with dimensions, Drag & drop upload, File signature verification, 10MB size limit, Copy to clipboard, 100% offline processing"}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Convert Image to Base64 Data URL","description":"Step-by-step guide to converting an image into a Data URL and HTML embed code.","totalTime":"PT1M","step":[{"@type":"HowToStep","position":1,"name":"Select Image","text":"Drag-drop or click to choose a JPG, PNG, GIF or WebP file (up to 10MB)."},{"@type":"HowToStep","position":2,"name":"Generate URL","text":"Click URL Generate Karein — the browser encodes the image to Base64 locally."},{"@type":"HowToStep","position":3,"name":"Copy Output","text":"Copy the Data URL or the ready HTML embed code with one click."},{"@type":"HowToStep","position":4,"name":"Paste Anywhere","text":"Use it in Blogger, WordPress, email templates or any HTML file."}]}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Kya is tool mein image kahin upload hoti hai?","acceptedAnswer":{"@type":"Answer","text":"Nahi. Yeh tool koi upload ya API use nahi karta. Image poori tarah aapke browser ke andar Base64 text mein convert hoti hai — 100% private."}},{"@type":"Question","name":"Base64 Data URL kya hota hai?","acceptedAnswer":{"@type":"Answer","text":"Yeh ek self-contained URL hota hai jisme poori image ka data seedhe URL string ke andar encode hota hai, isliye kisi hosting server ki zaroorat nahi padti."}},{"@type":"Question","name":"Kya yeh link doosron ke saath short link ki tarah share kar sakte hain?","acceptedAnswer":{"@type":"Answer","text":"Nahi. Base64 URL bahut lamba hota hai kyunki poori image usmein embed hoti hai, isliye yeh chhota shareable link nahi hai — yeh HTML ya code mein directly embed karne ke liye best hai."}},{"@type":"Question","name":"Kya yeh tool free aur copyright free hai?","acceptedAnswer":{"@type":"Answer","text":"Haan, yeh poori tarah free hai aur kisi registration ya API key ki zaroorat nahi hai. Aap jo image convert karte ho, uska output bhi aapka hi rehta hai — koi copyright restriction nahi."}},{"@type":"Question","name":"Kya yeh tool secure hai?","acceptedAnswer":{"@type":"Answer","text":"Haan. Saara processing aapke browser mein hota hai aur koi data kisi server par nahi jaata. File type, size aur image signature verify hoti hai, isliye galat ya khatarnak files reject ho jaati hain."}}]}
+</script>
+
+<div id="tsxv5-img2url" class="tsxv5-wrapper">
+
+<style>
+/* ═══════════════════════════════════════════════════════════
+   TOOLS-X IMAGE TO URL CONVERTER v5.2 — FIXED & OPTIMIZED
+   DEFAULT = LIGHT | DARK = Blogger global selectors
+   ═══════════════════════════════════════════════════════════ */
+#tsxv5-img2url {
+  --bg: #ffffff;
+  --surface: #f8fafc;
+  --surface-2: #f1f5f9;
+  --line: #e2e8f0;
+  --violet: #7c3aed;
+  --violet-hover: #6d28d9;
+  --pink: #ec4899;
+  --text: #111111;
+  --muted: #475569;
+  --shadow: rgba(15,23,42,0.08);
+  --success: #059669;
+  --warn: #d97706;
+  --error: #dc2626;
+  --drop-hover: var(--surface-2);
+  font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+body.dark-mode #tsxv5-img2url,
+html.dark-mode #tsxv5-img2url,
+[data-theme="dark"] #tsxv5-img2url,
+body[data-theme="dark"] #tsxv5-img2url,
+html[data-theme="dark"] #tsxv5-img2url,
+.dark-mode #tsxv5-img2url,
+.night-mode #tsxv5-img2url {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-2: #334155;
+  --line: #475569;
+  --violet: #a78bfa;
+  --violet-hover: #8b5cf6;
+  --pink: #f472b6;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --shadow: rgba(0,0,0,0.3);
+  --success: #34d399;
+  --warn: #fbbf24;
+  --error: #f87171;
+  --drop-hover: #2d3748;
+}
+#tsxv5-img2url * { box-sizing: border-box; max-width: 100%; }
+#tsxv5-img2url img { max-width: 100%; height: auto; }
+#tsxv5-img2url h2 {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-size: clamp(26px, 5vw, 34px);
+  font-weight: 700;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+#tsxv5-img2url .subtitle { color: var(--muted); margin: 0 0 8px; font-size: 15px; line-height: 1.6; }
+#tsxv5-img2url .badge {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12px;
+  font-family: 'IBM Plex Mono', monospace; color: var(--violet);
+  background: var(--surface-2); border: 1px solid var(--line);
+  padding: 5px 10px; border-radius: 999px; margin-bottom: 24px;
+}
+#tsxv5-img2url .badge::before { content: "●"; color: #10b981; }
+#tsxv5-img2url .card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+  padding: 28px; box-shadow: 0 10px 30px var(--shadow); transition: all 0.3s ease;
+}
+#tsxv5-img2url .stage { display: flex; justify-content: center; margin-bottom: 18px; min-height: 0; }
+#tsxv5-img2url .polaroid {
+  display: none; background: #ffffff; padding: 10px 10px 26px; border-radius: 6px;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.45); transform: rotate(-2.5deg); position: relative;
+}
+#tsxv5-img2url .polaroid img { display: block; max-width: 220px; max-height: 220px; border-radius: 2px; object-fit: contain; }
+#tsxv5-img2url .polaroid .tape {
+  position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(1deg);
+  width: 60px; height: 20px; background: rgba(236,72,153,0.55); border: 1px solid rgba(255,255,255,0.4);
+}
+#tsxv5-img2url .polaroid .dims {
+  position: absolute; bottom: 6px; left: 0; right: 0; text-align: center;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #555555;
+}
+#tsxv5-img2url .drop {
+  border: 1.5px dashed var(--line); border-radius: 12px; padding: 26px; text-align: center;
+  background: var(--surface-2); cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease;
+}
+#tsxv5-img2url .drop:hover, #tsxv5-img2url .drop.dragover { border-color: var(--violet); background: var(--drop-hover); }
+#tsxv5-img2url .drop input { display: none; }
+#tsxv5-img2url .drop .icon { font-size: 34px; margin: 0 0 6px; }
+#tsxv5-img2url .drop .label { font-size: 14px; color: var(--muted); }
+#tsxv5-img2url .drop .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+#tsxv5-img2url .drop .filename {
+  margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--text); word-break: break-all;
+}
+#tsxv5-img2url button.primary {
+  margin-top: 18px; width: 100%; background: var(--violet); color: #ffffff; border: none;
+  padding: 14px 20px; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; transition: background 0.15s ease;
+}
+#tsxv5-img2url button.primary:hover:not(:disabled) { background: var(--violet-hover); }
+#tsxv5-img2url button.primary:disabled { background: var(--surface-2); color: var(--muted); cursor: not-allowed; }
+#tsxv5-img2url .status {
+  margin-top: 12px; font-size: 13.5px; color: var(--muted);
+  font-family: 'IBM Plex Mono', monospace; min-height: 18px;
+}
+#tsxv5-img2url .status.error { color: var(--error); }
+#tsxv5-img2url .status.done { color: var(--success); }
+#tsxv5-img2url .status.warn { color: var(--warn); }
+#tsxv5-img2url .result-area { display: none; margin-top: 22px; border-top: 1px solid var(--line); padding-top: 20px; }
+#tsxv5-img2url .url-box { margin-bottom: 14px; }
+#tsxv5-img2url .url-box label { font-weight: 600; display: block; margin-bottom: 6px; font-size: 13px; color: var(--muted); }
+#tsxv5-img2url .input-group { display: flex; gap: 8px; }
+#tsxv5-img2url textarea, #tsxv5-img2url input[type="text"] {
+  flex: 1; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface-2); color: var(--text); font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px; outline: none; resize: vertical; max-width: 100%; box-sizing: border-box;
+}
+#tsxv5-img2url textarea { min-height: 70px; line-height: 1.4; }
+#tsxv5-img2url .copy-btn {
+  background: var(--surface-2); color: var(--violet); border: 1px solid var(--line);
+  padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px;
+  min-width: 76px; align-self: flex-start; transition: all 0.2s ease;
+}
+#tsxv5-img2url .copy-btn.copied { color: #ffffff; background: var(--success); border-color: var(--success); }
+#tsxv5-img2url .char-count { font-size: 11.5px; color: var(--muted); margin-top: 4px; font-family: 'IBM Plex Mono', monospace; }
+#tsxv5-img2url .reset-link {
+  display: inline-block; margin-top: 6px; color: var(--violet); font-size: 13px;
+  cursor: pointer; text-decoration: underline; transition: color 0.2s;
+}
+#tsxv5-img2url .reset-link:hover { color: var(--violet-hover); }
+#tsxv5-img2url section.info { margin-top: 56px; }
+#tsxv5-img2url section.info h2 {
+  font-family: 'Space Grotesk', 'Inter', sans-serif; font-size: 20px; margin-bottom: 14px; color: var(--text);
+}
+#tsxv5-img2url .steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+#tsxv5-img2url .steps li { counter-increment: step; display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+#tsxv5-img2url .steps li:last-child { border-bottom: none; }
+#tsxv5-img2url .steps li::before {
+  content: counter(step); flex: 0 0 30px; height: 30px; border-radius: 50%;
+  background: var(--surface-2); border: 1px solid var(--line); color: var(--violet);
+  display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px;
+}
+#tsxv5-img2url .steps .step-text strong { display: block; margin-bottom: 2px; font-size: 14.5px; color: var(--text); }
+#tsxv5-img2url .steps .step-text span { color: var(--muted); font-size: 13.5px; line-height: 1.6; }
+#tsxv5-img2url ul.feature-list { padding-left: 18px; color: var(--muted); font-size: 14.5px; line-height: 1.8; }
+#tsxv5-img2url ul.feature-list li { margin-bottom: 6px; }
+#tsxv5-img2url ul.feature-list strong { color: var(--text); }
+#tsxv5-img2url .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+#tsxv5-img2url .related-link {
+  display: flex; align-items: center; gap: 12px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 12px; padding: 14px; text-decoration: none; transition: all .2s ease;
+}
+#tsxv5-img2url .related-link:hover { border-color: var(--violet); transform: translateY(-2px); text-decoration: none; }
+#tsxv5-img2url .related-icon { font-size: 1.6rem; flex-shrink: 0; }
+#tsxv5-img2url .related-link strong { display: block; color: var(--text); font-size: 0.9rem; margin-bottom: 2px; }
+#tsxv5-img2url .related-link .rl-desc { color: var(--muted); font-size: 0.78rem; line-height: 1.4; }
+#tsxv5-img2url .faq details {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px;
+}
+#tsxv5-img2url .faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; color: var(--text); }
+#tsxv5-img2url .faq p { margin: 10px 0 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+#tsxv5-img2url .privacy-note {
+  margin-top: 22px; font-size: 13px; color: var(--muted); border-left: 3px solid var(--violet);
+  padding: 10px 14px; background: var(--surface-2); border-radius: 0 8px 8px 0; line-height: 1.6;
+}
+#tsxv5-img2url a { color: var(--violet); font-weight: 600; text-decoration: none; transition: color 0.2s; }
+#tsxv5-img2url a:hover { text-decoration: underline; color: var(--violet-hover); }
+#tsxv5-img2url footer { margin-top: 50px; text-align: center; font-size: 12.5px; color: var(--muted); padding: 20px 0; }
+
+@media(max-width:768px){
+  #tsxv5-img2url { padding: 30px 16px 60px; }
+  #tsxv5-img2url .card { padding: 18px; }
+  #tsxv5-img2url h2 { font-size: 22px; }
+  #tsxv5-img2url .input-group { flex-direction: column; }
+  #tsxv5-img2url .copy-btn { width: 100%; }
+  #tsxv5-img2url .related-grid { grid-template-columns: 1fr; }
+}
+@media(max-width:480px){
+  #tsxv5-img2url .drop { padding: 20px; }
+  #tsxv5-img2url .polaroid img { max-width: 160px; max-height: 160px; }
+}
+@media(min-width:1024px){
+  #tsxv5-img2url { padding: 64px 40px 100px; }
+  #tsxv5-img2url .related-grid { grid-template-columns: repeat(3,1fr); }
+}
+@media(prefers-reduced-motion:reduce){
+  #tsxv5-img2url *, #tsxv5-img2url *::before, #tsxv5-img2url *::after { animation-duration: 0.01ms!important; transition-duration: 0.01ms!important; }
+}
+</style>
+
+<h2>Image to URL Converter</h2>
+<p class="subtitle">Apni image ko turant URL mein badlein — koi upload nahi, koi API nahi, sab kuch offline.</p>
+<div class="badge">No API · No Upload · 100% Browser-based</div>
+
+<div class="card">
+  <div class="stage">
+    <div class="polaroid" id="tsxv5-polaroid">
+      <div class="tape"></div>
+      <img id="tsxv5-imgPreview" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Image preview">
+      <div class="dims" id="tsxv5-dims"></div>
+    </div>
+  </div>
+
+  <div class="drop" id="tsxv5-dropZone">
+    <input type="file" id="tsxv5-fileInput" accept="image/jpeg,image/png,image/webp,image/gif">
+    <div class="icon">🖼️</div>
+    <div class="label">Image yahan drop karein ya <strong style="color:var(--violet)">click karke choose</strong> karein</div>
+    <div class="hint">JPG, PNG, GIF, WebP · Max 10MB</div>
+    <div class="filename" id="tsxv5-fileName"></div>
+  </div>
+
+  <button type="button" class="primary" id="tsxv5-convertBtn" disabled>URL Generate Karein</button>
+
+  <div class="status" id="tsxv5-status"></div>
+
+  <div class="result-area" id="tsxv5-resultArea">
+    <div class="url-box">
+      <label for="tsxv5-dataUrl">Data URL (aap ise seedhe browser address bar ya img src mein use kar sakte hain)</label>
+      <div class="input-group">
+        <textarea id="tsxv5-dataUrl" readonly></textarea>
+        <button type="button" class="copy-btn" data-target="tsxv5-dataUrl">Copy</button>
+      </div>
+      <div class="char-count" id="tsxv5-charCount"></div>
+    </div>
+    <div class="url-box">
+      <label for="tsxv5-htmlCode">HTML Embed Code (Blogger / WordPress)</label>
+      <div class="input-group">
+        <textarea id="tsxv5-htmlCode" readonly></textarea>
+        <button type="button" class="copy-btn" data-target="tsxv5-htmlCode">Copy</button>
+      </div>
+    </div>
+    <span class="reset-link" id="tsxv5-resetLink">Naya image upload karein</span>
+  </div>
+
+  <div class="privacy-note">🔒 Yeh tool koi image upload nahi karta. Poori image conversion aapke device/browser ke andar hoti hai — kabhi bhi kisi server ya API ko data nahi bheja jaata. 100% private aur secure.</div>
+</div>
+
+<section class="info">
+  <h2>Yeh Tool Kaise Kaam Karta Hai</h2>
+  <ul class="steps">
+    <li><div class="step-text"><strong>Image select karein</strong><span>JPG, PNG, GIF ya WebP file drag-drop ya click karke choose karein. Tool 10MB tak ki images accept karta hai aur galat file types ko turant reject kar deta hai.</span></div></li>
+    <li><div class="step-text"><strong>Browser encoding karta hai</strong><span>JavaScript ka FileReader API image ke bytes ko Base64 text mein convert karta hai — kahin upload nahi hota, isliye process offline aur instant rehta hai.</span></div></li>
+    <li><div class="step-text"><strong>Data URL ban jaata hai</strong><span>Yeh Base64 text ek data: URL ke andar wrap ho jaata hai, jo poori image apne andar carry karta hai aur browser mein seedha render ho sakta hai.</span></div></li>
+    <li><div class="step-text"><strong>Copy aur use karein</strong><span>Data URL ya ready HTML embed code copy karke seedhe website, blog, email template ya code editor mein paste karein — koi extra setup nahi.</span></div></li>
+  </ul>
+</section>
+
+<section class="info">
+  <h2>💡 Data URL vs Hosted URL — Kab Kaunsa Use Karein?</h2>
+  <p>Data URLs perfect hain jab aapko image ko directly code mein embed karna ho — jaise email templates, small icons, favicon placeholders, ya offline HTML files. Lekin dhyan rakhein: Base64 encoding image ka size lagbhag 33% badha deta hai, isliye 50KB se badi images ke liye hosted URL zyada behtar rehta hai. Badi images ke liye pehle image ko compress karein, phir kisi free image host par upload karein — jaise Imgur ya Cloudinary. Chhoti icons, logos aur buttons ke liye Data URL ideal hai kyunki isse extra HTTP request nahi lagti aur page offline bhi chalta hai. Blogger users ke liye Data URL sabse safe option hai jab image hosting ka bharosa nahi hota. Aur agar aap blogger hain, toh humara <a href="../tools/boost-karein-seo-meta-tag-generator-ai.html">Meta Tag Generator</a> bhi try karo — Open Graph aur Twitter Card tags ke saath image SEO bhi handle karta hai!</p>
+  <p><strong>Pro tip:</strong> Agar aapko same image ko kai jagah use karna hai, toh ek baar Data URL generate karke apne code snippets library mein save kar lein — baar-baar re-upload nahi karna padega aur aapka workflow faster ho jayega.</p>
+</section>
+
+<section class="info">
+  <h2>Mukhya Features</h2>
+  <ul class="feature-list">
+    <li><strong>No API, No Upload:</strong> Koi third-party service ya key involved nahi — aapki image aapke device par hi rehti hai.</li>
+    <li><strong>Instant Conversion:</strong> FileReader API ke kaaran conversion turant hota hai, koi network wait nahi.</li>
+    <li><strong>Fully Offline:</strong> Page load hone ke baad tool bina internet ke bhi kaam karta hai.</li>
+    <li><strong>Ready HTML Code:</strong> Blogger ya WordPress mein directly paste karne layak embed code ek click mein milta hai.</li>
+    <li><strong>Live Preview:</strong> Polaroid-style preview mein image ke exact dimensions (width × height) dikhte hain.</li>
+    <li><strong>Smart Validation:</strong> File signature, type aur size (10MB limit) verify hota hai — galat files turant reject.</li>
+  </ul>
+</section>
+
+<section class="info">
+  <h2>Kin Logon Ke Liye Useful Hai?</h2>
+  <p>Yeh tool un sabhi logon ke liye perfect hai jo frequently images ke saath kaam karte hain — bloggers, web developers, email marketers, aur designers. Email marketers isse newsletter templates mein images embed karte hain jab hosting images block hoti hain. Developers isse chhoti icons ko CSS ya HTML mein inline karke page speed optimize karte hain. Students aur teachers isse offline HTML notes banate hain jisme diagrams bina internet ke khulte hain. Designers isse quick mockups mein assets embed karke client ko single HTML file bhej sakte hain. Short mein: jab bhi aapko image ko kisi single file ya code snippet ke andar self-contained rakhna ho, Data URL sabse practical solution hai. Aur agar aapko AI image prompts chahiye apni next design ke liye, toh humari <a href="https://www.toolsx.in/2026/08/explore-karein-200-ai-prompts-hub-ai-lab.html">200+ AI Prompt Library</a> dekhein!</p>
+</section>
+
+<section class="info">
+  <h2>🚀 Related Tools — Hamari Banayi Hui Posts</h2>
+  <div class="related-grid">
+    <a class="related-link" href="../tools/boost-karein-seo-meta-tag-generator-ai.html" rel="noopener noreferrer" title="SEO Meta Tag Generator">
+      <span class="related-icon">🏷️</span>
+      <div><strong>SEO Meta Tag Generator</strong><span class="rl-desc">Open Graph, Twitter Cards &amp; JSON-LD schema with live SERP preview</span></div>
+    </a>
+    <a class="related-link" href="https://www.toolsx.in/2026/08/explore-karein-200-ai-prompts-hub-ai-lab.html" rel="noopener noreferrer" title="200+ AI Prompt Library">
+      <span class="related-icon">📚</span>
+      <div><strong>200+ AI Prompt Library</strong><span class="rl-desc">Ready-to-use image &amp; copy prompts — search, copy, export</span></div>
+    </a>
+    <a class="related-link" href="../tools/audit-karein-code-bugs-aur-security-ai.html" rel="noopener noreferrer" title="Code Intelligence Studio">
+      <span class="related-icon">🔬</span>
+      <div><strong>Code Intelligence Studio</strong><span class="rl-desc">11 developer tools: bug fixer, security audit, transpiler &amp; more</span></div>
+    </a>
+  </div>
+</section>
+
+<section class="info faq">
+  <h2>Frequently Asked Questions</h2>
+  <details>
+    <summary>Kya is tool mein image kahin upload hoti hai?</summary>
+    <p>Nahi. Yeh tool koi upload ya API use nahi karta. Image poori tarah aapke browser ke andar Base64 text mein convert hoti hai — 100% private.</p>
+  </details>
+  <details>
+    <summary>Base64 Data URL kya hota hai?</summary>
+    <p>Yeh ek self-contained URL hota hai jisme poori image ka data seedhe URL string ke andar encode hota hai, isliye kisi hosting server ki zaroorat nahi padti.</p>
+  </details>
+  <details>
+    <summary>Kya yeh link doosron ke saath short link ki tarah share kar sakte hain?</summary>
+    <p>Nahi. Base64 URL bahut lamba hota hai kyunki poori image usmein embed hoti hai, isliye yeh chhota shareable link nahi hai — yeh HTML ya code mein directly embed karne ke liye best hai.</p>
+  </details>
+  <details>
+    <summary>Kya yeh tool free aur copyright free hai?</summary>
+    <p>Haan, yeh poori tarah free hai aur kisi registration ya API key ki zaroorat nahi hai. Aap jo image convert karte ho, uska output bhi aapka hi rehta hai — koi copyright restriction nahi.</p>
+  </details>
+  <details>
+    <summary>Kya yeh tool secure hai?</summary>
+    <p>Haan. Saara processing aapke browser mein hota hai aur koi data kisi server par nahi jaata. File type, size aur image signature verify hoti hai, isliye galat ya khatarnak files reject ho jaati hain.</p>
+  </details>
+</section>
+
+<p style="margin-top:30px;line-height:1.8;">Yeh <strong>Image to URL Converter</strong> un sabhi logon ke liye perfect hai jo frequently images ke saath kaam karte hain — bloggers, web developers, email marketers, aur designers. Chahe aapko email template mein image embed karni ho ya offline HTML file banana ho — yeh tool sab handle karta hai. Aur agar aap developer ho aur code ko analyze karna ho, toh humara <a href="../tools/audit-karein-code-bugs-aur-security-ai.html">Code Studio</a> try karo — 11 developer tools ek jagah! 🚀</p>
+
+<footer>
+  Powered by <strong>Tools-X</strong> · toolsx.in
+</footer>
+
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var W = document.getElementById('tsxv5-img2url');
+  if(!W) return;
+
+  var dropZone = document.getElementById('tsxv5-dropZone');
+  var fileInput = document.getElementById('tsxv5-fileInput');
+  var fileNameEl = document.getElementById('tsxv5-fileName');
+  var convertBtn = document.getElementById('tsxv5-convertBtn');
+  var polaroid = document.getElementById('tsxv5-polaroid');
+  var imgPreview = document.getElementById('tsxv5-imgPreview');
+  var dimsEl = document.getElementById('tsxv5-dims');
+  var statusEl = document.getElementById('tsxv5-status');
+  var resultArea = document.getElementById('tsxv5-resultArea');
+  var dataUrlBox = document.getElementById('tsxv5-dataUrl');
+  var htmlCodeBox = document.getElementById('tsxv5-htmlCode');
+  var charCount = document.getElementById('tsxv5-charCount');
+  var resetLink = document.getElementById('tsxv5-resetLink');
+
+  var MAX_SIZE_MB = 10;
+  var WARN_SIZE_MB = 2;
+  var selectedFile = null;
+  var currentObjectUrl = null;
+
+  function sanitizeDisplay(name){
+    return String(name||'').replace(/[^a-zA-Z0-9._-]/g,'').substring(0,80) || 'image';
+  }
+
+  function setStatus(cls, msg){
+    statusEl.className = 'status' + (cls ? ' ' + cls : '');
+    statusEl.textContent = msg || '';
+  }
+
+  function verifyImageSignature(file){
+    return file.arrayBuffer().then(function(buf){
+      var b = new Uint8Array(buf.slice(0, 12));
+      function has(seq, off){
+        off = off || 0;
+        for(var i=0; i<seq.length; i++){ if(b[off+i] !== seq[i]) return false; }
+        return true;
+      }
+      if(has([0xFF, 0xD8, 0xFF])) return true; // JPG
+      if(has([0x89, 0x50, 0x4E, 0x47])) return true; // PNG
+      if(has([0x47, 0x49, 0x46])) return true; // GIF
+      if(has([0x52, 0x49, 0x46, 0x46]) && has([0x57, 0x45, 0x42, 0x50], 8)) return true; // WEBP
+      return false;
+    });
+  }
+
+  function cleanupPreviewUrl(){
+    if(currentObjectUrl){
+      URL.revokeObjectURL(currentObjectUrl);
+      currentObjectUrl = null;
+    }
+  }
+
+  dropZone.addEventListener('click', function(e){
+    fileInput.click();
+  });
+
+  dropZone.addEventListener('dragover', function(e){
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+  });
+
+  dropZone.addEventListener('dragleave', function(e){
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+  });
+
+  dropZone.addEventListener('drop', function(e){
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    if(e.dataTransfer.files && e.dataTransfer.files.length){
+      handleFile(e.dataTransfer.files[0]);
+    }
+  });
+
+  fileInput.addEventListener('change', function(){
+    if(fileInput.files.length){
+      handleFile(fileInput.files[0]);
+    }
+  });
+
+  function resetState(){
+    selectedFile = null;
+    fileInput.value = '';
+    fileNameEl.textContent = '';
+    convertBtn.disabled = true;
+    polaroid.style.display = 'none';
+    cleanupPreviewUrl();
+    setStatus('', '');
+    resultArea.style.display = 'none';
+    dataUrlBox.value = '';
+    htmlCodeBox.value = '';
+  }
+
+  async function handleFile(file){
+    setStatus('', '');
+    resultArea.style.display = 'none';
+
+    if(!file.type.startsWith('image/')){
+      setStatus('error', 'Sirf image files (JPG, PNG, GIF, WebP) support hoti hain.');
+      convertBtn.disabled = true;
+      return;
+    }
+    if(file.size > MAX_SIZE_MB * 1024 * 1024){
+      setStatus('error', 'File size ' + MAX_SIZE_MB + 'MB se zyada hai. Kripya chhoti image use karein.');
+      convertBtn.disabled = true;
+      return;
+    }
+
+    var validSig = false;
+    try {
+      validSig = await verifyImageSignature(file);
+    } catch(e) {
+      validSig = false;
+    }
+
+    if(!validSig){
+      setStatus('error', 'Image signature verify nahi ho payi — file corrupted ya unsupported hai.');
+      convertBtn.disabled = true;
+      return;
+    }
+
+    selectedFile = file;
+    fileNameEl.textContent = sanitizeDisplay(file.name) + ' (' + (file.size / (1024*1024)).toFixed(2) + ' MB)';
+
+    if(file.size > WARN_SIZE_MB * 1024 * 1024){
+      setStatus('warn', 'Note: ' + WARN_SIZE_MB + 'MB se badi images ka Data URL bahut lamba ho sakta hai.');
+    }
+
+    cleanupPreviewUrl();
+    currentObjectUrl = URL.createObjectURL(file);
+    
+    imgPreview.onload = function(){
+      dimsEl.textContent = imgPreview.naturalWidth + ' × ' + imgPreview.naturalHeight;
+      polaroid.style.display = 'block';
+    };
+    imgPreview.onerror = function(){
+      polaroid.style.display = 'none';
+      setStatus('error', 'Image render karne mein samasya aayi.');
+    };
+    imgPreview.src = currentObjectUrl;
+    convertBtn.disabled = false;
+  }
+
+  function readAsDataURL(file){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){ resolve(reader.result); };
+      reader.onerror = function(){ reject(new Error('Image read nahi ho payi.')); };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  convertBtn.addEventListener('click', async function(){
+    if(!selectedFile) return;
+    convertBtn.disabled = true;
+    setStatus('', 'Convert ho raha hai...');
+    resultArea.style.display = 'none';
+
+    try {
+      var dataUrl = await readAsDataURL(selectedFile);
+      dataUrlBox.value = dataUrl;
+      htmlCodeBox.value = '<img src="' + dataUrl + '" alt="' + sanitizeDisplay(selectedFile.name) + '">';
+      charCount.textContent = dataUrl.length.toLocaleString() + ' characters';
+      resultArea.style.display = 'block';
+      setStatus('done', 'Conversion complete!');
+    } catch(err) {
+      setStatus('error', 'Error: ' + err.message);
+    } finally {
+      convertBtn.disabled = false;
+    }
+  });
+
+  document.querySelectorAll('#tsxv5-img2url .copy-btn').forEach(function(btn){
+    btn.addEventListener('click', async function(){
+      var target = document.getElementById(btn.getAttribute('data-target'));
+      if(!target || !target.value) return;
+
+      try {
+        await navigator.clipboard.writeText(target.value);
+      } catch(err) {
+        target.focus();
+        target.select();
+        document.execCommand('copy');
+      }
+
+      var original = btn.textContent;
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(function(){
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 1500);
+    });
+  });
+
+  resetLink.addEventListener('click', resetState);
+
+  console.log('Tools-X Image to URL Converter initialized | toolsx.in');
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

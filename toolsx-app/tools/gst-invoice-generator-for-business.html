@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Free GST Invoice Generator for Business Online – ToolsX App</title>
+<meta name="description" content="Generate professional GST-compliant invoices for your business in seconds. Free online maker with auto tax calculation and instant PDF download.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Free GST Invoice Generator for Business Online</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<!-- ToolsX GST Invoice Generator v5.4 (Rupee Unicode Fix) - Start -->
+<div id="tx-gst-app" class="tx-gst-wrapper">
+
+  <div class="tx-gst-header">
+    <div class="tx-icon-wrap">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+    </div>
+    <h2>Professional GST Invoice Generator</h2>
+    <p class="tx-gst-subtitle">Create, calculate, and download compliant GST invoices instantly. 100% secure, private, and runs entirely in your browser.</p>
+  </div>
+
+  <form id="txGstForm" class="tx-gst-form" onsubmit="return false;">
+    
+    <div class="tx-gst-section">
+      <h3 class="tx-section-title">1. Your Business Details</h3>
+      <div class="tx-gst-grid">
+        <div class="tx-input-group tx-col-span-full">
+          <label for="txLogoInput">Business Logo (Optional)</label>
+          <input type="file" id="txLogoInput" accept="image/png, image/jpeg, image/jpg" class="tx-file-input">
+          <small class="tx-help-text">Image stays securely on your device.</small>
+        </div>
+        <div class="tx-input-group">
+          <label for="txSellerName">Business Name *</label>
+          <input type="text" id="txSellerName" placeholder="e.g., ToolsX Web Services" required>
+        </div>
+        <div class="tx-input-group">
+          <label for="txSellerGstin">Your GSTIN</label>
+          <input type="text" id="txSellerGstin" placeholder="22AAAAA0000A1Z5">
+        </div>
+        <div class="tx-input-group tx-col-span-full">
+          <label for="txSellerAddr">Complete Business Address</label>
+          <input type="text" id="txSellerAddr" placeholder="Building, Street, City, State, PIN">
+        </div>
+      </div>
+    </div>
+
+    <div class="tx-gst-section">
+      <h3 class="tx-section-title">2. Invoice &amp; Client Details</h3>
+      <div class="tx-gst-grid">
+        <div class="tx-input-group">
+          <label for="txInvNo">Invoice Number *</label>
+          <input type="text" id="txInvNo" placeholder="INV-2026-001" required>
+        </div>
+        <div class="tx-input-group">
+          <label for="txInvDate">Invoice Date *</label>
+          <input type="date" id="txInvDate" required>
+        </div>
+        <div class="tx-input-group">
+          <label for="txBuyerName">Client/Buyer Name *</label>
+          <input type="text" id="txBuyerName" placeholder="Customer or Company Name" required>
+        </div>
+        <div class="tx-input-group">
+          <label for="txBuyerGstin">Client GSTIN (Optional)</label>
+          <input type="text" id="txBuyerGstin" placeholder="Enter if B2B invoice">
+        </div>
+        <div class="tx-input-group tx-col-span-full">
+          <label for="txBuyerAddr">Client Address &amp; Place of Supply</label>
+          <input type="text" id="txBuyerAddr" placeholder="State is critical for GST determination">
+        </div>
+        <div class="tx-input-group tx-col-span-full">
+          <label class="tx-checkbox-label">
+            <input type="checkbox" id="txIsIgst" class="tx-checkbox">
+            <span>Apply IGST (Inter-state supply) instead of CGST &amp; SGST</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="tx-gst-section">
+      <h3 class="tx-section-title">3. Products &amp; Services</h3>
+      <p class="tx-mobile-hint" style="display:none; font-size:12px; margin-bottom:8px;">👉 Swipe table left/right to view all columns</p>
+      <div class="tx-table-container">
+        <table class="tx-gst-table" id="txItemsTable">
+          <thead>
+            <tr>
+              <th style="min-width: 150px;">Item Description</th>
+              <th style="min-width: 100px;">HSN/SAC</th>
+              <th style="min-width: 80px;">Qty</th>
+              <th style="min-width: 120px;">Rate (<span class="tx-rs">₹</span>)</th>
+              <th style="min-width: 80px;">GST %</th>
+              <th style="min-width: 120px;">Amount (<span class="tx-rs">₹</span>)</th>
+              <th style="min-width: 60px; text-align: center;">Act</th>
+            </tr>
+          </thead>
+          <tbody id="txItemsBody"></tbody>
+        </table>
+      </div>
+      <button type="button" id="txAddRowBtn" class="tx-btn tx-btn-outline">
+        <span class="tx-icon">➕</span> Add New Item
+      </button>
+    </div>
+
+    <div class="tx-gst-section">
+      <h3 class="tx-section-title">4. Notes &amp; Calculations</h3>
+      <div class="tx-gst-flex-wrap">
+        <div class="tx-notes-area">
+          <div class="tx-input-group">
+            <label for="txBankDetails">Bank Details / Payment Info</label>
+            <textarea id="txBankDetails" rows="3" placeholder="Bank Name, A/C No, IFSC Code"></textarea>
+          </div>
+          <div class="tx-input-group" style="margin-top:16px;">
+            <label for="txTerms">Terms &amp; Conditions</label>
+            <textarea id="txTerms" rows="3" placeholder="e.g., Goods once sold will not be taken back."></textarea>
+          </div>
+        </div>
+        
+        <div class="tx-totals-box">
+          <div class="tx-input-group" style="margin-bottom: 16px;">
+            <label for="txDiscountInput">Global Discount (%)</label>
+            <input type="number" id="txDiscountInput" value="0" min="0" max="100" step="0.1">
+          </div>
+          <div class="tx-total-row"><span>Subtotal:</span> <span id="txSubTotalAmt" class="tx-money"></span></div>
+          <div class="tx-total-row tx-text-danger" id="txDiscountRow" style="display:none;"><span>Discount:</span> <span id="txDiscountAmt" class="tx-money"></span></div>
+          <div class="tx-total-row"><span>Taxable Value:</span> <span id="txTaxableAmt" class="tx-money"></span></div>
+          <div class="tx-total-row tx-tax-row" id="txCgstRow"><span>CGST:</span> <span id="txCgstAmt" class="tx-money"></span></div>
+          <div class="tx-total-row tx-tax-row" id="txSgstRow"><span>SGST:</span> <span id="txSgstAmt" class="tx-money"></span></div>
+          <div class="tx-total-row tx-tax-row" id="txIgstRow" style="display:none;"><span>IGST:</span> <span id="txIgstAmt" class="tx-money"></span></div>
+          <div class="tx-total-row tx-grand-total"><span>Grand Total:</span> <span id="txGrandTotalAmt" class="tx-money"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tx-gst-actions">
+      <button type="submit" id="txPrintBtn" class="tx-btn tx-btn-primary">
+        <span class="tx-icon">🖨️</span> Download PDF / Print Invoice
+      </button>
+      <button type="button" id="txResetBtn" class="tx-btn tx-btn-secondary">Reset Form</button>
+    </div>
+  </form>
+
+  <div class="tx-content-area">
+    <h2>How to Use the Free GST Invoice Generator</h2>
+    <p>Generating a professional, compliant tax invoice shouldn't require expensive software. The ToolsX generator allows freelancers, small business owners, and agencies to create standard invoices directly in the browser.</p>
+    
+    <div class="tx-htu-card">
+      <ol class="tx-htu-list">
+        <li><strong>Add Business Details:</strong> Upload your logo (optional) and enter your Company Name, GSTIN, and Address.</li>
+        <li><strong>Enter Client Info:</strong> Input the buyer's details. If they are registered for GST, include their GSTIN for B2B compliance. Ensure the Place of Supply is accurate.</li>
+        <li><strong>Toggle Tax Type:</strong> If your client is in a different state than your business, check the Apply IGST box. Otherwise, leave it unchecked for standard CGST/SGST splitting.</li>
+        <li><strong>Itemize Products/Services:</strong> Click Add New Item to list what you sold. Enter the HSN/SAC code, quantity, rate, and applicable GST percentage. The tool calculates line amounts automatically.</li>
+        <li><strong>Apply Discounts &amp; Notes:</strong> Add a global discount percentage if applicable. Fill in your Bank Details and any specific Terms &amp; Conditions for the footer.</li>
+        <li><strong>Print or Save as PDF:</strong> Click the Download PDF / Print button. Your browser's print dialog will open. Select Save as PDF as the destination to generate your file.</li>
+      </ol>
+    </div>
+    
+    <p><strong>Privacy Note:</strong> 🔒 Your financial data never leaves your device. This tool relies on client-side JavaScript, meaning no data is uploaded to our servers.</p>
+    
+    <h2>Frequently Asked Questions (FAQ)</h2>
+    <div class="tx-faq-wrapper">
+      <h3>Do I need an account to generate invoices?</h3>
+      <p>No, this tool is completely free and requires no signup, login, or subscription. You can generate unlimited invoices instantly.</p>
+      
+      <h3>How does the discount feature work with GST?</h3>
+      <p>According to standard accounting practices, the discount is applied to the subtotal first. GST is then calculated based on the reduced Taxable Value, ensuring you do not overcharge tax.</p>
+      
+      <h3>Can I generate an invoice without a GSTIN?</h3>
+      <p>Yes. If you are an unregistered business or freelancer, simply leave the GSTIN fields blank. The tool will function as a standard billing generator, though you should enter 0 in the GST percentage fields if you are not authorized to collect tax.</p>
+      
+      <h3>Why did my logo not appear on the PDF?</h3>
+      <p>Ensure you select a valid JPG or PNG file. Because the tool processes images locally in your browser for security, very large files might be blocked. Try a compressed logo under 1MB.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Base Theme Variables */
+#tx-gst-app {
+  --tx-bg: #ffffff;
+  --tx-card-bg: #f8fafc;
+  --tx-border: #e2e8f0;
+  --tx-text: #0f172a;
+  --tx-muted: #64748b;
+  --tx-input-bg: #ffffff;
+  --tx-input-border: #cbd5e1;
+  --tx-primary: #2563eb;
+  --tx-primary-hover: #1d4ed8;
+  --tx-danger: #dc2626;
+  max-width: 900px; margin: 0 auto;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--tx-text); background: var(--tx-bg);
+  border: 1px solid var(--tx-border); border-radius: 12px;
+  overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.dark-mode #tx-gst-app,
+[data-theme="dark"] #tx-gst-app,
+body.dark-mode #tx-gst-app,
+body[data-theme="dark"] #tx-gst-app,
+html.dark-mode #tx-gst-app,
+html[data-theme="dark"] #tx-gst-app,
+.night-mode #tx-gst-app {
+  --tx-bg: #1e293b;
+  --tx-card-bg: #0f172a;
+  --tx-border: #334155;
+  --tx-text: #f8fafc;
+  --tx-muted: #94a3b8;
+  --tx-input-bg: #0f172a;
+  --tx-input-border: #475569;
+  --tx-primary: #3b82f6;
+  --tx-primary-hover: #2563eb;
+  --tx-danger: #ef4444;
+}
+
+#tx-gst-app * { box-sizing: border-box; }
+.tx-gst-header { background: var(--tx-card-bg); padding: 24px; text-align: center; border-bottom: 1px solid var(--tx-border); }
+.tx-icon-wrap { color: var(--tx-primary); margin-bottom: 12px; }
+.tx-gst-header h2 { margin: 0 0 8px; font-size: clamp(22px, 4vw, 26px); color: var(--tx-text); line-height: 1.3; }
+.tx-gst-subtitle { margin: 0; font-size: 15px; color: var(--tx-muted); line-height: 1.5; }
+.tx-gst-form { padding: 24px; background: var(--tx-bg); }
+.tx-gst-section { margin-bottom: 32px; }
+.tx-section-title { font-size: 18px; font-weight: 600; color: var(--tx-primary); margin-bottom: 16px; border-bottom: 2px solid var(--tx-border); padding-bottom: 8px; }
+
+.tx-gst-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.tx-col-span-full { grid-column: 1 / -1; width: 100%; }
+.tx-input-group { display: flex; flex-direction: column; width: 100%; }
+.tx-input-group label { font-size: 14px; font-weight: 600; color: var(--tx-text); margin-bottom: 6px; }
+.tx-input-group input, .tx-input-group textarea {
+  width: 100%; min-height: 48px; padding: 12px; border: 1px solid var(--tx-input-border); border-radius: 8px; font-size: 15px;
+  background: var(--tx-input-bg); color: var(--tx-text); transition: border-color 0.2s; font-family: inherit;
+}
+.tx-input-group textarea { min-height: 80px; resize: vertical; }
+.tx-input-group input:focus, .tx-input-group textarea:focus {
+  outline: none; border-color: var(--tx-primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+.tx-file-input { padding: 10px !important; }
+.tx-help-text { font-size: 12px; color: var(--tx-muted); margin-top: 4px; }
+
+.tx-checkbox-label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  background: var(--tx-card-bg);
+  padding: 14px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--tx-text);
+  line-height: 1.4;
+  border: 1px solid var(--tx-border);
+  width: 100% !important;
+  box-sizing: border-box !important;
+  white-space: normal !important;
+}
+.tx-checkbox-label span {
+  flex: 1;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+}
+.tx-checkbox {
+  flex-shrink: 0 !important;
+  width: 20px !important;
+  height: 20px !important;
+  cursor: pointer;
+  margin: 0 !important;
+}
+
+.tx-table-container { 
+  width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; 
+  border: 1px solid var(--tx-border); border-radius: 8px; margin-bottom: 16px; 
+}
+.tx-gst-table { width: 100%; min-width: 850px; border-collapse: collapse; text-align: left; }
+.tx-gst-table th { background: var(--tx-card-bg); padding: 14px 12px; font-size: 14px; font-weight: 600; color: var(--tx-text); border-bottom: 1px solid var(--tx-border); white-space: nowrap; }
+.tx-gst-table td { padding: 10px 8px; border-bottom: 1px solid var(--tx-border); vertical-align: middle; background: var(--tx-bg); }
+.tx-gst-table input { width: 100%; min-height: 44px; padding: 10px; border: 1px solid var(--tx-input-border); border-radius: 6px; font-size: 14px; background: var(--tx-input-bg); color: var(--tx-text); }
+.tx-amt-col { font-weight: 600; color: var(--tx-text); white-space: nowrap; text-align: right; padding-right: 12px !important; }
+
+.tx-btn-remove {
+  background: rgba(220, 38, 38, 0.1); color: var(--tx-danger); border: none; width: 44px; height: 44px;
+  border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 18px; display: flex;
+  align-items: center; justify-content: center; transition: 0.2s; padding: 0; margin: 0 auto;
+}
+.tx-btn-remove:hover { background: rgba(220, 38, 38, 0.2); }
+.tx-gst-flex-wrap { display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch; }
+.tx-notes-area { flex: 1 1 50%; min-width: 250px; }
+.tx-totals-box { flex: 1 1 40%; min-width: 250px; background: var(--tx-card-bg); padding: 24px; border-radius: 8px; border: 1px solid var(--tx-border); }
+.tx-total-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; color: var(--tx-text); align-items: center; }
+.tx-text-danger { color: var(--tx-danger); }
+.tx-tax-row { color: var(--tx-muted); font-size: 14px; }
+.tx-grand-total { border-top: 2px solid var(--tx-border); padding-top: 16px; margin-top: 16px; font-size: 20px; font-weight: 700; color: var(--tx-text); }
+
+.tx-gst-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
+.tx-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px;
+  padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s ease; flex: 1 1 auto;
+}
+.tx-btn-primary { background: var(--tx-primary); color: #fff; }
+.tx-btn-primary:hover { background: var(--tx-primary-hover); }
+.tx-btn-secondary { background: var(--tx-card-bg); color: var(--tx-text); border: 1px solid var(--tx-border); }
+.tx-btn-secondary:hover { opacity: 0.9; }
+.tx-btn-outline { background: transparent; border: 2px dashed var(--tx-border); color: var(--tx-text); width: 100%; min-height: 52px; }
+.tx-btn-outline:hover { border-color: var(--tx-primary); color: var(--tx-primary); background: var(--tx-card-bg); }
+
+.tx-content-area { padding: 32px 24px; background: var(--tx-card-bg); border-top: 1px solid var(--tx-border); line-height: 1.6; }
+.tx-content-area h2 { font-size: clamp(22px, 3vw, 24px); color: var(--tx-text); margin-top: 0; margin-bottom: 16px; }
+.tx-content-area h3 { font-size: 18px; color: var(--tx-text); margin-top: 24px; margin-bottom: 10px; }
+.tx-content-area p { color: var(--tx-muted); font-size: 16px; margin-bottom: 20px; }
+.tx-htu-card, .tx-faq-wrapper { background: var(--tx-bg); border: 1px solid var(--tx-border); border-radius: 8px; padding: 24px; margin-bottom: 24px; }
+.tx-htu-list { margin: 0; padding-left: 20px; color: var(--tx-text); }
+.tx-htu-list li { margin-bottom: 14px; font-size: 16px; }
+.tx-faq-wrapper h3:not(:first-child) { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--tx-border); }
+.tx-mobile-hint { color: var(--tx-muted); }
+
+@media (max-width: 768px) {
+  .tx-gst-grid { grid-template-columns: 1fr; gap: 16px; }
+  .tx-gst-form { padding: 16px; }
+  .tx-gst-flex-wrap { flex-direction: column; gap: 20px; }
+  .tx-totals-box, .tx-notes-area { width: 100%; min-width: auto; }
+  .tx-gst-actions { flex-direction: column; }
+  .tx-btn { width: 100%; margin: 0; }
+  .tx-mobile-hint { display: block !important; }
+  .tx-input-group input, .tx-input-group textarea, .tx-gst-table input { font-size: 16px; }
+  .tx-checkbox-label { font-size: 14px !important; }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  
+  var tBody = document.getElementById('txItemsBody');
+  var addRowBtn = document.getElementById('txAddRowBtn');
+  var igstToggle = document.getElementById('txIsIgst');
+  var discountInput = document.getElementById('txDiscountInput');
+  var form = document.getElementById('txGstForm');
+  var resetBtn = document.getElementById('txResetBtn');
+  var logoInput = document.getElementById('txLogoInput');
+
+  /* ============================================================
+     FIX: Rupee symbol via Unicode escape sequence.
+     Blogger/editor can NEVER convert this to an HTML entity,
+     so it always renders as the real ₹ at runtime.
+     ============================================================ */
+  var RUPEE = '\u20B9';
+
+  /* Defensive: if any &#8377; or &amp;#8377; leaks in from
+     static HTML, decode it back to the real character. */
+  function decodeRupee(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&amp;#8377;/g, RUPEE)
+      .replace(/&#8377;/g, RUPEE)
+      .replace(/&amp;#x20B9;/gi, RUPEE)
+      .replace(/&#x20B9;/gi, RUPEE);
+  }
+
+  var uploadedLogoData = null;
+
+  function txSanitize(str) {
+    if (!str) return '';
+    var temp = document.createElement('div');
+    temp.textContent = str;
+    return temp.innerHTML;
+  }
+
+  logoInput.addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    if (!file) {
+      uploadedLogoData = null;
+      return;
+    }
+    if (!file.type.startsWith('image/')) {
+      alert('Security Error: Only image files are allowed.');
+      logoInput.value = '';
+      uploadedLogoData = null;
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      alert('File too large. Please select an image under 2MB.');
+      logoInput.value = '';
+      uploadedLogoData = null;
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(evt) {
+      uploadedLogoData = evt.target.result; 
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function addRow() {
+    var tr = document.createElement('tr');
+    tr.innerHTML = 
+      '<td><input type="text" class="tx-item-name" placeholder="Item / Service Name"></td>' +
+      '<td><input type="text" class="tx-item-hsn" placeholder="HSN/SAC"></td>' +
+      '<td><input type="number" class="tx-item-qty" value="1" min="1" step="0.01"></td>' +
+      '<td><input type="number" class="tx-item-rate" value="0" min="0" step="0.01"></td>' +
+      '<td><input type="number" class="tx-item-gst" value="18" min="0" max="100"></td>' +
+      '<td class="tx-amt-col tx-item-amt">' + RUPEE + '0.00</td>' +
+      '<td style="text-align: center;"><button type="button" class="tx-btn-remove" title="Remove Item">\u2715</button></td>';
+    tBody.appendChild(tr);
+    
+    var inputs = tr.querySelectorAll('input');
+    inputs.forEach(function(inp) { inp.addEventListener('input', calculateTotals); });
+    
+    tr.querySelector('.tx-btn-remove').addEventListener('click', function() {
+      if (document.querySelectorAll('#txItemsBody tr').length > 1) {
+        tr.remove();
+        calculateTotals();
+      } else {
+        alert("At least one item is required in the invoice.");
+      }
+    });
+    
+    calculateTotals();
+  }
+
+  function calculateTotals() {
+    var rawSubtotal = 0;
+    var totalGstAmount = 0;
+    
+    document.querySelectorAll('#txItemsBody tr').forEach(function(row) {
+      var qty = parseFloat(row.querySelector('.tx-item-qty').value) || 0;
+      var rate = parseFloat(row.querySelector('.tx-item-rate').value) || 0;
+      var gstPercent = parseFloat(row.querySelector('.tx-item-gst').value) || 0;
+      
+      var lineBase = qty * rate;
+      var lineGst = (lineBase * gstPercent) / 100;
+      
+      row.querySelector('.tx-item-amt').textContent = RUPEE + (lineBase + lineGst).toFixed(2);
+      
+      rawSubtotal += lineBase;
+    });
+
+    document.getElementById('txSubTotalAmt').textContent = RUPEE + rawSubtotal.toFixed(2);
+
+    var discPercent = parseFloat(discountInput.value) || 0;
+    var discountAmt = (rawSubtotal * discPercent) / 100;
+    var taxableValue = Math.max(0, rawSubtotal - discountAmt);
+
+    if (discountAmt > 0) {
+      document.getElementById('txDiscountRow').style.display = 'flex';
+      document.getElementById('txDiscountAmt').textContent = '- ' + RUPEE + discountAmt.toFixed(2);
+    } else {
+      document.getElementById('txDiscountRow').style.display = 'none';
+    }
+
+    document.getElementById('txTaxableAmt').textContent = RUPEE + taxableValue.toFixed(2);
+
+    document.querySelectorAll('#txItemsBody tr').forEach(function(row) {
+      var qty = parseFloat(row.querySelector('.tx-item-qty').value) || 0;
+      var rate = parseFloat(row.querySelector('.tx-item-rate').value) || 0;
+      var gstPercent = parseFloat(row.querySelector('.tx-item-gst').value) || 0;
+      
+      var lineBase = qty * rate;
+      var proportion = rawSubtotal > 0 ? (lineBase / rawSubtotal) : 0;
+      var lineTaxable = taxableValue * proportion;
+      var actualLineGst = (lineTaxable * gstPercent) / 100;
+      
+      totalGstAmount += actualLineGst;
+    });
+
+    var isIgst = igstToggle.checked;
+    var grandTotal = taxableValue + totalGstAmount;
+    document.getElementById('txGrandTotalAmt').textContent = RUPEE + grandTotal.toFixed(2);
+
+    if (isIgst) {
+      document.getElementById('txCgstRow').style.display = 'none';
+      document.getElementById('txSgstRow').style.display = 'none';
+      document.getElementById('txIgstRow').style.display = 'flex';
+      document.getElementById('txIgstAmt').textContent = RUPEE + totalGstAmount.toFixed(2);
+    } else {
+      document.getElementById('txIgstRow').style.display = 'none';
+      document.getElementById('txCgstRow').style.display = 'flex';
+      document.getElementById('txSgstRow').style.display = 'flex';
+      document.getElementById('txCgstAmt').textContent = RUPEE + (totalGstAmount / 2).toFixed(2);
+      document.getElementById('txSgstAmt').textContent = RUPEE + (totalGstAmount / 2).toFixed(2);
+    }
+  }
+
+  addRowBtn.addEventListener('click', addRow);
+  igstToggle.addEventListener('change', calculateTotals);
+  discountInput.addEventListener('input', calculateTotals);
+  
+  resetBtn.addEventListener('click', function() {
+    if (confirm("Clear all data and reset invoice?")) {
+      form.reset();
+      tBody.innerHTML = '';
+      uploadedLogoData = null;
+      document.getElementById('txInvDate').valueAsDate = new Date();
+      addRow();
+    }
+  });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    var getVal = function(id) { return txSanitize(document.getElementById(id).value); };
+    var getText = function(id) { return txSanitize(document.getElementById(id).value).replace(/\n/g, '<br>'); };
+    var getElemTxt = function(id) {
+      /* FIX: decode any leaked entities, then sanitize, then re-encode for safe HTML output */
+      var txt = decodeRupee(document.getElementById(id).textContent);
+      return txSanitize(txt);
+    };
+
+    var sName = getVal('txSellerName');
+    var sGst = getVal('txSellerGstin');
+    var sAddr = getVal('txSellerAddr');
+    
+    var bName = getVal('txBuyerName');
+    var bGst = getVal('txBuyerGstin');
+    var bAddr = getVal('txBuyerAddr');
+    
+    var invNo = getVal('txInvNo');
+    var invDate = getVal('txInvDate');
+    var bankInfo = getText('txBankDetails');
+    var termsInfo = getText('txTerms');
+
+    var rowsHtml = '';
+    document.querySelectorAll('#txItemsBody tr').forEach(function(r, idx) {
+      var rateRaw = decodeRupee(txSanitize(r.querySelector('.tx-item-rate').value));
+      var amtRaw = decodeRupee(txSanitize(r.querySelector('.tx-item-amt').textContent));
+      rowsHtml += 
+        '<tr>' +
+          '<td style="text-align:center;">' + (idx + 1) + '</td>' +
+          '<td>' + txSanitize(r.querySelector('.tx-item-name').value) + '</td>' +
+          '<td style="text-align:center;">' + txSanitize(r.querySelector('.tx-item-hsn').value) + '</td>' +
+          '<td style="text-align:center;">' + txSanitize(r.querySelector('.tx-item-qty').value) + '</td>' +
+          '<td style="text-align:right;">' + RUPEE + rateRaw + '</td>' +
+          '<td style="text-align:center;">' + txSanitize(r.querySelector('.tx-item-gst').value) + '%</td>' +
+          '<td style="text-align:right;">' + amtRaw + '</td>' +
+        '</tr>';
+    });
+
+    var isIgst = igstToggle.checked;
+    var taxHtml = isIgst 
+      ? '<tr><td colspan="6" class="lbl">IGST:</td><td class="amt">' + getElemTxt('txIgstAmt') + '</td></tr>'
+      : '<tr><td colspan="6" class="lbl">CGST:</td><td class="amt">' + getElemTxt('txCgstAmt') + '</td></tr>' +
+        '<tr><td colspan="6" class="lbl">SGST:</td><td class="amt">' + getElemTxt('txSgstAmt') + '</td></tr>';
+         
+    var discountHtml = parseFloat(discountInput.value) > 0 
+      ? '<tr><td colspan="6" class="lbl">Discount:</td><td class="amt">' + getElemTxt('txDiscountAmt') + '</td></tr>' +
+        '<tr><td colspan="6" class="lbl">Taxable Value:</td><td class="amt">' + getElemTxt('txTaxableAmt') + '</td></tr>' 
+      : '<tr><td colspan="6" class="lbl">Taxable Value:</td><td class="amt">' + getElemTxt('txTaxableAmt') + '</td></tr>';
+
+    var logoHtml = uploadedLogoData 
+      ? '<img src="' + txSanitize(uploadedLogoData) + '" alt="Logo" style="max-height:80px; max-width:200px; display:block;">' 
+      : '';
+
+    var printWin = window.open('', '_blank');
+    if (!printWin) {
+      alert('Please allow pop-ups for this page so the invoice can open in a new tab.');
+      return;
+    }
+    
+    printWin.document.write(
+      '<!DOCTYPE html><html><head><meta charset="utf-8">' +
+      '<title>Invoice - ' + invNo + '</title>' +
+      '<style>' +
+        'body { font-family: Arial, sans-serif; color: #111; font-size: 14px; margin: 0; padding: 20px; background: #fff; }' +
+        '.invoice-box { max-width: 800px; margin: auto; border: 1px solid #ddd; padding: 24px; border-radius: 8px; }' +
+        '.header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #222; padding-bottom: 16px; margin-bottom: 20px; }' +
+        '.logo-area { max-width: 50%; }' +
+        '.title-area { text-align: right; }' +
+        '.title-area h1 { margin: 0 0 5px 0; color: #111; font-size: 26px; text-transform: uppercase; }' +
+        '.meta-info { font-size: 13px; color: #444; }' +
+        '.parties { display: flex; justify-content: space-between; margin-bottom: 24px; gap: 20px; }' +
+        '.party-box { width: 48%; }' +
+        '.party-box h4 { margin: 0 0 6px 0; color: #555; font-size: 12px; text-transform: uppercase; }' +
+        '.party-box p { margin: 2px 0; line-height: 1.4; }' +
+        'table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }' +
+        'th { background: #f4f4f4; border: 1px solid #ccc; padding: 8px; font-size: 12px; text-align: center; color: #222; }' +
+        'td { border: 1px solid #ccc; padding: 8px; vertical-align: top; color: #111; }' +
+        '.lbl { text-align: right; font-weight: bold; color: #333; border: 1px solid #ccc; }' +
+        '.amt { text-align: right; font-weight: bold; }' +
+        '.grand-row td { background: #f9f9f9; font-size: 15px; border-top: 2px solid #111; border-bottom: 2px solid #111; font-weight: bold; }' +
+        '.footer-info { margin-top: 30px; font-size: 12px; color: #333; border-top: 1px solid #ddd; padding-top: 16px; }' +
+        '.footer-info h4 { margin: 0 0 4px 0; font-size: 12px; text-transform: uppercase; }' +
+        '@media print { body { padding: 0; } .invoice-box { width: 100%; max-width: 100%; border: none; padding: 0; } @page { margin: 1cm; } }' +
+      '</style></head><body>' +
+      '<div class="invoice-box">' +
+        '<div class="header">' +
+          '<div class="logo-area">' + logoHtml + '</div>' +
+          '<div class="title-area">' +
+            '<h1>TAX INVOICE</h1>' +
+            '<div class="meta-info">' +
+              '<strong>Invoice No:</strong> ' + invNo + '<br>' +
+              '<strong>Date:</strong> ' + invDate +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="parties">' +
+          '<div class="party-box">' +
+            '<h4>Billed By:</h4>' +
+            '<p><strong>' + sName + '</strong></p>' +
+            (sGst ? '<p>GSTIN: ' + sGst + '</p>' : '') +
+            '<p>' + sAddr + '</p>' +
+          '</div>' +
+          '<div class="party-box" style="text-align: right;">' +
+            '<h4>Billed To:</h4>' +
+            '<p><strong>' + bName + '</strong></p>' +
+            (bGst ? '<p>GSTIN: ' + bGst + '</p>' : '') +
+            '<p>' + bAddr + '</p>' +
+          '</div>' +
+        '</div>' +
+        '<table>' +
+          '<thead>' +
+            '<tr>' +
+              '<th style="width:5%;">#</th>' +
+              '<th style="text-align:left;">Item Description</th>' +
+              '<th style="width:12%;">HSN/SAC</th>' +
+              '<th style="width:8%;">Qty</th>' +
+              '<th style="width:14%; text-align:right;">Rate</th>' +
+              '<th style="width:10%;">GST</th>' +
+              '<th style="width:16%; text-align:right;">Amount</th>' +
+            '</tr>' +
+          '</thead>' +
+          '<tbody>' +
+            rowsHtml +
+            '<tr><td colspan="6" class="lbl">Subtotal:</td><td class="amt">' + getElemTxt('txSubTotalAmt') + '</td></tr>' +
+            discountHtml +
+            taxHtml +
+            '<tr class="grand-row"><td colspan="6" class="lbl">GRAND TOTAL:</td><td class="amt">' + getElemTxt('txGrandTotalAmt') + '</td></tr>' +
+          '</tbody>' +
+        '</table>' +
+        '<div class="footer-info">' +
+          (bankInfo ? '<h4>Bank Details:</h4><p style="margin-bottom:12px;">' + bankInfo + '</p>' : '') +
+          (termsInfo ? '<h4>Terms &amp; Conditions:</h4><p>' + termsInfo + '</p>' : '') +
+          '<p style="text-align:center; color:#777; margin-top: 30px; font-size:11px;">Generated securely via ToolsX.in</p>' +
+        '</div>' +
+      '</div>' +
+      '</body></html>'
+    );
+    
+    printWin.document.close();
+    printWin.focus();
+    setTimeout(function() { 
+      try { printWin.print(); } catch (err) {} 
+    }, 600);
+  });
+
+  document.getElementById('txInvDate').valueAsDate = new Date();
+  addRow();
+});
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "ToolsX GST Invoice Generator",
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "BusinessApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      }
+    }
+  ]
+}
+</script>
+<!-- ToolsX GST Invoice Generator v5.4 - End -->
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

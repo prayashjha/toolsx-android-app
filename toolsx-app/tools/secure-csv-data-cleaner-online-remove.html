@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Secure CSV Data Cleaner Online | Remove Duplicates Locally – ToolsX App</title>
+<meta name="description" content="Clean CSV files 100% offline in your browser. Remove duplicates, empty rows, extra spaces, and empty columns without uploading data. Free and private.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Secure CSV Data Cleaner Online | Remove Duplicates Locally</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<style>
+.csvclean-app{
+  --cc-bg:#f8fafc;
+  --cc-panel:#ffffff;
+  --cc-cell:#e2e8f0;
+  --cc-cell-hover:#cbd5e1;
+  --cc-text:#0f172a;
+  --cc-text-2:#475569;
+  --cc-muted:#64748b;
+  --cc-border:#e2e8f0;
+  --cc-border-strong:#cbd5e1;
+  --cc-accent:#2563eb;
+  --cc-accent-hover:#1d4ed8;
+  --cc-accent-soft:#eff6ff;
+  --cc-success:#059669;
+  --cc-danger:#dc2626;
+  --cc-shadow:0 8px 24px rgba(15,23,42,0.06);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--cc-text);
+  max-width:1100px;
+  margin:0 auto;
+  padding:clamp(12px,3vw,24px);
+  box-sizing:border-box;
+  line-height:1.55;
+}
+.csvclean-app *, .csvclean-app *::before, .csvclean-app *::after{box-sizing:border-box}
+.dark-mode .csvclean-app, [data-theme="dark"] .csvclean-app{
+  --cc-bg:#0f172a;
+  --cc-panel:#1e293b;
+  --cc-cell:#334155;
+  --cc-cell-hover:#475569;
+  --cc-text:#f1f5f9;
+  --cc-text-2:#cbd5e1;
+  --cc-muted:#94a3b8;
+  --cc-border:#334155;
+  --cc-border-strong:#475569;
+  --cc-accent:#60a5fa;
+  --cc-accent-hover:#3b82f6;
+  --cc-accent-soft:#172554;
+  --cc-success:#34d399;
+  --cc-danger:#f87171;
+  --cc-shadow:0 10px 28px rgba(0,0,0,0.28);
+}
+.cc-card{
+  background:var(--cc-panel);
+  border:1px solid var(--cc-border);
+  border-radius:16px;
+  padding:clamp(14px,2vw,20px);
+  box-shadow:var(--cc-shadow);
+  margin-bottom:16px;
+}
+.cc-title{
+  font-size:clamp(1.05rem,1.8vw,1.2rem);
+  font-weight:800;
+  margin:0 0 12px;
+}
+.cc-dropzone{
+  border:2px dashed var(--cc-border-strong);
+  border-radius:14px;
+  padding:14px;
+  transition:border-color .18s ease, background .18s ease;
+}
+.cc-dropzone.cc-drag-active{
+  border-color:var(--cc-accent);
+  background:var(--cc-accent-soft);
+}
+.cc-drop-hint{
+  margin:10px 0 0;
+  font-size:0.85rem;
+  color:var(--cc-muted);
+}
+.cc-file-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+.cc-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:44px;
+  min-width:44px;
+  padding:10px 16px;
+  border-radius:12px;
+  border:1px solid var(--cc-border-strong);
+  background:var(--cc-panel);
+  color:var(--cc-text);
+  font:inherit;
+  font-size:0.95rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:background 0.18s ease,border-color 0.18s ease,transform 0.12s ease;
+  text-decoration:none;
+}
+.cc-btn:hover{background:var(--cc-cell);border-color:var(--cc-accent);transform:translateY(-1px)}
+.cc-btn:focus-visible{outline:2px solid var(--cc-accent);outline-offset:2px}
+.cc-btn.primary{background:var(--cc-accent);border-color:var(--cc-accent);color:#fff}
+.cc-btn.primary:hover{background:var(--cc-accent-hover)}
+.cc-btn.success{background:var(--cc-success);border-color:var(--cc-success);color:#08281c}
+.cc-btn.danger{color:var(--cc-danger);border-color:var(--cc-danger);background:transparent}
+.cc-btn:disabled{opacity:0.55;cursor:not-allowed;transform:none}
+#ccFile{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.cc-filemeta{
+  margin-top:12px;
+  color:var(--cc-muted);
+  font-size:0.92rem;
+  overflow-wrap:anywhere;
+}
+.cc-progress{
+  height:10px;
+  border-radius:999px;
+  background:var(--cc-cell);
+  overflow:hidden;
+  margin-top:14px;
+}
+#ccProgressBar{
+  height:100%;
+  width:40%;
+  border-radius:999px;
+  background:var(--cc-accent);
+  animation:ccMove 1.1s infinite alternate;
+}
+@keyframes ccMove{
+  from{margin-left:-18%;width:36%}
+  to{margin-left:72%;width:42%}
+}
+.cc-options-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:12px;
+  margin:14px 0;
+}
+.cc-option-label{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  color:var(--cc-text-2);
+  font-size:0.95rem;
+  font-weight:600;
+}
+.cc-option-label select, .cc-option-label input[type="text"]{
+  width:100%;
+  min-height:44px;
+  padding:9px 11px;
+  border-radius:12px;
+  border:1px solid var(--cc-border-strong);
+  background:var(--cc-panel);
+  color:var(--cc-text);
+  font-size:16px;
+}
+.cc-check{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-height:44px;
+  padding:10px 12px;
+  border:1px solid var(--cc-border);
+  border-radius:12px;
+  background:var(--cc-bg);
+  cursor:pointer;
+  user-select:none;
+  color:var(--cc-text-2);
+  font-size:0.95rem;
+  font-weight:600;
+}
+.cc-check:hover{border-color:var(--cc-accent)}
+.cc-check input{width:20px;height:20px;accent-color:var(--cc-accent)}
+.cc-note{
+  background:var(--cc-accent-soft);
+  border-left:4px solid var(--cc-accent);
+  padding:13px 15px;
+  border-radius:12px;
+  font-size:0.95rem;
+  margin:12px 0;
+}
+.cc-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
+.cc-stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;
+  margin-bottom:16px;
+}
+.cc-stat{
+  background:var(--cc-panel);
+  border:1px solid var(--cc-border);
+  border-radius:14px;
+  padding:13px;
+  box-shadow:var(--cc-shadow);
+  min-width:0;
+}
+.cc-stat span{
+  display:block;
+  color:var(--cc-muted);
+  font-size:0.78rem;
+  font-weight:700;
+  margin-bottom:5px;
+}
+.cc-stat strong{
+  font-size:1rem;
+  overflow-wrap:anywhere;
+}
+.cc-table-wrap{
+  overflow:auto;
+  max-height:430px;
+  border:1px solid var(--cc-border);
+  border-radius:14px;
+  background:var(--cc-panel);
+}
+.cc-table-wrap table{
+  border-collapse:collapse;
+  width:100%;
+  min-width:700px;
+  font-size:0.92rem;
+}
+.cc-table-wrap th, .cc-table-wrap td{
+  padding:10px 12px;
+  border-bottom:1px solid var(--cc-border);
+  text-align:left;
+  vertical-align:top;
+  max-width:280px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.cc-table-wrap th{
+  position:sticky;
+  top:0;
+  z-index:2;
+  background:var(--cc-bg);
+  color:var(--cc-text);
+  border-bottom:2px solid var(--cc-border-strong);
+}
+.cc-table-wrap th.cc-selectable{cursor:pointer}
+.cc-table-wrap th.dup-key{
+  background:var(--cc-accent);
+  color:#fff;
+}
+.cc-table-wrap tr:hover td{background:var(--cc-cell)}
+.cc-table-wrap td.cc-empty{color:var(--cc-muted);font-style:italic}
+.cc-content h2{
+  font-size:clamp(1.35rem,2.3vw,1.7rem);
+  margin:30px 0 12px;
+  font-weight:800;
+}
+.cc-content h3{
+  font-size:clamp(1.08rem,1.8vw,1.22rem);
+  margin:20px 0 10px;
+  font-weight:700;
+}
+.cc-content p{
+  margin:9px 0 14px;
+  font-size:clamp(0.96rem,1.55vw,1.02rem);
+}
+.cc-box{
+  background:var(--cc-panel);
+  border:1px solid var(--cc-border);
+  border-radius:16px;
+  padding:20px 22px;
+  margin:16px 0;
+  box-shadow:var(--cc-shadow);
+}
+.cc-box ol{margin:0;padding-left:22px}
+.cc-box li{margin:11px 0}
+.cc-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:18px 0;
+}
+.cc-links a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:10px 15px;
+  border-radius:12px;
+  border:1px solid var(--cc-border);
+  background:var(--cc-panel);
+  color:var(--cc-accent);
+  font-weight:700;
+  text-decoration:none;
+  transition:background 0.18s ease,color 0.18s ease,border-color 0.18s ease;
+}
+.cc-links a:hover{
+  background:var(--cc-accent);
+  color:#fff;
+  border-color:var(--cc-accent);
+}
+.cc-faq{
+  background:var(--cc-bg);
+  border:1px solid var(--cc-border);
+  border-radius:16px;
+  padding:22px;
+  margin:24px 0 0;
+}
+.cc-faq p{margin:8px 0 16px}
+.cc-faq p:last-child{margin-bottom:0}
+@media(max-width:700px){
+  .cc-file-row, .cc-actions{flex-direction:column;align-items:stretch}
+  .cc-btn{width:100%}
+  .cc-options-grid{grid-template-columns:1fr}
+  .cc-table-wrap{max-height:350px}
+}
+</style>
+
+<div class="csvclean-app" id="csvCleanApp">
+  <div class="cc-card">
+    <div class="cc-title">🧹 Secure Client-Side CSV Data Cleaner</div>
+    <div class="cc-dropzone" id="ccDropzone">
+      <div class="cc-file-row">
+        <label class="cc-btn primary" for="ccFile">📂 Upload CSV / TXT</label>
+        <input type="file" id="ccFile" accept=".csv,.txt,text/csv,text/plain">
+        <button type="button" class="cc-btn" id="ccSample">🧪 Load Sample</button>
+        <button type="button" class="cc-btn danger" id="ccReset">♻️ Reset</button>
+      </div>
+      <p class="cc-drop-hint">📥 You can also drag and drop a CSV or TXT file anywhere in this box.</p>
+    </div>
+    <div class="cc-filemeta" id="ccFileMeta">No file selected. Your data never leaves this browser.</div>
+    <div class="cc-progress" id="ccProgress" hidden><div id="ccProgressBar"></div></div>
+  </div>
+
+  <div class="cc-card" id="ccOptionsCard" hidden>
+    <div class="cc-title">⚙️ Cleaning Options</div>
+    <div class="cc-options-grid">
+      <label class="cc-option-label" for="ccDelimiter">
+        Delimiter
+        <select id="ccDelimiter">
+          <option value="auto" selected>Auto detect</option>
+          <option value="comma">Comma ,</option>
+          <option value="semicolon">Semicolon ;</option>
+          <option value="tab">Tab</option>
+          <option value="pipe">Pipe |</option>
+        </select>
+      </label>
+      <label class="cc-option-label" for="ccTextCase">
+        Text Case
+        <select id="ccTextCase">
+          <option value="none" selected>No change</option>
+          <option value="lower">lowercase</option>
+          <option value="upper">UPPERCASE</option>
+          <option value="title">Title Case</option>
+        </select>
+      </label>
+      <label class="cc-check"><input type="checkbox" id="ccHeader" checked> First row is header</label>
+      <label class="cc-check"><input type="checkbox" id="ccTrim" checked> Trim whitespace</label>
+      <label class="cc-check"><input type="checkbox" id="ccCollapse" checked> Collapse multiple spaces</label>
+      <label class="cc-check"><input type="checkbox" id="ccEmptyRows" checked> Remove empty rows</label>
+      <label class="cc-check"><input type="checkbox" id="ccEmptyCols" checked> Remove empty columns</label>
+      <label class="cc-check"><input type="checkbox" id="ccDup" checked> Remove duplicate rows</label>
+      <label class="cc-check"><input type="checkbox" id="ccDupCols"> Remove duplicate columns</label>
+      <label class="cc-check"><input type="checkbox" id="ccCleanHeaders" checked> Clean header names</label>
+    </div>
+    <div class="cc-options-grid">
+      <label class="cc-option-label" for="ccFindText">
+        Find text (optional)
+        <input type="text" id="ccFindText" placeholder="e.g. N/A">
+      </label>
+      <label class="cc-option-label" for="ccReplaceText">
+        Replace with
+        <input type="text" id="ccReplaceText" placeholder="Leave blank to remove">
+      </label>
+      <label class="cc-check"><input type="checkbox" id="ccFindCase"> Case sensitive find</label>
+    </div>
+    <div class="cc-note">🔑 Tap column headers in the preview to choose duplicate-key columns. If no column is selected, the whole row is compared.</div>
+    <div class="cc-actions">
+      <button type="button" class="cc-btn primary" id="ccProcess">🧹 Clean Data</button>
+      <button type="button" class="cc-btn success" id="ccDownload" disabled>⬇️ Download CSV</button>
+      <button type="button" class="cc-btn" id="ccJSON" disabled>🧾 Export JSON</button>
+      <button type="button" class="cc-btn" id="ccCopy" disabled>📋 Copy CSV</button>
+    </div>
+  </div>
+
+  <div class="cc-stats" id="ccStats" hidden></div>
+
+  <div class="cc-card" id="ccPreviewCard" hidden>
+    <div class="cc-title">👀 Preview <span style="font-weight:600;color:var(--cc-muted);font-size:0.9rem;">(first <span id="ccPreviewCount">0</span> rows)</span></div>
+    <div class="cc-table-wrap">
+      <table id="ccTable"></table>
+    </div>
+  </div>
+
+  <div class="cc-content">
+    <h2>Secure CSV Data Cleaner Overview</h2>
+    <p>The <strong>Secure Client-Side CSV Data Cleaner</strong> helps you clean messy CSV files directly in your browser. It removes duplicate rows, duplicate columns, empty rows, empty columns, and unwanted whitespace, and can also normalize text case or bulk find-and-replace values, all without uploading your data to any server. Because processing runs locally, it is suitable for sensitive business data, lead lists, inventory sheets, student records, and analytics exports.</p>
+
+    <h2>How to Use the CSV Data Cleaner</h2>
+    <div class="cc-box">
+      <ol>
+        <li>✅ <strong>Upload your CSV file</strong> by clicking the upload button, dragging a file into the box, or loading the built-in sample data to test safely.</li>
+        <li>✅ <strong>Choose the delimiter</strong> manually or keep Auto detect so the tool identifies comma, semicolon, tab, or pipe separators.</li>
+        <li>✅ <strong>Select cleaning options</strong> such as trimming whitespace, removing empty rows, empty columns, duplicate rows, and duplicate columns.</li>
+        <li>✅ <strong>Normalize values</strong> using Text Case (lowercase, UPPERCASE, Title Case) or the Find & Replace fields to fix inconsistent entries like "N/A" or "-".</li>
+        <li>✅ <strong>Optional duplicate-key selection:</strong> tap one or more column headers in the preview if you want row duplicates checked only by those columns.</li>
+        <li>✅ <strong>Click Clean Data.</strong> Large files are processed in a background Web Worker so the page stays responsive; a cleaned preview and statistics appear instantly.</li>
+        <li>✅ <strong>Download or copy the result</strong> as cleaned CSV or export structured JSON when the file size is within the safe browser limit.</li>
+      </ol>
+    </div>
+
+    <h2>Why Use a Browser-Only CSV Cleaner?</h2>
+    <p>Many online CSV cleaners upload your file to a remote server, which creates privacy risk when the file contains emails, phone numbers, order IDs, salary data, or customer details. This tool avoids that risk by keeping the entire workflow inside your browser tab. The file is read locally, cleaned in browser memory, and exported back to your device. There is no database, no account, no tracking upload, and no backend processing.</p>
+
+    <h3>Related Tools on ToolsX</h3>
+    <p>You can combine this cleaner with these related free tools:</p>
+    <div class="cc-links">
+      <a href="../tools/free-csv-to-json-json-to-csv-converter.html">Free CSV to JSON Converter</a>
+      <a href="../tools/file-size-composer.html">File Size Composer</a>
+      <a href="../tools/live-code-editor-preview-html-css-js.html">Live HTML CSS JS Code Editor</a>
+    </div>
+
+    <div class="cc-faq">
+      <h3>❓ Frequently Asked Questions</h3>
+      <p><strong>Q1. Is my CSV file uploaded to a server?</strong><br>A: No. The file is processed completely inside your browser. Your data never leaves your device.</p>
+      <p><strong>Q2. Can it handle large CSV files?</strong><br>A: It supports files up to 20 MB and processes them in a background Web Worker so the page does not freeze while cleaning.</p>
+      <p><strong>Q3. How does duplicate removal work?</strong><br>A: By default, the whole cleaned row is compared. If you tap specific column headers in the preview, only those columns are used as the duplicate key. You can also remove fully duplicate columns.</p>
+      <p><strong>Q4. Can I fix inconsistent text values?</strong><br>A: Yes. Use the Text Case option to convert values to lowercase, UPPERCASE, or Title Case, or use Find & Replace to bulk-fix values like "N/A" or extra symbols.</p>
+      <p><strong>Q5. Which delimiters are supported?</strong><br>A: The tool can auto-detect comma, semicolon, tab, and pipe delimiters. You can also force a specific delimiter.</p>
+      <p><strong>Q6. What output formats are available?</strong><br>A: You can download the cleaned CSV, copy it to the clipboard, and export JSON for files within the safe browser memory limit.</p>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question","name": "Is my CSV file uploaded to a server?","acceptedAnswer": {"@type": "Answer","text": "No. The file is processed completely inside your browser. Your data never leaves your device."}},
+    {"@type": "Question","name": "Can it handle large CSV files?","acceptedAnswer": {"@type": "Answer","text": "It supports files up to 20 MB and processes them in a background Web Worker so the page does not freeze while cleaning."}},
+    {"@type": "Question","name": "How does duplicate removal work?","acceptedAnswer": {"@type": "Answer","text": "By default, the whole cleaned row is compared. If you tap specific column headers in the preview, only those columns are used as the duplicate key. You can also remove fully duplicate columns."}},
+    {"@type": "Question","name": "Can I fix inconsistent text values?","acceptedAnswer": {"@type": "Answer","text": "Yes. Use the Text Case option to convert values to lowercase, UPPERCASE, or Title Case, or use Find & Replace to bulk-fix values like N/A or extra symbols."}},
+    {"@type": "Question","name": "Which delimiters are supported?","acceptedAnswer": {"@type": "Answer","text": "The tool can auto-detect comma, semicolon, tab, and pipe delimiters. You can also force a specific delimiter."}},
+    {"@type": "Question","name": "What output formats are available?","acceptedAnswer": {"@type": "Answer","text": "You can download the cleaned CSV, copy it to the clipboard, and export JSON for files within the safe browser memory limit."}}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Use the Secure Client-Side CSV Data Cleaner",
+  "description": "Clean CSV files privately in your browser by removing duplicates, empty rows, empty columns, extra whitespace, and inconsistent values.",
+  "step": [
+    {"@type": "HowToStep", "name": "Upload CSV file", "text": "Upload your CSV or TXT file by clicking, dragging into the box, or loading the sample data."},
+    {"@type": "HowToStep", "name": "Choose delimiter", "text": "Select auto detect or choose comma, semicolon, tab, or pipe."},
+    {"@type": "HowToStep", "name": "Select cleaning options", "text": "Enable trimming, empty-row removal, empty-column removal, duplicate-row removal, duplicate-column removal, and header cleaning as needed."},
+    {"@type": "HowToStep", "name": "Normalize values", "text": "Optionally apply a text case transform or find-and-replace to fix inconsistent values."},
+    {"@type": "HowToStep", "name": "Choose duplicate key columns", "text": "Optionally tap column headers in the preview to use those columns as the duplicate key."},
+    {"@type": "HowToStep", "name": "Clean the data", "text": "Click Clean Data to process the file locally in your browser via a background Web Worker."},
+    {"@type": "HowToStep", "name": "Download result", "text": "Download the cleaned CSV, copy it, or export JSON when available."}
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Secure Client-Side CSV Data Cleaner",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (Browser-based)",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "Free browser-based CSV cleaner that removes duplicate rows/columns, empty rows/columns, and whitespace, with text-case normalization and find-and-replace, without uploading data to a server.",
+  "featureList": "Client-side CSV cleaning, duplicate row removal, duplicate column removal, empty row removal, empty column removal, delimiter detection, drag-and-drop upload, text case normalization, find and replace, background Web Worker processing, CSV export, JSON export, private offline processing"
+}
+</script>
+
+<script>
+(function(){
+  'use strict';
+  var app = document.getElementById('csvCleanApp');
+  if (!app) return;
+
+  var MAX_SIZE = 20 * 1024 * 1024;
+  var JSON_LIMIT = 8000000;
+  var PREVIEW_LIMIT = 100;
+
+  var state = {
+    rawText: '',
+    fileName: '',
+    cleanedCSV: '',
+    cleanedJSON: '',
+    selectedDupCols: {},
+    previewHeaders: [],
+    previewRows: []
+  };
+
+  var ccFile = document.getElementById('ccFile');
+  var ccDropzone = document.getElementById('ccDropzone');
+  var ccSample = document.getElementById('ccSample');
+  var ccReset = document.getElementById('ccReset');
+  var ccFileMeta = document.getElementById('ccFileMeta');
+  var ccProgress = document.getElementById('ccProgress');
+  var ccOptionsCard = document.getElementById('ccOptionsCard');
+  var ccDelimiter = document.getElementById('ccDelimiter');
+  var ccTextCase = document.getElementById('ccTextCase');
+  var ccHeader = document.getElementById('ccHeader');
+  var ccTrim = document.getElementById('ccTrim');
+  var ccCollapse = document.getElementById('ccCollapse');
+  var ccEmptyRows = document.getElementById('ccEmptyRows');
+  var ccEmptyCols = document.getElementById('ccEmptyCols');
+  var ccDup = document.getElementById('ccDup');
+  var ccDupCols = document.getElementById('ccDupCols');
+  var ccCleanHeaders = document.getElementById('ccCleanHeaders');
+  var ccFindText = document.getElementById('ccFindText');
+  var ccReplaceText = document.getElementById('ccReplaceText');
+  var ccFindCase = document.getElementById('ccFindCase');
+  var ccProcess = document.getElementById('ccProcess');
+  var ccDownload = document.getElementById('ccDownload');
+  var ccJSON = document.getElementById('ccJSON');
+  var ccCopy = document.getElementById('ccCopy');
+  var ccStats = document.getElementById('ccStats');
+  var ccPreviewCard = document.getElementById('ccPreviewCard');
+  var ccPreviewCount = document.getElementById('ccPreviewCount');
+  var ccTable = document.getElementById('ccTable');
+
+  function detectDelimiter(text) {
+    var candidates = [',', ';', '\t', '|'];
+    var best = ',';
+    var max = -1;
+    var sample = text.slice(0, 8000);
+    for (var k = 0; k < candidates.length; k++) {
+      var d = candidates[k];
+      var count = 0;
+      var inQ = false;
+      for (var i = 0; i < sample.length; i++) {
+        var ch = sample[i];
+        if (ch === '"') {
+          inQ = !inQ;
+        } else if (!inQ && ch === d) {
+          count++;
+        }
+      }
+      if (count > max) {
+        max = count;
+        best = d;
+      }
+    }
+    return best;
+  }
+
+  function parseCSV(text, delimiter) {
+    var rows = [];
+    var row = [];
+    var field = '';
+    var inQuotes = false;
+
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+
+      if (inQuotes) {
+        if (c === '"') {
+          if (text[i + 1] === '"') {
+            field += '"';
+            i++;
+          } else {
+            inQuotes = false;
+          }
+        } else {
+          field += c;
+        }
+      } else {
+        if (c === '"') {
+          inQuotes = true;
+        } else if (c === delimiter) {
+          row.push(field);
+          field = '';
+        } else if (c === '\n') {
+          row.push(field);
+          rows.push(row);
+          row = [];
+          field = '';
+        } else if (c === '\r') {
+          if (text[i + 1] !== '\n') {
+            row.push(field);
+            rows.push(row);
+            row = [];
+            field = '';
+          }
+        } else {
+          field += c;
+        }
+      }
+    }
+
+    if (field !== '' || row.length > 0) {
+      row.push(field);
+      rows.push(row);
+    }
+
+    if (rows.length && rows[rows.length - 1].length === 1 && rows[rows.length - 1][0] === '' && /[\n\r]$/.test(text)) {
+      rows.pop();
+    }
+
+    return rows;
+  }
+
+  function rowsToCSV(rows, delimiter) {
+    return rows.map(function(row) {
+      return row.map(function(field) {
+        var s = String(field);
+        var needsQuote = s.indexOf(delimiter) !== -1 || s.indexOf('"') !== -1 || s.indexOf('\n') !== -1 || s.indexOf('\r') !== -1;
+        if (needsQuote) {
+          return '"' + s.replace(/"/g, '""') + '"';
+        }
+        return s;
+      }).join(delimiter);
+    }).join('\n');
+  }
+
+  function applyCaseTransform(v, mode) {
+    if (mode === 'lower') return v.toLowerCase();
+    if (mode === 'upper') return v.toUpperCase();
+    if (mode === 'title') {
+      return v.replace(/\w\S*/g, function(t) {
+        return t.charAt(0).toUpperCase() + t.substr(1).toLowerCase();
+      });
+    }
+    return v;
+  }
+
+  function applyFindReplace(v, find, replace, caseSensitive) {
+    if (!find) return v;
+    var escaped = find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    var flags = caseSensitive ? 'g' : 'gi';
+    var re = new RegExp(escaped, flags);
+    return v.replace(re, replace);
+  }
+
+  function cleanDataset(text, options) {
+    var started = Date.now();
+    var previewLimit = options.previewLimit || 100;
+    var delimiter = options.delimiter === 'auto' ? detectDelimiter(text) : options.delimiter;
+    var parsed = parseCSV(text, delimiter);
+
+    if (!parsed.length) {
+      return {
+        headers: [],
+        previewRows: [],
+        csv: '',
+        json: options.generateJson ? '[]' : '',
+        stats: {
+          inputRows: 0,
+          outputRows: 0,
+          originalCols: 0,
+          outputCols: 0,
+          removedEmptyRows: 0,
+          removedEmptyCols: 0,
+          removedDuplicates: 0,
+          removedDuplicateColumns: 0,
+          delimiter: delimiter,
+          timeMs: Date.now() - started,
+          inputSize: text.length,
+          outputSize: 0
+        }
+      };
+    }
+
+    var headers = [];
+    var dataStart = 0;
+
+    if (options.hasHeader && parsed.length) {
+      headers = parsed[0].map(function(h) { return String(h); });
+      dataStart = 1;
+    } else if (parsed.length) {
+      headers = parsed[0].map(function(_, i) { return 'Column ' + (i + 1); });
+      dataStart = 0;
+    }
+
+    var data = parsed.slice(dataStart);
+    var originalRows = data.length;
+    var originalCols = headers.length;
+    var maxCols = headers.length;
+
+    data.forEach(function(r) { if (r.length > maxCols) maxCols = r.length; });
+
+    while (headers.length < maxCols) headers.push('Column ' + (headers.length + 1));
+
+    data = data.map(function(r) {
+      var nr = r.slice();
+      while (nr.length < maxCols) nr.push('');
+      if (nr.length > maxCols) nr = nr.slice(0, maxCols);
+      return nr;
+    });
+
+    data = data.map(function(row) {
+      return row.map(function(cell) {
+        var v = String(cell);
+        if (options.trimCells) v = v.replace(/^\s+|\s+$/g, '');
+        if (options.collapseSpaces) v = v.replace(/\s+/g, ' ');
+        if (options.textCase && options.textCase !== 'none') v = applyCaseTransform(v, options.textCase);
+        if (options.findText) v = applyFindReplace(v, options.findText, options.replaceText || '', options.findCaseSensitive);
+        return v;
+      });
+    });
+
+    if (options.hasHeader && options.cleanHeaders) {
+      headers = headers.map(function(h) {
+        var v = String(h);
+        if (options.trimCells) v = v.replace(/^\s+|\s+$/g, '');
+        if (options.collapseSpaces) v = v.replace(/\s+/g, ' ');
+        return v;
+      });
+    }
+
+    var removedEmptyRows = 0;
+    if (options.removeEmptyRows) {
+      data = data.filter(function(row) {
+        var empty = row.every(function(c) { return String(c).replace(/^\s+|\s+$/g, '') === ''; });
+        if (empty) removedEmptyRows++;
+        return !empty;
+      });
+    }
+
+    var removedDuplicates = 0;
+    if (options.removeDuplicates) {
+      var seen = Object.create(null);
+      var keyCols = (options.duplicateColumns || []).filter(function(i) { return i >= 0 && i < headers.length; });
+
+      data = data.filter(function(row) {
+        var vals = keyCols.length
+          ? keyCols.map(function(i) { return String(row[i]); })
+          : row.map(function(v) { return String(v); });
+        var key = vals.join('\u0001');
+
+        if (seen[key]) { removedDuplicates++; return false; }
+        seen[key] = true;
+        return true;
+      });
+    }
+
+    var removedDuplicateColumns = 0;
+    if (options.removeDuplicateColumns && data.length) {
+      var signatures = [];
+      var keepCols = [];
+      for (var c1 = 0; c1 < headers.length; c1++) {
+        var sig = headers[c1] + '|' + data.map(function(row) { return row[c1]; }).join('\u0002');
+        if (signatures.indexOf(sig) === -1) {
+          signatures.push(sig);
+          keepCols.push(c1);
+        } else {
+          removedDuplicateColumns++;
+        }
+      }
+      headers = keepCols.map(function(i) { return headers[i]; });
+      data = data.map(function(row) { return keepCols.map(function(i) { return row[i]; }); });
+    }
+
+    var removedEmptyCols = 0;
+    if (options.removeEmptyColumns && data.length) {
+      var keep = [];
+      for (var c = 0; c < headers.length; c++) {
+        var nonEmpty = false;
+        for (var r = 0; r < data.length; r++) {
+          if (String(data[r][c]).replace(/^\s+|\s+$/g, '') !== '') { nonEmpty = true; break; }
+        }
+        if (nonEmpty) { keep.push(c); } else { removedEmptyCols++; }
+      }
+      headers = keep.map(function(i) { return headers[i]; });
+      data = data.map(function(row) { return keep.map(function(i) { return row[i]; }); });
+    }
+
+    var csvRows = options.hasHeader ? [headers].concat(data) : data;
+    var csv = rowsToCSV(csvRows, delimiter);
+    var json = '';
+
+    if (options.generateJson) {
+      var arr = data.map(function(row) {
+        var obj = {};
+        headers.forEach(function(h, i) {
+          var key = h && String(h).replace(/^\s+|\s+$/g, '') !== '' ? h : 'Column ' + (i + 1);
+          obj[key] = row[i];
+        });
+        return obj;
+      });
+      json = JSON.stringify(arr);
+    }
+
+    return {
+      headers: headers,
+      previewRows: data.slice(0, previewLimit),
+      csv: csv,
+      json: json,
+      stats: {
+        inputRows: originalRows,
+        outputRows: data.length,
+        originalCols: originalCols,
+        outputCols: headers.length,
+        removedEmptyRows: removedEmptyRows,
+        removedEmptyCols: removedEmptyCols,
+        removedDuplicates: removedDuplicates,
+        removedDuplicateColumns: removedDuplicateColumns,
+        delimiter: delimiter,
+        timeMs: Date.now() - started,
+        inputSize: text.length,
+        outputSize: csv.length
+      }
+    };
+  }
+
+  function selectedDelimiter() {
+    var v = ccDelimiter.value;
+    if (v === 'comma') return ',';
+    if (v === 'semicolon') return ';';
+    if (v === 'tab') return '\t';
+    if (v === 'pipe') return '|';
+    return 'auto';
+  }
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1048576).toFixed(2) + ' MB';
+  }
+
+  function delimiterLabel(d) {
+    if (d === ',') return 'Comma';
+    if (d === ';') return 'Semicolon';
+    if (d === '\t') return 'Tab';
+    if (d === '|') return 'Pipe';
+    return String(d);
+  }
+
+  function resetResult() {
+    state.cleanedCSV = '';
+    state.cleanedJSON = '';
+    ccDownload.disabled = true;
+    ccJSON.disabled = true;
+    ccCopy.disabled = true;
+    ccStats.hidden = true;
+    ccStats.innerHTML = '';
+    ccPreviewCard.hidden = true;
+    ccPreviewCount.textContent = '0';
+    ccTable.innerHTML = '';
+  }
+
+  function setProcessing(isProcessing) {
+    ccProcess.disabled = isProcessing;
+    ccProgress.hidden = !isProcessing;
+  }
+
+  function getSampleRows() {
+    if (!state.rawText) return { headers: [], rows: [], delimiter: selectedDelimiter() };
+
+    var delim = selectedDelimiter() === 'auto' ? detectDelimiter(state.rawText) : selectedDelimiter();
+    var sample = state.rawText.slice(0, 120000);
+    var lastNewLine = sample.lastIndexOf('\n');
+    if (lastNewLine > 0) sample = sample.slice(0, lastNewLine);
+
+    var parsed = parseCSV(sample, delim);
+    var headers = [];
+    var data = [];
+
+    if (parsed.length) {
+      var maxCols = 0;
+      parsed.forEach(function(r) { if (r.length > maxCols) maxCols = r.length; });
+
+      if (ccHeader.checked) {
+        headers = parsed[0].slice();
+        while (headers.length < maxCols) headers.push('Column ' + (headers.length + 1));
+        data = parsed.slice(1);
+      } else {
+        for (var i = 0; i < maxCols; i++) headers.push('Column ' + (i + 1));
+        data = parsed;
+      }
+
+      data = data.map(function(r) {
+        var nr = r.slice();
+        while (nr.length < maxCols) nr.push('');
+        return nr.slice(0, maxCols);
+      });
+    }
+
+    return { headers: headers, rows: data.slice(0, PREVIEW_LIMIT), delimiter: delim };
+  }
+
+  function renderPreview(headers, rows, selectable) {
+    ccTable.innerHTML = '';
+    if (!headers.length) { ccPreviewCard.hidden = true; return; }
+
+    var thead = document.createElement('thead');
+    var trh = document.createElement('tr');
+
+    var th0 = document.createElement('th');
+    th0.textContent = '#';
+    trh.appendChild(th0);
+
+    headers.forEach(function(h, i) {
+      var th = document.createElement('th');
+      th.textContent = h || ('Column ' + (i + 1));
+
+      if (selectable) {
+        th.className = 'cc-selectable';
+        if (state.selectedDupCols[i]) th.className += ' dup-key';
+        th.title = 'Tap to toggle duplicate key';
+        th.setAttribute('role', 'button');
+        th.setAttribute('tabindex', '0');
+
+        th.addEventListener('click', function() { toggleDup(i); });
+        th.addEventListener('keydown', function(ev) {
+          if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggleDup(i); }
+        });
+      }
+
+      trh.appendChild(th);
+    });
+
+    thead.appendChild(trh);
+    ccTable.appendChild(thead);
+
+    var tbody = document.createElement('tbody');
+
+    rows.forEach(function(row, ri) {
+      if (ri >= PREVIEW_LIMIT) return;
+
+      var tr = document.createElement('tr');
+      var td0 = document.createElement('td');
+      td0.textContent = String(ri + 1);
+      tr.appendChild(td0);
+
+      headers.forEach(function(_, ci) {
+        var td = document.createElement('td');
+        var val = row[ci] === undefined ? '' : String(row[ci]);
+        td.textContent = val;
+        if (val.replace(/^\s+|\s+$/g, '') === '') td.className = 'cc-empty';
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    });
+
+    ccTable.appendChild(tbody);
+    ccPreviewCard.hidden = false;
+  }
+
+  function preparePreview() {
+    if (!state.rawText) return;
+    var sample = getSampleRows();
+    state.previewHeaders = sample.headers;
+    state.previewRows = sample.rows;
+    renderPreview(sample.headers, sample.rows, true);
+    ccPreviewCount.textContent = String(sample.rows.length);
+  }
+
+  function toggleDup(i) {
+    if (state.selectedDupCols[i]) { delete state.selectedDupCols[i]; }
+    else { state.selectedDupCols[i] = true; }
+    renderPreview(state.previewHeaders, state.previewRows, true);
+  }
+
+  function loadText(text, name) {
+    if (text.indexOf('\u0000') !== -1) {
+      alert('This looks like a binary file, not a CSV text file.');
+      return;
+    }
+
+    state.rawText = text.replace(/^\uFEFF/, '');
+    state.fileName = name;
+    state.selectedDupCols = {};
+    resetResult();
+
+    ccFileMeta.textContent = name + ' · ' + formatBytes(state.rawText.length) + ' loaded locally';
+    ccOptionsCard.hidden = false;
+    ccProcess.disabled = false;
+    preparePreview();
+  }
+
+  function handleIncomingFile(f) {
+    if (!f) return;
+    if (f.size > MAX_SIZE) { alert('File is too large. Maximum size is 20 MB.'); return; }
+
+    var nameLower = f.name.toLowerCase();
+    var validName = nameLower.indexOf('.csv') !== -1 || nameLower.indexOf('.txt') !== -1;
+    var validType = ['text/csv', 'text/plain', 'application/vnd.ms-excel', ''].indexOf(f.type) !== -1;
+
+    if (!validName && !validType) { alert('Please choose a CSV or plain text file.'); return; }
+
+    var reader = new FileReader();
+    reader.onload = function(ev) { loadText(String(ev.target.result || ''), f.name); };
+    reader.onerror = function() { alert('Could not read the file.'); };
+    reader.readAsText(f, 'UTF-8');
+  }
+
+  function getOptions() {
+    var selected = [];
+    Object.keys(state.selectedDupCols).forEach(function(k) {
+      if (state.selectedDupCols[k]) selected.push(parseInt(k, 10));
+    });
+
+    return {
+      delimiter: selectedDelimiter(),
+      hasHeader: ccHeader.checked,
+      trimCells: ccTrim.checked,
+      collapseSpaces: ccCollapse.checked,
+      removeEmptyRows: ccEmptyRows.checked,
+      removeEmptyColumns: ccEmptyCols.checked,
+      removeDuplicates: ccDup.checked,
+      removeDuplicateColumns: ccDupCols.checked,
+      cleanHeaders: ccCleanHeaders.checked,
+      duplicateColumns: selected,
+      textCase: ccTextCase.value,
+      findText: ccFindText.value,
+      replaceText: ccReplaceText.value,
+      findCaseSensitive: ccFindCase.checked,
+      previewLimit: PREVIEW_LIMIT,
+      generateJson: state.rawText.length <= JSON_LIMIT
+    };
+  }
+
+  function createWorker() {
+    try {
+      if (typeof Worker === 'undefined') return null;
+
+      var core = [
+        detectDelimiter.toString(),
+        parseCSV.toString(),
+        rowsToCSV.toString(),
+        applyCaseTransform.toString(),
+        applyFindReplace.toString(),
+        cleanDataset.toString()
+      ].join('\n');
+
+      var code = 'self.onmessage = function(e) { try { var result = cleanDataset(e.data.text, e.data.options); self.postMessage({ok:true, result:result}); } catch (err) { self.postMessage({ok:false, error:String(err && err.message ? err.message : err)}); } };\n' + core;
+      var blob = new Blob([code], { type: 'application/javascript' });
+      var url = URL.createObjectURL(blob);
+      var worker = new Worker(url);
+      worker.url = url;
+      return worker;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function applyResult(result) {
+    state.cleanedCSV = result.csv || '';
+    state.cleanedJSON = result.json || '';
+
+    renderPreview(result.headers || [], result.previewRows || [], false);
+    ccPreviewCount.textContent = String((result.previewRows || []).length);
+    renderStats(result.stats);
+
+    ccDownload.disabled = !state.cleanedCSV;
+    ccCopy.disabled = !state.cleanedCSV;
+    ccJSON.disabled = !state.cleanedJSON;
+    ccJSON.title = state.cleanedJSON ? 'Export JSON' : 'JSON export disabled for very large files to protect browser memory';
+
+    setProcessing(false);
+  }
+
+  function runMain(options) {
+    try {
+      var result = cleanDataset(state.rawText, options);
+      applyResult(result);
+    } catch (err) {
+      setProcessing(false);
+      alert('Processing error: ' + (err && err.message ? err.message : err));
+    }
+  }
+
+  function renderStats(stats) {
+    ccStats.innerHTML = '';
+
+    var items = [
+      ['Input Rows', String(stats.inputRows)],
+      ['Output Rows', String(stats.outputRows)],
+      ['Duplicates Removed', String(stats.removedDuplicates)],
+      ['Duplicate Columns Removed', String(stats.removedDuplicateColumns)],
+      ['Empty Rows Removed', String(stats.removedEmptyRows)],
+      ['Empty Columns Removed', String(stats.removedEmptyCols)],
+      ['Output Columns', String(stats.outputCols)],
+      ['Delimiter', delimiterLabel(stats.delimiter)],
+      ['Processing Time', stats.timeMs + ' ms'],
+      ['Input Size', formatBytes(stats.inputSize)],
+      ['Output Size', formatBytes(stats.outputSize)]
+    ];
+
+    items.forEach(function(item) {
+      var div = document.createElement('div');
+      div.className = 'cc-stat';
+
+      var span = document.createElement('span');
+      span.textContent = item[0];
+
+      var strong = document.createElement('strong');
+      strong.textContent = item[1];
+
+      div.appendChild(span);
+      div.appendChild(strong);
+      ccStats.appendChild(div);
+    });
+
+    ccStats.hidden = false;
+  }
+
+  function cleanFileName(name, ext) {
+    var base = String(name || 'data').replace(/\.[^.]+$/, '');
+    return base + '-cleaned.' + ext;
+  }
+
+  function downloadBlob(content, type, filename) {
+    var blob = new Blob([content], { type: type });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function() { URL.revokeObjectURL(url); }, 500);
+  }
+
+  function flashButton(btn, msg) {
+    var old = btn.textContent;
+    btn.textContent = msg;
+    setTimeout(function() { btn.textContent = old; }, 1500);
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand('copy');
+      flashButton(ccCopy, '✓ Copied');
+    } catch (e) {
+      alert('Copy failed. Please download the CSV instead.');
+    }
+    ta.remove();
+  }
+
+  ccFile.addEventListener('change', function(e) {
+    var f = e.target.files && e.target.files[0];
+    handleIncomingFile(f);
+    e.target.value = '';
+  });
+
+  ['dragenter', 'dragover'].forEach(function(evt) {
+    ccDropzone.addEventListener(evt, function(e) {
+      e.preventDefault(); e.stopPropagation();
+      ccDropzone.classList.add('cc-drag-active');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(function(evt) {
+    ccDropzone.addEventListener(evt, function(e) {
+      e.preventDefault(); e.stopPropagation();
+      ccDropzone.classList.remove('cc-drag-active');
+    });
+  });
+
+  ccDropzone.addEventListener('drop', function(e) {
+    var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    handleIncomingFile(f);
+  });
+
+  ccSample.addEventListener('click', function() {
+    ccDelimiter.value = 'auto';
+    ccTextCase.value = 'none';
+    ccHeader.checked = true;
+    ccTrim.checked = true;
+    ccCollapse.checked = true;
+    ccEmptyRows.checked = true;
+    ccEmptyCols.checked = true;
+    ccDup.checked = true;
+    ccDupCols.checked = false;
+    ccCleanHeaders.checked = true;
+    ccFindText.value = '';
+    ccReplaceText.value = '';
+    ccFindCase.checked = false;
+
+    var lines = [
+      'name,email,department,salary,join_date',
+      'Aarav Sharma,aarav@example.com,Sales,52000,2023-01-15',
+      'Meera Patel,meera@example.com,Support,48000,2023-02-20',
+      'Aarav Sharma,aarav@example.com,Sales,52000,2023-01-15',
+      '   Rohan Verma  ,rohan@example.com,Engineering,72000,2022-11-02',
+      '',
+      'Meera Patel,meera@example.com,Support,48000,2023-02-20',
+      'Sneha Iyer,sneha@example.com,Marketing,N/A,2024-03-05',
+      'Vikram Singh,vikram@example.com,Engineering,69000,2023-08-18'
+    ];
+
+    loadText(lines.join('\n'), 'sample.csv');
+  });
+
+  ccReset.addEventListener('click', function() {
+    state.rawText = '';
+    state.fileName = '';
+    state.selectedDupCols = {};
+    resetResult();
+
+    ccOptionsCard.hidden = true;
+    ccFileMeta.textContent = 'No file selected. Your data never leaves this browser.';
+    ccFile.value = '';
+    ccDelimiter.value = 'auto';
+    ccTextCase.value = 'none';
+    ccHeader.checked = true;
+    ccTrim.checked = true;
+    ccCollapse.checked = true;
+    ccEmptyRows.checked = true;
+    ccEmptyCols.checked = true;
+    ccDup.checked = true;
+    ccDupCols.checked = false;
+    ccCleanHeaders.checked = true;
+    ccFindText.value = '';
+    ccReplaceText.value = '';
+    ccFindCase.checked = false;
+    ccProcess.disabled = true;
+  });
+
+  ccDelimiter.addEventListener('change', function() { state.selectedDupCols = {}; preparePreview(); });
+  ccHeader.addEventListener('change', function() { state.selectedDupCols = {}; preparePreview(); });
+
+  ccProcess.addEventListener('click', function() {
+    if (!state.rawText) return;
+
+    var options = getOptions();
+    setProcessing(true);
+
+    var worker = createWorker();
+
+    if (worker) {
+      var done = false;
+
+      var fallback = function() {
+        if (done) return;
+        done = true;
+        try { worker.terminate(); if (worker.url) URL.revokeObjectURL(worker.url); } catch (e) {}
+        runMain(options);
+      };
+
+      worker.onmessage = function(e) {
+        if (done) return;
+        done = true;
+        try { worker.terminate(); if (worker.url) URL.revokeObjectURL(worker.url); } catch (err) {}
+
+        if (e.data && e.data.ok) { applyResult(e.data.result); }
+        else { runMain(options); }
+      };
+
+      worker.onerror = function() { fallback(); };
+
+      setTimeout(function() { if (!done) fallback(); }, 20000);
+
+      worker.postMessage({ text: state.rawText, options: options });
+    } else {
+      runMain(options);
+    }
+  });
+
+  ccDownload.addEventListener('click', function() {
+    if (!state.cleanedCSV) return;
+    downloadBlob(state.cleanedCSV, 'text/csv;charset=utf-8', cleanFileName(state.fileName, 'csv'));
+  });
+
+  ccJSON.addEventListener('click', function() {
+    if (!state.cleanedJSON) return;
+    downloadBlob(state.cleanedJSON, 'application/json;charset=utf-8', cleanFileName(state.fileName, 'json'));
+  });
+
+  ccCopy.addEventListener('click', function() {
+    if (!state.cleanedCSV) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(state.cleanedCSV).then(function() {
+        flashButton(ccCopy, '✓ Copied');
+      }, function() { fallbackCopy(state.cleanedCSV); });
+    } else {
+      fallbackCopy(state.cleanedCSV);
+    }
+  });
+
+  ccProcess.disabled = true;
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

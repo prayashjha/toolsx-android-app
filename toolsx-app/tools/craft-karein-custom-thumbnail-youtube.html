@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>AI YouTube Thumbnail Generator – High-CTR Covers Free – ToolsX App</title>
+<meta name="description" content="Design eye-catching, high-CTR YouTube thumbnails free with AI. Choose templates, add text, and download instantly.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>AI YouTube Thumbnail Generator – High-CTR Covers Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"AI YouTube Thumbnail Studio with Text Overlay","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Modern browser with JavaScript and HTML5 Canvas","description":"Free AI-powered YouTube thumbnail generator with custom text overlay. Add channel name and video title with color customization. 10 categories (Gaming, Tech, Cooking, Vlog, Education, Fitness, Music, Comedy, Business, Science), 6 visual styles, 6 moods, 3 aspect ratios. HD PNG download, no watermark, no signup.","featureList":["10 video categories (Gaming, Tech, Cooking, Vlog, Education, Fitness, Music, Comedy, Business, Science)","6 visual styles (Real, 3D, Anime, Comic, Art, Low Poly)","6 mood options (Epic, Bright, Dark, Neon, Warm, Clean)","3 aspect ratios (16:9 YouTube, 1:1 Instagram, 9:16 Shorts)","Custom channel name overlay","Custom video title overlay","Text color customization","HD PNG download","Image zoom preview","65-second timeout protection","Input sanitization","Random seed for unique results"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.toolsx.in/"},{"@type":"ListItem","position":2,"name":"YouTube Thumbnail Studio"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Kya yeh tool sach mein free hai?","acceptedAnswer":{"@type":"Answer","text":"Haan, bilkul free hai. Koi hidden charges nahi, koi premium version nahi, koi daily limit nahi. Aap unlimited thumbnails generate aur download kar sakte hain — personal ya commercial use ke liye. Koi signup bhi nahi chahiye, koi watermark nahi aata."}},{"@type":"Question","name":"Kya mera text kahin save hota hai?","acceptedAnswer":{"@type":"Answer","text":"Nahi. Aapka channel name aur video title sirf aapke browser mein process hota hai. AI API ko sirf category/style/mood prompt jaata hai — aapka custom text nahi. Text overlay locally canvas par add hota hai. Tab band karte hi sab clear ho jaata hai — complete privacy."}},{"@type":"Question","name":"Thumbnail kis format mein download hota hai?","acceptedAnswer":{"@type":"Answer","text":"PNG format mein — lossless quality, transparent background support. PNG format YouTube, Instagram, Facebook sab platforms par perfectly kaam karta hai. File size optimized hota hai — fast upload, high quality."}},{"@type":"Question","name":"Kya same thumbnail dobara generate kar sakte hain?","acceptedAnswer":{"@type":"Answer","text":"Har generation unique hoti hai — random seed use hota hai. Agar aapko koi thumbnail pasand aaye, toh turant download kar lein. Re-Gen button se aap same settings ke saath naya thumbnail generate kar sakte hain — har baar alag result milega."}},{"@type":"Question","name":"Mobile par kaam karega?","acceptedAnswer":{"@type":"Answer","text":"Haan — Chrome, Safari, Firefox, Edge sab browsers par smoothly chalta hai. Touch-friendly interface mobile ke liye optimized hai. Phone se directly thumbnail generate aur download kar sakte hain. Responsive design — har screen size par perfect dikhta hai."}}]}]}
+</script>
+
+<div id="tsxv5-yts" class="tsxv5-yts-wrapper">
+
+<style>
+/* ══════════════════════════════════════════════════════════════
+   TOOLS-X YOUTUBE THUMBNAIL STUDIO v5.0 — THEME-AWARE
+   Light mode = white/light (default)
+   Dark mode = dark via 7 Blogger selectors
+   ══════════════════════════════════════════════════════════════ */
+#tsxv5-yts{
+  --yts-bg:#ffffff;--yts-surface:#f8fafc;--yts-surface2:#f1f5f9;
+  --yts-primary:#059669;--yts-secondary:#0891b2;--yts-accent:#ea580c;
+  --yts-text:#1e293b;--yts-text-dim:#475569;--yts-text-muted:#94a3b8;
+  --yts-border:#e2e8f0;--yts-border2:#cbd5e1;
+  --yts-radius:12px;
+  --yts-shadow:0 10px 30px rgba(0,0,0,0.08);
+  --yts-error:#dc2626;
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:transparent;color:var(--yts-text);
+  transition:background .3s,color .3s;
+}
+body.dark-mode #tsxv5-yts,
+html.dark-mode #tsxv5-yts,
+[data-theme="dark"] #tsxv5-yts,
+body[data-theme="dark"] #tsxv5-yts,
+html[data-theme="dark"] #tsxv5-yts,
+.dark-mode #tsxv5-yts,
+.night-mode #tsxv5-yts{
+  --yts-bg:#0a0e17;--yts-surface:rgba(0,0,0,0.3);--yts-surface2:rgba(0,0,0,0.4);
+  --yts-primary:#00ff88;--yts-secondary:#00d4ff;--yts-accent:#ff6b35;
+  --yts-text:#e0e0e0;--yts-text-dim:#667788;--yts-text-muted:#445566;
+  --yts-border:rgba(0,255,136,0.1);--yts-border2:rgba(255,255,255,0.1);
+  --yts-shadow:0 10px 30px rgba(0,0,0,0.5);
+  --yts-error:#ff5555;
+}
+#tsxv5-yts *,#tsxv5-yts *::before,#tsxv5-yts *::after{box-sizing:border-box;margin:0;padding:0;max-width:100%;}
+#tsxv5-yts img,#tsxv5-yts canvas,#tsxv5-yts video{max-width:100%;height:auto;display:block;}
+
+#tsxv5-yts .yts{
+  max-width:980px;margin:0 auto;background:var(--yts-bg);border-radius:20px;overflow:hidden;
+  color:var(--yts-text) !important;position:relative;box-shadow:var(--yts-shadow);border:1px solid var(--yts-border);
+}
+
+/* Breadcrumb */
+#tsxv5-yts .yts-breadcrumb{
+  padding:14px 24px;background:var(--yts-surface2);font-size:.8rem;color:var(--yts-text-dim) !important;
+  border-bottom:1px solid var(--yts-border);
+}
+#tsxv5-yts .yts-breadcrumb a{color:var(--yts-primary) !important;text-decoration:none;}
+#tsxv5-yts .yts-breadcrumb a:hover{text-decoration:underline;}
+
+/* Header */
+#tsxv5-yts .yts-header{
+  padding:28px 24px;border-bottom:1px solid var(--yts-border);display:flex;align-items:center;gap:16px;
+  position:relative;flex-wrap:wrap;
+}
+#tsxv5-yts .yts-header::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--yts-primary),var(--yts-secondary),var(--yts-primary));
+}
+#tsxv5-yts .yts-logo{
+  width:52px;height:52px;background:linear-gradient(135deg,var(--yts-primary),var(--yts-secondary));
+  border-radius:var(--yts-radius);display:flex;align-items:center;justify-content:center;font-size:24px;
+  box-shadow:0 0 24px rgba(5,150,105,0.3);flex-shrink:0;
+}
+body.dark-mode #tsxv5-yts .yts-logo,[data-theme="dark"] #tsxv5-yts .yts-logo{box-shadow:0 0 24px rgba(0,255,136,0.3);}
+#tsxv5-yts .yts-header-text h1{
+  font-size:1.5em;font-weight:900;color:var(--yts-primary) !important;
+  text-shadow:0 0 20px rgba(5,150,105,0.2);letter-spacing:1px;margin:0;
+}
+body.dark-mode #tsxv5-yts .yts-header-text h1,[data-theme="dark"] #tsxv5-yts .yts-header-text h1{text-shadow:0 0 20px rgba(0,255,136,0.4);}
+#tsxv5-yts .yts-header-text p{font-size:.8em;color:var(--yts-text-dim) !important;margin-top:3px;}
+#tsxv5-yts .yts-status{
+  margin-left:auto;display:flex;align-items:center;gap:6px;font-size:.7em;color:var(--yts-primary) !important;
+  text-transform:uppercase;letter-spacing:1px;
+}
+#tsxv5-yts .yts-status-dot{width:8px;height:8px;background:var(--yts-primary);border-radius:50%;animation:tsxv5YtsBlink 1.5s infinite;}
+@keyframes tsxv5YtsBlink{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* Main Grid */
+#tsxv5-yts .yts-main{display:grid;grid-template-columns:1fr 1fr;min-height:500px;}
+#tsxv5-yts .yts-controls{padding:24px;border-right:1px solid var(--yts-border);overflow-y:auto;max-height:650px;}
+#tsxv5-yts .yts-ctrl-section{margin-bottom:24px;}
+#tsxv5-yts .yts-ctrl-label{
+  font-size:.72em;font-weight:800;color:var(--yts-primary) !important;text-transform:uppercase;
+  letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+#tsxv5-yts .yts-ctrl-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--yts-border),transparent);}
+#tsxv5-yts .yts-input-group{display:flex;flex-direction:column;gap:10px;}
+
+#tsxv5-yts .yts-input{
+  width:100%;padding:12px 16px;background:var(--yts-surface2);border:1px solid var(--yts-border);
+  border-radius:8px;color:var(--yts-text) !important;font-size:.85em;font-weight:500;
+  transition:all .3s ease;outline:none;font-family:inherit;
+}
+#tsxv5-yts .yts-input:focus{border-color:var(--yts-primary);box-shadow:0 0 10px rgba(5,150,105,0.1);}
+body.dark-mode #tsxv5-yts .yts-input:focus,[data-theme="dark"] #tsxv5-yts .yts-input:focus{box-shadow:0 0 10px rgba(0,255,136,0.1);}
+#tsxv5-yts .yts-input::placeholder{color:var(--yts-text-muted) !important;}
+
+/* Category Grid */
+#tsxv5-yts .yts-cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+#tsxv5-yts .yts-cat-item{
+  padding:14px 12px;border:1px solid var(--yts-border);border-radius:10px;background:var(--yts-surface);
+  cursor:pointer;transition:all .3s ease;text-align:center;position:relative;overflow:hidden;
+}
+#tsxv5-yts .yts-cat-item:hover{border-color:var(--yts-primary);}
+#tsxv5-yts .yts-cat-item.on{border-color:var(--yts-primary);background:rgba(5,150,105,0.08);}
+body.dark-mode #tsxv5-yts .yts-cat-item.on,[data-theme="dark"] #tsxv5-yts .yts-cat-item.on{background:rgba(0,255,136,0.06);box-shadow:0 0 16px rgba(0,255,136,0.1);}
+#tsxv5-yts .yts-cat-icon{font-size:1.4em;display:block;margin-bottom:4px;}
+#tsxv5-yts .yts-cat-name{font-size:.68em;font-weight:700;color:var(--yts-text-dim) !important;text-transform:uppercase;letter-spacing:.5px;}
+#tsxv5-yts .yts-cat-item.on .yts-cat-name{color:var(--yts-primary) !important;}
+
+/* Style Row & Mood */
+#tsxv5-yts .yts-style-row,#tsxv5-yts .yts-mood-options{display:flex;flex-wrap:wrap;gap:8px;}
+#tsxv5-yts .yts-style-toggle,#tsxv5-yts .yts-mood-chip{
+  padding:9px 18px;border:1px solid var(--yts-border);border-radius:8px;background:var(--yts-surface);
+  color:var(--yts-text-dim) !important;font-size:.75em;font-weight:700;cursor:pointer;transition:all .3s ease;
+  text-transform:uppercase;letter-spacing:.5px;font-family:inherit;
+}
+#tsxv5-yts .yts-style-toggle:hover{border-color:var(--yts-secondary);color:var(--yts-secondary) !important;}
+#tsxv5-yts .yts-style-toggle.on{border-color:var(--yts-secondary);background:rgba(8,145,178,0.08);color:var(--yts-secondary) !important;}
+body.dark-mode #tsxv5-yts .yts-style-toggle.on,[data-theme="dark"] #tsxv5-yts .yts-style-toggle.on{background:rgba(0,212,255,0.08);box-shadow:0 0 12px rgba(0,212,255,0.15);}
+#tsxv5-yts .yts-mood-chip:hover{border-color:var(--yts-accent);color:var(--yts-accent) !important;}
+#tsxv5-yts .yts-mood-chip.on{border-color:var(--yts-accent);background:rgba(234,88,12,0.08);color:var(--yts-accent) !important;}
+body.dark-mode #tsxv5-yts .yts-mood-chip.on,[data-theme="dark"] #tsxv5-yts .yts-mood-chip.on{background:rgba(255,107,53,0.08);box-shadow:0 0 10px rgba(255,107,53,0.15);}
+
+/* Ratio Row */
+#tsxv5-yts .yts-ratio-row{display:flex;border:1px solid var(--yts-border);border-radius:10px;overflow:hidden;}
+#tsxv5-yts .yts-ratio-btn{
+  flex:1;padding:12px 8px;background:transparent;border:none;color:var(--yts-text-dim) !important;
+  font-size:.72em;font-weight:700;cursor:pointer;transition:all .3s ease;text-align:center;
+  border-right:1px solid var(--yts-border);font-family:inherit;
+}
+#tsxv5-yts .yts-ratio-btn:last-child{border-right:none;}
+#tsxv5-yts .yts-ratio-btn:hover{color:var(--yts-primary) !important;background:rgba(5,150,105,0.03);}
+#tsxv5-yts .yts-ratio-btn.on{background:rgba(5,150,105,0.08);color:var(--yts-primary) !important;}
+body.dark-mode #tsxv5-yts .yts-ratio-btn.on,[data-theme="dark"] #tsxv5-yts .yts-ratio-btn.on{background:rgba(0,255,136,0.08);box-shadow:inset 0 0 12px rgba(0,255,136,0.05);}
+#tsxv5-yts .yts-ratio-icon{display:block;font-size:1.3em;margin-bottom:3px;}
+
+/* Preview Section */
+#tsxv5-yts .yts-preview{
+  padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  position:relative;background:var(--yts-surface);
+}
+#tsxv5-yts .yts-preview-frame{
+  width:100%;max-width:380px;aspect-ratio:16/9;border:2px dashed var(--yts-border2);border-radius:var(--yts-radius);
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+  background:var(--yts-surface2);cursor:pointer;transition:border-color .3s ease;
+}
+#tsxv5-yts .yts-preview-frame.has-img{border-style:solid;border-color:var(--yts-primary);}
+#tsxv5-yts .yts-preview-frame:hover.has-img{border-color:var(--yts-primary);}
+#tsxv5-yts .yts-preview-placeholder{text-align:center;color:var(--yts-text-muted) !important;}
+#tsxv5-yts .yts-preview-placeholder span{font-size:3em;display:block;margin-bottom:10px;opacity:.3;}
+#tsxv5-yts .yts-preview-placeholder p{font-size:.75em;text-transform:uppercase;letter-spacing:2px;}
+#tsxv5-yts .yts-preview-img{width:100%;height:100%;object-fit:cover;border-radius:10px;display:none;}
+
+/* Loading */
+#tsxv5-yts .yts-loading{display:none;margin-top:20px;text-align:center;width:100%;max-width:380px;}
+#tsxv5-yts .yts-loading.show{display:block;}
+#tsxv5-yts .yts-spinner{
+  display:inline-block;width:40px;height:40px;border:3px solid var(--yts-border);border-top-color:var(--yts-primary);
+  border-radius:50%;animation:tsxv5YtsSpin .8s linear infinite;margin-bottom:12px;
+}
+@keyframes tsxv5YtsSpin{to{transform:rotate(360deg);}}
+#tsxv5-yts .yts-loading-text{color:var(--yts-text-dim) !important;font-size:.8em;font-family:'Courier New',monospace;}
+#tsxv5-yts .yts-term-cursor{
+  display:inline-block;width:8px;height:12px;background:var(--yts-primary);animation:tsxv5YtsBlink .8s infinite;vertical-align:middle;
+}
+
+/* Zoom Modal — intentionally always-dark */
+#tsxv5-yts .yts-modal{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;
+  align-items:center;justify-content:center;padding:24px;
+}
+#tsxv5-yts .yts-modal.show{display:flex;}
+#tsxv5-yts .yts-modal img{max-width:95%;max-height:90vh;border-radius:12px;border:2px solid var(--yts-primary);box-shadow:0 0 60px rgba(0,255,136,0.3);}
+#tsxv5-yts .yts-modal-close{
+  position:absolute;top:20px;right:30px;font-size:2.5em;color:#00ff88 !important;cursor:pointer;
+  background:none;border:none;font-weight:300;transition:transform .3s;font-family:inherit;
+}
+#tsxv5-yts .yts-modal-close:hover{transform:rotate(90deg);}
+
+/* Generate Button */
+#tsxv5-yts .yts-gen-btn{
+  margin-top:24px;width:100%;max-width:380px;padding:16px;border:2px solid var(--yts-primary);border-radius:10px;
+  background:transparent;color:var(--yts-primary) !important;font-size:1em;font-weight:800;cursor:pointer;
+  text-transform:uppercase;letter-spacing:2px;transition:all .3s ease;position:relative;overflow:hidden;font-family:inherit;
+}
+#tsxv5-yts .yts-gen-btn:hover:not(:disabled){
+  background:rgba(5,150,105,0.05);box-shadow:0 0 30px rgba(5,150,105,0.1),inset 0 0 30px rgba(5,150,105,0.05);
+}
+body.dark-mode #tsxv5-yts .yts-gen-btn:hover:not(:disabled),[data-theme="dark"] #tsxv5-yts .yts-gen-btn:hover:not(:disabled){
+  background:rgba(0,255,136,0.05);box-shadow:0 0 30px rgba(0,255,136,0.2),inset 0 0 30px rgba(0,255,136,0.05);
+}
+#tsxv5-yts .yts-gen-btn:disabled{opacity:.3;cursor:not-allowed;}
+
+/* Result Actions */
+#tsxv5-yts .yts-result-actions{display:none;margin-top:16px;gap:10px;width:100%;max-width:380px;}
+#tsxv5-yts .yts-result-actions.show{display:flex;}
+#tsxv5-yts .yts-act-btn{
+  flex:1;padding:12px 16px;border-radius:8px;font-size:.78em;font-weight:700;cursor:pointer;
+  transition:all .3s ease;text-align:center;text-decoration:none;text-transform:uppercase;letter-spacing:.5px;
+  border:none;font-family:inherit;
+}
+#tsxv5-yts .yts-act-dl{background:linear-gradient(135deg,var(--yts-primary),var(--yts-secondary));color:#fff !important;}
+#tsxv5-yts .yts-act-dl:hover{box-shadow:0 4px 20px rgba(5,150,105,0.3);transform:translateY(-2px);text-decoration:none;}
+#tsxv5-yts .yts-act-re{border:1px solid var(--yts-primary);background:transparent;color:var(--yts-primary) !important;}
+#tsxv5-yts .yts-act-re:hover{background:rgba(5,150,105,0.05);}
+
+/* Error */
+#tsxv5-yts .yts-error{
+  display:none;margin-top:16px;padding:12px 18px;border:1px solid rgba(220,38,38,0.3);border-radius:8px;
+  background:rgba(220,38,38,0.05);color:var(--yts-error) !important;font-size:.8em;text-align:center;
+  width:100%;max-width:380px;
+}
+#tsxv5-yts .yts-error.show{display:block;}
+
+/* Content sections */
+#tsxv5-yts .yts-how,#tsxv5-yts .yts-faq,#tsxv5-yts .yts-related{
+  margin-top:32px;padding:32px 24px;background:var(--yts-surface);border-radius:var(--yts-radius);
+  color:var(--yts-text) !important;
+}
+#tsxv5-yts .yts-how h2,#tsxv5-yts .yts-faq h2{font-size:1.5rem;font-weight:800;color:var(--yts-primary) !important;margin-bottom:20px;line-height:1.3;}
+#tsxv5-yts .yts-how h3{font-size:1.15rem;font-weight:700;color:var(--yts-secondary) !important;margin:24px 0 12px;line-height:1.4;}
+#tsxv5-yts .yts-how p,#tsxv5-yts .yts-faq-item p{font-size:.95rem;line-height:1.7;color:var(--yts-text-dim) !important;margin-bottom:14px;}
+#tsxv5-yts .yts-how ul,#tsxv5-yts .yts-how ol{margin:14px 0 14px 24px;line-height:1.8;color:var(--yts-text-dim) !important;}
+#tsxv5-yts .yts-how li{margin-bottom:8px;color:var(--yts-text-dim) !important;}
+#tsxv5-yts .yts-how strong{color:var(--yts-primary) !important;}
+
+#tsxv5-yts .yts-steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px 0;}
+#tsxv5-yts .yts-step-card{background:var(--yts-surface2);padding:20px;border-radius:12px;border:1px solid var(--yts-border);}
+#tsxv5-yts .yts-step-num{
+  width:36px;height:36px;background:linear-gradient(135deg,var(--yts-primary),var(--yts-secondary));color:#fff !important;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:12px;
+}
+#tsxv5-yts .yts-step-title{font-weight:700;color:var(--yts-primary) !important;margin-bottom:8px;}
+#tsxv5-yts .yts-step-desc{font-size:.875rem;color:var(--yts-text-dim) !important;line-height:1.6;}
+
+#tsxv5-yts .yts-faq-item{
+  margin-bottom:16px;padding:18px;background:var(--yts-surface2);border-radius:12px;border:1px solid var(--yts-border);
+  cursor:pointer;transition:all .2s;
+}
+#tsxv5-yts .yts-faq-item:hover{border-color:var(--yts-primary);}
+#tsxv5-yts .yts-faq-item h3{
+  font-weight:700;color:var(--yts-text) !important;margin-bottom:0;font-size:1rem;display:flex;
+  justify-content:space-between;align-items:center;gap:10px;
+}
+#tsxv5-yts .yts-faq-item h3::after{content:'+';font-size:1.3rem;color:var(--yts-primary) !important;transition:transform .3s;flex-shrink:0;}
+#tsxv5-yts .yts-faq-item.open h3::after{transform:rotate(45deg);}
+#tsxv5-yts .yts-faq-item.open h3{margin-bottom:10px;}
+#tsxv5-yts .yts-faq-item p{display:none;margin-top:10px;}
+#tsxv5-yts .yts-faq-item.open p{display:block;}
+
+/* Related */
+#tsxv5-yts .yts-related-title{color:var(--yts-primary) !important;font-size:1.2rem;font-weight:700;margin-bottom:18px;text-transform:uppercase;letter-spacing:1px;}
+#tsxv5-yts .yts-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px;}
+#tsxv5-yts .yts-related-link{
+  background:var(--yts-surface2);border:1px solid var(--yts-border);padding:18px;text-decoration:none;
+  transition:all .3s;display:flex;align-items:center;gap:12px;border-radius:var(--yts-radius);
+}
+#tsxv5-yts .yts-related-link:hover{border-color:var(--yts-primary);transform:translateY(-3px);box-shadow:0 8px 24px rgba(5,150,105,0.15);text-decoration:none;}
+#tsxv5-yts .yts-related-icon{font-size:2rem;flex-shrink:0;}
+#tsxv5-yts .yts-related-link strong{color:var(--yts-primary) !important;display:block;font-size:.95rem;margin-bottom:4px;}
+#tsxv5-yts .yts-related-link span{color:var(--yts-text-dim) !important;font-size:.82rem;line-height:1.5;}
+
+/* Footer */
+#tsxv5-yts .yts-footer{
+  padding:16px 24px;border-top:1px solid var(--yts-border);text-align:center;font-size:.68em;
+  color:var(--yts-text-muted) !important;letter-spacing:1px;
+}
+#tsxv5-yts .yts-footer a{color:var(--yts-primary) !important;text-decoration:none;}
+
+@media(max-width:700px){
+  #tsxv5-yts .yts-main{grid-template-columns:1fr;}
+  #tsxv5-yts .yts-controls{border-right:none;border-bottom:1px solid var(--yts-border);max-height:none;}
+  #tsxv5-yts .yts-header{flex-wrap:wrap;}
+  #tsxv5-yts .yts-status{margin-left:0;width:100%;margin-top:8px;}
+  #tsxv5-yts .yts-cat-grid{grid-template-columns:repeat(3,1fr);}
+  #tsxv5-yts .yts-how,#tsxv5-yts .yts-faq,#tsxv5-yts .yts-related{padding:20px 16px;}
+  #tsxv5-yts .yts-related-grid{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  #tsxv5-yts .yts-cat-grid{grid-template-columns:repeat(2,1fr);}
+  #tsxv5-yts .yts-style-toggle,#tsxv5-yts .yts-mood-chip{font-size:.65em;padding:7px 12px;}
+  #tsxv5-yts .yts-header-text h1{font-size:1.2em;}
+}
+@media(prefers-reduced-motion:reduce){#tsxv5-yts *,#tsxv5-yts *::before,#tsxv5-yts *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+</style>
+
+<article class="yts" id="tsxv5-ytsApp">
+  <nav class="yts-breadcrumb" aria-label="Breadcrumb">
+    <a href="https://www.toolsx.in/">Home</a> › YouTube Thumbnail Studio
+  </nav>
+
+  <header class="yts-header">
+    <div class="yts-logo" aria-hidden="true">▶️</div>
+    <div class="yts-header-text">
+      <h1>YouTube Thumbnail Studio</h1>
+      <p>AI-Powered YouTube Thumbnail Generator with Custom Text Overlay</p>
+    </div>
+    <div class="yts-status">
+      <div class="yts-status-dot" aria-hidden="true"></div>
+      <span>ONLINE</span>
+    </div>
+  </header>
+
+  <main class="yts-main">
+    <section class="yts-controls" aria-label="Thumbnail Controls">
+
+      <div class="yts-ctrl-section">
+        <label class="yts-ctrl-label">✍️ Custom Branding</label>
+        <div class="yts-input-group">
+          <input type="text" id="tsxv5-ytsChannelName" class="yts-input" placeholder="Your Channel Name (Optional)" aria-label="YouTube Channel Name" maxlength="50">
+          <input type="text" id="tsxv5-ytsVideoTitle" class="yts-input" placeholder="Main Video Title / Text (Optional)" aria-label="Video Title Text" maxlength="60">
+          <div style="display:flex;gap:8px;margin-top:4px;">
+            <label style="font-size:.7em;color:var(--yts-text-dim);display:flex;align-items:center;gap:4px;">
+              <input type="color" id="tsxv5-ytsTextColor" value="#ffffff" style="width:32px;height:32px;border:none;padding:0;background:transparent;"> Text Color
+            </label>
+            <label style="font-size:.7em;color:var(--yts-text-dim);display:flex;align-items:center;gap:4px;">
+              <input type="color" id="tsxv5-ytsTextOutline" value="#000000" style="width:32px;height:32px;border:none;padding:0;background:transparent;"> Outline
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="yts-ctrl-section">
+        <div class="yts-ctrl-label">📂 Video Category</div>
+        <div class="yts-cat-grid" id="tsxv5-ytsCatGrid">
+          <div class="yts-cat-item on" data-v="gaming thumbnail, epic game scene, character action, explosion effects"><span class="yts-cat-icon">🎮</span><span class="yts-cat-name">Gaming</span></div>
+          <div class="yts-cat-item" data-v="tech review thumbnail, gadget product, futuristic technology, sleek"><span class="yts-cat-icon">📱</span><span class="yts-cat-name">Tech</span></div>
+          <div class="yts-cat-item" data-v="cooking food thumbnail, delicious dish, kitchen, vibrant food photography"><span class="yts-cat-icon">🍳</span><span class="yts-cat-name">Cooking</span></div>
+          <div class="yts-cat-item" data-v="vlog travel thumbnail, beautiful destination, adventure, explorer"><span class="yts-cat-icon">✈️</span><span class="yts-cat-name">Vlog</span></div>
+          <div class="yts-cat-item" data-v="education tutorial thumbnail, learning, books, knowledge, study"><span class="yts-cat-icon">📚</span><span class="yts-cat-name">Education</span></div>
+          <div class="yts-cat-item" data-v="fitness workout thumbnail, gym, exercise, athletic body, motivation"><span class="yts-cat-icon">💪</span><span class="yts-cat-name">Fitness</span></div>
+          <div class="yts-cat-item" data-v="music video thumbnail, concert stage, microphone, lights, performance"><span class="yts-cat-icon">🎵</span><span class="yts-cat-name">Music</span></div>
+          <div class="yts-cat-item" data-v="comedy funny thumbnail, laughing, meme style, humorous expression"><span class="yts-cat-icon">😂</span><span class="yts-cat-name">Comedy</span></div>
+          <div class="yts-cat-item" data-v="business finance thumbnail, money, growth, success, professional"><span class="yts-cat-icon">📈</span><span class="yts-cat-name">Business</span></div>
+          <div class="yts-cat-item" data-v="science documentary thumbnail, space, chemistry, laboratory, discovery"><span class="yts-cat-icon">🔬</span><span class="yts-cat-name">Science</span></div>
+        </div>
+      </div>
+
+      <div class="yts-ctrl-section">
+        <div class="yts-ctrl-label">🎨 Visual Style</div>
+        <div class="yts-style-row" id="tsxv5-ytsStyleRow">
+          <button type="button" class="yts-style-toggle on" data-v="photorealistic, professional photography, high quality">📷 Real</button>
+          <button type="button" class="yts-style-toggle" data-v="3D render, CGI, cinematic lighting, octane">💎 3D</button>
+          <button type="button" class="yts-style-toggle" data-v="anime style, Japanese animation, vibrant">🎌 Anime</button>
+          <button type="button" class="yts-style-toggle" data-v="comic book style, bold outlines, halftone">📖 Comic</button>
+          <button type="button" class="yts-style-toggle" data-v="digital painting, concept art, dramatic">🖌️ Art</button>
+          <button type="button" class="yts-style-toggle" data-v="low poly, geometric, minimalist, modern">🔷 Low Poly</button>
+        </div>
+      </div>
+
+      <div class="yts-ctrl-section">
+        <div class="yts-ctrl-label">🌡️ Mood / Vibe</div>
+        <div class="yts-mood-options" id="tsxv5-ytsMoodRow">
+          <button type="button" class="yts-mood-chip" data-v="epic dramatic lighting, intense, powerful">⚡ Epic</button>
+          <button type="button" class="yts-mood-chip on" data-v="bright cheerful colorful, happy energetic">☀️ Bright</button>
+          <button type="button" class="yts-mood-chip" data-v="dark moody shadows, mysterious">🌑 Dark</button>
+          <button type="button" class="yts-mood-chip" data-v="neon glow cyberpunk, electric vibrant">🔮 Neon</button>
+          <button type="button" class="yts-mood-chip" data-v="warm cozy golden hour, inviting">🌅 Warm</button>
+          <button type="button" class="yts-mood-chip" data-v="minimal clean, elegant, modern">✨ Clean</button>
+        </div>
+      </div>
+
+      <div class="yts-ctrl-section">
+        <div class="yts-ctrl-label">📐 Thumbnail Size</div>
+        <div class="yts-ratio-row" id="tsxv5-ytsRatioRow">
+          <button type="button" class="yts-ratio-btn on" data-w="1280" data-h="720"><span class="yts-ratio-icon">🖥️</span> 16:9</button>
+          <button type="button" class="yts-ratio-btn" data-w="1080" data-h="1080"><span class="yts-ratio-icon">⬜</span> 1:1</button>
+          <button type="button" class="yts-ratio-btn" data-w="720" data-h="1280"><span class="yts-ratio-icon">📱</span> 9:16</button>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="yts-preview" aria-label="Thumbnail Preview Area">
+      <div class="yts-preview-frame" id="tsxv5-ytsFrame">
+        <div class="yts-preview-placeholder" id="tsxv5-ytsPlaceholder">
+          <span aria-hidden="true">🖼️</span>
+          <p>Thumbnail Preview</p>
+        </div>
+        <canvas id="tsxv5-ytsCanvas" style="width:100%;height:100%;display:none;border-radius:10px;"></canvas>
+        <img id="tsxv5-ytsResultImg" class="yts-preview-img" alt="AI Generated YouTube Thumbnail" loading="lazy" decoding="async" />
+      </div>
+
+      <div class="yts-loading" id="tsxv5-ytsLoading" aria-live="polite">
+        <div class="yts-spinner" aria-hidden="true"></div>
+        <div class="yts-loading-text">&gt; Generating thumbnail... <span class="yts-term-cursor" aria-hidden="true"></span></div>
+      </div>
+
+      <div class="yts-error" id="tsxv5-ytsError" role="alert"></div>
+
+      <button type="button" class="yts-gen-btn" id="tsxv5-ytsGenBtn">
+        ⚡ Generate Thumbnail
+      </button>
+
+      <div class="yts-result-actions" id="tsxv5-ytsActions">
+        <a id="tsxv5-ytsDl" class="yts-act-btn yts-act-dl" download="toolsx-thumbnail.png" rel="noopener noreferrer">📥 Download</a>
+        <button type="button" class="yts-act-btn yts-act-re" id="tsxv5-ytsReGenBtn">🔄 Re-Gen</button>
+      </div>
+    </section>
+  </main>
+
+  <section class="yts-how">
+    <h2>🎯 Yeh YouTube Thumbnail Studio Kaise Kaam Karta Hai?</h2>
+
+    <p><strong>Tools-X YouTube Thumbnail Studio</strong> ek AI-powered browser-based tool hai jo professional-quality thumbnails generate karta hai — bina kisi design skills ya expensive software ke. Chahe aap gaming channel chalate hon, cooking videos banate hon, ya educational content create karte hon — yeh tool har niche ke liye perfect thumbnails banata hai. Custom text overlay feature se aap apna channel name aur video title directly thumbnail par add kar sakte hain, jisse har video ka unique branding hota hai. Sab kuch browser mein hota hai — koi signup nahi, koi watermark nahi, aur koi data aapke device se bahar nahi jaata.</p>
+
+    <h3>Core Technology: AI Image Generation + Canvas API</h3>
+    <p>Yeh tool <strong>Pollinations AI</strong> image generation API use karta hai jo text prompts se high-quality images generate karta hai. Aapke selected category, style, aur mood ko combine karke ek detailed prompt create hota hai. AI model is prompt ko process karke unique thumbnail generate karta hai. Phir <strong>HTML5 Canvas API</strong> use karke custom text overlay add hota hai — channel name, video title, custom colors — sab kuch pixel-perfect positioning ke saath. Har generation mein random seed use hota hai — isliye har thumbnail unique hota hai.</p>
+
+    <h3>Step-by-Step: Thumbnail Kaise Banta Hai</h3>
+    <div class="yts-steps-grid">
+      <div class="yts-step-card"><div class="yts-step-num">1</div><div class="yts-step-title">Custom Branding</div><div class="yts-step-desc">Channel name aur video title enter karein. Text color aur outline color customize karein.</div></div>
+      <div class="yts-step-card"><div class="yts-step-num">2</div><div class="yts-step-title">Category Select</div><div class="yts-step-desc">10 categories mein se choose karein — Gaming, Tech, Cooking, Vlog, Education, etc.</div></div>
+      <div class="yts-step-card"><div class="yts-step-num">3</div><div class="yts-step-title">Visual Style</div><div class="yts-step-desc">6 styles — Real, 3D, Anime, Comic, Art, Low Poly. Har style ka unique look hai.</div></div>
+      <div class="yts-step-card"><div class="yts-step-num">4</div><div class="yts-step-title">Mood Set</div><div class="yts-step-desc">Epic, Bright, Dark, Neon, Warm, Clean — video ke mood ke according choose karein.</div></div>
+      <div class="yts-step-card"><div class="yts-step-num">5</div><div class="yts-step-title">Size Select</div><div class="yts-step-desc">16:9 (YouTube), 1:1 (Instagram), ya 9:16 (Shorts/Reels) — platform ke hisaab se.</div></div>
+      <div class="yts-step-card"><div class="yts-step-num">6</div><div class="yts-step-title">Generate &amp; Download</div><div class="yts-step-desc">Generate button dabayein — AI thumbnail banayega with text overlay. Download karein!</div></div>
+    </div>
+
+    <h3>10 Categories: Har Niche Ke Liye</h3>
+    <ul>
+      <li><strong>Gaming:</strong> Epic game scenes, character action, explosion effects — perfect for gaming channels</li>
+      <li><strong>Tech:</strong> Gadgets, futuristic technology, sleek product shots — tech reviews ke liye</li>
+      <li><strong>Cooking:</strong> Delicious dishes, vibrant food photography — cooking channels ke liye</li>
+      <li><strong>Vlog:</strong> Beautiful destinations, adventure themes — travel vloggers ke liye</li>
+      <li><strong>Education:</strong> Books, learning visuals, knowledge themes — educational content ke liye</li>
+      <li><strong>Fitness:</strong> Gym, athletic bodies, motivation — fitness channels ke liye</li>
+      <li><strong>Music:</strong> Concert stages, microphones, performance lights — music videos ke liye</li>
+      <li><strong>Comedy:</strong> Humorous expressions, meme-style visuals — comedy channels ke liye</li>
+      <li><strong>Business:</strong> Money, growth charts, professional themes — business/finance ke liye</li>
+      <li><strong>Science:</strong> Space, laboratory, discovery themes — science documentaries ke liye</li>
+    </ul>
+
+    <h3>6 Visual Styles: Creative Freedom</h3>
+    <p>Har style ka apna unique character hai. <strong>Real (Photorealistic)</strong> professional photography jaisa look deta hai — high detail, natural lighting. <strong>3D</strong> CGI render with cinematic lighting — modern, high-end feel. <strong>Anime</strong> Japanese animation style — vibrant colors, stylized characters. <strong>Comic</strong> bold outlines with halftone effects — graphic novel aesthetic. <strong>Art</strong> digital painting with dramatic lighting — concept art feel. <strong>Low Poly</strong> geometric, minimalist design — modern, clean look with polygonal aesthetics.</p>
+
+    <h3>Text Overlay: Professional Branding</h3>
+    <p>Text overlay feature se aap apna branding directly thumbnail par add kar sakte hain. <strong>Channel name</strong> top-left corner mein small font mein display hota hai — '@ChannelName' format mein. <strong>Video title</strong> bottom-center mein bold, large font mein — maximum visibility ke liye. Dono text elements ke liye aap custom colors choose kar sakte hain. Outline/shadow automatically add hota hai readability ke liye — chahe background dark ho ya light, text hamesha clear dikhega. Font size automatically image dimensions ke hisaab se scale hota hai.</p>
+
+    <h3>Aspect Ratios: Platform Optimization</h3>
+    <ul>
+      <li><strong>16:9 (1280×720):</strong> Standard YouTube thumbnail size — regular videos ke liye perfect</li>
+      <li><strong>1:1 (1080×1080):</strong> Square format — Instagram posts, Facebook, Twitter ke liye ideal</li>
+      <li><strong>9:16 (720×1280):</strong> Vertical format — YouTube Shorts, Instagram Reels, TikTok ke liye optimized</li>
+    </ul>
+
+    <h3>Privacy aur Security</h3>
+    <p>Yeh tool <strong>100% client-side</strong> hai. Aapka input (channel name, video title) sirf aapke browser mein process hota hai. AI image generation ke liye sirf category/style/mood prompt Pollinations API ko HTTPS par jaata hai — aapka custom text kabhi server par nahi jaata. User inputs sanitize hote hain — HTML tags, JavaScript, control characters remove hote hain, max 500 characters limit. Generated images directly download hote hain — koi server storage nahi. 45-second timeout protection built-in hai taaki slow internet par bhi graceful failure ho.</p>
+  </section>
+
+  <section class="yts-faq">
+    <h2>❓ Aksar Puche Jane Wale Sawal</h2>
+    <div class="yts-faq-item"><h3>Kya yeh tool sach mein free hai?</h3><p>Haan, bilkul free hai. Koi hidden charges nahi, koi premium version nahi, koi daily limit nahi. Aap unlimited thumbnails generate aur download kar sakte hain — personal ya commercial use ke liye. Koi signup bhi nahi chahiye, koi watermark nahi aata.</p></div>
+    <div class="yts-faq-item"><h3>Kya mera text kahin save hota hai?</h3><p>Nahi. Aapka channel name aur video title sirf aapke browser mein process hota hai. AI API ko sirf category/style/mood prompt jaata hai — aapka custom text nahi. Text overlay locally canvas par add hota hai. Tab band karte hi sab clear ho jaata hai — complete privacy.</p></div>
+    <div class="yts-faq-item"><h3>Thumbnail kis format mein download hota hai?</h3><p>PNG format mein — lossless quality, transparent background support. PNG format YouTube, Instagram, Facebook sab platforms par perfectly kaam karta hai. File size optimized hota hai — fast upload, high quality.</p></div>
+    <div class="yts-faq-item"><h3>Kya same thumbnail dobara generate kar sakte hain?</h3><p>Har generation unique hoti hai — random seed use hota hai. Agar aapko koi thumbnail pasand aaye, toh turant download kar lein. "Re-Gen" button se aap same settings ke saath naya thumbnail generate kar sakte hain — har baar alag result milega.</p></div>
+    <div class="yts-faq-item"><h3>Mobile par kaam karega?</h3><p>Haan — Chrome, Safari, Firefox, Edge sab browsers par smoothly chalta hai. Touch-friendly interface mobile ke liye optimized hai. Phone se directly thumbnail generate aur download kar sakte hain. Responsive design — har screen size par perfect dikhta hai.</p></div>
+  </section>
+
+  <aside class="yts-related" aria-label="Related AI Tools">
+    <h2 class="yts-related-title">🎨 Aur Bhi Creative Tools Try Karein</h2>
+    <div class="yts-related-grid">
+      <a href="https://www.toolsx.in/2026/08/explore-karein-200-ai-prompts-hub-ai-lab.html" class="yts-related-link" rel="noopener">
+        <span class="yts-related-icon">💡</span>
+        <div><strong>200+ AI Prompt Library</strong><span>Better YouTube thumbnail concepts ke liye curated prompts</span></div>
+      </a>
+      <a href="../tools/render-karein-audio-visualizer-waveform.html" class="yts-related-link" rel="noopener">
+        <span class="yts-related-icon">🎵</span>
+        <div><strong>Audio Visualizer Studio</strong><span>YouTube video ke liye stunning waveform videos banayein</span></div>
+      </a>
+      <a href="../tools/ringtone-maker-15-music-styles-voice.html" class="yts-related-link" rel="noopener">
+        <span class="yts-related-icon">🔔</span>
+        <div><strong>Name Ringtone Maker</strong><span>YouTube channel notification sound ke liye custom ringtone</span></div>
+      </a>
+    </div>
+  </aside>
+
+  <footer class="yts-footer">
+    ⚡ FREE • NO SIGNUP • UNLIMITED THUMBNAILS • NO WATERMARK • CUSTOM TEXT OVERLAY
+    <p style="font-size:.75rem;opacity:.7;margin-top:8px;">Powered by <strong><a href="https://www.toolsx.in" rel="noopener">Tools-X</a></strong></p>
+  </footer>
+</article>
+
+<!-- Zoom Modal — intentionally always-dark overlay -->
+<div class="yts-modal" id="tsxv5-ytsModal">
+  <button type="button" class="yts-modal-close" id="tsxv5-ytsModalClose" aria-label="Close zoom">✕</button>
+  <img id="tsxv5-ytsModalImg" src="" alt="Zoomed thumbnail">
+</div>
+
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+
+var W=document.getElementById('tsxv5-yts');
+if(!W)return;
+
+function $(id){return document.getElementById(id);}
+function setText(el,s){if(el)el.textContent=String(s==null?'':s);}
+
+var ytsState={
+  cat:'gaming thumbnail, epic game scene, character action, explosion effects',
+  style:'photorealistic, professional photography, high quality',
+  mood:'bright cheerful colorful, happy energetic',
+  w:1280,h:720,channel:'',title:'',textColor:'#ffffff',outlineColor:'#000000'
+};
+var ytsBusy=false;
+
+function ytsSanitize(s){
+  if(!s)return'';
+  var c=String(s);
+  c=c.replace(/<[^>]*>/g,'');
+  c=c.replace(/javascript\s*:/gi,'');
+  c=c.replace(/on\w+\s*=/gi,'');
+  c=c.replace(/[<>{}"'\\]/g,'');
+  c=c.replace(/[\x00-\x1F\x7F]/g,'');
+  if(c.length>500)c=c.substring(0,500);
+  return c.trim();
+}
+
+function ytsSanitizeFilename(s){
+  return String(s||'toolsx-thumbnail').replace(/[^a-zA-Z0-9._\-]/g,'').substring(0,80)||'toolsx-thumbnail';
+}
+
+function ytsShowError(msg){
+  var e=$('tsxv5-ytsError');
+  setText(e,'\u26A0\uFE0F '+msg);
+  e.classList.add('show');
+  setTimeout(function(){e.classList.remove('show');},6000);
+}
+
+function ytsInitDefaults(){
+  var firstCat=W.querySelector('#tsxv5-ytsCatGrid .yts-cat-item.on');
+  if(firstCat)ytsState.cat=firstCat.getAttribute('data-v')||'';
+  var firstStyle=W.querySelector('#tsxv5-ytsStyleRow .yts-style-toggle.on');
+  if(firstStyle)ytsState.style=firstStyle.getAttribute('data-v')||'';
+  var firstMood=W.querySelector('#tsxv5-ytsMoodRow .yts-mood-chip.on');
+  if(firstMood)ytsState.mood=firstMood.getAttribute('data-v')||'';
+  var firstRatio=W.querySelector('#tsxv5-ytsRatioRow .yts-ratio-btn.on');
+  if(firstRatio){ytsState.w=parseInt(firstRatio.getAttribute('data-w'),10)||1280;ytsState.h=parseInt(firstRatio.getAttribute('data-h'),10)||720;}
+  var colorInput=$('tsxv5-ytsTextColor');
+  var outlineInput=$('tsxv5-ytsTextOutline');
+  if(colorInput){ytsState.textColor=colorInput.value;colorInput.addEventListener('input',function(){ytsState.textColor=this.value;});}
+  if(outlineInput){ytsState.outlineColor=outlineInput.value;outlineInput.addEventListener('input',function(){ytsState.outlineColor=this.value;});}
+}
+
+// Category picker — no inline handlers
+W.querySelectorAll('#tsxv5-ytsCatGrid .yts-cat-item').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('#tsxv5-ytsCatGrid .yts-cat-item').forEach(function(x){x.classList.remove('on');});
+    this.classList.add('on');
+    ytsState.cat=this.getAttribute('data-v')||'';
+  });
+});
+
+// Style picker
+W.querySelectorAll('#tsxv5-ytsStyleRow .yts-style-toggle').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('#tsxv5-ytsStyleRow .yts-style-toggle').forEach(function(x){x.classList.remove('on');});
+    this.classList.add('on');
+    ytsState.style=this.getAttribute('data-v')||'';
+  });
+});
+
+// Mood picker
+W.querySelectorAll('#tsxv5-ytsMoodRow .yts-mood-chip').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('#tsxv5-ytsMoodRow .yts-mood-chip').forEach(function(x){x.classList.remove('on');});
+    this.classList.add('on');
+    ytsState.mood=this.getAttribute('data-v')||'';
+  });
+});
+
+// Ratio picker
+W.querySelectorAll('#tsxv5-ytsRatioRow .yts-ratio-btn').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('#tsxv5-ytsRatioRow .yts-ratio-btn').forEach(function(x){x.classList.remove('on');});
+    this.classList.add('on');
+    ytsState.w=parseInt(this.getAttribute('data-w'),10)||1280;
+    ytsState.h=parseInt(this.getAttribute('data-h'),10)||720;
+  });
+});
+
+// Zoom modal — no inline onclick
+var modal=$('tsxv5-ytsModal');
+var modalClose=$('tsxv5-ytsModalClose');
+var modalImg=$('tsxv5-ytsModalImg');
+
+$('tsxv5-ytsFrame').addEventListener('click',function(){
+  var canvas=$('tsxv5-ytsCanvas');
+  if(canvas.style.display!=='none'&&canvas.width>0){
+    try{modalImg.src=canvas.toDataURL('image/png');modal.classList.add('show');}catch(e){}
+  }
+});
+
+modalClose.addEventListener('click',function(e){e.stopPropagation();modal.classList.remove('show');});
+modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('show');});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('show'))modal.classList.remove('show');});
+
+// Text overlay function
+function applyTextOverlay(sourceImg,w,h,channel,title,textColor,outlineColor){
+  return new Promise(function(resolve,reject){
+    try{
+      var canvas=$('tsxv5-ytsCanvas');
+      canvas.width=w;canvas.height=h;
+      var ctx=canvas.getContext('2d');
+      ctx.drawImage(sourceImg,0,0,w,h);
+
+      // Channel name — top-left
+      if(channel){
+        var smallFont=Math.min(w,h)*0.035;
+        smallFont=Math.max(14,Math.min(smallFont,28));
+        ctx.textAlign='left';ctx.textBaseline='top';
+        ctx.font='bold '+smallFont+'px "Segoe UI", Arial, sans-serif';
+        var chText='@'+channel;
+        var pad=smallFont*0.6;
+        ctx.lineWidth=smallFont*0.25;ctx.strokeStyle=outlineColor;ctx.strokeText(chText,pad,pad);
+        ctx.fillStyle=textColor;ctx.fillText(chText,pad,pad);
+      }
+
+      // Video title — bottom-center
+      if(title){
+        var fontSize=Math.min(w,h)*0.055;
+        fontSize=Math.max(20,Math.min(fontSize,60));
+        ctx.textAlign='center';ctx.textBaseline='bottom';
+        ctx.font='bold '+fontSize+'px "Segoe UI", Arial, sans-serif';
+        ctx.shadowColor=outlineColor;ctx.shadowBlur=fontSize*0.15;
+        ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
+        ctx.fillStyle=textColor;
+        var yPos=h-fontSize*0.6;
+        ctx.fillText(title,w/2,yPos);
+        ctx.shadowBlur=0;
+      }
+      resolve(canvas);
+    }catch(err){reject(err);}
+  });
+}
+
+// Generate function
+function ytsGenerate(){
+  if(ytsBusy)return;
+  if(!ytsState.cat){ytsShowError('Pehle Video Category select karein! 📂');return;}
+  if(!ytsState.style){ytsShowError('Visual Style choose karein! 🎨');return;}
+  if(!ytsState.mood){ytsShowError('Mood/Vibe select karein! 🌡️');return;}
+
+  ytsState.channel=ytsSanitize($('tsxv5-ytsChannelName').value);
+  ytsState.title=ytsSanitize($('tsxv5-ytsVideoTitle').value);
+  ytsState.textColor=$('tsxv5-ytsTextColor').value||'#ffffff';
+  ytsState.outlineColor=$('tsxv5-ytsTextOutline').value||'#000000';
+
+  var promptParts=[ytsState.cat,ytsState.style,ytsState.mood];
+  promptParts.push('YouTube thumbnail composition, eye-catching, high contrast, professional, no text, no watermark, 8k resolution');
+  var prompt=ytsSanitize(promptParts.join(', '));
+  if(!prompt||prompt.length<10){ytsShowError('Invalid input. Dobara try karein.');return;}
+
+  ytsBusy=true;
+  var btn=$('tsxv5-ytsGenBtn');
+  btn.disabled=true;
+  setText(btn,'⏳ GENERATING...');
+
+  $('tsxv5-ytsLoading').classList.add('show');
+  $('tsxv5-ytsError').classList.remove('show');
+  $('tsxv5-ytsActions').classList.remove('show');
+
+  var seed=Math.floor(Math.random()*9999999);
+  var url='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+
+    '?width='+ytsState.w+'&height='+ytsState.h+'&seed='+seed+'&nologo=true&enhance=true';
+
+  var img=new Image();
+  img.crossOrigin='anonymous';
+
+  var abortTimeout=setTimeout(function(){
+    if(ytsBusy){
+      ytsBusy=false;btn.disabled=false;
+      setText(btn,'\u26A1 Generate Thumbnail');
+      $('tsxv5-ytsLoading').classList.remove('show');
+      ytsShowError('Timeout! Network check karein. ⏰');
+      img.src='';
+    }
+  },45000);
+
+  img.onload=function(){
+    clearTimeout(abortTimeout);
+    applyTextOverlay(img,ytsState.w,ytsState.h,ytsState.channel,ytsState.title,ytsState.textColor,ytsState.outlineColor)
+      .then(function(canvas){
+        ytsBusy=false;btn.disabled=false;
+        setText(btn,'\u26A1 Generate Thumbnail');
+        $('tsxv5-ytsLoading').classList.remove('show');
+
+        var canvasEl=$('tsxv5-ytsCanvas');
+        canvasEl.style.display='block';
+        var resultImg=$('tsxv5-ytsResultImg');
+        resultImg.style.display='none';
+
+        var dataURL;
+        try{dataURL=canvasEl.toDataURL('image/png');}catch(e){ytsShowError('Canvas export failed.');return;}
+
+        $('tsxv5-ytsPlaceholder').style.display='none';
+        $('tsxv5-ytsFrame').classList.add('has-img');
+
+        var dlLink=$('tsxv5-ytsDl');
+        dlLink.href=dataURL;
+        dlLink.download=ytsSanitizeFilename('toolsx-thumb-'+seed)+'.png';
+
+        $('tsxv5-ytsActions').classList.add('show');
+
+        var altText='AI generated YouTube thumbnail';
+        if(ytsState.title)altText+=' for "'+ytsState.title+'"';
+        if(ytsState.channel)altText+=' | Channel: '+ytsState.channel;
+        resultImg.alt=altText;
+      })
+      .catch(function(err){
+        ytsBusy=false;btn.disabled=false;
+        setText(btn,'\u26A1 Generate Thumbnail');
+        $('tsxv5-ytsLoading').classList.remove('show');
+        ytsShowError('Text overlay fail. Please dobara try karein.');
+      });
+  };
+
+  img.onerror=function(){
+    clearTimeout(abortTimeout);
+    ytsBusy=false;btn.disabled=false;
+    setText(btn,'\u26A1 Generate Thumbnail');
+    $('tsxv5-ytsLoading').classList.remove('show');
+    ytsShowError('Generation failed. Dobara try karein. 🔄');
+  };
+
+  img.src=url;
+}
+
+$('tsxv5-ytsGenBtn').addEventListener('click',ytsGenerate);
+$('tsxv5-ytsReGenBtn').addEventListener('click',ytsGenerate);
+
+// Enter key in controls triggers generate
+W.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&e.target&&e.target.closest&&e.target.closest('.yts-controls')){
+    e.preventDefault();
+    ytsGenerate();
+  }
+});
+
+// FAQ accordion — no inline handlers
+W.querySelectorAll('.yts-faq-item').forEach(function(item){
+  item.addEventListener('click',function(){this.classList.toggle('open');});
+});
+
+ytsInitDefaults();
+
+// Cleanup on pagehide
+window.addEventListener('pagehide',function(){
+  var canvas=$('tsxv5-ytsCanvas');
+  if(canvas){canvas.width=0;canvas.height=0;}
+});
+
+})();
+//]]>
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

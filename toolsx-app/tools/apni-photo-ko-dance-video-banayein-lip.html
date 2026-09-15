@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>AI Face Animator – Lip Sync for Static Portraits Free – ToolsX App</title>
+<meta name="description" content="Animate any static portrait free with AI — add lip sync and facial expressions in just a few clicks online.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>AI Face Animator – Lip Sync for Static Portraits Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<!-- TOOLSX REAL-TIME AI AUDIO DANCE CHOREOGRAPHER -->
+<style>
+  :root {
+    --tx-bg: #ffffff;
+    --tx-surface: #f8fafc;
+    --tx-border: #e2e8f0;
+    --tx-text: #0f172a;
+    --tx-muted: #64748b;
+    --tx-brand: #2563eb;
+    --tx-brand-hover: #1d4ed8;
+    --tx-accent: #06b6d4;
+    --tx-success: #10b981;
+    --tx-radius: 12px;
+  }
+
+  .dark-mode, .dark, [data-theme="dark"] {
+    --tx-bg: #0f172a;
+    --tx-surface: #1e293b;
+    --tx-border: #334155;
+    --tx-text: #f8fafc;
+    --tx-muted: #94a3b8;
+    --tx-brand: #3b82f6;
+    --tx-brand-hover: #60a5fa;
+    --tx-accent: #22d3ee;
+    --tx-success: #34d399;
+  }
+
+  .tx-studio-wrap {
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--tx-text);
+    box-sizing: border-box;
+    line-height: 1.6;
+  }
+
+  .tx-studio-wrap * {
+    box-sizing: border-box;
+  }
+
+  .tx-tool-card {
+    background: var(--tx-surface);
+    border: 1px solid var(--tx-border);
+    border-radius: var(--tx-radius);
+    padding: clamp(1rem, 3vw, 1.5rem);
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  }
+
+  .tx-stage {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    background: #070b14;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+  }
+
+  #txDanceCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .tx-drop-zone {
+    border: 2px dashed var(--tx-border);
+    background: var(--tx-bg);
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 1.25rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .tx-drop-zone:hover {
+    border-color: var(--tx-brand);
+  }
+
+  .tx-drop-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--tx-text);
+    margin: 0 0 0.25rem 0;
+  }
+
+  .tx-drop-sub {
+    font-size: 0.8rem;
+    color: var(--tx-muted);
+    margin: 0;
+  }
+
+  .tx-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .tx-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .tx-field label {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .tx-select, .tx-slider {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--tx-border);
+    background: var(--tx-bg);
+    color: var(--tx-text);
+    font-size: 0.95rem;
+  }
+
+  .tx-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .tx-btn {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.65rem 1.25rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    touch-action: manipulation;
+    transition: background 0.2s, opacity 0.2s;
+  }
+
+  .tx-btn:active {
+    opacity: 0.85;
+  }
+
+  .tx-btn-main {
+    background: var(--tx-brand);
+    color: #ffffff;
+    flex: 2 1 180px;
+  }
+
+  .tx-btn-main:hover {
+    background: var(--tx-brand-hover);
+  }
+
+  .tx-btn-sec {
+    background: var(--tx-bg);
+    color: var(--tx-text);
+    border: 1px solid var(--tx-border);
+    flex: 1 1 120px;
+  }
+
+  .tx-metrics {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding: 0.65rem 1rem;
+    background: var(--tx-bg);
+    border: 1px solid var(--tx-border);
+    border-radius: 6px;
+  }
+
+  .tx-metric-tag {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    min-width: 70px;
+  }
+
+  .tx-meter-bg {
+    flex: 1;
+    height: 8px;
+    background: var(--tx-border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .tx-meter-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--tx-accent);
+    transition: width 0.05s linear;
+  }
+
+  .tx-now-playing {
+    font-size: 0.85rem;
+    color: var(--tx-success);
+    font-weight: 600;
+    margin-top: 0.5rem;
+    min-height: 20px;
+    display: block;
+    word-break: break-word;
+  }
+
+  .tx-content-block {
+    margin-bottom: 2rem;
+  }
+
+  .tx-content-block h2 {
+    font-size: clamp(1.25rem, 2.5vw, 1.55rem);
+    margin: 1.5rem 0 0.75rem 0;
+    color: var(--tx-text);
+  }
+
+  .tx-content-block h3 {
+    font-size: 1.15rem;
+    margin: 1.25rem 0 0.5rem 0;
+    color: var(--tx-text);
+  }
+
+  .tx-content-block p {
+    font-size: 0.95rem;
+    color: var(--tx-muted);
+    margin: 0 0 1rem 0;
+  }
+
+  .tx-htu-box {
+    background: var(--tx-surface);
+    border: 1px solid var(--tx-border);
+    border-radius: var(--tx-radius);
+    padding: clamp(1rem, 3vw, 1.25rem);
+    margin: 1.25rem 0;
+  }
+
+  .tx-htu-box ol {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .tx-htu-box li {
+    font-size: 0.95rem;
+    color: var(--tx-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .tx-htu-box li strong {
+    color: var(--tx-text);
+  }
+
+  .tx-faq-row {
+    border-bottom: 1px solid var(--tx-border);
+    padding: 0.75rem 0;
+  }
+
+  .tx-faq-row:last-child {
+    border-bottom: none;
+  }
+
+  .tx-links-card {
+    background: var(--tx-surface);
+    border: 1px dashed var(--tx-border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .tx-links-card ul {
+    margin: 0.5rem 0 0 1.25rem;
+    padding: 0;
+  }
+
+  .tx-links-card a {
+    color: var(--tx-brand);
+    text-decoration: underline;
+    font-size: 0.92rem;
+  }
+
+  @media (max-width: 480px) {
+    .tx-stage {
+      height: 280px;
+    }
+  }
+</style>
+
+<div class="tx-studio-wrap">
+  <!-- INTERACTIVE TOOL -->
+  <div class="tx-tool-card">
+    <div class="tx-stage">
+      <canvas id="txDanceCanvas"></canvas>
+    </div>
+
+    <div class="tx-drop-zone" id="txDropContainer" onclick="document.getElementById('txAudioUpload').click()">
+      <p class="tx-drop-text">📁 Click or Drag Song File to Start Dancing</p>
+      <p class="tx-drop-sub">Supports MP3 &amp; WAV (Processed 100% locally in your browser)</p>
+      <input type="file" id="txAudioUpload" accept="audio/mp3,audio/wav,audio/mpeg" style="display:none">
+    </div>
+    <span id="txTrackStatus" class="tx-now-playing"></span>
+
+    <div class="tx-controls">
+      <div class="tx-field">
+        <label for="txRigStyle">Dancer Rig Style</label>
+        <select id="txRigStyle" class="tx-select">
+          <option value="neon">Cyber Stick Rig</option>
+          <option value="android">Geometric Robot</option>
+          <option value="groover">Hip-Hop Silhouette</option>
+        </select>
+      </div>
+
+      <div class="tx-field">
+        <label for="txSensitivity">Beat Sensitivity</label>
+        <input type="range" id="txSensitivity" class="tx-slider" min="1.1" max="2.4" step="0.05" value="1.45">
+      </div>
+
+      <div class="tx-field">
+        <label for="txPresetSelect">Or Use Built-In Synth Rhythm</label>
+        <select id="txPresetSelect" class="tx-select">
+          <option value="none">-- Custom Upload Active --</option>
+          <option value="hiphop">Hip-Hop Groove (95 BPM)</option>
+          <option value="house">House Beat (124 BPM)</option>
+          <option value="trap">Trap Drop (140 BPM)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="tx-buttons">
+      <button type="button" class="tx-btn tx-btn-main" id="txTogglePlay">⚡ Start / Resume Dance</button>
+      <button type="button" class="tx-btn tx-btn-sec" id="txMuteButton">🔊 Audio Muted</button>
+      <button type="button" class="tx-btn tx-btn-sec" id="txResetStage">🔄 Reset Pose</button>
+    </div>
+
+    <div class="tx-metrics">
+      <span class="tx-metric-tag">Bass Energy</span>
+      <div class="tx-meter-bg">
+        <div class="tx-meter-fill" id="txBassBar"></div>
+      </div>
+      <span id="txBpmIndicator" style="font-size:0.85rem; font-weight:bold; min-width:65px; text-align:right;">0 BPM</span>
+    </div>
+  </div>
+
+  <!-- HOW TO USE & DETAILS -->
+  <div class="tx-content-block">
+    <h2>Automated Audio Beat-Synced Dance Generation</h2>
+    <p>Creating animated motion synchronized with music traditionally requires keyframing each hit and downbeat manually. This client-side choreography engine decodes live audio buffers directly inside your web browser, dynamically driving joint transforms, bounce velocity, and step routines in real time without external processing.</p>
+
+    <h2>How to Use the Beat Sync Dance Studio</h2>
+    <div class="tx-htu-box">
+      <ol>
+        <li><strong>Upload Any Music File:</strong> Click the drop area to select an MP3 or WAV track from your phone or computer. The dance animation triggers immediately once the audio buffer is loaded.</li>
+        <li><strong>Adjust Motion Sensitivity:</strong> Move the Beat Sensitivity slider to increase or decrease how aggressively the character kicks and rebounds to bass peaks.</li>
+        <li><strong>Switch Dancer Archetypes:</strong> Toggle between the Cyber Stick Rig, Geometric Robot, or Hip-Hop Silhouette to adapt the visual style to your audio genre.</li>
+        <li><strong>Test Built-In Grooves:</strong> If you do not have an audio file ready, pick one of the preset synthesizer beats (Hip-Hop, House, or Trap) to observe real-time frequency reaction.</li>
+      </ol>
+    </div>
+
+    <h2>How Client-Side Beat Tracking Works</h2>
+    <p>When an audio track is chosen, the browser's <code>AudioContext</code> interface decodes the raw binary data into an uncompressed PCM stream. A Fast Fourier Transform (FFT) node breaks this sound wave into frequency bins at 60 frames per second.</p>
+    <p>Low-end bass frequencies (ranging between 20 Hz and 150 Hz) are continuously sampled to detect transient spikes. When an impulse exceeds the moving threshold, the character's hips, knees, and torso dynamically flex into rhythmically accurate dance choreography.</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="tx-faq-row">
+      <h3>Does uploading a song consume mobile data or send my file to a server?</h3>
+      <p>No. Your music file never leaves your device. All decoding, frequency calculations, and canvas animations are processed directly inside your browser's local JavaScript engine.</p>
+    </div>
+    <div class="tx-faq-row">
+      <h3>Why did the dancer stop when I switched browser tabs?</h3>
+      <p>Mobile and desktop browsers throttle <code>requestAnimationFrame</code> in background tabs to preserve battery life and memory. Switching back to the tab restores animation immediately.</p>
+    </div>
+    <div class="tx-faq-row">
+      <h3>Can I dance to songs with no heavy drum beats?</h3>
+      <p>Yes, though dance steps react most noticeably to clear percussive kicks and bass drops. For melodic or vocal-centric tracks, decrease the Beat Sensitivity slider to register subtle mid-tone transients.</p>
+    </div>
+
+    <div class="tx-links-card">
+      <strong>Explore More Client-Side Tools:</strong>
+      <ul>
+        <li><a href="../index.html">Browser Audio Converters &amp; Synthesizers</a></li>
+        <li><a href="../index.html">Free Web AI Utilities &amp; Visualizers</a></li>
+        <li><a href="../index.html">Client-Side Media Production Tools</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var canvas = document.getElementById('txDanceCanvas');
+  var ctx = canvas.getContext('2d');
+  var fileInput = document.getElementById('txAudioUpload');
+  var dropContainer = document.getElementById('txDropContainer');
+  var playBtn = document.getElementById('txTogglePlay');
+  var muteBtn = document.getElementById('txMuteButton');
+  var resetBtn = document.getElementById('txResetStage');
+  var rigSelect = document.getElementById('txRigStyle');
+  var presetSelect = document.getElementById('txPresetSelect');
+  var sensSlider = document.getElementById('txSensitivity');
+  var bassBar = document.getElementById('txBassBar');
+  var bpmTag = document.getElementById('txBpmIndicator');
+  var trackStatus = document.getElementById('txTrackStatus');
+
+  var audioCtx = null;
+  var analyser = null;
+  var gainNode = null;
+  var sourceNode = null;
+  var audioBuffer = null;
+  var isPlaying = false;
+  var isMuted = false;
+  var synthTimer = null;
+  var animId = null;
+
+  var danceTimer = 0;
+  var bounceY = 0;
+  var targetBounceY = 0;
+  var stepSide = 1;
+  var avgBass = 0;
+  var lastBeat = 0;
+  var beatHistory = [];
+
+  function fitCanvas() {
+    var b = canvas.getBoundingClientRect();
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = b.width * dpr;
+    canvas.height = b.height * dpr;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+  }
+  window.addEventListener('resize', fitCanvas);
+  fitCanvas();
+
+  function initAudioEngine() {
+    if (!audioCtx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AC();
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+      gainNode = audioCtx.createGain();
+      gainNode.connect(audioCtx.destination);
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  }
+
+  function handleFile(file) {
+    if (!file) return;
+    if (file.size > 26214400) {
+      alert('Selected file is too large. Maximum supported size is 25MB.');
+      return;
+    }
+    trackStatus.textContent = 'Decoding ' + file.name + '...';
+    presetSelect.value = 'none';
+
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      initAudioEngine();
+      audioCtx.decodeAudioData(ev.target.result, function(buffer) {
+        audioBuffer = buffer;
+        trackStatus.textContent = '🎵 Playing: ' + file.name;
+        startPlayback(true);
+      }, function() {
+        trackStatus.textContent = '⚠️ Error decoding file. Try a standard MP3/WAV format.';
+      });
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  fileInput.addEventListener('change', function(e) {
+    if (e.target.files && e.target.files[0]) {
+      handleFile(e.target.files[0]);
+    }
+  });
+
+  dropContainer.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    dropContainer.style.borderColor = 'var(--tx-brand)';
+  });
+
+  dropContainer.addEventListener('dragleave', function() {
+    dropContainer.style.borderColor = 'var(--tx-border)';
+  });
+
+  dropContainer.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dropContainer.style.borderColor = 'var(--tx-border)';
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFile(e.dataTransfer.files[0]);
+    }
+  });
+
+  presetSelect.addEventListener('change', function() {
+    var p = this.value;
+    if (p === 'none') {
+      stopPlayback();
+      return;
+    }
+    trackStatus.textContent = 'Synthesized Beat: ' + p.toUpperCase();
+    startPlayback(false);
+  });
+
+  function startSynthBeat(bpm) {
+    if (synthTimer) clearInterval(synthTimer);
+    var ms = (60 / bpm) * 1000;
+    synthTimer = setInterval(function() {
+      if (!isPlaying || !audioCtx) return;
+      var osc = audioCtx.createOscillator();
+      var env = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(140, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(36, audioCtx.currentTime + 0.1);
+      env.gain.setValueAtTime(isMuted ? 0 : 0.85, audioCtx.currentTime);
+      env.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.16);
+      osc.connect(env);
+      env.connect(analyser);
+      analyser.connect(gainNode);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.18);
+    }, ms);
+  }
+
+  function startPlayback(isUpload) {
+    initAudioEngine();
+    stopPlayback(true);
+
+    isPlaying = true;
+    playBtn.textContent = '⏸ Pause Dance';
+
+    if (isUpload) {
+      if (!audioBuffer) return;
+      sourceNode = audioCtx.createBufferSource();
+      sourceNode.buffer = audioBuffer;
+      sourceNode.loop = true;
+      sourceNode.connect(analyser);
+      analyser.connect(gainNode);
+      sourceNode.start(0);
+    } else {
+      var bpm = 124;
+      if (presetSelect.value === 'hiphop') bpm = 95;
+      if (presetSelect.value === 'trap') bpm = 140;
+      startSynthBeat(bpm);
+    }
+
+    animate();
+  }
+
+  function stopPlayback(keepAudioState) {
+    isPlaying = false;
+    playBtn.textContent = '⚡ Start / Resume Dance';
+
+    if (synthTimer) {
+      clearInterval(synthTimer);
+      synthTimer = null;
+    }
+    if (sourceNode) {
+      try { sourceNode.stop(); } catch(e) {}
+      sourceNode.disconnect();
+      sourceNode = null;
+    }
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+    if (!keepAudioState) {
+      bassBar.style.width = '0%';
+      drawScene(0, 0);
+    }
+  }
+
+  playBtn.addEventListener('click', function() {
+    if (isPlaying) {
+      stopPlayback();
+    } else {
+      if (audioBuffer) {
+        startPlayback(true);
+      } else if (presetSelect.value !== 'none') {
+        startPlayback(false);
+      } else {
+        presetSelect.value = 'house';
+        startPlayback(false);
+      }
+    }
+  });
+
+  muteBtn.addEventListener('click', function() {
+    isMuted = !isMuted;
+    if (gainNode && audioCtx) {
+      gainNode.gain.setValueAtTime(isMuted ? 0 : 1, audioCtx.currentTime);
+    }
+    muteBtn.textContent = isMuted ? '🔇 Audio Muted' : '🔊 Audio Active';
+  });
+
+  resetBtn.addEventListener('click', function() {
+    danceTimer = 0;
+    bounceY = 0;
+    targetBounceY = 0;
+    stepSide = 1;
+    drawScene(0, 0);
+  });
+
+  function detectBeat(bassLevel) {
+    var sens = parseFloat(sensSlider.value);
+    var now = performance.now();
+    if (bassLevel > avgBass * sens && bassLevel > 45) {
+      if (now - lastBeat > 240) {
+        var delta = now - lastBeat;
+        lastBeat = now;
+        var est = Math.round(60000 / delta);
+        if (est >= 55 && est <= 220) {
+          beatHistory.push(est);
+          if (beatHistory.length > 6) beatHistory.shift();
+          var sum = 0;
+          for (var i = 0; i < beatHistory.length; i++) sum += beatHistory[i];
+          bpmTag.textContent = Math.round(sum / beatHistory.length) + ' BPM';
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function animate() {
+    if (!isPlaying) return;
+    animId = requestAnimationFrame(animate);
+
+    var bufferLength = analyser.frequencyBinCount;
+    var data = new Uint8Array(bufferLength);
+    analyser.getByteFrequencyData(data);
+
+    var bassSum = 0;
+    for (var i = 0; i < 14; i++) bassSum += data[i];
+    var currentBass = bassSum / 14;
+    avgBass = (avgBass * 0.9) + (currentBass * 0.1);
+
+    var onBeat = detectBeat(currentBass);
+
+    var fillPct = Math.min(100, Math.round((currentBass / 255) * 100));
+    bassBar.style.width = fillPct + '%';
+
+    if (onBeat) {
+      targetBounceY = -24;
+      danceTimer += 0.8;
+      stepSide = -stepSide;
+    } else {
+      danceTimer += 0.05;
+      targetBounceY = 0;
+    }
+
+    bounceY += (targetBounceY - bounceY) * 0.25;
+    drawScene(currentBass, data);
+  }
+
+  function drawScene(bass, freqData) {
+    var b = canvas.getBoundingClientRect();
+    var w = b.width;
+    var h = b.height;
+    var style = rigSelect.value;
+
+    ctx.fillStyle = '#070b14';
+    ctx.fillRect(0, 0, w, h);
+
+    var floorY = h * 0.84;
+
+    ctx.strokeStyle = 'rgba(37, 99, 235, 0.2)';
+    ctx.lineWidth = 1;
+    for (var x = 0; x < w; x += 35) {
+      ctx.beginPath();
+      ctx.moveTo(x, floorY);
+      ctx.lineTo((x - w / 2) * 2 + w / 2, h);
+      ctx.stroke();
+    }
+    ctx.beginPath();
+    ctx.moveTo(0, floorY);
+    ctx.lineTo(w, floorY);
+    ctx.stroke();
+
+    if (freqData && freqData.length) {
+      ctx.fillStyle = 'rgba(6, 182, 212, 0.15)';
+      var barW = w / 24;
+      for (var f = 0; f < 24; f++) {
+        var val = (freqData[f * 3] / 255) * (h * 0.35);
+        ctx.fillRect(f * barW, floorY - val, barW - 2, val);
+      }
+    }
+
+    var cx = w / 2 + Math.sin(danceTimer * 0.7) * (18 * stepSide);
+    var cy = floorY - 80 + bounceY;
+    var swing = Math.sin(danceTimer * 1.6);
+    var legSwing = Math.cos(danceTimer * 1.6);
+
+    if (style === 'neon') {
+      ctx.strokeStyle = '#00f0ff';
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+      ctx.shadowBlur = 14;
+      ctx.shadowColor = '#00f0ff';
+
+      ctx.beginPath();
+      ctx.arc(cx, cy - 48, 14, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 34);
+      ctx.lineTo(cx, cy + 12);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 22);
+      ctx.lineTo(cx - 28, cy - 8 + (swing * 25));
+      ctx.lineTo(cx - 38, cy - 28 - (swing * 20));
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 22);
+      ctx.lineTo(cx + 28, cy - 8 - (swing * 25));
+      ctx.lineTo(cx + 38, cy - 28 + (swing * 20));
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy + 12);
+      ctx.lineTo(cx - 16 + (legSwing * 15), cy + 42);
+      ctx.lineTo(cx - 22, floorY);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy + 12);
+      ctx.lineTo(cx + 16 - (legSwing * 15), cy + 42);
+      ctx.lineTo(cx + 22, floorY);
+      ctx.stroke();
+
+      ctx.shadowBlur = 0;
+    } else if (style === 'android') {
+      ctx.fillStyle = '#3b82f6';
+      ctx.strokeStyle = '#93c5fd';
+      ctx.lineWidth = 2;
+
+      ctx.fillRect(cx - 14, cy - 62, 28, 22);
+      ctx.strokeRect(cx - 14, cy - 62, 28, 22);
+
+      ctx.fillRect(cx - 20, cy - 34, 40, 48);
+      ctx.strokeRect(cx - 20, cy - 34, 40, 48);
+
+      var armOffset = swing * 26;
+      ctx.fillRect(cx - 32, cy - 30 + armOffset, 9, 36);
+      ctx.fillRect(cx + 23, cy - 30 - armOffset, 9, 36);
+
+      ctx.fillRect(cx - 16, cy + 16, 12, floorY - (cy + 16));
+      ctx.fillRect(cx + 4, cy + 16, 12, floorY - (cy + 16));
+    } else {
+      ctx.fillStyle = '#f59e0b';
+      ctx.shadowBlur = 12;
+      ctx.shadowColor = '#d97706';
+
+      ctx.beginPath();
+      ctx.arc(cx, cy - 50, 16, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(cx - 22, cy - 30);
+      ctx.lineTo(cx + 22, cy - 30);
+      ctx.lineTo(cx + 14, cy + 18);
+      ctx.lineTo(cx - 14, cy + 18);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.lineWidth = 6;
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineCap = 'round';
+
+      ctx.beginPath();
+      ctx.moveTo(cx - 20, cy - 25);
+      ctx.lineTo(cx - 36, cy - 5 + (swing * 25));
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(cx + 20, cy - 25);
+      ctx.lineTo(cx + 36, cy - 5 - (swing * 25));
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(cx - 10, cy + 18);
+      ctx.lineTo(cx - 18, floorY);
+      ctx.moveTo(cx + 10, cy + 18);
+      ctx.lineTo(cx + 18, floorY);
+      ctx.stroke();
+
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  drawScene(0, 0);
+})();
+</script>
+
+<!-- FAQ SCHEMA DATA -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does uploading a song consume mobile data or send my file to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Your music file never leaves your device. All decoding, frequency calculations, and canvas animations are processed directly inside your browser local JavaScript engine."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why did the dancer stop when I switched browser tabs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mobile and desktop browsers throttle requestAnimationFrame in background tabs to preserve battery life and memory. Switching back to the tab restores animation immediately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I dance to songs with no heavy drum beats?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, though dance steps react most noticeably to clear percussive kicks and bass drops. For melodic or vocal-centric tracks, decrease the Beat Sensitivity slider to register subtle mid-tone transients."
+      }
+    }
+  ]
+}
+</script>
+
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

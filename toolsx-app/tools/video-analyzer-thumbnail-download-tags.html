@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>YouTube Video Analyzer – Download Thumbnails &amp; Extract Tags – ToolsX App</title>
+<meta name="description" content="Analyze any YouTube video free — download thumbnails and extract tags instantly for research or SEO.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>YouTube Video Analyzer – Download Thumbnails &amp; Extract Tags</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "All-in-One YouTube Tool Kit",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web Browser",
+      "description": "Free YouTube tool with thumbnail downloader, viral title generator, smart tags extractor, and SEO description builder. No API key needed, 100% private, works with all YouTube video formats including Shorts.",
+      "featureList": [
+        "HD thumbnail download (maxres)",
+        "Viral title generator (10 variations)",
+        "Smart tag extraction",
+        "SEO description builder",
+        "YouTube Shorts support",
+        "One-click copy to clipboard",
+        "No API key required",
+        "100% browser-based processing"
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "Tools-X"
+      }
+    },
+    {
+      "@type": "HowTo",
+      "name": "How to Use All-in-One YouTube Tool Kit",
+      "description": "Analyze any YouTube video in three simple steps.",
+      "step": [
+        { "@type": "HowToStep", "name": "Paste URL", "text": "Paste any YouTube video URL (standard, short, or Shorts format) into the input field." },
+        { "@type": "HowToStep", "name": "Click Analyze", "text": "Click 'Analyze Video' to fetch metadata, thumbnail, and generate titles, tags, and description." },
+        { "@type": "HowToStep", "name": "Copy or Download", "text": "Download the HD thumbnail or copy generated titles, tags, and description with one click." }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this tool really free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, 100% free. No hidden charges, no premium version, no usage limits."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will downloading thumbnails cause copyright issues?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Thumbnails are publicly available on YouTube. Downloading for personal use, research, or reference is generally acceptable. For commercial use, seek permission from the original creator."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I analyze YouTube Shorts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! Paste any Shorts URL. The tool automatically recognizes the format and provides the same features."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why doesn't duration show?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "YouTube removed duration data from public APIs since 2021. Click 'Watch Link' to view duration directly on YouTube."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data safe?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely! All processing happens in your browser. No data is collected or stored on any server."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<div class="adv-yt-wrap" id="tsxv5-yt-toolkit">
+<style>
+#tsxv5-yt-toolkit {
+  --yt-primary: #ef4444;
+  --yt-primary-hover: #dc2626;
+  --yt-accent: #f59e0b;
+  --yt-bg: #f8f9fa;
+  --yt-card-bg: #ffffff;
+  --yt-card-border: #e5e7eb;
+  --yt-text-main: #1e293b;
+  --yt-text-muted: #64748b;
+  --yt-glass-bg: #f1f5f9;
+  --yt-glass-border: #e2e8f0;
+  --yt-shadow-glow: 0 10px 40px rgba(0,0,0,.08);
+  
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background: var(--yt-bg);
+  color: var(--yt-text-main);
+  padding: 20px 10px;
+  line-height: 1.6;
+  min-height: auto;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+}
+
+#tsxv5-yt-toolkit *, #tsxv5-yt-toolkit *::before, #tsxv5-yt-toolkit *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#tsxv5-yt-toolkit .adv-yt-container { max-width: 1100px; margin: auto; }
+
+#tsxv5-yt-toolkit .adv-yt-header {
+  text-align: center;
+  padding: 40px 20px;
+  animation: ytFadeDown 0.8s ease;
+}
+#tsxv5-yt-toolkit .adv-yt-header h2 {
+  font-size: clamp(2rem, 5.5vw, 3.2rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, #ef4444, #f59e0b, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+  color: transparent !important;
+}
+#tsxv5-yt-toolkit .adv-yt-header p {
+  color: var(--yt-text-muted);
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  max-width: 700px;
+  margin: 0 auto 20px;
+}
+#tsxv5-yt-toolkit .adv-yt-badges {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+#tsxv5-yt-toolkit .adv-yt-badge {
+  background: var(--yt-glass-bg);
+  border: 1px solid var(--yt-glass-border);
+  color: var(--yt-text-main);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+@keyframes ytFadeDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ytFadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ytSpin { to { transform: rotate(360deg); } }
+
+#tsxv5-yt-toolkit .adv-yt-card {
+  background: var(--yt-card-bg);
+  border: 1px solid var(--yt-card-border);
+  border-radius: 28px;
+  padding: clamp(16px, 3vw, 30px);
+  box-shadow: var(--yt-shadow-glow);
+  margin-bottom: 30px;
+  animation: ytFadeUp 0.8s ease 0.2s both;
+}
+
+#tsxv5-yt-toolkit .adv-yt-input-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+#tsxv5-yt-toolkit .adv-yt-input-group input {
+  flex: 1;
+  min-width: 220px;
+  padding: 16px 20px;
+  border: 2px solid var(--yt-glass-border);
+  border-radius: 16px;
+  background: var(--yt-glass-bg);
+  color: var(--yt-text-main);
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s;
+  font-weight: 500;
+  font-family: inherit;
+  max-width: 100%;
+}
+#tsxv5-yt-toolkit .adv-yt-input-group input:focus {
+  border-color: var(--yt-primary);
+  box-shadow: 0 0 0 4px rgba(239,68,68,0.15);
+  background: rgba(255,255,255,0.08);
+}
+#tsxv5-yt-toolkit .adv-yt-input-group input::placeholder { color: var(--yt-text-muted); }
+
+#tsxv5-yt-toolkit .adv-yt-btn {
+  padding: 16px 32px;
+  border: none;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, var(--yt-primary), var(--yt-accent));
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(239,68,68,0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  font-family: inherit;
+  min-height: 44px;
+  justify-content: center;
+}
+#tsxv5-yt-toolkit .adv-yt-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(239,68,68,0.4);
+}
+#tsxv5-yt-toolkit .adv-yt-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+#tsxv5-yt-toolkit .adv-yt-btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: ytSpin 0.7s linear infinite;
+}
+
+#tsxv5-yt-toolkit .adv-yt-loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--yt-text-muted);
+}
+#tsxv5-yt-toolkit .adv-yt-spinner-lg {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--yt-glass-border);
+  border-top: 4px solid var(--yt-primary);
+  border-radius: 50%;
+  animation: ytSpin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+#tsxv5-yt-toolkit .adv-yt-result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 30px;
+  margin-top: 30px;
+}
+@media (max-width: 768px) {
+  #tsxv5-yt-toolkit .adv-yt-result-grid { grid-template-columns: 1fr; }
+}
+
+#tsxv5-yt-toolkit .adv-yt-thumb-box {
+  background: var(--yt-glass-bg);
+  border: 1px solid var(--yt-glass-border);
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+}
+#tsxv5-yt-toolkit .adv-yt-thumb-box img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #000;
+  border: 1px solid var(--yt-glass-border);
+}
+#tsxv5-yt-toolkit .adv-yt-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--yt-text-muted);
+  font-size: 0.95rem;
+  gap: 10px;
+}
+#tsxv5-yt-toolkit .adv-yt-placeholder svg { opacity: 0.3; }
+
+#tsxv5-yt-toolkit .adv-yt-thumb-meta {
+  margin-top: 16px;
+  text-align: left;
+  display: grid;
+  gap: 8px;
+}
+#tsxv5-yt-toolkit .adv-yt-meta-item {
+  display: flex;
+  gap: 12px;
+  padding: 8px 12px;
+  background: rgba(0,0,0,0.04);
+  border-radius: 10px;
+  border: 1px solid var(--yt-glass-border);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+#tsxv5-yt-toolkit .adv-yt-meta-item strong { color: var(--yt-text-main); min-width: 70px; flex-shrink: 0; }
+#tsxv5-yt-toolkit .adv-yt-meta-item span { color: var(--yt-text-muted); word-break: break-word; font-size: 0.9rem; }
+
+#tsxv5-yt-toolkit .adv-yt-download-btn {
+  margin-top: 16px;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+}
+#tsxv5-yt-toolkit .adv-yt-download-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(16,185,129,0.3);
+}
+#tsxv5-yt-toolkit .adv-yt-download-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+#tsxv5-yt-toolkit .adv-yt-gen-box {
+  background: var(--yt-glass-bg);
+  border: 1px solid var(--yt-glass-border);
+  border-radius: 18px;
+  padding: 20px;
+}
+#tsxv5-yt-toolkit .adv-yt-gen-box h3 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--yt-text-main);
+  flex-wrap: wrap;
+}
+#tsxv5-yt-toolkit .adv-yt-gen-box h3 span {
+  background: linear-gradient(135deg, var(--yt-primary), var(--yt-accent));
+  font-size: 0.7rem;
+  padding: 2px 10px;
+  border-radius: 50px;
+  color: #fff;
+}
+
+#tsxv5-yt-toolkit .adv-yt-title-suggestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  background: rgba(0,0,0,0.03);
+  border: 1px solid var(--yt-glass-border);
+  border-radius: 12px;
+  transition: all 0.2s;
+  flex-wrap: wrap;
+}
+#tsxv5-yt-toolkit .adv-yt-title-suggestion:hover {
+  border-color: var(--yt-primary);
+  background: rgba(239,68,68,0.05);
+}
+#tsxv5-yt-toolkit .adv-yt-title-text {
+  flex: 1;
+  font-size: 0.95rem;
+  color: var(--yt-text-main);
+  word-break: break-word;
+  line-height: 1.4;
+}
+#tsxv5-yt-toolkit .adv-yt-copy-btn-sm {
+  background: var(--yt-glass-bg);
+  border: 1px solid var(--yt-glass-border);
+  color: var(--yt-text-muted);
+  padding: 4px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: inherit;
+  min-height: 44px;
+}
+#tsxv5-yt-toolkit .adv-yt-copy-btn-sm:hover {
+  border-color: var(--yt-primary);
+  color: var(--yt-text-main);
+  background: rgba(0,0,0,0.05);
+}
+
+#tsxv5-yt-toolkit .adv-yt-extra-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-top: 25px;
+}
+@media (max-width: 768px) {
+  #tsxv5-yt-toolkit .adv-yt-extra-section { grid-template-columns: 1fr; }
+}
+#tsxv5-yt-toolkit .adv-yt-tags-box, #tsxv5-yt-toolkit .adv-yt-desc-box {
+  background: var(--yt-glass-bg);
+  border: 1px solid var(--yt-glass-border);
+  border-radius: 18px;
+  padding: 20px;
+}
+#tsxv5-yt-toolkit .adv-yt-tags-box h3, #tsxv5-yt-toolkit .adv-yt-desc-box h3 {
+  font-size: 1.1rem;
+  margin-bottom: 14px;
+  color: var(--yt-text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#tsxv5-yt-toolkit .adv-yt-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+#tsxv5-yt-toolkit .adv-yt-tag {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.2);
+  color: var(--yt-text-main);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+#tsxv5-yt-toolkit .adv-yt-desc-text {
+  background: rgba(0,0,0,0.03);
+  border: 1px solid var(--yt-glass-border);
+  border-radius: 12px;
+  padding: 14px;
+  max-height: 250px;
+  overflow-y: auto;
+  color: var(--yt-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+#tsxv5-yt-toolkit .adv-yt-copy-all-btn {
+  margin-top: 12px;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background: rgba(239,68,68,0.15);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: var(--yt-text-main);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  font-family: inherit;
+  min-height: 44px;
+}
+#tsxv5-yt-toolkit .adv-yt-copy-all-btn:hover {
+  background: rgba(239,68,68,0.25);
+  transform: translateY(-2px);
+}
+
+#tsxv5-yt-toolkit .adv-yt-guide {
+  background: var(--yt-card-bg);
+  border: 1px solid var(--yt-card-border);
+  border-radius: 28px;
+  padding: clamp(20px, 3vw, 35px);
+  box-shadow: var(--yt-shadow-glow);
+  animation: ytFadeUp 0.8s ease 0.4s both;
+  margin-bottom: 30px;
+}
+#tsxv5-yt-toolkit .adv-yt-guide h2 {
+  font-size: clamp(1.3rem, 3vw, 1.6rem);
+  font-weight: 900;
+  color: var(--yt-text-main);
+  margin-bottom: 16px;
+  border-left: 5px solid var(--yt-accent);
+  padding-left: 18px;
+}
+#tsxv5-yt-toolkit .adv-yt-guide > p {
+  color: var(--yt-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  margin-bottom: 14px;
+}
+#tsxv5-yt-toolkit .adv-yt-guide h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--yt-primary);
+  margin: 20px 0 10px;
+}
+#tsxv5-yt-toolkit .adv-yt-steps {
+  list-style: none;
+  counter-reset: step;
+  padding: 0;
+  margin: 14px 0;
+}
+#tsxv5-yt-toolkit .adv-yt-steps li {
+  background: var(--yt-glass-bg);
+  border: 1px solid var(--yt-glass-border);
+  padding: 12px 16px 12px 50px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  position: relative;
+  counter-increment: step;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--yt-text-muted);
+}
+#tsxv5-yt-toolkit .adv-yt-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(135deg, var(--yt-primary), var(--yt-accent));
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+#tsxv5-yt-toolkit .adv-yt-steps li strong { color: var(--yt-text-main); }
+
+#tsxv5-yt-toolkit .adv-yt-faq { margin-top: 20px; display: grid; gap: 10px; }
+#tsxv5-yt-toolkit .adv-yt-faq-item {
+  background: var(--yt-glass-bg);
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--yt-glass-border);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+#tsxv5-yt-toolkit .adv-yt-faq-item:hover { border-color: rgba(0,0,0,0.2); }
+#tsxv5-yt-toolkit .adv-yt-faq-q {
+  font-weight: 700;
+  color: var(--yt-text-main);
+  font-size: 0.95rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+#tsxv5-yt-toolkit .adv-yt-faq-q::after {
+  content: '+';
+  font-size: 1.3rem;
+  color: var(--yt-primary);
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+#tsxv5-yt-toolkit .adv-yt-faq-item.open .adv-yt-faq-q::after { transform: rotate(45deg); }
+#tsxv5-yt-toolkit .adv-yt-faq-a {
+  color: var(--yt-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  margin-top: 10px;
+  display: none;
+}
+#tsxv5-yt-toolkit .adv-yt-faq-item.open .adv-yt-faq-a { display: block; }
+
+#tsxv5-yt-toolkit .adv-yt-links {
+  background: var(--yt-card-bg);
+  border: 1px solid var(--yt-card-border);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 30px;
+}
+#tsxv5-yt-toolkit .adv-yt-links h3 {
+  color: var(--yt-text-main);
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  font-weight: 800;
+}
+#tsxv5-yt-toolkit .adv-yt-link-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+#tsxv5-yt-toolkit .adv-yt-link-card {
+  background: var(--yt-glass-bg);
+  border: 1px solid var(--yt-glass-border);
+  padding: 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--yt-text-main);
+  transition: all 0.3s;
+  display: block;
+  min-height: 44px;
+}
+#tsxv5-yt-toolkit .adv-yt-link-card:hover {
+  border-color: var(--yt-primary);
+  transform: translateY(-2px);
+  background: rgba(239,68,68,0.05);
+  text-decoration: none;
+}
+#tsxv5-yt-toolkit .adv-yt-link-card .emoji { font-size: 1.5rem; margin-bottom: 6px; display: block; }
+#tsxv5-yt-toolkit .adv-yt-link-card strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  color: var(--yt-text-main);
+}
+#tsxv5-yt-toolkit .adv-yt-link-card span {
+  font-size: 0.82rem;
+  color: var(--yt-text-muted);
+  line-height: 1.5;
+}
+
+#tsxv5-yt-toolkit .adv-yt-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  font-weight: 700;
+  z-index: 10000;
+  animation: ytSlideRight 0.4s ease;
+  border: 1px solid rgba(255,255,255,0.1);
+  max-width: 90vw;
+  font-size: 0.9rem;
+}
+#tsxv5-yt-toolkit .adv-yt-toast.error { background: linear-gradient(135deg, #ef4444, #dc2626); }
+#tsxv5-yt-toolkit .adv-yt-toast.info { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+@keyframes ytSlideRight {
+  from { transform: translateX(400px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+#tsxv5-yt-toolkit .adv-yt-footer {
+  text-align: center;
+  padding: 30px 0 10px;
+  color: var(--yt-text-muted);
+  font-size: 0.9rem;
+}
+
+/* Dark Mode Overrides */
+body.dark-mode #tsxv5-yt-toolkit,
+html.dark-mode #tsxv5-yt-toolkit,
+[data-theme="dark"] #tsxv5-yt-toolkit,
+body[data-theme="dark"] #tsxv5-yt-toolkit,
+html[data-theme="dark"] #tsxv5-yt-toolkit,
+.dark-mode #tsxv5-yt-toolkit,
+.night-mode #tsxv5-yt-toolkit,
+[data-bs-theme="dark"] #tsxv5-yt-toolkit {
+  --yt-bg: #0f1115;
+  --yt-card-bg: #17172a;
+  --yt-card-border: #2a2a45;
+  --yt-text-main: #f1f5f9;
+  --yt-text-muted: #a7a3c9;
+  --yt-glass-bg: #1e1e32;
+  --yt-glass-border: #2a2a45;
+  --yt-shadow-glow: 0 30px 60px -15px rgba(239,68,68,0.15);
+}
+
+body.dark-mode #tsxv5-yt-toolkit .adv-yt-card,
+html.dark-mode #tsxv5-yt-toolkit .adv-yt-card,
+[data-theme="dark"] #tsxv5-yt-toolkit .adv-yt-card,
+body[data-theme="dark"] #tsxv5-yt-toolkit .adv-yt-card,
+html[data-theme="dark"] #tsxv5-yt-toolkit .adv-yt-card,
+.dark-mode #tsxv5-yt-toolkit .adv-yt-card,
+.night-mode #tsxv5-yt-toolkit .adv-yt-card,
+[data-bs-theme="dark"] #tsxv5-yt-toolkit .adv-yt-card,
+body.dark-mode #tsxv5-yt-toolkit .adv-yt-guide,
+html.dark-mode #tsxv5-yt-toolkit .adv-yt-guide,
+[data-theme="dark"] #tsxv5-yt-toolkit .adv-yt-guide,
+body[data-theme="dark"] #tsxv5-yt-toolkit .adv-yt-guide,
+html[data-theme="dark"] #tsxv5-yt-toolkit .adv-yt-guide,
+.dark-mode #tsxv5-yt-toolkit .adv-yt-guide,
+.night-mode #tsxv5-yt-toolkit .adv-yt-guide,
+[data-bs-theme="dark"] #tsxv5-yt-toolkit .adv-yt-guide,
+body.dark-mode #tsxv5-yt-toolkit .adv-yt-links,
+html.dark-mode #tsxv5-yt-toolkit .adv-yt-links,
+[data-theme="dark"] #tsxv5-yt-toolkit .adv-yt-links,
+body[data-theme="dark"] #tsxv5-yt-toolkit .adv-yt-links,
+html[data-theme="dark"] #tsxv5-yt-toolkit .adv-yt-links,
+.dark-mode #tsxv5-yt-toolkit .adv-yt-links,
+.night-mode #tsxv5-yt-toolkit .adv-yt-links,
+[data-bs-theme="dark"] #tsxv5-yt-toolkit .adv-yt-links {
+  background: #17172a;
+  box-shadow: var(--yt-shadow-glow);
+}
+
+body.dark-mode #tsxv5-yt-toolkit .adv-yt-input-group input,
+html.dark-mode #tsxv5-yt-toolkit .adv-yt-input-group input,
+[data-theme="dark"] #tsxv5-yt-toolkit .adv-yt-input-group input,
+body[data-theme="dark"] #tsxv5-yt-toolkit .adv-yt-input-group input,
+html[data-theme="dark"] #tsxv5-yt-toolkit .adv-yt-input-group input,
+.dark-mode #tsxv5-yt-toolkit .adv-yt-input-group input,
+.night-mode #tsxv5-yt-toolkit .adv-yt-input-group input,
+[data-bs-theme="dark"] #tsxv5-yt-toolkit .adv-yt-input-group input {
+  background: rgba(255,255,255,0.05);
+  color: #f1f5f9;
+}
+
+@media (max-width: 480px) {
+  #tsxv5-yt-toolkit .adv-yt-card { padding: 16px; }
+  #tsxv5-yt-toolkit .adv-yt-guide { padding: 20px; }
+  #tsxv5-yt-toolkit .adv-yt-guide h2 { font-size: 1.3rem; }
+  #tsxv5-yt-toolkit .adv-yt-header h2 { font-size: 1.8rem; }
+  #tsxv5-yt-toolkit .adv-yt-input-group input { min-width: 100%; }
+  #tsxv5-yt-toolkit .adv-yt-btn { width: 100%; justify-content: center; }
+  #tsxv5-yt-toolkit .adv-yt-toast { right: 10px; left: 10px; bottom: 20px; text-align: center; }
+  #tsxv5-yt-toolkit .adv-yt-meta-item { flex-direction: column; gap: 4px; }
+  #tsxv5-yt-toolkit .adv-yt-meta-item strong { min-width: auto; }
+}
+@media (max-width: 768px) {
+  #tsxv5-yt-toolkit .adv-yt-result-grid { grid-template-columns: 1fr; }
+  #tsxv5-yt-toolkit .adv-yt-extra-section { grid-template-columns: 1fr; }
+}
+@media (min-width: 1024px) {
+  #tsxv5-yt-toolkit .adv-yt-container { max-width: 1100px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #tsxv5-yt-toolkit *, #tsxv5-yt-toolkit *::before, #tsxv5-yt-toolkit *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+
+<div class="adv-yt-container">
+
+  <div class="adv-yt-header">
+    <h2>All-in-One YouTube Tool Kit</h2>
+    <p>Thumbnail Downloader • Title Generator • Tags Extractor • SEO Description Builder • 100% Free & Always Working</p>
+    <div class="adv-yt-badges">
+      <span class="adv-yt-badge">🔥 No API Key</span>
+      <span class="adv-yt-badge">⚡ Instant Results</span>
+      <span class="adv-yt-badge">🛡️ Privacy Safe</span>
+      <span class="adv-yt-badge">✅ Always Working</span>
+    </div>
+  </div>
+
+  <div class="adv-yt-card">
+    <div class="adv-yt-input-group">
+      <input type="text" id="tsxv5-advYtInput" placeholder="Paste YouTube URL here... (e.g. https://youtu.be/... or https://www.youtube.com/watch?v=...)" autocomplete="off" aria-label="YouTube video URL">
+      <button class="adv-yt-btn" id="tsxv5-advYtFetchBtn" aria-label="Analyze Video">🔍 Analyze Video</button>
+    </div>
+
+    <div id="tsxv5-advYtResultArea">
+      <div class="adv-yt-loading" id="tsxv5-advYtLoader" style="display: none;">
+        <div class="adv-yt-spinner-lg"></div>
+        <p>Fetching video details...</p>
+      </div>
+
+      <div class="adv-yt-result-grid" id="tsxv5-advYtResultGrid" style="display: none;">
+        <div class="adv-yt-thumb-box">
+          <div id="tsxv5-advYtThumbContainer">
+            <img id="tsxv5-advYtThumbImg" src="#" alt="Video Thumbnail" style="display: none;" loading="lazy" decoding="async">
+            <div class="adv-yt-placeholder" id="tsxv5-advYtPlaceholder">
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 8l6 4-6 4V8z"/></svg>
+              <span>Thumbnail Preview</span>
+            </div>
+          </div>
+          <div class="adv-yt-thumb-meta">
+            <div class="adv-yt-meta-item"><strong>Title</strong><span id="tsxv5-advYtTitle">-</span></div>
+            <div class="adv-yt-meta-item"><strong>Channel</strong><span id="tsxv5-advYtChannel">-</span></div>
+            <div class="adv-yt-meta-item"><strong>Video ID</strong><span id="tsxv5-advYtVideoId">-</span></div>
+            <div class="adv-yt-meta-item"><strong>Watch</strong><span id="tsxv5-advYtWatchLink">-</span></div>
+          </div>
+          <button class="adv-yt-download-btn" id="tsxv5-advYtDownloadBtn" disabled>⬇️ Download Thumbnail (HD)</button>
+        </div>
+
+        <div class="adv-yt-gen-box">
+          <h3>🎯 Viral Title Generator <span>10 Ideas</span></h3>
+          <div id="tsxv5-advYtTitleList">
+            <p style="color: var(--yt-text-muted); font-size: 0.95rem;">Click "Analyze Video" to generate viral titles.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="adv-yt-extra-section" id="tsxv5-advYtExtraSection" style="display: none;">
+        <div class="adv-yt-tags-box">
+          <h3>🏷️ Smart Tags (Auto-Generated)</h3>
+          <div class="adv-yt-tags-list" id="tsxv5-advYtTagsList"></div>
+          <button class="adv-yt-copy-all-btn" id="tsxv5-advYtCopyTagsBtn">📋 Copy All Tags</button>
+        </div>
+        <div class="adv-yt-desc-box">
+          <h3>📝 SEO Description (Auto-Generated)</h3>
+          <div class="adv-yt-desc-text" id="tsxv5-advYtDescText">Description will appear here after analysis.</div>
+          <button class="adv-yt-copy-all-btn" id="tsxv5-advYtCopyDescBtn">📋 Copy Description</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="adv-yt-guide">
+    <h2>📖 How to Use This YouTube Tool Kit</h2>
+    <p>Paste any YouTube URL, click Analyze, and instantly get thumbnail, viral titles, tags, and SEO description — all in one place.</p>
+    <ol class="adv-yt-steps">
+      <li><strong>Paste URL:</strong> Copy any YouTube video link (standard, short, or Shorts format) and paste it into the input field.</li>
+      <li><strong>Click Analyze:</strong> The tool fetches metadata, generates 10 title variations, extracts smart tags, and builds an SEO description.</li>
+      <li><strong>Download or Copy:</strong> Download the HD thumbnail or copy titles, tags, and description with one click for your own videos.</li>
+    </ol>
+    <h3>🔐 Privacy</h3>
+    <p>All processing happens locally in your browser. No data is sent to any server.</p>
+    <p><strong>Tip:</strong> The thumbnail downloader tries maxres first, then falls back to hqdefault automatically.</p>
+  </div>
+
+  <div class="adv-yt-guide" style="margin-top: 0;">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="adv-yt-faq">
+      <div class="adv-yt-faq-item">
+        <div class="adv-yt-faq-q">Is this tool really free?</div>
+        <div class="adv-yt-faq-a">Yes, 100% free. No hidden charges, no premium version, no usage limits.</div>
+      </div>
+      <div class="adv-yt-faq-item">
+        <div class="adv-yt-faq-q">Will downloading thumbnails cause copyright issues?</div>
+        <div class="adv-yt-faq-a">Thumbnails are publicly available on YouTube. Personal use, research, or reference is generally acceptable. For commercial use, seek permission.</div>
+      </div>
+      <div class="adv-yt-faq-item">
+        <div class="adv-yt-faq-q">Can I analyze YouTube Shorts?</div>
+        <div class="adv-yt-faq-a">Yes! Paste any Shorts URL. The tool recognizes the format automatically.</div>
+      </div>
+      <div class="adv-yt-faq-item">
+        <div class="adv-yt-faq-q">Why doesn't duration show?</div>
+        <div class="adv-yt-faq-a">YouTube removed duration data from public APIs since 2021. Click 'Watch Link' to view duration on YouTube.</div>
+      </div>
+      <div class="adv-yt-faq-item">
+        <div class="adv-yt-faq-q">Is my data safe?</div>
+        <div class="adv-yt-faq-a">Absolutely! All processing happens in your browser. No data is collected or stored.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="adv-yt-links">
+    <h3>🔗 Related AI Comparison Tools</h3>
+    <div class="adv-yt-link-grid">
+      <a href="https://www.toolsx.in/2026/08/us-vs-china-ai-models-2026-comparison.html" class="adv-yt-link-card">
+        <span class="emoji">🌍</span>
+        <strong>US vs China AI Models</strong>
+        <span>Compare top AI models from US and China in 2026</span>
+      </a>
+      <a href="https://www.toolsx.in/2026/08/meta-llama-vs-mistral-ai-open-source.html" class="adv-yt-link-card">
+        <span class="emoji">🦙</span>
+        <strong>Meta Llama vs Mistral</strong>
+        <span>Which open-source AI model wins?</span>
+      </a>
+      <a href="https://www.toolsx.in/2026/08/microsoft-copilot-vs-deepseek-dev.html" class="adv-yt-link-card">
+        <span class="emoji">⚔️</span>
+        <strong>Copilot vs DeepSeek</strong>
+        <span>Developer-friendly AI assistant comparison</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="adv-yt-footer">
+    Made with ❤️ by Tools-X • © 2026 • 100% Free & Open Source
+  </div>
+
+</div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  
+  const input = document.getElementById('tsxv5-advYtInput');
+  const fetchBtn = document.getElementById('tsxv5-advYtFetchBtn');
+  const loader = document.getElementById('tsxv5-advYtLoader');
+  const resultGrid = document.getElementById('tsxv5-advYtResultGrid');
+  const thumbImg = document.getElementById('tsxv5-advYtThumbImg');
+  const placeholder = document.getElementById('tsxv5-advYtPlaceholder');
+  const ytTitle = document.getElementById('tsxv5-advYtTitle');
+  const ytChannel = document.getElementById('tsxv5-advYtChannel');
+  const ytVideoId = document.getElementById('tsxv5-advYtVideoId');
+  const ytWatchLink = document.getElementById('tsxv5-advYtWatchLink');
+  const downloadBtn = document.getElementById('tsxv5-advYtDownloadBtn');
+  const titleList = document.getElementById('tsxv5-advYtTitleList');
+  const extraSection = document.getElementById('tsxv5-advYtExtraSection');
+  const tagsList = document.getElementById('tsxv5-advYtTagsList');
+  const descText = document.getElementById('tsxv5-advYtDescText');
+  const copyTagsBtn = document.getElementById('tsxv5-advYtCopyTagsBtn');
+  const copyDescBtn = document.getElementById('tsxv5-advYtCopyDescBtn');
+  
+  let currentVideoData = null;
+  let currentThumbUrl = null;
+  
+  function showToast(message, type) {
+    type = type || 'success';
+    const existing = document.querySelector('#tsxv5-yt-toolkit .adv-yt-toast');
+    if (existing) existing.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = 'adv-yt-toast ' + type;
+    const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+    toast.textContent = (icons[type] || '') + ' ' + message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s';
+        setTimeout(() => toast.remove(), 300);
+      }
+    }, 3000);
+  }
+  
+  function getVideoId(url) {
+    if (!url) return null;
+    url = url.trim();
+    
+    if (/^[a-zA-Z0-9_-]{11}$/.test(url)) return url;
+    
+    const patterns = [
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/|youtube\.com\/embed\/|youtube\.com\/v\/)([^&?#\/]+)/,
+      /youtube\.com\/watch\?.*v=([^&?#\/]+)/
+    ];
+    
+    for (let p of patterns) {
+      const match = url.match(p);
+      if (match && match[1] && match[1].length === 11) {
+        return match[1];
+      }
+    }
+    return null;
+  }
+  
+  function generateTitles(originalTitle) {
+    if (!originalTitle || originalTitle === '-' || originalTitle === 'Untitled Video') {
+      return ['Please analyze a valid video first.'];
+    }
+    
+    const prefixes = [
+      "How to", "The Truth About", "Why I", "Watch This:", "Top 5",
+      "Amazing", "Complete Guide:", "Never Seen Before:", "Expert Tips:",
+      "Don't Miss:", "Inside:", "The Real Story:", "Mind-Blowing",
+      "Easy Hack:", "You Won't Believe", "Best of", "Secrets of"
+    ];
+    
+    const suffixes = [
+      "(2026)", "You Must Watch", "Guaranteed", "Shocking",
+      "Works 100%", "Don't Skip", "Must See", "In 5 Minutes",
+      "Viral Now", "Game Changer"
+    ];
+    
+    let cleanTitle = originalTitle.replace(/[^a-zA-Z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+    let words = cleanTitle.split(' ');
+    let mainPhrase = words.slice(0, Math.min(6, words.length)).join(' ');
+    
+    if (mainPhrase.length < 5) mainPhrase = cleanTitle;
+    
+    let titles = [];
+    for (let i = 0; i < 10; i++) {
+      let prefix = prefixes[i % prefixes.length];
+      let suffix = suffixes[i % suffixes.length];
+      let variant;
+      
+      if (i % 3 === 0) variant = `${prefix} ${mainPhrase} ${suffix}`;
+      else if (i % 3 === 1) variant = `${mainPhrase} - ${prefix} ${suffix}`;
+      else variant = `${prefix} ${mainPhrase}` + (i % 2 === 0 ? ` ${suffix}` : '');
+      
+      titles.push(variant.slice(0, 70));
+    }
+    return titles;
+  }
+  
+  function generateSmartTags(title, channel) {
+    const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'should', 'could', 'may', 'might', 'can', 'this', 'that', 'these', 'those', 'it', 'its', 'i', 'you', 'he', 'she', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'my', 'your', 'his', 'our', 'their', 'what', 'which', 'who', 'whom', 'how', 'when', 'where', 'why', 'if', 'then', 'than', 'so', 'as', 'not', 'no', 'from', 'into', 'about']);
+    
+    const combined = (title + ' ' + channel).toLowerCase();
+    const words = combined.replace(/[^a-zA-Z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length > 2 && !stopWords.has(w));
+    
+    const uniqueWords = [...new Set(words)];
+    let tags = [];
+    
+    uniqueWords.slice(0, 8).forEach(w => tags.push(w));
+    
+    for (let i = 0; i < uniqueWords.length - 1 && tags.length < 15; i++) {
+      tags.push(uniqueWords[i] + ' ' + uniqueWords[i + 1]);
+    }
+    
+    if (channel && channel !== 'Unknown Channel' && channel.length > 2) {
+      tags.push(channel.toLowerCase());
+    }
+    
+    tags.push('2026');
+    tags.push('tutorial');
+    tags.push('how to');
+    tags.push('youtube');
+    
+    return [...new Set(tags)].slice(0, 20);
+  }
+  
+  function generateDescription(title, channel, tags) {
+    const tagString = tags.slice(0, 10).map(t => '#' + t.replace(/\s+/g, '')).join(' ');
+    
+    return `📺 ${title}
+
+${channel !== 'Unknown Channel' ? '🎥 Channel: ' + channel + '\n\n' : ''}Welcome to this amazing video! In this video, you'll discover incredible content that will blow your mind.
+
+🔥 What you'll learn:
+• Key insights and tips
+• Step-by-step explanations
+• Real-world examples
+• Practical applications
+
+📌 Don't forget to LIKE, SUBSCRIBE, and hit the BELL icon for more amazing content!
+
+🔗 Related Topics:
+${tags.slice(0, 5).map(t => '• ' + t).join('\n')}
+
+${tagString}
+
+---
+© ${new Date().getFullYear()} | All Rights Reserved
+
+#YouTube #Viral #Trending ${tagString}`;
+  }
+  
+  async function fetchVideoData() {
+    const url = input.value.trim();
+    if (!url) {
+      showToast('Please paste a YouTube URL!', 'error');
+      return;
+    }
+    
+    const videoId = getVideoId(url);
+    if (!videoId) {
+      showToast('Invalid YouTube URL. Please check and try again.', 'error');
+      return;
+    }
+    
+    loader.style.display = 'block';
+    resultGrid.style.display = 'none';
+    extraSection.style.display = 'none';
+    downloadBtn.disabled = true;
+    fetchBtn.disabled = true;
+    fetchBtn.innerHTML = '<span class="adv-yt-btn-spinner"></span> Analyzing...';
+    
+    currentVideoData = null;
+    
+    try {
+      let title = 'Untitled Video';
+      let channel = 'Unknown Channel';
+      
+      try {
+        const noembedRes = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`);
+        if (noembedRes.ok) {
+          const noembedData = await noembedRes.json();
+          if (noembedData.title) title = noembedData.title;
+          if (noembedData.author_name) channel = noembedData.author_name;
+        }
+      } catch (e) {
+        console.log('noembed failed, trying oEmbed');
+      }
+      
+      if (title === 'Untitled Video') {
+        try {
+          const oembedRes = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`);
+          if (oembedRes.ok) {
+            const oembedData = await oembedRes.json();
+            if (oembedData.title) title = oembedData.title;
+            if (oembedData.author_name) channel = oembedData.author_name;
+          }
+        } catch (e) {
+          console.log('oEmbed also failed');
+        }
+      }
+      
+      const thumbUrls = [
+        `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+        `https://img.youtube.com/vi/${videoId}/sddefault.jpg`,
+        `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+        `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
+      ];
+      
+      const tags = generateSmartTags(title, channel);
+      const description = generateDescription(title, channel, tags);
+      
+      currentVideoData = {
+        id: videoId,
+        title: title,
+        channel: channel,
+        thumbUrls: thumbUrls,
+        tags: tags,
+        description: description,
+        watchUrl: `https://www.youtube.com/watch?v=${videoId}`
+      };
+      
+      displayVideoData(currentVideoData);
+      
+      loader.style.display = 'none';
+      resultGrid.style.display = 'grid';
+      extraSection.style.display = 'grid';
+      showToast('Video analyzed successfully!', 'success');
+      
+    } catch (error) {
+      console.error(error);
+      loader.style.display = 'none';
+      showToast('Failed to analyze video. Please check the URL.', 'error');
+    } finally {
+      fetchBtn.disabled = false;
+      fetchBtn.innerHTML = '🔍 Analyze Video';
+    }
+  }
+  
+  function displayVideoData(data) {
+    ytTitle.textContent = data.title || '-';
+    ytChannel.textContent = data.channel || '-';
+    ytVideoId.textContent = data.id || '-';
+    
+    const watchLink = document.createElement('a');
+    watchLink.href = data.watchUrl;
+    watchLink.target = '_blank';
+    watchLink.rel = 'noopener noreferrer';
+    watchLink.textContent = 'Open on YouTube ↗';
+    watchLink.style.cssText = 'color: #ef4444; text-decoration: none; font-weight: 600;';
+    ytWatchLink.innerHTML = '';
+    ytWatchLink.appendChild(watchLink);
+    
+    let currentThumbIndex = 0;
+    currentThumbUrl = data.thumbUrls[0];
+    
+    thumbImg.style.display = 'block';
+    placeholder.style.display = 'none';
+    thumbImg.src = currentThumbUrl;
+    downloadBtn.disabled = false;
+    
+    thumbImg.onerror = function() {
+      currentThumbIndex++;
+      if (currentThumbIndex < data.thumbUrls.length) {
+        this.src = data.thumbUrls[currentThumbIndex];
+        currentThumbUrl = data.thumbUrls[currentThumbIndex];
+      } else {
+        this.style.display = 'none';
+        placeholder.style.display = 'flex';
+        downloadBtn.disabled = true;
+      }
+    };
+    
+    tagsList.innerHTML = '';
+    if (data.tags && data.tags.length > 0) {
+      data.tags.forEach(tag => {
+        const span = document.createElement('span');
+        span.className = 'adv-yt-tag';
+        span.textContent = tag;
+        tagsList.appendChild(span);
+      });
+    } else {
+      tagsList.innerHTML = '<p style="color: var(--yt-text-muted);">No tags generated</p>';
+    }
+    
+    descText.textContent = data.description || 'Description not available';
+    
+    if (data.title && data.title !== '-' && data.title !== 'Untitled Video') {
+      const titles = generateTitles(data.title);
+      titleList.innerHTML = '';
+      titles.forEach((t, index) => {
+        const div = document.createElement('div');
+        div.className = 'adv-yt-title-suggestion';
+        
+        const textSpan = document.createElement('span');
+        textSpan.className = 'adv-yt-title-text';
+        textSpan.textContent = `${index + 1}. ${t}`;
+        
+        const btn = document.createElement('button');
+        btn.className = 'adv-yt-copy-btn-sm';
+        btn.textContent = '📋 Copy';
+        btn.onclick = function(e) {
+          e.stopPropagation();
+          copyToClipboard(t, `Title ${index + 1} copied!`, btn, '📋 Copy');
+        };
+        
+        div.appendChild(textSpan);
+        div.appendChild(btn);
+        titleList.appendChild(div);
+      });
+    }
+  }
+  
+  function copyToClipboard(text, successMsg, btn, originalText) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(successMsg, 'success');
+        if (btn && originalText) {
+          btn.textContent = '✅ Done';
+          setTimeout(() => { btn.textContent = originalText; }, 1500);
+        }
+      }).catch(() => fallbackCopy(text, successMsg, btn, originalText));
+    } else {
+      fallbackCopy(text, successMsg, btn, originalText);
+    }
+  }
+  
+  function fallbackCopy(text, successMsg, btn, originalText) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast(successMsg, 'success');
+      if (btn && originalText) {
+        btn.textContent = '✅ Done';
+        setTimeout(() => { btn.textContent = originalText; }, 1500);
+      }
+    } catch (e) {
+      showToast('Copy failed', 'error');
+    }
+  }
+  
+  downloadBtn.addEventListener('click', async function() {
+    if (!currentThumbUrl) return;
+    
+    this.disabled = true;
+    this.innerHTML = '<span class="adv-yt-btn-spinner"></span> Downloading...';
+    
+    try {
+      const response = await fetch(currentThumbUrl, { mode: 'cors' });
+      if (!response.ok) throw new Error('Fetch failed');
+      
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `thumbnail_${currentVideoData?.id || 'video'}_${Date.now()}.jpg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+      
+      showToast('Thumbnail downloaded!', 'success');
+    } catch (e) {
+      window.open(currentThumbUrl, '_blank');
+      showToast('Opened in new tab — Right-click and "Save image as..."', 'info');
+    } finally {
+      this.disabled = false;
+      this.innerHTML = '⬇️ Download Thumbnail (HD)';
+    }
+  });
+  
+  copyTagsBtn.addEventListener('click', function() {
+    const tags = Array.from(tagsList.querySelectorAll('.adv-yt-tag')).map(t => t.textContent).join(', ');
+    if (!tags) {
+      showToast('No tags to copy!', 'error');
+      return;
+    }
+    copyToClipboard(tags, 'All tags copied!', this, '📋 Copy All Tags');
+  });
+  
+  copyDescBtn.addEventListener('click', function() {
+    const desc = descText.textContent;
+    if (!desc || desc === 'Description will appear here after analysis.') {
+      showToast('No description to copy!', 'error');
+      return;
+    }
+    copyToClipboard(desc, 'Description copied!', this, '📋 Copy Description');
+  });
+  
+  fetchBtn.addEventListener('click', fetchVideoData);
+  
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      fetchVideoData();
+    }
+  });
+  
+  document.querySelectorAll('#tsxv5-yt-toolkit .adv-yt-faq-item').forEach(item => {
+    item.addEventListener('click', () => item.classList.toggle('open'));
+  });
+  
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

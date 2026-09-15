@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>AI Avatar Dance Maker – Sync Photos to Music Beats – ToolsX App</title>
+<meta name="description" content="Turn a full-body photo into a dancing avatar synced to any music beat. Free AI dance video maker, no editing skills needed.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>AI Avatar Dance Maker – Sync Photos to Music Beats</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-dv" class="tsxv5-dv-wrapper">
+
+<style>
+/* ══════════════════════════════════════════════════════════════
+   TOOLS-X AI DANCE VIDEO MAKER v5.0 — THEME-AWARE
+   Light mode = warm pink/purple (default)
+   Dark mode = deep dark via 7 Blogger selectors
+   Stage canvas = intentionally always-dark (video surface)
+   ══════════════════════════════════════════════════════════════ */
+#tsxv5-dv{
+  --dv-bg:#fdf2f8;--dv-bg2:#fae8ff;--dv-bg3:#f5f3ff;
+  --dv-surface:rgba(255,255,255,0.85);--dv-surface2:rgba(255,255,255,0.9);
+  --dv-drop-bg:rgba(255,255,255,0.8);
+  --dv-text:#1e293b;--dv-text-dim:#64748b;--dv-text-muted:#94a3b8;
+  --dv-primary:#db2777;--dv-primary-dark:#be185d;
+  --dv-secondary:#7c3aed;--dv-accent:#059669;
+  --dv-border:rgba(219,39,119,0.25);
+  --dv-shadow:0 8px 32px rgba(219,39,119,0.12);
+  --dv-error:#dc2626;--dv-error-bg:rgba(220,38,38,0.08);--dv-error-border:rgba(220,38,38,0.3);
+  --dv-radius:16px;
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:transparent;color:var(--dv-text);
+  transition:background .3s,color .3s;
+}
+body.dark-mode #tsxv5-dv,
+html.dark-mode #tsxv5-dv,
+[data-theme="dark"] #tsxv5-dv,
+body[data-theme="dark"] #tsxv5-dv,
+html[data-theme="dark"] #tsxv5-dv,
+.dark-mode #tsxv5-dv,
+.night-mode #tsxv5-dv{
+  --dv-bg:#0a0015;--dv-bg2:#1a0b2e;--dv-bg3:#16082b;
+  --dv-surface:rgba(26,11,46,0.6);--dv-surface2:rgba(0,0,0,0.4);
+  --dv-drop-bg:rgba(0,0,0,0.3);
+  --dv-text:#f0e7ff;--dv-text-dim:#a89bc9;--dv-text-muted:#64748b;
+  --dv-primary:#ff006e;--dv-primary-dark:#c70058;
+  --dv-secondary:#8338ec;--dv-accent:#06ffa5;
+  --dv-border:rgba(255,0,110,0.25);
+  --dv-shadow:0 8px 32px rgba(255,0,110,0.2);
+  --dv-error:#ff8fab;--dv-error-bg:rgba(255,0,110,0.1);--dv-error-border:rgba(255,0,110,0.3);
+}
+#tsxv5-dv *,#tsxv5-dv *::before,#tsxv5-dv *::after{box-sizing:border-box;margin:0;padding:0;max-width:100%;}
+#tsxv5-dv img,#tsxv5-dv canvas,#tsxv5-dv video{max-width:100%;height:auto;display:block;}
+
+#tsxv5-dv .dv{
+  max-width:960px;margin:0 auto;padding:24px;
+  background:linear-gradient(135deg,var(--dv-bg) 0%,var(--dv-bg2) 50%,var(--dv-bg3) 100%);
+  border-radius:24px;color:var(--dv-text) !important;position:relative;overflow:hidden;
+  box-shadow:var(--dv-shadow);border:1px solid var(--dv-border);
+}
+#tsxv5-dv .dv::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 20% 20%,rgba(219,39,119,0.08) 0%,transparent 50%),
+             radial-gradient(circle at 80% 80%,rgba(124,58,237,0.08) 0%,transparent 50%);
+  pointer-events:none;
+}
+body.dark-mode #tsxv5-dv .dv::before,[data-theme="dark"] #tsxv5-dv .dv::before{
+  background:radial-gradient(circle at 20% 20%,rgba(255,0,110,0.15) 0%,transparent 50%),
+             radial-gradient(circle at 80% 80%,rgba(131,56,236,0.15) 0%,transparent 50%);
+}
+
+#tsxv5-dv .dv-breadcrumb{
+  padding:14px 18px;background:var(--dv-surface);border-radius:10px;
+  font-size:.875rem;color:var(--dv-text-dim) !important;margin-bottom:20px;
+  position:relative;z-index:2;backdrop-filter:blur(10px);border:1px solid var(--dv-border);
+}
+#tsxv5-dv .dv-breadcrumb a{color:var(--dv-accent) !important;text-decoration:none;}
+#tsxv5-dv .dv-breadcrumb a:hover{color:var(--dv-primary) !important;}
+
+#tsxv5-dv .dv-header{text-align:center;padding:40px 20px;position:relative;z-index:2;}
+#tsxv5-dv .dv-icon{font-size:4rem;margin-bottom:16px;animation:tsxv5DvFloat 3s ease-in-out infinite;display:inline-block;}
+@keyframes tsxv5DvFloat{0%,100%{transform:translateY(0) rotate(-5deg);}50%{transform:translateY(-10px) rotate(5deg);}}
+#tsxv5-dv .dv-header h2{
+  font-size:2.2rem;font-weight:900;margin-bottom:12px;line-height:1.2;
+  background:linear-gradient(90deg,var(--dv-primary),var(--dv-secondary),var(--dv-accent));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+#tsxv5-dv .dv-header-sub{color:var(--dv-text-dim) !important;font-size:1rem;max-width:600px;margin:0 auto;line-height:1.6;}
+#tsxv5-dv .dv-badges{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap;}
+#tsxv5-dv .dv-badge{
+  background:rgba(219,39,119,0.08);border:1px solid var(--dv-border);color:var(--dv-primary) !important;
+  padding:6px 16px;border-radius:50px;font-size:.78rem;font-weight:700;
+}
+
+#tsxv5-dv .dv-panel{
+  background:var(--dv-surface);backdrop-filter:blur(10px);border:1px solid var(--dv-border);
+  border-radius:var(--dv-radius);padding:24px;margin-bottom:20px;position:relative;z-index:2;
+}
+#tsxv5-dv .dv-panel-title{
+  font-size:1rem;font-weight:700;color:var(--dv-accent) !important;margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;
+}
+
+/* Music Grid */
+#tsxv5-dv .dv-music-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;}
+#tsxv5-dv .dv-music-item{
+  background:var(--dv-drop-bg);border:2px solid var(--dv-border);border-radius:12px;padding:16px;
+  text-align:center;cursor:pointer;transition:all .3s ease;min-height:90px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-family:inherit;
+  min-height:44px;
+}
+#tsxv5-dv .dv-music-item:hover{border-color:var(--dv-primary);transform:translateY(-3px);}
+#tsxv5-dv .dv-music-item.active{
+  border-color:var(--dv-accent);background:rgba(5,150,105,0.08);
+  box-shadow:0 0 20px rgba(5,150,105,0.2);
+}
+body.dark-mode #tsxv5-dv .dv-music-item.active,[data-theme="dark"] #tsxv5-dv .dv-music-item.active{
+  background:rgba(6,255,165,0.1);box-shadow:0 0 20px rgba(6,255,165,0.3);
+}
+#tsxv5-dv .dv-music-icon{font-size:1.8rem;}
+#tsxv5-dv .dv-music-name{font-size:.85rem;font-weight:700;color:var(--dv-text) !important;}
+#tsxv5-dv .dv-music-tag{font-size:.7rem;color:var(--dv-accent) !important;}
+
+/* Drop Zones */
+#tsxv5-dv .dv-drop{
+  width:100%;border:2px dashed var(--dv-border);border-radius:var(--dv-radius);padding:28px 20px;
+  text-align:center;cursor:pointer;transition:all .3s ease;background:var(--dv-drop-bg);
+  min-height:44px;
+}
+#tsxv5-dv .dv-drop:hover,#tsxv5-dv .dv-drop.drag{border-color:var(--dv-primary);background:rgba(219,39,119,0.05);}
+body.dark-mode #tsxv5-dv .dv-drop:hover,[data-theme="dark"] #tsxv5-dv .dv-drop:hover{background:rgba(255,0,110,0.08);}
+#tsxv5-dv .dv-drop-icon{font-size:2.5rem;display:block;margin-bottom:8px;}
+#tsxv5-dv .dv-drop-text{color:var(--dv-text) !important;font-weight:700;font-size:.95rem;display:block;}
+#tsxv5-dv .dv-drop-sub{color:var(--dv-text-dim) !important;font-size:.8rem;margin-top:4px;display:block;}
+
+#tsxv5-dv .dv-file-info{
+  display:none;margin-top:12px;padding:12px;background:rgba(5,150,105,0.08);
+  border:1px solid rgba(5,150,105,0.25);border-radius:10px;align-items:center;gap:10px;
+}
+body.dark-mode #tsxv5-dv .dv-file-info,[data-theme="dark"] #tsxv5-dv .dv-file-info{
+  background:rgba(6,255,165,0.08);border-color:rgba(6,255,165,0.25);
+}
+#tsxv5-dv .dv-file-info.show{display:flex;}
+#tsxv5-dv .dv-file-name{color:var(--dv-accent) !important;font-weight:700;font-size:.85rem;}
+#tsxv5-dv .dv-file-size{color:var(--dv-text-dim) !important;font-size:.75rem;}
+
+#tsxv5-dv .dv-preview-box{display:none;margin-top:16px;text-align:center;}
+#tsxv5-dv .dv-preview-box.show{display:block;}
+#tsxv5-dv .dv-preview-img{max-width:180px;max-height:220px;border-radius:12px;border:2px solid var(--dv-primary);box-shadow:0 8px 24px rgba(219,39,119,0.2);}
+
+/* Themes chips */
+#tsxv5-dv .dv-themes{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:16px;}
+#tsxv5-dv .dv-chip{
+  padding:10px 18px;border-radius:50px;border:1px solid var(--dv-border);background:var(--dv-drop-bg);
+  color:var(--dv-text-dim) !important;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .3s ease;font-family:inherit;
+  min-height:44px;
+}
+#tsxv5-dv .dv-chip:hover{border-color:var(--dv-primary);color:var(--dv-primary) !important;}
+#tsxv5-dv .dv-chip.active{
+  background:linear-gradient(135deg,var(--dv-primary),var(--dv-secondary));
+  color:#fff !important;border-color:transparent;
+}
+
+/* Status & Controls */
+#tsxv5-dv .dv-status{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+#tsxv5-dv .dv-status-item{
+  background:var(--dv-drop-bg);border:1px solid var(--dv-border);padding:6px 14px;
+  border-radius:50px;font-size:.8rem;color:var(--dv-text-dim) !important;
+}
+#tsxv5-dv .dv-val{color:var(--dv-accent) !important;font-weight:700;}
+#tsxv5-dv .dv-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+#tsxv5-dv .dv-btn{
+  padding:14px 28px;border:none;border-radius:50px;font-weight:700;cursor:pointer;
+  font-size:.9rem;transition:all .3s ease;min-height:48px;display:inline-flex;
+  align-items:center;gap:8px;font-family:inherit;
+}
+#tsxv5-dv .dv-btn-play{
+  background:linear-gradient(135deg,var(--dv-primary),var(--dv-primary-dark));
+  color:#fff !important;box-shadow:0 6px 20px rgba(219,39,119,0.3);
+}
+body.dark-mode #tsxv5-dv .dv-btn-play,[data-theme="dark"] #tsxv5-dv .dv-btn-play{box-shadow:0 6px 20px rgba(255,0,110,0.4);}
+#tsxv5-dv .dv-btn-play:hover{transform:translateY(-2px);}
+#tsxv5-dv .dv-btn-pause{background:var(--dv-surface2);color:var(--dv-text) !important;border:1px solid var(--dv-border);}
+#tsxv5-dv .dv-btn-rec{
+  background:linear-gradient(135deg,var(--dv-secondary),#6221c7);color:#fff !important;
+  box-shadow:0 6px 20px rgba(124,58,237,0.3);
+}
+body.dark-mode #tsxv5-dv .dv-btn-rec,[data-theme="dark"] #tsxv5-dv .dv-btn-rec{box-shadow:0 6px 20px rgba(131,56,236,0.4);}
+#tsxv5-dv .dv-btn-rec:hover{transform:translateY(-2px);}
+#tsxv5-dv .dv-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+#tsxv5-dv .dv-btn-ghost{background:transparent;color:var(--dv-text-dim) !important;border:1px solid var(--dv-border);}
+
+/* Progress */
+#tsxv5-dv .dv-progress{display:none;margin-top:16px;}
+#tsxv5-dv .dv-progress.show{display:block;}
+#tsxv5-dv .dv-progress-bar{height:8px;background:var(--dv-drop-bg);border-radius:50px;overflow:hidden;border:1px solid var(--dv-border);}
+#tsxv5-dv .dv-progress-fill{
+  height:100%;width:0%;background:linear-gradient(90deg,var(--dv-primary),var(--dv-accent));
+  border-radius:50px;transition:width .3s ease;
+}
+#tsxv5-dv .dv-progress-text{text-align:center;font-size:.8rem;color:var(--dv-text-dim) !important;margin-top:6px;}
+
+/* Error */
+#tsxv5-dv .dv-error{
+  display:none;background:var(--dv-error-bg);border:1px solid var(--dv-error-border);
+  border-radius:12px;padding:14px;margin-top:12px;color:var(--dv-error) !important;font-size:.9rem;text-align:center;
+}
+#tsxv5-dv .dv-error.show{display:block;}
+
+/* Stage — intentionally ALWAYS-DARK (video surface, like a video player screen) */
+#tsxv5-dv .dv-stage{
+  position:relative;width:100%;height:450px;border-radius:var(--dv-radius);overflow:hidden;
+  background:radial-gradient(ellipse at center,#1a0b2e,#0a0015);border:1px solid var(--dv-border);margin-top:16px;
+}
+#tsxv5-dv .dv-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+#tsxv5-dv .dv-hint{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;
+  color:#a89bc9 !important;font-size:1rem;padding:0 20px;pointer-events:none;
+}
+#tsxv5-dv .dv-hint.hide{display:none;}
+#tsxv5-dv .dv-rec-badge{
+  position:absolute;top:12px;left:12px;background:rgba(255,0,0,0.85);padding:6px 14px;
+  border-radius:50px;font-size:.75rem;font-weight:700;color:#fff !important;display:none;
+  align-items:center;gap:6px;z-index:10;
+}
+#tsxv5-dv .dv-rec-badge.show{display:flex;}
+#tsxv5-dv .dv-rec-dot{width:8px;height:8px;background:#fff;border-radius:50%;animation:tsxv5DvBlink 1s infinite;}
+@keyframes tsxv5DvBlink{50%{opacity:0;}}
+
+/* Download Section */
+#tsxv5-dv .dv-download{
+  display:none;margin-top:16px;padding:24px;background:rgba(5,150,105,0.05);
+  border:1px solid rgba(5,150,105,0.25);border-radius:var(--dv-radius);
+}
+body.dark-mode #tsxv5-dv .dv-download,[data-theme="dark"] #tsxv5-dv .dv-download{
+  background:rgba(6,255,165,0.05);border-color:rgba(6,255,165,0.25);
+}
+#tsxv5-dv .dv-download.show{display:block;}
+#tsxv5-dv .dv-download-msg{color:var(--dv-accent) !important;font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:16px;}
+#tsxv5-dv .dv-preview-vid{width:100%;border-radius:12px;max-height:260px;background:#000;margin-bottom:16px;}
+#tsxv5-dv .dv-dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+#tsxv5-dv .dv-dl-btn{
+  padding:14px;background:var(--dv-surface2);border:1px solid var(--dv-border);border-radius:12px;
+  color:var(--dv-text) !important;text-decoration:none;text-align:center;font-weight:700;
+  transition:all .3s ease;display:block;
+}
+#tsxv5-dv .dv-dl-btn:hover{background:rgba(219,39,119,0.1);border-color:var(--dv-primary);transform:translateY(-2px);text-decoration:none;}
+body.dark-mode #tsxv5-dv .dv-dl-btn:hover,[data-theme="dark"] #tsxv5-dv .dv-dl-btn:hover{background:rgba(255,0,110,0.15);}
+#tsxv5-dv .dv-dl-fmt{font-size:1.2rem;font-weight:900;display:block;color:var(--dv-accent) !important;}
+#tsxv5-dv .dv-dl-lbl{font-size:.75rem;color:var(--dv-text-dim) !important;}
+
+/* Content Sections */
+#tsxv5-dv .dv-how,#tsxv5-dv .dv-faq,#tsxv5-dv .dv-related{
+  margin-top:32px;padding:32px 24px;background:var(--dv-surface);border:1px solid var(--dv-border);
+  border-radius:var(--dv-radius);color:var(--dv-text) !important;backdrop-filter:blur(10px);
+}
+#tsxv5-dv .dv-how h2,#tsxv5-dv .dv-faq h2{
+  font-size:1.6rem;font-weight:800;margin-bottom:20px;line-height:1.3;
+  background:linear-gradient(90deg,var(--dv-primary),var(--dv-secondary));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+#tsxv5-dv .dv-how h3{font-size:1.2rem;font-weight:700;color:var(--dv-accent) !important;margin:24px 0 12px;line-height:1.4;}
+#tsxv5-dv .dv-how p,#tsxv5-dv .dv-faq-item p{font-size:1rem;line-height:1.7;color:var(--dv-text-dim) !important;margin-bottom:14px;}
+#tsxv5-dv .dv-how ul,#tsxv5-dv .dv-how ol{margin:14px 0 14px 24px;line-height:1.8;color:var(--dv-text-dim) !important;}
+#tsxv5-dv .dv-how li{margin-bottom:8px;color:var(--dv-text-dim) !important;}
+#tsxv5-dv .dv-how strong{color:var(--dv-accent) !important;}
+#tsxv5-dv .dv-how code{color:var(--dv-primary) !important;background:rgba(219,39,119,0.08);padding:2px 6px;border-radius:4px;}
+
+#tsxv5-dv .dv-steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px 0;}
+#tsxv5-dv .dv-step-card{background:var(--dv-surface2);padding:20px;border-radius:12px;border:1px solid var(--dv-border);}
+#tsxv5-dv .dv-step-num{
+  width:36px;height:36px;background:linear-gradient(135deg,var(--dv-primary),var(--dv-secondary));color:#fff !important;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:12px;
+}
+#tsxv5-dv .dv-step-title{font-weight:700;color:var(--dv-primary) !important;margin-bottom:8px;}
+#tsxv5-dv .dv-step-desc{font-size:.875rem;color:var(--dv-text-dim) !important;line-height:1.6;}
+
+/* FAQ */
+#tsxv5-dv .dv-faq-item{
+  margin-bottom:16px;padding:18px;background:var(--dv-surface2);border-radius:12px;
+  border:1px solid var(--dv-border);transition:all .2s;
+}
+#tsxv5-dv .dv-faq-item:hover{border-color:var(--dv-primary);}
+#tsxv5-dv .dv-faq-item h3{
+  font-weight:700;color:var(--dv-text) !important;margin-bottom:8px;font-size:1rem;
+}
+#tsxv5-dv .dv-faq-item p{color:var(--dv-text-dim) !important;line-height:1.7;}
+
+/* Footer */
+#tsxv5-dv .dv-footer{padding:24px;text-align:center;margin-top:24px;border-top:1px solid var(--dv-border);}
+#tsxv5-dv .dv-footer p{color:var(--dv-text-dim) !important;font-size:.875rem;font-style:italic;}
+#tsxv5-dv .dv-footer a{color:var(--dv-accent) !important;text-decoration:none;}
+
+/* Related */
+#tsxv5-dv .dv-related-title{color:var(--dv-accent) !important;font-size:1.2rem;font-weight:700;margin-bottom:18px;text-transform:uppercase;letter-spacing:1px;}
+#tsxv5-dv .dv-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px;}
+#tsxv5-dv .dv-related-link{
+  background:var(--dv-surface2);border:1px solid var(--dv-border);padding:18px;text-decoration:none;
+  transition:all .3s;display:flex;align-items:center;gap:12px;border-radius:var(--dv-radius);
+  min-height:44px;
+}
+#tsxv5-dv .dv-related-link:hover{border-color:var(--dv-primary);transform:translateY(-3px);box-shadow:0 8px 24px rgba(219,39,119,0.15);text-decoration:none;}
+body.dark-mode #tsxv5-dv .dv-related-link:hover,[data-theme="dark"] #tsxv5-dv .dv-related-link:hover{box-shadow:0 8px 24px rgba(255,0,110,0.25);}
+#tsxv5-dv .dv-related-icon{font-size:2rem;flex-shrink:0;}
+#tsxv5-dv .dv-related-link strong{color:var(--dv-accent) !important;display:block;font-size:.95rem;margin-bottom:4px;}
+#tsxv5-dv .dv-related-link span{color:var(--dv-text-dim) !important;font-size:.82rem;line-height:1.5;}
+
+@media(max-width:640px){
+  #tsxv5-dv .dv{padding:16px;border-radius:16px;}
+  #tsxv5-dv .dv-header h2{font-size:1.6rem;}
+  #tsxv5-dv .dv-music-grid{grid-template-columns:repeat(2,1fr);}
+  #tsxv5-dv .dv-stage{height:360px;}
+  #tsxv5-dv .dv-controls{flex-direction:column;}
+  #tsxv5-dv .dv-btn{width:100%;justify-content:center;}
+  #tsxv5-dv .dv-how,#tsxv5-dv .dv-faq,#tsxv5-dv .dv-related{padding:20px 16px;}
+  #tsxv5-dv .dv-related-grid{grid-template-columns:1fr;}
+  #tsxv5-dv .dv-dl-grid{grid-template-columns:1fr;}
+}
+@media(max-width:400px){
+  #tsxv5-dv .dv-music-grid{grid-template-columns:1fr;}
+}
+@media(prefers-reduced-motion:reduce){#tsxv5-dv *,#tsxv5-dv *::before,#tsxv5-dv *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+</style>
+
+<!-- SEO Schema: SoftwareApplication -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AI Dance Video Maker - Photo Dance Beat-Sync","applicationCategory":"MultimediaApplication","operatingSystem":"Any","browserRequirements":"Modern browser with JavaScript, HTML5 Canvas, Web Audio API, MediaRecorder","description":"Free AI dance video generator that converts your photo into a dancing video with beat-sync and stylised mouth-sync effects. Built-in copyright-free music, 5 themes, HD/SD WebM export. 100% offline browser processing with 4-layer file security.","featureList":["Beat-sync dance moves driven by audio frequency analysis","Stylised mouth-sync effect (volume-based, no face tracking)","5 themes (Auto, Bhajan, Romantic, Energetic, Party)","Built-in copyright-free procedural music","Custom MP3/WAV upload support","HD and SD WebM video export","4-layer file validation (extension + MIME + size + magic bytes)","100% offline browser processing","Object URL cleanup for memory safety","MediaRecorder API for video capture"]}
+</script>
+
+<!-- SEO Schema: HowTo -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Create AI Dance Videos","description":"Step-by-step guide to converting your photo into a dance video with beat-sync and mouth-sync effects.","totalTime":"PT5M","step":[{"@type":"HowToStep","position":1,"name":"Choose Music","text":"Select from built-in copyright-free tracks or upload your own MP3/WAV file."},{"@type":"HowToStep","position":2,"name":"Upload Photo","text":"Upload a clear PNG/JPEG photo (max 5MB)."},{"@type":"HowToStep","position":3,"name":"Select Theme","text":"Choose a theme like Auto, Bhajan, Romantic, Energetic, or Party."},{"@type":"HowToStep","position":4,"name":"Play Preview","text":"Press Play to see the dancer move with beat-sync and mouth-sync."},{"@type":"HowToStep","position":5,"name":"Record Video","text":"Click Record Video to capture the performance."},{"@type":"HowToStep","position":6,"name":"Download","text":"Download the result as HD or SD WebM video."}]}
+</script>
+
+<!-- SEO Schema: FAQPage -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this tool really free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free. No hidden charges, no premium version, no credit system. You can generate and download unlimited videos for personal or commercial use."}},{"@type":"Question","name":"Is my photo uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. The photo is used only in your browser's memory. No server upload, complete privacy."}},{"@type":"Question","name":"What format is the downloaded video?","acceptedAnswer":{"@type":"Answer","text":"WebM format (VP9 codec + Opus audio). Easy to upload to YouTube, WhatsApp, Instagram, Facebook. HD and SD quality options available."}},{"@type":"Question","name":"Can I get a copyright strike?","acceptedAnswer":{"@type":"Answer","text":"Built-in music tracks are procedurally synthesized — 100% copyright-free and royalty-free. When uploading your own song, ensure it's copyright-free or you have the rights."}},{"@type":"Question","name":"Is mouth-sync real face tracking?","acceptedAnswer":{"@type":"Answer","text":"No. It's a lightweight stylised effect based on audio volume. Real face tracking would need heavy AI models. Our approach is 100% offline, battery-friendly, and privacy-safe."}},{"@type":"Question","name":"Does recording work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes — Chrome, Edge, Samsung Internet (Android) and iOS 15+ Safari support MediaRecorder. Keep the screen on during recording."}},{"@type":"Question","name":"What is the maximum video length?","acceptedAnswer":{"@type":"Answer","text":"Video length depends on your audio. Recording stops automatically when the song ends and the video downloads. Built-in tracks are 15-30 seconds."}},{"@type":"Question","name":"Can I use multiple photos?","acceptedAnswer":{"@type":"Answer","text":"Currently one photo per video for single-dancer focus. For multiple photos, create separate videos and combine them in a video editor."}}]}
+</script>
+
+<article class="dv" id="tsxv5-dvApp">
+
+  <nav class="dv-breadcrumb" aria-label="Breadcrumb">
+    <a href="https://www.toolsx.in/">Home</a> &gt; AI Dance Video Maker
+  </nav>
+
+  <header class="dv-header">
+    <div class="dv-icon" aria-hidden="true">🕺</div>
+    <h2>AI Dance Video Maker</h2>
+    <p class="dv-header-sub">Turn your photo into a dancing video with automatic beat-sync moves and stylised mouth-sync!</p>
+    <div class="dv-badges">
+      <span class="dv-badge">🎯 Beat-Sync</span>
+      <span class="dv-badge">👄 Mouth-Sync</span>
+      <span class="dv-badge">📴 100% Offline</span>
+      <span class="dv-badge">🎵 Free Music</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="dv-panel">
+      <div class="dv-panel-title">🎵 Choose Music (Copyright-Free)</div>
+      <div class="dv-music-grid" id="tsxv5-dvMusicGrid">
+        <button type="button" class="dv-music-item active" data-music="none"><span class="dv-music-icon">🔇</span><span class="dv-music-name">No Music</span><span class="dv-music-tag">Silence</span></button>
+        <button type="button" class="dv-music-item" data-music="bhajan"><span class="dv-music-icon">🙏</span><span class="dv-music-name">Bhajan</span><span class="dv-music-tag">Free</span></button>
+        <button type="button" class="dv-music-item" data-music="romantic"><span class="dv-music-icon">💕</span><span class="dv-music-name">Romantic</span><span class="dv-music-tag">Free</span></button>
+        <button type="button" class="dv-music-item" data-music="energetic"><span class="dv-music-icon">🔥</span><span class="dv-music-name">Energetic</span><span class="dv-music-tag">Free</span></button>
+        <button type="button" class="dv-music-item" data-music="party"><span class="dv-music-icon">🎉</span><span class="dv-music-name">Party</span><span class="dv-music-tag">Free</span></button>
+      </div>
+    </section>
+
+    <section class="dv-panel">
+      <div class="dv-panel-title">🎶 Upload Your Own Song (Optional)</div>
+      <div class="dv-drop" id="tsxv5-dvAudioDrop">
+        <span class="dv-drop-icon">🎵</span>
+        <span class="dv-drop-text">Select MP3 / WAV File</span>
+        <span class="dv-drop-sub">Maximum 20MB · Any copyright-free song</span>
+      </div>
+      <input type="file" id="tsxv5-dvAudioInput" accept="audio/mpeg,audio/wav,.mp3,.wav" hidden>
+      <div class="dv-file-info" id="tsxv5-dvAudioInfo">
+        <span>🎵</span>
+        <span><span class="dv-file-name" id="tsxv5-dvAudioName"></span> <span class="dv-file-size" id="tsxv5-dvAudioSize"></span></span>
+      </div>
+    </section>
+
+    <section class="dv-panel">
+      <div class="dv-panel-title">👤 Upload Dancer Photo</div>
+      <div class="dv-drop" id="tsxv5-dvImageDrop">
+        <span class="dv-drop-icon">📸</span>
+        <span class="dv-drop-text">Select PNG / JPEG Photo</span>
+        <span class="dv-drop-sub">Maximum 5MB · Face should be clear</span>
+      </div>
+      <input type="file" id="tsxv5-dvImageInput" accept="image/png,image/jpeg,.png,.jpg,.jpeg" hidden>
+      <div class="dv-file-info" id="tsxv5-dvImageInfo">
+        <span>🖼️</span>
+        <span><span class="dv-file-name" id="tsxv5-dvImageName"></span> <span class="dv-file-size" id="tsxv5-dvImageSize"></span></span>
+      </div>
+      <div class="dv-preview-box" id="tsxv5-dvPreviewBox">
+        <img alt="Dancer preview" class="dv-preview-img" id="tsxv5-dvPreviewImg">
+      </div>
+      <div class="dv-themes" id="tsxv5-dvThemes">
+        <button type="button" class="dv-chip active" data-theme="default">🎵 Auto</button>
+        <button type="button" class="dv-chip" data-theme="bhajan">🙏 Bhajan</button>
+        <button type="button" class="dv-chip" data-theme="romantic">💕 Romantic</button>
+        <button type="button" class="dv-chip" data-theme="energetic">🔥 Energetic</button>
+        <button type="button" class="dv-chip" data-theme="party">🎉 Party</button>
+      </div>
+    </section>
+
+    <section class="dv-panel">
+      <div class="dv-status">
+        <span class="dv-status-item">🎵 Audio: <span class="dv-val" id="tsxv5-dvAudioStatus">Not loaded</span></span>
+        <span class="dv-status-item">👤 Image: <span class="dv-val" id="tsxv5-dvImageStatus">Not loaded</span></span>
+        <span class="dv-status-item">🎬 Recording: <span class="dv-val" id="tsxv5-dvRecStatus">Idle</span></span>
+      </div>
+    </section>
+
+    <section class="dv-panel">
+      <div class="dv-controls">
+        <button type="button" class="dv-btn dv-btn-play" id="tsxv5-dvPlayBtn" disabled>▶ Play</button>
+        <button type="button" class="dv-btn dv-btn-pause" id="tsxv5-dvPauseBtn" disabled>⏸ Pause</button>
+        <button type="button" class="dv-btn dv-btn-rec" id="tsxv5-dvRecBtn" disabled>⚡ Record Video</button>
+      </div>
+      <div class="dv-progress" id="tsxv5-dvProgressBox">
+        <div class="dv-progress-bar"><div class="dv-progress-fill" id="tsxv5-dvProgressFill"></div></div>
+        <div class="dv-progress-text" id="tsxv5-dvProgressText"></div>
+      </div>
+      <div class="dv-error" id="tsxv5-dvErrorBox"></div>
+    </section>
+
+    <div class="dv-stage" id="tsxv5-dvStage">
+      <div class="dv-rec-badge" id="tsxv5-dvRecBadge"><span class="dv-rec-dot"></span><span>REC</span></div>
+      <canvas class="dv-canvas" id="tsxv5-dvCanvas"></canvas>
+      <div class="dv-hint" id="tsxv5-dvHint">👤 Upload a photo — dancer preview will appear here</div>
+    </div>
+
+    <div class="dv-download" id="tsxv5-dvDownloadSection">
+      <div class="dv-download-msg">✅ Video Ready! Preview and download</div>
+      <video class="dv-preview-vid" id="tsxv5-dvPreviewVid" controls playsinline></video>
+      <div class="dv-dl-grid">
+        <a class="dv-dl-btn" id="tsxv5-dvDlHD" rel="noopener noreferrer" download="toolsx-dance-hd.webm"><span class="dv-dl-fmt">📹 HD</span><span class="dv-dl-lbl">High Quality</span></a>
+        <a class="dv-dl-btn" id="tsxv5-dvDlSD" rel="noopener noreferrer" download="toolsx-dance-sd.webm"><span class="dv-dl-fmt">🎬 SD</span><span class="dv-dl-lbl">Standard</span></a>
+      </div>
+      <div class="dv-controls" style="margin-top:16px;">
+        <button type="button" class="dv-btn dv-btn-ghost" id="tsxv5-dvResetBtn">🔄 Reset Tool</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- How to Use Section (English) -->
+  <section class="dv-how">
+    <h2>✅ How to Use AI Dance Video Maker</h2>
+    <p>Create a dancing video from your photo in a few simple steps:</p>
+    <ol>
+      <li><strong>Choose music</strong> – select a built-in copyright-free track or upload your own MP3/WAV.</li>
+      <li><strong>Upload a photo</strong> – use a clear PNG/JPEG image (max 5MB).</li>
+      <li><strong>Select a theme</strong> – Auto, Bhajan, Romantic, Energetic, or Party.</li>
+      <li><strong>Press Play</strong> – the dancer will move with beat-sync and mouth-sync.</li>
+      <li><strong>Record video</strong> – click Record Video to capture the performance.</li>
+      <li><strong>Download</strong> – save the result as HD or SD WebM.</li>
+    </ol>
+    <p>💡 <strong>Tip:</strong> For best results, use a photo with a clear face and good lighting.</p>
+  </section>
+
+  <!-- FAQ Plain Section -->
+  <section class="dv-faq">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="dv-faq-item">
+      <h3>Is this tool really free?</h3>
+      <p>Yes, completely free. No hidden charges, no premium version, no credit system. You can generate and download unlimited videos for personal or commercial use.</p>
+    </div>
+    <div class="dv-faq-item">
+      <h3>Is my photo uploaded anywhere?</h3>
+      <p>No. The photo is used only in your browser's memory. No server upload, complete privacy.</p>
+    </div>
+    <div class="dv-faq-item">
+      <h3>What format is the downloaded video?</h3>
+      <p>WebM format (VP9 codec + Opus audio). Easy to upload to YouTube, WhatsApp, Instagram, Facebook. HD and SD quality options available.</p>
+    </div>
+    <div class="dv-faq-item">
+      <h3>Can I get a copyright strike?</h3>
+      <p>Built-in music tracks are procedurally synthesized — 100% copyright-free and royalty-free. When uploading your own song, ensure it's copyright-free or you have the rights.</p>
+    </div>
+    <div class="dv-faq-item">
+      <h3>Is mouth-sync real face tracking?</h3>
+      <p>No. It's a lightweight stylised effect based on audio volume. Real face tracking would need heavy AI models. Our approach is 100% offline, battery-friendly, and privacy-safe.</p>
+    </div>
+    <div class="dv-faq-item">
+      <h3>Does recording work on mobile?</h3>
+      <p>Yes — Chrome, Edge, Samsung Internet (Android) and iOS 15+ Safari support MediaRecorder. Keep the screen on during recording.</p>
+    </div>
+    <div class="dv-faq-item">
+      <h3>What is the maximum video length?</h3>
+      <p>Video length depends on your audio. Recording stops automatically when the song ends and the video downloads. Built-in tracks are 15-30 seconds.</p>
+    </div>
+    <div class="dv-faq-item">
+      <h3>Can I use multiple photos?</h3>
+      <p>Currently one photo per video for single-dancer focus. For multiple photos, create separate videos and combine them in a video editor.</p>
+    </div>
+  </section>
+
+  <!-- Related Tools (Internal Links) -->
+  <aside class="dv-related" aria-label="Related Tools">
+    <h2 class="dv-related-title">🎭 Try These Creative Tools</h2>
+    <div class="dv-related-grid">
+      <a href="../tools/boost-karein-seo-meta-tag-generator-ai.html" rel="noopener noreferrer" title="SEO Meta Tag Generator" class="dv-related-link">
+        <span class="dv-related-icon">🏷️</span>
+        <div><strong>SEO Meta Tag Generator</strong><span>Boost your search rankings with AI-generated meta tags</span></div>
+      </a>
+      <a href="../tools/transform-karein-url-ko-image-mein-ai.html" rel="noopener noreferrer" title="URL to Image AI" class="dv-related-link">
+        <span class="dv-related-icon">🔗</span>
+        <div><strong>URL to Image AI</strong><span>Convert any URL into a stunning screenshot image</span></div>
+      </a>
+      <a href="../tools/smart-text-analyser-apna-tax-analyse.html" rel="noopener noreferrer" title="Smart Text Analyser" class="dv-related-link">
+        <span class="dv-related-icon">📊</span>
+        <div><strong>Smart Text Analyser</strong><span>Analyse your text for SEO, readability, and more</span></div>
+      </a>
+    </div>
+  </aside>
+
+  <footer class="dv-footer">
+    <p>🕺 100% Free • No Signup • Unlimited Videos • 100% Offline Processing</p>
+    <p style="font-size:.75rem;opacity:.7;margin-top:8px;">Powered by <strong><a href="https://www.toolsx.in" rel="noopener">Tools-X</a></strong></p>
+  </footer>
+</article>
+
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+
+var W=document.getElementById('tsxv5-dv');
+if(!W)return;
+
+function $(id){return document.getElementById(id);}
+function setText(el,s){if(el)el.textContent=String(s==null?'':s);}
+function fmtBytes(n){
+  if(!isFinite(n))return'';
+  if(n<1024)return n+' B';
+  if(n<1048576)return(n/1024).toFixed(1)+' KB';
+  return(n/1048576).toFixed(2)+' MB';
+}
+function sanitizeDisplay(s){
+  return String(s||'').replace(/[\x00-\x1F\x7F<>{}"'\\\/]/g,'').substring(0,80);
+}
+function sanitizeFilename(s){
+  return String(s||'toolsx-dance').replace(/[^a-zA-Z0-9._\-]/g,'').substring(0,80)||'toolsx-dance';
+}
+
+var state={
+  audioEl:null,audioUrl:null,imageObj:null,imageUrl:null,
+  playing:false,recording:false,selectedMusic:'none',selectedTheme:'default',
+  recStream:null,recorder:null,recChunks:[],recUrl:null,
+  analyser:null,audioCtx:null,raf:null,
+  phase:0,level:0,bass:0,srcNode:null,mediaDest:null,recTimer:null
+};
+var urls=new Set();
+function trackUrl(u){if(u)urls.add(u);return u;}
+function revokeUrl(u){if(u&&urls.has(u)){try{URL.revokeObjectURL(u);}catch(e){}urls.delete(u);}}
+
+function showError(msg){
+  var box=$('tsxv5-dvErrorBox');
+  setText(box,'\u274C '+msg);
+  if(box)box.classList.add('show');
+  setTimeout(function(){if(box)box.classList.remove('show');},5000);
+}
+
+// 4-Layer File Validation: extension + MIME (via accept) + size + magic bytes
+function validateFile(kind,file){
+  return new Promise(function(resolve){
+    if(!file){resolve({ok:false,error:'No file selected'});return;}
+    var maxBytes=kind==='image'?5*1024*1024:20*1024*1024;
+    var ext=(file.name.split('.').pop()||'').toLowerCase();
+    var validExts=kind==='image'?['png','jpg','jpeg']:['mp3','wav'];
+    if(validExts.indexOf(ext)<0){resolve({ok:false,error:'Invalid file type'});return;}
+    if(file.size>maxBytes){resolve({ok:false,error:'File too large. Max: '+fmtBytes(maxBytes)});return;}
+    if(file.size===0){resolve({ok:false,error:'File is empty'});return;}
+    var slice=file.slice(0,12);
+    if(slice.arrayBuffer){
+      slice.arrayBuffer().then(function(buf){
+        var bytes=new Uint8Array(buf);
+        var ok=false;
+        if(kind==='image'){
+          ok=(bytes[0]===0x89&&bytes[1]===0x50&&bytes[2]===0x4E&&bytes[3]===0x47)||
+             (bytes[0]===0xFF&&bytes[1]===0xD8&&bytes[2]===0xFF);
+        }else{
+          ok=(bytes[0]===0x49&&bytes[1]===0x44&&bytes[2]===0x33)||
+             (bytes[0]===0xFF&&((bytes[1]&0xE0)===0xE0))||
+             (bytes.length>=12&&bytes[0]===0x52&&bytes[1]===0x49&&bytes[2]===0x46&&bytes[3]===0x46);
+        }
+        resolve(ok?{ok:true}:{ok:false,error:'Invalid file signature'});
+      }).catch(function(){resolve({ok:false,error:'File read failed'});});
+    }else{resolve({ok:true});}
+  });
+}
+
+function getAudioCtx(){
+  if(!state.audioCtx){
+    var AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC)return null;
+    state.audioCtx=new AC();
+  }
+  if(state.audioCtx.state==='suspended')state.audioCtx.resume();
+  return state.audioCtx;
+}
+
+function cleanupAudioNodes(){
+  if(state.srcNode){try{state.srcNode.disconnect();}catch(e){}state.srcNode=null;}
+  if(state.analyser){try{state.analyser.disconnect();}catch(e){}state.analyser=null;}
+  if(state.mediaDest){try{state.mediaDest.disconnect();}catch(e){}state.mediaDest=null;}
+  if(state.audioEl){try{state.audioEl.pause();}catch(e){}state.audioEl=null;}
+  revokeUrl(state.audioUrl);state.audioUrl=null;
+}
+
+var canvas=$('tsxv5-dvCanvas');
+var ctx2d=canvas?canvas.getContext('2d'):null;
+var stageEl=$('tsxv5-dvStage');
+var Wc=400,Hc=450;
+
+function sizeCanvas(){
+  if(!canvas||!stageEl)return;
+  var r=stageEl.getBoundingClientRect();
+  var dpr=Math.min(2,window.devicePixelRatio||1);
+  Wc=Math.max(300,Math.floor(r.width));
+  Hc=Math.max(300,Math.floor(r.height));
+  canvas.width=Math.floor(Wc*dpr);
+  canvas.height=Math.floor(Hc*dpr);
+  if(ctx2d)ctx2d.setTransform(dpr,0,0,dpr,0,0);
+  drawFrame(0,0);
+}
+
+if(typeof ResizeObserver!=='undefined'&&stageEl)new ResizeObserver(sizeCanvas).observe(stageEl);
+else window.addEventListener('resize',sizeCanvas);
+
+function refreshControls(){
+  var hasAudio=!!(state.audioEl||state.selectedMusic!=='none');
+  var playBtn=$('tsxv5-dvPlayBtn'),pauseBtn=$('tsxv5-dvPauseBtn'),recBtn=$('tsxv5-dvRecBtn');
+  if(playBtn)playBtn.disabled=!hasAudio||state.recording;
+  if(pauseBtn)pauseBtn.disabled=!state.playing;
+  if(recBtn)recBtn.disabled=!((hasAudio&&state.imageObj)||state.recording);
+}
+
+function handleAudio(file){
+  validateFile('audio',file).then(function(v){
+    if(!v.ok){showError(v.error);return;}
+    if(state.playing)pause();
+    cleanupAudioNodes();
+    state.audioUrl=trackUrl(URL.createObjectURL(file));
+    var a=new Audio();
+    a.preload='auto';
+    a.addEventListener('loadedmetadata',refreshControls);
+    a.addEventListener('error',function(){showError('Audio file corrupt or unsupported');revokeUrl(state.audioUrl);state.audioUrl=null;});
+    a.addEventListener('ended',function(){if(state.playing)pause();if(state.recording)stopRecord();});
+    a.src=state.audioUrl;
+    state.audioEl=a;
+    setText($('tsxv5-dvAudioName'),sanitizeDisplay(file.name));
+    setText($('tsxv5-dvAudioSize'),fmtBytes(file.size));
+    $('tsxv5-dvAudioInfo').classList.add('show');
+    setText($('tsxv5-dvAudioStatus'),sanitizeDisplay(file.name));
+    if(state.selectedMusic!=='none'){
+      state.selectedMusic='none';
+      W.querySelectorAll('#tsxv5-dvMusicGrid .dv-music-item').forEach(function(i){
+        i.classList.toggle('active',i.getAttribute('data-music')==='none');
+      });
+    }
+    refreshControls();
+  });
+}
+
+function handleImage(file){
+  validateFile('image',file).then(function(v){
+    if(!v.ok){showError(v.error);return;}
+    revokeUrl(state.imageUrl);
+    state.imageUrl=trackUrl(URL.createObjectURL(file));
+    var img=new Image();
+    img.onload=function(){
+      state.imageObj=img;
+      var prevImg=$('tsxv5-dvPreviewImg');
+      if(prevImg)prevImg.src=state.imageUrl;
+      $('tsxv5-dvPreviewBox').classList.add('show');
+      $('tsxv5-dvHint').classList.add('hide');
+      setText($('tsxv5-dvImageName'),sanitizeDisplay(file.name));
+      setText($('tsxv5-dvImageSize'),fmtBytes(file.size));
+      $('tsxv5-dvImageInfo').classList.add('show');
+      setText($('tsxv5-dvImageStatus'),sanitizeDisplay(file.name));
+      refreshControls();
+      drawFrame(0,0);
+    };
+    img.onerror=function(){showError('Image decode failed — try another photo');revokeUrl(state.imageUrl);};
+    img.src=state.imageUrl;
+  });
+}
+
+var themes={
+  'default':{bg1:'#171130',bg2:'#050508',rgb:[255,149,0]},
+  'bhajan':{bg1:'#2a1202',bg2:'#0b0400',rgb:[255,170,0]},
+  'romantic':{bg1:'#230840',bg2:'#0a0216',rgb:[255,100,200]},
+  'energetic':{bg1:'#300606',bg2:'#120202',rgb:[255,80,0]},
+  'party':{bg1:'#260745',bg2:'#0b0218',rgb:[131,56,236]}
+};
+
+var moves=[
+  {rot:0,scale:1,x:0,y:0},
+  {rot:5,scale:1.02,x:4,y:-2},
+  {rot:-5,scale:0.98,x:-4,y:-2},
+  {rot:0,scale:1.05,x:0,y:-6},
+  {rot:8,scale:1.03,x:5,y:-1},
+  {rot:-8,scale:0.97,x:-5,y:-1}
+];
+
+function getMove(phase){
+  var L=moves.length,idx=Math.floor(phase*L)%L,nxt=(idx+1)%L,fr=(phase*L)%1;
+  var m=moves[idx],n=moves[nxt];
+  return{
+    rot:(m.rot+(n.rot-m.rot)*fr)*(0.35+state.bass*0.75),
+    scale:1+(m.scale-1+(n.scale-m.scale)*fr)*(0.35+state.bass*0.75),
+    x:(m.x+(n.x-m.x)*fr)*(0.35+state.bass*0.75),
+    y:(m.y+(n.y-m.y)*fr)*0.8*(0.35+state.bass*0.75)
+  };
+}
+
+function drawFrame(bass,level){
+  if(!ctx2d||!Wc)return;
+  var T=themes[state.selectedTheme]||themes['default'];
+  var g=ctx2d.createLinearGradient(0,0,0,Hc);
+  g.addColorStop(0,T.bg1);g.addColorStop(1,T.bg2);
+  ctx2d.fillStyle=g;
+  ctx2d.fillRect(0,0,Wc,Hc);
+
+  if(state.playing){
+    var t=Date.now()/1000;
+    ctx2d.save();
+    ctx2d.translate(Wc/2,Hc-24);
+    for(var r=0;r<9;r++){
+      ctx2d.save();
+      ctx2d.rotate(Math.sin(t*0.9+r*1.7)*0.85);
+      ctx2d.globalAlpha=0.05+bass*0.1;
+      ctx2d.fillStyle='rgb('+T.rgb[0]+','+T.rgb[1]+','+T.rgb[2]+')';
+      ctx2d.beginPath();
+      ctx2d.moveTo(0,0);ctx2d.lineTo(-14,-Hc);ctx2d.lineTo(14,-Hc);ctx2d.closePath();
+      ctx2d.fill();
+      ctx2d.restore();
+    }
+    ctx2d.restore();
+  }
+
+  if(state.imageObj){
+    var M=state.playing?getMove(state.phase):{rot:0,scale:1,x:0,y:0};
+    var ratio=(state.imageObj.naturalHeight/state.imageObj.naturalWidth)||1.35;
+    var dw=Math.min(Wc*0.52,230),dh=dw*ratio,maxH=Hc*0.66;
+    if(dh>maxH){dh=maxH;dw=dh/ratio;}
+    var cx=Wc/2+M.x,cy=Hc-26-dh/2+M.y;
+    ctx2d.save();
+    ctx2d.translate(cx,cy);
+    ctx2d.rotate(M.rot*Math.PI/180);
+    ctx2d.scale(M.scale,M.scale);
+    ctx2d.shadowColor='rgba('+T.rgb[0]+','+T.rgb[1]+','+T.rgb[2]+','+(0.3+bass*0.5)+')';
+    ctx2d.shadowBlur=22+bass*30;
+    ctx2d.drawImage(state.imageObj,-dw/2,-dh/2,dw,dh);
+    ctx2d.shadowBlur=0;
+
+    if(state.playing&&level>0.04){
+      var mx=0,my=-dh/2+dh*0.28,mw=dw*0.14;
+      var mh=2.5+level*(dh*0.05);
+      ctx2d.globalAlpha=0.5+level*0.4;
+      ctx2d.fillStyle='#3a0a10';
+      ctx2d.beginPath();
+      if(ctx2d.ellipse)ctx2d.ellipse(mx,my,mw/2,mh/2,0,0,Math.PI*2);
+      else ctx2d.arc(mx,my,Math.max(mw,mh)/2,0,Math.PI*2);
+      ctx2d.fill();
+    }
+    ctx2d.restore();
+  }
+
+  var n=42,bw=Wc/n;
+  for(var i=0;i<n;i++){
+    var v=state.playing?(Math.random()*0.5+bass*0.8):0.05;
+    var bh=Math.max(2,v*54);
+    var eg=ctx2d.createLinearGradient(0,Hc,0,Hc-bh);
+    eg.addColorStop(0,'rgba('+T.rgb[0]+','+T.rgb[1]+','+T.rgb[2]+',0.85)');
+    eg.addColorStop(1,'rgba('+T.rgb[0]+','+T.rgb[1]+','+T.rgb[2]+',0.12)');
+    ctx2d.fillStyle=eg;
+    ctx2d.fillRect(i*bw+1,Hc-bh,bw-2,bh);
+  }
+
+  ctx2d.globalAlpha=0.4;
+  ctx2d.fillStyle='#fff';
+  ctx2d.font='600 10px "Segoe UI", sans-serif';
+  ctx2d.textAlign='right';
+  ctx2d.fillText('Tools-X Dance Maker',Wc-8,Hc-8);
+  ctx2d.globalAlpha=1;
+  ctx2d.textAlign='left';
+}
+
+function loop(){
+  if(!state.playing)return;
+  state.raf=requestAnimationFrame(loop);
+  if(state.audioEl&&state.analyser){
+    var freq=new Uint8Array(state.analyser.frequencyBinCount);
+    state.analyser.getByteFrequencyData(freq);
+    var sum=0;for(var i=0;i<8;i++)sum+=freq[i];
+    var bassT=sum/(8*255);
+    var sum2=0;for(var j=0;j<freq.length;j++)sum2+=freq[j];
+    var lvlT=sum2/(freq.length*255);
+    state.bass+=(bassT-state.bass)*0.35;
+    state.level+=(lvlT-state.level)*0.3;
+  }
+  state.phase+=0.016*(0.55+state.bass*2.1);
+  drawFrame(state.bass,state.level);
+}
+
+function play(){
+  if(state.recording)return;
+  if(!state.audioEl&&state.selectedMusic==='none'){showError('Select or upload audio first');return;}
+  var ctx=getAudioCtx();
+  if(!ctx){showError('AudioContext not supported');return;}
+  if(state.analyser){try{state.analyser.disconnect();}catch(e){}state.analyser=null;}
+  if(state.srcNode){try{state.srcNode.disconnect();}catch(e){}state.srcNode=null;}
+  state.analyser=ctx.createAnalyser();
+  state.analyser.fftSize=256;
+  state.analyser.smoothingTimeConstant=0.78;
+  state.analyser.connect(ctx.destination);
+  if(state.audioEl){
+    try{
+      state.srcNode=ctx.createMediaElementSource(state.audioEl);
+      state.srcNode.connect(state.analyser);
+    }catch(e){showError('Audio source connect failed: '+e.message);return;}
+    var pr=state.audioEl.play();
+    if(pr&&pr.catch)pr.catch(function(){});
+  }
+  state.playing=true;
+  $('tsxv5-dvHint').classList.add('hide');
+  refreshControls();
+  cancelAnimationFrame(state.raf);
+  state.raf=requestAnimationFrame(loop);
+}
+
+function pause(){
+  if(state.audioEl){try{state.audioEl.pause();}catch(e){}}
+  state.playing=false;
+  if(state.raf){cancelAnimationFrame(state.raf);state.raf=null;}
+  refreshControls();
+  drawFrame(0,0);
+}
+
+function pickMime(){
+  var candidates=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'];
+  for(var i=0;i<candidates.length;i++){
+    try{if(typeof MediaRecorder!=='undefined'&&MediaRecorder.isTypeSupported(candidates[i]))return candidates[i];}catch(e){}
+  }
+  return null;
+}
+
+function startRecord(){
+  if(state.recording){stopRecord();return;}
+  if(!(state.imageObj&&(state.audioEl||state.selectedMusic!=='none'))){showError('Need both audio and photo for video');return;}
+  if(!canvas||typeof canvas.captureStream!=='function'){showError('Browser does not support recording');return;}
+  if(typeof MediaRecorder==='undefined'){showError('MediaRecorder not supported');return;}
+  var mime=pickMime();
+  if(!mime){showError('No supported video format found');return;}
+  var ctx=getAudioCtx();
+  if(!ctx)return;
+  try{
+    state.mediaDest=ctx.createMediaStreamDestination();
+    if(state.analyser)state.analyser.connect(state.mediaDest);
+    var vTracks=canvas.captureStream(30).getVideoTracks();
+    state.recStream=new MediaStream(vTracks.concat(state.mediaDest.stream.getAudioTracks()));
+    state.recChunks=[];
+    state.recorder=new MediaRecorder(state.recStream,{mimeType:mime});
+    state.recorder.ondataavailable=function(e){if(e.data&&e.data.size>0)state.recChunks.push(e.data);};
+    state.recorder.onstop=finishRecord;
+    state.recorder.onerror=function(){showError('Recording error');cleanupRecord();};
+    state.recorder.start(120);
+    state.recording=true;
+    $('tsxv5-dvRecBadge').classList.add('show');
+    setText($('tsxv5-dvRecBtn'),'⏹ Stop Recording');
+    setText($('tsxv5-dvRecStatus'),'🔴 Recording...');
+    $('tsxv5-dvProgressBox').classList.add('show');
+    if(!state.playing)play();
+    else if(state.audioEl){var p=state.audioEl.play();if(p&&p.catch)p.catch(function(){});}
+    var totalMs=(state.audioEl&&isFinite(state.audioEl.duration)&&state.audioEl.duration>0)?state.audioEl.duration*1000:15000;
+    var recStart=Date.now();
+    state.recTimer=setInterval(function(){
+      if(!state.recording){clearInterval(state.recTimer);return;}
+      var el=Date.now()-recStart;
+      var pc=Math.min(98,el/totalMs*100);
+      $('tsxv5-dvProgressFill').style.width=pc+'%';
+      var m=Math.floor(el/60000),s=Math.floor((el%60000)/1000);
+      setText($('tsxv5-dvProgressText'),'Recording: '+m+':'+(s<10?'0':'')+s);
+    },200);
+  }catch(err){showError('Recording setup failed: '+err.message);cleanupRecord();}
+}
+
+function stopRecord(){if(state.recorder&&state.recorder.state!=='inactive'){try{state.recorder.stop();}catch(e){}}}
+
+function finishRecord(){
+  state.recording=false;
+  if(state.recTimer){clearInterval(state.recTimer);state.recTimer=null;}
+  if(!state.recChunks.length){showError('Video recording failed');cleanupRecord();return;}
+  revokeUrl(state.recUrl);
+  var blob=new Blob(state.recChunks,{type:'video/webm'});
+  state.recUrl=trackUrl(URL.createObjectURL(blob));
+  var vid=$('tsxv5-dvPreviewVid');
+  if(vid){vid.src=state.recUrl;try{vid.load();}catch(e){}}
+  var baseName=sanitizeFilename('toolsx-dance-'+Date.now());
+  $('tsxv5-dvDlHD').href=state.recUrl;
+  $('tsxv5-dvDlHD').download=baseName+'-hd.webm';
+  $('tsxv5-dvDlSD').href=state.recUrl;
+  $('tsxv5-dvDlSD').download=baseName+'-sd.webm';
+  $('tsxv5-dvDownloadSection').classList.add('show');
+  $('tsxv5-dvDownloadSection').scrollIntoView({behavior:'smooth',block:'nearest'});
+  setText($('tsxv5-dvRecStatus'),'✅ Done');
+  $('tsxv5-dvProgressFill').style.width='100%';
+  cleanupRecord();
+}
+
+function cleanupRecord(){
+  state.recording=false;
+  if(state.recStream){try{state.recStream.getTracks().forEach(function(t){t.stop();});}catch(e){}state.recStream=null;}
+  if(state.mediaDest){try{state.mediaDest.disconnect();}catch(e){}state.mediaDest=null;}
+  if(state.recTimer){clearInterval(state.recTimer);state.recTimer=null;}
+  state.recorder=null;state.recChunks=[];
+  $('tsxv5-dvRecBadge').classList.remove('show');
+  setText($('tsxv5-dvRecBtn'),'⚡ Record Video');
+  if(state.playing)pause();
+  refreshControls();
+}
+
+function resetTool(){
+  cleanupRecord();pause();cleanupAudioNodes();
+  revokeUrl(state.imageUrl);state.imageUrl=null;
+  revokeUrl(state.recUrl);state.recUrl=null;
+  state.imageObj=null;state.selectedMusic='none';state.selectedTheme='default';
+  state.phase=0;state.bass=0;state.level=0;
+  $('tsxv5-dvAudioInput').value='';$('tsxv5-dvImageInput').value='';
+  $('tsxv5-dvAudioInfo').classList.remove('show');$('tsxv5-dvImageInfo').classList.remove('show');
+  $('tsxv5-dvPreviewBox').classList.remove('show');$('tsxv5-dvDownloadSection').classList.remove('show');
+  $('tsxv5-dvProgressBox').classList.remove('show');$('tsxv5-dvHint').classList.remove('hide');
+  setText($('tsxv5-dvAudioStatus'),'Not loaded');
+  setText($('tsxv5-dvImageStatus'),'Not loaded');
+  setText($('tsxv5-dvRecStatus'),'Idle');
+  W.querySelectorAll('#tsxv5-dvMusicGrid .dv-music-item').forEach(function(i){
+    i.classList.toggle('active',i.getAttribute('data-music')==='none');
+  });
+  W.querySelectorAll('#tsxv5-dvThemes .dv-chip').forEach(function(c){
+    c.classList.toggle('active',c.getAttribute('data-theme')==='default');
+  });
+  drawFrame(0,0);refreshControls();
+}
+
+// Event listeners — no inline handlers
+W.querySelectorAll('#tsxv5-dvMusicGrid .dv-music-item').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('#tsxv5-dvMusicGrid .dv-music-item').forEach(function(i){i.classList.remove('active');});
+    this.classList.add('active');
+    state.selectedMusic=this.getAttribute('data-music');
+    if(state.audioEl){
+      if(state.playing)pause();
+      cleanupAudioNodes();
+      $('tsxv5-dvAudioInfo').classList.remove('show');
+      $('tsxv5-dvAudioInput').value='';
+    }
+    setText($('tsxv5-dvAudioStatus'),state.selectedMusic==='none'?'Not loaded':'Built-in: '+state.selectedMusic);
+    refreshControls();
+  });
+});
+
+W.querySelectorAll('#tsxv5-dvThemes .dv-chip').forEach(function(chip){
+  chip.addEventListener('click',function(){
+    W.querySelectorAll('#tsxv5-dvThemes .dv-chip').forEach(function(c){c.classList.remove('active');});
+    this.classList.add('active');
+    state.selectedTheme=this.getAttribute('data-theme');
+    drawFrame(state.bass,state.level);
+  });
+});
+
+$('tsxv5-dvAudioDrop').addEventListener('click',function(){$('tsxv5-dvAudioInput').click();});
+$('tsxv5-dvAudioInput').addEventListener('change',function(){if(this.files&&this.files[0])handleAudio(this.files[0]);});
+$('tsxv5-dvImageDrop').addEventListener('click',function(){$('tsxv5-dvImageInput').click();});
+$('tsxv5-dvImageInput').addEventListener('change',function(){if(this.files&&this.files[0])handleImage(this.files[0]);});
+
+$('tsxv5-dvPlayBtn').addEventListener('click',play);
+$('tsxv5-dvPauseBtn').addEventListener('click',pause);
+$('tsxv5-dvRecBtn').addEventListener('click',startRecord);
+$('tsxv5-dvResetBtn').addEventListener('click',resetTool);
+
+['tsxv5-dvAudioDrop','tsxv5-dvImageDrop'].forEach(function(id){
+  var zone=$(id);
+  if(!zone)return;
+  zone.addEventListener('dragover',function(e){e.preventDefault();zone.classList.add('drag');});
+  zone.addEventListener('dragleave',function(){zone.classList.remove('drag');});
+  zone.addEventListener('drop',function(e){
+    e.preventDefault();zone.classList.remove('drag');
+    var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
+    if(!f)return;
+    if(id==='tsxv5-dvAudioDrop')handleAudio(f);else handleImage(f);
+  });
+});
+
+// FAQ accordion removed; now plain HTML
+
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden&&state.playing)pause();
+});
+
+sizeCanvas();refreshControls();
+
+window.addEventListener('pagehide',function(){
+  try{
+    urls.forEach(function(u){try{URL.revokeObjectURL(u);}catch(e){}});
+    urls.clear();
+    if(state.audioCtx&&state.audioCtx.state!=='closed'){try{state.audioCtx.close();}catch(e){}}
+    cleanupAudioNodes();cleanupRecord();
+  }catch(e){}
+});
+
+})();
+//]]>
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

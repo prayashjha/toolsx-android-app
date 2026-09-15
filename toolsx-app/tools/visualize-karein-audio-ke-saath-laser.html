@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Audio Laser Visualizer – Create 3D Light Shows for Music – ToolsX App</title>
+<meta name="description" content="Generate stunning 3D laser light shows synced to your music free online. Upload audio and watch real-time visual effects.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Audio Laser Visualizer – Create 3D Light Shows for Music</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Audio Visualizer Laser - Music to Video",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Modern browser with JavaScript, HTML5 Canvas, Web Audio API, MediaRecorder",
+      "description": "Free audio visualizer with laser effects. Convert MP3/WAV to stunning video visualizations in Bars, Wave, and Circle modes. Record full songs as WebM videos with audio sync. 100% offline browser processing.",
+      "featureList": [
+        "3 visual modes (Bars, Wave, Circle)",
+        "RGB laser effects with hue rotation",
+        "Full video recording (audio + visuals)",
+        "PNG snapshot feature",
+        "Seek bar with time display",
+        "Volume control slider",
+        "Loop mode toggle",
+        "File validation (extension + size + magic bytes)",
+        "100% offline processing",
+        "Object URL and MediaStream cleanup"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.toolsx.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Audio Visualizer Laser" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this tool really free?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, completely free. No hidden charges, no premium version, no credit system. You can generate and download unlimited videos for personal or commercial use. No sign-up required." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my audio uploaded anywhere?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Audio is decoded only in your browser’s memory. It never leaves your device. When you close the tab, all memory is freed – complete privacy." }
+        },
+        {
+          "@type": "Question",
+          "name": "What video format is exported?",
+          "acceptedAnswer": { "@type": "Answer", "text": "WebM format (VP9 video + Opus audio). It uploads easily to YouTube, Facebook, and Twitter. If you need MP4, use any free online converter." }
+        },
+        {
+          "@type": "Question",
+          "name": "How long can the recorded song be?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No limit – you can record full‑length songs (5‑10 minutes). Recording stops automatically when the song ends and the video downloads immediately." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does recording work on mobile?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes – Chrome, Edge, Samsung Internet (Android), and iOS 15+ Safari support MediaRecorder. Keep the screen on and avoid switching to background during recording." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which visual mode is best?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It depends on music type: Bars for bass‑heavy EDM/hip‑hop, Wave for vocals/acoustic, Circle for electronic/ambient. Each mode has a unique character." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I get a copyright strike on YouTube?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The visualizer itself is copyright‑free, but if you use copyrighted music, the music may be claimed. Use royalty‑free or your own original music." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I change the mode while recording?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No – controls are locked during recording to ensure a consistent output. Select your mode before starting the recording." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<div id="tsxv5-wl" class="tsxv5-wl-wrapper">
+
+<style>
+/* ───────────────────────────────────────────────────────────────
+   TOOLS-X AUDIO VISUALIZER LASER v5.1 – THEME-AWARE
+   Light mode = green terminal (default)
+   Dark mode = deep dark via existing Blogger selectors
+   Canvas stage is intentionally always‑dark (video surface)
+   Fully mobile‑first, touch‑friendly
+   ─────────────────────────────────────────────────────────────── */
+#tsxv5-wl {
+  --wl-bg: #f0fdf4;
+  --wl-bg2: #ecfdf5;
+  --wl-surface: rgba(255,255,255,0.92);
+  --wl-surface2: rgba(255,255,255,0.8);
+  --wl-text: #1e293b;
+  --wl-text-dim: #475569;
+  --wl-text-muted: #64748b;
+  --wl-primary: #059669;
+  --wl-secondary: #db2777;
+  --wl-accent: #0891b2;
+  --wl-border: rgba(5,150,105,0.3);
+  --wl-shadow: 0 4px 20px rgba(5,150,105,0.1);
+  --wl-glow: 0 0 8px rgba(5,150,105,0.3);
+  --wl-error: #dc2626;
+  --wl-error-bg: rgba(220,38,38,0.08);
+  --wl-error-border: rgba(220,38,38,0.3);
+  --wl-radius: 4px;
+  font-family: 'Courier New', Consolas, monospace;
+  background: transparent;
+  color: var(--wl-text);
+  transition: background .3s, color .3s;
+}
+
+/* Dark mode overrides – use site’s existing selectors */
+body.dark-mode #tsxv5-wl,
+html.dark-mode #tsxv5-wl,
+[data-theme="dark"] #tsxv5-wl,
+body[data-theme="dark"] #tsxv5-wl,
+html[data-theme="dark"] #tsxv5-wl,
+.dark-mode #tsxv5-wl,
+.night-mode #tsxv5-wl {
+  --wl-bg: #000000;
+  --wl-bg2: #050510;
+  --wl-surface: rgba(0,255,65,0.02);
+  --wl-surface2: rgba(0,0,0,0.4);
+  --wl-text: #e0ffe0;
+  --wl-text-dim: #7fa87f;
+  --wl-text-muted: #558055;
+  --wl-primary: #00ff41;
+  --wl-secondary: #ff00ff;
+  --wl-accent: #00d4ff;
+  --wl-border: rgba(0,255,65,0.25);
+  --wl-shadow: 0 0 30px rgba(0,255,65,0.15);
+  --wl-glow: 0 0 10px rgba(0,255,65,0.5);
+  --wl-error: #ff6080;
+  --wl-error-bg: rgba(255,0,65,0.1);
+  --wl-error-border: rgba(255,0,65,0.3);
+}
+
+#tsxv5-wl *,
+#tsxv5-wl *::before,
+#tsxv5-wl *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+#tsxv5-wl img,
+#tsxv5-wl canvas,
+#tsxv5-wl video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+#tsxv5-wl .wl {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: clamp(16px, 4vw, 24px);
+  background: linear-gradient(180deg, var(--wl-bg) 0%, var(--wl-bg2) 50%, var(--wl-bg) 100%);
+  border-radius: 8px;
+  color: var(--wl-text) !important;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--wl-shadow);
+  border: 1px solid var(--wl-border);
+}
+
+#tsxv5-wl .wl::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(5,150,105,0.04) 50%, transparent 100%),
+              repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(5,150,105,0.03) 2px, rgba(5,150,105,0.03) 4px);
+  pointer-events: none;
+  animation: tsxv5WlScan 8s linear infinite;
+}
+body.dark-mode #tsxv5-wl .wl::before,
+[data-theme="dark"] #tsxv5-wl .wl::before {
+  background: linear-gradient(90deg, transparent 0%, rgba(0,255,65,0.03) 50%, transparent 100%),
+              repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.02) 2px, rgba(0,255,65,0.02) 4px);
+}
+@keyframes tsxv5WlScan {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+#tsxv5-wl .wl-breadcrumb {
+  padding: 10px 14px;
+  background: var(--wl-surface);
+  border: 1px solid var(--wl-border);
+  border-radius: var(--wl-radius);
+  font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+  color: var(--wl-text-dim) !important;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 2;
+  backdrop-filter: blur(8px);
+}
+#tsxv5-wl .wl-breadcrumb a {
+  color: var(--wl-primary) !important;
+  text-decoration: none;
+}
+#tsxv5-wl .wl-breadcrumb a:hover {
+  text-shadow: var(--wl-glow);
+}
+
+#tsxv5-wl .wl-header {
+  text-align: center;
+  padding: clamp(20px, 5vw, 30px) 16px;
+  position: relative;
+  z-index: 2;
+}
+#tsxv5-wl .wl-icon {
+  font-size: clamp(2.5rem, 8vw, 3.5rem);
+  margin-bottom: 12px;
+  display: inline-block;
+  animation: tsxv5WlPulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px var(--wl-primary));
+}
+@keyframes tsxv5WlPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: .8; }
+}
+#tsxv5-wl .wl-header h1 {
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  font-weight: 900;
+  color: var(--wl-primary) !important;
+  text-shadow: var(--wl-glow), 0 0 20px rgba(5,150,105,0.2);
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+body.dark-mode #tsxv5-wl .wl-header h1,
+[data-theme="dark"] #tsxv5-wl .wl-header h1 {
+  text-shadow: var(--wl-glow), 0 0 20px rgba(0,255,65,0.3);
+}
+#tsxv5-wl .wl-header-sub {
+  color: var(--wl-text-dim) !important;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+#tsxv5-wl .wl-badges {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+#tsxv5-wl .wl-badge {
+  background: rgba(5,150,105,0.08);
+  border: 1px solid var(--wl-border);
+  color: var(--wl-primary) !important;
+  padding: 6px 14px;
+  border-radius: var(--wl-radius);
+  font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+body.dark-mode #tsxv5-wl .wl-badge,
+[data-theme="dark"] #tsxv5-wl .wl-badge {
+  background: rgba(0,255,65,0.08);
+}
+
+#tsxv5-wl .wl-panel {
+  background: var(--wl-surface);
+  border: 1px solid var(--wl-border);
+  border-radius: var(--wl-radius);
+  padding: clamp(16px, 3vw, 20px);
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 2;
+  backdrop-filter: blur(8px);
+}
+#tsxv5-wl .wl-panel-title {
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+  font-weight: 700;
+  color: var(--wl-secondary) !important;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#tsxv5-wl .wl-panel-title::before {
+  content: '>';
+  color: var(--wl-primary) !important;
+  font-weight: 900;
+}
+
+#tsxv5-wl .wl-drop {
+  width: 100%;
+  border: 2px dashed var(--wl-border);
+  border-radius: var(--wl-radius);
+  padding: clamp(24px, 6vw, 40px) 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .3s ease;
+  background: var(--wl-surface2);
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#tsxv5-wl .wl-drop:hover,
+#tsxv5-wl .wl-drop.drag {
+  border-color: var(--wl-primary);
+  background: rgba(5,150,105,0.05);
+  box-shadow: inset 0 0 20px rgba(5,150,105,0.1);
+}
+body.dark-mode #tsxv5-wl .wl-drop:hover,
+[data-theme="dark"] #tsxv5-wl .wl-drop:hover,
+body.dark-mode #tsxv5-wl .wl-drop.drag,
+[data-theme="dark"] #tsxv5-wl .wl-drop.drag {
+  background: rgba(0,255,65,0.05);
+  box-shadow: inset 0 0 20px rgba(0,255,65,0.1);
+}
+#tsxv5-wl .wl-drop-icon {
+  font-size: clamp(2rem, 6vw, 2.5rem);
+  display: block;
+  margin-bottom: 8px;
+}
+#tsxv5-wl .wl-drop-text {
+  color: var(--wl-primary) !important;
+  font-weight: 700;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  display: block;
+}
+#tsxv5-wl .wl-drop-sub {
+  color: var(--wl-text-dim) !important;
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+  margin-top: 4px;
+  display: block;
+}
+
+#tsxv5-wl .wl-song-info {
+  display: none;
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba(5,150,105,0.05);
+  border: 1px solid var(--wl-border);
+  border-radius: var(--wl-radius);
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+body.dark-mode #tsxv5-wl .wl-song-info,
+[data-theme="dark"] #tsxv5-wl .wl-song-info {
+  background: rgba(0,255,65,0.05);
+}
+#tsxv5-wl .wl-song-info.show {
+  display: flex;
+}
+#tsxv5-wl .wl-song-name {
+  color: var(--wl-primary) !important;
+  font-weight: 700;
+  font-size: clamp(0.8rem, 1.5vw, 0.85rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+#tsxv5-wl .wl-song-size {
+  color: var(--wl-text-dim) !important;
+  font-size: clamp(0.7rem, 1.2vw, 0.75rem);
+}
+
+/* Stage – always dark (video surface) */
+#tsxv5-wl .wl-stage {
+  position: relative;
+  width: 100%;
+  height: clamp(200px, 35vh, 320px);
+  border-radius: var(--wl-radius);
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--wl-border);
+  margin-top: 16px;
+  box-shadow: inset 0 0 40px rgba(0,255,65,0.05);
+}
+#tsxv5-wl .wl-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+#tsxv5-wl .wl-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #7fa87f !important;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  padding: 0 20px;
+  pointer-events: none;
+}
+#tsxv5-wl .wl-hint.hide {
+  display: none;
+}
+
+#tsxv5-wl .wl-seek-wrap {
+  display: none;
+  margin-top: 12px;
+  align-items: center;
+  gap: 10px;
+}
+#tsxv5-wl .wl-seek-wrap.show {
+  display: flex;
+}
+#tsxv5-wl .wl-seek-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(5,150,105,0.1);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  min-height: 44px;  /* touch‑friendly */
+  display: flex;
+  align-items: center;
+}
+body.dark-mode #tsxv5-wl .wl-seek-bar,
+[data-theme="dark"] #tsxv5-wl .wl-seek-bar {
+  background: rgba(0,255,65,0.1);
+}
+#tsxv5-wl .wl-seek-fill {
+  height: 6px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--wl-primary), var(--wl-accent));
+  border-radius: 3px;
+  transition: width .1s linear;
+  box-shadow: 0 0 10px var(--wl-primary);
+}
+#tsxv5-wl .wl-time {
+  color: var(--wl-primary) !important;
+  font-size: clamp(0.7rem, 1.2vw, 0.75rem);
+  font-weight: 700;
+  min-width: 80px;
+  text-align: right;
+}
+
+#tsxv5-wl .wl-controls {
+  display: none;
+  margin-top: 16px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+#tsxv5-wl .wl-controls.show {
+  display: flex;
+}
+#tsxv5-wl .wl-mode-btns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+}
+#tsxv5-wl .wl-mode-btn {
+  padding: 10px 14px;
+  border: 1px solid var(--wl-border);
+  border-radius: var(--wl-radius);
+  background: var(--wl-surface2);
+  color: var(--wl-text-dim) !important;
+  font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s ease;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  min-height: 44px;
+  min-width: 44px;
+  flex: 1 1 auto;
+  text-align: center;
+  line-height: 1.2;
+}
+#tsxv5-wl .wl-mode-btn:hover {
+  border-color: var(--wl-primary);
+  color: var(--wl-primary) !important;
+}
+#tsxv5-wl .wl-mode-btn.active {
+  background: var(--wl-primary);
+  color: #fff !important;
+  border-color: var(--wl-primary);
+  box-shadow: var(--wl-glow);
+}
+body.dark-mode #tsxv5-wl .wl-mode-btn.active,
+[data-theme="dark"] #tsxv5-wl .wl-mode-btn.active {
+  color: #000 !important;
+}
+
+#tsxv5-wl .wl-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+#tsxv5-wl .wl-vol {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+  color: var(--wl-text-dim) !important;
+}
+#tsxv5-wl .wl-vol input[type="range"] {
+  width: 60px;
+  accent-color: var(--wl-primary);
+  min-height: 44px;
+  cursor: pointer;
+}
+
+#tsxv5-wl .wl-btn {
+  padding: 10px 20px;
+  border: 1px solid var(--wl-border);
+  border-radius: var(--wl-radius);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+  transition: all .2s ease;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+#tsxv5-wl .wl-btn-play {
+  background: var(--wl-primary);
+  color: #fff !important;
+  border-color: var(--wl-primary);
+  box-shadow: var(--wl-glow);
+}
+body.dark-mode #tsxv5-wl .wl-btn-play,
+[data-theme="dark"] #tsxv5-wl .wl-btn-play {
+  color: #000 !important;
+}
+#tsxv5-wl .wl-btn-play:hover {
+  filter: brightness(1.2);
+}
+#tsxv5-wl .wl-btn-secondary {
+  background: var(--wl-surface2);
+  color: var(--wl-primary) !important;
+}
+#tsxv5-wl .wl-btn-secondary:hover {
+  background: rgba(5,150,105,0.1);
+  border-color: var(--wl-primary);
+}
+#tsxv5-wl .wl-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+}
+
+#tsxv5-wl .wl-rec-section {
+  display: none;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--wl-border);
+  text-align: center;
+}
+#tsxv5-wl .wl-rec-section.show {
+  display: block;
+}
+#tsxv5-wl .wl-rec-btn {
+  width: 100%;
+  max-width: 300px;
+  padding: 14px 24px;
+  border: 2px solid var(--wl-secondary);
+  border-radius: var(--wl-radius);
+  background: rgba(219,39,119,0.08);
+  color: var(--wl-secondary) !important;
+  font-weight: 900;
+  font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+  cursor: pointer;
+  transition: all .2s ease;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  min-height: 44px;
+}
+body.dark-mode #tsxv5-wl .wl-rec-btn,
+[data-theme="dark"] #tsxv5-wl .wl-rec-btn {
+  background: rgba(255,0,255,0.1);
+}
+#tsxv5-wl .wl-rec-btn:hover {
+  background: var(--wl-secondary);
+  color: #fff !important;
+  box-shadow: 0 0 20px rgba(219,39,119,0.4);
+}
+body.dark-mode #tsxv5-wl .wl-rec-btn:hover,
+[data-theme="dark"] #tsxv5-wl .wl-rec-btn:hover {
+  color: #000 !important;
+  box-shadow: 0 0 20px rgba(255,0,255,0.5);
+}
+#tsxv5-wl .wl-rec-btn.recording {
+  animation: tsxv5WlRecPulse 1s infinite;
+  background: var(--wl-secondary);
+  color: #fff !important;
+}
+body.dark-mode #tsxv5-wl .wl-rec-btn.recording,
+[data-theme="dark"] #tsxv5-wl .wl-rec-btn.recording {
+  color: #000 !important;
+}
+@keyframes tsxv5WlRecPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(219,39,119,0.5); }
+  50% { box-shadow: 0 0 0 10px rgba(219,39,119,0); }
+}
+#tsxv5-wl .wl-rec-note {
+  font-size: clamp(0.7rem, 1.2vw, 0.75rem);
+  color: var(--wl-text-dim) !important;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+#tsxv5-wl .wl-rec-note strong {
+  color: var(--wl-text) !important;
+}
+#tsxv5-wl .wl-rec-status {
+  font-size: clamp(0.8rem, 1.5vw, 0.85rem);
+  color: var(--wl-primary) !important;
+  min-height: 24px;
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+#tsxv5-wl .wl-error {
+  display: none;
+  background: var(--wl-error-bg);
+  border: 1px solid var(--wl-error-border);
+  border-radius: var(--wl-radius);
+  padding: 12px;
+  margin-top: 12px;
+  color: var(--wl-error) !important;
+  font-size: clamp(0.8rem, 1.5vw, 0.85rem);
+  text-align: center;
+}
+#tsxv5-wl .wl-error.show {
+  display: block;
+}
+
+/* Content sections – clean card style */
+#tsxv5-wl .wl-how,
+#tsxv5-wl .wl-faq,
+#tsxv5-wl .wl-related {
+  margin-top: 32px;
+  padding: clamp(20px, 4vw, 28px) clamp(16px, 3vw, 24px);
+  background: var(--wl-surface);
+  border: 1px solid var(--wl-border);
+  border-radius: var(--wl-radius);
+  color: var(--wl-text) !important;
+  backdrop-filter: blur(8px);
+}
+#tsxv5-wl .wl-how h2,
+#tsxv5-wl .wl-faq h2 {
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  font-weight: 900;
+  color: var(--wl-primary) !important;
+  text-shadow: var(--wl-glow);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.3;
+}
+#tsxv5-wl .wl-how h3 {
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  font-weight: 700;
+  color: var(--wl-secondary) !important;
+  margin: 24px 0 12px;
+  line-height: 1.4;
+}
+#tsxv5-wl .wl-how p,
+#tsxv5-wl .wl-faq-item p {
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  line-height: 1.7;
+  color: var(--wl-text-dim) !important;
+  margin-bottom: 14px;
+}
+#tsxv5-wl .wl-how ul,
+#tsxv5-wl .wl-how ol {
+  margin: 14px 0 14px 24px;
+  line-height: 1.8;
+  color: var(--wl-text-dim) !important;
+}
+#tsxv5-wl .wl-how li {
+  margin-bottom: 8px;
+  color: var(--wl-text-dim) !important;
+}
+#tsxv5-wl .wl-how strong {
+  color: var(--wl-accent) !important;
+}
+#tsxv5-wl .wl-how code {
+  background: rgba(5,150,105,0.1);
+  color: var(--wl-primary) !important;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+body.dark-mode #tsxv5-wl .wl-how code,
+[data-theme="dark"] #tsxv5-wl .wl-how code {
+  background: rgba(0,255,65,0.1);
+}
+
+#tsxv5-wl .wl-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+#tsxv5-wl .wl-step-card {
+  background: var(--wl-surface2);
+  padding: 16px;
+  border-radius: var(--wl-radius);
+  border: 1px solid var(--wl-border);
+}
+#tsxv5-wl .wl-step-num {
+  width: 32px;
+  height: 32px;
+  background: var(--wl-primary);
+  color: #fff !important;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+body.dark-mode #tsxv5-wl .wl-step-num,
+[data-theme="dark"] #tsxv5-wl .wl-step-num {
+  color: #000 !important;
+}
+#tsxv5-wl .wl-step-title {
+  font-weight: 700;
+  color: var(--wl-primary) !important;
+  margin-bottom: 6px;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+}
+#tsxv5-wl .wl-step-desc {
+  font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+  color: var(--wl-text-dim) !important;
+  line-height: 1.6;
+}
+
+/* FAQ – simple accordion */
+#tsxv5-wl .wl-faq-item {
+  margin-bottom: 16px;
+  padding: 16px;
+  background: var(--wl-surface2);
+  border-radius: var(--wl-radius);
+  border: 1px solid var(--wl-border);
+  cursor: pointer;
+  transition: all .2s;
+}
+#tsxv5-wl .wl-faq-item:hover {
+  border-color: var(--wl-primary);
+}
+#tsxv5-wl .wl-faq-item h3 {
+  font-weight: 700;
+  color: var(--wl-secondary) !important;
+  margin-bottom: 0;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+#tsxv5-wl .wl-faq-item h3::after {
+  content: '+';
+  font-size: 1.3rem;
+  color: var(--wl-primary) !important;
+  transition: transform .3s;
+  flex-shrink: 0;
+}
+#tsxv5-wl .wl-faq-item.open h3::after {
+  transform: rotate(45deg);
+}
+#tsxv5-wl .wl-faq-item.open h3 {
+  margin-bottom: 10px;
+}
+#tsxv5-wl .wl-faq-item p {
+  display: none;
+  margin-top: 10px;
+}
+#tsxv5-wl .wl-faq-item.open p {
+  display: block;
+}
+
+/* Footer */
+#tsxv5-wl .wl-footer {
+  padding: 20px;
+  text-align: center;
+  margin-top: 24px;
+  border-top: 1px solid var(--wl-border);
+}
+#tsxv5-wl .wl-footer p {
+  color: var(--wl-text-dim) !important;
+  font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+  font-style: italic;
+}
+#tsxv5-wl .wl-footer a {
+  color: var(--wl-primary) !important;
+  text-decoration: none;
+}
+
+/* Related tools */
+#tsxv5-wl .wl-related-title {
+  color: var(--wl-primary) !important;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-weight: 700;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+#tsxv5-wl .wl-related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+#tsxv5-wl .wl-related-link {
+  background: var(--wl-surface2);
+  border: 1px solid var(--wl-border);
+  padding: 14px;
+  text-decoration: none;
+  transition: all .3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: var(--wl-radius);
+  min-height: 60px;
+}
+#tsxv5-wl .wl-related-link:hover {
+  border-color: var(--wl-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(5,150,105,0.15);
+  text-decoration: none;
+}
+body.dark-mode #tsxv5-wl .wl-related-link:hover,
+[data-theme="dark"] #tsxv5-wl .wl-related-link:hover {
+  box-shadow: 0 8px 20px rgba(0,255,65,0.2);
+}
+#tsxv5-wl .wl-related-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+#tsxv5-wl .wl-related-link strong {
+  color: var(--wl-primary) !important;
+  display: block;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  margin-bottom: 2px;
+}
+#tsxv5-wl .wl-related-link span {
+  color: var(--wl-text-dim) !important;
+  font-size: clamp(0.7rem, 1.2vw, 0.82rem);
+  line-height: 1.5;
+}
+
+/* Responsive fine‑tuning */
+@media (max-width: 640px) {
+  #tsxv5-wl .wl {
+    padding: 12px;
+    border-radius: 0;
+  }
+  #tsxv5-wl .wl-header h1 {
+    font-size: 1.4rem;
+  }
+  #tsxv5-wl .wl-stage {
+    height: clamp(180px, 30vh, 260px);
+  }
+  #tsxv5-wl .wl-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #tsxv5-wl .wl-mode-btns {
+    justify-content: stretch;
+  }
+  #tsxv5-wl .wl-mode-btn {
+    flex: 1;
+    min-width: 60px;
+    padding: 8px 10px;
+  }
+  #tsxv5-wl .wl-right {
+    justify-content: center;
+  }
+  #tsxv5-wl .wl-how,
+  #tsxv5-wl .wl-faq,
+  #tsxv5-wl .wl-related {
+    padding: 16px 12px;
+  }
+  #tsxv5-wl .wl-related-grid {
+    grid-template-columns: 1fr;
+  }
+  #tsxv5-wl .wl-song-name {
+    max-width: 120px;
+  }
+}
+@media (max-width: 400px) {
+  #tsxv5-wl .wl-mode-btn {
+    font-size: 0.6rem;
+    padding: 6px 8px;
+  }
+  #tsxv5-wl .wl-vol input[type="range"] {
+    width: 40px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #tsxv5-wl *,
+  #tsxv5-wl *::before,
+  #tsxv5-wl *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+
+<article class="wl" id="tsxv5-wlApp">
+
+  <nav class="wl-breadcrumb" aria-label="Breadcrumb">
+    <a href="https://www.toolsx.in/">Home</a> &gt; Audio Visualizer Laser
+  </nav>
+
+  <header class="wl-header">
+    <div class="wl-icon" aria-hidden="true">🎵</div>
+    <h1>Audio Visualizer Laser</h1>
+    <p class="wl-header-sub">Convert your song into stunning laser visuals in real‑time — choose from Bars, Wave, or Circle modes. Record the full video with audio sync, all in your browser.</p>
+    <div class="wl-badges">
+      <span class="wl-badge">📊 3 Visual Modes</span>
+      <span class="wl-badge">🌈 RGB Laser</span>
+      <span class="wl-badge">⏺ Full Video Record</span>
+      <span class="wl-badge">📸 Snapshot</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="wl-panel">
+      <div class="wl-panel-title">Upload Audio File</div>
+      <div class="wl-drop" id="tsxv5-wlAudioDrop">
+        <span class="wl-drop-icon">🎧</span>
+        <span class="wl-drop-text">Select MP3 / WAV File</span>
+        <span class="wl-drop-sub">Maximum 20MB · Click or drag &amp; drop</span>
+      </div>
+      <input type="file" id="tsxv5-wlAudioInput" accept="audio/mpeg,audio/wav,.mp3,.wav" hidden>
+      <div class="wl-song-info" id="tsxv5-wlSongInfo">
+        <span>🎵</span>
+        <span><span class="wl-song-name" id="tsxv5-wlSongName"></span> <span class="wl-song-size" id="tsxv5-wlSongSize"></span></span>
+      </div>
+    </section>
+
+    <div class="wl-stage" id="tsxv5-wlStage">
+      <canvas class="wl-canvas" id="tsxv5-wlCanvas"></canvas>
+      <div class="wl-hint" id="tsxv5-wlHint">🎧 Upload audio – the visualizer will appear here</div>
+    </div>
+
+    <div class="wl-seek-wrap" id="tsxv5-wlSeekWrap">
+      <div class="wl-seek-bar" id="tsxv5-wlSeekBar">
+        <div class="wl-seek-fill" id="tsxv5-wlSeekFill"></div>
+      </div>
+      <span class="wl-time" id="tsxv5-wlTime">0:00 / 0:00</span>
+    </div>
+
+    <div class="wl-controls" id="tsxv5-wlControls">
+      <div class="wl-mode-btns">
+        <button type="button" class="wl-mode-btn active" data-mode="bars">Bars</button>
+        <button type="button" class="wl-mode-btn" data-mode="wave">Wave</button>
+        <button type="button" class="wl-mode-btn" data-mode="circle">Circle</button>
+      </div>
+      <div class="wl-right">
+        <span class="wl-vol">🔊<input type="range" id="tsxv5-wlVolume" min="0" max="1" step="0.01" value="1" aria-label="Volume"></span>
+        <button type="button" class="wl-btn wl-btn-secondary" id="tsxv5-wlLoopBtn">🔁 Loop</button>
+        <button type="button" class="wl-btn wl-btn-play" id="tsxv5-wlPlayBtn" disabled>▶ Play</button>
+      </div>
+    </div>
+
+    <div class="wl-rec-section" id="tsxv5-wlRecSection">
+      <button type="button" class="wl-rec-btn" id="tsxv5-wlRecBtn">⏺ Record Full Video</button>
+      <p class="wl-rec-note"><strong>Note:</strong> The entire song will be recorded, and the video will download automatically when it ends. Controls are locked during recording.</p>
+      <div class="wl-rec-status" id="tsxv5-wlRecStatus"></div>
+      <button type="button" class="wl-btn wl-btn-secondary" id="tsxv5-wlSnapBtn" style="margin-top:12px;">📸 Take Snapshot (PNG)</button>
+    </div>
+
+    <div class="wl-error" id="tsxv5-wlError"></div>
+  </main>
+
+  <!-- How to Use – fully in English, unique content -->
+  <section class="wl-how">
+    <h2>🎯 How This Audio Visualizer Works</h2>
+    <p><strong>Tools-X Audio Visualizer Laser</strong> is a professional‑grade browser‑based tool that transforms your audio files into stunning real‑time laser visuals. It leverages the advanced capabilities of the <strong>Web Audio API</strong> — the same technology used in professional music production software like Ableton and FL Studio. Whether you need audio visualizers for YouTube videos, content for Instagram Reels, or simply want to experience your favorite song visually, this tool fits every scenario. The standout feature is that you can record the entire song as a video without any external software.</p>
+
+    <h3>Core Technology: Web Audio API + Canvas Rendering</h3>
+    <p>The tool is built on two powerful web technologies: <code>AudioContext</code> and <code>HTML5 Canvas</code>. AudioContext decodes the audio file into a PCM buffer, then <code>AnalyserNode</code> extracts real‑time frequency and time‑domain data. This data is rendered on the canvas at 60 frames per second, producing smooth, professional‑grade visualizations. Everything runs locally in your browser — no server uploads.</p>
+
+    <h3>Step‑by‑Step: How to Use the Visualizer</h3>
+    <div class="wl-steps-grid">
+      <div class="wl-step-card"><div class="wl-step-num">1</div><div class="wl-step-title">Upload Audio</div><div class="wl-step-desc">Select an MP3 or WAV file (max 20MB). The file is validated and decoded.</div></div>
+      <div class="wl-step-card"><div class="wl-step-num">2</div><div class="wl-step-title">Press Play</div><div class="wl-step-desc">The audio starts playing and the real‑time visualization appears on the canvas.</div></div>
+      <div class="wl-step-card"><div class="wl-step-num">3</div><div class="wl-step-title">Choose Mode</div><div class="wl-step-desc">Switch between Bars, Wave, or Circle — each offers a unique laser style.</div></div>
+      <div class="wl-step-card"><div class="wl-step-num">4</div><div class="wl-step-title">Seek &amp; Control</div><div class="wl-step-desc">Use the progress bar to jump to any point; adjust volume as needed.</div></div>
+      <div class="wl-step-card"><div class="wl-step-num">5</div><div class="wl-step-title">Record Video</div><div class="wl-step-desc">Record the full song — audio and visuals are captured together.</div></div>
+      <div class="wl-step-card"><div class="wl-step-num">6</div><div class="wl-step-title">Download</div><div class="wl-step-desc">The video is exported as WebM — ready for YouTube upload.</div></div>
+    </div>
+
+    <h3>Three Visual Modes for Every Mood</h3>
+    <ul>
+      <li><strong>Bars Mode (Classic):</strong> 64 vertical frequency bars representing the audio spectrum. Low frequencies (bass) appear on the left, high frequencies (treble) on the right. Each bar’s colour rotates through the hue spectrum, creating a rainbow effect.</li>
+      <li><strong>Wave Mode (Oscilloscope):</strong> Displays the time‑domain waveform, showing the actual shape of the audio. This mode is perfect for vocal tracks and acoustic instruments — you see the physical wave of the sound.</li>
+      <li><strong>Circle Mode (Radial):</strong> 80 radial lines extend outward from the centre based on frequency intensity. This mode is ideal for EDM and electronic music, generating hypnotic, psychedelic visuals.</li>
+    </ul>
+
+    <h3>Audio Analysis: Fast Fourier Transform (FFT)</h3>
+    <p>The visualizer’s magic relies on the FFT algorithm, which converts the audio signal from the time domain to the frequency domain. In simple terms, it tells you which frequencies are strongest in the audio. The tool uses 512 frequency bins with a smoothing time constant of 0.82 — ensuring smooth, jitter‑free visuals. The update rate is 60 FPS using <code>requestAnimationFrame</code>, delivering cinema‑grade smoothness.</p>
+
+    <h3>Video Recording: MediaRecorder API</h3>
+    <p>Recording is powered by <code>canvas.captureStream()</code> and the <code>MediaRecorder</code> API. Canvas frames are captured at 30 FPS and combined with the audio stream, then encoded into a WebM container (VP9 video + Opus audio). The recording process collects data in chunks every 200ms. When the song ends, recording stops automatically, a blob is created, and the download is triggered. All MediaStream tracks are explicitly stopped to prevent memory leaks.</p>
+
+    <h3>Privacy &amp; Security</h3>
+    <p>This tool is 100% client‑side — your audio is never uploaded to any server. Everything stays in your browser. File validation is performed in three layers: extension check, size limit (20MB max), and magic‑byte signature verification to identify MP3/WAV files. Object URLs are properly revoked with <code>URL.revokeObjectURL()</code>, the AudioContext is explicitly closed, and all MediaStream tracks are stopped. Your data never leaves your device — complete privacy.</p>
+  </section>
+
+  <!-- FAQ Section – English -->
+  <section class="wl-faq">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="wl-faq-item"><h3>Is this tool really free?</h3><p>Yes, completely free. No hidden charges, no premium version, no credit system. You can generate and download unlimited videos for personal or commercial use. No sign‑up required.</p></div>
+    <div class="wl-faq-item"><h3>Is my audio uploaded anywhere?</h3><p>No. Audio is decoded only in your browser’s memory. It never leaves your device. When you close the tab, all memory is freed – complete privacy.</p></div>
+    <div class="wl-faq-item"><h3>What video format is exported?</h3><p>WebM format (VP9 video + Opus audio). It uploads easily to YouTube, Facebook, and Twitter. If you need MP4, you can use any free online converter.</p></div>
+    <div class="wl-faq-item"><h3>How long can the recorded song be?</h3><p>No limit – you can record full‑length songs (5‑10 minutes). Recording stops automatically when the song ends and the video downloads immediately.</p></div>
+    <div class="wl-faq-item"><h3>Does recording work on mobile?</h3><p>Yes – Chrome, Edge, Samsung Internet (Android), and iOS 15+ Safari support MediaRecorder. Keep the screen on and avoid switching to background during recording.</p></div>
+    <div class="wl-faq-item"><h3>Which visual mode is best?</h3><p>It depends on music type: Bars for bass‑heavy EDM/hip‑hop, Wave for vocals/acoustic, Circle for electronic/ambient. Each mode has a unique character.</p></div>
+    <div class="wl-faq-item"><h3>Can I get a copyright strike on YouTube?</h3><p>The visualizer itself is copyright‑free, but if you use copyrighted music, the music may be claimed. Use royalty‑free or your own original music.</p></div>
+    <div class="wl-faq-item"><h3>Can I change the mode while recording?</h3><p>No – controls are locked during recording to ensure a consistent output. Select your mode before starting the recording.</p></div>
+  </section>
+
+  <!-- Related Tools – internal links (keep as provided) -->
+  <aside class="wl-related" aria-label="Related AI Tools">
+    <h2 class="wl-related-title">🎭 More Creative Tools</h2>
+    <div class="wl-related-grid">
+      <a href="https://www.toolsx.in/2026/08/explore-karein-200-ai-prompts-hub-ai-lab.html" class="wl-related-link" rel="noopener">
+        <span class="wl-related-icon">💡</span>
+        <div><strong>200+ AI Prompt Library</strong><span>Curated prompts for better audio visualizer concepts</span></div>
+      </a>
+      <a href="../tools/ringtone-maker-15-music-styles-voice.html" class="wl-related-link" rel="noopener">
+        <span class="wl-related-icon">🔔</span>
+        <div><strong>Name Ringtone Maker</strong><span>Custom ringtones with 15 music styles</span></div>
+      </a>
+      <a href="../tools/sync-karein-beats-ke-saath-ai-dance.html" class="wl-related-link" rel="noopener">
+        <span class="wl-related-icon">🕺</span>
+        <div><strong>AI Dance Video Maker</strong><span>Turn any photo into a beat‑sync dance video</span></div>
+      </a>
+    </div>
+  </aside>
+
+  <footer class="wl-footer">
+    <p>🎵 100% Free • No Signup • Unlimited Videos • 100% Browser‑Based Processing</p>
+    <p style="font-size:0.75rem;opacity:0.7;margin-top:8px;">Powered by <strong><a href="https://www.toolsx.in" rel="noopener">Tools-X</a></strong></p>
+  </footer>
+</article>
+
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+
+var W = document.getElementById('tsxv5-wl');
+if (!W) return;
+
+function $(id) { return document.getElementById(id); }
+function setText(el, s) { if (el) el.textContent = String(s == null ? '' : s); }
+function fmtBytes(n) {
+  if (!isFinite(n)) return '';
+  if (n < 1024) return n + ' B';
+  if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
+  return (n / 1048576).toFixed(2) + ' MB';
+}
+function fmtTime(s) {
+  if (!isFinite(s)) return '0:00';
+  var m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+function sanitizeDisplay(s) {
+  return String(s || '').replace(/[\x00-\x1F\x7F<>{}"'\\\/]/g, '').substring(0, 80);
+}
+function sanitizeFilename(s) {
+  return String(s || 'toolsx-visualizer').replace(/[^a-zA-Z0-9._\-]/g, '').substring(0, 80) || 'toolsx-visualizer';
+}
+
+var state = {
+  buffer: null,
+  isPlaying: false,
+  isLooping: false,
+  isRecording: false,
+  startTime: 0,
+  pauseOffset: 0,
+  duration: 0,
+  mode: 'bars',
+  src: null,
+  analyser: null,
+  gain: null,
+  dest: null,
+  rec: null,
+  chunks: [],
+  raf: null,
+  hue: 0,
+  recStream: null,
+  lastUrl: null,
+  decoding: false
+};
+
+var urls = new Set();
+function trackUrl(u) { if (u) urls.add(u); return u; }
+function revokeUrl(u) { if (u && urls.has(u)) { try { URL.revokeObjectURL(u); } catch(e) {} urls.delete(u); } }
+
+function showError(msg) {
+  var box = $('tsxv5-wlError');
+  setText(box, '❌ ' + msg);
+  if (box) box.classList.add('show');
+  setTimeout(function(){ if (box) box.classList.remove('show'); }, 6000);
+}
+
+var audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    audioCtx = new AC();
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+var canvas = $('tsxv5-wlCanvas');
+var ctx2d = canvas ? canvas.getContext('2d') : null;
+var stageEl = $('tsxv5-wlStage');
+var Wc = 600, Hc = 220;
+
+function sizeCanvas() {
+  if (!canvas || !stageEl) return;
+  var r = stageEl.getBoundingClientRect();
+  var dpr = Math.min(2, window.devicePixelRatio || 1);
+  Wc = Math.max(300, Math.floor(r.width));
+  Hc = Math.max(200, Math.floor(r.height));
+  canvas.width = Math.floor(Wc * dpr);
+  canvas.height = Math.floor(Hc * dpr);
+  if (ctx2d) ctx2d.setTransform(dpr, 0, 0, dpr, 0, 0);
+  drawIdle();
+}
+
+if (typeof ResizeObserver !== 'undefined' && stageEl) new ResizeObserver(sizeCanvas).observe(stageEl);
+else window.addEventListener('resize', sizeCanvas);
+
+function drawIdle() {
+  if (!ctx2d) return;
+  ctx2d.fillStyle = '#000';
+  ctx2d.fillRect(0, 0, Wc, Hc);
+  ctx2d.fillStyle = '#7fa87f';
+  ctx2d.font = '600 14px "Courier New", monospace';
+  ctx2d.textAlign = 'center';
+  ctx2d.fillText('🎧 Upload audio', Wc/2, Hc/2);
+  ctx2d.textAlign = 'left';
+}
+
+// 3-layer file validation: extension + size + magic bytes
+function validateFile(file) {
+  return new Promise(function(resolve) {
+    if (!file) { resolve({ok: false, error: 'No file selected'}); return; }
+    var ext = (file.name.split('.').pop() || '').toLowerCase();
+    if (['mp3', 'wav'].indexOf(ext) < 0) { resolve({ok: false, error: 'Only MP3 or WAV allowed'}); return; }
+    if (file.size > 20 * 1024 * 1024) { resolve({ok: false, error: 'File too large. Max: 20MB'}); return; }
+    if (file.size === 0) { resolve({ok: false, error: 'File is empty'}); return; }
+    var slice = file.slice(0, 12);
+    if (slice.arrayBuffer) {
+      slice.arrayBuffer().then(function(buf) {
+        var bytes = new Uint8Array(buf);
+        var id3 = bytes[0] === 0x49 && bytes[1] === 0x44 && bytes[2] === 0x33;
+        var mp3f = bytes[0] === 0xFF && ((bytes[1] & 0xE0) === 0xE0);
+        var wav = bytes.length >= 12 && bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46;
+        resolve((id3 || mp3f || wav) ? {ok: true} : {ok: false, error: 'Invalid file signature'});
+      }).catch(function(){ resolve({ok: false, error: 'File read error'}); });
+    } else { resolve({ok: true}); }
+  });
+}
+
+function loadAudio(file) {
+  validateFile(file).then(function(v) {
+    if (!v.ok) { showError(v.error); return; }
+    if (state.isPlaying) pause();
+    setText($('tsxv5-wlSongName'), sanitizeDisplay(file.name));
+    setText($('tsxv5-wlSongSize'), fmtBytes(file.size));
+    $('tsxv5-wlSongInfo').classList.add('show');
+    $('tsxv5-wlHint').classList.add('hide');
+    $('tsxv5-wlSeekWrap').classList.add('show');
+    $('tsxv5-wlControls').classList.add('show');
+    $('tsxv5-wlRecSection').classList.add('show');
+    setText($('tsxv5-wlRecStatus'), 'Decoding...');
+    state.decoding = true;
+    var playBtn = $('tsxv5-wlPlayBtn');
+    if (playBtn) playBtn.disabled = true;
+
+    var ctx = getAudioCtx();
+    if (!ctx) { showError('AudioContext not supported'); state.decoding = false; return; }
+
+    var fr = new FileReader();
+    fr.onload = function(ev) {
+      var settled = false;
+      var done = function(buf) {
+        if (settled) return; settled = true;
+        state.buffer = buf;
+        state.duration = buf.duration;
+        state.pauseOffset = 0;
+        state.decoding = false;
+        setText($('tsxv5-wlRecStatus'), '✅ Ready — press Play');
+        if (playBtn) playBtn.disabled = false;
+      };
+      var fail = function() {
+        if (settled) return; settled = true;
+        state.decoding = false;
+        showError('Audio decode failed — try another file');
+        if (playBtn) playBtn.disabled = true;
+      };
+      try {
+        var p = ctx.decodeAudioData(ev.target.result);
+        if (p && typeof p.then === 'function') { p.then(done, fail); }
+        else { ctx.decodeAudioData(ev.target.result, done, fail); }
+      } catch(e) {
+        try { ctx.decodeAudioData(ev.target.result, done, fail); } catch(e2) { fail(); }
+      }
+    };
+    fr.onerror = function() { showError('File read error'); state.decoding = false; };
+    fr.readAsArrayBuffer(file);
+  });
+}
+
+function initGraph() {
+  var ctx = getAudioCtx();
+  if (!ctx) return false;
+  if (state.src) { try { state.src.stop(); } catch(e) {} state.src = null; }
+  if (state.analyser) { try { state.analyser.disconnect(); } catch(e) {} }
+  if (state.gain) { try { state.gain.disconnect(); } catch(e) {} }
+  if (state.dest) { try { state.dest.disconnect(); } catch(e) {} }
+
+  try {
+    state.analyser = ctx.createAnalyser();
+    state.analyser.fftSize = 512;
+    state.analyser.smoothingTimeConstant = 0.82;
+
+    state.gain = ctx.createGain();
+    var vol = $('tsxv5-wlVolume');
+    state.gain.gain.value = vol ? (parseFloat(vol.value) || 1) : 1;
+
+    state.dest = ctx.createMediaStreamDestination();
+
+    state.analyser.connect(state.gain);
+    state.gain.connect(ctx.destination);
+    state.gain.connect(state.dest);
+    return true;
+  } catch(e) {
+    showError('Audio graph init failed: ' + e.message);
+    return false;
+  }
+}
+
+function createSrc(offset) {
+  var ctx = getAudioCtx();
+  if (!ctx || !state.buffer) return;
+  state.src = ctx.createBufferSource();
+  state.src.buffer = state.buffer;
+  state.src.connect(state.analyser);
+  state.startTime = ctx.currentTime - offset;
+  state.src.onended = function() { ended(); };
+  try { state.src.start(0, offset); } catch(e) { showError('Play start error: ' + e.message); }
+}
+
+function ended() {
+  if (!state.isPlaying) return;
+  if (state.isRecording) {
+    state.isPlaying = false;
+    state.pauseOffset = 0;
+    setText($('tsxv5-wlPlayBtn'), '▶ Play');
+    stopRec();
+    return;
+  }
+  if (state.isLooping) {
+    state.pauseOffset = 0;
+    createSrc(0);
+    return;
+  }
+  state.isPlaying = false;
+  state.pauseOffset = 0;
+  setText($('tsxv5-wlPlayBtn'), '▶ Play');
+}
+
+function play() {
+  if (!state.buffer) { showError('Please upload an audio file first'); return; }
+  if (state.isRecording) { showError('Recording in progress — stop recording first'); return; }
+  if (state.decoding) { showError('Still decoding, please wait'); return; }
+  if (state.isPlaying) { pause(); return; }
+
+  if (!initGraph()) return;
+  createSrc(state.pauseOffset);
+  state.isPlaying = true;
+  setText($('tsxv5-wlPlayBtn'), '⏸ Pause');
+  cancelAnimationFrame(state.raf);
+  state.raf = requestAnimationFrame(draw);
+}
+
+function pause() {
+  if (!state.isPlaying) return;
+  var ctx = getAudioCtx();
+  state.pauseOffset = ctx ? (ctx.currentTime - state.startTime) : 0;
+  if (state.src) { try { state.src.stop(); } catch(e) {} }
+  state.isPlaying = false;
+  setText($('tsxv5-wlPlayBtn'), '▶ Play');
+}
+
+function seek(e) {
+  if (!state.buffer || state.isRecording || !e) return;
+  var r = e.currentTarget.getBoundingClientRect();
+  var ratio = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+  state.pauseOffset = ratio * state.duration;
+  if (state.isPlaying) {
+    if (state.src) { try { state.src.stop(); } catch(err) {} }
+    createSrc(state.pauseOffset);
+  }
+}
+
+function draw() {
+  state.raf = requestAnimationFrame(draw);
+  if (!state.analyser) return;
+  var ctx = getAudioCtx();
+  var el = state.isPlaying && ctx ? (ctx.currentTime - state.startTime) : state.pauseOffset;
+  el = Math.max(0, Math.min(el, state.duration));
+
+  if (state.duration > 0) {
+    $('tsxv5-wlSeekFill').style.width = (el / state.duration * 100).toFixed(1) + '%';
+    setText($('tsxv5-wlTime'), fmtTime(el) + ' / ' + fmtTime(state.duration));
+  }
+
+  if (state.isRecording) {
+    setText($('tsxv5-wlRecStatus'), '⏺ Recording... ' + fmtTime(el) + ' / ' + fmtTime(state.duration));
+  }
+
+  var data = new Uint8Array(state.analyser.frequencyBinCount);
+  state.analyser.getByteFrequencyData(data);
+  state.hue = (state.hue + 0.4) % 360;
+
+  ctx2d.clearRect(0, 0, Wc, Hc);
+  ctx2d.fillStyle = '#000';
+  ctx2d.fillRect(0, 0, Wc, Hc);
+
+  var i;
+  if (state.mode === 'bars') {
+    var n = 64, bw = Wc / n - 1.5;
+    for (i = 0; i < n; i++) {
+      var v = data[i] / 255, bh = v * Hc * 0.9, h = (state.hue + i * 3.5) % 360;
+      var gd = ctx2d.createLinearGradient(0, Hc, 0, Hc - bh);
+      gd.addColorStop(0, 'hsla(' + h + ',90%,60%,0.92)');
+      gd.addColorStop(1, 'hsla(' + ((h + 80) % 360) + ',100%,90%,0.5)');
+      ctx2d.fillStyle = gd;
+      ctx2d.fillRect(i * (bw + 1.5), Hc - bh, bw, bh);
+    }
+  } else if (state.mode === 'wave') {
+    var td = new Uint8Array(state.analyser.fftSize);
+    state.analyser.getByteTimeDomainData(td);
+    ctx2d.lineWidth = 2.5;
+    ctx2d.strokeStyle = 'hsl(' + state.hue + ',90%,65%)';
+    ctx2d.shadowColor = 'hsl(' + state.hue + ',100%,70%)';
+    ctx2d.shadowBlur = 12;
+    ctx2d.beginPath();
+    for (i = 0; i < td.length; i++) {
+      var x = (i / td.length) * Wc, y = ((td[i] / 128) - 1) * Hc * 0.45 + Hc / 2;
+      if (i === 0) ctx2d.moveTo(x, y); else ctx2d.lineTo(x, y);
+    }
+    ctx2d.stroke();
+    ctx2d.shadowBlur = 0;
+  } else {
+    var cx = Wc / 2, cy = Hc / 2, r0 = Math.min(Wc, Hc) * 0.18, nn = 80;
+    for (i = 0; i < nn; i++) {
+      var ang = (i / nn) * Math.PI * 2 - Math.PI / 2;
+      var vv = data[Math.floor(i * data.length / nn)] / 255;
+      var len = vv * r0 * 1.8, hh = (state.hue + i * 4.5) % 360;
+      ctx2d.strokeStyle = 'hsla(' + hh + ',90%,65%,0.85)';
+      ctx2d.lineWidth = 2.5;
+      ctx2d.beginPath();
+      ctx2d.moveTo(cx + Math.cos(ang) * r0, cy + Math.sin(ang) * r0);
+      ctx2d.lineTo(cx + Math.cos(ang) * (r0 + len), cy + Math.sin(ang) * (r0 + len));
+      ctx2d.stroke();
+    }
+  }
+}
+
+function snapshot() {
+  if (!state.buffer) { showError('Please upload audio first'); return; }
+  try {
+    var dataURL = canvas.toDataURL('image/png');
+    var a = document.createElement('a');
+    a.href = dataURL;
+    a.download = sanitizeFilename('toolsx-visualizer-' + Date.now()) + '.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  } catch(e) { showError('Snapshot failed: ' + e.message); }
+}
+
+function pickMime() {
+  if (typeof MediaRecorder === 'undefined') return '';
+  var list = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'];
+  for (var i = 0; i < list.length; i++) {
+    try { if (MediaRecorder.isTypeSupported(list[i])) return list[i]; } catch(e) {}
+  }
+  return '';
+}
+
+function record() {
+  if (!state.buffer || state.isRecording) return;
+  if (typeof MediaRecorder === 'undefined' || typeof canvas.captureStream !== 'function') {
+    showError('Browser recording not supported');
+    return;
+  }
+  var mime = pickMime();
+  if (!mime) { showError('No supported video format'); return; }
+
+  if (state.isPlaying) pause();
+  state.pauseOffset = 0;
+  if (!initGraph()) return;
+
+  try {
+    var vTracks = canvas.captureStream(30).getVideoTracks();
+    state.recStream = new MediaStream(vTracks.concat(state.dest.stream.getAudioTracks()));
+    state.chunks = [];
+    state.rec = new MediaRecorder(state.recStream, { mimeType: mime });
+    state.rec.ondataavailable = function(e) { if (e.data && e.data.size > 0) state.chunks.push(e.data); };
+    state.rec.onstop = function() {
+      if (!state.chunks.length) { showError('No video recorded'); }
+      else {
+        var blob = new Blob(state.chunks, { type: mime });
+        revokeUrl(state.lastUrl);
+        state.lastUrl = trackUrl(URL.createObjectURL(blob));
+        var a = document.createElement('a');
+        a.href = state.lastUrl;
+        a.download = sanitizeFilename('toolsx-visualizer-' + Date.now()) + '.webm';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setText($('tsxv5-wlRecStatus'), '✅ Video downloaded!');
+      }
+      cleanupRec();
+    };
+    state.rec.onerror = function() { showError('Recording error'); cleanupRec(); };
+
+    state.isRecording = true;
+    setText($('tsxv5-wlRecBtn'), '⏹ Recording...');
+    $('tsxv5-wlRecBtn').classList.add('recording');
+    $('tsxv5-wlPlayBtn').disabled = true;
+    setText($('tsxv5-wlRecStatus'), '⏺ Recording...');
+    state.rec.start(200);
+    createSrc(0);
+    state.isPlaying = true;
+    setText($('tsxv5-wlPlayBtn'), '⏸ Pause');
+    cancelAnimationFrame(state.raf);
+    state.raf = requestAnimationFrame(draw);
+  } catch(e) {
+    showError('Recording failed: ' + e.message);
+    cleanupRec();
+  }
+}
+
+function stopRec() {
+  if (state.rec && state.rec.state !== 'inactive') { try { state.rec.stop(); } catch(e) {} }
+}
+
+function cleanupRec() {
+  state.isRecording = false;
+  if (state.recStream) { try { state.recStream.getTracks().forEach(function(t){ t.stop(); }); } catch(e) {} state.recStream = null; }
+  if (state.src) { try { state.src.stop(); } catch(e) {} state.src = null; }
+  state.rec = null;
+  state.chunks = [];
+  setText($('tsxv5-wlRecBtn'), '⏺ Record Full Video');
+  $('tsxv5-wlRecBtn').classList.remove('recording');
+  if (!state.decoding) $('tsxv5-wlPlayBtn').disabled = false;
+}
+
+// ─── Event Listeners ───
+
+$('tsxv5-wlAudioDrop').addEventListener('click', function() { $('tsxv5-wlAudioInput').click(); });
+$('tsxv5-wlAudioInput').addEventListener('change', function() { if (this.files && this.files[0]) loadAudio(this.files[0]); });
+
+var dropZone = $('tsxv5-wlAudioDrop');
+dropZone.addEventListener('dragover', function(e) { e.preventDefault(); this.classList.add('drag'); });
+dropZone.addEventListener('dragleave', function() { this.classList.remove('drag'); });
+dropZone.addEventListener('drop', function(e) {
+  e.preventDefault(); this.classList.remove('drag');
+  var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if (f) loadAudio(f);
+});
+
+$('tsxv5-wlSeekBar').addEventListener('click', seek);
+
+$('tsxv5-wlVolume').addEventListener('input', function() {
+  if (state.gain) state.gain.gain.value = parseFloat(this.value) || 0;
+});
+
+W.querySelectorAll('.wl-mode-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    W.querySelectorAll('.wl-mode-btn').forEach(function(b){ b.classList.remove('active'); });
+    this.classList.add('active');
+    state.mode = this.getAttribute('data-mode');
+  });
+});
+
+$('tsxv5-wlLoopBtn').addEventListener('click', function() {
+  state.isLooping = !state.isLooping;
+  this.classList.toggle('active', state.isLooping);
+});
+
+$('tsxv5-wlPlayBtn').addEventListener('click', play);
+
+$('tsxv5-wlRecBtn').addEventListener('click', function() {
+  if (state.isRecording) stopRec(); else record();
+});
+
+$('tsxv5-wlSnapBtn').addEventListener('click', snapshot);
+
+// FAQ accordion
+W.querySelectorAll('.wl-faq-item').forEach(function(item) {
+  item.addEventListener('click', function() { this.classList.toggle('open'); });
+});
+
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden && state.isPlaying) pause();
+});
+
+window.addEventListener('pagehide', function() {
+  try {
+    if (state.src) { try { state.src.stop(); } catch(e) {} }
+    if (audioCtx && audioCtx.state !== 'closed') { try { audioCtx.close(); } catch(e) {} }
+    urls.forEach(function(u){ try { URL.revokeObjectURL(u); } catch(e) {} });
+    urls.clear();
+  } catch(e) {}
+});
+
+sizeCanvas();
+})();
+//]]>
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

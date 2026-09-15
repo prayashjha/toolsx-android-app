@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Song Structure &amp; Lyric Flow Builder – Plan Songs Free – ToolsX App</title>
+<meta name="description" content="Plan your song&#x27;s structure and lyric flow free online — arrange verses, chorus and hooks before you write or record.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Song Structure &amp; Lyric Flow Builder – Plan Songs Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-analog-tape" class="tsxv5-wrapper">
+
+<style>
+#tsxv5-analog-tape{
+  --paper:#f3ead7;--paper-dark:#e7d9bc;
+  --ink:#2b241c;--ink-soft:#5b5245;
+  --rust:#b3492f;--brass:#ad8a2e;--moss:#4f5c3f;
+  font-family:'Spectral',serif;color:var(--ink);
+  background:
+    radial-gradient(ellipse 70% 40% at 15% 0%,rgba(179,73,47,0.07),transparent),
+    radial-gradient(ellipse 70% 40% at 90% 10%,rgba(173,138,46,0.09),transparent),
+    var(--paper);
+  line-height:1.5;margin:0;max-width:100%;box-sizing:border-box;
+  transition:background .3s,color .3s;
+}
+body.dark-mode #tsxv5-analog-tape,
+html.dark-mode #tsxv5-analog-tape,
+[data-theme="dark"] #tsxv5-analog-tape,
+body[data-theme="dark"] #tsxv5-analog-tape,
+html[data-theme="dark"] #tsxv5-analog-tape,
+.dark-mode #tsxv5-analog-tape,
+.night-mode #tsxv5-analog-tape{
+  --paper:#1a1612;--paper-dark:#2b241c;
+  --ink:#f3ead7;--ink-soft:#c9a876;
+}
+#tsxv5-analog-tape *,#tsxv5-analog-tape *::before,#tsxv5-analog-tape *::after{box-sizing:border-box;margin:0;padding:0;}
+#tsxv5-analog-tape .font-display{font-family:'Special Elite',cursive;}
+#tsxv5-analog-tape .font-mono{font-family:'Courier Prime',monospace;}
+#tsxv5-analog-tape ::-webkit-scrollbar{width:8px;height:8px;}
+#tsxv5-analog-tape ::-webkit-scrollbar-track{background:var(--paper);}
+#tsxv5-analog-tape ::-webkit-scrollbar-thumb{background:var(--paper-dark);border-radius:8px;}
+#tsxv5-analog-tape .wrap{max-width:1120px;margin:0 auto;padding:0 20px;position:relative;z-index:2;}
+#tsxv5-analog-tape .panel{
+  background:linear-gradient(180deg,rgba(255,255,255,0.5),rgba(255,255,255,0.15));
+  border:1px solid rgba(43,36,28,0.14);border-radius:6px;
+  box-shadow:0 1px 0 rgba(255,255,255,0.6) inset,0 10px 24px -14px rgba(43,36,28,0.35);
+}
+body.dark-mode #tsxv5-analog-tape .panel,
+html.dark-mode #tsxv5-analog-tape .panel,
+[data-theme="dark"] #tsxv5-analog-tape .panel,
+body[data-theme="dark"] #tsxv5-analog-tape .panel,
+html[data-theme="dark"] #tsxv5-analog-tape .panel,
+.dark-mode #tsxv5-analog-tape .panel,
+.night-mode #tsxv5-analog-tape .panel{
+  background:linear-gradient(180deg,rgba(43,36,28,0.5),rgba(43,36,28,0.3));
+  border-color:rgba(201,168,118,0.2);
+}
+#tsxv5-analog-tape .glow-rust{box-shadow:0 0 0 1px rgba(179,73,47,0.35),0 8px 26px -14px rgba(179,73,47,0.5);}
+#tsxv5-analog-tape .glow-brass{box-shadow:0 0 0 1px rgba(173,138,46,0.4),0 8px 26px -14px rgba(173,138,46,0.5);}
+#tsxv5-analog-tape .text-accent{color:var(--rust);}
+#tsxv5-analog-tape .icon{width:18px;height:18px;display:inline-block;vertical-align:middle;flex-shrink:0;}
+#tsxv5-analog-tape .icon svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+#tsxv5-analog-tape header.top{
+  position:sticky;top:0;z-index:40;
+  border-bottom:2px solid var(--ink);
+  background:rgba(243,234,215,0.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+body.dark-mode #tsxv5-analog-tape header.top,
+html.dark-mode #tsxv5-analog-tape header.top,
+[data-theme="dark"] #tsxv5-analog-tape header.top,
+body[data-theme="dark"] #tsxv5-analog-tape header.top,
+html[data-theme="dark"] #tsxv5-analog-tape header.top,
+.dark-mode #tsxv5-analog-tape header.top,
+.night-mode #tsxv5-analog-tape header.top{
+  background:rgba(26,22,18,0.95);border-bottom-color:var(--ink-soft);
+}
+#tsxv5-analog-tape .top-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;}
+#tsxv5-analog-tape .brand{display:flex;align-items:center;gap:12px;}
+#tsxv5-analog-tape .reel{
+  width:40px;height:40px;border-radius:50%;
+  background:radial-gradient(circle at center,var(--paper) 0 18%,var(--ink) 19% 22%,var(--paper) 23% 38%,var(--ink) 39% 100%);
+  border:2px solid var(--ink);animation:tsxv5spin 4s linear infinite;position:relative;
+}
+#tsxv5-analog-tape .reel::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 50%,transparent 0 30%,rgba(179,73,47,0.5) 31% 34%,transparent 35%);}
+@keyframes tsxv5spin{to{transform:rotate(360deg);}}
+#tsxv5-analog-tape .brand-title{font-family:'Special Elite',cursive;font-size:15px;letter-spacing:0.14em;color:var(--ink);}
+#tsxv5-analog-tape .brand-sub{font-family:'Courier Prime',monospace;font-size:10px;color:var(--ink-soft);margin:2px 0 0;text-transform:uppercase;letter-spacing:0.08em;}
+#tsxv5-analog-tape nav.top-nav{display:none;gap:26px;font-family:'Courier Prime',monospace;font-size:13px;color:var(--ink-soft);align-items:center;}
+#tsxv5-analog-tape nav.top-nav a{color:inherit;text-decoration:none;border-bottom:1px dashed transparent;transition:border-color .15s,color .15s;}
+#tsxv5-analog-tape nav.top-nav a:hover{color:var(--rust);border-color:var(--rust);}
+#tsxv5-analog-tape .session-pill{
+  display:none;align-items:center;gap:8px;font-size:10px;font-family:'Courier Prime',monospace;text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--ink-soft);border:1px solid var(--ink);border-radius:3px;padding:6px 10px;
+}
+#tsxv5-analog-tape .dot{width:6px;height:6px;border-radius:50%;background:var(--rust);animation:tsxv5pulse 1.6s ease-in-out infinite;}
+@keyframes tsxv5pulse{0%,100%{opacity:1;}50%{opacity:0.25;}}
+@media(min-width:768px){#tsxv5-analog-tape nav.top-nav{display:flex;}}
+@media(min-width:640px){#tsxv5-analog-tape .session-pill{display:flex;}}
+#tsxv5-analog-tape .vu-face{
+  position:relative;border-radius:8px;background:linear-gradient(180deg,#efe4cb,#e0d0aa);
+  border:1px solid rgba(43,36,28,0.25);overflow:hidden;padding:10px 14px 4px;
+}
+body.dark-mode #tsxv5-analog-tape .vu-face,
+html.dark-mode #tsxv5-analog-tape .vu-face,
+[data-theme="dark"] #tsxv5-analog-tape .vu-face,
+body[data-theme="dark"] #tsxv5-analog-tape .vu-face,
+html[data-theme="dark"] #tsxv5-analog-tape .vu-face,
+.dark-mode #tsxv5-analog-tape .vu-face,
+.night-mode #tsxv5-analog-tape .vu-face{
+  background:linear-gradient(180deg,#3d3528,#2b241c);border-color:rgba(201,168,118,0.3);
+}
+#tsxv5-analog-tape .vu-arc{position:relative;height:64px;}
+#tsxv5-analog-tape .vu-scale{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:flex-end;font-family:'Courier Prime',monospace;font-size:8px;color:var(--ink-soft);padding:0 4px;}
+#tsxv5-analog-tape .vu-needle{
+  position:absolute;left:50%;bottom:0;width:2px;height:56px;background:var(--rust);
+  transform-origin:bottom center;transform:rotate(-35deg) translateX(-1px);
+  transition:transform 0.35s cubic-bezier(.34,1.4,.4,1);
+  box-shadow:0 0 6px rgba(179,73,47,0.5);
+}
+#tsxv5-analog-tape .vu-needle::after{content:"";position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:var(--ink);}
+#tsxv5-analog-tape .vu-label{text-align:center;font-family:'Courier Prime',monospace;font-size:10px;color:var(--ink-soft);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;}
+#tsxv5-analog-tape section.hero{position:relative;padding:52px 0 40px;}
+#tsxv5-analog-tape .hero-grid{position:relative;display:grid;gap:40px;align-items:center;grid-template-columns:1fr;}
+@media(min-width:1024px){#tsxv5-analog-tape .hero-grid{grid-template-columns:1.3fr 1fr;}}
+#tsxv5-analog-tape .eyebrow{font-family:'Courier Prime',monospace;font-size:12px;color:var(--brass);text-transform:uppercase;letter-spacing:0.18em;margin:0 0 16px;}
+#tsxv5-analog-tape .eyebrow::before{content:"◈ ";}
+#tsxv5-analog-tape h2.hero-title{font-family:'Special Elite',cursive;font-weight:400;font-size:clamp(28px,5.4vw,48px);line-height:1.18;color:var(--ink);}
+#tsxv5-analog-tape .hero-title em{font-style:normal;color:var(--rust);}
+#tsxv5-analog-tape .hero-copy{color:var(--ink-soft);max-width:560px;margin-top:18px;font-size:16px;}
+#tsxv5-analog-tape .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;}
+#tsxv5-analog-tape .btn{
+  font-family:'Courier Prime',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;
+  padding:13px 22px;border-radius:4px;border:2px solid var(--ink);cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;transition:transform .1s,background .15s;
+  min-height:44px;
+}
+#tsxv5-analog-tape .btn:active{transform:translateY(1px);}
+#tsxv5-analog-tape .btn-primary{background:var(--rust);color:var(--paper);border-color:var(--rust);}
+#tsxv5-analog-tape .btn-primary:hover{background:#9c3f28;}
+#tsxv5-analog-tape .btn-ghost{background:transparent;color:var(--ink);}
+#tsxv5-analog-tape .btn-ghost:hover{background:rgba(43,36,28,0.06);}
+body.dark-mode #tsxv5-analog-tape .btn-ghost:hover,
+html.dark-mode #tsxv5-analog-tape .btn-ghost:hover,
+[data-theme="dark"] #tsxv5-analog-tape .btn-ghost:hover,
+body[data-theme="dark"] #tsxv5-analog-tape .btn-ghost:hover,
+html[data-theme="dark"] #tsxv5-analog-tape .btn-ghost:hover,
+.dark-mode #tsxv5-analog-tape .btn-ghost:hover,
+.night-mode #tsxv5-analog-tape .btn-ghost:hover{
+  background:rgba(201,168,118,0.1);
+}
+#tsxv5-analog-tape .btn-brass{background:transparent;border:2px solid var(--brass);color:var(--brass);}
+#tsxv5-analog-tape .btn-brass:hover{background:rgba(173,138,46,0.1);}
+#tsxv5-analog-tape .hero-card{padding:20px;}
+#tsxv5-analog-tape .hero-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+#tsxv5-analog-tape .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;margin-top:14px;}
+#tsxv5-analog-tape .hero-stats>div{background:rgba(43,36,28,0.05);border-radius:4px;padding:8px 4px;border:1px solid rgba(43,36,28,0.1);}
+body.dark-mode #tsxv5-analog-tape .hero-stats>div,
+html.dark-mode #tsxv5-analog-tape .hero-stats>div,
+[data-theme="dark"] #tsxv5-analog-tape .hero-stats>div,
+body[data-theme="dark"] #tsxv5-analog-tape .hero-stats>div,
+html[data-theme="dark"] #tsxv5-analog-tape .hero-stats>div,
+.dark-mode #tsxv5-analog-tape .hero-stats>div,
+.night-mode #tsxv5-analog-tape .hero-stats>div{
+  background:rgba(201,168,118,0.08);border-color:rgba(201,168,118,0.2);
+}
+#tsxv5-analog-tape .hero-stats .lbl{font-size:9px;color:var(--ink-soft);font-family:'Courier Prime',monospace;text-transform:uppercase;letter-spacing:.06em;}
+#tsxv5-analog-tape .hero-stats .val{font-size:14px;font-weight:600;color:var(--ink);margin:3px 0 0;font-family:'Spectral',serif;}
+#tsxv5-analog-tape section.block{padding:44px 0;}
+#tsxv5-analog-tape .block-head{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:10px;border-bottom:2px solid var(--ink);}
+body.dark-mode #tsxv5-analog-tape .block-head,
+html.dark-mode #tsxv5-analog-tape .block-head,
+[data-theme="dark"] #tsxv5-analog-tape .block-head,
+body[data-theme="dark"] #tsxv5-analog-tape .block-head,
+html[data-theme="dark"] #tsxv5-analog-tape .block-head,
+.dark-mode #tsxv5-analog-tape .block-head,
+.night-mode #tsxv5-analog-tape .block-head{
+  border-bottom-color:var(--ink-soft);
+}
+#tsxv5-analog-tape .block-head h2{font-family:'Special Elite',cursive;font-weight:400;font-size:clamp(19px,2.6vw,24px);color:var(--ink);}
+#tsxv5-analog-tape .block-tag{font-family:'Courier Prime',monospace;font-size:11px;color:var(--ink-soft);margin-left:auto;text-transform:uppercase;}
+#tsxv5-analog-tape .card{padding:16px;}
+#tsxv5-analog-tape .field-label{font-size:10px;font-family:'Courier Prime',monospace;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.08em;display:block;}
+#tsxv5-analog-tape select,#tsxv5-analog-tape input[type=number]{
+  width:100%;margin-top:8px;background:#fbf6ea;color:var(--ink);
+  border:1px solid rgba(43,36,28,0.3);border-radius:4px;padding:10px 12px;font-size:16px;
+  font-family:'Spectral',serif;max-width:100%;box-sizing:border-box;
+}
+body.dark-mode #tsxv5-analog-tape select,
+html.dark-mode #tsxv5-analog-tape select,
+[data-theme="dark"] #tsxv5-analog-tape select,
+body[data-theme="dark"] #tsxv5-analog-tape select,
+html[data-theme="dark"] #tsxv5-analog-tape select,
+.dark-mode #tsxv5-analog-tape select,
+.night-mode #tsxv5-analog-tape select,
+body.dark-mode #tsxv5-analog-tape input[type=number],
+html.dark-mode #tsxv5-analog-tape input[type=number],
+[data-theme="dark"] #tsxv5-analog-tape input[type=number],
+body[data-theme="dark"] #tsxv5-analog-tape input[type=number],
+html[data-theme="dark"] #tsxv5-analog-tape input[type=number],
+.dark-mode #tsxv5-analog-tape input[type=number],
+.night-mode #tsxv5-analog-tape input[type=number]{
+  background:#2b241c;border-color:rgba(201,168,118,0.3);color:var(--ink);
+}
+#tsxv5-analog-tape select:focus,#tsxv5-analog-tape input:focus{outline:none;border-color:var(--rust);}
+#tsxv5-analog-tape select option{background:var(--paper);color:var(--ink);}
+#tsxv5-analog-tape .grid-4{display:grid;gap:16px;grid-template-columns:1fr;margin-bottom:24px;}
+@media(min-width:1024px){#tsxv5-analog-tape .grid-4{grid-template-columns:repeat(4,1fr);}}
+#tsxv5-analog-tape .grid-2{display:grid;gap:16px;grid-template-columns:1fr;}
+@media(min-width:768px){#tsxv5-analog-tape .grid-2{grid-template-columns:repeat(2,1fr);}}
+#tsxv5-analog-tape .lg-grid-2{display:grid;gap:22px;grid-template-columns:1fr;}
+@media(min-width:1024px){#tsxv5-analog-tape .lg-grid-2{grid-template-columns:repeat(2,1fr);}}
+#tsxv5-analog-tape .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+#tsxv5-analog-tape .chip{
+  flex:1;min-width:70px;text-align:center;font-family:'Courier Prime',monospace;font-size:11px;padding:10px 8px;
+  border-radius:4px;border:1px solid rgba(43,36,28,0.3);background:transparent;color:var(--ink);
+  cursor:pointer;transition:all .15s ease;text-transform:uppercase;min-height:44px;
+}
+body.dark-mode #tsxv5-analog-tape .chip,
+html.dark-mode #tsxv5-analog-tape .chip,
+[data-theme="dark"] #tsxv5-analog-tape .chip,
+body[data-theme="dark"] #tsxv5-analog-tape .chip,
+html[data-theme="dark"] #tsxv5-analog-tape .chip,
+.dark-mode #tsxv5-analog-tape .chip,
+.night-mode #tsxv5-analog-tape .chip{
+  border-color:rgba(201,168,118,0.3);
+}
+#tsxv5-analog-tape .chip[data-active="true"]{color:var(--paper);background:var(--rust);border-color:var(--rust);font-weight:700;}
+#tsxv5-analog-tape input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:3px;margin-top:12px;
+  background:var(--ink);border-radius:999px;outline:none;
+}
+#tsxv5-analog-tape input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:20px;height:20px;border-radius:3px;
+  background:var(--brass);border:2px solid var(--ink);cursor:pointer;
+}
+#tsxv5-analog-tape input[type=range]::-moz-range-thumb{
+  width:20px;height:20px;border-radius:3px;background:var(--brass);
+  border:2px solid var(--ink);cursor:pointer;
+}
+#tsxv5-analog-tape .bpm-row{display:flex;justify-content:space-between;}
+#tsxv5-analog-tape .bpm-val{color:var(--rust);font-weight:700;}
+#tsxv5-analog-tape .tempo-tag{font-size:11px;color:var(--ink-soft);font-family:'Courier Prime',monospace;margin-top:8px;}
+#tsxv5-analog-tape .timeline-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+#tsxv5-analog-tape .timeline-label{font-size:10px;font-family:'Courier Prime',monospace;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;}
+#tsxv5-analog-tape .timeline-total{font-size:11px;font-family:'Courier Prime',monospace;color:var(--rust);}
+#tsxv5-analog-tape .timeline-track{display:flex;flex-direction:column;gap:8px;}
+@media(min-width:640px){#tsxv5-analog-tape .timeline-track{flex-direction:row;}}
+#tsxv5-analog-tape .clip{
+  position:relative;overflow:hidden;flex:1;border-radius:4px;border:1px solid var(--ink);
+  padding:10px;min-width:100px;background:repeating-linear-gradient(90deg,rgba(43,36,28,0.06) 0 2px,transparent 2px 10px);
+}
+body.dark-mode #tsxv5-analog-tape .clip,
+html.dark-mode #tsxv5-analog-tape .clip,
+[data-theme="dark"] #tsxv5-analog-tape .clip,
+body[data-theme="dark"] #tsxv5-analog-tape .clip,
+html[data-theme="dark"] #tsxv5-analog-tape .clip,
+.dark-mode #tsxv5-analog-tape .clip,
+.night-mode #tsxv5-analog-tape .clip{
+  border-color:var(--ink-soft);
+}
+#tsxv5-analog-tape .clip .name{font-size:12px;font-weight:700;color:var(--ink);font-family:'Courier Prime',monospace;text-transform:uppercase;}
+#tsxv5-analog-tape .clip .time{font-size:10px;font-family:'Courier Prime',monospace;color:var(--ink-soft);margin:6px 0 0;}
+#tsxv5-analog-tape .clip .bars{font-size:10px;font-family:'Courier Prime',monospace;color:var(--ink-soft);opacity:0.7;}
+#tsxv5-analog-tape .clip-cyan{border-color:var(--rust);}
+#tsxv5-analog-tape .clip-purple{border-color:var(--brass);}
+#tsxv5-analog-tape .clip-gold{border-color:var(--moss);}
+#tsxv5-analog-tape .rhyme-visual{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-family:'Courier Prime',monospace;text-align:center;}
+#tsxv5-analog-tape .rhyme-cell{padding:12px 4px;border-radius:4px;border:1px solid;font-size:12px;font-weight:700;}
+#tsxv5-analog-tape .rhyme-a{background:rgba(179,73,47,0.1);color:var(--rust);border-color:rgba(179,73,47,0.4);}
+#tsxv5-analog-tape .rhyme-b{background:rgba(173,138,46,0.14);color:#8a6d1e;border-color:rgba(173,138,46,0.4);}
+body.dark-mode #tsxv5-analog-tape .rhyme-b,
+html.dark-mode #tsxv5-analog-tape .rhyme-b,
+[data-theme="dark"] #tsxv5-analog-tape .rhyme-b,
+body[data-theme="dark"] #tsxv5-analog-tape .rhyme-b,
+html[data-theme="dark"] #tsxv5-analog-tape .rhyme-b,
+.dark-mode #tsxv5-analog-tape .rhyme-b,
+.night-mode #tsxv5-analog-tape .rhyme-b{
+  color:var(--brass);
+}
+#tsxv5-analog-tape .hint{font-size:12px;color:var(--ink-soft);margin-top:12px;}
+#tsxv5-analog-tape .syllable-meter{display:flex;align-items:flex-end;gap:6px;height:76px;}
+#tsxv5-analog-tape .syllable-bar{
+  flex:1;border-radius:3px 3px 0 0;background:linear-gradient(180deg,rgba(173,138,46,0.75),rgba(173,138,46,0.2));
+  display:flex;align-items:flex-end;justify-content:center;border:1px solid rgba(43,36,28,0.2);border-bottom:none;
+}
+#tsxv5-analog-tape .syllable-bar span{font-size:9px;font-family:'Courier Prime',monospace;color:var(--ink);margin-bottom:4px;}
+#tsxv5-analog-tape .texture-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;}
+#tsxv5-analog-tape .texture-tile{
+  text-align:left;font-size:12px;padding:10px 12px;border-radius:4px;border:1px solid rgba(43,36,28,0.3);
+  background:transparent;color:var(--ink);cursor:pointer;transition:all .15s;font-family:'Spectral',serif;min-height:44px;
+}
+body.dark-mode #tsxv5-analog-tape .texture-tile,
+html.dark-mode #tsxv5-analog-tape .texture-tile,
+[data-theme="dark"] #tsxv5-analog-tape .texture-tile,
+body[data-theme="dark"] #tsxv5-analog-tape .texture-tile,
+html[data-theme="dark"] #tsxv5-analog-tape .texture-tile,
+.dark-mode #tsxv5-analog-tape .texture-tile,
+.night-mode #tsxv5-analog-tape .texture-tile{
+  border-color:rgba(201,168,118,0.3);
+}
+#tsxv5-analog-tape .texture-tile:hover{border-color:var(--ink);}
+#tsxv5-analog-tape .texture-tile[data-active="true"]{border-color:var(--rust);background:rgba(179,73,47,0.08);box-shadow:inset 0 0 0 1px var(--rust);}
+#tsxv5-analog-tape .prompt-box{display:flex;flex-direction:column;height:100%;}
+#tsxv5-analog-tape .prompt-preview{flex:1;padding:20px;background:#2b241c;border-radius:6px;}
+body.dark-mode #tsxv5-analog-tape .prompt-preview,
+html.dark-mode #tsxv5-analog-tape .prompt-preview,
+[data-theme="dark"] #tsxv5-analog-tape .prompt-preview,
+body[data-theme="dark"] #tsxv5-analog-tape .prompt-preview,
+html[data-theme="dark"] #tsxv5-analog-tape .prompt-preview,
+.dark-mode #tsxv5-analog-tape .prompt-preview,
+.night-mode #tsxv5-analog-tape .prompt-preview{
+  background:#0f0c09;
+}
+#tsxv5-analog-tape .prompt-preview-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+#tsxv5-analog-tape #tsxv5-promptOutput{font-family:'Courier Prime',monospace;font-size:13px;color:#e8c98a;white-space:pre-wrap;line-height:1.7;min-height:120px;}
+#tsxv5-analog-tape .prompt-actions{display:flex;flex-direction:column;gap:12px;margin-top:16px;}
+@media(min-width:640px){#tsxv5-analog-tape .prompt-actions{flex-direction:row;}}
+#tsxv5-analog-tape .prompt-actions .btn{flex:1;justify-content:center;width:100%;}
+#tsxv5-analog-tape .delay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+@media(min-width:520px){#tsxv5-analog-tape .delay-grid{grid-template-columns:repeat(4,1fr);}}
+#tsxv5-analog-tape .delay-cell{background:rgba(43,36,28,0.04);border:1px solid rgba(43,36,28,0.25);border-radius:4px;padding:12px 6px;text-align:center;}
+body.dark-mode #tsxv5-analog-tape .delay-cell,
+html.dark-mode #tsxv5-analog-tape .delay-cell,
+[data-theme="dark"] #tsxv5-analog-tape .delay-cell,
+body[data-theme="dark"] #tsxv5-analog-tape .delay-cell,
+html[data-theme="dark"] #tsxv5-analog-tape .delay-cell,
+.dark-mode #tsxv5-analog-tape .delay-cell,
+.night-mode #tsxv5-analog-tape .delay-cell{
+  background:rgba(201,168,118,0.06);border-color:rgba(201,168,118,0.2);
+}
+#tsxv5-analog-tape .delay-cell .lbl{font-size:9px;font-family:'Courier Prime',monospace;color:var(--ink-soft);text-transform:uppercase;}
+#tsxv5-analog-tape .delay-cell .num{font-family:'Special Elite',cursive;font-size:17px;color:var(--rust);margin:4px 0;}
+#tsxv5-analog-tape .delay-cell .unit{font-size:9px;font-family:'Courier Prime',monospace;color:var(--ink-soft);}
+#tsxv5-analog-tape .camelot-wheel{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:16px;}
+#tsxv5-analog-tape .camelot-cell{
+  border-radius:4px;border:1px solid rgba(43,36,28,0.25);background:rgba(43,36,28,0.03);
+  padding:8px 2px;text-align:center;cursor:pointer;transition:border-color .15s;min-height:44px;
+}
+body.dark-mode #tsxv5-analog-tape .camelot-cell,
+html.dark-mode #tsxv5-analog-tape .camelot-cell,
+[data-theme="dark"] #tsxv5-analog-tape .camelot-cell,
+body[data-theme="dark"] #tsxv5-analog-tape .camelot-cell,
+html[data-theme="dark"] #tsxv5-analog-tape .camelot-cell,
+.dark-mode #tsxv5-analog-tape .camelot-cell,
+.night-mode #tsxv5-analog-tape .camelot-cell{
+  border-color:rgba(201,168,118,0.25);background:rgba(201,168,118,0.05);
+}
+#tsxv5-analog-tape .camelot-cell:hover{border-color:var(--ink);}
+#tsxv5-analog-tape .camelot-cell .code{font-size:10px;font-family:'Courier Prime',monospace;color:var(--ink-soft);}
+#tsxv5-analog-tape .camelot-cell .kname{font-size:9px;color:var(--ink-soft);margin:2px 0 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#tsxv5-analog-tape .camelot-cell[data-highlight="true"]{box-shadow:0 0 0 2px var(--brass);}
+#tsxv5-analog-tape .camelot-cell[data-selected="true"]{box-shadow:0 0 0 2px var(--rust);}
+#tsxv5-analog-tape .compat-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+#tsxv5-analog-tape .compat-pill{
+  font-size:11px;font-family:'Courier Prime',monospace;padding:5px 10px;border-radius:3px;
+  background:rgba(173,138,46,0.12);border:1px solid rgba(173,138,46,0.4);color:#8a6d1e;
+}
+body.dark-mode #tsxv5-analog-tape .compat-pill,
+html.dark-mode #tsxv5-analog-tape .compat-pill,
+[data-theme="dark"] #tsxv5-analog-tape .compat-pill,
+body[data-theme="dark"] #tsxv5-analog-tape .compat-pill,
+html[data-theme="dark"] #tsxv5-analog-tape .compat-pill,
+.dark-mode #tsxv5-analog-tape .compat-pill,
+.night-mode #tsxv5-analog-tape .compat-pill{
+  color:var(--brass);
+}
+#tsxv5-analog-tape .htu-box{
+  padding:32px 20px;
+  background:linear-gradient(180deg,rgba(255,255,255,0.3),rgba(255,255,255,0.1));
+  border:1px solid rgba(43,36,28,0.14);border-radius:6px;margin:44px 0;
+}
+body.dark-mode #tsxv5-analog-tape .htu-box,
+html.dark-mode #tsxv5-analog-tape .htu-box,
+[data-theme="dark"] #tsxv5-analog-tape .htu-box,
+body[data-theme="dark"] #tsxv5-analog-tape .htu-box,
+html[data-theme="dark"] #tsxv5-analog-tape .htu-box,
+.dark-mode #tsxv5-analog-tape .htu-box,
+.night-mode #tsxv5-analog-tape .htu-box{
+  background:linear-gradient(180deg,rgba(43,36,28,0.4),rgba(43,36,28,0.2));
+  border-color:rgba(201,168,118,0.2);
+}
+#tsxv5-analog-tape .htu-box h2{font-family:'Special Elite',cursive;font-size:24px;margin:0 0 20px;color:var(--ink);}
+#tsxv5-analog-tape .htu-box ol{margin:0 0 12px 20px;font-size:15px;color:var(--ink-soft);line-height:1.8;}
+#tsxv5-analog-tape .htu-box li{margin-bottom:8px;}
+#tsxv5-analog-tape .htu-box strong{color:var(--ink);}
+#tsxv5-analog-tape .htu-box .tip{margin-top:16px;padding-top:16px;border-top:1px dashed var(--ink-soft);font-size:14px;color:var(--ink-soft);}
+#tsxv5-analog-tape .faq-plain{margin:44px 0;}
+#tsxv5-analog-tape .faq-plain h2{font-family:'Special Elite',cursive;font-size:24px;margin:0 0 20px;text-align:center;color:var(--ink);}
+#tsxv5-analog-tape .faq-plain h3{font-size:16px;font-weight:700;color:var(--rust);margin:18px 0 6px;}
+#tsxv5-analog-tape .faq-plain p{font-size:14px;line-height:1.7;color:var(--ink-soft);margin:0 0 12px;}
+#tsxv5-analog-tape .analog-related{
+  padding:28px 20px;
+  background:linear-gradient(180deg,rgba(255,255,255,0.3),rgba(255,255,255,0.1));
+  border:1px solid rgba(43,36,28,0.14);border-radius:6px;margin:44px 0;
+}
+body.dark-mode #tsxv5-analog-tape .analog-related,
+html.dark-mode #tsxv5-analog-tape .analog-related,
+[data-theme="dark"] #tsxv5-analog-tape .analog-related,
+body[data-theme="dark"] #tsxv5-analog-tape .analog-related,
+html[data-theme="dark"] #tsxv5-analog-tape .analog-related,
+.dark-mode #tsxv5-analog-tape .analog-related,
+.night-mode #tsxv5-analog-tape .analog-related{
+  background:linear-gradient(180deg,rgba(43,36,28,0.4),rgba(43,36,28,0.2));
+  border-color:rgba(201,168,118,0.2);
+}
+#tsxv5-analog-tape .analog-related-title{font-family:'Special Elite',cursive;font-size:20px;margin:0 0 18px;color:var(--brass);text-transform:uppercase;letter-spacing:1px;}
+#tsxv5-analog-tape .analog-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+#tsxv5-analog-tape .analog-related-link{
+  background:rgba(255,255,255,0.4);border:1px solid rgba(43,36,28,0.2);
+  padding:18px;text-decoration:none;transition:all .3s;
+  display:flex;align-items:center;gap:12px;border-radius:6px;
+}
+body.dark-mode #tsxv5-analog-tape .analog-related-link,
+html.dark-mode #tsxv5-analog-tape .analog-related-link,
+[data-theme="dark"] #tsxv5-analog-tape .analog-related-link,
+body[data-theme="dark"] #tsxv5-analog-tape .analog-related-link,
+html[data-theme="dark"] #tsxv5-analog-tape .analog-related-link,
+.dark-mode #tsxv5-analog-tape .analog-related-link,
+.night-mode #tsxv5-analog-tape .analog-related-link{
+  background:rgba(43,36,28,0.5);border-color:rgba(201,168,118,0.2);
+}
+#tsxv5-analog-tape .analog-related-link:hover{border-color:var(--rust);transform:translateY(-3px);box-shadow:0 8px 20px rgba(179,73,47,0.15);}
+#tsxv5-analog-tape .analog-related-icon{font-size:2rem;}
+#tsxv5-analog-tape .analog-related-link strong{color:var(--rust);display:block;font-family:'Special Elite',cursive;font-size:16px;margin-bottom:4px;}
+#tsxv5-analog-tape .analog-related-link span{color:var(--ink-soft);font-size:13px;line-height:1.5;}
+#tsxv5-analog-tape footer.site-footer{border-top:2px solid var(--ink);padding:24px 0;}
+body.dark-mode #tsxv5-analog-tape footer.site-footer,
+html.dark-mode #tsxv5-analog-tape footer.site-footer,
+[data-theme="dark"] #tsxv5-analog-tape footer.site-footer,
+body[data-theme="dark"] #tsxv5-analog-tape footer.site-footer,
+html[data-theme="dark"] #tsxv5-analog-tape footer.site-footer,
+.dark-mode #tsxv5-analog-tape footer.site-footer,
+.night-mode #tsxv5-analog-tape footer.site-footer{
+  border-top-color:var(--ink-soft);
+}
+#tsxv5-analog-tape .footer-inner{
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:10px;
+  font-size:12px;color:var(--ink-soft);font-family:'Courier Prime',monospace;text-align:center;
+}
+@media(min-width:640px){#tsxv5-analog-tape .footer-inner{flex-direction:row;text-align:left;}}
+#tsxv5-analog-tape .footer-powered{font-size:11px;opacity:0.7;margin-top:8px;}
+#tsxv5-toast{
+  position:fixed;bottom:24px;left:50%;transform:translate(-50%,140%);z-index:50;
+  padding:12px 20px;border-radius:4px;font-size:13px;font-family:'Courier Prime',monospace;
+  display:flex;align-items:center;gap:8px;
+  transition:transform .35s cubic-bezier(.2,.9,.3,1.3);
+  background:var(--ink);color:var(--paper);pointer-events:none;
+}
+#tsxv5-toast.show{transform:translate(-50%,0);}
+@media(max-width:480px){
+  #tsxv5-analog-tape .camelot-wheel{grid-template-columns:repeat(4,1fr);}
+  #tsxv5-analog-tape .texture-grid{grid-template-columns:1fr;}
+  #tsxv5-analog-tape .rhyme-visual{grid-template-columns:repeat(2,1fr);}
+  #tsxv5-analog-tape .grid-4{grid-template-columns:1fr !important;}
+  #tsxv5-analog-tape .lg-grid-2{grid-template-columns:1fr !important;}
+}
+@media(prefers-reduced-motion:reduce){
+  #tsxv5-analog-tape .reel{animation:none;}
+  #tsxv5-analog-tape .vu-needle{transition:none;}
+  #tsxv5-analog-tape *{scroll-behavior:auto!important;}
+}
+</style>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Analog Tape Deck Studio","description":"Free browser-based music composition tool with AI prompt generation, chord progressions, and beat-matching utilities.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","featureList":"Song Structure Builder, AI Prompt Generator, BPM Delay Calculator, Camelot Key Matcher, Lyric Flow Tools, Multi-Language Support","softwareVersion":"5.1"}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Use Analog Tape Deck Studio","description":"Step-by-step guide to creating professional music compositions with Analog Tape Deck Studio.","totalTime":"PT5M","step":[{"@type":"HowToStep","position":1,"name":"Set Genre & Mood","text":"Choose your music genre, mood, and language from the Builder section."},{"@type":"HowToStep","position":2,"name":"Adjust BPM","text":"Use the BPM slider (60-180) to set your song tempo."},{"@type":"HowToStep","position":3,"name":"Build Arrangement","text":"The timeline automatically updates with standard song structure (Intro, Verse, Chorus, etc.)."},{"@type":"HowToStep","position":4,"name":"Generate AI Prompt","text":"Use the Prompt Engine to create Suno/Udio-ready prompts with vocal type, key, and textures."},{"@type":"HowToStep","position":5,"name":"Export Blueprint","text":"Save your complete song blueprint as a text file."}]}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Analog Tape Deck Studio free?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is 100% free with no signup or hidden charges. All processing happens in your browser."}},{"@type":"Question","name":"How does the AI prompt generator work?","acceptedAnswer":{"@type":"Answer","text":"It creates optimized prompts for Suno and Udio. You select genre, mood, BPM, key, vocal type, and textures, then copy the generated prompt."}},{"@type":"Question","name":"What is the Camelot Key system?","acceptedAnswer":{"@type":"Answer","text":"The Camelot system helps DJs and producers with harmonic mixing. Each musical key has a code like 8A (A Minor). Compatible keys can be mixed smoothly."}},{"@type":"Question","name":"How do I use the BPM Delay Calculator?","acceptedAnswer":{"@type":"Answer","text":"Enter your song BPM and the tool calculates quarter, eighth, sixteenth, and dotted delay times in milliseconds for your DAW."}},{"@type":"Question","name":"Can I use Hindi or Hinglish lyrics?","acceptedAnswer":{"@type":"Answer","text":"Yes! English, Hindi, Hinglish, and Maithili are supported. Select the language and the AI prompt will specify it."}},{"@type":"Question","name":"What is the rhyme scheme guide?","acceptedAnswer":{"@type":"Answer","text":"It shows AABB (couplet) and ABAB (alternating) patterns. AABB works well for hooks and rap, while ABAB is common in ballads."}},{"@type":"Question","name":"Why is syllable count important?","acceptedAnswer":{"@type":"Answer","text":"Syllable count ensures lyrics fit the rhythm. Each genre has a recommended range, like Hip-Hop 11-16 syllables per line."}},{"@type":"Question","name":"Is my data private?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. Everything runs client-side in your browser. No data is uploaded to any server, and no cookies are used."}}]}
+</script>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <div class="brand">
+      <div class="reel"></div>
+      <div>
+        <p class="brand-title">Tools-X</p>
+        <p class="brand-sub">Analog Tape Deck Studio</p>
+      </div>
+    </div>
+    <nav class="top-nav">
+      <a href="#tsxv5-builder">Song Builder</a>
+      <a href="#tsxv5-prompt">Prompt Engine</a>
+      <a href="#tsxv5-utility">Utilities</a>
+    </nav>
+    <div class="session-pill"><span class="dot"></span> Tape Rolling</div>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <div class="hero-grid">
+    <div>
+      <p class="eyebrow">Reel-to-Reel Composition Deck</p>
+      <h2 class="hero-title">Lay down the <em>unheard</em> take, before the tape ever rolls.</h2>
+      <p class="hero-copy">Chart your arrangement on the reel, cut Suno &amp; Udio-ready style tags, and run the mixing math on a warm analog console. No accounts, no signal leaves the deck.</p>
+      <div class="hero-actions">
+        <a href="#tsxv5-builder" class="btn btn-primary">Start the Session</a>
+        <a href="#tsxv5-prompt" class="btn btn-ghost">Jump to Prompt Engine</a>
+      </div>
+    </div>
+    <div class="panel glow-rust hero-card">
+      <div class="hero-card-top">
+        <p class="field-label" style="margin:0;">Master Output</p>
+        <p class="font-mono" style="font-size:11px;color:var(--rust);margin:0;" id="tsxv5-heroBpmLabel">92 BPM · Mid-tempo</p>
+      </div>
+      <div class="vu-face">
+        <div class="vu-arc">
+          <div class="vu-scale"><span>-20</span><span>-10</span><span>-3</span><span>0</span><span>+3</span></div>
+          <div class="vu-needle" id="tsxv5-vuNeedleL"></div>
+        </div>
+        <div class="vu-label">VU · Left / Right</div>
+      </div>
+      <div class="hero-stats">
+        <div><p class="lbl">Key</p><p class="val" id="tsxv5-heroKey">A Minor</p></div>
+        <div><p class="lbl">Camelot</p><p class="val" id="tsxv5-heroCamelot">8A</p></div>
+        <div><p class="lbl">Mood</p><p class="val" id="tsxv5-heroMood">Emotional</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tsxv5-builder" class="block wrap">
+  <div class="block-head">
+    <span class="icon" style="color:var(--rust);">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+    </span>
+    <h2>Song Structure &amp; Lyric Flow Builder</h2>
+    <span class="block-tag">Reel 01</span>
+  </div>
+
+  <div class="grid-4">
+    <div class="panel card">
+      <label class="field-label" for="tsxv5-genreSelect">Genre</label>
+      <select id="tsxv5-genreSelect">
+        <option>Lofi</option>
+        <option selected>Sad Melodic</option>
+        <option>Hip-Hop/Rap</option>
+        <option>EDM</option>
+        <option>Bollywood Pop</option>
+        <option>Cinematic Acoustic</option>
+      </select>
+    </div>
+    <div class="panel card">
+      <label class="field-label" for="tsxv5-moodSelect">Mood</label>
+      <select id="tsxv5-moodSelect">
+        <option selected>Emotional</option>
+        <option>Dark</option>
+        <option>Upbeat</option>
+        <option>Chill</option>
+        <option>Energetic</option>
+      </select>
+    </div>
+    <div class="panel card">
+      <label class="field-label">Language</label>
+      <div class="chip-row" id="tsxv5-langToggle">
+        <button type="button" data-lang="English" data-active="true" class="chip">English</button>
+        <button type="button" data-lang="Hindi" class="chip">Hindi</button>
+        <button type="button" data-lang="Hinglish" class="chip">Hinglish</button>
+        <button type="button" data-lang="Maithili" class="chip">Maithili</button>
+      </div>
+    </div>
+    <div class="panel card">
+      <label class="field-label bpm-row" for="tsxv5-bpmSlider"><span>Session BPM</span><span class="bpm-val" id="tsxv5-bpmDisplay">92</span></label>
+      <input type="range" min="60" max="180" value="92" id="tsxv5-bpmSlider">
+      <p class="tempo-tag" id="tsxv5-bpmTempoLabel">Mid-tempo</p>
+    </div>
+  </div>
+
+  <div class="panel card" style="padding:20px;margin-bottom:24px;">
+    <div class="timeline-head">
+      <p class="timeline-label">Arrangement Reel</p>
+      <p class="timeline-total" id="tsxv5-totalDuration">Total: 0:00</p>
+    </div>
+    <div class="timeline-track" id="tsxv5-timelineTrack"></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="panel card" style="padding:20px;">
+      <p class="field-label" style="margin-bottom:12px;">Rhyme Scheme Guide</p>
+      <div class="chip-row" id="tsxv5-rhymeToggle" style="margin-top:0;margin-bottom:16px;">
+        <button type="button" data-scheme="AABB" data-active="true" class="chip" style="padding:10px;">AABB</button>
+        <button type="button" data-scheme="ABAB" class="chip" style="padding:10px;">ABAB</button>
+      </div>
+      <div class="rhyme-visual" id="tsxv5-rhymeVisual"></div>
+      <p class="hint" id="tsxv5-rhymeExplain"></p>
+    </div>
+    <div class="panel card" style="padding:20px;">
+      <p class="field-label" style="margin-bottom:12px;">Verse Syllable Meter</p>
+      <p style="font-size:14px;color:var(--ink-soft);margin:0 0 12px;">Recommended syllables per line for <span class="text-accent" id="tsxv5-syllableGenre">Sad Melodic</span>:</p>
+      <div class="syllable-meter" id="tsxv5-syllableMeter"></div>
+      <p class="hint" id="tsxv5-syllableRange"></p>
+    </div>
+  </div>
+</section>
+
+<section id="tsxv5-prompt" class="block wrap">
+  <div class="block-head">
+    <span class="icon" style="color:var(--brass);">
+      <svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.9L19 9.8l-4.9 1.9L12 17l-1.9-5.3L5 9.8l5.1-1.9L12 3z"/></svg>
+    </span>
+    <h2>Suno / Udio Style Prompt Generator</h2>
+    <span class="block-tag">Reel 02</span>
+  </div>
+
+  <div class="lg-grid-2">
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="panel card">
+        <label class="field-label" for="tsxv5-vocalSelect">Vocal Type</label>
+        <select id="tsxv5-vocalSelect">
+          <option>Deep Male Vocals</option>
+          <option>Airy Female Whispers</option>
+          <option>Auto-tuned Melodic Rap</option>
+          <option>Emotional Acoustic Solos</option>
+          <option>Soulful Female Powerhouse</option>
+          <option>Whispered Spoken Word</option>
+        </select>
+      </div>
+
+      <div class="panel card">
+        <label class="field-label bpm-row" for="tsxv5-promptBpmSlider"><span>Tempo / BPM</span><span class="bpm-val" id="tsxv5-promptBpmLabel">92 BPM</span></label>
+        <input type="range" min="60" max="180" value="92" id="tsxv5-promptBpmSlider">
+        <p class="tempo-tag" id="tsxv5-promptTempoLabel">Mid-tempo</p>
+      </div>
+
+      <div class="panel card">
+        <label class="field-label" for="tsxv5-keySelect">Musical Scale &amp; Key</label>
+        <select id="tsxv5-keySelect"></select>
+      </div>
+
+      <div class="panel card">
+        <label class="field-label">Production Texture</label>
+        <div class="texture-grid" id="tsxv5-textureGrid"></div>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="panel glow-brass prompt-preview">
+        <div class="prompt-preview-head">
+          <p class="field-label" style="margin:0;color:#c9a876;">Live Prompt Preview</p>
+          <div class="vu-needle" id="tsxv5-vuNeedleR" style="position:relative;height:22px;bottom:auto;left:auto;transform:none;width:2px;"></div>
+        </div>
+        <pre id="tsxv5-promptOutput"></pre>
+      </div>
+      <div class="prompt-actions">
+        <button type="button" id="tsxv5-copyBtn" class="btn btn-primary">
+          <span class="icon"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span>
+          Copy Suno/Udio Prompt
+        </button>
+        <button type="button" id="tsxv5-exportBtn" class="btn btn-brass">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></span>
+          Export Blueprint (.TXT)
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tsxv5-utility" class="block wrap" style="padding-bottom:44px;">
+  <div class="block-head">
+    <span class="icon" style="color:var(--moss);">
+      <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+    </span>
+    <h2>Smart Vocal &amp; Beat Utility Calculator</h2>
+    <span class="block-tag">Reel 03</span>
+  </div>
+
+  <div class="lg-grid-2">
+    <div class="panel card" style="padding:20px;">
+      <p class="field-label" style="margin-bottom:12px;">BPM → Delay / Reverb Calculator</p>
+      <label class="field-label" for="tsxv5-delayBpmInput">Song BPM</label>
+      <input type="number" id="tsxv5-delayBpmInput" value="92" min="20" max="300" style="margin-bottom:16px;">
+      <div class="delay-grid" id="tsxv5-delayResults"></div>
+      <p class="hint">Use these millisecond values directly in your DAW's delay / reverb pre-delay parameters for tempo-synced mixing.</p>
+    </div>
+
+    <div class="panel card" style="padding:20px;">
+      <p class="field-label" style="margin-bottom:12px;">Camelot Key &amp; Harmonic Matcher</p>
+      <label class="field-label" for="tsxv5-camelotKeySelect">Select Key</label>
+      <select id="tsxv5-camelotKeySelect" style="margin-bottom:16px;margin-top:0;"></select>
+      <div class="camelot-wheel" id="tsxv5-camelotWheel"></div>
+      <p class="hint" style="margin-top:0;">Brass rings = harmonically compatible keys for smooth mashups &amp; pitch-matched transitions.</p>
+      <div class="compat-list" id="tsxv5-camelotCompatList"></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="htu-box" id="how-to-use">
+    <h2>✅ How to Use Analog Tape Deck Studio</h2>
+    <p><strong>Analog Tape Deck Studio</strong> helps you plan a complete song before recording. Follow these steps to create a professional blueprint.</p>
+    <ol>
+      <li><strong>Choose your genre, mood, and language</strong> in the Builder section.</li>
+      <li><strong>Set the tempo</strong> with the BPM slider. The arrangement reel updates automatically.</li>
+      <li><strong>Review the timeline</strong> – it shows Intro, Verse, Chorus, etc. with timestamps.</li>
+      <li><strong>Generate an AI prompt</strong> using the Prompt Engine. Select vocal type, key, and textures, then copy for Suno or Udio.</li>
+      <li><strong>Export your blueprint</strong> as a text file to save your arrangement and prompt.</li>
+    </ol>
+    <p class="tip">💡 <strong>Tip:</strong> Use the BPM Delay Calculator and Camelot Matcher in the Utilities section to polish your mix and transitions.</p>
+  </section>
+
+  <section class="faq-plain" id="faq">
+    <h2>❓ Frequently Asked Questions</h2>
+    <h3>Is Analog Tape Deck Studio free?</h3>
+    <p>Yes, it is 100% free with no signup or hidden charges. All processing happens in your browser.</p>
+    <h3>How does the AI prompt generator work?</h3>
+    <p>It creates optimized prompts for Suno and Udio. You select genre, mood, BPM, key, vocal type, and textures, then copy the generated prompt.</p>
+    <h3>What is the Camelot Key system?</h3>
+    <p>The Camelot system helps DJs and producers with harmonic mixing. Each musical key has a code like 8A (A Minor). Compatible keys can be mixed smoothly.</p>
+    <h3>How do I use the BPM Delay Calculator?</h3>
+    <p>Enter your song BPM and the tool calculates quarter, eighth, sixteenth, and dotted delay times in milliseconds for your DAW.</p>
+    <h3>Can I use Hindi or Hinglish lyrics?</h3>
+    <p>Yes! English, Hindi, Hinglish, and Maithili are supported. Select the language and the AI prompt will specify it.</p>
+    <h3>What is the rhyme scheme guide?</h3>
+    <p>It shows AABB (couplet) and ABAB (alternating) patterns. AABB works well for hooks and rap, while ABAB is common in ballads.</p>
+    <h3>Why is syllable count important?</h3>
+    <p>Syllable count ensures lyrics fit the rhythm. Each genre has a recommended range, like Hip-Hop 11-16 syllables per line.</p>
+    <h3>Is my data private?</h3>
+    <p>Absolutely. Everything runs client-side in your browser. No data is uploaded to any server, and no cookies are used.</p>
+  </section>
+
+  <aside class="analog-related" aria-label="Related Creative Tools">
+    <h2 class="analog-related-title">🚀 Next Try — More Creative Tools</h2>
+    <div class="analog-related-grid">
+      <a href="../tools/design-karein-fantasy-character-online.html" rel="noopener noreferrer" title="Fantasy Character Designer" class="analog-related-link">
+        <span class="analog-related-icon">🧝</span>
+        <div><strong>Fantasy Character Designer</strong><span>Create unique fantasy characters online</span></div>
+      </a>
+      <a href="../tools/craft-karein-custom-thumbnail-youtube.html" rel="noopener noreferrer" title="YouTube Thumbnail Maker" class="analog-related-link">
+        <span class="analog-related-icon">🎨</span>
+        <div><strong>Custom YouTube Thumbnail Maker</strong><span>Design eye-catching thumbnails for your videos</span></div>
+      </a>
+      <a href="../tools/banao-personal-greeting-card-ai-studio.html" rel="noopener noreferrer" title="AI Greeting Card Studio" class="analog-related-link">
+        <span class="analog-related-icon">💌</span>
+        <div><strong>Personal Greeting Card AI Studio</strong><span>Generate heartfelt greeting cards with AI</span></div>
+      </a>
+    </div>
+  </aside>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <p style="margin:0;">🎛️ <strong>Tools-X Analog Tape Deck v5.1</strong> — every calculation runs locally in your browser.</p>
+      <p class="footer-powered">Powered by <strong>Tools-X</strong> · toolsx.in · No external audio APIs</p>
+    </div>
+    <p style="margin:0;">© 2026 toolsx.in</p>
+  </div>
+</footer>
+
+<div id="tsxv5-toast">
+  <span class="icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+  <span id="tsxv5-toastMsg">Copied to clipboard</span>
+</div>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+var W=document.getElementById('tsxv5-analog-tape');
+if(!W)return;
+
+var KEYS=[
+{key:'Ab Minor',camelot:'1A'},{key:'B Major',camelot:'1B'},
+{key:'Eb Minor',camelot:'2A'},{key:'F# Major',camelot:'2B'},
+{key:'Bb Minor',camelot:'3A'},{key:'Db Major',camelot:'3B'},
+{key:'F Minor',camelot:'4A'},{key:'Ab Major',camelot:'4B'},
+{key:'C Minor',camelot:'5A'},{key:'Eb Major',camelot:'5B'},
+{key:'G Minor',camelot:'6A'},{key:'Bb Major',camelot:'6B'},
+{key:'D Minor',camelot:'7A'},{key:'F Major',camelot:'7B'},
+{key:'A Minor',camelot:'8A'},{key:'C Major',camelot:'8B'},
+{key:'E Minor',camelot:'9A'},{key:'G Major',camelot:'9B'},
+{key:'B Minor',camelot:'10A'},{key:'D Major',camelot:'10B'},
+{key:'F# Minor',camelot:'11A'},{key:'A Major',camelot:'11B'},
+{key:'Db Minor',camelot:'12A'},{key:'E Major',camelot:'12B'}
+];
+
+var TEXTURES=['Vinyl Crackle','Heavy Sub-Bass','808 Drums','Acoustic Guitar Strums','Atmospheric Reverb','Lo-fi Tape Hiss','Analog Synth Pads','Orchestral Strings'];
+
+var STRUCTURE=[
+{name:'Intro',bars:4},{name:'Verse 1',bars:8},{name:'Chorus',bars:8},
+{name:'Verse 2',bars:8},{name:'Bridge',bars:4},{name:'Outro',bars:4}
+];
+
+var SYLLABLE_RANGES={
+'Lofi':[6,9],'Sad Melodic':[7,10],'Hip-Hop/Rap':[11,16],
+'EDM':[5,8],'Bollywood Pop':[8,12],'Cinematic Acoustic':[7,10]
+};
+
+function sanitizeFilename(name){
+return String(name||'toolsx-blueprint').replace(/[^a-zA-Z0-9._-]/g,'').substring(0,100)||'toolsx-blueprint';
+}
+
+function tempoLabel(bpm){
+if(bpm<85)return'Slow Jam';
+if(bpm<110)return'Mid-tempo';
+if(bpm<140)return'Upbeat / Energetic';
+return'High Energy';
+}
+
+var toastTimer;
+function showToast(msg){
+var toast=document.getElementById('tsxv5-toast');
+var msgEl=document.getElementById('tsxv5-toastMsg');
+if(!toast||!msgEl)return;
+msgEl.textContent=msg;
+toast.classList.add('show');
+clearTimeout(toastTimer);
+toastTimer=setTimeout(function(){toast.classList.remove('show');},2400);
+}
+
+var state={
+genre:'Sad Melodic',mood:'Emotional',language:'English',bpm:92,scheme:'AABB',
+vocal:'Deep Male Vocals',key:KEYS.find(function(k){return k.key==='A Minor';}),
+textures:new Set(['Atmospheric Reverb'])
+};
+
+function sweepNeedles(bpm){
+var needleL=document.getElementById('tsxv5-vuNeedleL');
+if(!needleL)return;
+var intensity=Math.min(1,bpm/180);
+var angle=-40+intensity*60;
+needleL.style.transform='rotate('+angle+'deg) translateX(-1px)';
+var period=Math.max(0.5,1.4-(bpm/180));
+clearInterval(window.__tsxv5VuTimer);
+window.__tsxv5VuTimer=setInterval(function(){
+var jitter=angle+(Math.random()*14-7);
+needleL.style.transform='rotate('+jitter+'deg) translateX(-1px)';
+},period*1000);
+}
+
+function renderTimeline(){
+var track=document.getElementById('tsxv5-timelineTrack');
+if(!track)return;
+track.innerHTML='';
+var cumBeats=0;
+var secondsPerBeat=60/state.bpm;
+var totalSeconds=0;
+var variants=['clip-cyan','clip-purple','clip-gold'];
+
+STRUCTURE.forEach(function(sec,idx){
+var startSec=cumBeats*secondsPerBeat;
+var durationBeats=sec.bars*4;
+cumBeats+=durationBeats;
+var endSec=cumBeats*secondsPerBeat;
+totalSeconds=endSec;
+var mm=Math.floor(startSec/60);
+var ss=Math.floor(startSec%60).toString().padStart(2,'0');
+
+var el=document.createElement('div');
+el.className='clip '+variants[idx%variants.length];
+el.innerHTML='<p class="name">'+sec.name+'</p><p class="time">'+mm+':'+ss+'</p><p class="bars">'+sec.bars+' bars</p>';
+track.appendChild(el);
+});
+
+var totalMin=Math.floor(totalSeconds/60);
+var totalSec=Math.floor(totalSeconds%60).toString().padStart(2,'0');
+var td=document.getElementById('tsxv5-totalDuration');
+if(td)td.textContent='Total: '+totalMin+':'+totalSec;
+}
+
+function renderRhyme(){
+var grid=document.getElementById('tsxv5-rhymeVisual');
+if(!grid)return;
+grid.innerHTML='';
+var pattern=state.scheme==='AABB'?['A','A','B','B']:['A','B','A','B'];
+pattern.forEach(function(letter,i){
+var cell=document.createElement('div');
+cell.className='rhyme-cell '+(letter==='A'?'rhyme-a':'rhyme-b');
+cell.textContent='Line '+(i+1)+': '+letter;
+grid.appendChild(cell);
+});
+var re=document.getElementById('tsxv5-rhymeExplain');
+if(re)re.textContent=state.scheme==='AABB'
+?'Couplet rhyme — first two lines rhyme, next two lines rhyme. Strong for hooks & rap cadence.'
+:'Alternating rhyme — every other line rhymes. Common in ballads & cinematic acoustic verses.';
+}
+
+function renderSyllables(){
+var range=SYLLABLE_RANGES[state.genre];
+if(!range)return;
+var min=range[0],max=range[1];
+var sg=document.getElementById('tsxv5-syllableGenre');
+if(sg)sg.textContent=state.genre;
+var meter=document.getElementById('tsxv5-syllableMeter');
+if(!meter)return;
+meter.innerHTML='';
+for(var i=min;i<=max;i++){
+var bar=document.createElement('div');
+var pct=((i-min+1)/(max-min+1))*100;
+bar.className='syllable-bar';
+bar.style.height=pct+'%';
+bar.innerHTML='<span>'+i+'</span>';
+meter.appendChild(bar);
+}
+var sr=document.getElementById('tsxv5-syllableRange');
+if(sr)sr.textContent='Target range: '+min+'–'+max+' syllables per line';
+}
+
+function syncBpm(newBpm){
+state.bpm=newBpm;
+var bs=document.getElementById('tsxv5-bpmSlider');if(bs)bs.value=newBpm;
+var pbs=document.getElementById('tsxv5-promptBpmSlider');if(pbs)pbs.value=newBpm;
+var bd=document.getElementById('tsxv5-bpmDisplay');if(bd)bd.textContent=newBpm;
+var pbl=document.getElementById('tsxv5-promptBpmLabel');if(pbl)pbl.textContent=newBpm+' BPM';
+var btl=document.getElementById('tsxv5-bpmTempoLabel');if(btl)btl.textContent=tempoLabel(newBpm);
+var ptl=document.getElementById('tsxv5-promptTempoLabel');if(ptl)ptl.textContent=tempoLabel(newBpm);
+var hbl=document.getElementById('tsxv5-heroBpmLabel');if(hbl)hbl.textContent=newBpm+' BPM · '+tempoLabel(newBpm);
+renderTimeline();
+renderDelay();
+updatePrompt();
+sweepNeedles(newBpm);
+}
+
+var gs=document.getElementById('tsxv5-genreSelect');
+if(gs)gs.addEventListener('change',function(e){state.genre=e.target.value;renderSyllables();updatePrompt();});
+
+var ms=document.getElementById('tsxv5-moodSelect');
+if(ms)ms.addEventListener('change',function(e){
+state.mood=e.target.value;
+var hm=document.getElementById('tsxv5-heroMood');if(hm)hm.textContent=state.mood;
+updatePrompt();
+});
+
+document.querySelectorAll('#tsxv5-langToggle button').forEach(function(btn){
+btn.addEventListener('click',function(){
+document.querySelectorAll('#tsxv5-langToggle button').forEach(function(b){b.removeAttribute('data-active');});
+btn.setAttribute('data-active','true');
+state.language=btn.dataset.lang;
+updatePrompt();
+});
+});
+
+document.querySelectorAll('#tsxv5-rhymeToggle button').forEach(function(btn){
+btn.addEventListener('click',function(){
+document.querySelectorAll('#tsxv5-rhymeToggle button').forEach(function(b){b.removeAttribute('data-active');});
+btn.setAttribute('data-active','true');
+state.scheme=btn.dataset.scheme;
+renderRhyme();
+});
+});
+
+var bs=document.getElementById('tsxv5-bpmSlider');
+if(bs)bs.addEventListener('input',function(e){syncBpm(parseInt(e.target.value));});
+
+var pbs=document.getElementById('tsxv5-promptBpmSlider');
+if(pbs)pbs.addEventListener('input',function(e){syncBpm(parseInt(e.target.value));});
+
+function populateKeySelect(){
+var sel=document.getElementById('tsxv5-keySelect');
+if(!sel)return;
+var uniqueKeys=KEYS.filter(function(k,i,arr){
+return arr.findIndex(function(x){return x.key===k.key;})===i;
+});
+sel.innerHTML=uniqueKeys.map(function(k){
+return'<option value="'+k.key+'"'+(k.key==='A Minor'?' selected':'')+'>'+k.key+' ('+k.camelot+')</option>';
+}).join('');
+sel.addEventListener('change',function(e){
+state.key=uniqueKeys.find(function(k){return k.key===e.target.value;});
+var hk=document.getElementById('tsxv5-heroKey');if(hk)hk.textContent=state.key.key;
+var hc=document.getElementById('tsxv5-heroCamelot');if(hc)hc.textContent=state.key.camelot;
+updatePrompt();
+renderCamelotWheel();
+var cks=document.getElementById('tsxv5-camelotKeySelect');if(cks)cks.value=state.key.key;
+});
+}
+
+function populateTextures(){
+var grid=document.getElementById('tsxv5-textureGrid');
+if(!grid)return;
+grid.innerHTML='';
+TEXTURES.forEach(function(tex){
+var tile=document.createElement('button');
+tile.type='button';
+tile.className='texture-tile';
+tile.textContent=tex;
+if(state.textures.has(tex))tile.setAttribute('data-active','true');
+tile.addEventListener('click',function(){
+if(state.textures.has(tex)){state.textures.delete(tex);tile.removeAttribute('data-active');}
+else{state.textures.add(tex);tile.setAttribute('data-active','true');}
+updatePrompt();
+});
+grid.appendChild(tile);
+});
+}
+
+var vs=document.getElementById('tsxv5-vocalSelect');
+if(vs)vs.addEventListener('change',function(e){state.vocal=e.target.value;updatePrompt();});
+
+function updatePrompt(){
+var textures=state.textures.size?[...state.textures].join(', '):'Clean Studio Mix';
+var promptStr='[Genre: '+state.mood+' '+state.genre+' ('+state.language+'), Vocals: '+state.vocal+', BPM: '+state.bpm+' ('+tempoLabel(state.bpm)+'), Key: '+state.key.key+', Instrumentation: '+textures+']';
+var po=document.getElementById('tsxv5-promptOutput');
+if(po)po.textContent=promptStr;
+return promptStr;
+}
+
+document.getElementById('tsxv5-copyBtn').addEventListener('click',function(){
+var text=updatePrompt();
+if(navigator.clipboard&&navigator.clipboard.writeText){
+navigator.clipboard.writeText(text).then(function(){showToast('Prompt copied to clipboard');}).catch(function(){fallbackCopy(text);});
+}else{fallbackCopy(text);}
+});
+
+function fallbackCopy(text){
+try{
+var ta=document.createElement('textarea');
+ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+document.body.appendChild(ta);ta.focus();ta.select();
+document.execCommand('copy');
+document.body.removeChild(ta);
+showToast('Prompt copied to clipboard');
+}catch(err){showToast('Copy failed — select text manually');}
+}
+
+document.getElementById('tsxv5-exportBtn').addEventListener('click',function(){
+var promptStr=updatePrompt();
+var timelineText='';
+var cumBeats=0;
+var secondsPerBeat=60/state.bpm;
+STRUCTURE.forEach(function(sec){
+var startSec=cumBeats*secondsPerBeat;
+cumBeats+=sec.bars*4;
+var mm=Math.floor(startSec/60);
+var ss=Math.floor(startSec%60).toString().padStart(2,'0');
+timelineText+='  '+sec.name.padEnd(10)+' — '+mm+':'+ss+'  ('+sec.bars+' bars)\n';
+});
+
+var blueprint='TOOLS-X — FULL SONG BLUEPRINT (Analog Session)\n================================\nGenre: '+state.genre+'\nMood: '+state.mood+'\nLanguage: '+state.language+'\nBPM: '+state.bpm+' ('+tempoLabel(state.bpm)+')\nKey: '+state.key.key+' (Camelot '+state.key.camelot+')\nRhyme Scheme: '+state.scheme+'\n\nARRANGEMENT REEL\n--------------------------------\n'+timelineText+'\nSUNO / UDIO STYLE PROMPT\n--------------------------------\n'+promptStr+'\n\nGenerated by Tools-X Analog Tape Deck Studio · toolsx.in\n';
+
+var safeName=sanitizeFilename(state.genre+'-'+state.bpm+'bpm');
+var blob=new Blob([blueprint],{type:'text/plain'});
+var url=URL.createObjectURL(blob);
+var a=document.createElement('a');
+a.href=url;
+a.download=safeName+'-blueprint.txt';
+document.body.appendChild(a);
+a.click();
+a.remove();
+URL.revokeObjectURL(url);
+showToast('Blueprint exported');
+});
+
+function renderDelay(){
+var dbi=document.getElementById('tsxv5-delayBpmInput');
+var bpm=parseFloat(dbi?dbi.value:'92')||state.bpm;
+var quarter=60000/bpm;
+var eighth=quarter/2;
+var sixteenth=quarter/4;
+var dottedEighth=eighth*1.5;
+
+var results=[
+{label:'1/4 Note',value:quarter},
+{label:'1/8 Note',value:eighth},
+{label:'1/16 Note',value:sixteenth},
+{label:'1/8 Dotted',value:dottedEighth}
+];
+
+var container=document.getElementById('tsxv5-delayResults');
+if(container)container.innerHTML=results.map(function(r){
+return'<div class="delay-cell"><p class="lbl">'+r.label+'</p><p class="num">'+r.value.toFixed(1)+'</p><p class="unit">ms</p></div>';
+}).join('');
+}
+var dbi=document.getElementById('tsxv5-delayBpmInput');
+if(dbi)dbi.addEventListener('input',renderDelay);
+
+function camelotNeighbors(code){
+var num=parseInt(code);
+var letter=code.slice(-1);
+var otherLetter=letter==='A'?'B':'A';
+var prevNum=num===1?12:num-1;
+var nextNum=num===12?1:num+1;
+return[String(num)+otherLetter,String(prevNum)+letter,String(nextNum)+letter];
+}
+
+function renderCamelotWheel(){
+var wheel=document.getElementById('tsxv5-camelotWheel');
+if(!wheel)return;
+wheel.innerHTML='';
+var uniqueKeys=KEYS.filter(function(k,i,arr){
+return arr.findIndex(function(x){return x.camelot===k.camelot;})===i;
+}).sort(function(a,b){
+var na=parseInt(a.camelot),nb=parseInt(b.camelot);
+if(na!==nb)return na-nb;
+return a.camelot.localeCompare(b.camelot);
+});
+
+var neighbors=camelotNeighbors(state.key.camelot);
+
+uniqueKeys.forEach(function(k){
+var cell=document.createElement('div');
+cell.className='camelot-cell';
+cell.innerHTML='<p class="code">'+k.camelot+'</p><p class="kname">'+k.key.split(' ')[0]+'</p>';
+if(k.camelot===state.key.camelot)cell.setAttribute('data-selected','true');
+else if(neighbors.indexOf(k.camelot)>=0)cell.setAttribute('data-highlight','true');
+cell.addEventListener('click',function(){
+state.key=k;
+var cks=document.getElementById('tsxv5-camelotKeySelect');if(cks)cks.value=k.key;
+var hk=document.getElementById('tsxv5-heroKey');if(hk)hk.textContent=k.key;
+var hc=document.getElementById('tsxv5-heroCamelot');if(hc)hc.textContent=k.camelot;
+var ks=document.getElementById('tsxv5-keySelect');
+if(ks&&[...ks.options].some(function(o){return o.value===k.key;}))ks.value=k.key;
+updatePrompt();
+renderCamelotWheel();
+});
+wheel.appendChild(cell);
+});
+
+var cl=document.getElementById('tsxv5-camelotCompatList');
+if(cl)cl.innerHTML=neighbors.map(function(code){
+var match=KEYS.find(function(k){return k.camelot===code;});
+return'<span class="compat-pill">'+code+' · '+(match?match.key:'')+'</span>';
+}).join('');
+}
+
+function populateCamelotSelect(){
+var sel=document.getElementById('tsxv5-camelotKeySelect');
+if(!sel)return;
+var uniqueKeys=KEYS.filter(function(k,i,arr){
+return arr.findIndex(function(x){return x.key===k.key;})===i;
+});
+sel.innerHTML=uniqueKeys.map(function(k){
+return'<option value="'+k.key+'"'+(k.key==='A Minor'?' selected':'')+'>'+k.key+' ('+k.camelot+')</option>';
+}).join('');
+sel.addEventListener('change',function(e){
+state.key=uniqueKeys.find(function(k){return k.key===e.target.value;});
+var hk=document.getElementById('tsxv5-heroKey');if(hk)hk.textContent=state.key.key;
+var hc=document.getElementById('tsxv5-heroCamelot');if(hc)hc.textContent=state.key.camelot;
+var ks=document.getElementById('tsxv5-keySelect');if(ks)ks.value=state.key.key;
+updatePrompt();
+renderCamelotWheel();
+});
+}
+
+function init(){
+populateKeySelect();
+populateTextures();
+populateCamelotSelect();
+renderTimeline();
+renderRhyme();
+renderSyllables();
+renderDelay();
+renderCamelotWheel();
+updatePrompt();
+sweepNeedles(state.bpm);
+}
+init();
+
+console.log('Tools-X Analog Tape Deck Studio v5.1 loaded | toolsx.in');
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

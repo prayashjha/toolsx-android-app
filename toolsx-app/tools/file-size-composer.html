@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>File size composer – ToolsX App</title>
+<meta name="description" content="File size composer">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>File size composer</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-fsu" class="tsxv5-fsu-wrapper">
+<style>
+#tsxv5-fsu{
+  --fsu-bg:#ffffff;--fsu-bg2:#f8f9fa;--fsu-panel:#ffffff;--fsu-panel2:#f1f3f5;
+  --fsu-line:#e5e7eb;--fsu-line2:#d1d5db;
+  --fsu-text:#1e293b;--fsu-text-dim:#475569;--fsu-text-muted:#6b7280;
+  --fsu-accent:#f59e0b;--fsu-accent2:#ea580c;
+  --fsu-ok:#10b981;--fsu-err:#ef4444;
+  --fsu-body:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --fsu-mono:'Courier New',monospace;
+  font-family:var(--fsu-body);color:var(--fsu-text);background:var(--fsu-bg);
+  min-height:100vh;overflow-x:hidden;line-height:1.5;
+}
+body.dark-mode #tsxv5-fsu,
+html.dark-mode #tsxv5-fsu,
+[data-theme="dark"] #tsxv5-fsu,
+body[data-theme="dark"] #tsxv5-fsu{
+  --fsu-bg:#0f172a;--fsu-bg2:#1e293b;--fsu-panel:#1e293b;--fsu-panel2:#334155;
+  --fsu-line:#475569;--fsu-line2:#64748b;
+  --fsu-text:#f1f5f9;--fsu-text-dim:#cbd5e1;--fsu-text-muted:#94a3b8;
+  --fsu-accent:#fbbf24;--fsu-accent2:#f97316;
+}
+#tsxv5-fsu *,#tsxv5-fsu *::before,#tsxv5-fsu *::after{box-sizing:border-box;margin:0;padding:0;}
+#tsxv5-fsu button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+#tsxv5-fsu input{font-family:inherit;}
+#tsxv5-fsu kbd{font-family:var(--fsu-mono);font-size:.75em;border:1px solid var(--fsu-line2);border-bottom-width:2px;border-radius:5px;padding:1px 6px;background:var(--fsu-panel2);color:var(--fsu-text);}
+#tsxv5-fsu :focus-visible{outline:2px solid var(--fsu-accent);outline-offset:2px;border-radius:6px;}
+
+#tsxv5-fsu .fsu-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px clamp(16px,4vw,40px);border-bottom:1px solid var(--fsu-line);background:var(--fsu-panel);flex-wrap:wrap;}
+#tsxv5-fsu .fsu-brand{display:flex;align-items:center;gap:12px;}
+#tsxv5-fsu .fsu-logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(140deg,var(--fsu-accent),var(--fsu-accent2));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px -6px rgba(245,158,11,.6);}
+#tsxv5-fsu .fsu-logo svg{width:24px;height:24px;}
+#tsxv5-fsu h2.fsu-title{font-size:clamp(1.2rem,3vw,1.6rem);font-weight:700;line-height:1.1;color:var(--fsu-text);}
+#tsxv5-fsu .fsu-brand small{display:block;font-size:.75rem;color:var(--fsu-text-dim);letter-spacing:.04em;margin-top:2px;}
+#tsxv5-fsu .fsu-stats-header{display:flex;gap:8px;flex-wrap:wrap;}
+#tsxv5-fsu .fsu-stat-chip{background:var(--fsu-panel2);border:1px solid var(--fsu-line);border-radius:999px;padding:6px 14px;font-size:.78rem;color:var(--fsu-text-dim);white-space:nowrap;}
+#tsxv5-fsu .fsu-stat-chip strong{color:var(--fsu-accent);font-weight:600;}
+
+#tsxv5-fsu .fsu-main{max-width:1200px;margin:0 auto;padding:24px clamp(16px,4vw,40px) 40px;}
+#tsxv5-fsu .fsu-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;}
+@media(min-width:900px){#tsxv5-fsu .fsu-grid{grid-template-columns:360px 1fr;}}
+
+#tsxv5-fsu .fsu-drop{position:relative;background:var(--fsu-panel);border:2px dashed var(--fsu-line2);border-radius:20px;padding:32px 20px;text-align:center;cursor:pointer;transition:border-color .3s,background .3s,transform .3s;min-height:200px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+#tsxv5-fsu .fsu-drop:hover,#tsxv5-fsu .fsu-drop.over{background:var(--fsu-panel2);border-color:var(--fsu-accent);transform:translateY(-2px);}
+#tsxv5-fsu .fsu-drop-ico{width:72px;height:72px;margin:0 auto 14px;transition:transform .3s;}
+#tsxv5-fsu .fsu-drop:hover .fsu-drop-ico,#tsxv5-fsu .fsu-drop.over .fsu-drop-ico{transform:scale(1.08);}
+#tsxv5-fsu .fsu-drop h3{font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:700;margin-bottom:8px;color:var(--fsu-text);}
+#tsxv5-fsu .fsu-drop p{color:var(--fsu-text-dim);max-width:40ch;margin:0 auto 16px;font-size:.95rem;}
+#tsxv5-fsu .fsu-drop p b{color:var(--fsu-text);}
+#tsxv5-fsu .fsu-pill{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:500;color:#064e3b;background:var(--fsu-ok);border-radius:999px;padding:6px 16px;}
+#tsxv5-fsu-fileInput{display:none;}
+
+#tsxv5-fsu .fsu-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px;}
+#tsxv5-fsu .fsu-chips span{font-size:.7rem;border:1px solid var(--fsu-line);border-radius:999px;padding:4px 12px;color:var(--fsu-text-dim);}
+#tsxv5-fsu .fsu-chips span.more{background:linear-gradient(120deg,var(--fsu-accent),var(--fsu-accent2));color:#78350f;border-color:transparent;font-weight:600;}
+
+#tsxv5-fsu .fsu-panel{background:var(--fsu-panel);border:1px solid var(--fsu-line);border-radius:20px;overflow:hidden;}
+#tsxv5-fsu .fsu-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--fsu-line);}
+#tsxv5-fsu .fsu-toolbar h3{font-size:1.2rem;font-weight:700;display:flex;align-items:center;gap:8px;color:var(--fsu-text);}
+#tsxv5-fsu .fsu-toolbar h3 .cnt{font-size:.7rem;background:var(--fsu-panel2);border:1px solid var(--fsu-line2);border-radius:999px;padding:2px 10px;color:var(--fsu-accent);}
+#tsxv5-fsu .fsu-search{position:relative;}
+#tsxv5-fsu .fsu-search input{background:var(--fsu-panel2);border:1px solid var(--fsu-line);border-radius:999px;color:var(--fsu-text);padding:8px 16px 8px 34px;font-size:.85rem;width:180px;max-width:100%;outline:none;transition:border-color .3s,width .3s;}
+#tsxv5-fsu .fsu-search input:focus{border-color:var(--fsu-accent);width:220px;}
+#tsxv5-fsu .fsu-search::before{content:"⌕";position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--fsu-text-muted);font-size:1.1rem;}
+#tsxv5-fsu .fsu-tabs{display:flex;flex-wrap:wrap;gap:8px;padding:12px 20px;border-bottom:1px solid var(--fsu-line);}
+#tsxv5-fsu .fsu-tab{font-size:.8rem;color:var(--fsu-text-dim);border:1px solid transparent;border-radius:999px;padding:6px 14px;display:flex;align-items:center;gap:6px;transition:all .3s;min-height:44px;}
+#tsxv5-fsu .fsu-tab .tc{font-size:.65rem;background:var(--fsu-panel2);border-radius:999px;padding:1px 7px;color:var(--fsu-text-muted);}
+#tsxv5-fsu .fsu-tab:hover{color:var(--fsu-text);}
+#tsxv5-fsu .fsu-tab.on{background:linear-gradient(120deg,var(--fsu-accent),var(--fsu-accent2));color:#78350f;font-weight:600;}
+#tsxv5-fsu .fsu-tab.on .tc{background:rgba(120,53,15,.18);color:#78350f;}
+#tsxv5-fsu .fsu-list{max-height:520px;overflow-y:auto;padding:14px;}
+#tsxv5-fsu .fsu-list::-webkit-scrollbar{width:8px;}
+#tsxv5-fsu .fsu-list::-webkit-scrollbar-thumb{background:var(--fsu-line2);border-radius:4px;}
+#tsxv5-fsu .fsu-empty,#tsxv5-fsu .fsu-nores{text-align:center;padding:40px 20px;color:var(--fsu-text-muted);}
+#tsxv5-fsu .fsu-empty svg{width:60px;height:60px;margin-bottom:12px;opacity:.5;}
+#tsxv5-fsu .fsu-empty p{font-size:1rem;color:var(--fsu-text-dim);}
+#tsxv5-fsu .fsu-empty small{font-size:.8rem;}
+
+#tsxv5-fsu .fsu-card{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--fsu-panel2);border:1px solid var(--fsu-line);border-radius:14px;padding:12px 14px;margin-bottom:10px;animation:tsxv5FsuRise .35s cubic-bezier(.16,1,.3,1);}
+#tsxv5-fsu .fsu-card:hover{transform:translateY(-2px);border-color:var(--fsu-line2);}
+#tsxv5-fsu .fsu-thumb{width:48px;height:48px;border-radius:10px;background:var(--fsu-bg);border:1px solid var(--fsu-line);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+#tsxv5-fsu .fsu-thumb img{width:100%;height:100%;object-fit:cover;}
+#tsxv5-fsu .fsu-thumb svg{width:30px;height:34px;}
+#tsxv5-fsu .fsu-info{min-width:0;}
+#tsxv5-fsu .fsu-name-row{display:flex;align-items:center;gap:8px;min-width:0;}
+#tsxv5-fsu .fsu-name{font-weight:600;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--fsu-text);}
+#tsxv5-fsu .fsu-badge{font-size:.6rem;letter-spacing:.08em;font-weight:600;color:var(--bc);border:1px solid var(--bc);border-radius:5px;padding:1px 6px;flex-shrink:0;}
+#tsxv5-fsu .fsu-meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.7rem;color:var(--fsu-text-muted);margin:2px 0 6px;}
+#tsxv5-fsu .fsu-meta .fsu-hash{color:var(--fsu-text-dim);font-family:var(--fsu-mono);font-size:.65rem;word-break:break-all;}
+#tsxv5-fsu .fsu-pbar{height:5px;background:#e5e7eb;border-radius:4px;overflow:hidden;margin-top:2px;}
+body.dark-mode #tsxv5-fsu .fsu-pbar{background:#475569;}
+#tsxv5-fsu .fsu-pbar i{display:block;height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,var(--fsu-accent2),var(--fsu-accent));transition:width .2s;}
+#tsxv5-fsu .fsu-card.done .fsu-pbar i{background:var(--fsu-ok);}
+#tsxv5-fsu .fsu-actions{display:flex;flex-direction:column;align-items:center;gap:6px;}
+#tsxv5-fsu .fsu-actions .fsu-pct{font-size:.7rem;color:var(--fsu-accent);min-width:34px;text-align:center;}
+#tsxv5-fsu .fsu-card.done .fsu-actions .fsu-pct{color:var(--fsu-ok);font-weight:600;}
+#tsxv5-fsu .fsu-btn-group{display:flex;gap:4px;}
+#tsxv5-fsu .fsu-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--fsu-line);color:var(--fsu-text-muted);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .3s;min-width:44px;min-height:44px;}
+#tsxv5-fsu .fsu-btn:hover{background:var(--fsu-err);border-color:var(--fsu-err);color:#fff;}
+#tsxv5-fsu .fsu-btn.download:hover{background:var(--fsu-ok);border-color:var(--fsu-ok);color:#fff;}
+#tsxv5-fsu .fsu-btn.preview:hover{background:var(--fsu-accent);border-color:var(--fsu-accent);color:#78350f;}
+#tsxv5-fsu .fsu-clear-wrap{display:flex;justify-content:flex-end;padding:12px 20px;}
+#tsxv5-fsu .fsu-clear{font-size:.8rem;color:var(--fsu-text-dim);border:1px dashed var(--fsu-line2);border-radius:999px;padding:7px 16px;transition:all .3s;min-height:44px;}
+#tsxv5-fsu .fsu-clear:hover{color:var(--fsu-accent);border-color:var(--fsu-accent);}
+
+#tsxv5-fsu .fsu-modal{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.88);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:20px;}
+#tsxv5-fsu .fsu-modal.on{display:flex;}
+#tsxv5-fsu .fsu-modal img{max-width:min(90vw,900px);max-height:70vh;border-radius:12px;box-shadow:0 30px 60px -20px rgba(0,0,0,.8);}
+#tsxv5-fsu .fsu-modal pre{background:#1e293b;border:1px solid #475569;border-radius:12px;padding:16px;max-width:90vw;max-height:70vh;overflow:auto;white-space:pre-wrap;font-family:var(--fsu-mono);font-size:.8rem;color:#f1f5f9;}
+#tsxv5-fsu .fsu-modal video,#tsxv5-fsu .fsu-modal audio{max-width:90vw;max-height:70vh;}
+#tsxv5-fsu .fsu-modal-close{position:absolute;top:16px;right:20px;width:44px;height:44px;border-radius:50%;border:1px solid #64748b;color:#f1f5f9;font-size:1.2rem;transition:all .3s;background:rgba(0,0,0,.5);min-width:44px;min-height:44px;}
+#tsxv5-fsu .fsu-modal-close:hover{background:var(--fsu-err);border-color:var(--fsu-err);}
+
+@keyframes tsxv5FsuRise{from{opacity:0;transform:translateY(10px);}}
+@media(max-width:520px){
+  #tsxv5-fsu .fsu-card{grid-template-columns:40px minmax(0,1fr);grid-template-areas:"thumb info" "thumb actions";row-gap:6px;}
+  #tsxv5-fsu .fsu-thumb{grid-area:thumb;width:40px;height:40px;}
+  #tsxv5-fsu .fsu-info{grid-area:info;}
+  #tsxv5-fsu .fsu-actions{grid-area:actions;flex-direction:row;justify-content:flex-end;gap:6px;}
+  #tsxv5-fsu .fsu-search input{width:120px;}
+  #tsxv5-fsu .fsu-search input:focus{width:150px;}
+}
+
+#tsxv5-fsu .fsu-toast{position:fixed;bottom:24px;left:24px;z-index:2000;background:var(--fsu-panel);border-left:4px solid var(--fsu-accent);border-radius:10px;padding:10px 18px;font-size:.85rem;color:var(--fsu-text);box-shadow:0 12px 30px rgba(0,0,0,.3);animation:tsxv5FsuToastIn .3s;max-width:calc(100vw - 48px);}
+@keyframes tsxv5FsuToastIn{from{opacity:0;transform:translateY(20px);}}
+
+#tsxv5-fsu .fsu-how{margin-top:40px;padding:30px;background:var(--fsu-panel);border:1px solid var(--fsu-line);border-radius:16px;}
+#tsxv5-fsu .fsu-how h2{font-size:clamp(1.5rem,4vw,1.8rem);font-weight:800;color:var(--fsu-accent);margin-bottom:20px;border-bottom:2px solid var(--fsu-line);padding-bottom:12px;}
+#tsxv5-fsu .fsu-how p{font-size:1rem;line-height:1.8;color:var(--fsu-text-dim);margin-bottom:14px;}
+#tsxv5-fsu .fsu-steps{background:var(--fsu-panel2);border:1px solid var(--fsu-line);border-radius:12px;padding:24px;margin:20px 0;}
+#tsxv5-fsu .fsu-steps ol{margin-left:1.4rem;line-height:1.9;color:var(--fsu-text-dim);}
+#tsxv5-fsu .fsu-steps li{margin-bottom:10px;}
+#tsxv5-fsu .fsu-steps li strong{color:var(--fsu-text);}
+
+#tsxv5-fsu .fsu-features{margin:24px 0;}
+#tsxv5-fsu .fsu-features h3{font-size:1.3rem;font-weight:700;color:var(--fsu-text);margin:20px 0 12px;}
+#tsxv5-fsu .fsu-features ul{margin-left:1.4rem;line-height:1.9;color:var(--fsu-text-dim);}
+#tsxv5-fsu .fsu-features li{margin-bottom:8px;}
+
+#tsxv5-fsu .fsu-faq{margin-top:30px;padding:30px;background:var(--fsu-panel);border:1px solid var(--fsu-line);border-radius:16px;}
+#tsxv5-fsu .fsu-faq h2{font-size:clamp(1.5rem,4vw,1.8rem);font-weight:800;color:var(--fsu-accent);margin-bottom:20px;border-bottom:2px solid var(--fsu-line);padding-bottom:12px;}
+#tsxv5-fsu .fsu-faq-item{margin-bottom:16px;padding:18px;background:var(--fsu-panel2);border-radius:12px;border:1px solid var(--fsu-line);cursor:pointer;transition:all .2s;}
+#tsxv5-fsu .fsu-faq-item:hover{border-color:var(--fsu-accent);}
+#tsxv5-fsu .fsu-faq-item h3{font-weight:700;color:var(--fsu-text);margin-bottom:0;font-size:1rem;display:flex;justify-content:space-between;align-items:center;}
+#tsxv5-fsu .fsu-faq-item h3::after{content:'+';font-size:1.3rem;color:var(--fsu-accent);transition:transform .3s;flex-shrink:0;}
+#tsxv5-fsu .fsu-faq-item.open h3::after{transform:rotate(45deg);}
+#tsxv5-fsu .fsu-faq-item.open h3{margin-bottom:10px;}
+#tsxv5-fsu .fsu-faq-item p{display:none;margin-top:10px;color:var(--fsu-text-dim);line-height:1.7;}
+#tsxv5-fsu .fsu-faq-item.open p{display:block;}
+
+#tsxv5-fsu .fsu-related{margin-top:30px;padding:30px;background:var(--fsu-panel);border:1px solid var(--fsu-line);border-radius:16px;}
+#tsxv5-fsu .fsu-related h2{font-size:clamp(1.3rem,3.5vw,1.5rem);font-weight:700;color:var(--fsu-accent);margin-bottom:16px;}
+#tsxv5-fsu .fsu-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
+#tsxv5-fsu .fsu-related-link{color:var(--fsu-text);text-decoration:none;font-size:.95rem;display:flex;align-items:center;gap:10px;transition:all .2s;background:var(--fsu-panel2);padding:14px;border-radius:10px;border:1px solid var(--fsu-line);min-height:48px;}
+#tsxv5-fsu .fsu-related-link:hover{color:var(--fsu-accent);border-color:var(--fsu-accent);transform:translateY(-2px);text-decoration:none;}
+#tsxv5-fsu .fsu-related-icon{font-size:1.5rem;}
+#tsxv5-fsu .fsu-related-link strong{color:var(--fsu-accent);display:block;font-size:1rem;margin-bottom:4px;}
+#tsxv5-fsu .fsu-related-link span{color:var(--fsu-text-dim);font-size:.85rem;line-height:1.4;}
+
+@media(prefers-reduced-motion:reduce){#tsxv5-fsu *,#tsxv5-fsu *::before,#tsxv5-fsu *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+</style>
+
+<header class="fsu-header">
+  <div class="fsu-brand">
+    <div class="fsu-logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V5m0 0l-4.2 4.2M12 5l4.2 4.2" stroke="#78350f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17.5c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5" stroke="#78350f" stroke-width="2.4" stroke-linecap="round"/></svg>
+    </div>
+    <div><h2 class="fsu-title">FileSetu – Local File Manager & Inspector</h2><small>Inspect · Hash · Preview · Organize — 100% client-side</small></div>
+  </div>
+  <div class="fsu-stats-header">
+    <span class="fsu-stat-chip">Files: <strong id="tsxv5-fsuStFiles">0</strong></span>
+    <span class="fsu-stat-chip">Size: <strong id="tsxv5-fsuStSize">0 B</strong></span>
+    <span class="fsu-stat-chip">Hashed: <strong id="tsxv5-fsuStHashed">0</strong></span>
+  </div>
+</header>
+
+<main class="fsu-main">
+  <div class="fsu-grid">
+    <section>
+      <div class="fsu-drop" id="tsxv5-fsuDrop" role="button" tabindex="0" aria-label="Select files or drag and drop here">
+        <input type="file" id="tsxv5-fsuFileInput" multiple>
+        <div class="fsu-drop-ico" aria-hidden="true">
+          <svg viewBox="0 0 96 96" fill="none"><path d="M30 66h-4a16 16 0 1 1 3-31.7A22 22 0 0 1 72 40a14 14 0 0 1-2 27.8h-6" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/><path d="M48 78V46m0 0l-11 11m11-11l11 11" stroke="#f59e0b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Drop files here</h3>
+        <p>Drag & drop, <b>click to select</b>, or paste copied files with <kbd>Ctrl</kbd>+<kbd>V</kbd>. Multiple files supported.</p>
+        <span class="fsu-pill">✓ No upload — files never leave your device</span>
+      </div>
+      <div class="fsu-chips" aria-hidden="true">
+        <span>PDF</span><span>DOCX</span><span>XLSX</span><span>PPTX</span><span>JPG</span><span>PNG</span><span>MP4</span><span>MP3</span><span>ZIP</span><span>CODE</span><span class="more">+ everything</span>
+      </div>
+    </section>
+
+    <section class="fsu-panel">
+      <div class="fsu-toolbar">
+        <h3>Your Files <span class="cnt" id="tsxv5-fsuListCount">0</span></h3>
+        <div class="fsu-search"><input id="tsxv5-fsuSearch" type="text" placeholder="Search files…" aria-label="Search files"></div>
+      </div>
+      <div class="fsu-tabs" role="tablist">
+        <button type="button" class="fsu-tab on" data-tab="all">All <span class="tc">0</span></button>
+        <button type="button" class="fsu-tab" data-tab="docs">Docs <span class="tc">0</span></button>
+        <button type="button" class="fsu-tab" data-tab="images">Images <span class="tc">0</span></button>
+        <button type="button" class="fsu-tab" data-tab="media">Media <span class="tc">0</span></button>
+        <button type="button" class="fsu-tab" data-tab="archives">Archives <span class="tc">0</span></button>
+        <button type="button" class="fsu-tab" data-tab="code">Code <span class="tc">0</span></button>
+        <button type="button" class="fsu-tab" data-tab="other">Other <span class="tc">0</span></button>
+      </div>
+      <div class="fsu-list" id="tsxv5-fsuList">
+        <div class="fsu-empty" id="tsxv5-fsuEmpty">
+          <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M14 22h36v30a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V22z" stroke="#6b7280" stroke-width="3"/><path d="M14 22l6-8h24l6 8" stroke="#6b7280" stroke-width="3" stroke-linejoin="round"/><path d="M26 36h12" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/></svg>
+          <p>No files yet</p>
+          <small>Click the dropzone or drag files here to begin inspecting</small>
+        </div>
+        <div class="fsu-nores" id="tsxv5-fsuNores" style="display:none">
+          <p>No matching files</p>
+          <small>Try adjusting search or filter</small>
+        </div>
+      </div>
+      <div class="fsu-clear-wrap"><button type="button" class="fsu-clear" id="tsxv5-fsuClearAll">Clear all completed hashes</button></div>
+    </section>
+  </div>
+</main>
+
+<div class="fsu-modal" id="tsxv5-fsuModal" role="dialog" aria-label="File preview">
+  <button type="button" class="fsu-modal-close" aria-label="Close">✕</button>
+  <div id="tsxv5-fsuModalContent"></div>
+</div>
+
+<section class="fsu-how">
+  <h2>🎯 How to Use FileSetu File Manager</h2>
+  <p><strong>FileSetu</strong> is a privacy-first browser tool that lets you inspect, hash, preview, and organize files without uploading anything to a server. Every operation happens entirely on your device, making it safe for sensitive documents, images, code, and more.</p>
+
+  <div class="fsu-steps">
+    <ol>
+      <li><strong>Add files:</strong> Click the dropzone, drag & drop files onto it, or paste copied files with <kbd>Ctrl</kbd>+<kbd>V</kbd>. You can select multiple files at once.</li>
+      <li><strong>Wait for inspection:</strong> FileSetu automatically starts computing a SHA-256 checksum for each file. You'll see a progress bar while hashing is in progress.</li>
+      <li><strong>Preview any file:</strong> Click the 👁 button on a file card to open a preview. Images, videos, audio, and text/code files can be viewed directly inside the modal.</li>
+      <li><strong>Download or remove:</strong> Use the ⬇ button to download the original file back to your device. The ✕ button removes it from the list (the file itself is never deleted from your computer).</li>
+      <li><strong>Search & filter:</strong> Use the search box to find files by name. The category tabs (Docs, Images, Media, Archives, Code) help you narrow down the list quickly.</li>
+    </ol>
+  </div>
+
+  <div class="fsu-features">
+    <h3>🔐 Key Features</h3>
+    <ul>
+      <li>Real SHA-256 checksum generation for integrity verification</li>
+      <li>Client-side preview for images, audio, video, and text/code files</li>
+      <li>Sorting by category, search filtering, and duplicate detection</li>
+      <li>No data ever leaves your browser — 100% offline capable</li>
+      <li>Works on mobile, tablet, and desktop devices</li>
+      <li>Light and dark mode support for comfortable viewing</li>
+    </ul>
+  </div>
+</section>
+
+<section class="fsu-faq">
+  <h2>❓ Frequently Asked Questions</h2>
+  <div class="fsu-faq-item"><h3>Does FileSetu upload my files to a server?</h3><p>No. All processing happens locally in your browser using the Web Crypto API. Your files never leave your device.</p></div>
+  <div class="fsu-faq-item"><h3>What is the SHA-256 checksum used for?</h3><p>It creates a unique digital fingerprint of a file. You can compare it with a known hash to verify the file hasn't been corrupted or tampered with.</p></div>
+  <div class="fsu-faq-item"><h3>Can I preview PDF or Excel files?</h3><p>Currently, PDF and binary office formats cannot be rendered inside the tool. You can still download them or view their metadata and hash.</p></div>
+  <div class="fsu-faq-item"><h3>Is there a file size limit?</h3><p>There is no hard limit, but very large files may take longer to hash and preview. For best performance, keep files under ~50 MB.</p></div>
+  <div class="fsu-faq-item"><h3>Does this work on mobile devices?</h3><p>Yes, FileSetu is fully responsive and works on smartphones, tablets, and desktops. Touch gestures and drag-and-drop are supported.</p></div>
+</section>
+
+<aside class="fsu-related" aria-label="Related Tools">
+  <h2>🔗 Try More Useful Tools</h2>
+  <div class="fsu-related-grid">
+    <a href="../tools/ringtone-maker-15-music-styles-voice.html" class="fsu-related-link" rel="noopener">
+      <span class="fsu-related-icon">🔔</span>
+      <div><strong>Ringtone Maker</strong><span>Create custom ringtones with 15 music styles</span></div>
+    </a>
+    <a href="../tools/render-karein-audio-visualizer-waveform.html" class="fsu-related-link" rel="noopener">
+      <span class="fsu-related-icon">🎵</span>
+      <div><strong>Audio Visualizer</strong><span>Create stunning waveform videos from music</span></div>
+    </a>
+    <a href="https://www.toolsx.in/2026/08/vote-karein-community-platform-pe-ai-lab.html" class="fsu-related-link" rel="noopener">
+      <span class="fsu-related-icon">🗳️</span>
+      <div><strong>Community Voting Platform</strong><span>Create polls and surveys for your community</span></div>
+    </a>
+  </div>
+</aside>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+
+var W=document.getElementById('tsxv5-fsu');
+if(!W)return;
+
+function $(id){return document.getElementById(id);}
+var input=$('tsxv5-fsuFileInput'),drop=$('tsxv5-fsuDrop'),list=$('tsxv5-fsuList'),empty=$('tsxv5-fsuEmpty'),nores=$('tsxv5-fsuNores');
+var modal=$('tsxv5-fsuModal'),modalContent=$('tsxv5-fsuModalContent');
+var files=[],curTab='all',curQ='',previewUrls=[];
+
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
+function fmtSize(b){
+  if(b<1024)return b+' B';
+  var u=['KB','MB','GB','TB'],i=-1;
+  do{b/=1024;i++;}while(b>=1024&&i<3);
+  return(b>=100?b.toFixed(0):b>=10?b.toFixed(1):b.toFixed(2))+' '+u[i];
+}
+
+var CATS={
+  pdf:{label:'PDF',color:'#ef4444',group:'docs'},
+  word:{label:'DOC',color:'#3b82f6',group:'docs'},
+  excel:{label:'XLS',color:'#10b981',group:'docs'},
+  ppt:{label:'PPT',color:'#f59e0b',group:'docs'},
+  text:{label:'TXT',color:'#6b7280',group:'docs'},
+  image:{label:'IMG',color:'#a855f7',group:'images'},
+  video:{label:'VID',color:'#ec4899',group:'media'},
+  audio:{label:'AUD',color:'#fbbf24',group:'media'},
+  archive:{label:'ZIP',color:'#d97706',group:'archives'},
+  code:{label:'CODE',color:'#06b6d4',group:'code'},
+  other:{label:'FILE',color:'#64748b',group:'other'}
+};
+
+function catOf(ext,mime){
+  mime=mime||'';ext=(ext||'').toLowerCase();
+  if(ext==='pdf')return'pdf';
+  if(['doc','docx','rtf','odt','pages'].indexOf(ext)!==-1)return'word';
+  if(['xls','xlsx','csv','ods','numbers'].indexOf(ext)!==-1)return'excel';
+  if(['ppt','pptx','odp','key'].indexOf(ext)!==-1)return'ppt';
+  if(['jpg','jpeg','png','gif','webp','svg','avif','bmp','heic','ico','tif','tiff'].indexOf(ext)!==-1||mime.indexOf('image/')===0)return'image';
+  if(['mp4','mov','avi','mkv','webm','m4v','3gp','flv','wmv'].indexOf(ext)!==-1||mime.indexOf('video/')===0)return'video';
+  if(['mp3','wav','ogg','m4a','flac','aac','wma','mid'].indexOf(ext)!==-1||mime.indexOf('audio/')===0)return'audio';
+  if(['zip','rar','7z','tar','gz','bz2','xz','iso','dmg'].indexOf(ext)!==-1)return'archive';
+  if(['js','ts','jsx','tsx','py','java','c','cpp','h','cs','go','rs','rb','php','html','css','scss','json','xml','yml','yaml','sql','sh','bat','ipynb'].indexOf(ext)!==-1)return'code';
+  if(['txt','md','log','ini'].indexOf(ext)!==-1)return'text';
+  return'other';
+}
+
+function iconSvg(cat,color){
+  var c=color;
+  if(cat==='video')return'<svg viewBox="0 0 48 48"><rect x="4" y="9" width="40" height="30" rx="7" fill="'+c+'22" stroke="'+c+'" stroke-width="2.4"/><path d="M20.5 17.5l11 6.5-11 6.5z" fill="'+c+'"/></svg>';
+  if(cat==='audio')return'<svg viewBox="0 0 48 48"><path d="M19 34V14l16-4v19" fill="none" stroke="'+c+'" stroke-width="2.6" stroke-linecap="round"/><circle cx="14.5" cy="34" r="5" fill="'+c+'"/><circle cx="30.5" cy="29" r="5" fill="'+c+'"/></svg>';
+  if(cat==='archive')return'<svg viewBox="0 0 48 48"><rect x="8" y="6" width="32" height="36" rx="6" fill="'+c+'22" stroke="'+c+'" stroke-width="2.4"/><path d="M24 6v4m0 3v3m0 3v3" stroke="'+c+'" stroke-width="2.4" stroke-linecap="round"/><rect x="20" y="26" width="8" height="7" rx="2" fill="none" stroke="'+c+'" stroke-width="2.2"/></svg>';
+  var t=CATS[cat].label.slice(0,3);
+  return'<svg viewBox="0 0 48 56"><path d="M8 6a4 4 0 0 1 4-4h18l12 12v34a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4V6z" fill="'+c+'1e" stroke="'+c+'" stroke-width="2.4"/><path d="M30 2l12 12H34a4 4 0 0 1-4-4V2z" fill="'+c+'"/><text x="24" y="42" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="'+c+'">'+t+'</text></svg>';
+}
+
+function sha256(file){
+  return new Promise(function(resolve,reject){
+    if(!window.crypto||!window.crypto.subtle){resolve('hash-unavailable');return;}
+    var reader=new FileReader();
+    reader.onload=function(e){
+      crypto.subtle.digest('SHA-256',e.target.result).then(function(hashBuffer){
+        var hashArray=Array.from(new Uint8Array(hashBuffer));
+        var hash=hashArray.map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+        resolve(hash);
+      }).catch(function(){resolve('hash-error');});
+    };
+    reader.onerror=function(){resolve('read-error');};
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+function makeCard(fileObj){
+  var ext=(fileObj.name.split('.').pop()||'').toLowerCase();
+  var cat=catOf(ext,fileObj.type);
+  var meta=CATS[cat];
+  var card=document.createElement('article');
+  card.className='fsu-card';
+  var isImage=cat==='image';
+  var thumbHtml=iconSvg(cat,meta.color);
+  var previewUrl=null;
+  if(isImage&&fileObj.size<10*1024*1024){
+    previewUrl=URL.createObjectURL(fileObj);
+    previewUrls.push(previewUrl);
+    thumbHtml='<img src="'+previewUrl+'" alt="thumbnail">';
+  }
+  card.innerHTML='<div class="fsu-thumb">'+thumbHtml+'</div><div class="fsu-info"><div class="fsu-name-row"><span class="fsu-name" title="'+escapeHtml(fileObj.name)+'">'+escapeHtml(fileObj.name)+'</span><span class="fsu-badge" style="--bc:'+meta.color+'">'+meta.label+'</span></div><div class="fsu-meta"><span>'+fmtSize(fileObj.size)+'</span><span>·</span><span>'+(fileObj.type||'unknown')+'</span><span class="fsu-hash" data-hash>Computing hash...</span></div><div class="fsu-pbar"><i></i></div></div><div class="fsu-actions"><span class="fsu-pct">0%</span><div class="fsu-btn-group"><button type="button" class="fsu-btn preview" title="Preview" aria-label="Preview file">👁</button><button type="button" class="fsu-btn download" title="Download" aria-label="Download file">⬇</button><button type="button" class="fsu-btn remove" title="Remove" aria-label="Remove file">✕</button></div></div>';
+  var pbar=card.querySelector('.fsu-pbar i');
+  var pctEl=card.querySelector('.fsu-pct');
+  var hashEl=card.querySelector('[data-hash]');
+  var removeBtn=card.querySelector('.remove');
+  var downloadBtn=card.querySelector('.download');
+  var previewBtn=card.querySelector('.preview');
+  var rec={file:fileObj,cat:cat,card:card,pbar:pbar,pctEl:pctEl,hashEl:hashEl,removed:false,previewUrl:previewUrl};
+  removeBtn.addEventListener('click',function(){removeFile(rec);});
+  downloadBtn.addEventListener('click',function(){downloadFile(rec);});
+  previewBtn.addEventListener('click',function(){previewFile(rec);});
+  pbar.style.width='30%';
+  pctEl.textContent='30%';
+  sha256(fileObj).then(function(hash){
+    if(rec.removed)return;
+    rec.hash=hash;
+    hashEl.textContent='SHA-256: '+hash.slice(0,16)+'…';
+    card.classList.add('done');
+    pctEl.textContent='✓';
+    pbar.style.width='100%';
+    updateStats();
+  });
+  return rec;
+}
+
+function removeFile(rec){
+  if(rec.removed)return;
+  rec.removed=true;
+  files=files.filter(function(r){return r!==rec;});
+  rec.card.style.opacity='0';
+  rec.card.style.transform='translateX(30px)';
+  setTimeout(function(){if(rec.card.parentNode)rec.card.remove();},300);
+  updateAll();
+}
+
+function downloadFile(rec){
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(rec.file);
+  a.download=rec.file.name;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){
+    URL.revokeObjectURL(a.href);
+    document.body.removeChild(a);
+  },1000);
+}
+
+function previewFile(rec){
+  modalContent.innerHTML='';
+  if(rec.cat==='image'&&rec.previewUrl){
+    var img=document.createElement('img');
+    img.src=rec.previewUrl;
+    img.alt='Preview of '+rec.file.name;
+    modalContent.appendChild(img);
+  }else if(rec.cat==='text'||rec.cat==='code'){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      var pre=document.createElement('pre');
+      pre.textContent=String(e.target.result).slice(0,2000);
+      modalContent.appendChild(pre);
+    };
+    reader.readAsText(rec.file);
+  }else if(rec.cat==='video'||rec.cat==='audio'){
+    var url=URL.createObjectURL(rec.file);
+    var el=document.createElement(rec.cat==='video'?'video':'audio');
+    el.src=url;el.controls=true;
+    modalContent.appendChild(el);
+    previewUrls.push(url);
+  }else{
+    var p=document.createElement('p');
+    p.style.color='#f1f5f9';
+    p.textContent='Preview not available for this file type. You can download it using the download button.';
+    modalContent.appendChild(p);
+  }
+  modal.classList.add('on');
+}
+
+function addFiles(fileList){
+  var arr=Array.from(fileList);
+  var dup=0,added=0;
+  arr.forEach(function(f){
+    if(files.some(function(r){return r.file.name===f.name&&r.file.size===f.size;})){dup++;return;}
+    var rec=makeCard(f);
+    files.push(rec);
+    list.insertBefore(rec.card,list.firstChild);
+    added++;
+  });
+  if(dup)toast('⚠ '+dup+' duplicate file(s) skipped');
+  if(added)toast('✓ '+added+' file(s) added for inspection');
+  updateAll();
+}
+
+function toast(msg){
+  var zone=document.createElement('div');
+  zone.className='fsu-toast';
+  zone.textContent=msg;
+  document.body.appendChild(zone);
+  setTimeout(function(){zone.style.opacity='0';zone.style.transition='opacity .4s';setTimeout(function(){if(zone.parentNode)zone.remove();},400);},2500);
+}
+
+function updateStats(){
+  var total=files.length,size=0,hashed=0;
+  files.forEach(function(r){size+=r.file.size;if(r.hash&&r.hash!=='hash-error'&&r.hash!=='read-error')hashed++;});
+  $('tsxv5-fsuStFiles').textContent=total;
+  $('tsxv5-fsuStSize').textContent=fmtSize(size);
+  $('tsxv5-fsuStHashed').textContent=hashed;
+  $('tsxv5-fsuListCount').textContent=total;
+}
+
+function updateTabs(){
+  var counts={all:files.length,docs:0,images:0,media:0,archives:0,code:0,other:0};
+  files.forEach(function(r){counts[CATS[r.cat].group]++;});
+  var tabs=W.querySelectorAll('.fsu-tab');
+  tabs.forEach(function(tab){
+    var key=tab.getAttribute('data-tab');
+    tab.querySelector('.tc').textContent=counts[key]||0;
+    tab.classList.toggle('on',key===curTab);
+  });
+}
+
+function applyFilter(){
+  var visible=0;
+  files.forEach(function(r){
+    var groupOk=curTab==='all'||CATS[r.cat].group===curTab;
+    var searchOk=r.file.name.toLowerCase().indexOf(curQ)!==-1;
+    var show=groupOk&&searchOk;
+    r.card.style.display=show?'':'none';
+    if(show)visible++;
+  });
+  empty.style.display=files.length?'none':'block';
+  nores.style.display=(files.length&&visible===0)?'block':'none';
+}
+
+function updateAll(){updateStats();updateTabs();applyFilter();}
+
+drop.addEventListener('click',function(e){
+  if(e.target===input)return;
+  input.click();
+});
+
+drop.addEventListener('keydown',function(e){
+  if(e.key==='Enter'||e.key===' '){e.preventDefault();input.click();}
+});
+
+input.addEventListener('change',function(){
+  if(this.files&&this.files.length)addFiles(this.files);
+  this.value='';
+});
+
+var dragDepth=0;
+drop.addEventListener('dragenter',function(e){e.preventDefault();dragDepth++;drop.classList.add('over');});
+drop.addEventListener('dragover',function(e){e.preventDefault();});
+drop.addEventListener('dragleave',function(){dragDepth=Math.max(0,dragDepth-1);if(!dragDepth)drop.classList.remove('over');});
+drop.addEventListener('drop',function(e){
+  e.preventDefault();dragDepth=0;drop.classList.remove('over');
+  if(e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files.length)addFiles(e.dataTransfer.files);
+});
+
+window.addEventListener('dragover',function(e){e.preventDefault();});
+window.addEventListener('drop',function(e){e.preventDefault();});
+
+window.addEventListener('paste',function(e){
+  var items=e.clipboardData&&e.clipboardData.items;
+  if(!items)return;
+  var filesToAdd=[];
+  for(var i=0;i<items.length;i++){
+    if(items[i].kind==='file'){
+      var f=items[i].getAsFile();
+      if(f)filesToAdd.push(f);
+    }
+  }
+  if(filesToAdd.length)addFiles(filesToAdd);
+});
+
+W.querySelectorAll('.fsu-tab').forEach(function(tab){
+  tab.addEventListener('click',function(){curTab=this.getAttribute('data-tab');updateAll();});
+});
+
+$('tsxv5-fsuSearch').addEventListener('input',function(e){curQ=e.target.value.trim().toLowerCase();applyFilter();});
+
+$('tsxv5-fsuClearAll').addEventListener('click',function(){
+  var done=files.filter(function(r){return r.hash&&r.hash!=='hash-error'&&r.hash!=='read-error';});
+  if(!done.length){toast('No hashed files to clear');return;}
+  done.forEach(function(rec){removeFile(rec);});
+  toast(done.length+' file(s) cleared');
+});
+
+W.querySelector('.fsu-modal-close').addEventListener('click',function(){modal.classList.remove('on');});
+modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('on');});
+window.addEventListener('keydown',function(e){if(e.key==='Escape')modal.classList.remove('on');});
+
+W.querySelectorAll('.fsu-faq-item').forEach(function(item){
+  item.addEventListener('click',function(){this.classList.toggle('open');});
+});
+
+window.addEventListener('pagehide',function(){
+  previewUrls.forEach(function(url){try{URL.revokeObjectURL(url);}catch(e){}});
+  previewUrls=[];
+});
+
+updateAll();
+
+})();
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"FileSetu – Local File Manager & Inspector","applicationCategory":"UtilityApplication","operatingSystem":"Any","browserRequirements":"Modern browser with Web Crypto API","description":"Privacy-first browser-based file manager that inspects, hashes, previews, and organizes files locally without uploading to any server. Features SHA-256 checksum generation, file preview, and category filtering.","featureList":["SHA-256 checksum generation","Client-side file preview","Category-based filtering","Duplicate detection","Search functionality","100% offline processing","Light and dark mode support","Mobile responsive"],"author":{"@type":"Organization","name":"Tools-X","url":"https://www.toolsx.in"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.toolsx.in/"},{"@type":"ListItem","position":2,"name":"FileSetu File Manager"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does FileSetu upload my files to a server?","acceptedAnswer":{"@type":"Answer","text":"No. All processing happens locally in your browser using the Web Crypto API. Your files never leave your device."}},{"@type":"Question","name":"What is the SHA-256 checksum used for?","acceptedAnswer":{"@type":"Answer","text":"It creates a unique digital fingerprint of a file. You can compare it with a known hash to verify the file hasn't been corrupted or tampered with."}},{"@type":"Question","name":"Can I preview PDF or Excel files?","acceptedAnswer":{"@type":"Answer","text":"Currently, PDF and binary office formats cannot be rendered inside the tool. You can still download them or view their metadata and hash."}},{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"There is no hard limit, but very large files may take longer to hash and preview. For best performance, keep files under ~50 MB."}},{"@type":"Question","name":"Does this work on mobile devices?","acceptedAnswer":{"@type":"Answer","text":"Yes, FileSetu is fully responsive and works on smartphones, tablets, and desktops. Touch gestures and drag-and-drop are supported."}}]}]}
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

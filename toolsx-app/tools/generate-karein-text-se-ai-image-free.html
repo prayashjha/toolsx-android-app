@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Free Text-to-Image AI Generator – HD Art from Prompts – ToolsX App</title>
+<meta name="description" content="Turn text prompts into HD AI art free online. Fast image generation, no signup, high-resolution downloads.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Free Text-to-Image AI Generator – HD Art from Prompts</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"Free AI Image Generator - Text to Art","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Modern browser with JavaScript and HTML5 Canvas","description":"Free AI image generator from text prompts. 10 style presets, 4 size options, custom text overlay with color picker. Create stunning AI art instantly with no signup. Powered by Pollinations AI.","featureList":["10 style presets (Photoreal, Anime, Oil Paint, 3D, Watercolor, Cyberpunk, Pixel Art, Minimal, Dark Fantasy, Kawaii)","4 size options (Square, Wide, Portrait, Standard)","Custom text overlay with color and outline picker","HD PNG download","Image zoom preview","Session generation counter","60-second timeout protection","Input sanitization"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.toolsx.in/"},{"@type":"ListItem","position":2,"name":"AI Image Generator"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Kya yeh AI Image Generator sach mein free hai?","acceptedAnswer":{"@type":"Answer","text":"Haan, bilkul free hai. Koi hidden charges nahi, koi premium version nahi, koi credit system nahi. Unlimited images generate aur download kar sakte hain."}},{"@type":"Question","name":"Kya Hindi mein prompt likh sakte hain?","acceptedAnswer":{"@type":"Answer","text":"Best results English prompts se milte hain kyunki AI English data par zyada trained hai. Simple Hindi words bhi try kar sakte hain."}},{"@type":"Question","name":"Image generate hone mein kitna time lagta hai?","acceptedAnswer":{"@type":"Answer","text":"Aam taur par 10-30 seconds. Complex prompts thoda zyada time lete hain. 60-second timeout protection built-in hai."}},{"@type":"Question","name":"Kya in images ko commercial use ke liye istemaal kar sakte hain?","acceptedAnswer":{"@type":"Answer","text":"Haan, personal aur commercial dono purposes ke liye. Koi watermark nahi aata. YouTube thumbnails, blog headers, social media posts ke liye perfect."}},{"@type":"Question","name":"Prompt likhne ka sahi tarika kya hai?","acceptedAnswer":{"@type":"Answer","text":"Detailed prompt likhein: subject + setting + lighting + style + quality. Jaise: A majestic lion in African savanna, golden hour, photorealistic, 8K."}},{"@type":"Question","name":"Kya image par apna text add kar sakte hain?","acceptedAnswer":{"@type":"Answer","text":"Bilkul! Text overlay box mein likhein. Canvas API se overlay add hota hai with custom color aur outline. Short texts (2-4 words, ALL CAPS) best results dete hain."}},{"@type":"Question","name":"Mobile aur Desktop dono par kaam karta hai?","acceptedAnswer":{"@type":"Answer","text":"Haan, fully responsive hai. Mobile, tablet, desktop sab par perfectly kaam karta hai. 360px se 4K tak optimized."}},{"@type":"Question","name":"Mera data safe hai?","acceptedAnswer":{"@type":"Answer","text":"Koi signup nahi chahiye. Prompts sirf AI generation ke liye use hote hain. HTTPS encrypted connections. Input sanitization built-in hai."}}]}]}
+</script>
+
+<div id="tsxv5-aig" class="tsxv5-aig-wrapper">
+
+<style>
+/* ══════════════════════════════════════════════════════════════
+   TOOLS-X AI IMAGE GENERATOR v5.0 — THEME-AWARE
+   DEFAULT = LIGHT (light bg, dark text)
+   DARK = via 7 Blogger global selectors
+   ══════════════════════════════════════════════════════════════ */
+#tsxv5-aig{
+  --bg:#f8fafc;--surface:#ffffff;--surface2:#f1f5f9;
+  --text:#0f172a;--dim:#475569;--muted:#94a3b8;
+  --primary:#0891b2;--primary-light:rgba(8,145,178,0.08);
+  --accent:#d97706;--accent-alt:#db2777;
+  --border:#e2e8f0;--radius:12px;
+  --error:#dc2626;--success:#16a34a;
+  --shadow:0 10px 40px rgba(0,0,0,0.08);
+  --btn-gen-from:#667eea;--btn-gen-to:#764ba2;
+  --btn-dl-from:#dc2626;--btn-dl-to:#b91c1c;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  background:transparent;color:var(--text);
+  transition:background .3s,color .3s;
+}
+body.dark-mode #tsxv5-aig,
+html.dark-mode #tsxv5-aig,
+[data-theme="dark"] #tsxv5-aig,
+body[data-theme="dark"] #tsxv5-aig,
+html[data-theme="dark"] #tsxv5-aig,
+.dark-mode #tsxv5-aig,
+.night-mode #tsxv5-aig{
+  --bg:#0b0f1a;--surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.06);
+  --text:#f0f0ff;--dim:#9aa7c7;--muted:#64748b;
+  --primary:#22d3ee;--primary-light:rgba(34,211,238,0.08);
+  --accent:#fbbf24;--accent-alt:#f472b6;
+  --border:rgba(255,255,255,0.1);
+  --error:#f87171;--success:#4ade80;
+  --shadow:0 10px 40px rgba(0,0,0,0.5);
+}
+#tsxv5-aig *,#tsxv5-aig *::before,#tsxv5-aig *::after{box-sizing:border-box;margin:0;padding:0;max-width:100%;}
+#tsxv5-aig img,#tsxv5-aig canvas,#tsxv5-aig video{max-width:100%;height:auto;display:block;}
+
+#tsxv5-aig .aig{
+  max-width:900px;margin:0 auto;padding:24px;background:var(--bg);
+  border-radius:20px;color:var(--text) !important;position:relative;overflow:hidden;
+  box-shadow:var(--shadow);border:1px solid var(--border);
+}
+
+/* Breadcrumb */
+#tsxv5-aig .aig-breadcrumb{
+  padding:14px 18px;background:var(--surface2);border-radius:8px;
+  font-size:.875rem;color:var(--dim) !important;margin-bottom:18px;
+}
+#tsxv5-aig .aig-breadcrumb a{color:var(--primary) !important;text-decoration:none;transition:color .2s;}
+#tsxv5-aig .aig-breadcrumb a:hover{color:var(--accent) !important;}
+
+/* Header */
+#tsxv5-aig .aig-header{text-align:center;padding:32px 20px;}
+#tsxv5-aig .aig-header-icon{font-size:3.5em;display:block;margin-bottom:12px;animation:tsxv5AigFloat 3s ease-in-out infinite;}
+@keyframes tsxv5AigFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+#tsxv5-aig .aig-header h1{
+  font-size:2rem;font-weight:700;margin-bottom:12px;line-height:1.2;
+  background:linear-gradient(90deg,var(--error),var(--accent),var(--primary),var(--accent-alt));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+#tsxv5-aig .aig-header-sub{font-size:1rem;color:var(--dim) !important;max-width:600px;margin:0 auto;line-height:1.5;}
+#tsxv5-aig .aig-badges{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap;}
+#tsxv5-aig .aig-badge{
+  background:var(--primary-light);border:1px solid var(--border);padding:5px 14px;
+  border-radius:20px;font-size:.78em;color:var(--primary) !important;font-weight:600;
+}
+
+/* Form */
+#tsxv5-aig .aig-form{
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;
+  padding:28px;margin-bottom:24px;
+}
+#tsxv5-aig .aig-group{margin-bottom:20px;}
+#tsxv5-aig .aig-label{display:block;font-size:.95rem;color:var(--dim) !important;margin-bottom:8px;font-weight:600;}
+#tsxv5-aig .aig-textarea{
+  width:100%;padding:16px 20px;border:2px solid var(--border);border-radius:var(--radius);
+  background:var(--surface2);color:var(--text) !important;font-size:1rem;transition:all .3s;
+  resize:vertical;min-height:100px;font-family:inherit;line-height:1.5;
+}
+#tsxv5-aig .aig-textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 20px var(--primary-light);}
+#tsxv5-aig .aig-textarea::placeholder{color:var(--muted) !important;}
+#tsxv5-aig .aig-input{
+  width:100%;padding:14px 18px;border:2px solid var(--border);border-radius:var(--radius);
+  background:var(--surface2);color:var(--text) !important;font-size:1rem;transition:all .3s;font-family:inherit;
+}
+#tsxv5-aig .aig-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 15px rgba(217,119,6,.1);}
+#tsxv5-aig .aig-input::placeholder{color:var(--muted) !important;}
+#tsxv5-aig .aig-hint{font-size:.82rem;color:var(--muted) !important;margin-top:8px;font-style:italic;}
+
+#tsxv5-aig .aig-text-options{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;align-items:center;}
+#tsxv5-aig .aig-text-options label{font-size:.75rem;color:var(--dim) !important;display:flex;align-items:center;gap:4px;}
+#tsxv5-aig .aig-text-options input[type="color"]{width:30px;height:30px;border:2px solid var(--border);border-radius:4px;padding:2px;background:transparent;cursor:pointer;}
+
+/* Presets & Chips */
+#tsxv5-aig .aig-presets,#tsxv5-aig .aig-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+#tsxv5-aig .aig-preset,#tsxv5-aig .aig-chip{
+  padding:8px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;
+  font-size:.82em;color:var(--dim) !important;cursor:pointer;transition:all .3s;font-family:inherit;
+}
+#tsxv5-aig .aig-preset:hover,#tsxv5-aig .aig-chip:hover{
+  background:var(--primary-light);border-color:var(--primary);color:var(--primary) !important;
+}
+
+/* Size buttons */
+#tsxv5-aig .aig-sizes{display:flex;gap:10px;flex-wrap:wrap;}
+#tsxv5-aig .aig-size-btn{
+  padding:10px 18px;border:2px solid var(--border);border-radius:10px;background:transparent;
+  color:var(--dim) !important;cursor:pointer;transition:all .3s;font-size:.9rem;font-family:inherit;font-weight:600;
+}
+#tsxv5-aig .aig-size-btn:hover{border-color:var(--primary);color:var(--primary) !important;}
+#tsxv5-aig .aig-size-btn.active{
+  border-color:var(--primary);color:var(--primary) !important;background:var(--primary-light);
+}
+#tsxv5-aig .aig-examples-title{font-size:.85rem;color:var(--muted) !important;margin-bottom:10px;font-weight:600;}
+
+/* Generate button */
+#tsxv5-aig .aig-gen-btn{
+  width:100%;padding:18px;border:none;border-radius:var(--radius);
+  background:linear-gradient(135deg,var(--btn-gen-from),var(--btn-gen-to));
+  color:#fff !important;font-size:1.15rem;font-weight:700;cursor:pointer;transition:all .3s;
+  text-transform:uppercase;letter-spacing:1px;margin-top:8px;font-family:inherit;
+}
+#tsxv5-aig .aig-gen-btn:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(102,126,234,.4);}
+#tsxv5-aig .aig-gen-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+#tsxv5-aig .aig-counter{text-align:center;margin-top:14px;font-size:.85rem;color:var(--muted) !important;}
+#tsxv5-aig .aig-counter strong{color:var(--primary) !important;font-weight:700;}
+
+/* Loading */
+#tsxv5-aig .aig-loading{display:none;text-align:center;padding:40px 20px;}
+#tsxv5-aig .aig-spinner{
+  width:60px;height:60px;border:4px solid var(--border);border-top:4px solid var(--primary);
+  border-radius:50%;animation:tsxv5AigSpin 1s linear infinite;margin:0 auto 20px;
+}
+@keyframes tsxv5AigSpin{to{transform:rotate(360deg);}}
+#tsxv5-aig .aig-loading-text{color:var(--dim) !important;font-size:1rem;font-weight:500;}
+#tsxv5-aig .aig-loading-tip{color:var(--muted) !important;font-size:.85rem;margin-top:10px;font-style:italic;}
+
+/* Error */
+#tsxv5-aig .aig-error{
+  display:none;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.3);
+  border-radius:var(--radius);padding:18px 24px;margin-top:16px;text-align:center;color:var(--error) !important;
+}
+#tsxv5-aig .aig-error.show{display:block;}
+
+/* Result */
+#tsxv5-aig .aig-result{display:none;text-align:center;margin-top:24px;}
+#tsxv5-aig .aig-result.show{display:block;}
+#tsxv5-aig .aig-result-frame{
+  position:relative;display:inline-block;border-radius:16px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);max-width:100%;cursor:pointer;
+  transition:border .3s;border:3px solid transparent;
+}
+#tsxv5-aig .aig-result-frame:hover{border-color:var(--primary);}
+#tsxv5-aig .aig-result-img{max-width:100%;height:auto;display:block;border-radius:16px;}
+#tsxv5-aig .aig-result-actions{margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+/* Buttons */
+#tsxv5-aig .aig-btn{
+  padding:12px 24px;border:2px solid var(--border);border-radius:10px;background:transparent;
+  color:var(--text) !important;cursor:pointer;font-size:.95rem;transition:all .3s;text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-weight:600;
+}
+#tsxv5-aig .aig-btn:hover{border-color:var(--primary);color:var(--primary) !important;background:var(--primary-light);transform:translateY(-2px);text-decoration:none;}
+#tsxv5-aig .aig-btn-primary{
+  background:linear-gradient(135deg,var(--btn-dl-from),var(--btn-dl-to));border:none;color:#fff !important;
+}
+#tsxv5-aig .aig-btn-primary:hover{color:#fff !important;box-shadow:0 5px 20px rgba(220,38,38,.4);}
+
+/* Zoom Modal — intentionally always dark (overlay) */
+#tsxv5-aig .aig-zoom-modal{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;
+  align-items:center;justify-content:center;padding:24px;
+}
+#tsxv5-aig .aig-zoom-modal.open{display:flex;}
+#tsxv5-aig .aig-zoom-modal img{max-width:95%;max-height:90vh;border-radius:12px;border:3px solid var(--primary);box-shadow:0 0 60px rgba(8,145,178,.3);}
+#tsxv5-aig .aig-zoom-close{
+  position:absolute;top:20px;right:30px;font-size:2.5em;color:#22d3ee !important;cursor:pointer;
+  background:none;border:none;transition:transform .3s;font-weight:300;font-family:inherit;
+}
+#tsxv5-aig .aig-zoom-close:hover{transform:rotate(90deg);}
+
+/* Content sections — theme-aware */
+#tsxv5-aig .aig-how,#tsxv5-aig .aig-faq{
+  margin-top:40px;padding:28px;background:var(--surface);border-radius:16px;
+  border:1px solid var(--border);color:var(--text) !important;
+}
+#tsxv5-aig .aig-how h2,#tsxv5-aig .aig-faq h2{font-size:1.5rem;font-weight:700;color:var(--accent) !important;margin-bottom:20px;line-height:1.3;}
+#tsxv5-aig .aig-how h3{font-size:1.2rem;font-weight:600;color:var(--primary) !important;margin:24px 0 12px;line-height:1.4;}
+#tsxv5-aig .aig-how p{font-size:1rem;line-height:1.7;color:var(--dim) !important;margin-bottom:14px;}
+#tsxv5-aig .aig-how ul,#tsxv5-aig .aig-how ol{margin:14px 0 14px 24px;line-height:1.7;color:var(--dim) !important;}
+#tsxv5-aig .aig-how li{margin-bottom:8px;color:var(--dim) !important;}
+#tsxv5-aig .aig-how strong{color:var(--text) !important;}
+
+#tsxv5-aig .aig-steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px 0;}
+#tsxv5-aig .aig-step-card{background:var(--surface2);padding:20px;border-radius:var(--radius);border:1px solid var(--border);}
+#tsxv5-aig .aig-step-num{
+  width:32px;height:32px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff !important;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;margin-bottom:12px;font-size:.9rem;
+}
+#tsxv5-aig .aig-step-title{font-weight:700;color:var(--text) !important;margin-bottom:8px;font-size:1rem;}
+#tsxv5-aig .aig-step-desc{font-size:.875rem;color:var(--dim) !important;line-height:1.6;}
+
+#tsxv5-aig .aig-tips-box{background:var(--primary-light);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:20px 0;}
+#tsxv5-aig .aig-tips-box h4{color:var(--primary) !important;margin-bottom:12px;font-size:1rem;font-weight:700;}
+#tsxv5-aig .aig-tips-box ul{margin:0;padding-left:20px;}
+#tsxv5-aig .aig-tips-box li{font-size:.9rem;margin-bottom:6px;color:var(--dim) !important;}
+
+/* FAQ */
+#tsxv5-aig .aig-faq-item{
+  margin-bottom:18px;padding:18px;background:var(--surface2);border-radius:var(--radius);
+  border:1px solid var(--border);cursor:pointer;transition:all .2s;
+}
+#tsxv5-aig .aig-faq-item:hover{border-color:var(--primary);}
+#tsxv5-aig .aig-faq-item h3{
+  font-weight:700;color:var(--text) !important;margin-bottom:0;font-size:1rem;line-height:1.4;
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+}
+#tsxv5-aig .aig-faq-item h3::after{content:'+';font-size:1.3rem;color:var(--primary) !important;transition:transform .3s;flex-shrink:0;}
+#tsxv5-aig .aig-faq-item.open h3::after{transform:rotate(45deg);}
+#tsxv5-aig .aig-faq-item.open h3{margin-bottom:10px;}
+#tsxv5-aig .aig-faq-item p{color:var(--dim) !important;line-height:1.7;font-size:.95rem;display:none;}
+#tsxv5-aig .aig-faq-item.open p{display:block;}
+
+/* Related */
+#tsxv5-aig .aig-related{margin-top:40px;padding:28px;background:var(--surface);border-radius:16px;border:1px solid var(--border);}
+#tsxv5-aig .aig-related-title{color:var(--primary) !important;font-size:1.2rem;font-weight:700;margin-bottom:18px;text-transform:uppercase;letter-spacing:1px;}
+#tsxv5-aig .aig-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+#tsxv5-aig .aig-related-link{
+  background:var(--surface2);border:1px solid var(--border);padding:18px;text-decoration:none;
+  transition:all .3s;display:flex;align-items:center;gap:12px;border-radius:var(--radius);
+}
+#tsxv5-aig .aig-related-link:hover{border-color:var(--primary);transform:translateY(-3px);text-decoration:none;}
+#tsxv5-aig .aig-related-icon{font-size:2rem;flex-shrink:0;}
+#tsxv5-aig .aig-related-link strong{color:var(--primary) !important;display:block;font-size:.95rem;margin-bottom:4px;}
+#tsxv5-aig .aig-related-link span{color:var(--dim) !important;font-size:.82rem;line-height:1.5;}
+
+/* Footer */
+#tsxv5-aig .aig-footer{padding:24px;text-align:center;margin-top:24px;border-top:1px solid var(--border);}
+#tsxv5-aig .aig-footer p{color:var(--muted) !important;font-size:.875rem;line-height:1.6;font-style:italic;}
+#tsxv5-aig .aig-footer a{color:var(--primary) !important;text-decoration:none;}
+
+@media(max-width:640px){
+  #tsxv5-aig .aig{padding:16px;border-radius:12px;}
+  #tsxv5-aig .aig-header h1{font-size:1.5rem;}
+  #tsxv5-aig .aig-form{padding:20px;}
+  #tsxv5-aig .aig-sizes{justify-content:center;}
+  #tsxv5-aig .aig-how,#tsxv5-aig .aig-faq,#tsxv5-aig .aig-related{padding:20px 16px;}
+  #tsxv5-aig .aig-related-grid{grid-template-columns:1fr;}
+  #tsxv5-aig .aig-steps-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:400px){
+  #tsxv5-aig .aig-steps-grid{grid-template-columns:1fr;}
+}
+@media(prefers-reduced-motion:reduce){
+  #tsxv5-aig *,#tsxv5-aig *::before,#tsxv5-aig *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+}
+</style>
+
+<article class="aig" id="tsxv5-aigApp">
+
+  <nav class="aig-breadcrumb" aria-label="Breadcrumb">
+    <a href="https://www.toolsx.in/">Home</a> &gt; AI Image Generator
+  </nav>
+
+  <header class="aig-header">
+    <span class="aig-header-icon" aria-hidden="true">🎨</span>
+    <h1>AI Image Generator</h1>
+    <p class="aig-header-sub">Apni imagination likhein aur AI se stunning images banayein. Bilkul FREE, bina kisi signup ke!</p>
+    <div class="aig-badges">
+      <span class="aig-badge">🆓 100% Free</span>
+      <span class="aig-badge">🔓 No Signup</span>
+      <span class="aig-badge">♾️ Unlimited</span>
+      <span class="aig-badge">⚡ Fast</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="aig-form">
+
+      <div class="aig-group">
+        <label class="aig-label" for="tsxv5-aigPrompt">✍️ Apna Prompt Likhein (English mein best results):</label>
+        <textarea
+          id="tsxv5-aigPrompt"
+          class="aig-textarea"
+          placeholder="Example: A majestic dragon flying over a crystal castle at sunset, digital art, highly detailed, 4K..."
+          maxlength="500"
+          aria-label="Image description prompt"
+        >A majestic lion in African savanna, golden hour lighting, photorealistic, 8K</textarea>
+      </div>
+
+      <div class="aig-group">
+        <label class="aig-label">🎭 Quick Style Presets (Click to Add):</label>
+        <div class="aig-presets" id="tsxv5-aigPresets">
+          <button type="button" class="aig-preset" data-style=", photorealistic, 8K UHD, professional photography">📷 Photoreal</button>
+          <button type="button" class="aig-preset" data-style=", anime style, Studio Ghibli inspired, vibrant colors">🎌 Anime</button>
+          <button type="button" class="aig-preset" data-style=", oil painting style, classical art, textured brushstrokes">🖌️ Oil Paint</button>
+          <button type="button" class="aig-preset" data-style=", 3D render, octane render, cinematic lighting">💎 3D Render</button>
+          <button type="button" class="aig-preset" data-style=", watercolor painting, soft edges, artistic">💧 Watercolor</button>
+          <button type="button" class="aig-preset" data-style=", cyberpunk neon style, futuristic, glowing">🔮 Cyberpunk</button>
+          <button type="button" class="aig-preset" data-style=", pixel art, retro 8-bit gaming style">👾 Pixel Art</button>
+          <button type="button" class="aig-preset" data-style=", minimalist clean design, simple elegant">◽ Minimal</button>
+          <button type="button" class="aig-preset" data-style=", dark fantasy, gothic atmosphere, detailed">💀 Dark Fantasy</button>
+          <button type="button" class="aig-preset" data-style=", cute kawaii style, pastel colors, adorable">🌸 Kawaii</button>
+        </div>
+      </div>
+
+      <div class="aig-group">
+        <label class="aig-label" for="tsxv5-aigText">📝 Add Text on Image (Optional):</label>
+        <input
+          type="text"
+          id="tsxv5-aigText"
+          class="aig-input"
+          placeholder="Enter text to display on image (e.g., 'DREAM BIG')"
+          maxlength="40"
+          aria-label="Text overlay for image"
+        />
+        <div class="aig-text-options">
+          <label><input type="color" id="tsxv5-aigTextColor" value="#ffffff"> Color</label>
+          <label><input type="color" id="tsxv5-aigTextOutline" value="#000000"> Outline</label>
+          <span style="font-size:.7rem;color:var(--muted);">Text color &amp; outline customize karein</span>
+        </div>
+        <p class="aig-hint">💡 Tip: Short text (2-4 words) in ALL CAPS gives best typography results</p>
+      </div>
+
+      <div class="aig-group">
+        <label class="aig-label">📐 Image Size Choose Karein:</label>
+        <div class="aig-sizes" id="tsxv5-aigSizes">
+          <button type="button" class="aig-size-btn active" data-w="1024" data-h="1024">Square (1:1)</button>
+          <button type="button" class="aig-size-btn" data-w="1280" data-h="720">Wide (16:9)</button>
+          <button type="button" class="aig-size-btn" data-w="720" data-h="1280">Portrait (9:16)</button>
+          <button type="button" class="aig-size-btn" data-w="1024" data-h="768">Standard (4:3)</button>
+        </div>
+      </div>
+
+      <div class="aig-group">
+        <div class="aig-examples-title">💡 Try These Prompts:</div>
+        <div class="aig-chips" id="tsxv5-aigChips">
+          <span class="aig-chip" data-prompt="A cute cat astronaut floating in space with Earth in background">🐱 Cat Astronaut</span>
+          <span class="aig-chip" data-prompt="Ancient Indian temple at golden hour, intricate carvings, photorealistic">🛕 Indian Temple</span>
+          <span class="aig-chip" data-prompt="Futuristic cyberpunk city at night with neon lights and rain reflections">🌃 Cyberpunk City</span>
+          <span class="aig-chip" data-prompt="Watercolor painting of Taj Mahal at sunrise, artistic brushstrokes">🕌 Taj Mahal</span>
+          <span class="aig-chip" data-prompt="Enchanted fantasy forest with glowing mushrooms and fireflies at night">🌲 Magic Forest</span>
+          <span class="aig-chip" data-prompt="Majestic lion portrait in African savanna, golden hour lighting, wildlife photography">🦁 Lion Portrait</span>
+        </div>
+      </div>
+
+      <button type="button" class="aig-gen-btn" id="tsxv5-aigGenBtn" aria-label="Generate AI image">
+        🚀 Generate Image
+      </button>
+
+      <div class="aig-counter" id="tsxv5-aigCounter">
+        Aaj aapne <strong>0</strong> images generate ki hain
+      </div>
+    </section>
+
+    <div class="aig-loading" id="tsxv5-aigLoading" aria-live="polite">
+      <div class="aig-spinner" aria-hidden="true"></div>
+      <div class="aig-loading-text">AI aapki image bana raha hai...</div>
+      <div class="aig-loading-tip">Tip: Complex prompts mein 15-30 seconds lag sakte hain</div>
+    </div>
+
+    <div class="aig-error" id="tsxv5-aigError" role="alert"></div>
+
+    <div class="aig-result" id="tsxv5-aigResult">
+      <div class="aig-result-frame" id="tsxv5-aigFrame">
+        <canvas id="tsxv5-aigCanvas" style="max-width:100%;border-radius:16px;display:none;"></canvas>
+        <img id="tsxv5-aigResultImg" class="aig-result-img" alt="AI Generated Image" loading="lazy" decoding="async" style="display:none;" />
+      </div>
+      <div class="aig-result-actions">
+        <a id="tsxv5-aigDownload" class="aig-btn aig-btn-primary" download="toolsx-ai-image.png" rel="noopener noreferrer">📥 Download</a>
+        <button type="button" class="aig-btn" id="tsxv5-aigRegen">🔄 Regenerate</button>
+        <button type="button" class="aig-btn" id="tsxv5-aigReset">✨ New Image</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="aig-zoom-modal" id="tsxv5-aigZoomModal">
+    <button type="button" class="aig-zoom-close" id="tsxv5-aigZoomClose" aria-label="Close zoom">✕</button>
+    <img id="tsxv5-aigZoomImg" src="" alt="Zoomed AI generated image">
+  </div>
+
+  <section class="aig-how">
+    <h2>Yeh AI Image Generator Kaise Kaam Karta Hai?</h2>
+
+    <p><strong>Tools-X AI Image Generator</strong> ek free browser-based tool hai jo aapke likhe hue text prompt ko stunning visual art mein convert karta hai. Chahe aapko ek fantasy world banana ho, realistic portrait chahiye, anime character design karna ho, ya ek abstract art piece — yeh tool sab kuch kar sakta hai, woh bhi bilkul free mein bina kisi signup ke. Tool mein 10 style presets hain (Photoreal, Anime, Oil Paint, 3D Render, Watercolor, Cyberpunk, Pixel Art, Minimal, Dark Fantasy, Kawaii), 4 image sizes (Square, Wide, Portrait, Standard), aur custom text overlay feature with color picker.</p>
+
+    <h3>AI Technology: Pollinations Engine</h3>
+    <p>Is tool ka backbone <strong>Pollinations AI</strong> hai — ek open-source AI image generation platform jo cutting-edge diffusion models par based hai. Yeh models millions of images aur unke text descriptions se trained hain. Jab aap prompt likhte hain, AI use analyze karta hai, important elements identify karta hai, aur visually coherent image generate karta hai. Har generation mein unique random seed use hota hai — isliye same prompt se bhi har baar naya result milta hai. Saara communication HTTPS encrypted hai aur API directly Pollinations ke servers se hota hai.</p>
+
+    <h3>Step-by-Step: Image Kaise Banti Hai</h3>
+    <div class="aig-steps-grid">
+      <div class="aig-step-card"><div class="aig-step-num">1</div><div class="aig-step-title">Prompt Likhein</div><div class="aig-step-desc">Box mein English mein apni image ka detailed description likhein.</div></div>
+      <div class="aig-step-card"><div class="aig-step-num">2</div><div class="aig-step-title">Style Add Karein</div><div class="aig-step-desc">Quick presets se photoreal, anime, 3D ya koi aur style jodein.</div></div>
+      <div class="aig-step-card"><div class="aig-step-num">3</div><div class="aig-step-title">Text Overlay</div><div class="aig-step-desc">Image par text add karna hai toh yahan likhein. Color customize karein.</div></div>
+      <div class="aig-step-card"><div class="aig-step-num">4</div><div class="aig-step-title">Size Choose Karein</div><div class="aig-step-desc">Square, Wide, Portrait ya Standard format select karein.</div></div>
+      <div class="aig-step-card"><div class="aig-step-num">5</div><div class="aig-step-title">Generate Karein</div><div class="aig-step-desc">Button dabayein aur 10-30 seconds wait karein.</div></div>
+      <div class="aig-step-card"><div class="aig-step-num">6</div><div class="aig-step-title">Download Karein</div><div class="aig-step-desc">HD PNG download karein aur kahin bhi use karein.</div></div>
+    </div>
+
+    <h3>Prompt Writing Ka Secret</h3>
+    <div class="aig-tips-box">
+      <h4>🎯 Perfect Prompt Formula:</h4>
+      <ul>
+        <li><strong>Subject + Action:</strong> Kya hai aur kya kar raha hai (jaise "majestic lion standing on a cliff")</li>
+        <li><strong>Setting + Background:</strong> Kahan hai, kaisa environment hai (jaise "African savanna at sunset")</li>
+        <li><strong>Lighting:</strong> Golden hour, dramatic, soft, neon, cinematic</li>
+        <li><strong>Style:</strong> Photorealistic, anime, watercolor, oil painting, 3D render</li>
+        <li><strong>Quality modifiers:</strong> highly detailed, 8K, professional, sharp focus</li>
+      </ul>
+    </div>
+
+    <h3>10 Style Presets: Quick Customization</h3>
+    <p><strong>Photoreal</strong> realistic photographs jaise professional cameras se li gayi hon. <strong>Anime</strong> Japanese animation inspired vibrant style. <strong>Oil Paint</strong> classical painting with textured brushstrokes. <strong>3D Render</strong> modern CGI quality with cinematic lighting. <strong>Watercolor</strong> soft artistic paintings with gentle edges. <strong>Cyberpunk</strong> futuristic neon-lit sci-fi worlds. <strong>Pixel Art</strong> retro 8-bit gaming aesthetic. <strong>Minimal</strong> clean modern designs. <strong>Dark Fantasy</strong> gothic mysterious atmospheres. <strong>Kawaii</strong> cute Japanese pastel style. Preset click karne par style automatically prompt mein append ho jaata hai — aap multiple presets combine bhi kar sakte ho.</p>
+
+    <h3>Text Overlay Feature</h3>
+    <p>Image generate hone ke baad Canvas API use karke text overlay add hota hai. Aap text color aur outline color dono customize kar sakte ho color picker se. Short texts jaise "DREAM BIG" ya "NEVER GIVE UP" (2-4 words, ALL CAPS) best typography results dete hain kyunki font size automatically image dimensions ke hisaab se scale hota hai. Text bottom area mein render hota hai with outline for readability.</p>
+
+    <h3>Privacy aur Security</h3>
+    <p>Yeh tool koi personal data collect nahi karta. Koi signup nahi, koi email nahi. Prompts sirf Pollinations AI API ko HTTPS par bheje jaate hain image generation ke liye — locally store nahi hote. User inputs sanitized hote hain (HTML tags strip, script injection block, max 500 characters enforce). Generated images directly aapke browser mein render hoti hain aur HD PNG ke roop mein download hoti hain. Session counter sirf browser session mein rehta hai.</p>
+  </section>
+
+  <section class="aig-faq">
+    <h2>Aksar Puche Jane Wale Sawal (FAQ)</h2>
+    <div class="aig-faq-item"><h3>Kya yeh AI Image Generator sach mein free hai?</h3><p>Haan, bilkul free hai. Koi hidden charges nahi, koi premium version nahi, koi credit system nahi. Aap unlimited images generate aur download kar sakte hain, bina kisi cost ke. Koi signup bhi nahi chahiye.</p></div>
+    <div class="aig-faq-item"><h3>Kya Hindi mein prompt likh sakte hain?</h3><p>Best results English prompts se milte hain kyunki AI English data par zyada trained hai. Lekin aap simple Hindi words bhi use kar sakte hain.</p></div>
+    <div class="aig-faq-item"><h3>Image generate hone mein kitna time lagta hai?</h3><p>Aam taur par 10-30 seconds. Simple prompts jaldi ban jaate hain, complex prompts thoda zyada time lete hain. Server load ke hisaab se 60 seconds tak lag sakte hain. Tool mein 60-second timeout protection built-in hai.</p></div>
+    <div class="aig-faq-item"><h3>Kya in images ko commercial use ke liye istemaal kar sakte hain?</h3><p>Haan, personal aur commercial dono purposes ke liye use kar sakte hain. Koi watermark nahi aata. YouTube thumbnails, blog headers, social media posts — sab ke liye perfect hai.</p></div>
+    <div class="aig-faq-item"><h3>Prompt likhne ka sahi tarika kya hai?</h3><p>Detailed prompt likhein: subject + setting + lighting + style + quality. Jaise "A majestic lion in African savanna, golden hour, photorealistic, highly detailed, 8K". Simple "lion" likhne se average result milega.</p></div>
+    <div class="aig-faq-item"><h3>Kya image par apna text add kar sakte hain?</h3><p>Bilkul! "Add Text on Image" box mein apna text likhein. Canvas API use karke text overlay add hota hai with custom color aur outline. Short texts (2-4 words, ALL CAPS) best results dete hain.</p></div>
+    <div class="aig-faq-item"><h3>Mobile aur Desktop dono par kaam karta hai?</h3><p>Haan, fully responsive hai. Mobile, tablet, desktop — sab par perfectly kaam karta hai. Touch-friendly interface hai. 360px se 4K tak optimized hai.</p></div>
+    <div class="aig-faq-item"><h3>Mera data safe hai? Signup chahiye?</h3><p>Koi signup nahi chahiye. Koi personal data collect nahi hota. Prompts sirf AI generation ke liye HTTPS par bheje jaate hain. Input sanitization built-in hai — HTML tags aur script injection automatically block hoti hai.</p></div>
+  </section>
+
+  <aside class="aig-related" aria-label="Related AI Tools">
+    <h2 class="aig-related-title">🎨 Aur Bhi Creative Tools Try Karein</h2>
+    <div class="aig-related-grid">
+      <a href="https://www.toolsx.in/2026/08/explore-karein-200-ai-prompts-hub-ai-lab.html" class="aig-related-link" rel="noopener">
+        <span class="aig-related-icon">💡</span>
+        <div><strong>200+ AI Prompt Library</strong><span>Midjourney, DALL-E, ChatGPT ke liye curated prompts — image generation mein use karein</span></div>
+      </a>
+      <a href="../tools/render-karein-audio-visualizer-waveform.html" class="aig-related-link" rel="noopener">
+        <span class="aig-related-icon">🎵</span>
+        <div><strong>Audio Visualizer Studio</strong><span>Music ko waveform video mein convert karein — real audio ke saath record</span></div>
+      </a>
+      <a href="../tools/ringtone-maker-15-music-styles-voice.html" class="aig-related-link" rel="noopener">
+        <span class="aig-related-icon">🔔</span>
+        <div><strong>Name Ringtone Maker</strong><span>15 music styles + voice announcement ke saath custom ringtone banayein</span></div>
+      </a>
+    </div>
+  </aside>
+
+  <footer class="aig-footer">
+    <p>🎨 AI Powered • 100% Free • Unlimited Images • No Signup Required</p>
+    <p style="font-size:.75rem;opacity:.7;margin-top:8px;">Powered by <strong><a href="https://www.toolsx.in" rel="noopener">Tools-X</a></strong></p>
+  </footer>
+</article>
+
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+
+var W=document.getElementById('tsxv5-aig');
+if(!W)return;
+
+function $(id){return document.getElementById(id);}
+function setText(el,s){if(el)el.textContent=String(s==null?'':s);}
+
+var aigState={
+  width:1024,height:1024,
+  count:0,
+  textColor:'#ffffff',outlineColor:'#000000',
+  busy:false
+};
+
+try{aigState.count=parseInt(sessionStorage.getItem('tsxv5AigCount')||'0',10)||0;}catch(e){aigState.count=0;}
+
+function aigSanitize(s){
+  if(!s)return'';
+  var c=String(s);
+  c=c.replace(/<[^>]*>/g,'');
+  c=c.replace(/javascript\s*:/gi,'');
+  c=c.replace(/on\w+\s*=/gi,'');
+  c=c.replace(/[<>{}"'\\]/g,'');
+  c=c.replace(/[\x00-\x1F\x7F]/g,'');
+  if(c.length>500)c=c.substring(0,500);
+  return c.trim();
+}
+
+function aigSanitizeFilename(s){
+  return String(s||'toolsx-ai-image').replace(/[^a-zA-Z0-9._\-]/g,'').substring(0,80)||'toolsx-ai-image';
+}
+
+function updateCounter(){
+  var el=$('tsxv5-aigCounter');
+  if(!el)return;
+  el.textContent='';
+  var t1=document.createTextNode('Aaj aapne ');
+  var strong=document.createElement('strong');
+  strong.textContent=String(aigState.count);
+  var t2=document.createTextNode(' images generate ki hain');
+  el.appendChild(t1);el.appendChild(strong);el.appendChild(t2);
+}
+
+function showError(msg){
+  var e=$('tsxv5-aigError');
+  setText(e,'\u26A0\uFE0F '+msg);
+  e.classList.add('show');
+  setTimeout(function(){e.classList.remove('show');},6000);
+}
+
+function hideError(){$('tsxv5-aigError').classList.remove('show');}
+
+// Presets
+W.querySelectorAll('#tsxv5-aigPresets .aig-preset').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var promptBox=$('tsxv5-aigPrompt');
+    var style=this.getAttribute('data-style')||'';
+    var current=promptBox.value.trim();
+    if(current){
+      if(current.indexOf(style)===-1)promptBox.value=current+style;
+    }else{
+      promptBox.value=style.substring(2);
+    }
+    promptBox.focus();
+  });
+});
+
+// Sizes
+W.querySelectorAll('#tsxv5-aigSizes .aig-size-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    W.querySelectorAll('#tsxv5-aigSizes .aig-size-btn').forEach(function(x){x.classList.remove('active');});
+    this.classList.add('active');
+    aigState.width=parseInt(this.getAttribute('data-w'),10)||1024;
+    aigState.height=parseInt(this.getAttribute('data-h'),10)||1024;
+  });
+});
+
+// Chips
+W.querySelectorAll('#tsxv5-aigChips .aig-chip').forEach(function(chip){
+  chip.addEventListener('click',function(){
+    var p=$('tsxv5-aigPrompt');
+    p.value=this.getAttribute('data-prompt')||'';
+    p.focus();
+  });
+});
+
+// Color pickers
+var tcInput=$('tsxv5-aigTextColor');
+var toInput=$('tsxv5-aigTextOutline');
+if(tcInput){aigState.textColor=tcInput.value;tcInput.addEventListener('input',function(){aigState.textColor=this.value;});}
+if(toInput){aigState.outlineColor=toInput.value;toInput.addEventListener('input',function(){aigState.outlineColor=this.value;});}
+
+// Text overlay
+function applyTextOverlay(sourceImg,w,h,text,tColor,oColor){
+  return new Promise(function(resolve,reject){
+    try{
+      var canvas=$('tsxv5-aigCanvas');
+      canvas.width=w;canvas.height=h;
+      var ctx=canvas.getContext('2d');
+      ctx.drawImage(sourceImg,0,0,w,h);
+      if(!text||text.length===0){resolve(canvas);return;}
+      var displayText=text.toUpperCase();
+      var fontSize=Math.min(w,h)*0.055;
+      fontSize=Math.max(22,Math.min(fontSize,60));
+      if(displayText.length>20)fontSize=Math.min(fontSize,40);
+      if(displayText.length>35)fontSize=Math.min(fontSize,28);
+      ctx.textAlign='center';ctx.textBaseline='bottom';
+      ctx.font='bold '+fontSize+'px "Segoe UI", Arial, sans-serif';
+      var xPos=w/2,yPos=h-fontSize*0.5;
+      var metrics=ctx.measureText(displayText);
+      if(metrics.width>w*0.85){
+        var newSize=fontSize*(w*0.85/metrics.width);
+        fontSize=Math.max(18,newSize);
+        ctx.font='bold '+fontSize+'px "Segoe UI", Arial, sans-serif';
+      }
+      ctx.shadowColor=oColor;ctx.shadowBlur=fontSize*0.2;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
+      ctx.lineWidth=fontSize*0.08;ctx.strokeStyle=oColor;ctx.strokeText(displayText,xPos,yPos);
+      ctx.fillStyle=tColor;ctx.fillText(displayText,xPos,yPos);
+      ctx.shadowBlur=0;
+      resolve(canvas);
+    }catch(err){reject(err);}
+  });
+}
+
+// Zoom modal — no inline onclick
+var zoomModal=$('tsxv5-aigZoomModal');
+var zoomClose=$('tsxv5-aigZoomClose');
+var zoomImg=$('tsxv5-aigZoomImg');
+
+$('tsxv5-aigFrame').addEventListener('click',function(){
+  var canvas=$('tsxv5-aigCanvas');
+  if(canvas.style.display!=='none'&&canvas.width>0){
+    try{zoomImg.src=canvas.toDataURL('image/png');zoomModal.classList.add('open');}catch(e){}
+  }
+});
+
+zoomClose.addEventListener('click',function(e){e.stopPropagation();zoomModal.classList.remove('open');});
+zoomModal.addEventListener('click',function(e){if(e.target===zoomModal)zoomModal.classList.remove('open');});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&zoomModal.classList.contains('open'))zoomModal.classList.remove('open');});
+
+// Generate
+function aigGenerate(){
+  if(aigState.busy)return;
+  var promptBox=$('tsxv5-aigPrompt');
+  var rawPrompt=promptBox.value;
+  var customText=aigSanitize($('tsxv5-aigText').value);
+  aigState.textColor=$('tsxv5-aigTextColor').value||'#ffffff';
+  aigState.outlineColor=$('tsxv5-aigTextOutline').value||'#000000';
+
+  if(!rawPrompt||rawPrompt.trim().length<3){
+    showError('Please pehle ek prompt likhein! (Minimum 3 characters)');
+    promptBox.focus();return;
+  }
+
+  var cleanPrompt=aigSanitize(rawPrompt);
+  if(!cleanPrompt){showError('Invalid prompt. Please dobara likhein.');return;}
+  cleanPrompt=cleanPrompt+', high quality, professional composition, no text, no watermark';
+
+  aigState.busy=true;
+  var btn=$('tsxv5-aigGenBtn');
+  btn.disabled=true;
+  setText(btn,'GENERATING...');
+
+  $('tsxv5-aigLoading').style.display='block';
+  $('tsxv5-aigResult').classList.remove('show');
+  hideError();
+
+  var seed=Math.floor(Math.random()*999999);
+  var url='https://image.pollinations.ai/prompt/'+encodeURIComponent(cleanPrompt)+
+    '?width='+aigState.width+'&height='+aigState.height+
+    '&seed='+seed+'&nologo=true&enhance=true';
+
+  var img=new Image();
+  img.crossOrigin='anonymous';
+
+  var abortTimeout=setTimeout(function(){
+    if(aigState.busy){
+      aigState.busy=false;
+      btn.disabled=false;
+      setText(btn,'\uD83D\uDE80 Generate Image');
+      $('tsxv5-aigLoading').style.display='none';
+      showError('Request timeout (60s). Please dobara try karein.');
+      img.src='';
+    }
+  },60000);
+
+  img.onload=function(){
+    clearTimeout(abortTimeout);
+    applyTextOverlay(img,aigState.width,aigState.height,customText,aigState.textColor,aigState.outlineColor)
+      .then(function(canvas){
+        aigState.busy=false;
+        btn.disabled=false;
+        setText(btn,'\uD83D\uDE80 Generate Image');
+        $('tsxv5-aigLoading').style.display='none';
+
+        var canvasEl=$('tsxv5-aigCanvas');
+        var resultImg=$('tsxv5-aigResultImg');
+        canvasEl.style.display='block';
+        resultImg.style.display='none';
+
+        var dataURL;
+        try{dataURL=canvasEl.toDataURL('image/png');}catch(e){showError('Canvas export failed.');return;}
+
+        var dlLink=$('tsxv5-aigDownload');
+        dlLink.href=dataURL;
+        dlLink.download=aigSanitizeFilename('toolsx-ai-image-'+seed)+'.png';
+
+        resultImg.alt='AI generated image'+(customText?' with text overlay':'');
+
+        $('tsxv5-aigResult').classList.add('show');
+        $('tsxv5-aigResult').scrollIntoView({behavior:'smooth',block:'center'});
+
+        aigState.count++;
+        try{sessionStorage.setItem('tsxv5AigCount',String(aigState.count));}catch(e){}
+        updateCounter();
+      })
+      .catch(function(err){
+        aigState.busy=false;btn.disabled=false;
+        setText(btn,'\uD83D\uDE80 Generate Image');
+        $('tsxv5-aigLoading').style.display='none';
+        showError('Text overlay fail. Please dobara try karein.');
+      });
+  };
+
+  img.onerror=function(){
+    clearTimeout(abortTimeout);
+    aigState.busy=false;btn.disabled=false;
+    setText(btn,'\uD83D\uDE80 Generate Image');
+    $('tsxv5-aigLoading').style.display='none';
+    showError('Image generate nahi ho paayi. Please dobara try karein ya prompt change karein.');
+  };
+
+  img.src=url;
+}
+
+function aigReset(){
+  $('tsxv5-aigPrompt').value='';
+  $('tsxv5-aigText').value='';
+  $('tsxv5-aigTextColor').value='#ffffff';
+  $('tsxv5-aigTextOutline').value='#000000';
+  aigState.textColor='#ffffff';aigState.outlineColor='#000000';
+  $('tsxv5-aigResult').classList.remove('show');
+  hideError();
+  $('tsxv5-aigCanvas').style.display='none';
+  $('tsxv5-aigPrompt').focus();
+  W.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+$('tsxv5-aigGenBtn').addEventListener('click',aigGenerate);
+$('tsxv5-aigRegen').addEventListener('click',aigGenerate);
+$('tsxv5-aigReset').addEventListener('click',aigReset);
+
+$('tsxv5-aigPrompt').addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&e.ctrlKey){e.preventDefault();aigGenerate();}
+});
+
+// FAQ accordion — no inline handlers
+W.querySelectorAll('.aig-faq-item').forEach(function(item){
+  item.addEventListener('click',function(){this.classList.toggle('open');});
+});
+
+updateCounter();
+})();
+//]]>
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

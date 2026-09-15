@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Free AI Signature Generator - Digital Signature Maker Online – ToolsX App</title>
+<meta name="description" content="Create professional digital signatures free online. Type your name, get 10 stylish signature designs instantly. Download transparent PNG for forms, PD">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Free AI Signature Generator - Digital Signature Maker Online</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div class="sgx-root">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Pacifico&family=Lobster&family=Caveat:wght@700&family=Satisfy&family=Allura&family=Kaushan+Script&family=Yellowtail&family=Sacramento&display=swap');
+/*<![CDATA[*/
+/* ===== LIGHT MODE (Default/Base) ===== */
+.sgx-root {
+    --s-bg:#ffffff; --s-card:#ffffff; --s-text:#0f172a; --s-muted:#64748b;
+    --s-border:#e2e8f0; --s-input:#f8fafc; --s-primary:#3b82f6; --s-shadow:rgba(0,0,0,0.08);
+    --s-success:#16a34a;
+    --s-success-bg:rgba(34,197,94,0.12);
+    --s-success-border:rgba(34,197,94,0.25);
+    --s-primary-bg:rgba(59,130,246,0.12);
+    --s-primary-border:rgba(59,130,246,0.25);
+    --s-orange:#ea580c;
+    --s-orange-bg:rgba(249,115,22,0.12);
+    --s-orange-border:rgba(249,115,22,0.25);
+    --s-toast-bg:#ffffff;
+    --s-toast-text:#0f172a;
+    --s-toast-border:#e2e8f0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color:var(--s-text); line-height:1.5;
+    max-width:1100px; margin:0 auto;
+    padding:clamp(10px, 3vw, 16px);
+    box-sizing:border-box;
+}
+
+/* ===== DARK MODE (7 Selectors) ===== */
+html[data-theme="dark"] .sgx-root,
+body.dark-mode .sgx-root,
+body[data-theme="dark"] .sgx-root,
+html.dark-mode .sgx-root,
+.dark-mode .sgx-root,
+.night-mode .sgx-root,
+[data-bs-theme="dark"] .sgx-root {
+    --s-bg:#0f172a; --s-card:#1e293b; --s-text:#f1f5f9; --s-muted:#94a3b8;
+    --s-border:#334155; --s-input:#0f172a; --s-shadow:rgba(0,0,0,0.4);
+    --s-success:#4ade80;
+    --s-success-bg:rgba(34,197,94,0.18);
+    --s-success-border:rgba(34,197,94,0.35);
+    --s-primary-bg:rgba(59,130,246,0.2);
+    --s-primary-border:rgba(59,130,246,0.4);
+    --s-orange:#fb923c;
+    --s-orange-bg:rgba(249,115,22,0.18);
+    --s-orange-border:rgba(249,115,22,0.35);
+    --s-toast-bg:#1e293b;
+    --s-toast-text:#f1f5f9;
+    --s-toast-border:#334155;
+}
+
+/* ===== BASE STYLES ===== */
+.sgx-root *, .sgx-root *::before, .sgx-root *::after { box-sizing:border-box; }
+
+.sgx-head { text-align:center; margin-bottom:clamp(16px, 3vw, 20px); }
+.sgx-head h1 {
+    font-size:clamp(18px, 4vw, 26px);
+    font-weight:800; margin:0 0 8px; color:var(--s-text);
+    line-height:1.3; letter-spacing:-0.01em;
+}
+.sgx-head p {
+    color:var(--s-muted);
+    font-size:clamp(12px, 2vw, 14px);
+    margin:0 0 12px; max-width:660px;
+    margin-left:auto; margin-right:auto; line-height:1.6;
+}
+.sgx-badges { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; }
+.sgx-badge {
+    font-size:clamp(9px, 1.5vw, 11px);
+    font-weight:700; padding:6px 12px; border-radius:10px;
+    background:var(--s-primary-bg); color:var(--s-primary);
+    border:1px solid var(--s-primary-border);
+    min-height:32px;
+    display:inline-flex; align-items:center;
+    white-space:nowrap;
+}
+.sgx-badge.g { background:var(--s-success-bg); color:var(--s-success); border-color:var(--s-success-border); }
+.sgx-badge.o { background:var(--s-orange-bg); color:var(--s-orange); border-color:var(--s-orange-border); }
+
+/* TAB BUTTONS */
+.sgx-tabs { display:flex; gap:10px; margin-bottom:16px; justify-content:center; }
+.sgx-tab-btn {
+    padding:10px 20px; font-size:clamp(12px, 2vw, 14px); font-weight:700;
+    border:2px solid var(--s-border); border-radius:12px; background:var(--s-card);
+    color:var(--s-muted); cursor:pointer; transition:all 0.2s; font-family:inherit;
+}
+.sgx-tab-btn.active {
+    background:var(--s-primary); color:#fff; border-color:var(--s-primary);
+    box-shadow:0 4px 12px rgba(59,130,246,0.3);
+}
+
+.sgx-card {
+    background:var(--s-card); border:1px solid var(--s-border);
+    border-radius:14px; padding:clamp(14px, 3vw, 18px);
+    margin-bottom:16px; box-shadow:0 2px 8px var(--s-shadow);
+}
+.sgx-lab { display:block; font-size:clamp(11px, 1.8vw, 13px); font-weight:700; color:var(--s-muted); margin-bottom:6px; }
+.sgx-name {
+    width:100%; background:var(--s-input); border:2px solid var(--s-border); border-radius:12px;
+    padding:clamp(10px, 2vw, 14px) clamp(12px, 2vw, 16px);
+    font-size:clamp(16px, 3vw, 18px); font-weight:600;
+    color:var(--s-text); font-family:inherit;
+    min-height:48px;
+    transition:border-color 0.2s, box-shadow 0.2s;
+}
+.sgx-name:focus { outline:none; border-color:var(--s-primary); box-shadow:0 0 0 3px rgba(59,130,246,0.15); }
+
+.sgx-controls { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:14px; }
+.sgx-ctl-group { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.sgx-ctl-lab { font-size:clamp(10px, 1.6vw, 12px); font-weight:700; color:var(--s-muted); }
+.sgx-swatch {
+    width:clamp(28px, 5vw, 32px); height:clamp(28px, 5vw, 32px);
+    border-radius:50%; border:2px solid var(--s-border);
+    cursor:pointer; padding:0; transition:all 0.15s;
+    min-width:28px; min-height:28px;
+}
+.sgx-swatch:hover { transform:scale(1.1); }
+.sgx-swatch.on { border-color:var(--s-primary); box-shadow:0 0 0 3px rgba(59,130,246,0.25); }
+.sgx-toggle { display:flex; border:1px solid var(--s-border); border-radius:8px; overflow:hidden; flex-wrap:nowrap; }
+.sgx-tbtn {
+    padding:10px 14px; font-size:clamp(10px, 1.6vw, 12px);
+    font-weight:700; cursor:pointer; background:var(--s-input);
+    color:var(--s-muted); border:none; font-family:inherit;
+    min-height:40px;
+    display:inline-flex; align-items:center; justify-content:center;
+    white-space:nowrap;
+    transition:all 0.2s;
+}
+.sgx-tbtn.on { background:var(--s-primary); color:#fff; }
+.sgx-range { accent-color:var(--s-primary); width:clamp(80px, 15vw, 110px); min-height:32px; cursor:pointer; }
+.sgx-mini {
+    background:var(--s-input); border:1px solid var(--s-border); border-radius:8px;
+    padding:8px 10px; font-size:clamp(10px, 1.6vw, 12px);
+    color:var(--s-text); min-height:40px;
+    font-family:inherit;
+}
+
+.sgx-grid { display:grid; grid-template-columns:1fr; gap:14px; }
+@media (min-width:640px){ .sgx-grid { grid-template-columns:1fr 1fr; } }
+
+.sgx-item {
+    background:var(--s-card); border:1px solid var(--s-border);
+    border-radius:12px; padding:clamp(10px, 2vw, 12px);
+    box-shadow:0 2px 8px var(--s-shadow);
+}
+.sgx-item-head {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:8px; flex-wrap:wrap; gap:6px;
+}
+.sgx-item-name { font-size:clamp(11px, 1.8vw, 13px); font-weight:700; color:var(--s-text); }
+.sgx-dl {
+    padding:10px 14px; border-radius:8px; border:none; cursor:pointer;
+    background:linear-gradient(135deg,#3b82f6,#6366f1); color:#fff;
+    font-size:clamp(10px, 1.6vw, 12px); font-weight:700;
+    display:inline-flex; align-items:center; gap:5px;
+    transition:all 0.2s; font-family:inherit;
+    min-height:44px;
+}
+.sgx-dl:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(59,130,246,0.4); }
+.sgx-btn-secondary {
+    background:var(--s-input); color:var(--s-text); border:1px solid var(--s-border);
+}
+.sgx-btn-secondary:hover { background:var(--s-border); }
+
+.sgx-cvs {
+    width:100%; height:auto; border-radius:8px;
+    border:1px solid var(--s-border); display:block;
+    background:var(--s-input); touch-action:none;
+}
+.sgx-cvs.transparent {
+    background-image:linear-gradient(45deg,rgba(128,128,128,.15) 25%,transparent 25%,transparent 75%,rgba(128,128,128,.15) 75%),
+    linear-gradient(45deg,rgba(128,128,128,.15) 25%,transparent 25%,transparent 75%,rgba(128,128,128,.15) 75%);
+    background-size:16px 16px; background-position:0 0,8px 8px;
+}
+
+/* DRAWING BOARD */
+#sgxDrawSection { display:none; }
+
+.sgx-info-c {
+    background:var(--s-card); border:1px solid var(--s-border);
+    border-radius:14px; padding:clamp(16px, 3vw, 22px);
+    margin-bottom:16px; box-shadow:0 2px 8px var(--s-shadow);
+}
+.sgx-info-c h2 {
+    font-size:clamp(15px, 2.5vw, 19px); font-weight:800;
+    margin:0 0 14px; color:var(--s-text);
+    display:flex; align-items:center; gap:9px; flex-wrap:wrap;
+}
+.sgx-info-c h3 { font-size:clamp(13px, 2vw, 15px); font-weight:700; color:var(--s-primary); margin:16px 0 8px; }
+.sgx-info-c p { color:var(--s-muted); font-size:clamp(11px, 1.8vw, 13px); line-height:1.7; margin:0 0 10px; }
+.sgx-info-c ul, .sgx-info-c ol { color:var(--s-muted); font-size:clamp(11px, 1.8vw, 13px); line-height:1.7; margin:0 0 10px; padding-left:18px; }
+.sgx-info-c li { margin-bottom:5px; }
+.sgx-info-c strong { color:var(--s-text); }
+
+.sgx-steps { display:grid; grid-template-columns:1fr; gap:12px; margin-top:14px; }
+@media (min-width:640px){ .sgx-steps { grid-template-columns:repeat(3,1fr); } }
+.sgx-step {
+    background:var(--s-input); border:1px solid var(--s-border);
+    border-radius:10px; padding:14px; text-align:center;
+}
+.sgx-step-n {
+    width:32px; height:32px; border-radius:50%;
+    background:linear-gradient(135deg,#3b82f6,#6366f1); color:#fff;
+    font-weight:800; font-size:14px;
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 8px;
+}
+.sgx-step h4 { font-size:clamp(12px, 2vw, 13px); font-weight:700; color:var(--s-text); margin:0 0 5px; }
+.sgx-step p { font-size:clamp(10px, 1.6vw, 11px); color:var(--s-muted); margin:0; line-height:1.5; }
+
+.sgx-faq {
+    background:var(--s-input); border:1px solid var(--s-border);
+    border-radius:9px; margin-bottom:8px; overflow:hidden;
+}
+.sgx-fq {
+    padding:12px 14px; font-weight:700; color:var(--s-text);
+    cursor:pointer; display:flex; justify-content:space-between;
+    align-items:center; font-size:clamp(11px, 1.8vw, 13px);
+    min-height:44px; user-select:none;
+}
+.sgx-fa {
+    padding:0 14px; max-height:0; overflow:hidden;
+    color:var(--s-muted); font-size:clamp(10px, 1.6vw, 12px);
+    line-height:1.6; transition:all 0.3s;
+}
+.sgx-faq.open .sgx-fa { padding:0 14px 12px; max-height:400px; }
+.sgx-faq.open .sgx-ft { transform:rotate(180deg); }
+.sgx-ft { transition:transform 0.3s; color:var(--s-primary); font-size:10px; }
+
+.sgx-rel { display:grid; grid-template-columns:1fr; gap:8px; margin-top:12px; }
+@media (min-width:640px){ .sgx-rel { grid-template-columns:1fr 1fr; } }
+.sgx-rel a {
+    display:flex; align-items:center; padding:10px 14px;
+    background:var(--s-primary-bg); border:1px solid var(--s-primary-border);
+    border-radius:8px; color:var(--s-primary); text-decoration:none;
+    font-weight:600; font-size:clamp(11px, 1.8vw, 12px);
+    transition:all 0.2s; min-height:44px;
+}
+.sgx-rel a:hover { transform:translateX(3px); border-color:var(--s-primary); }
+.sgx-foot { text-align:center; color:var(--s-muted); font-size:clamp(10px, 1.6vw, 11px); margin-top:20px; padding-top:14px; border-top:1px solid var(--s-border); }
+.sgx-toast {
+    position:fixed; bottom:16px; right:16px; background:var(--s-toast-bg);
+    border:1px solid var(--s-toast-border); border-left:3px solid var(--s-success);
+    padding:10px 14px; border-radius:8px; font-size:clamp(11px, 1.8vw, 12px);
+    color:var(--s-toast-text); box-shadow:0 6px 20px var(--s-shadow);
+    z-index:9999; transform:translateX(400px); transition:transform 0.3s;
+    max-width:min(280px, calc(100vw - 32px));
+}
+.sgx-toast.show { transform:translateX(0); }
+
+/* RESPONSIVE */
+@media (max-width:480px){
+    .sgx-controls{flex-direction:column;align-items:stretch;gap:8px;}
+    .sgx-ctl-group{justify-content:space-between;}
+    .sgx-toast{bottom:12px;right:12px;left:12px;text-align:center;transform:translateY(100px);}
+    .sgx-toast.show{transform:translateY(0);}
+}
+/*]]>*/
+</style>
+
+<div class="sgx-head">
+    <h1>AI Signature Generator & Draw Signature Tool</h1>
+    <p>Type your name for font styles OR draw your own signature with your finger/mouse. Download high-resolution transparent PNG free.</p>
+    <div class="sgx-badges">
+        <span class="sgx-badge g">✓ 100% Free</span>
+        <span class="sgx-badge">🔒 No Signup</span>
+        <span class="sgx-badge o">⚡ Instant</span>
+        <span class="sgx-badge">🖼️ Transparent PNG</span>
+    </div>
+</div>
+
+<!-- MODE SELECTION TABS -->
+<div class="sgx-tabs">
+    <button class="sgx-tab-btn active" id="sgxTabAuto">✍️ Type Name (10 Styles)</button>
+    <button class="sgx-tab-btn" id="sgxTabDraw">✏️ Draw with Hand/Mouse</button>
+</div>
+
+<!-- COMMON CONTROLS -->
+<div class="sgx-card">
+    <!-- MODE 1: AUTO TEXT INPUT -->
+    <div id="sgxTextInputGroup">
+        <label class="sgx-lab">✍️ Type Your Name</label>
+        <input type="text" class="sgx-name" id="sgxName" maxlength="30" placeholder="e.g. Rahul Sharma" value="Rahul Sharma" aria-label="Type your name">
+    </div>
+
+    <div class="sgx-controls">
+        <div class="sgx-ctl-group">
+            <span class="sgx-ctl-lab">Ink Color:</span>
+            <button class="sgx-swatch on" data-c="#111111" style="background:#111" title="Black" aria-label="Black color"></button>
+            <button class="sgx-swatch" data-c="#1d4ed8" style="background:#1d4ed8" title="Blue" aria-label="Blue color"></button>
+            <button class="sgx-swatch" data-c="#b91c1c" style="background:#b91c1c" title="Red" aria-label="Red color"></button>
+            <button class="sgx-swatch" data-c="#065f46" style="background:#065f46" title="Green" aria-label="Green color"></button>
+        </div>
+        <div class="sgx-ctl-group">
+            <span class="sgx-ctl-lab">Background:</span>
+            <div class="sgx-toggle">
+                <button class="sgx-tbtn on" id="sgxBgT">Transparent</button>
+                <button class="sgx-tbtn" id="sgxBgW">White</button>
+            </div>
+        </div>
+        <div class="sgx-ctl-group">
+            <span class="sgx-ctl-lab">Thickness:</span>
+            <input type="range" class="sgx-range" id="sgxTh" min="1" max="8" value="3" aria-label="Signature thickness">
+        </div>
+        <div class="sgx-ctl-group">
+            <span class="sgx-ctl-lab">Size:</span>
+            <select class="sgx-mini" id="sgxSize" aria-label="Download size">
+                <option value="1">Small (600px)</option>
+                <option value="2" selected>Medium (1200px)</option>
+                <option value="3">Large (1800px)</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 1: AUTO GENERATED GRID -->
+<div class="sgx-grid" id="sgxAutoSection"></div>
+
+<!-- SECTION 2: HAND DRAWING BOARD -->
+<div class="sgx-card" id="sgxDrawSection">
+    <div class="sgx-item-head">
+        <span class="sgx-item-name">✏️ Draw Your Signature Below (Touch / Mouse)</span>
+        <div style="display:flex; gap:8px;">
+            <button class="sgx-dl sgx-btn-secondary" id="sgxClearBtn">🗑️ Clear Pad</button>
+            <button class="sgx-dl" id="sgxDrawDlBtn">⬇️ Download Signature</button>
+        </div>
+    </div>
+    <canvas class="sgx-cvs transparent" id="sgxDrawCanvas" width="800" height="350"></canvas>
+</div>
+
+<!-- INFO -->
+<div style="margin-top:30px;">
+    <div class="sgx-info-c">
+        <h2>✨ Key Features</h2>
+        <ul>
+            <li><strong>Dual Mode:</strong> Instant 10 Fonts Generator + Hand/Touch Draw Board.</li>
+            <li><strong>Handwritten Feel:</strong> Smooth real-hand feel with natural ink curves.</li>
+            <li><strong>Transparent PNG:</strong> Perfect for pasting in Official Forms and PDFs.</li>
+            <li><strong>Mobile Friendly:</strong> Works smoothly using finger touch on Android & iOS.</li>
+            <li><strong>100% Private:</strong> Everything happens inside your browser. No server upload.</li>
+        </ul>
+    </div>
+
+    <div class="sgx-info-c">
+        <h2>❓ FAQ</h2>
+        <div class="sgx-faq"><div class="sgx-fq">Is this tool completely free? <span class="sgx-ft">▼</span></div><div class="sgx-fa"><p>Yes, 100% free with no watermark or limits.</p></div></div>
+        <div class="sgx-faq"><div class="sgx-fq">How to draw using Mobile Finger? <span class="sgx-ft">▼</span></div><div class="sgx-fa"><p>Click on "Draw with Hand/Mouse" tab and simply draw using your finger on the box.</p></div></div>
+        <div class="sgx-faq"><div class="sgx-fq">How to get Transparent PNG? <span class="sgx-ft">▼</span></div><div class="sgx-fa"><p>Keep background set to "Transparent" before downloading.</p></div></div>
+    </div>
+
+    <div class="sgx-info-c">
+        <h2>🔗 Related Tools</h2>
+        <div class="sgx-rel">
+            <a href="../tools/transform-karein-url-ko-image-mein-ai.html">🔗 URL to Image Converter</a>
+            <a href="../tools/extract-karein-url-from-image-instantly.html">📸 Extract URL from Image</a>
+            <a href="../tools/video-to-mp3-converter-free.html">🎵 Video to MP3 Converter</a>
+        </div>
+    </div>
+</div>
+
+<div class="sgx-foot">© 2026 Tools-X · AI Signature Generator · Free &amp; Private</div>
+<div class="sgx-toast" id="sgxToast"></div>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+
+var STYLES=[
+ {name:'Classic Elegant', font:'Dancing Script', size:1.1, slant:-0.05},
+ {name:'Royal Cursive', font:'Great Vibes', size:1.2, slant:-0.03},
+ {name:'Bold Marker', font:'Pacifico', size:0.8, slant:-0.02},
+ {name:'Modern Style', font:'Lobster', size:0.85, slant:0},
+ {name:'Quick Hand', font:'Caveat', size:1.2, slant:-0.06},
+ {name:'Smooth Flow', font:'Satisfy', size:1.0, slant:-0.04},
+ {name:'Thin Elegant', font:'Allura', size:1.3, slant:-0.03},
+ {name:'Brush Style', font:'Kaushan Script', size:0.85, slant:-0.04},
+ {name:'Retro Classic', font:'Yellowtail', size:1.0, slant:-0.05},
+ {name:'Clean Script', font:'Sacramento', size:1.2, slant:-0.02}
+];
+
+var S={ text:'Rahul Sharma', color:'#111111', transparent:true, thickness:3, scale:2, mode:'auto' };
+
+function $(id){ return document.getElementById(id); }
+var autoSection=$('sgxAutoSection');
+var drawSection=$('sgxDrawSection');
+var textGroup=$('sgxTextInputGroup');
+var canvases=[];
+
+// Generate Font Cards
+STYLES.forEach(function(st,i){
+    var item=document.createElement('div'); item.className='sgx-item';
+    item.innerHTML='<div class="sgx-item-head"><span class="sgx-item-name">'+(i+1)+'. '+st.name+'</span>'+
+        '<button class="sgx-dl" data-i="'+i+'">⬇️ Download</button></div>'+
+        '<canvas class="sgx-cvs transparent" width="600" height="220"></canvas>';
+    autoSection.appendChild(item);
+    canvases.push(item.querySelector('canvas'));
+});
+
+function toast(m){
+    var t=$('sgxToast'); t.textContent=m; t.className='sgx-toast show';
+    setTimeout(function(){ t.classList.remove('show'); },2200);
+}
+
+// Draw Text Signature
+function drawTextSig(canvas, scale, st){
+    var W=600*scale, H=220*scale;
+    canvas.width=W; canvas.height=H;
+    var ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,W,H);
+
+    if(!S.transparent){
+        ctx.fillStyle='#ffffff';
+        ctx.fillRect(0,0,W,H);
+    }
+
+    var text=S.text || 'Your Name';
+    var fs=65 * scale * st.size;
+
+    ctx.save();
+    ctx.translate(W/2, H/2);
+    ctx.rotate(st.slant);
+
+    // Apply Solid Natural Font Styling
+    ctx.font = '700 ' + fs + 'px "' + st.font + '", cursive';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = S.color;
+    ctx.strokeStyle = S.color;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+
+    // Bold stroke rendering for crisp/real look
+    ctx.lineWidth = S.thickness * scale * 0.4;
+    ctx.strokeText(text, 0, 0);
+    ctx.fillText(text, 0, 0);
+
+    // Decorative Flourish Underline
+    var w=ctx.measureText(text).width;
+    var y=fs * 0.55;
+    ctx.beginPath();
+    ctx.moveTo(-w/2.2, y);
+    ctx.bezierCurveTo(-w/4, y + 12*scale, w/4, y - 8*scale, w/2.2, y - 2*scale);
+    ctx.lineWidth = Math.max(1, S.thickness * scale * 0.6);
+    ctx.stroke();
+
+    ctx.restore();
+}
+
+function renderAllAuto(){
+    for(var i=0; i<STYLES.length; i++){
+        drawTextSig(canvases[i], 1, STYLES[i]);
+    }
+}
+
+// Mode Switchers
+$('sgxTabAuto').addEventListener('click', function(){
+    S.mode='auto';
+    $('sgxTabAuto').classList.add('active');
+    $('sgxTabDraw').classList.remove('active');
+    autoSection.style.display='grid';
+    drawSection.style.display='none';
+    textGroup.style.display='block';
+    renderAllAuto();
+});
+
+$('sgxTabDraw').addEventListener('click', function(){
+    S.mode='draw';
+    $('sgxTabDraw').classList.add('active');
+    $('sgxTabAuto').classList.remove('active');
+    autoSection.style.display='none';
+    drawSection.style.display='block';
+    textGroup.style.display='none';
+    resizeDrawCanvas();
+});
+
+// Real-time Text Input
+var nameInput=$('sgxName');
+nameInput.addEventListener('input', function(e){
+    S.text = e.target.value.replace(/[<>]/g,'');
+    renderAllAuto();
+});
+
+// Color Picker
+var sw=document.querySelectorAll('.sgx-swatch');
+sw.forEach(function(b){
+    b.addEventListener('click', function(){
+        sw.forEach(function(x){ x.classList.remove('on'); });
+        b.classList.add('on');
+        S.color=b.getAttribute('data-c');
+        if(S.mode==='auto') renderAllAuto();
+        else redrawPadBg();
+    });
+});
+
+// Background Toggle
+$('sgxBgT').addEventListener('click', function(){
+    S.transparent=true;
+    $('sgxBgT').classList.add('on'); $('sgxBgW').classList.remove('on');
+    setBgClass(true);
+    if(S.mode==='auto') renderAllAuto(); else redrawPadBg();
+});
+
+$('sgxBgW').addEventListener('click', function(){
+    S.transparent=false;
+    $('sgxBgW').classList.add('on'); $('sgxBgT').classList.remove('on');
+    setBgClass(false);
+    if(S.mode==='auto') renderAllAuto(); else redrawPadBg();
+});
+
+function setBgClass(isTrans){
+    var cvsList = document.querySelectorAll('.sgx-cvs');
+    cvsList.forEach(function(c){
+        if(isTrans) c.classList.add('transparent'); else c.classList.remove('transparent');
+    });
+}
+
+// Thickness & Size
+$('sgxTh').addEventListener('input', function(e){
+    S.thickness=parseInt(e.target.value);
+    if(S.mode==='auto') renderAllAuto();
+});
+
+$('sgxSize').addEventListener('change', function(e){
+    S.scale=parseInt(e.target.value);
+});
+
+// Download Auto Signature
+autoSection.addEventListener('click', function(e){
+    var btn=e.target.closest('.sgx-dl'); if(!btn) return;
+    var i=parseInt(btn.getAttribute('data-i'));
+    var tmp=document.createElement('canvas');
+    drawTextSig(tmp, S.scale, STYLES[i]);
+    downloadCanvas(tmp, 'Signature_Style_'+(i+1)+'.png');
+});
+
+function downloadCanvas(cvs, filename){
+    var a=document.createElement('a');
+    a.download=filename;
+    a.href=cvs.toDataURL('image/png');
+    a.click();
+    toast('✅ Signature Downloaded!');
+}
+
+/* =======================================
+   HAND/TOUCH DRAWING BOARD LOGIC
+======================================= */
+var drawCanvas = $('sgxDrawCanvas');
+var dCtx = drawCanvas.getContext('2d');
+var isDrawing = false;
+var lastX = 0, lastY = 0;
+var strokePaths = []; // Save strokes for redraws
+
+function resizeDrawCanvas(){
+    var rect = drawCanvas.getBoundingClientRect();
+    if(rect.width > 0){
+        drawCanvas.width = rect.width * 2;
+        drawCanvas.height = 350 * 2;
+        redrawPadBg();
+    }
+}
+
+function redrawPadBg(){
+    dCtx.save();
+    dCtx.clearRect(0,0,drawCanvas.width, drawCanvas.height);
+    if(!S.transparent){
+        dCtx.fillStyle='#ffffff';
+        dCtx.fillRect(0,0,drawCanvas.width, drawCanvas.height);
+    }
+    // Re-draw paths
+    strokePaths.forEach(function(path){
+        dCtx.beginPath();
+        dCtx.strokeStyle = path.color;
+        dCtx.lineWidth = path.width;
+        dCtx.lineCap = 'round';
+        dCtx.lineJoin = 'round';
+        for(var j=0; j<path.points.length; j++){
+            var p = path.points[j];
+            if(j===0) dCtx.moveTo(p.x, p.y);
+            else dCtx.lineTo(p.x, p.y);
+        }
+        dCtx.stroke();
+    });
+    dCtx.restore();
+}
+
+function getPos(e){
+    var rect = drawCanvas.getBoundingClientRect();
+    var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    var scaleX = drawCanvas.width / rect.width;
+    var scaleY = drawCanvas.height / rect.height;
+    return {
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
+    };
+}
+
+function startDraw(e){
+    e.preventDefault();
+    isDrawing = true;
+    var pos = getPos(e);
+    lastX = pos.x; lastY = pos.y;
+    strokePaths.push({
+        color: S.color,
+        width: S.thickness * 2,
+        points: [{x: lastX, y: lastY}]
+    });
+}
+
+function moveDraw(e){
+    if(!isDrawing) return;
+    e.preventDefault();
+    var pos = getPos(e);
+
+    dCtx.beginPath();
+    dCtx.strokeStyle = S.color;
+    dCtx.lineWidth = S.thickness * 2;
+    dCtx.lineCap = 'round';
+    dCtx.lineJoin = 'round';
+    dCtx.moveTo(lastX, lastY);
+    dCtx.lineTo(pos.x, pos.y);
+    dCtx.stroke();
+
+    lastX = pos.x; lastY = pos.y;
+    strokePaths[strokePaths.length - 1].points.push({x: lastX, y: lastY});
+}
+
+function stopDraw(e){
+    isDrawing = false;
+}
+
+// Touch & Mouse Listeners
+drawCanvas.addEventListener('mousedown', startDraw);
+drawCanvas.addEventListener('mousemove', moveDraw);
+window.addEventListener('mouseup', stopDraw);
+
+drawCanvas.addEventListener('touchstart', startDraw, {passive:false});
+drawCanvas.addEventListener('touchmove', moveDraw, {passive:false});
+window.addEventListener('touchend', stopDraw);
+
+// Clear Drawing Pad
+$('sgxClearBtn').addEventListener('click', function(){
+    strokePaths = [];
+    redrawPadBg();
+    toast('🧹 Pad Cleared');
+});
+
+// Download Hand Drawing
+$('sgxDrawDlBtn').addEventListener('click', function(){
+    if(strokePaths.length === 0){
+        toast('⚠️ Please draw a signature first!');
+        return;
+    }
+    // High-Res Export
+    var tmp = document.createElement('canvas');
+    tmp.width = drawCanvas.width * (S.scale / 2);
+    tmp.height = drawCanvas.height * (S.scale / 2);
+    var tCtx = tmp.getContext('2d');
+
+    if(!S.transparent){
+        tCtx.fillStyle='#ffffff';
+        tCtx.fillRect(0,0,tmp.width, tmp.height);
+    }
+
+    var factor = tmp.width / drawCanvas.width;
+    strokePaths.forEach(function(path){
+        tCtx.beginPath();
+        tCtx.strokeStyle = path.color;
+        tCtx.lineWidth = path.width * factor;
+        tCtx.lineCap = 'round';
+        tCtx.lineJoin = 'round';
+        for(var j=0; j<path.points.length; j++){
+            var p = path.points[j];
+            if(j===0) tCtx.moveTo(p.x * factor, p.y * factor);
+            else tCtx.lineTo(p.x * factor, p.y * factor);
+        }
+        tCtx.stroke();
+    });
+
+    downloadCanvas(tmp, 'Handwritten_Signature.png');
+});
+
+// Font Loading Sync Fix
+window.addEventListener('load', function(){
+    setTimeout(renderAllAuto, 300);
+    setTimeout(renderAllAuto, 800);
+});
+if(document.fonts){
+    document.fonts.ready.then(function(){
+        renderAllAuto();
+    });
+}
+
+renderAllAuto();
+})();
+//]]>
+</script>
+</div>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

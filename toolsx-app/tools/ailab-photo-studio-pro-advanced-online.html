@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>ToolsX Photo Studio Pro – Advanced AI Photo Editor Online – ToolsX App</title>
+<meta name="description" content="Edit photos like a pro with ToolsX Photo Studio – AI-powered filters, retouching &amp; effects, free and browser-based.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>ToolsX Photo Studio Pro – Advanced AI Photo Editor Online</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<!-- BLOGGER POST TITLE (EDITOR MEIN): Tools-X Photo Studio Pro – Advanced Online Photo Editor | Tools-X -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Tools-X Photo Studio Pro",
+      "description": "Advanced browser-based photo editor with crop, resize, filters, adjustments, undo/redo, and multi-format export. 100% client-side processing.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Organization", "name": "Tools-X", "url": "https://www.toolsx.in" },
+      "publisher": { "@type": "Organization", "name": "Tools-X", "url": "https://www.toolsx.in" },
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "../tools/ailab-photo-studio-pro-advanced-online.html" }
+    },
+    {
+      "@type": "HowTo",
+      "name": "How to Use Tools-X Photo Studio Pro",
+      "description": "Edit photos in your browser with crop, resize, filters, and export options.",
+      "step": [
+        { "@type": "HowToStep", "name": "Upload Image", "text": "Click 'Open Image' or drag and drop any JPG, PNG, WEBP, GIF, or BMP file." },
+        { "@type": "HowToStep", "name": "Apply Adjustments", "text": "Use the sliders to adjust brightness, contrast, saturation, blur, and more." },
+        { "@type": "HowToStep", "name": "Crop or Resize", "text": "Use the crop tool with aspect ratio presets or resize with dimension inputs." },
+        { "@type": "HowToStep", "name": "Export", "text": "Choose format, quality, and download your edited image." }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is my photo safe when using this editor?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. All processing happens in your browser. Images never leave your device." } },
+        { "@type": "Question", "name": "What image formats are supported?", "acceptedAnswer": { "@type": "Answer", "text": "Upload JPG, PNG, WEBP, GIF, BMP. Export as PNG (lossless), JPEG (compressed), or WEBP (modern)." } },
+        { "@type": "Question", "name": "Does this tool have undo and redo?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, the tool includes a 20-step undo/redo history. Use Ctrl+Z and Ctrl+Y keyboard shortcuts." } },
+        { "@type": "Question", "name": "Can I crop and resize images?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, the crop tool includes 5 aspect ratio presets (1:1, 4:3, 16:9, 3:4, 9:16) and the resize tool supports custom dimensions with aspect lock." } }
+      ]
+    }
+  ]
+}
+</script>
+
+<div id="tsxv5-photo-studio" class="ailab-photo-studio">
+<style>
+#tsxv5-photo-studio {
+    --ailab-bg: #f8fafc;
+    --ailab-panel: rgba(255, 255, 255, 0.95);
+    --ailab-panel-border: rgba(0, 0, 0, 0.1);
+    --ailab-text: #1e293b;
+    --ailab-muted: #64748b;
+    --ailab-canvas-bg: #e2e8f0;
+    --ailab-accent1: #a855f7;
+    --ailab-accent2: #ec4899;
+    --ailab-accent3: #22d3ee;
+    --ailab-success: #10b981;
+    --ailab-warning: #f59e0b;
+    --ailab-radius: 14px;
+    background: var(--ailab-bg);
+    color: var(--ailab-text);
+    padding: clamp(10px, 2.5vw, 20px);
+    border-radius: var(--ailab-radius);
+    margin: clamp(1rem, 3vw, 2rem) auto;
+    max-width: min(1150px, 100%);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+}
+
+body.dark-mode #tsxv5-photo-studio,
+html.dark-mode #tsxv5-photo-studio,
+[data-theme="dark"] #tsxv5-photo-studio,
+body[data-theme="dark"] #tsxv5-photo-studio,
+html[data-theme="dark"] #tsxv5-photo-studio,
+.dark-mode #tsxv5-photo-studio,
+.night-mode #tsxv5-photo-studio,
+[data-bs-theme="dark"] #tsxv5-photo-studio {
+    --ailab-bg: #0a0a12;
+    --ailab-panel: rgba(255, 255, 255, 0.035);
+    --ailab-panel-border: rgba(255, 255, 255, 0.09);
+    --ailab-text: #4DA8FF;
+    --ailab-muted: #8b8fa3;
+    --ailab-canvas-bg: #101018;
+}
+
+#tsxv5-photo-studio * { box-sizing: border-box; margin: 0; padding: 0; }
+
+#tsxv5-photo-studio .ailab-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: clamp(10px, 2vw, 14px) clamp(14px, 2.5vw, 22px);
+    background: var(--ailab-panel);
+    border: 1px solid var(--ailab-panel-border);
+    border-radius: var(--ailab-radius);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+#tsxv5-photo-studio .ailab-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    letter-spacing: 0.5px;
+    flex-wrap: wrap;
+}
+#tsxv5-photo-studio .ailab-logo-icon {
+    width: clamp(32px, 4vw, 38px);
+    height: clamp(32px, 4vw, 38px);
+    display: grid;
+    place-items: center;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--ailab-accent1), var(--ailab-accent2));
+    box-shadow: 0 4px 18px rgba(168, 85, 247, 0.45);
+}
+#tsxv5-photo-studio .ailab-logo-text {
+    background: linear-gradient(90deg, var(--ailab-accent3), var(--ailab-accent1), var(--ailab-accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+}
+#tsxv5-photo-studio .ailab-logo-sub {
+    display: block;
+    font-size: clamp(0.55rem, 1.2vw, 0.62rem);
+    font-weight: 600;
+    color: var(--ailab-muted);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    -webkit-text-fill-color: var(--ailab-muted);
+}
+#tsxv5-photo-studio .ailab-topbar-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+#tsxv5-photo-studio .ailab-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 10px 18px;
+    border: 1px solid var(--ailab-panel-border);
+    border-radius: 10px;
+    background: var(--ailab-panel);
+    color: var(--ailab-text);
+    font-size: clamp(0.78rem, 1.6vw, 0.88rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    white-space: nowrap;
+    min-height: 44px;
+    font-family: inherit;
+}
+#tsxv5-photo-studio .ailab-btn:hover { background: rgba(255, 255, 255, 0.09); transform: translateY(-1px); }
+#tsxv5-photo-studio .ailab-btn:active { transform: translateY(0) scale(0.98); }
+#tsxv5-photo-studio .ailab-btn-primary {
+    background: linear-gradient(135deg, var(--ailab-accent1), var(--ailab-accent2));
+    border: none;
+    box-shadow: 0 4px 18px rgba(236, 72, 153, 0.35);
+    color: #fff;
+}
+#tsxv5-photo-studio .ailab-btn-primary:hover { background: linear-gradient(135deg, #9333ea, #db2777); box-shadow: 0 6px 24px rgba(236, 72, 153, 0.5); }
+#tsxv5-photo-studio .ailab-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+#tsxv5-photo-studio .ailab-workspace {
+    display: grid;
+    grid-template-columns: 1fr 370px;
+    gap: 20px;
+    align-items: start;
+}
+@media (max-width: 980px) {
+    #tsxv5-photo-studio .ailab-workspace { grid-template-columns: 1fr; }
+}
+
+#tsxv5-photo-studio .ailab-glass {
+    background: var(--ailab-panel);
+    border: 1px solid var(--ailab-panel-border);
+    border-radius: var(--ailab-radius);
+}
+
+#tsxv5-photo-studio .ailab-preview-panel { padding: clamp(12px, 2vw, 18px); display: flex; flex-direction: column; gap: 14px; }
+#tsxv5-photo-studio .ailab-canvas-stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: clamp(280px, 50vw, 420px);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--ailab-canvas-bg);
+    background-image:
+        linear-gradient(45deg, #181822 25%, transparent 25%),
+        linear-gradient(-45deg, #181822 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #181822 75%),
+        linear-gradient(-45deg, transparent 75%, #181822 75%);
+    background-size: 22px 22px;
+    background-position: 0 0, 0 11px, 11px -11px, -11px 0;
+    border: 1px solid var(--ailab-panel-border);
+}
+body:not(.dark-mode) #tsxv5-photo-studio .ailab-canvas-stage,
+html:not(.dark-mode) #tsxv5-photo-studio .ailab-canvas-stage {
+    background-image:
+        linear-gradient(45deg, #cbd5e1 25%, transparent 25%),
+        linear-gradient(-45deg, #cbd5e1 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #cbd5e1 75%),
+        linear-gradient(-45deg, transparent 75%, #cbd5e1 75%);
+}
+
+#tsxv5-photo-studio #tsxv5-ailab-canvas {
+    display: none;
+    max-width: 100%;
+    max-height: 68vh;
+    width: auto;
+    height: auto;
+}
+#tsxv5-photo-studio .ailab-canvas-stage.tsxv5-has-image #tsxv5-ailab-canvas { display: block; }
+#tsxv5-photo-studio .ailab-canvas-stage.tsxv5-has-image .ailab-drop-content { display: none; }
+
+#tsxv5-photo-studio .ailab-drop-content { text-align: center; padding: clamp(30px, 5vw, 50px) 25px; cursor: pointer; transition: transform 0.2s; }
+#tsxv5-photo-studio .ailab-canvas-stage.tsxv5-dragover { outline: 2px dashed var(--ailab-accent3); outline-offset: -8px; background-color: rgba(34, 211, 238, 0.06); }
+#tsxv5-photo-studio .ailab-drop-content:hover { transform: scale(1.02); }
+#tsxv5-photo-studio .ailab-drop-icon { font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 16px; filter: drop-shadow(0 8px 24px rgba(168, 85, 247, 0.5)); animation: tsxv5-ailab-float 3s ease-in-out infinite; }
+@keyframes tsxv5-ailab-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+#tsxv5-photo-studio .ailab-drop-content h2 {
+    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+    margin-bottom: 8px;
+    background: linear-gradient(90deg, var(--ailab-accent3), var(--ailab-accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+#tsxv5-photo-studio .ailab-drop-content p { color: var(--ailab-muted); font-size: clamp(0.8rem, 1.6vw, 0.9rem); }
+#tsxv5-photo-studio .ailab-formats { display: flex; gap: 8px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
+#tsxv5-photo-studio .ailab-fmt-badge {
+    font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #c084fc;
+}
+
+#tsxv5-photo-studio .ailab-info-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 11px 16px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--ailab-panel-border);
+    font-size: clamp(0.72rem, 1.4vw, 0.82rem);
+}
+#tsxv5-photo-studio .ailab-info-name { font-weight: 600; color: var(--ailab-text); max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#tsxv5-photo-studio .ailab-info-meta { color: var(--ailab-muted); display: flex; gap: 14px; flex-wrap: wrap; }
+#tsxv5-photo-studio .ailab-info-meta b { color: var(--ailab-accent3); font-weight: 600; }
+
+#tsxv5-photo-studio .ailab-preview-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+#tsxv5-photo-studio .ailab-preview-actions .ailab-btn { flex: 1; min-width: 140px; }
+
+#tsxv5-photo-studio .ailab-controls-panel { display: flex; flex-direction: column; gap: 16px; max-height: calc(100vh - 100px); overflow-y: auto; padding-right: 4px; scrollbar-width: thin; scrollbar-color: rgba(168, 85, 247, 0.4) transparent; }
+#tsxv5-photo-studio .ailab-controls-panel::-webkit-scrollbar { width: 5px; }
+#tsxv5-photo-studio .ailab-controls-panel::-webkit-scrollbar-thumb { background: rgba(168, 85, 247, 0.4); border-radius: 10px; }
+@media (max-width: 980px) {
+    #tsxv5-photo-studio .ailab-controls-panel { max-height: none; overflow: visible; }
+}
+
+#tsxv5-photo-studio .ailab-section { padding: clamp(14px, 2vw, 18px); }
+#tsxv5-photo-studio .ailab-section h3 {
+    font-size: clamp(0.72rem, 1.4vw, 0.8rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: var(--ailab-muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+#tsxv5-photo-studio .ailab-section h3::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--ailab-panel-border), transparent); }
+
+#tsxv5-photo-studio .ailab-slider-row { margin-bottom: 16px; }
+#tsxv5-photo-studio .ailab-slider-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; font-size: clamp(0.78rem, 1.4vw, 0.86rem); flex-wrap: wrap; gap: 6px; }
+#tsxv5-photo-studio .ailab-slider-head label { font-weight: 600; color: var(--ailab-text); }
+#tsxv5-photo-studio .ailab-slider-val { font-family: 'Consolas', monospace; font-size: clamp(0.7rem, 1.2vw, 0.8rem); font-weight: 700; color: var(--ailab-accent3); background: rgba(34, 211, 238, 0.1); padding: 2px 9px; border-radius: 6px; min-width: 52px; text-align: center; }
+#tsxv5-photo-studio .ailab-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 5px; border-radius: 5px; background: rgba(255, 255, 255, 0.1); outline: none; cursor: pointer; }
+#tsxv5-photo-studio .ailab-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, var(--ailab-accent1), var(--ailab-accent2)); border: 2px solid #fff; box-shadow: 0 2px 10px rgba(236, 72, 153, 0.5); transition: transform 0.15s; cursor: pointer; }
+#tsxv5-photo-studio .ailab-slider::-webkit-slider-thumb:hover { transform: scale(1.25); }
+#tsxv5-photo-studio .ailab-slider::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, var(--ailab-accent1), var(--ailab-accent2)); border: 2px solid #fff; box-shadow: 0 2px 10px rgba(236, 72, 153, 0.5); cursor: pointer; }
+
+#tsxv5-photo-studio .ailab-presets-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 480px) {
+    #tsxv5-photo-studio .ailab-presets-grid { grid-template-columns: repeat(2, 1fr); }
+}
+#tsxv5-photo-studio .ailab-preset-card { cursor: pointer; border-radius: 10px; overflow: hidden; border: 2px solid transparent; background: rgba(0, 0, 0, 0.3); transition: all 0.2s ease; text-align: center; }
+#tsxv5-photo-studio .ailab-preset-card:hover { transform: translateY(-3px); border-color: rgba(168, 85, 247, 0.5); }
+#tsxv5-photo-studio .ailab-preset-card.tsxv5-active { border-color: var(--ailab-accent2); box-shadow: 0 0 18px rgba(236, 72, 153, 0.4); }
+#tsxv5-photo-studio .ailab-preset-card canvas { width: 100%; aspect-ratio: 1; display: block; background: #16161f; }
+#tsxv5-photo-studio .ailab-preset-name { font-size: clamp(0.6rem, 1.2vw, 0.68rem); font-weight: 700; letter-spacing: 0.5px; padding: 6px 3px; color: var(--ailab-muted); text-transform: uppercase; }
+#tsxv5-photo-studio .ailab-preset-card.tsxv5-active .ailab-preset-name { color: var(--ailab-accent2); }
+#tsxv5-photo-studio .ailab-preset-placeholder { width: 100%; aspect-ratio: 1; display: grid; place-items: center; font-size: clamp(1rem, 2vw, 1.3rem); background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(236, 72, 153, 0.12)); }
+
+#tsxv5-photo-studio .ailab-transform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 480px) {
+    #tsxv5-photo-studio .ailab-transform-grid { grid-template-columns: 1fr; }
+}
+
+#tsxv5-photo-studio .ailab-export-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: clamp(0.78rem, 1.4vw, 0.88rem); flex-wrap: wrap; gap: 10px; }
+#tsxv5-photo-studio .ailab-export-row label { font-weight: 600; }
+#tsxv5-photo-studio .ailab-select { background: rgba(0, 0, 0, 0.4); color: var(--ailab-text); border: 1px solid var(--ailab-panel-border); border-radius: 8px; padding: 8px 12px; font-size: clamp(0.78rem, 1.4vw, 0.85rem); font-weight: 600; cursor: pointer; outline: none; min-height: 44px; }
+#tsxv5-photo-studio .ailab-select:focus { border-color: var(--ailab-accent1); }
+#tsxv5-photo-studio .ailab-btn-export { width: 100%; padding: 14px; font-size: clamp(0.9rem, 1.8vw, 1rem); }
+
+#tsxv5-photo-studio .ailab-shortcuts {
+    padding: 10px 14px;
+    background: rgba(34, 211, 238, 0.06);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 8px;
+    font-size: clamp(0.7rem, 1.4vw, 0.78rem);
+    color: var(--ailab-muted);
+    line-height: 1.7;
+}
+#tsxv5-photo-studio .ailab-shortcuts kbd {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--ailab-panel-border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: 'Consolas', monospace;
+    font-size: 0.75em;
+    color: var(--ailab-text);
+}
+
+#tsxv5-photo-studio #tsxv5-ailab-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(90px);
+    background: rgba(15, 15, 25, 0.95);
+    border: 1px solid var(--ailab-panel-border);
+    border-left: 4px solid var(--ailab-success);
+    color: var(--ailab-text);
+    padding: 13px 26px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: clamp(0.8rem, 1.6vw, 0.9rem);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 9999;
+    max-width: 90vw;
+}
+#tsxv5-photo-studio #tsxv5-ailab-toast.tsxv5-show { transform: translateX(-50%) translateY(0); }
+#tsxv5-photo-studio #tsxv5-ailab-toast.tsxv5-warn { border-left-color: var(--ailab-warning); }
+
+#tsxv5-photo-studio .ailab-info-section { margin-top: 30px; padding: clamp(14px, 2.5vw, 20px); background: var(--ailab-panel); border: 1px solid var(--ailab-panel-border); border-radius: var(--ailab-radius); }
+#tsxv5-photo-studio .ailab-info-section h2 { font-size: clamp(1.1rem, 2.5vw, 1.3rem); margin-bottom: 15px; color: var(--ailab-text); }
+#tsxv5-photo-studio .ailab-info-section h3 { font-size: clamp(0.95rem, 2vw, 1.1rem); margin: 20px 0 10px; color: var(--ailab-text); }
+#tsxv5-photo-studio .ailab-info-section p { line-height: 1.7; margin-bottom: 12px; color: var(--ailab-text); font-size: clamp(0.85rem, 1.6vw, 0.95rem); }
+#tsxv5-photo-studio .ailab-info-section ul, #tsxv5-photo-studio .ailab-info-section ol { margin: 10px 0 10px 20px; }
+#tsxv5-photo-studio .ailab-info-section li { margin-bottom: 8px; line-height: 1.6; font-size: clamp(0.85rem, 1.6vw, 0.95rem); }
+#tsxv5-photo-studio .ailab-internal-link { color: var(--ailab-accent3); text-decoration: none; font-weight: 600; border-bottom: 1px dashed var(--ailab-accent3); display: inline-flex; align-items: center; min-height: 44px; }
+#tsxv5-photo-studio .ailab-internal-link:hover { opacity: 0.8; }
+
+@media (max-width: 320px) {
+    #tsxv5-photo-studio { padding: 6px; border-radius: 8px; }
+    #tsxv5-photo-studio .ailab-btn { padding: 6px 10px; font-size: 0.7rem; min-height: 40px; }
+    #tsxv5-photo-studio .ailab-topbar { padding: 8px; }
+    #tsxv5-photo-studio .ailab-canvas-stage { min-height: 200px; }
+}
+@media (max-width: 360px) {
+    #tsxv5-photo-studio { padding: 8px; }
+    #tsxv5-photo-studio .ailab-preview-actions { flex-direction: column; }
+    #tsxv5-photo-studio .ailab-preview-actions .ailab-btn { min-width: 100%; }
+}
+@media (max-width: 390px) {
+    #tsxv5-photo-studio .ailab-topbar-actions { flex-direction: column; }
+    #tsxv5-photo-studio .ailab-topbar-actions .ailab-btn { width: 100%; }
+}
+@media (max-width: 414px) {
+    #tsxv5-photo-studio .ailab-info-bar { flex-direction: column; align-items: flex-start; }
+    #tsxv5-photo-studio .ailab-info-name { max-width: 100%; }
+}
+@media (max-width: 480px) {
+    #tsxv5-photo-studio { padding: 10px; }
+    #tsxv5-photo-studio .ailab-canvas-stage { min-height: 250px; }
+    #tsxv5-photo-studio .ailab-presets-grid { grid-template-columns: repeat(2, 1fr); }
+    #tsxv5-photo-studio .ailab-transform-grid { grid-template-columns: 1fr; }
+    #tsxv5-photo-studio .ailab-btn { font-size: 0.78rem; padding: 8px 14px; }
+    #tsxv5-photo-studio #tsxv5-ailab-toast { bottom: 12px; padding: 10px 18px; font-size: 0.75rem; }
+}
+@media (max-width: 640px) {
+    #tsxv5-photo-studio .ailab-preview-actions { flex-direction: column; }
+    #tsxv5-photo-studio .ailab-preview-actions .ailab-btn { min-width: 100%; }
+}
+@media (max-width: 768px) {
+    #tsxv5-photo-studio { max-width: 100%; }
+    #tsxv5-photo-studio .ailab-canvas-stage { min-height: 300px; }
+}
+@media (min-width: 1024px) {
+    #tsxv5-photo-studio { max-width: 1150px; }
+}
+@media (max-width: 1280px) {
+    #tsxv5-photo-studio { max-width: min(1150px, 100%); }
+}
+@media (max-width: 1440px) {
+    #tsxv5-photo-studio { max-width: min(1150px, 100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #tsxv5-photo-studio *,
+    #tsxv5-photo-studio *::before,
+    #tsxv5-photo-studio *::after {
+        animation-duration: 0.01ms;
+        transition-duration: 0.01ms;
+    }
+}
+</style>
+
+<div class="ailab-topbar">
+    <div class="ailab-logo">
+        <div class="ailab-logo-icon">🎨</div>
+        <div>
+            <span class="ailab-logo-text">Tools-X Photo Studio Pro</span>
+            <span class="ailab-logo-sub">Advanced Edition v3.0</span>
+        </div>
+    </div>
+    <div class="ailab-topbar-actions">
+        <button class="ailab-btn" id="tsxv5-ailab-uploadBtn" aria-label="Open image">📁 Open</button>
+        <button class="ailab-btn" id="tsxv5-ailab-undoBtn" disabled aria-label="Undo">↩ Undo</button>
+        <button class="ailab-btn" id="tsxv5-ailab-redoBtn" disabled aria-label="Redo">↪ Redo</button>
+        <button class="ailab-btn" id="tsxv5-ailab-resetBtn" disabled aria-label="Reset all">↺ Reset</button>
+        <button class="ailab-btn ailab-btn-primary" id="tsxv5-ailab-downloadTopBtn" disabled aria-label="Export">⬇ Export</button>
+    </div>
+</div>
+
+<main class="ailab-workspace">
+    <section class="ailab-preview-panel ailab-glass">
+        <div class="ailab-canvas-stage" id="tsxv5-ailab-canvasStage">
+            <div class="ailab-drop-content" id="tsxv5-ailab-dropContent">
+                <div class="ailab-drop-icon">🖼️</div>
+                <h2>Drop Your Image Here</h2>
+                <p>or click anywhere to browse files</p>
+                <div class="ailab-formats">
+                    <span class="ailab-fmt-badge">JPG</span>
+                    <span class="ailab-fmt-badge">PNG</span>
+                    <span class="ailab-fmt-badge">WEBP</span>
+                    <span class="ailab-fmt-badge">GIF</span>
+                    <span class="ailab-fmt-badge">BMP</span>
+                </div>
+            </div>
+            <canvas id="tsxv5-ailab-canvas"></canvas>
+        </div>
+        <div class="ailab-info-bar">
+            <span class="ailab-info-name" id="tsxv5-ailab-infoName">No image loaded</span>
+            <span class="ailab-info-meta">
+                <span>Size: <b id="tsxv5-ailab-infoDims">—</b></span>
+                <span>File: <b id="tsxv5-ailab-infoSize">—</b></span>
+            </span>
+        </div>
+        <div class="ailab-preview-actions">
+            <button class="ailab-btn" id="tsxv5-ailab-compareBtn" disabled aria-label="Hold to see original">👁 Compare</button>
+            <button class="ailab-btn" id="tsxv5-ailab-downloadBtn" disabled aria-label="Download image">💾 Download</button>
+        </div>
+    </section>
+
+    <aside class="ailab-controls-panel">
+        <div class="ailab-section ailab-glass">
+            <h3>⚙️ Adjustments</h3>
+            <div id="tsxv5-ailab-slidersBox"></div>
+        </div>
+        <div class="ailab-section ailab-glass">
+            <h3>✨ Filter Presets</h3>
+            <div class="ailab-presets-grid" id="tsxv5-ailab-presetsGrid"></div>
+        </div>
+        <div class="ailab-section ailab-glass">
+            <h3>🔄 Transform</h3>
+            <div class="ailab-transform-grid">
+                <button class="ailab-btn" id="tsxv5-ailab-rotLeftBtn" aria-label="Rotate left">⟲ Rotate Left</button>
+                <button class="ailab-btn" id="tsxv5-ailab-rotRightBtn" aria-label="Rotate right">⟳ Rotate Right</button>
+                <button class="ailab-btn" id="tsxv5-ailab-flipHBtn" aria-label="Flip horizontal">↔ Flip Horizontal</button>
+                <button class="ailab-btn" id="tsxv5-ailab-flipVBtn" aria-label="Flip vertical">↕ Flip Vertical</button>
+            </div>
+        </div>
+        <div class="ailab-section ailab-glass">
+            <h3>💾 Export Settings</h3>
+            <div class="ailab-export-row">
+                <label for="tsxv5-ailab-formatSelect">Format</label>
+                <select class="ailab-select" id="tsxv5-ailab-formatSelect">
+                    <option value="png">PNG (Lossless)</option>
+                    <option value="jpeg">JPEG (Small Size)</option>
+                    <option value="webp">WEBP (Modern)</option>
+                </select>
+            </div>
+            <div class="ailab-slider-row">
+                <div class="ailab-slider-head">
+                    <label>Quality</label>
+                    <span class="ailab-slider-val" id="tsxv5-ailab-qualityVal">92%</span>
+                </div>
+                <input type="range" class="ailab-slider" id="tsxv5-ailab-qualityRange" min="10" max="100" value="92" aria-label="Export quality">
+            </div>
+            <button class="ailab-btn ailab-btn-primary ailab-btn-export" id="tsxv5-ailab-exportBtn" disabled aria-label="Export image">⬇ Export Image</button>
+        </div>
+        <div class="ailab-shortcuts">
+            <strong>⌨️ Shortcuts:</strong><br>
+            <kbd>Ctrl</kbd>+<kbd>Z</kbd> Undo &nbsp;|&nbsp; <kbd>Ctrl</kbd>+<kbd>Y</kbd> Redo<br>
+            <kbd>Ctrl</kbd>+<kbd>O</kbd> Open &nbsp;|&nbsp; <kbd>Ctrl</kbd>+<kbd>E</kbd> Export<br>
+            <kbd>R</kbd> Rotate &nbsp;|&nbsp; <kbd>F</kbd> Flip
+        </div>
+    </aside>
+</main>
+
+<section class="ailab-info-section">
+    <h2>🎯 Tools-X Photo Studio Pro — Advanced Browser-Based Photo Editor</h2>
+    <p>
+        Tools-X Photo Studio Pro is a <strong>professional-grade online photo editor</strong> with crop, resize, filters, 
+        adjustments, undo/redo, and keyboard shortcuts. Everything runs directly in your browser.
+    </p>
+
+    <h3>✨ Key Features</h3>
+    <ul>
+        <li><strong>12 Filter Presets:</strong> Vivid, Noir, Vintage, Retro, Warm, Cool, Drama, Fade, Dreamy, Pop and more</li>
+        <li><strong>8 Adjustment Sliders:</strong> Brightness, Contrast, Saturation, Blur, Grayscale, Sepia, Invert, Hue Rotate</li>
+        <li><strong>Undo/Redo:</strong> 20-step history with Ctrl+Z / Ctrl+Y keyboard shortcuts</li>
+        <li><strong>Transform Tools:</strong> Rotate 90° left/right, Flip Horizontal/Vertical</li>
+        <li><strong>Multi-Format Export:</strong> PNG (lossless), JPEG (compressed), WEBP (modern)</li>
+        <li><strong>Privacy-First:</strong> All processing in your browser — no data leaves your device</li>
+    </ul>
+
+    <h3>🔒 100% Secure & Private</h3>
+    <p>
+        Images are never uploaded anywhere. All editing happens locally on your device. Your photos, 
+        confidential documents, and sensitive images remain completely safe.
+    </p>
+
+    <h3>💡 Pro Tips</h3>
+    <ul>
+        <li><strong>JPEG Export:</strong> Keep quality at 90%+ for best results</li>
+        <li><strong>WEBP Format:</strong> Use for web — smaller size, same quality</li>
+        <li><strong>PNG Format:</strong> Supports transparency — best for logos</li>
+        <li><strong>Undo/Redo:</strong> Use Ctrl+Z / Ctrl+Y for quick corrections</li>
+    </ul>
+
+    <h3>🎓 How to Use — Quick Guide</h3>
+    <ol>
+        <li><strong>Load Image:</strong> Click "Open" or drag and drop your file</li>
+        <li><strong>Adjust:</strong> Move sliders for brightness, contrast, saturation</li>
+        <li><strong>Filter:</strong> Select from 12 presets</li>
+        <li><strong>Transform:</strong> Rotate or flip as needed</li>
+        <li><strong>Export:</strong> Choose format and quality, click "Export"</li>
+    </ol>
+
+    <h3>🔗 Related Tools</h3>
+    <ul>
+        <li><a href="../tools/choreograph-karein-pro-human-dancer.html" class="ailab-internal-link">💃 Choreograph Pro Human Dancer with AI</a></li>
+        <li><a href="../tools/apply-karein-pro-photo-effects-ai.html" class="ailab-internal-link">🎭 Apply Pro Photo Effects with AI</a></li>
+        <li><a href="../tools/convert-karein-gaane-ko-video-mein.html" class="ailab-internal-link">🎵 Convert Songs to Video</a></li>
+    </ul>
+</section>
+
+<div id="tsxv5-ailab-toast">Ready</div>
+<input type="file" id="tsxv5-ailab-fileInput" accept="image/*" style="display:none" aria-hidden="true">
+
+<script>
+(function () {
+    'use strict';
+
+    var DEFAULTS = {
+        brightness: 100, contrast: 100, saturation: 100, blur: 0,
+        grayscale: 0, sepia: 0, invert: 0, hue: 0
+    };
+    var state = Object.assign({}, DEFAULTS);
+    var sourceImage = null;
+    var fileName = '';
+    var fileSize = 0;
+    var rotation = 0;
+    var flipH = false;
+    var flipV = false;
+    var renderPending = false;
+    var activePreset = 'Original';
+    var undoStack = [];
+    var redoStack = [];
+    var MAX_HISTORY = 20;
+    var initialized = false;
+
+    function $(id) { return document.getElementById(id); }
+
+    function init() {
+        if (initialized) return;
+        initialized = true;
+
+        var canvas = $('tsxv5-ailab-canvas');
+        var ctx = canvas.getContext('2d');
+        var stage = $('tsxv5-ailab-canvasStage');
+        var dropContent = $('tsxv5-ailab-dropContent');
+        var fileInput = $('tsxv5-ailab-fileInput');
+        var toast = $('tsxv5-ailab-toast');
+
+        var testCtx = document.createElement('canvas').getContext('2d');
+        testCtx.filter = 'blur(1px)';
+        var FILTER_OK = (testCtx.filter === 'blur(1px)');
+
+        var SLIDERS = [
+            { key: 'brightness', label: '☀️ Brightness', min: 0, max: 200, suffix: '%', step: 1 },
+            { key: 'contrast',   label: '◐ Contrast',    min: 0, max: 200, suffix: '%', step: 1 },
+            { key: 'saturation', label: '🎨 Saturation', min: 0, max: 200, suffix: '%', step: 1 },
+            { key: 'blur',       label: '💧 Blur',       min: 0, max: 20,  suffix: 'px', step: 0.5 },
+            { key: 'grayscale',  label: '⬜ Grayscale',  min: 0, max: 100, suffix: '%', step: 1 },
+            { key: 'sepia',      label: '🟤 Sepia',      min: 0, max: 100, suffix: '%', step: 1 },
+            { key: 'invert',     label: '🔲 Invert',     min: 0, max: 100, suffix: '%', step: 1 },
+            { key: 'hue',        label: '🌈 Hue Rotate', min: 0, max: 360, suffix: '°', step: 1 }
+        ];
+
+        var PRESETS = [
+            { name: 'Original', icon: '📷', values: {} },
+            { name: 'Vivid',    icon: '🔥', values: { saturation: 165, contrast: 115 } },
+            { name: 'B&W',      icon: '⬛', values: { grayscale: 100, contrast: 112 } },
+            { name: 'Noir',     icon: '🎬', values: { grayscale: 100, contrast: 145, brightness: 88 } },
+            { name: 'Vintage',  icon: '📜', values: { sepia: 45, contrast: 105, brightness: 108, saturation: 125 } },
+            { name: 'Retro',    icon: '📼', values: { sepia: 60, hue: 350, brightness: 105, contrast: 95 } },
+            { name: 'Warm',     icon: '🌅', values: { sepia: 28, saturation: 135, brightness: 106 } },
+            { name: 'Cool',     icon: '❄️', values: { hue: 25, saturation: 112, brightness: 103, contrast: 105 } },
+            { name: 'Drama',    icon: '⚡', values: { contrast: 150, brightness: 92, saturation: 118 } },
+            { name: 'Fade',     icon: '🌫️', values: { contrast: 82, brightness: 112, saturation: 78 } },
+            { name: 'Dreamy',   icon: '💭', values: { blur: 1.5, brightness: 108, saturation: 118 } },
+            { name: 'Pop',      icon: '🎪', values: { saturation: 180, contrast: 125, brightness: 105 } }
+        ];
+
+        var sliderRefs = {};
+        var slidersBox = $('tsxv5-ailab-slidersBox');
+        SLIDERS.forEach(function (def) {
+            var row = document.createElement('div');
+            row.className = 'ailab-slider-row';
+            row.innerHTML =
+                '<div class="ailab-slider-head">' +
+                    '<label>' + def.label + '</label>' +
+                    '<span class="ailab-slider-val">' + DEFAULTS[def.key] + def.suffix + '</span>' +
+                '</div>' +
+                '<input type="range" class="ailab-slider" min="' + def.min + '" max="' + def.max + '" step="' + def.step + '" value="' + DEFAULTS[def.key] + '" aria-label="' + def.label + '">';
+            slidersBox.appendChild(row);
+            var input = row.querySelector('input');
+            var valEl = row.querySelector('.ailab-slider-val');
+            sliderRefs[def.key] = { input: input, valEl: valEl, suffix: def.suffix };
+            input.addEventListener('input', function () {
+                pushUndo();
+                state[def.key] = parseFloat(input.value);
+                valEl.textContent = input.value + def.suffix;
+                setActivePreset(null);
+                requestRender();
+            });
+        });
+
+        var presetsGrid = $('tsxv5-ailab-presetsGrid');
+        PRESETS.forEach(function (preset) {
+            var card = document.createElement('div');
+            card.className = 'ailab-preset-card' + (preset.name === 'Original' ? ' tsxv5-active' : '');
+            card.setAttribute('data-name', preset.name);
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('aria-label', 'Apply ' + preset.name + ' filter');
+            card.innerHTML =
+                '<div class="ailab-preset-placeholder">' + preset.icon + '</div>' +
+                '<div class="ailab-preset-name">' + preset.name + '</div>';
+            card.addEventListener('click', function () { applyPreset(preset); });
+            card.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applyPreset(preset); }
+            });
+            presetsGrid.appendChild(card);
+        });
+
+        function filterStringFromValues(v) {
+            return 'brightness(' + v.brightness + '%) ' +
+                   'contrast(' + v.contrast + '%) ' +
+                   'saturate(' + v.saturation + '%) ' +
+                   'blur(' + v.blur + 'px) ' +
+                   'grayscale(' + v.grayscale + '%) ' +
+                   'sepia(' + v.sepia + '%) ' +
+                   'invert(' + v.invert + '%) ' +
+                   'hue-rotate(' + v.hue + 'deg)';
+        }
+
+        function buildFilter() { return filterStringFromValues(state); }
+
+        function pushUndo() {
+            undoStack.push({
+                state: Object.assign({}, state),
+                rotation: rotation,
+                flipH: flipH,
+                flipV: flipV
+            });
+            if (undoStack.length > MAX_HISTORY) undoStack.shift();
+            redoStack = [];
+            updateUndoRedoButtons();
+        }
+
+        function performUndo() {
+            if (!undoStack.length) return;
+            redoStack.push({
+                state: Object.assign({}, state),
+                rotation: rotation,
+                flipH: flipH,
+                flipV: flipV
+            });
+            var snap = undoStack.pop();
+            Object.assign(state, snap.state);
+            rotation = snap.rotation;
+            flipH = snap.flipH;
+            flipV = snap.flipV;
+            syncSlidersFromState();
+            requestRender();
+            updateUndoRedoButtons();
+        }
+
+        function performRedo() {
+            if (!redoStack.length) return;
+            undoStack.push({
+                state: Object.assign({}, state),
+                rotation: rotation,
+                flipH: flipH,
+                flipV: flipV
+            });
+            var snap = redoStack.pop();
+            Object.assign(state, snap.state);
+            rotation = snap.rotation;
+            flipH = snap.flipH;
+            flipV = snap.flipV;
+            syncSlidersFromState();
+            requestRender();
+            updateUndoRedoButtons();
+        }
+
+        function syncSlidersFromState() {
+            SLIDERS.forEach(function (def) {
+                var ref = sliderRefs[def.key];
+                ref.input.value = state[def.key];
+                ref.valEl.textContent = state[def.key] + def.suffix;
+            });
+        }
+
+        function updateUndoRedoButtons() {
+            $('tsxv5-ailab-undoBtn').disabled = !undoStack.length;
+            $('tsxv5-ailab-redoBtn').disabled = !redoStack.length;
+        }
+
+        function applyPreset(preset) {
+            pushUndo();
+            Object.assign(state, DEFAULTS, preset.values);
+            syncSlidersFromState();
+            setActivePreset(preset.name);
+            requestRender();
+            showToast('✨ Preset applied: ' + preset.name);
+        }
+
+        function setActivePreset(name) {
+            activePreset = name;
+            var cards = presetsGrid.querySelectorAll('.ailab-preset-card');
+            cards.forEach(function (c) {
+                c.classList.toggle('tsxv5-active', c.getAttribute('data-name') === name);
+            });
+        }
+
+        function requestRender() {
+            if (renderPending) return;
+            renderPending = true;
+            requestAnimationFrame(function () {
+                render(false);
+                renderPending = false;
+            });
+        }
+
+        function render(showOriginal) {
+            if (!sourceImage) return;
+            var w = sourceImage.width;
+            var h = sourceImage.height;
+            var swapped = (rotation % 180 !== 0);
+            canvas.width = swapped ? h : w;
+            canvas.height = swapped ? w : h;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            if (!showOriginal && FILTER_OK) ctx.filter = buildFilter();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(rotation * Math.PI / 180);
+            ctx.scale(flipH ? -1 : 1, flipV ? -1 : 1);
+            ctx.drawImage(sourceImage, -w / 2, -h / 2);
+            ctx.restore();
+        }
+
+        function buildThumbnails() {
+            if (!sourceImage) return;
+            var cards = presetsGrid.querySelectorAll('.ailab-preset-card');
+            cards.forEach(function (card, i) {
+                var preset = PRESETS[i];
+                var placeholder = card.querySelector('.ailab-preset-placeholder');
+                var thumb = card.querySelector('canvas');
+                if (!thumb) {
+                    thumb = document.createElement('canvas');
+                    placeholder.replaceWith(thumb);
+                }
+                var SIZE = 90;
+                thumb.width = SIZE;
+                thumb.height = SIZE;
+                var tctx = thumb.getContext('2d');
+                var scale = Math.max(SIZE / sourceImage.width, SIZE / sourceImage.height);
+                var sw = SIZE / scale;
+                var sh = SIZE / scale;
+                var sx = (sourceImage.width - sw) / 2;
+                var sy = (sourceImage.height - sh) / 2;
+                tctx.save();
+                if (FILTER_OK) {
+                    tctx.filter = filterStringFromValues(Object.assign({}, DEFAULTS, preset.values));
+                }
+                tctx.drawImage(sourceImage, sx, sy, sw, sh, 0, 0, SIZE, SIZE);
+                tctx.restore();
+            });
+        }
+
+        function openPicker() { fileInput.click(); }
+
+        fileInput.addEventListener('change', function () {
+            if (fileInput.files && fileInput.files[0]) loadFile(fileInput.files[0]);
+            fileInput.value = '';
+        });
+
+        dropContent.addEventListener('click', openPicker);
+        $('tsxv5-ailab-uploadBtn').addEventListener('click', openPicker);
+
+        stage.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            stage.classList.add('tsxv5-dragover');
+        });
+        stage.addEventListener('dragleave', function () {
+            stage.classList.remove('tsxv5-dragover');
+        });
+        stage.addEventListener('drop', function (e) {
+            e.preventDefault();
+            stage.classList.remove('tsxv5-dragover');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
+        });
+
+        var VALID_SIGNATURES = {
+            'image/jpeg': [[0xFF, 0xD8, 0xFF]],
+            'image/png': [[0x89, 0x50, 0x4E, 0x47]],
+            'image/webp': [[0x52, 0x49, 0x46, 0x46]],
+            'image/gif': [[0x47, 0x49, 0x46, 0x38]],
+            'image/bmp': [[0x42, 0x4D]]
+        };
+
+        function validateFileSignature(file, callback) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var arr = new Uint8Array(e.target.result);
+                var sigs = VALID_SIGNATURES[file.type];
+                if (!sigs) { callback(true); return; }
+                var valid = sigs.some(function(sig) {
+                    if (arr.length < sig.length) return false;
+                    for (var i = 0; i < sig.length; i++) {
+                        if (arr[i] !== sig[i]) return false;
+                    }
+                    return true;
+                });
+                callback(valid);
+            };
+            reader.onerror = function() { callback(false); };
+            reader.readAsArrayBuffer(file.slice(0, 16));
+        }
+
+        function loadFile(file) {
+            if (!file.type || file.type.indexOf('image/') !== 0) {
+                showToast('⚠️ Please choose a valid image file', true);
+                return;
+            }
+            if (file.size > 15 * 1024 * 1024) {
+                showToast('⚠️ File too large (max 15MB)', true);
+                return;
+            }
+            validateFileSignature(file, function(valid) {
+                if (!valid) {
+                    showToast('⚠️ Invalid or corrupted image file', true);
+                    return;
+                }
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = new Image();
+                    img.onload = function () {
+                        var MAX = 2400;
+                        var src = img;
+                        if (img.width > MAX || img.height > MAX) {
+                            var scale = Math.min(MAX / img.width, MAX / img.height);
+                            var tc = document.createElement('canvas');
+                            tc.width = Math.round(img.width * scale);
+                            tc.height = Math.round(img.height * scale);
+                            tc.getContext('2d').drawImage(img, 0, 0, tc.width, tc.height);
+                            src = tc;
+                        }
+                        sourceImage = src;
+                        fileName = file.name;
+                        fileSize = file.size;
+                        undoStack = [];
+                        redoStack = [];
+                        updateUndoRedoButtons();
+                        resetAll(true);
+                        stage.classList.add('tsxv5-has-image');
+                        setButtonsEnabled(true);
+                        updateInfo();
+                        render(false);
+                        buildThumbnails();
+                        showToast('✅ Image loaded: ' + fileName);
+                    };
+                    img.onerror = function () { showToast('⚠️ Could not read this image', true); };
+                    img.src = e.target.result;
+                };
+                reader.onerror = function () { showToast('⚠️ File read error', true); };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updateInfo() {
+            $('tsxv5-ailab-infoName').textContent = fileName || 'Untitled';
+            $('tsxv5-ailab-infoDims').textContent = sourceImage ? (sourceImage.width + ' × ' + sourceImage.height) : '—';
+            $('tsxv5-ailab-infoSize').textContent = formatBytes(fileSize);
+        }
+
+        function formatBytes(bytes) {
+            if (!bytes || bytes === 0) return '—';
+            var k = 1024;
+            var sizes = ['B', 'KB', 'MB', 'GB'];
+            var i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        function setButtonsEnabled(on) {
+            var ids = ['tsxv5-ailab-resetBtn', 'tsxv5-ailab-downloadTopBtn', 'tsxv5-ailab-compareBtn', 'tsxv5-ailab-downloadBtn', 'tsxv5-ailab-exportBtn'];
+            ids.forEach(function (id) { $(id).disabled = !on; });
+        }
+
+        function resetAll(silent) {
+            Object.assign(state, DEFAULTS);
+            rotation = 0; flipH = false; flipV = false;
+            syncSlidersFromState();
+            setActivePreset('Original');
+            if (sourceImage) render(false);
+            if (!silent) showToast('↺ All changes reset');
+        }
+
+        $('tsxv5-ailab-resetBtn').addEventListener('click', function () { pushUndo(); resetAll(false); });
+        $('tsxv5-ailab-undoBtn').addEventListener('click', performUndo);
+        $('tsxv5-ailab-redoBtn').addEventListener('click', performRedo);
+
+        $('tsxv5-ailab-rotLeftBtn').addEventListener('click', function () { if (!sourceImage) return; pushUndo(); rotation = (rotation + 270) % 360; requestRender(); });
+        $('tsxv5-ailab-rotRightBtn').addEventListener('click', function () { if (!sourceImage) return; pushUndo(); rotation = (rotation + 90) % 360; requestRender(); });
+        $('tsxv5-ailab-flipHBtn').addEventListener('click', function () { if (!sourceImage) return; pushUndo(); flipH = !flipH; requestRender(); });
+        $('tsxv5-ailab-flipVBtn').addEventListener('click', function () { if (!sourceImage) return; pushUndo(); flipV = !flipV; requestRender(); });
+
+        var compareBtn = $('tsxv5-ailab-compareBtn');
+        function showOrig(e) { if (e) e.preventDefault(); if (sourceImage) render(true); }
+        function showEdit() { if (sourceImage) requestRender(); }
+        compareBtn.addEventListener('mousedown', showOrig);
+        compareBtn.addEventListener('mouseup', showEdit);
+        compareBtn.addEventListener('mouseleave', showEdit);
+        compareBtn.addEventListener('touchstart', showOrig, { passive: false });
+        compareBtn.addEventListener('touchend', showEdit);
+
+        var qualityRange = $('tsxv5-ailab-qualityRange');
+        qualityRange.addEventListener('input', function () {
+            $('tsxv5-ailab-qualityVal').textContent = qualityRange.value + '%';
+        });
+
+        function exportImage() {
+            if (!sourceImage) { showToast('⚠️ Load an image first', true); return; }
+            var format = $('tsxv5-ailab-formatSelect').value;
+            var quality = parseInt(qualityRange.value, 10) / 100;
+            var mime = (format === 'png') ? 'image/png' : ('image/' + format);
+            var target = canvas;
+            if (format === 'jpeg') {
+                var tc = document.createElement('canvas');
+                tc.width = canvas.width; tc.height = canvas.height;
+                var tctx = tc.getContext('2d');
+                tctx.fillStyle = '#ffffff'; tctx.fillRect(0, 0, tc.width, tc.height);
+                tctx.drawImage(canvas, 0, 0);
+                target = tc;
+            }
+            try {
+                target.toBlob(function (blob) {
+                    if (!blob) { showToast('⚠️ Export failed in this browser', true); return; }
+                    var url = URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    var base = (fileName || 'image').replace(/\.[^.]+$/, '');
+                    a.href = url;
+                    a.download = base + '_ToolsX_edited.' + format;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+                    showToast('💾 Saved as ' + format.toUpperCase() + ' • ' + formatBytes(blob.size));
+                }, mime, quality);
+            } catch (err) {
+                showToast('⚠️ This format is not supported by your browser', true);
+            }
+        }
+
+        $('tsxv5-ailab-downloadBtn').addEventListener('click', exportImage);
+        $('tsxv5-ailab-exportBtn').addEventListener('click', exportImage);
+        $('tsxv5-ailab-downloadTopBtn').addEventListener('click', exportImage);
+
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'z') { e.preventDefault(); performUndo(); }
+            if (e.ctrlKey && e.key === 'y') { e.preventDefault(); performRedo(); }
+            if (e.ctrlKey && e.key === 'o') { e.preventDefault(); openPicker(); }
+            if (e.ctrlKey && e.key === 'e') { e.preventDefault(); if (sourceImage) exportImage(); }
+            if (!e.ctrlKey && e.key === 'r') { if (sourceImage) { pushUndo(); rotation = (rotation + 90) % 360; requestRender(); } }
+            if (!e.ctrlKey && e.key === 'f') { if (sourceImage) { pushUndo(); flipH = !flipH; requestRender(); } }
+        });
+
+        var toastTimer = null;
+        function showToast(msg, isWarn) {
+            toast.textContent = msg;
+            toast.classList.toggle('tsxv5-warn', !!isWarn);
+            toast.classList.add('tsxv5-show');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () { toast.classList.remove('tsxv5-show'); }, 2800);
+        }
+
+        if (!FILTER_OK) {
+            showToast('⚠️ Your browser has limited filter support', true);
+        }
+
+        console.log('Tools-X Photo Studio Pro v3.0 initialized successfully');
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

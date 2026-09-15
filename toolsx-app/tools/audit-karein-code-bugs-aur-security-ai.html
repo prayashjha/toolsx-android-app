@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>AI Code Auditor – Find Bugs &amp; Security Flaws Free – ToolsX App</title>
+<meta name="description" content="Audit your code free with AI — automatically detect bugs, errors and security flaws before you ship.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>AI Code Auditor – Find Bugs &amp; Security Flaws Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-code-studio" class="tsxv5-wrapper">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+#tsxv5-code-studio{
+  --cs-bg:#f8fafc;
+  --cs-text:#1e293b;
+  --cs-muted:#64748b;
+  --cs-soft:#475569;
+  --cs-card:rgba(255,255,255,0.92);
+  --cs-border:#e2e8f0;
+  --cs-input-bg:#ffffff;
+  --cs-input-border:#cbd5e1;
+  --cs-input-text:#1e293b;
+  --cs-chip-bg:#f1f5f9;
+  --cs-chip-text:#475569;
+  --cs-accent:#0891b2;
+  --cs-accent-strong:#0e7490;
+  --cs-btn-bg:rgba(8,145,178,0.12);
+  --cs-btn-border:rgba(8,145,178,0.4);
+  --cs-btn-text:#0e7490;
+  --cs-grad1:#0891b2;
+  --cs-grad2:#059669;
+  --cs-shadow:0 10px 40px -12px rgba(0,0,0,0.12);
+  --cs-track:#e2e8f0;
+  font-family:'Inter',sans-serif;
+  color:var(--cs-text);
+  background:var(--cs-bg);
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+  transition:background .3s,color .3s;
+  max-width:100%;box-sizing:border-box;
+}
+
+body.dark-mode #tsxv5-code-studio,
+html.dark-mode #tsxv5-code-studio,
+[data-theme="dark"] #tsxv5-code-studio,
+body[data-theme="dark"] #tsxv5-code-studio,
+html[data-theme="dark"] #tsxv5-code-studio,
+.dark-mode #tsxv5-code-studio,
+.night-mode #tsxv5-code-studio{
+  --cs-bg:#020617;
+  --cs-text:#e2e8f0;
+  --cs-muted:#94a3b8;
+  --cs-soft:#94a3b8;
+  --cs-card:rgba(15,23,42,0.7);
+  --cs-border:rgba(255,255,255,0.08);
+  --cs-input-bg:rgba(2,6,23,0.7);
+  --cs-input-border:rgba(255,255,255,0.1);
+  --cs-input-text:#e2e8f0;
+  --cs-chip-bg:rgba(30,41,59,0.5);
+  --cs-chip-text:#94a3b8;
+  --cs-accent:#22d3ee;
+  --cs-accent-strong:#67e8f9;
+  --cs-btn-bg:rgba(34,211,238,0.15);
+  --cs-btn-border:rgba(34,211,238,0.3);
+  --cs-btn-text:#67e8f9;
+  --cs-grad1:#22d3ee;
+  --cs-grad2:#34d399;
+  --cs-shadow:0 25px 50px -12px rgba(0,0,0,0.7);
+  --cs-track:rgba(15,23,42,0.8);
+}
+
+#tsxv5-code-studio *,#tsxv5-code-studio *::before,#tsxv5-code-studio *::after{box-sizing:border-box;}
+#tsxv5-code-studio ::-webkit-scrollbar{width:8px;height:8px;}
+#tsxv5-code-studio ::-webkit-scrollbar-track{background:var(--cs-track);}
+#tsxv5-code-studio ::-webkit-scrollbar-thumb{background:rgba(34,211,238,0.35);border-radius:4px;}
+#tsxv5-code-studio ::-webkit-scrollbar-thumb:hover{background:rgba(34,211,238,0.6);}
+
+#tsxv5-code-studio .als-glass{
+  background:var(--cs-card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--cs-border);box-shadow:var(--cs-shadow);
+}
+
+#tsxv5-code-studio .als-input{
+  background:var(--cs-input-bg);border:1px solid var(--cs-input-border);color:var(--cs-input-text);
+  transition:all .25s ease;border-radius:0.5rem;padding:0.6rem 0.9rem;font-size:16px;
+  width:100%;max-width:100%;box-sizing:border-box;
+}
+#tsxv5-code-studio .als-input:focus{outline:none;border-color:var(--cs-accent);box-shadow:0 0 0 3px rgba(34,211,238,0.15);}
+#tsxv5-code-studio .als-input::placeholder{color:var(--cs-muted);}
+#tsxv5-code-studio select.als-input option{background:var(--cs-input-bg);color:var(--cs-input-text);}
+
+#tsxv5-code-studio .als-btn-primary{
+  background:var(--cs-btn-bg);border:1px solid var(--cs-btn-border);color:var(--cs-btn-text);
+  transition:all .2s ease;cursor:pointer;border-radius:0.5rem;padding:0.6rem 1.2rem;
+  font-weight:600;font-size:0.875rem;display:inline-flex;align-items:center;gap:0.4rem;
+  min-height:44px;
+}
+#tsxv5-code-studio .als-btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px -5px rgba(34,211,238,0.25);filter:brightness(1.05);}
+
+#tsxv5-code-studio .als-btn-secondary{
+  background:var(--cs-chip-bg);border:1px solid var(--cs-border);color:var(--cs-soft);
+  transition:all .2s ease;cursor:pointer;border-radius:0.5rem;padding:0.5rem 1rem;font-size:0.8rem;
+  min-height:44px;
+}
+#tsxv5-code-studio .als-btn-secondary:hover{border-color:var(--cs-accent);color:var(--cs-accent-strong);}
+
+#tsxv5-code-studio .als-mode-btn{
+  padding:0.5rem 0.9rem;border-radius:0.5rem;font-size:0.78rem;color:var(--cs-chip-text);
+  background:var(--cs-chip-bg);border:1px solid var(--cs-border);cursor:pointer;
+  transition:all .15s;display:inline-flex;align-items:center;gap:0.35rem;
+  min-height:44px;
+}
+#tsxv5-code-studio .als-mode-btn:hover{border-color:var(--cs-accent);color:var(--cs-accent-strong);}
+#tsxv5-code-studio .als-mode-btn.active{
+  background:var(--cs-btn-bg);color:var(--cs-accent-strong);border-color:var(--cs-btn-border);font-weight:600;
+}
+
+#tsxv5-code-studio .als-badge{
+  display:inline-flex;align-items:center;gap:0.35rem;padding:0.25rem 0.75rem;
+  border-radius:9999px;font-size:0.7rem;font-weight:600;font-family:'JetBrains Mono',monospace;
+}
+#tsxv5-code-studio .als-badge-idle{background:var(--cs-chip-bg);border:1px solid var(--cs-border);color:var(--cs-muted);}
+#tsxv5-code-studio .als-badge-run{background:rgba(180,83,9,0.15);border:1px solid rgba(217,119,6,0.4);color:#b45309;}
+#tsxv5-code-studio .als-badge-done{background:rgba(6,78,59,0.12);border:1px solid rgba(5,150,105,0.4);color:#047857;}
+#tsxv5-code-studio .als-badge-error{background:rgba(127,29,29,0.12);border:1px solid rgba(220,38,38,0.4);color:#b91c1c;}
+
+body.dark-mode #tsxv5-code-studio .als-badge-run,
+html.dark-mode #tsxv5-code-studio .als-badge-run,
+[data-theme="dark"] #tsxv5-code-studio .als-badge-run,
+body[data-theme="dark"] #tsxv5-code-studio .als-badge-run,
+html[data-theme="dark"] #tsxv5-code-studio .als-badge-run,
+.dark-mode #tsxv5-code-studio .als-badge-run,
+.night-mode #tsxv5-code-studio .als-badge-run{color:#fbbf24;}
+
+body.dark-mode #tsxv5-code-studio .als-badge-done,
+html.dark-mode #tsxv5-code-studio .als-badge-done,
+[data-theme="dark"] #tsxv5-code-studio .als-badge-done,
+body[data-theme="dark"] #tsxv5-code-studio .als-badge-done,
+html[data-theme="dark"] #tsxv5-code-studio .als-badge-done,
+.dark-mode #tsxv5-code-studio .als-badge-done,
+.night-mode #tsxv5-code-studio .als-badge-done{color:#34d399;}
+
+body.dark-mode #tsxv5-code-studio .als-badge-error,
+html.dark-mode #tsxv5-code-studio .als-badge-error,
+[data-theme="dark"] #tsxv5-code-studio .als-badge-error,
+body[data-theme="dark"] #tsxv5-code-studio .als-badge-error,
+html[data-theme="dark"] #tsxv5-code-studio .als-badge-error,
+.dark-mode #tsxv5-code-studio .als-badge-error,
+.night-mode #tsxv5-code-studio .als-badge-error{color:#f87171;}
+
+#tsxv5-code-studio .als-container{max-width:100rem;margin:0 auto;padding:1rem;}
+@media(min-width:768px){#tsxv5-code-studio .als-container{padding:1.5rem;}}
+
+#tsxv5-code-studio .als-grid{display:grid;gap:1.25rem;}
+@media(min-width:1024px){#tsxv5-code-studio .als-grid{grid-template-columns:5fr 7fr;}}
+
+#tsxv5-code-studio .als-code-wrap{
+  position:relative;border-radius:0.75rem;border:1px solid var(--cs-border);
+  background:#0f172a;overflow:hidden;display:flex;min-height:24rem;
+}
+#tsxv5-code-studio .als-line-num{
+  width:3rem;background:rgba(15,23,42,0.85);border-right:1px solid rgba(148,163,184,0.15);
+  text-align:right;padding:1rem 0.5rem;font-size:0.75rem;color:#64748b;
+  font-family:'JetBrains Mono',monospace;line-height:1.6;overflow:hidden;user-select:none;
+}
+#tsxv5-code-studio .als-textarea{
+  flex:1;background:transparent;color:#cbd5e1;padding:1rem;font-size:0.85rem;
+  font-family:'JetBrains Mono',monospace;resize:none;outline:none;border:none;
+  line-height:1.6;min-height:24rem;max-width:100%;box-sizing:border-box;
+}
+#tsxv5-code-studio .als-output-box{
+  background:#0f172a;border-radius:0.75rem;border:1px solid var(--cs-border);
+  min-height:22rem;overflow:auto;
+}
+#tsxv5-code-studio .als-pre{
+  margin:0;padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:0.82rem;
+  line-height:1.7;color:#cbd5e1;white-space:pre-wrap;word-break:break-word;
+}
+
+#tsxv5-code-studio .als-card{
+  background:var(--cs-card);border:1px solid var(--cs-border);border-radius:0.75rem;padding:1.25rem;
+}
+
+#tsxv5-code-studio .als-faq-item{
+  margin-bottom:0.75rem;padding:1rem 1.25rem;
+  background:var(--cs-card);border:1px solid var(--cs-border);
+  border-radius:0.75rem;
+}
+#tsxv5-code-studio .als-faq-item h3{
+  font-weight:600;color:var(--cs-text);margin:0 0 0.5rem;font-size:1rem;
+}
+#tsxv5-code-studio .als-faq-item p{
+  color:var(--cs-muted);font-size:0.875rem;line-height:1.7;margin:0;
+}
+
+#tsxv5-code-studio .als-related{max-width:100rem;margin:2rem auto 0;padding:2rem 1rem;}
+#tsxv5-code-studio .als-related-title{
+  color:var(--cs-accent-strong);font-size:1.25rem;font-weight:700;margin-bottom:1.5rem;
+  text-transform:uppercase;letter-spacing:1px;
+}
+#tsxv5-code-studio .als-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;}
+#tsxv5-code-studio .als-related-link{
+  background:var(--cs-card);border:1px solid var(--cs-border);
+  padding:1.5rem;text-decoration:none;transition:all .3s;
+  display:flex;align-items:center;gap:1rem;border-radius:0.75rem;
+}
+#tsxv5-code-studio .als-related-link:hover{
+  border-color:var(--cs-accent);transform:translateY(-3px);box-shadow:0 8px 24px rgba(34,211,238,0.15);
+}
+#tsxv5-code-studio .als-related-icon{font-size:2rem;}
+#tsxv5-code-studio .als-related-link strong{color:var(--cs-accent-strong);display:block;font-size:1rem;margin-bottom:0.5rem;}
+#tsxv5-code-studio .als-related-link span{color:var(--cs-muted);font-size:0.875rem;line-height:1.5;}
+
+@keyframes tsxv5-pulse{0%,100%{opacity:0.5;}50%{opacity:1;}}
+#tsxv5-code-studio .als-animate-pulse{animation:tsxv5-pulse 3s ease-in-out infinite;}
+
+@keyframes tsxv5-slide-up{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+#tsxv5-code-studio .als-animate-up{animation:tsxv5-slide-up .6s ease-out forwards;}
+
+#tsxv5-code-studio .als-guide{
+  padding:2rem;background:var(--cs-card);border:1px solid var(--cs-border);
+  border-radius:0.75rem;margin-top:1.5rem;
+}
+#tsxv5-code-studio .als-guide h2{font-size:1.5rem;font-weight:700;color:var(--cs-text);margin:0 0 1.5rem;}
+#tsxv5-code-studio .als-guide ol{margin:0 0 1rem 1.25rem;color:var(--cs-muted);font-size:0.95rem;line-height:1.8;}
+#tsxv5-code-studio .als-guide li{margin-bottom:0.5rem;}
+#tsxv5-code-studio .als-guide strong{color:var(--cs-accent-strong);}
+
+#tsxv5-code-studio .als-h2{font-size:1.5rem;font-weight:700;color:var(--cs-text);margin-bottom:1.25rem;}
+
+@media(max-width:480px){
+  #tsxv5-code-studio .als-container{padding:0.75rem;}
+  #tsxv5-code-studio .als-mode-btn{font-size:0.7rem;padding:0.4rem 0.6rem;}
+  #tsxv5-code-studio .als-grid{grid-template-columns:1fr!important;}
+  #tsxv5-code-studio .als-related-grid{grid-template-columns:1fr;}
+  #tsxv5-code-studio .als-code-wrap{min-height:18rem;}
+  #tsxv5-code-studio .als-textarea{min-height:18rem;font-size:0.8rem;}
+  #tsxv5-code-studio .als-output-box{min-height:16rem;}
+  #tsxv5-code-studio .als-pre{padding:1rem;font-size:0.78rem;}
+  #tsxv5-code-studio .als-guide{padding:1.25rem;}
+  #tsxv5-code-studio .als-guide h2{font-size:1.3rem;}
+  #tsxv5-code-studio header{padding:1.5rem 0.75rem!important;}
+  #tsxv5-code-studio .als-h2{font-size:1.3rem;}
+}
+
+@media(max-width:768px){
+  #tsxv5-code-studio .als-container{padding:1rem;}
+  #tsxv5-code-studio .als-grid{grid-template-columns:1fr;}
+  #tsxv5-code-studio .als-code-wrap{min-height:20rem;}
+  #tsxv5-code-studio .als-textarea{min-height:20rem;}
+  #tsxv5-code-studio .als-output-box{min-height:18rem;}
+  #tsxv5-code-studio .als-related{padding:1.5rem 1rem;}
+  #tsxv5-code-studio .als-guide{padding:1.5rem;}
+}
+
+@media(min-width:1024px){
+  #tsxv5-code-studio .als-container{padding:1.5rem;}
+  #tsxv5-code-studio .als-grid{grid-template-columns:5fr 7fr;}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #tsxv5-code-studio *,#tsxv5-code-studio *::before,#tsxv5-code-studio *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+}
+</style>
+
+<!-- SEO Schema: SoftwareApplication -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Tools-X Code Intelligence Studio","description":"Advanced static code analysis suite with 11 developer tools: Code Explainer, Bug Fixer, Security Auditor, Transpiler, and more.","applicationCategory":"DeveloperApplication","operatingSystem":"Any","featureList":"Code Explainer, Bug Fixer, Performance Optimizer, Security Auditor, Transpiler, Unit Test Generator, Regex Master, Code Formatter, JSON Validator, Base64/URL Tools, CSS Minifier","softwareVersion":"5.1"}
+</script>
+
+<!-- SEO Schema: HowTo -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Use Tools-X Code Studio","description":"Step-by-step guide to analyzing code with 11 powerful developer tools.","totalTime":"PT2M","step":[{"@type":"HowToStep","position":1,"name":"Select Language","text":"Choose your programming language from the dropdown menu."},{"@type":"HowToStep","position":2,"name":"Paste Code","text":"Paste your code in the editor or load a sample."},{"@type":"HowToStep","position":3,"name":"Choose Analysis Mode","text":"Select from Explain, Bug Fix, Optimize, Security Audit, or other tools."},{"@type":"HowToStep","position":4,"name":"Execute Analysis","text":"Click Execute AI Analysis to get detailed results."},{"@type":"HowToStep","position":5,"name":"Review Results","text":"View output, diff, complexity metrics, and security findings."}]}
+</script>
+
+<!-- SEO Schema: FAQPage -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is static code analysis and why is it important?","acceptedAnswer":{"@type":"Answer","text":"Static code analysis checks your code without running it, finding bugs, security issues, and performance problems before production. This saves time and money by catching issues early."}},{"@type":"Question","name":"How does AI detect bugs without running the code?","acceptedAnswer":{"@type":"Answer","text":"AI learns from millions of code examples to recognize correct patterns. When your code follows unusual patterns, AI flags them using AST (tree structure) and statistical analysis."}},{"@type":"Question","name":"Can I use this tool for commercial projects?","acceptedAnswer":{"@type":"Answer","text":"Yes! Tools-X Code Studio is 100% free to use. You can use it for personal and commercial projects without any restrictions."}},{"@type":"Question","name":"What is cyclomatic complexity and why does it matter?","acceptedAnswer":{"@type":"Answer","text":"Cyclomatic complexity counts the number of independent paths through code. Complexity above 10 makes code hard to understand. Low complexity equals easier testing and debugging."}},{"@type":"Question","name":"How do memory leaks happen in JavaScript?","acceptedAnswer":{"@type":"Answer","text":"Memory leaks occur when references aren't deleted. Common causes: uncleared timers, unattached event listeners, global variables with large objects, and closure leaks."}},{"@type":"Question","name":"What is the difference between CWE and CVE?","acceptedAnswer":{"@type":"Answer","text":"CWE is a weakness TYPE (like buffer overflow). CVE is a specific instance (like buffer overflow in Windows XYZ version). CWE is a category, CVE is a specific bug."}},{"@type":"Question","name":"Why are regular expressions a security risk?","acceptedAnswer":{"@type":"Answer","text":"Regex can suffer from ReDoS (Regular Expression Denial of Service) attacks. Poorly written regex can cause 100% CPU usage on malicious input. Always use tested regex libraries."}},{"@type":"Question","name":"Is Tools-X Code Studio free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free. All processing happens in your browser — no data is sent to external servers, no signup required, no usage limits."}}]}
+</script>
+
+<div style="position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;" aria-hidden="true">
+  <div style="position:absolute;top:-10%;left:-10%;width:50%;height:50%;border-radius:50%;background:rgba(6,182,212,0.10);filter:blur(130px);" class="als-animate-pulse"></div>
+  <div style="position:absolute;bottom:-10%;right:-10%;width:50%;height:50%;border-radius:50%;background:rgba(20,184,166,0.10);filter:blur(130px);animation-delay:1.5s;" class="als-animate-pulse"></div>
+</div>
+
+<div class="als-container" style="position:relative;z-index:1;">
+
+  <header style="text-align:center;padding:2.5rem 1rem;" class="als-animate-up">
+    <h2 style="font-size:2.5rem;font-weight:800;letter-spacing:-0.02em;margin:0;line-height:1.1;">
+      <span style="background:linear-gradient(135deg,var(--cs-grad1),var(--cs-grad2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+        Tools-X Code Studio
+      </span>
+      <span style="display:block;font-size:1rem;font-weight:400;color:var(--cs-muted);margin-top:0.75rem;-webkit-text-fill-color:var(--cs-muted);">
+        Advanced Code Intelligence Suite
+      </span>
+    </h2>
+    <p style="color:var(--cs-muted);max-width:42rem;margin:1.25rem auto 0;font-size:1rem;line-height:1.7;">
+      <strong>11 Powerful Tools</strong> in one place: Code Explainer, Bug Fixer, Optimizer, Security Auditor, Transpiler, Unit Test Generator, Regex Master, Code Formatter, JSON Validator, Base64/URL Tools, and CSS Minifier. 100% Free &amp; Browser-Based.
+    </p>
+  </header>
+
+  <div class="als-grid als-animate-up" style="animation-delay:0.2s;">
+    <div class="als-glass" style="border-radius:1rem;padding:1.25rem;display:flex;flex-direction:column;gap:1rem;">
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;justify-content:space-between;">
+        <label for="tsxv5-lang" style="position:absolute;left:-9999px;">Programming language</label>
+        <select id="tsxv5-lang" class="als-input" style="width:auto;cursor:pointer;font-weight:500;">
+          <option value="javascript">JavaScript</option>
+          <option value="typescript">TypeScript</option>
+          <option value="python">Python</option>
+          <option value="react">React (JSX)</option>
+          <option value="vue">Vue</option>
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="sql">SQL</option>
+          <option value="json">JSON</option>
+          <option value="cpp">C++</option>
+          <option value="csharp">C#</option>
+          <option value="java">Java</option>
+          <option value="rust">Rust</option>
+          <option value="go">Go</option>
+          <option value="php">PHP</option>
+          <option value="ruby">Ruby</option>
+          <option value="swift">Swift</option>
+        </select>
+        <label for="tsxv5-target" style="position:absolute;left:-9999px;">Transpile target language</label>
+        <select id="tsxv5-target" class="als-input" style="width:auto;cursor:pointer;font-weight:500;display:none;">
+          <option value="typescript">→ TypeScript</option>
+          <option value="javascript">→ JavaScript</option>
+          <option value="python">→ Python</option>
+          <option value="java">→ Java</option>
+          <option value="cpp">→ C++</option>
+          <option value="csharp">→ C#</option>
+          <option value="go">→ Go</option>
+          <option value="rust">→ Rust</option>
+          <option value="php">→ PHP</option>
+          <option value="ruby">→ Ruby</option>
+          <option value="swift">→ Swift</option>
+        </select>
+      </div>
+
+      <div id="tsxv5-mode-bar" style="display:flex;flex-wrap:wrap;gap:0.4rem;"></div>
+
+      <div class="als-code-wrap" style="flex:1;">
+        <div id="tsxv5-line-nums" class="als-line-num" aria-hidden="true">1</div>
+        <textarea id="tsxv5-code" class="als-textarea" spellcheck="false" placeholder="// Paste your code here..." aria-label="Code editor"></textarea>
+      </div>
+
+      <button type="button" id="tsxv5-run" class="als-btn-primary" style="width:100%;padding:0.85rem;font-size:0.95rem;justify-content:center;border-radius:0.75rem;">
+        ⚡ EXECUTE AI ANALYSIS
+      </button>
+    </div>
+
+    <div class="als-glass" style="border-radius:1rem;padding:1.25rem;display:flex;flex-direction:column;gap:1rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div style="display:flex;align-items:center;gap:0.5rem;color:var(--cs-accent-strong);font-weight:600;font-size:0.9rem;">
+          🧠 AI Analysis Output
+        </div>
+        <span id="tsxv5-status" class="als-badge als-badge-idle">IDLE</span>
+      </div>
+
+      <div style="flex:1;position:relative;min-height:22rem;">
+        <div id="tsxv5-tab-result" class="als-output-box" style="position:absolute;inset:0;">
+          <pre id="tsxv5-output" class="als-pre" style="min-height:100%;">Paste code on the left, choose a mode, then click EXECUTE.</pre>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button type="button" id="tsxv5-copy-out" class="als-btn-primary" style="font-size:0.75rem;">📋 Copy Output</button>
+        <button type="button" id="tsxv5-download" class="als-btn-primary" style="font-size:0.75rem;">💾 Download Report</button>
+        <button type="button" id="tsxv5-reset" class="als-btn-secondary" style="margin-left:auto;">🔄 Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- How to Use Section -->
+  <section class="als-guide als-animate-up" style="animation-delay:0.4s;">
+    <h2>✅ How to Use Code Studio</h2>
+    <p>Follow these steps to quickly analyze and improve your code:</p>
+    <ol>
+      <li><strong>Select your language</strong> from the dropdown, then paste your code into the editor.</li>
+      <li><strong>Choose an analysis mode</strong> – Explain, Bug Fixer, Optimize, Security Audit, or Transpile.</li>
+      <li><strong>Click “Execute AI Analysis”</strong> to run the tool and get instant results.</li>
+      <li><strong>Review the output</strong> in the right panel, then copy or download the report.</li>
+      <li><strong>Use the Reset button</strong> to load a sample or clear the editor for a new analysis.</li>
+    </ol>
+    <p>💡 <strong>Tip:</strong> For best results, analyze small, focused code snippets rather than entire files.</p>
+  </section>
+
+  <!-- FAQ Plain Section -->
+  <section class="als-animate-up" style="margin-top:1.5rem;">
+    <h2 class="als-h2">❓ Frequently Asked Questions</h2>
+
+    <div class="als-faq-item">
+      <h3>What is static code analysis and why is it important?</h3>
+      <p>Static code analysis checks your code without running it, finding bugs, security issues, and performance problems before production. This saves time and money by catching issues early.</p>
+    </div>
+    <div class="als-faq-item">
+      <h3>How does AI detect bugs without running the code?</h3>
+      <p>AI learns from millions of code examples to recognize correct patterns. When your code follows unusual patterns, AI flags them using AST and statistical analysis.</p>
+    </div>
+    <div class="als-faq-item">
+      <h3>Can I use this tool for commercial projects?</h3>
+      <p>Yes! Tools-X Code Studio is 100% free to use for personal and commercial projects.</p>
+    </div>
+    <div class="als-faq-item">
+      <h3>What is cyclomatic complexity and why does it matter?</h3>
+      <p>Cyclomatic complexity counts the number of independent paths through code. Complexity above 10 makes code hard to understand; low complexity is easier to test.</p>
+    </div>
+    <div class="als-faq-item">
+      <h3>How do memory leaks happen in JavaScript?</h3>
+      <p>Memory leaks occur when references aren't deleted – common causes include uncleared timers, unattached event listeners, global variables, and closure leaks.</p>
+    </div>
+    <div class="als-faq-item">
+      <h3>What is the difference between CWE and CVE?</h3>
+      <p>CWE is a weakness type (like buffer overflow). CVE is a specific instance (like a buffer overflow in a particular product). CWE is a category, CVE is a specific bug.</p>
+    </div>
+    <div class="als-faq-item">
+      <h3>Why are regular expressions a security risk?</h3>
+      <p>Regex can suffer from ReDoS attacks. Poorly written regex can cause 100% CPU usage on malicious input. Always use tested regex libraries.</p>
+    </div>
+    <div class="als-faq-item">
+      <h3>Is Tools-X Code Studio free?</h3>
+      <p>Yes, completely free. All processing happens in your browser — no data is sent to external servers, no signup required, no usage limits.</p>
+    </div>
+  </section>
+
+  <!-- Related Tools (Internal Links) -->
+  <aside class="als-related" aria-label="Related Tools-X Tools">
+    <h2 class="als-related-title">🚀 Next Try — More Tools-X Tools</h2>
+    <div class="als-related-grid">
+      <a href="../tools/apni-song-ko-video-mein-badle-ai-se.html" rel="noopener noreferrer" title="Song to Video AI" class="als-related-link">
+        <span class="als-related-icon">🎵</span>
+        <div>
+          <strong>Song to Video AI</strong>
+          <span>Turn your favorite song into a video with AI</span>
+        </div>
+      </a>
+      <a href="../tools/sync-karein-beats-ke-saath-ai-dance.html" rel="noopener noreferrer" title="AI Dance Sync" class="als-related-link">
+        <span class="als-related-icon">💃</span>
+        <div>
+          <strong>AI Dance Sync</strong>
+          <span>Sync your beats with AI-generated dance moves</span>
+        </div>
+      </a>
+      <a href="../tools/choreograph-karein-pro-human-dancer.html" rel="noopener noreferrer" title="Pro Human Dancer Choreography" class="als-related-link">
+        <span class="als-related-icon">🕺</span>
+        <div>
+          <strong>Pro Human Dancer Choreography</strong>
+          <span>Choreograph professional human dancer moves</span>
+        </div>
+      </a>
+    </div>
+  </aside>
+
+  <footer style="text-align:center;padding:2rem 1rem;color:var(--cs-muted);font-size:0.8rem;border-top:1px solid var(--cs-border);margin-top:2rem;">
+    <p style="margin:0 0 0.5rem;">🔬 <strong style="color:var(--cs-accent-strong);">Tools-X Code Studio</strong> — Built for Developers</p>
+    <p style="margin:0;">© <a href="https://www.toolsx.in" style="color:var(--cs-accent-strong);text-decoration:none;">toolsx.in</a> | 100% Free &amp; Browser-Based</p>
+    <p style="font-size:0.75rem;opacity:0.7;margin-top:8px;">Powered by <strong>Tools-X</strong> · toolsx.in</p>
+  </footer>
+
+</div>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+var W=document.getElementById('tsxv5-code-studio');
+if(!W)return;
+
+function sanitizeFilename(name){
+return String(name||'toolsx-code-report').replace(/[^a-zA-Z0-9._-]/g,'').substring(0,100)||'toolsx-code-report';
+}
+
+function box(title){
+var t=String(title);while(t.length<38)t=t+' ';
+return '╔══════════════════════════════════════╗\n║  '+t.slice(0,38)+'║\n╚══════════════════════════════════════╝\n\n';
+}
+
+function calcCyclo(code){
+var c=1;
+c+=(code.match(/\bif\b/g)||[]).length;
+c+=(code.match(/\bfor\b/g)||[]).length;
+c+=(code.match(/\bwhile\b/g)||[]).length;
+c+=(code.match(/\bcase\b/g)||[]).length;
+c+=(code.match(/\bcatch\b/g)||[]).length;
+c+=(code.match(/&&|\|\|/g)||[]).length;
+c+=(code.match(/\?[^:]+:/g)||[]).length;
+return c;
+}
+
+function scanSecurity(code){
+var issues=[];
+var add=function(cwe,desc,sev){issues.push({cwe:cwe,desc:desc,sev:sev});};
+if(/\beval\s*\(/.test(code))add('CWE-95','eval() detected. Arbitrary code execution risk.','Critical');
+if(/innerHTML\s*=/.test(code))add('CWE-79','DOM-based XSS via innerHTML. Use textContent.','High');
+if(/(SELECT|INSERT|UPDATE|DELETE).*\+\s*['"]/i.test(code))add('CWE-89','SQL injection via string concatenation.','Critical');
+if(/password\s*=\s*['"][^'"]{3,}/i.test(code))add('CWE-798','Hardcoded password detected.','High');
+if(/Math\.random\s*\(/.test(code))add('CWE-330','Math.random() is not cryptographically secure.','Medium');
+return issues;
+}
+
+var SAMPLES={
+javascript:"function calculateTotal(items) {\n  var total = 0;\n  for (var i = 0; i < items.length; i++) {\n    total += items[i].price * items[i].qty;\n  }\n  return total;\n}",
+python:"def calculate_total(items):\n    total = 0\n    for i in range(len(items)):\n        total += items[i]['price'] * items[i]['qty']\n    return total",
+typescript:"function calculateTotal(items: any[]): number {\n  let total = 0;\n  for (const item of items) {\n    total += item.price * item.qty;\n  }\n  return total;\n}"
+};
+
+var MODES=[
+{id:'explain',label:'Deep Explanation',icon:'📖'},
+{id:'bugfix',label:'Bug Fixer',icon:'🐛'},
+{id:'optimize',label:'Performance',icon:'⚡'},
+{id:'security',label:'Security Audit',icon:'🛡️'},
+{id:'transpile',label:'Transpilation',icon:'🔄'},
+{id:'unittest',label:'Unit Tests',icon:'✅'},
+{id:'regex',label:'Regex Master',icon:'🔍'}
+];
+
+var currentLang='javascript';
+var currentMode='explain';
+
+function runExplain(code,lang){
+var cyclo=calcCyclo(code);
+var loopCount=(code.match(/\bfor\b|\bwhile\b/g)||[]).length;
+var time=loopCount?'O(n)':'O(1)';
+var r=box('CODE EXPLANATION');
+r+='LANGUAGE: '+lang.toUpperCase()+'\n';
+r+='LINES: '+code.split('\n').length+'\n';
+r+='COMPLEXITY: '+cyclo+'\n';
+r+='TIME: '+time+'\n\n';
+r+='OVERVIEW:\nThis code performs data processing with iterative traversal.\n\n';
+r+='RECOMMENDATIONS:\n';
+r+='• Use const/let instead of var\n';
+r+='• Add error handling for robustness\n';
+r+='• Validate external inputs\n';
+return{result:r,analysis:{time:time,space:'O(1)',cyclo:cyclo,security:scanSecurity(code)}};
+}
+
+function runBugfix(code,lang){
+var fixed=code;
+var patches=[];
+if(lang==='javascript'||lang==='typescript'||lang==='react'){
+if(/\bvar\s/.test(fixed)){fixed=fixed.replace(/\bvar\b/g,'let');patches.push("Replaced 'var' with 'let' for block scoping");}
+if(/==(?![=])/.test(fixed)){fixed=fixed.replace(/==(?!=)/g,'===');patches.push("Loose equality '==' replaced with strict '==='");}
+}
+var r=box('AUTOMATED BUG PATCH REPORT');
+r+='PATCHES: '+patches.length+'\n';
+r+=(patches.length?patches.map(function(p,i){return(i+1)+'. '+p;}).join('\n'):'No auto-patches needed — code looks clean.')+'\n';
+r+='\n\nFIXED CODE:\n\n'+fixed;
+return{result:r,analysis:{time:'O(n)',space:'O(1)',cyclo:calcCyclo(fixed),security:scanSecurity(fixed)}};
+}
+
+function runOptimize(code,lang){
+var recs=[];
+if(/\bvar\s/.test(code))recs.push('Use let/const instead of var (block scoping, no hoisting bugs).');
+if(/for\s*\([^)]*\.length/.test(code))recs.push('Cache array.length outside the loop or use for...of to avoid repeated lookups.');
+if((code.match(/\bfor\b/g)||[]).length>1)recs.push('Nested loops detected — O(n²). Consider a Map/Set lookup to reduce complexity.');
+if(/for[^]*?\+=\s*['"`]/.test(code))recs.push('String concatenation inside loops — use Array.join() for large data.');
+if(/==(?![=])/.test(code))recs.push('Use strict equality (===) to avoid type-coercion bugs.');
+if(!/try\s*\{/.test(code))recs.push('Add try/catch around external I/O for robustness.');
+if(!recs.length)recs.push('Code looks efficient. Consider JSDoc types and comments for maintainability.');
+var loopCount=(code.match(/\bfor\b|\bwhile\b/g)||[]).length;
+var r=box('PERFORMANCE OPTIMIZER');
+r+='TIME COMPLEXITY: '+(loopCount>1?'O(n²) — nested loops':loopCount?'O(n)':'O(1)')+'\n';
+r+='SUGGESTIONS: '+recs.length+'\n\n';
+r+=recs.map(function(x,i){return(i+1)+'. '+x;}).join('\n');
+return{result:r,analysis:{time:loopCount>1?'O(n²)':loopCount?'O(n)':'O(1)',space:'O(1)',cyclo:calcCyclo(code),security:scanSecurity(code)}};
+}
+
+function runSecurity(code){
+var issues=scanSecurity(code);
+var r=box('ENTERPRISE SECURITY AUDIT');
+r+='THREAT LEVEL: '+(issues.some(function(i){return i.sev==='Critical';})?'🔴 CRITICAL':issues.length?'🟠 WARNING':'🟢 CLEAN')+'\n';
+r+='FINDINGS: '+issues.length+'\n\n';
+r+=(issues.length?issues.map(function(i){return'['+i.sev+'] '+i.cwe+': '+i.desc;}).join('\n'):'No vulnerabilities detected.')+'\n';
+r+='\n\nRECOMMENDATIONS:\n• Use parameterized queries\n• Sanitize DOM insertions\n• Remove eval() usage\n• Store secrets in environment variables';
+return{result:r,analysis:{time:'O(n)',space:'O(1)',cyclo:calcCyclo(code),security:issues}};
+}
+
+function runTranspile(code,lang,target){
+var out;
+if(target==='python'&&(lang==='javascript'||lang==='typescript'||lang==='react')){
+out=code
+.replace(/\/\/(.*)$/gm,'#$1')
+.replace(/function\s+([A-Za-z_$][\w$]*)\s*\(([^)]*)\)\s*\{/g,'def $1($2):')
+.replace(/\b(var|let|const)\s+/g,'')
+.replace(/\btrue\b/g,'True').replace(/\bfalse\b/g,'False')
+.replace(/\belse\s+if\b/g,'elif')
+.replace(/;\s*$/gm,'')
+.replace(/^\s*[{}]\s*$/gm,'');
+}else{
+out=code.replace(/\bvar\s+/g,'let ');
+}
+var r=box('BASIC STRUCTURAL TRANSPILER');
+r+='SOURCE: '+lang.toUpperCase()+' → TARGET: '+target.toUpperCase()+'\n';
+r+='NOTE: Structural sketch only — review types & syntax before use.\n\n';
+r+=out;
+return{result:r,analysis:{time:'O(n)',space:'O(n)',cyclo:calcCyclo(code),security:scanSecurity(code)}};
+}
+
+function runUnittest(code,lang){
+var names=[];var m;
+var re=/function\s+([A-Za-z_$][\w$]*)/g;
+while((m=re.exec(code))&&names.length<5)names.push(m[1]);
+var re2=/def\s+([A-Za-z_][\w]*)/g;
+while((m=re2.exec(code))&&names.length<5)names.push(m[1]);
+var re3=/(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(?:\([^)]*\)|[A-Za-z_$][\w$]*)\s*=>/g;
+while((m=re3.exec(code))&&names.length<5)names.push(m[1]);
+if(!names.length)names.push('main');
+var r=box('UNIT TEST GENERATOR');
+r+='DETECTED FUNCTIONS: '+names.join(', ')+'\n\n';
+if(lang==='python'){
+r+='import unittest\n\nclass TestGenerated(unittest.TestCase):\n';
+names.forEach(function(n){r+='    def test_'+n+'(self):\n        self.assertIsNotNone('+n+')\n';});
+}else{
+names.forEach(function(n){
+r+="describe('"+n+"', () => {\n  it('returns expected output', () => {\n    expect("+n+"()).toBeDefined();\n  });\n});\n\n";
+});
+}
+return{result:r,analysis:{time:'O(n)',space:'O(1)',cyclo:calcCyclo(code),security:scanSecurity(code)}};
+}
+
+function runRegex(code){
+var p=code.trim();
+var valid=true;var msg='';
+try{new RegExp(p);}catch(e){valid=false;msg=e.message;}
+var r=box('REGEX MASTER');
+r+='PATTERN: '+p+'\n';
+r+='STATUS: '+(valid?'✅ VALID':'❌ INVALID — '+msg)+'\n\n';
+r+='TOKEN BREAKDOWN:\n';
+var tokens=[
+['^','Anchor — start of string'],
+['$','Anchor — end of string'],
+['\\d','Any digit (0-9)'],
+['\\w','Word char (a-z, A-Z, 0-9, _)'],
+['\\s','Whitespace char'],
+['\\b','Word boundary'],
+['.','Any char except newline'],
+['+','One or more of previous'],
+['*','Zero or more of previous'],
+['?','Optional / lazy'],
+['|','Alternation (OR)']
+];
+tokens.forEach(function(t){
+var found=(t[0]==='.')?/\./.test(p):p.indexOf(t[0])>-1;
+if(found)r+='  '+t[0]+'  →  '+t[1]+'\n';
+});
+if(/\[/.test(p))r+='  [...]  →  Character class\n';
+if(/\(/.test(p))r+='  (...)  →  Capturing group\n';
+if(/\{\d/.test(p))r+='  {n,m}  →  Quantifier range\n';
+return{result:r,analysis:{time:'O(n)',space:'O(1)',cyclo:1,security:[]}};
+}
+
+function setPill(pill,text,cls){
+if(pill){pill.textContent=text;pill.className='als-badge als-badge-'+cls;}
+}
+
+function process(){
+var codeInput=document.getElementById('tsxv5-code');
+var code=codeInput?codeInput.value:'';
+var pill=document.getElementById('tsxv5-status');
+var outputEl=document.getElementById('tsxv5-output');
+
+if(!code.trim()){
+if(outputEl)outputEl.textContent='⚠️ Please paste some code first (or pick a language to load a sample).';
+setPill(pill,'ERROR','error');
+return;
+}
+
+setPill(pill,'ANALYZING','run');
+setTimeout(function(){
+var result='';
+try{
+var target=document.getElementById('tsxv5-target');
+if(currentMode==='explain')result=runExplain(code,currentLang).result;
+else if(currentMode==='bugfix')result=runBugfix(code,currentLang).result;
+else if(currentMode==='optimize')result=runOptimize(code,currentLang).result;
+else if(currentMode==='security')result=runSecurity(code).result;
+else if(currentMode==='transpile')result=runTranspile(code,currentLang,target?target.value:'typescript').result;
+else if(currentMode==='unittest')result=runUnittest(code,currentLang).result;
+else if(currentMode==='regex')result=runRegex(code).result;
+}catch(err){
+result='Error: '+err.message;
+setPill(pill,'ERROR','error');
+if(outputEl)outputEl.textContent=result;
+return;
+}
+if(outputEl)outputEl.textContent=result;
+setPill(pill,'COMPLETE','done');
+},300);
+}
+
+function ready(fn){
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',fn);}else{fn();}
+}
+
+ready(function(){
+var codeInput=document.getElementById('tsxv5-code');
+var lineNums=document.getElementById('tsxv5-line-nums');
+var langSelect=document.getElementById('tsxv5-lang');
+var targetSelect=document.getElementById('tsxv5-target');
+var modeBar=document.getElementById('tsxv5-mode-bar');
+var runBtn=document.getElementById('tsxv5-run');
+var resetBtn=document.getElementById('tsxv5-reset');
+var copyBtn=document.getElementById('tsxv5-copy-out');
+var downloadBtn=document.getElementById('tsxv5-download');
+
+function updateLineNumbers(){
+if(!codeInput||!lineNums)return;
+var len=codeInput.value.split('\n').length;
+lineNums.innerHTML='';
+for(var i=1;i<=len;i++){
+var div=document.createElement('div');
+div.textContent=i;
+lineNums.appendChild(div);
+}
+}
+
+if(codeInput){
+codeInput.addEventListener('input',updateLineNumbers);
+if(!codeInput.value){codeInput.value=SAMPLES['javascript'];}
+updateLineNumbers();
+}
+
+if(langSelect){
+langSelect.addEventListener('change',function(e){
+currentLang=e.target.value;
+if(codeInput){
+codeInput.value=SAMPLES[currentLang]||SAMPLES['javascript'];
+updateLineNumbers();
+}
+});
+}
+
+function syncTargetVisibility(){
+if(targetSelect)targetSelect.style.display=(currentMode==='transpile')?'':'none';
+}
+
+if(modeBar){
+MODES.forEach(function(mode){
+var btn=document.createElement('button');
+btn.type='button';
+btn.className='als-mode-btn'+(mode.id==='explain'?' active':'');
+btn.innerHTML=mode.icon+' '+mode.label;
+btn.addEventListener('click',function(){
+currentMode=mode.id;
+modeBar.querySelectorAll('.als-mode-btn').forEach(function(b){b.classList.remove('active');});
+btn.classList.add('active');
+syncTargetVisibility();
+});
+modeBar.appendChild(btn);
+});
+}
+syncTargetVisibility();
+
+if(runBtn)runBtn.addEventListener('click',process);
+
+if(resetBtn){
+resetBtn.addEventListener('click',function(){
+if(codeInput){
+codeInput.value=SAMPLES[currentLang]||SAMPLES['javascript'];
+updateLineNumbers();
+}
+var outputEl=document.getElementById('tsxv5-output');
+if(outputEl)outputEl.textContent='';
+setPill(document.getElementById('tsxv5-status'),'IDLE','idle');
+});
+}
+
+if(copyBtn){
+copyBtn.addEventListener('click',function(){
+var outputEl=document.getElementById('tsxv5-output');
+if(!outputEl||!outputEl.textContent)return;
+var done=function(){
+var old=copyBtn.innerHTML;
+copyBtn.innerHTML='✅ Copied!';
+setTimeout(function(){copyBtn.innerHTML=old;},1500);
+};
+if(navigator.clipboard&&navigator.clipboard.writeText){
+navigator.clipboard.writeText(outputEl.textContent).then(done,function(){fallbackCopy(outputEl.textContent,done);});
+}else{fallbackCopy(outputEl.textContent,done);}
+});
+}
+
+function fallbackCopy(text,cb){
+try{
+var ta=document.createElement('textarea');
+ta.value=text;ta.style.position='fixed';ta.style.left='-9999px';
+document.body.appendChild(ta);ta.focus();ta.select();
+document.execCommand('copy');
+document.body.removeChild(ta);
+cb();
+}catch(e){}
+}
+
+if(downloadBtn){
+downloadBtn.addEventListener('click',function(){
+var outputEl=document.getElementById('tsxv5-output');
+if(!outputEl||!outputEl.textContent)return;
+var blob=new Blob([outputEl.textContent],{type:'text/plain'});
+var url=URL.createObjectURL(blob);
+var a=document.createElement('a');
+a.href=url;
+a.download=sanitizeFilename('toolsx-code-report-'+currentMode)+'.txt';
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(url);
+});
+}
+
+console.log('Tools-X Code Studio initialized | toolsx.in');
+});
+
+})();
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

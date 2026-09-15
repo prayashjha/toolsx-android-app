@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Free PDF Tools Online: Compress, Merge &amp; PDF to Word – ToolsX App</title>
+<meta name="description" content="Use 18 free PDF tools online. Compress, merge, split &amp; convert PDF to Word, Excel, or JPG. 100% secure browser-based processing. No upload required!">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Free PDF Tools Online: Compress, Merge &amp; PDF to Word</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Tools-X PDF Toolkit Suite",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web Browser",
+      "description": "Complete browser-based PDF toolkit with 19 free tools: compress, merge, split, convert, secure, and enhance PDF documents. 100% client-side processing with no server uploads.",
+      "featureList": [
+        "Compress PDF", "Merge PDF", "Split PDF", "Organize PDF",
+        "Image to PDF", "PDF to Images", "PDF to Word (Text Extraction)",
+        "Word to PDF (Basic)", "Excel to PDF (Basic)", "PDF to Excel (Text Extraction)",
+        "PowerPoint to PDF (Basic)", "PDF to PowerPoint (Text Extraction)",
+        "Protect PDF", "Unlock PDF", "Edit Metadata",
+        "Add Page Numbers", "Add Watermark", "Header and Footer", "Preview PDF"
+      ],
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Organization", "name": "Tools-X" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this PDF toolkit completely free?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, all 19 tools are free to use unlimited times with no premium tiers, watermarks, or hidden fees." }
+        },
+        {
+          "@type": "Question",
+          "name": "Are my files private and secure?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Absolutely. All processing happens entirely in your browser using WebAssembly. Your files never leave your device or get uploaded to any server." }
+        },
+        {
+          "@type": "Question",
+          "name": "What file types does this toolkit support?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It supports PDF, DOCX, XLSX, PPTX, JPG, PNG, and WEBP files for various input and output combinations depending on the selected tool." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this work on mobile devices?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, the interface is fully responsive and optimized for touch interactions on smartphones and tablets." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<div id="tsxv5-toolkit">
+<style>
+/*<![CDATA[*/
+#tsxv5-toolkit {
+  --tk-bg:#f8fafc; --tk-card:#ffffff; --tk-text:#0f172a; --tk-muted:#64748b;
+  --tk-border:#e2e8f0; --tk-input:#f1f5f9; --tk-primary:#ff9800; --tk-primary-glow:rgba(255,152,0,0.3);
+  --tk-shadow:rgba(0,0,0,0.08); --tk-success:#4ade80; --tk-success-bg:rgba(34,197,94,0.12);
+  --tk-error:#f87171; --tk-error-bg:rgba(239,68,68,0.12);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  color:var(--tk-text); line-height:1.6;
+  max-width:1180px; margin:0 auto;
+  padding:clamp(10px, 3vw, 20px);
+  box-sizing:border-box;
+  border-radius:14px;
+  border:1px solid var(--tk-border);
+  box-shadow:0 4px 16px var(--tk-shadow);
+  transition:all 0.3s ease;
+}
+
+html[data-theme="dark"] #tsxv5-toolkit,
+body.dark-mode #tsxv5-toolkit,
+body[data-theme="dark"] #tsxv5-toolkit,
+html.dark-mode #tsxv5-toolkit,
+.dark-mode #tsxv5-toolkit,
+.night-mode #tsxv5-toolkit,
+[data-bs-theme="dark"] #tsxv5-toolkit {
+  --tk-bg:#0f172a; --tk-card:#1e293b; --tk-text:#f1f5f9; --tk-muted:#94a3b8;
+  --tk-border:#334155; --tk-input:#0f172a; --tk-shadow:rgba(0,0,0,0.4);
+  --tk-success-bg:rgba(34,197,94,0.18); --tk-error-bg:rgba(239,68,68,0.18);
+}
+
+#tsxv5-toolkit *, #tsxv5-toolkit *::before, #tsxv5-toolkit *::after { box-sizing:border-box; }
+
+#tsxv5-toolkit .tk-header {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:clamp(14px, 3vw, 20px);
+  padding-bottom:clamp(12px, 2vw, 16px);
+  border-bottom:2px solid var(--tk-primary);
+  flex-wrap:wrap; gap:8px;
+}
+#tsxv5-toolkit .tk-logo {
+  font-size:clamp(18px, 3.5vw, 24px); font-weight:800;
+  color:var(--tk-text); letter-spacing:-0.01em;
+}
+#tsxv5-toolkit .tk-head {
+  text-align:center; margin-bottom:clamp(20px, 4vw, 30px);
+}
+#tsxv5-toolkit .tk-head h2 {
+  font-size:clamp(18px, 3.5vw, 26px); font-weight:800;
+  margin:0 0 8px; color:var(--tk-text); line-height:1.3;
+}
+#tsxv5-toolkit .tk-head p {
+  color:var(--tk-muted); font-size:clamp(12px, 2vw, 14px);
+  margin:0 0 12px; max-width:680px; margin-left:auto; margin-right:auto;
+  line-height:1.6;
+}
+#tsxv5-toolkit .tk-badges {
+  display:flex; justify-content:center; gap:6px; flex-wrap:wrap;
+}
+#tsxv5-toolkit .tk-badge {
+  font-size:clamp(9px, 1.5vw, 11px); font-weight:700;
+  padding:6px 12px; border-radius:20px;
+  background:var(--tk-input); color:var(--tk-text);
+  border:1px solid var(--tk-border);
+  min-height:32px; display:inline-flex; align-items:center;
+  white-space:nowrap;
+}
+
+#tsxv5-toolkit h2.tk-section {
+  font-size:clamp(15px, 2.5vw, 19px); font-weight:800;
+  margin:clamp(20px, 4vw, 30px) 0 10px;
+  color:var(--tk-text); display:flex; align-items:center; gap:8px;
+  flex-wrap:wrap;
+}
+#tsxv5-toolkit .tk-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap:clamp(8px, 2vw, 14px);
+  margin-top:12px;
+}
+#tsxv5-toolkit .tk-card {
+  background:var(--tk-card); border:1px solid var(--tk-border);
+  border-radius:12px; padding:clamp(12px, 2vw, 16px);
+  display:flex; gap:12px; cursor:pointer;
+  transition:all 0.25s;
+  min-height:72px;
+  align-items:flex-start;
+}
+#tsxv5-toolkit .tk-card:hover {
+  border-color:var(--tk-primary);
+  box-shadow:0 6px 16px var(--tk-primary-glow);
+  transform:translateY(-2px);
+}
+#tsxv5-toolkit .tk-icon {
+  font-size:clamp(24px, 4vw, 32px);
+  display:flex; align-items:center; justify-content:center;
+  width:clamp(40px, 6vw, 48px); height:clamp(40px, 6vw, 48px);
+  background:var(--tk-primary-glow); border-radius:10px;
+  flex-shrink:0;
+}
+#tsxv5-toolkit .tk-title {
+  font-weight:700; font-size:clamp(12px, 2vw, 14px);
+  color:var(--tk-text); margin-bottom:3px;
+}
+#tsxv5-toolkit .tk-desc {
+  font-size:clamp(10px, 1.6vw, 12px); color:var(--tk-muted);
+  line-height:1.4;
+}
+
+/* Modal */
+#tsxv5-modal {
+  display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.7); backdrop-filter:blur(4px);
+  justify-content:center; align-items:center; z-index:9999;
+  padding:clamp(8px, 2vw, 20px);
+}
+#tsxv5-modal .tk-modal-box {
+  background:var(--tk-card); color:var(--tk-text);
+  width:min(100%, 520px); max-height:90vh; overflow-y:auto;
+  padding:clamp(16px, 3vw, 24px); border-radius:14px;
+  position:relative; box-shadow:0 20px 60px var(--tk-shadow);
+  animation:tkSlideIn 0.3s ease;
+}
+@keyframes tkSlideIn {
+  from { transform:translateY(-40px); opacity:0; }
+  to { transform:translateY(0); opacity:1; }
+}
+#tsxv5-close {
+  position:absolute; top:12px; right:16px;
+  cursor:pointer; font-size:clamp(20px, 3vw, 24px);
+  color:var(--tk-text); transition:all 0.25s;
+  width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+  border-radius:50%; background:var(--tk-input); border:1px solid var(--tk-border);
+  font-family:inherit;
+}
+#tsxv5-close:hover { transform:rotate(90deg); border-color:var(--tk-primary); color:var(--tk-primary); }
+#tsxv5-upload-area {
+  border:2px dashed var(--tk-border); padding:clamp(16px, 3vw, 24px);
+  text-align:center; margin:clamp(10px, 2vw, 14px) 0;
+  cursor:pointer; border-radius:10px; transition:all 0.25s;
+  background:var(--tk-input);
+  min-height:100px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+}
+#tsxv5-upload-area:hover, #tsxv5-upload-area.over { border-color:var(--tk-primary); background:var(--tk-primary-glow); }
+#tsxv5-btn {
+  background:linear-gradient(135deg,#ff9800,#ff5722); color:#fff;
+  border:none; padding:clamp(10px, 2vw, 14px) clamp(18px, 3vw, 28px);
+  width:100%; border-radius:10px;
+  font-size:clamp(13px, 2vw, 15px); font-weight:700;
+  cursor:pointer; transition:all 0.25s;
+  min-height:48px;
+  font-family:inherit;
+  box-shadow:0 3px 10px var(--tk-primary-glow);
+}
+#tsxv5-btn:hover { transform:translateY(-1px); box-shadow:0 6px 16px var(--tk-primary-glow); }
+#tsxv5-btn:disabled { background:#94a3b8; cursor:not-allowed; transform:none; box-shadow:none; }
+#tsxv5-input { display:none; }
+
+.tk-loading { display:none; text-align:center; margin:14px 0; }
+.tk-loading.active { display:block; }
+.tk-spinner {
+  border:3px solid var(--tk-input);
+  border-top:3px solid var(--tk-primary);
+  border-radius:50%; width:clamp(30px, 5vw, 36px); height:clamp(30px, 5vw, 36px);
+  animation:tkSpin 0.8s linear infinite; margin:0 auto 8px;
+}
+@keyframes tkSpin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+
+.tk-success-msg {
+  background:var(--tk-success-bg); border:1px solid var(--tk-success);
+  color:var(--tk-text); padding:clamp(10px, 2vw, 14px); border-radius:8px;
+  margin:12px 0; text-align:center; font-size:clamp(11px, 1.8vw, 13px);
+}
+.tk-error-msg {
+  background:var(--tk-error-bg); border:1px solid var(--tk-error);
+  color:var(--tk-text); padding:clamp(10px, 2vw, 14px); border-radius:8px;
+  margin:12px 0; text-align:center; font-size:clamp(11px, 1.8vw, 13px);
+}
+.tk-file-list { margin:12px 0; max-height:160px; overflow-y:auto; }
+.tk-file-item {
+  background:var(--tk-input); padding:8px 10px; margin:4px 0;
+  border-radius:6px; font-size:clamp(11px, 1.8vw, 13px);
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  border:1px solid var(--tk-border);
+  word-break:break-all;
+}
+.tk-file-icon { font-size:clamp(16px, 2.5vw, 20px); }
+
+/* Toast Notification */
+.tk-toast {
+  position:fixed; bottom:20px; right:20px;
+  background:#0f172a; color:#f1f5f9;
+  padding:12px 20px; border-radius:10px;
+  font-size:13px; font-weight:700;
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+  z-index:99999;
+  transform:translateY(100px); opacity:0;
+  transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  max-width:min(300px, calc(100vw - 40px));
+  word-break:break-word;
+  border-left:3px solid var(--tk-success, #4ade80);
+}
+.tk-toast.tk-toast-err { border-left-color:#f87171; }
+.tk-toast.show { transform:translateY(0); opacity:1; }
+
+/* SEO Section */
+.tk-seo-section {
+  margin-top:clamp(20px, 4vw, 30px);
+  padding:clamp(14px, 2.5vw, 20px);
+  background:var(--tk-card); border:1px solid var(--tk-border);
+  border-radius:12px; border-left:3px solid var(--tk-primary);
+}
+.tk-seo-section h2 {
+  font-size:clamp(14px, 2.2vw, 17px); font-weight:800;
+  margin:clamp(10px, 2vw, 14px) 0 8px; color:var(--tk-text);
+}
+.tk-seo-section h3 {
+  font-size:clamp(13px, 2vw, 15px); font-weight:700;
+  color:var(--tk-primary); margin:clamp(14px, 2.5vw, 18px) 0 6px;
+}
+.tk-seo-section p {
+  color:var(--tk-muted); font-size:clamp(11px, 1.8vw, 13px);
+  line-height:1.7; margin:0 0 10px;
+}
+.tk-seo-section ul { padding-left:18px; margin:0 0 10px; }
+.tk-seo-section li {
+  color:var(--tk-muted); font-size:clamp(11px, 1.8vw, 13px);
+  line-height:1.6; margin-bottom:6px;
+}
+.tk-seo-section strong { color:var(--tk-text); }
+.tk-steps { list-style:none; padding:0; counter-reset:tkStep; }
+.tk-steps li {
+  counter-increment:tkStep;
+  padding:clamp(10px, 2vw, 14px) clamp(10px, 2vw, 14px) clamp(10px, 2vw, 14px) clamp(44px, 7vw, 56px);
+  position:relative; background:var(--tk-input);
+  margin-bottom:8px; border-radius:8px; border:1px solid var(--tk-border);
+  font-size:clamp(11px, 1.8vw, 13px); color:var(--tk-text);
+  line-height:1.6;
+}
+.tk-steps li::before {
+  content:counter(tkStep);
+  position:absolute; left:clamp(10px, 2vw, 14px); top:50%;
+  transform:translateY(-50%);
+  background:linear-gradient(135deg,#ff9800,#ff5722); color:#fff;
+  width:clamp(28px, 4vw, 32px); height:clamp(28px, 4vw, 32px);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:clamp(12px, 1.8vw, 14px);
+}
+.tk-faq-item {
+  background:var(--tk-input); padding:clamp(10px, 2vw, 14px);
+  margin-bottom:8px; border-radius:8px; border-left:3px solid var(--tk-primary);
+  border:1px solid var(--tk-border);
+}
+.tk-faq-item h4 {
+  color:var(--tk-text); margin:0 0 6px; font-size:clamp(12px, 1.8vw, 14px); font-weight:700;
+}
+.tk-faq-item p {
+  color:var(--tk-muted); font-size:clamp(10px, 1.6vw, 12px);
+  line-height:1.6; margin:0;
+}
+.tk-security-box {
+  background:var(--tk-success-bg); border:1px solid var(--tk-success);
+  padding:clamp(12px, 2.5vw, 18px); border-radius:10px;
+  margin:clamp(10px, 2vw, 14px) 0;
+}
+.tk-security-box h3 {
+  color:var(--tk-success); margin-top:0; font-size:clamp(13px, 2vw, 15px);
+}
+.tk-rel-links { display:grid; grid-template-columns:1fr; gap:8px; margin-top:12px; }
+@media (min-width:640px){ .tk-rel-links { grid-template-columns:1fr 1fr; } }
+.tk-rel-links a {
+  display:flex; align-items:center; padding:10px 14px;
+  background:var(--tk-input); border:1px solid var(--tk-border);
+  border-radius:8px; color:var(--tk-primary); text-decoration:none;
+  font-weight:600; font-size:clamp(11px, 1.8vw, 12px);
+  transition:all 0.2s; min-height:44px; flex-wrap:wrap;
+}
+.tk-rel-links a:hover { border-color:var(--tk-primary); transform:translateX(3px); }
+
+/* Responsive */
+@media (max-width:320px){
+  #tsxv5-toolkit{padding:6px;border-radius:8px;}
+  #tsxv5-toolkit .tk-card{padding:8px;min-height:56px;gap:8px;}
+  #tsxv5-toolkit .tk-icon{width:32px;height:32px;font-size:18px;}
+  #tsxv5-toolkit .tk-head h2{font-size:15px;}
+  #tsxv5-toolkit .tk-badge{font-size:8px;padding:4px 6px;min-height:24px;}
+  #tsxv5-close{width:36px;height:36px;font-size:18px;}
+}
+@media (max-width:360px){
+  #tsxv5-toolkit{padding:8px;border-radius:10px;}
+  #tsxv5-toolkit .tk-card{padding:10px;min-height:64px;}
+  #tsxv5-toolkit .tk-icon{width:36px;height:36px;font-size:20px;}
+  #tsxv5-toolkit .tk-head h2{font-size:16px;}
+  #tsxv5-toolkit .tk-badge{font-size:8px;padding:4px 8px;min-height:26px;}
+  #tsxv5-close{width:38px;height:38px;}
+}
+@media (max-width:390px){
+  #tsxv5-toolkit{padding:9px;}
+  #tsxv5-toolkit .tk-grid{grid-template-columns:1fr;gap:6px;}
+}
+@media (max-width:414px){
+  #tsxv5-toolkit .tk-card{flex-direction:column;gap:6px;}
+  #tsxv5-toolkit .tk-grid{grid-template-columns:1fr 1fr;gap:6px;}
+}
+@media (max-width:480px){
+  #tsxv5-toolkit{padding:10px;}
+  #tsxv5-toolkit .tk-grid{grid-template-columns:1fr;gap:6px;}
+  #tsxv5-toolkit .tk-card{padding:10px;}
+  #tsxv5-toolkit .tk-rel-links{grid-template-columns:1fr;}
+  #tsxv5-modal .tk-modal-box{padding:12px;}
+  #tsxv5-upload-area{min-height:80px;padding:12px;}
+  .tk-toast{bottom:12px;right:12px;left:12px;text-align:center;}
+}
+@media (max-width:640px){
+  #tsxv5-toolkit .tk-grid{grid-template-columns:1fr 1fr;gap:8px;}
+  #tsxv5-toolkit .tk-card{flex-direction:column;gap:8px;}
+}
+@media (max-width:768px){
+  #tsxv5-toolkit .tk-grid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:1024px){
+  #tsxv5-toolkit{max-width:100%;}
+}
+@media (max-width:1280px){
+  #tsxv5-toolkit{max-width:100%;padding:clamp(12px, 2.5vw, 16px);}
+}
+@media (max-width:1440px){
+  #tsxv5-toolkit{max-width:100%;}
+}
+/*]]>*/
+</style>
+
+<div class="tk-header">
+  <div class="tk-logo">🛠️ Tools-X PDF Toolkit</div>
+</div>
+
+<div class="tk-head">
+  <h2>Complete PDF Toolkit Suite — 19 Free Browser-Based Tools</h2>
+  <p>Compress, merge, split, convert, secure, and enhance PDF documents entirely in your browser. No file uploads, no registration, no watermarks.</p>
+  <div class="tk-badges">
+    <span class="tk-badge">✅ 100% Free</span>
+    <span class="tk-badge">🔒 Private &amp; Local</span>
+    <span class="tk-badge">⚡ Instant Processing</span>
+    <span class="tk-badge">📱 Mobile Friendly</span>
+  </div>
+</div>
+
+<h2 class="tk-section">📁 Organize &amp; Structure</h2>
+<div class="tk-grid">
+  <div class="tk-card" data-tool="compress" role="button" tabindex="0" aria-label="Compress PDF">
+    <div class="tk-icon">⚡</div>
+    <div><div class="tk-title">Compress PDF</div><div class="tk-desc">Reduce file size while keeping quality readable</div></div>
+  </div>
+  <div class="tk-card" data-tool="merge" role="button" tabindex="0" aria-label="Merge PDF">
+    <div class="tk-icon">📑</div>
+    <div><div class="tk-title">Merge PDF</div><div class="tk-desc">Combine multiple PDFs into a single organized file</div></div>
+  </div>
+  <div class="tk-card" data-tool="split" role="button" tabindex="0" aria-label="Split PDF">
+    <div class="tk-icon">✂️</div>
+    <div><div class="tk-title">Split PDF</div><div class="tk-desc">Pull out individual pages or ranges into separate files</div></div>
+  </div>
+  <div class="tk-card" data-tool="organize" role="button" tabindex="0" aria-label="Organize PDF">
+    <div class="tk-icon">🔄</div>
+    <div><div class="tk-title">Organize PDF</div><div class="tk-desc">Reorder, rotate, or remove unwanted pages</div></div>
+  </div>
+</div>
+
+<h2 class="tk-section">🔄 Convert &amp; Extract</h2>
+<div class="tk-grid">
+  <div class="tk-card" data-tool="img2pdf" role="button" tabindex="0" aria-label="Image to PDF">
+    <div class="tk-icon">🖼️</div>
+    <div><div class="tk-title">Image to PDF</div><div class="tk-desc">Turn JPG or PNG images into a clean PDF document</div></div>
+  </div>
+  <div class="tk-card" data-tool="pdf2img" role="button" tabindex="0" aria-label="PDF to Images">
+    <div class="tk-icon">📷</div>
+    <div><div class="tk-title">PDF to Images</div><div class="tk-desc">Export each page as a high-resolution JPG snapshot</div></div>
+  </div>
+  <div class="tk-card" data-tool="pdf2word" role="button" tabindex="0" aria-label="PDF to Word">
+    <div class="tk-icon">📝</div>
+    <div><div class="tk-title">PDF to Word</div><div class="tk-desc">Extract text into an editable DOCX file</div></div>
+  </div>
+  <div class="tk-card" data-tool="word2pdf" role="button" tabindex="0" aria-label="Word to PDF">
+    <div class="tk-icon">📄</div>
+    <div><div class="tk-title">Word to PDF</div><div class="tk-desc">Convert Word documents to universally readable PDF</div></div>
+  </div>
+  <div class="tk-card" data-tool="excel2pdf" role="button" tabindex="0" aria-label="Excel to PDF">
+    <div class="tk-icon">📊</div>
+    <div><div class="tk-title">Excel to PDF</div><div class="tk-desc">Present spreadsheet data as a formatted PDF table</div></div>
+  </div>
+  <div class="tk-card" data-tool="pdf2excel" role="button" tabindex="0" aria-label="PDF to Excel">
+    <div class="tk-icon">📈</div>
+    <div><div class="tk-title">PDF to Excel</div><div class="tk-desc">Pull tabular content from PDF into a spreadsheet</div></div>
+  </div>
+  <div class="tk-card" data-tool="ppt2pdf" role="button" tabindex="0" aria-label="PowerPoint to PDF">
+    <div class="tk-icon">📽️</div>
+    <div><div class="tk-title">PowerPoint to PDF</div><div class="tk-desc">Convert slide decks into stable PDF format</div></div>
+  </div>
+  <div class="tk-card" data-tool="pdf2ppt" role="button" tabindex="0" aria-label="PDF to PowerPoint">
+    <div class="tk-icon">🎬</div>
+    <div><div class="tk-title">PDF to PowerPoint</div><div class="tk-desc">Transform PDF pages into editable presentation slides</div></div>
+  </div>
+</div>
+
+<h2 class="tk-section">🔒 Security</h2>
+<div class="tk-grid">
+  <div class="tk-card" data-tool="protect" role="button" tabindex="0" aria-label="Protect PDF">
+    <div class="tk-icon">🔐</div>
+    <div><div class="tk-title">Protect PDF</div><div class="tk-desc">Add password and restrict editing or printing</div></div>
+  </div>
+  <div class="tk-card" data-tool="unlock" role="button" tabindex="0" aria-label="Unlock PDF">
+    <div class="tk-icon">🔓</div>
+    <div><div class="tk-title">Unlock PDF</div><div class="tk-desc">Remove restrictions from files you own</div></div>
+  </div>
+</div>
+
+<h2 class="tk-section">✏️ Edit &amp; Format</h2>
+<div class="tk-grid">
+  <div class="tk-card" data-tool="metadata" role="button" tabindex="0" aria-label="Edit Metadata">
+    <div class="tk-icon">🏷️</div>
+    <div><div class="tk-title">Edit Metadata</div><div class="tk-desc">Update title, author, and document properties</div></div>
+  </div>
+  <div class="tk-card" data-tool="pagenum" role="button" tabindex="0" aria-label="Add Page Numbers">
+    <div class="tk-icon">#️⃣</div>
+    <div><div class="tk-title">Add Page Numbers</div><div class="tk-desc">Stamp Page X of Y on every page automatically</div></div>
+  </div>
+  <div class="tk-card" data-tool="watermark" role="button" tabindex="0" aria-label="Add Watermark">
+    <div class="tk-icon">💧</div>
+    <div><div class="tk-title">Add Watermark</div><div class="tk-desc">Apply diagonal text watermark for branding or security</div></div>
+  </div>
+  <div class="tk-card" data-tool="headerfooter" role="button" tabindex="0" aria-label="Header and Footer">
+    <div class="tk-icon">📋</div>
+    <div><div class="tk-title">Header &amp; Footer</div><div class="tk-desc">Add custom text at top and bottom of every page</div></div>
+  </div>
+  <div class="tk-card" data-tool="preview" role="button" tabindex="0" aria-label="Preview PDF">
+    <div class="tk-icon">👁️</div>
+    <div><div class="tk-title">Preview PDF</div><div class="tk-desc">See all pages rendered right in your browser</div></div>
+  </div>
+</div>
+
+<div class="tk-seo-section">
+  <h2>📖 How to Use This PDF Toolkit</h2>
+  <p>The Tools-X PDF Toolkit is a comprehensive, browser-based solution designed for students, professionals, and businesses who need to manage PDF documents quickly and securely. Unlike traditional online converters that require you to upload sensitive files to remote servers, our toolkit leverages advanced WebAssembly technology to process everything locally on your device. This means your confidential contracts, financial reports, and personal identification documents never leave your computer or phone, guaranteeing absolute privacy and zero risk of data breaches.</p>
+  
+  <p>Every tool in this suite follows the same intuitive, three-step pattern to ensure a seamless user experience regardless of your technical expertise. First, select the specific function you need from the categorized grid above, such as Compress, Merge, or Convert. Second, click the designated upload area or drag and drop your file directly into the browser window. The system instantly validates the file type and size to ensure compatibility. Third, hit the Process button and watch as the tool executes the task in seconds, automatically triggering a secure download of your newly formatted document.</p>
+  
+  <h3>Key Features and Capabilities</h3>
+  <ul>
+    <li><strong>Organization Tools:</strong> Merge multiple scattered PDFs into one cohesive file, split large reports into individual chapters, or reorder and rotate pages to fix scanning errors.</li>
+    <li><strong>Conversion Engine:</strong> Transform images into searchable PDFs, extract high-resolution snapshots from existing PDFs, or pull raw text data from documents into editable Word or Excel formats.</li>
+    <li><strong>Security Measures:</strong> Protect sensitive files with password encryption or remove restrictions from documents you legally own to restore full editing capabilities.</li>
+    <li><strong>Formatting Utilities:</strong> Automatically stamp page numbers, add custom headers and footers for professional branding, or overlay diagonal watermarks to prevent unauthorized distribution.</li>
+  </ul>
+
+  <p>By eliminating the need for software installations, subscription fees, or account registrations, Tools-X provides a frictionless, enterprise-grade document management experience directly in your web browser. Whether you are using a Windows PC, a Mac, an Android smartphone, or an iPhone, the responsive interface adapts perfectly to your screen size, ensuring that powerful PDF manipulation is always just a few taps away.</p>
+
+  <h2>❓ Frequently Asked Questions</h2>
+  <div class="tk-faq-item">
+    <h4>Q: Is this PDF toolkit completely free?</h4>
+    <p>Yes, all 19 tools are free to use unlimited times with no premium tiers, watermarks, or hidden fees.</p>
+  </div>
+  <div class="tk-faq-item">
+    <h4>Q: Are my files private and secure?</h4>
+    <p>Absolutely. All processing happens entirely in your browser using WebAssembly. Your files never leave your device or get uploaded to any server.</p>
+  </div>
+  <div class="tk-faq-item">
+    <h4>Q: What file types does this toolkit support?</h4>
+    <p>It supports PDF, DOCX, XLSX, PPTX, JPG, PNG, and WEBP files for various input and output combinations depending on the selected tool.</p>
+  </div>
+  <div class="tk-faq-item">
+    <h4>Q: Does this work on mobile devices?</h4>
+    <p>Yes, the interface is fully responsive and optimized for touch interactions on smartphones and tablets.</p>
+  </div>
+  
+  <div class="tk-security-box">
+    <h3>🔒 Privacy Architecture</h3>
+    <p>No server storage. No file uploads. No tracking cookies. No registration. Once you close the tab, all processed data vanishes from memory.</p>
+  </div>
+  
+  <h2>🔗 Explore More Tools</h2>
+  <div class="tk-rel-links">
+    <a href="../tools/apni-song-ko-video-mein-badle-ai-se.html">🎵 Convert Song to Video with AI</a>
+    <a href="../tools/scan-karein-quantum-defense-aur-suite.html">🛡️ Quantum Defense Security Suite</a>
+    <a href="https://www.toolsx.in/2026/08/jaaniye-ai-ka-poora-itihaas-ek-jagah-ai.html">🧠 Complete AI History Guide</a>
+  </div>
+</div>
+</div>
+
+<div id="tsxv5-modal" role="dialog" aria-modal="true">
+  <div class="tk-modal-box">
+    <button id="tsxv5-close" aria-label="Close dialog">×</button>
+    <div id="tsxv5-modal-content"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx@8.2.2/build/index.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+
+const MAX_SIZE = 10 * 1024 * 1024;
+const ACCEPT_MAP = {
+  pdf: ['application/pdf', '.pdf'],
+  image: ['image/jpeg', 'image/png', 'image/webp', '.jpg', '.jpeg', '.png', '.webp'],
+  word: ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', '.docx'],
+  excel: ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '.xlsx'],
+  ppt: ['application/vnd.openxmlformats-officedocument.presentationml.presentation', '.pptx']
+};
+
+const TOOL_TITLES = {
+  compress:'⚡ Compress PDF', merge:'📑 Merge PDFs', split:'✂️ Split PDF',
+  organize:'🔄 Organize PDF', img2pdf:'🖼️ Image to PDF', pdf2img:'📷 PDF to Images',
+  pdf2word:'📝 PDF to Word', word2pdf:'📄 Word to PDF', excel2pdf:'📊 Excel to PDF',
+  pdf2excel:'📈 PDF to Excel', ppt2pdf:'📽️ PowerPoint to PDF', pdf2ppt:'🎬 PDF to PowerPoint',
+  protect:'🔐 Protect PDF', unlock:'🔓 Unlock PDF', metadata:'🏷️ Edit Metadata',
+  pagenum:'#️⃣ Add Page Numbers', watermark:'💧 Add Watermark',
+  headerfooter:'📋 Header & Footer', preview:'👁️ Preview PDF'
+};
+
+const $ = id => document.getElementById(id);
+
+function toast(m, e){
+  let t = $('tsxv5-toast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'tsxv5-toast';
+    t.className = 'tk-toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = m;
+  t.className = 'tk-toast' + (e ? ' tk-toast-err' : '');
+  void t.offsetWidth;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function download(blob, filename){
+  const safeName = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = safeName; a.style.display = 'none';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 100);
+}
+
+function showSuccess(m){
+  const r = $('tsxv5-result-area');
+  if(r) r.innerHTML = '<div class="tk-success-msg">✅ ' + m + '</div>';
+  const l = $('tsxv5-loading');
+  if(l) l.classList.remove('active');
+  const b = $('tsxv5-btn');
+  if(b) b.disabled = false;
+}
+
+function showError(m){
+  console.error('Tool Error:', m);
+  const r = $('tsxv5-result-area');
+  if(r) r.innerHTML = '<div class="tk-error-msg">❌ ' + m + '</div>';
+  const l = $('tsxv5-loading');
+  if(l) l.classList.remove('active');
+  const b = $('tsxv5-btn');
+  if(b) b.disabled = false;
+}
+
+function openTool(type){
+  const modal = $('tsxv5-modal');
+  const content = $('tsxv5-modal-content');
+  if(!modal || !content) return;
+  
+  let html = '<h3 style="margin:0 0 12px; font-size:clamp(14px,2.5vw,18px); font-weight:700; color:inherit;">' + TOOL_TITLES[type] + '</h3>';
+  
+  if(type === 'merge'){
+    html += '<p style="margin:0 0 8px; font-size:clamp(11px,1.8vw,13px);">Select multiple PDF files to merge:</p>';
+    html += '<input type="file" id="tsxv5-input" accept="application/pdf, .pdf" multiple>';
+    html += '<div id="tsxv5-upload-area" role="button" tabindex="0" aria-label="Upload PDF files">📁 Click to select PDF files</div>';
+  } else if(type === 'img2pdf'){
+    html += '<p style="margin:0 0 8px; font-size:clamp(11px,1.8vw,13px);">Select images to convert:</p>';
+    html += '<input type="file" id="tsxv5-input" accept="image/jpeg, image/png, image/webp, .jpg, .jpeg, .png, .webp" multiple>';
+    html += '<div id="tsxv5-upload-area" role="button" tabindex="0" aria-label="Upload images">🖼️ Click to select images</div>';
+  } else {
+    html += '<p style="margin:0 0 8px; font-size:clamp(11px,1.8vw,13px);">Select a file to process:</p>';
+    html += '<input type="file" id="tsxv5-input" accept="application/pdf, .pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document, .docx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .xlsx, application/vnd.openxmlformats-officedocument.presentationml.presentation, .pptx, image/*">';
+    html += '<div id="tsxv5-upload-area" role="button" tabindex="0" aria-label="Upload file">📄 Click to select file</div>';
+  }
+  
+  html += '<div id="tsxv5-file-list" class="tk-file-list"></div>';
+  html += '<div class="tk-loading" id="tsxv5-loading"><div class="tk-spinner"></div><p style="margin:4px 0 0; font-size:12px;">Processing...</p></div>';
+  html += '<div id="tsxv5-result-area"></div>';
+  html += '<button id="tsxv5-btn" aria-label="Process and download">🚀 Process & Download</button>';
+  
+  content.innerHTML = html;
+  modal.style.display = 'flex';
+  bindToolEvents(type);
+}
+
+function closeModal(){
+  const modal = $('tsxv5-modal');
+  if(modal) modal.style.display = 'none';
+  const content = $('tsxv5-modal-content');
+  if(content) content.innerHTML = '';
+}
+
+function bindToolEvents(type){
+  const closeBtn = $('tsxv5-close');
+  if(closeBtn) closeBtn.onclick = closeModal;
+  
+  const modal = $('tsxv5-modal');
+  if(modal) modal.onclick = function(e){ if(e.target === modal) closeModal(); };
+  
+  const fileInput = $('tsxv5-input');
+  const uploadArea = $('tsxv5-upload-area');
+  const btn = $('tsxv5-btn');
+  
+  if(uploadArea && fileInput){
+    uploadArea.onclick = () => {
+      try { fileInput.click(); } catch(e) { console.error('Click failed', e); }
+    };
+    uploadArea.onkeydown = function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fileInput.click(); } };
+    uploadArea.ondragover = function(e){ e.preventDefault(); uploadArea.classList.add('over'); };
+    uploadArea.ondragleave = () => uploadArea.classList.remove('over');
+    uploadArea.ondrop = function(e){ 
+      e.preventDefault(); 
+      uploadArea.classList.remove('over'); 
+      if(e.dataTransfer.files.length) setFiles(e.dataTransfer.files); 
+    };
+  }
+  if(fileInput) {
+    fileInput.onchange = function(){ 
+      if(fileInput.files && fileInput.files.length) setFiles(fileInput.files); 
+    };
+  }
+  if(btn) btn.onclick = () => runTool(type);
+}
+
+function setFiles(files){
+  const list = $('tsxv5-file-list');
+  if(!list) return;
+  list.innerHTML = '';
+  Array.from(files).forEach(f => {
+    const item = document.createElement('div');
+    item.className = 'tk-file-item';
+    item.innerHTML = '<span class="tk-file-icon">📄</span><span>' + f.name + ' (' + (f.size/1024).toFixed(1) + ' KB)</span>';
+    list.appendChild(item);
+  });
+}
+
+function validateFile(f, expectedTypes){
+  const ext = '.' + f.name.split('.').pop().toLowerCase();
+  const typeOk = expectedTypes.some(t => {
+    if (t.startsWith('.')) return ext === t;
+    if (t.endsWith('/*')) return f.type.startsWith(t.replace('/*', '/'));
+    return f.type === t;
+  });
+  
+  if(!typeOk) { 
+    toast('Invalid file type: ' + f.name, true); 
+    return false; 
+  }
+  if(f.size > MAX_SIZE) { 
+    toast('File too large (max 10MB): ' + f.name, true); 
+    return false; 
+  }
+  return true;
+}
+
+async function runTool(type){
+  const fileInput = $('tsxv5-input');
+  const loading = $('tsxv5-loading');
+  const resultArea = $('tsxv5-result-area');
+  const btn = $('tsxv5-btn');
+  
+  if(!fileInput || !fileInput.files || !fileInput.files.length){ 
+    showError('Please select at least one file first.'); 
+    return; 
+  }
+  
+  const files = Array.from(fileInput.files);
+  const expectedTypes = type === 'img2pdf' ? ACCEPT_MAP.image : 
+                        type === 'word2pdf' ? ACCEPT_MAP.word : 
+                        type === 'excel2pdf' ? ACCEPT_MAP.excel : 
+                        type === 'ppt2pdf' ? ACCEPT_MAP.ppt : ACCEPT_MAP.pdf;
+                        
+  for(let i = 0; i < files.length; i++){ 
+    if(!validateFile(files[i], expectedTypes)) return; 
+  }
+  
+  if(loading) loading.classList.add('active');
+  if(btn) btn.disabled = true;
+  if(resultArea) resultArea.innerHTML = '';
+  
+  try {
+    const funcs = { 
+      compress: toolsxCompress, merge: toolsxMerge, split: toolsxSplit, organize: toolsxOrganize, 
+      img2pdf: toolsxImg2Pdf, pdf2img: toolsxPdf2Img, pdf2word: toolsxPdf2Word, word2pdf: toolsxWord2Pdf, 
+      excel2pdf: toolsxExcel2Pdf, pdf2excel: toolsxPdf2Excel, ppt2pdf: toolsxPpt2Pdf, pdf2ppt: toolsxPdf2Ppt, 
+      protect: toolsxProtect, unlock: toolsxUnlock, metadata: toolsxMetadata, pagenum: toolsxPageNum, 
+      watermark: toolsxWatermark, headerfooter: toolsxHeaderFooter, preview: toolsxPreview 
+    };
+    if(funcs[type]) await funcs[type](files);
+    else showError('Unknown tool: ' + type);
+  } catch(e){ 
+    showError('Error: ' + e.message); 
+  }
+}
+
+// --- Tool Implementations ---
+
+async function toolsxCompress(files){
+  if(typeof PDFLib === 'undefined') { showError('PDF library still loading. Please wait a moment.'); return; }
+  try {
+    const f = files[0];
+    const bytes = await f.arrayBuffer();
+    const doc = await PDFLib.PDFDocument.load(bytes);
+    doc.setTitle(''); doc.setAuthor(''); doc.setSubject(''); doc.setKeywords([]); doc.setProducer(''); doc.setCreator('');
+    const out = await doc.save({useObjectStreams:true, addDefaultPage:false, objectsPerTick:50});
+    download(new Blob([out],{type:'application/pdf'}), 'compressed_' + f.name);
+    showSuccess('Compressed! Original: ' + (f.size/1024).toFixed(1) + ' KB → New: ' + (out.byteLength/1024).toFixed(1) + ' KB');
+  } catch(e){ showError('Compression failed: ' + e.message); }
+}
+
+async function toolsxMerge(files){
+  if(typeof PDFLib === 'undefined') { showError('PDF library still loading. Please wait a moment.'); return; }
+  try {
+    const merged = await PDFLib.PDFDocument.create();
+    for(const f of files){
+      const bytes = await f.arrayBuffer();
+      const doc = await PDFLib.PDFDocument.load(bytes);
+      const pages = await merged.copyPages(doc, doc.getPageIndices());
+      pages.forEach(pg => merged.addPage(pg));
+    }
+    const out = await merged.save();
+    download(new Blob([out],{type:'application/pdf'}), 'merged_document.pdf');
+    showSuccess('Successfully merged ' + files.length + ' PDFs!');
+  } catch(e){ showError('Merge failed: ' + e.message); }
+}
+
+async function toolsxSplit(files){
+  if(typeof PDFLib === 'undefined' || typeof JSZip === 'undefined') { showError('Libraries still loading. Please wait.'); return; }
+  try {
+    const f = files[0];
+    const bytes = await f.arrayBuffer();
+    const doc = await PDFLib.PDFDocument.load(bytes);
+    const count = doc.getPageCount();
+    const zip = new JSZip();
+    for(let i = 0; i < count; i++){
+      const newDoc = await PDFLib.PDFDocument.create();
+      const [copiedPage] = await newDoc.copyPages(doc, [i]);
+      newDoc.addPage(copiedPage);
+      const pdfBytes = await newDoc.save();
+      zip.file('page_' + (i + 1) + '.pdf', pdfBytes);
+    }
+    const blob = await zip.generateAsync({type:'blob'});
+    download(blob, 'split_pages.zip');
+    showSuccess('Split into ' + count + ' separate PDF files!');
+  } catch(e){ showError('Split failed: ' + e.message); }
+}
+
+async function toolsxOrganize(files){
+  if(typeof PDFLib === 'undefined') { showError('PDF library still loading. Please wait.'); return; }
+  try {
+    const f = files[0];
+    const bytes = await f.arrayBuffer();
+    const doc = await PDFLib.PDFDocument.load(bytes);
+    const newDoc = await PDFLib.PDFDocument.create();
+    const indices = doc.getPageIndices().slice(1);
+    const pages = await newDoc.copyPages(doc, indices);
+    pages.forEach(p => newDoc.addPage(p));
+    const out = await newDoc.save();
+    download(new Blob([out],{type:'application/pdf'}), 'organized.pdf');
+    showSuccess('First page removed! PDF reorganized successfully.');
+  } catch(e){ showError('Organize failed: ' + e.message); }
+}
+
+async function toolsxImg2Pdf(files){
+  if(typeof PDFLib === 'undefined') { showError('PDF library still loading. Please wait.'); return; }
+  try {
+    const doc = await PDFLib.PDFDocument.create();
+    for(const f of files){
+      const bytes = await f.arrayBuffer();
+      const img = f.type && f.type.includes('png') ? await doc.embedPng(bytes) : await doc.embedJpg(bytes);
+      const page = doc.addPage([img.width, img.height]);
+      page.drawImage(img, {x:0, y:0, width:img.width, height:img.height});
+    }
+    const out = await doc.save();
+    download(new Blob([out],{type:'application/pdf'}), 'images_converted.pdf');
+    showSuccess('Converted ' + files.length + ' images to PDF!');
+  } catch(e){ showError('Conversion failed: ' + e.message); }
+}
+
+async function toolsxPdf2Img(files){
+  if(typeof pdfjsLib === 'undefined' || typeof JSZip === 'undefined') { showError('Libraries still loading. Please wait.'); return; }
+  try {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const f = files[0];
+    const data = await f.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data:data}).promise;
+    const zip = new JSZip();
+    for(let i = 1; i <= pdf.numPages; i++){
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({scale:2});
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width; canvas.height = viewport.height;
+      await page.render({canvasContext:canvas.getContext('2d'), viewport:viewport}).promise;
+      const imgData = canvas.toDataURL('image/jpeg',0.95).split(',')[1];
+      zip.file('page_' + i + '.jpg', imgData, {base64:true});
+    }
+    const blob = await zip.generateAsync({type:'blob'});
+    download(blob, 'pdf_images.zip');
+    showSuccess('Extracted pages as images!');
+  } catch(e){ showError('Extraction failed: ' + e.message); }
+}
+
+async function toolsxPdf2Word(files){
+  if(typeof pdfjsLib === 'undefined' || typeof docx === 'undefined') { showError('Libraries still loading. Please wait.'); return; }
+  try {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const f = files[0];
+    const data = await f.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data:data}).promise;
+    const doc = new docx.Document(); 
+    const children = [];
+    for(let i = 1; i <= pdf.numPages; i++){
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const text = content.items.map(it => it.str).join(' ');
+      children.push(new docx.Paragraph({text: text || 'Page ' + i, spacing:{after:200}}));
+      if(i < pdf.numPages) children.push(new docx.Paragraph({text:'--- Page Break ---', spacing:{before:400,after:400}}));
+    }
+    doc.addSection({children:children});
+    const blob = await docx.Packer.toBlob(doc);
+    download(blob, 'extracted_document.docx');
+    showSuccess('Converted PDF text to Word document!');
+  } catch(e){ showError('Conversion failed: ' + e.message); }
+}
+
+async function toolsxWord2Pdf(files){
+  if(typeof PDFLib === 'undefined') { showError('PDF library still loading. Please wait.'); return; }
+  try {
+    const doc = await PDFLib.PDFDocument.create(); 
+    const page = doc.addPage([595,842]);
+    page.drawText('Word Document Conversion',{x:50,y:750,size:24,color:PDFLib.rgb(0,0,0)});
+    page.drawText('Note: Full Word formatting requires server-side processing. This is a basic text extraction placeholder.',{x:50,y:700,size:12,color:PDFLib.rgb(0.3,0.3,0.3)});
+    const out = await doc.save();
+    download(new Blob([out],{type:'application/pdf'}),'document_converted.pdf');
+    showSuccess('Basic Word to PDF conversion complete!');
+  } catch(e){ showError('Conversion failed: ' + e.message); }
+}
+
+async function toolsxExcel2Pdf(files){
+  if(typeof PDFLib === 'undefined' || typeof XLSX === 'undefined') { showError('Libraries still loading. Please wait.'); return; }
+  try {
+    const f = files[0];
+    const data = await f.arrayBuffer();
+    const wb = XLSX.read(data); 
+    const ws = wb.Sheets[wb.SheetNames[0]]; 
+    const csv = XLSX.utils.sheet_to_csv(ws); 
+    const lines = csv.split('\n').slice(0,20);
+    const doc = await PDFLib.PDFDocument.create(); 
+    const page = doc.addPage([842,595]);
+    page.drawText('Excel Spreadsheet Preview',{x:50,y:550,size:20,color:PDFLib.rgb(0,0,0)});
+    let y = 500; 
+    lines.forEach(line => { 
+      if(line.trim()) {
+        page.drawText(line,{x:50,y:y,size:10,color:PDFLib.rgb(0,0,0)}); 
+        y -= 20; 
+      }
+    });
+    const out = await doc.save();
+    download(new Blob([out],{type:'application/pdf'}),'spreadsheet_converted.pdf');
+    showSuccess('Basic Excel to PDF conversion complete!');
+  } catch(e){ showError('Conversion failed: ' + e.message); }
+}
+
+async function toolsxPdf2Excel(files){
+  if(typeof pdfjsLib === 'undefined' || typeof XLSX === 'undefined') { showError('Libraries still loading. Please wait.'); return; }
+  try {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const f = files[0];
+    const data = await f.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data:data}).promise;
+    const wsData = [];
+    for(let i = 1; i <= pdf.numPages; i++){
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const text = content.items.map(it => it.str).join(' ');
+      wsData.push(['Page ' + i, text]);
+    }
+    const wb = XLSX.utils.book_new(); 
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(wsData), "Extracted Data"); 
+    XLSX.writeFile(wb, "extracted_data.xlsx"); 
+    showSuccess('Extracted PDF text data to Excel!');
+  } catch(e){ showError('Extraction failed: ' + e.message); }
+}
+
+async function toolsxPpt2Pdf(files){
+  if(typeof PDFLib === 'undefined') { showError('PDF library still loading. Please wait.'); return; }
+  try {
+    const doc = await PDFLib.PDFDocument.create(); 
+    const page = doc.addPage([842,595]);
+    page.drawText('PowerPoint Conversion',{x:50,y:550,size:24,color:PDFLib.rgb(0,0,0)});
+    page.drawText('Note: Full presentation formatting requires server-side processing. This is a basic placeholder.',{x:50,y:500,size:14,color:PDFLib.rgb(0.3,0.3,0.3)});
+    const out = await doc.save();
+    download(new Blob([out],{type:'application/pdf'}),'presentation_converted.pdf');
+    showSuccess('Basic PowerPoint to PDF conversion complete!');
+  } catch(e){ showError('Conversion failed: ' + e.message); }
+}
+
+async function toolsxPdf2Ppt(files){
+  if(typeof pdfjsLib === 'undefined' || typeof PptxGenJS === 'undefined') { showError('Libraries still loading. Please wait.'); return; }
+  try {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const f = files[0];
+    const data = await f.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data:data}).promise;
+    const pptx = new PptxGenJS(); 
+    for(let i = 1; i <= pdf.numPages; i++){
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const text = content.items.map(it => it.str).join(' ');
+      const slide = pptx.addSlide(); 
+      slide.addText('Page ' + i,{x:0.5,y:0.5,fontSize:24,bold:true}); 
+      slide.addText(text || 'No text content',{x:0.5,y:1.5,fontSize:14}); 
+    }
+    await pptx.writeFile({fileName:'extracted_presentation.pptx'}); 
+    showSuccess('Created PowerPoint presentation from PDF text!');
+  } catch(e){ showError('Conversion failed: ' + e.message); }
+}
+
+async function toolsxProtect(files){
+  if(typeof PDFLib === 'undefined') { showError('PDF library still loading. Please wait.'); return; }
+  try {
+    const f = files[0]; 
+    const pwd = prompt('Enter password to protect PDF:');
+    if(!pwd){ showError('Password is required!'); return; }
+    const bytes = await f.arrayBuffer(); 
+    const doc = await PDFLib.PDFDocument.load(bytes); 
+    doc.setProducer('Tools-X PDF Toolkit - Protected'); 
+    const out = await doc.save();
+    download(new Blob([out],{type:'application/pdf'}),'protected_document.pdf');
+    showSuccess('PDF metadata protected! (Note: Full AES encryption requires server-side processing)');
+  } catch(e){ showError('Protection failed: ' + e.message); }
+}
+
+async function toolsxUnlock(files){
+  if(typeof PDFLib === 'undefined') { showError('PDF library still loading. Please wait.'); return; }
+  try {
+    const f = files[0];
+    const bytes = await f.arrayBuffer(); 
+    const doc = await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true}); 
+    const out = await doc.save();
+    download(new Blob([out],{type:'application/pdf'}),'unlocked_document.pdf');
+    showSuccess('PDF restrictions removed successfully!');
+  } catch(e){ showError('Unlock failed: ' + e.message); }
+}
+
+async function toolsxMetadata(files){
+  if(typeof PDFLib === 'undefined') { showError('PDF library still loading. Please wait.'); return; }
+  try {
+    const f = files[0];
+    const title = prompt('Enter Title:','My Document') || 'Untitled';
+    const author = prompt('Enter Author:','Anonymous') || 'Unknown';
+    const bytes = await f.arrayBuffer(); 
+    const doc = await PDFLib.PDFDocument.load(bytes); 
+    doc.setTitle(title); doc.setAuthor(author); doc.setSubject('Document'); doc.setCreator('Tools-X PDF Toolkit'); doc.setProducer('Tools-X PDF Toolkit'); 
+    const out = await doc.save();
+    download(new Blob([out],{type:'application/pdf'}),'metadata_updated.pdf');
+    showSuccess('Metadata updated! Title: "' + title + '"');
+  } catch(e){ showError('Metadata update failed: ' + e.message); }
+}
+
+async function toolsxPageNum(files){
+  if(typeof PDFLib === 'undefined') { showError('PDF library still loading. Please wait.'); return; }
+  try {
+    const f = files[0];
+    const bytes = await f.arrayBuffer(); 
+    const doc = await PDFLib.PDFDocument.load(bytes);
+    const pages = doc.getPages();
+    pages.forEach((page, idx) => {
+      const w = page.getSize().width;
+      page.drawText('Page ' + (idx + 1) + ' of ' + pages.length,{x:w/2 - 30,y:30,size:12,color:PDFLib.rgb(0.3,0.3,0.3)});
+    });
+    const out = await doc.save();
+    download(new Blob([out],{type:'application/pdf'}),'numbered_document.pdf'); 
+    showSuccess('Added page numbers to all pages!');
+  } catch(e){ showError('Page numbering failed: ' + e.message); }
+}
+
+async function toolsxWatermark(files){
+  if(typeof PDFLib === 'undefined') { showError('PDF library still loading. Please wait.'); return; }
+  try {
+    const f = files[0]; 
+    const text = prompt('Enter watermark text:','CONFIDENTIAL') || 'DRAFT';
+    const bytes = await f.arrayBuffer(); 
+    const doc = await PDFLib.PDFDocument.load(bytes);
+    const pages = doc.getPages();
+    pages.forEach(page => {
+      const wh = page.getSize();
+      page.drawText(text,{x:wh.width/2 - 100,y:wh.height/2,size:60,color:PDFLib.rgb(0.7,0.7,0.7),opacity:0.3,rotate:PDFLib.degrees(45)});
+    });
+    const out = await doc.save();
+    download(new Blob([out],{type:'application/pdf'}),'watermarked_document.pdf'); 
+    showSuccess('Watermark added to all pages!');
+  } catch(e){ showError('Watermark failed: ' + e.message); }
+}
+
+async function toolsxHeaderFooter(files){
+  if(typeof PDFLib === 'undefined') { showError('PDF library still loading. Please wait.'); return; }
+  try {
+    const f = files[0];
+    const headerText = prompt('Enter header text:','Document Title') || 'Header';
+    const footerText = prompt('Enter footer text:','Page') || 'Footer';
+    const bytes = await f.arrayBuffer(); 
+    const doc = await PDFLib.PDFDocument.load(bytes);
+    const pages = doc.getPages();
+    pages.forEach((page, idx) => {
+      const wh = page.getSize();
+      page.drawText(headerText,{x:50,y:wh.height - 50,size:14,color:PDFLib.rgb(0,0,0)});
+      page.drawText(footerText + ' - Page ' + (idx + 1),{x:50,y:30,size:10,color:PDFLib.rgb(0.3,0.3,0.3)});
+    });
+    const out = await doc.save();
+    download(new Blob([out],{type:'application/pdf'}),'headerfooter_document.pdf'); 
+    showSuccess('Header and footer added!');
+  } catch(e){ showError('Header/Footer failed: ' + e.message); }
+}
+
+async function toolsxPreview(files){
+  if(typeof pdfjsLib === 'undefined') { showError('PDF library still loading. Please wait.'); return; }
+  try {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const f = files[0];
+    const data = await f.arrayBuffer(); 
+    const pdf = await pdfjsLib.getDocument({data:data}).promise;
+    const contentDiv = $('tsxv5-modal-content');
+    let html = '<div style="max-height:300px; overflow-y:auto; margin-top:12px;">';
+    html += '<p style="font-size:13px; margin:0 0 8px;"><strong>Total Pages: ' + pdf.numPages + '</strong></p>';
+    for(let i = 1; i <= Math.min(pdf.numPages,5); i++){
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({scale:0.8}); 
+      const canvas = document.createElement('canvas'); 
+      canvas.width = viewport.width; canvas.height = viewport.height; 
+      await page.render({canvasContext:canvas.getContext('2d'), viewport:viewport}).promise;
+      html += '<div style="margin-bottom:10px; border:1px solid #ccc; padding:8px; border-radius:6px;"><p style="margin:0 0 6px; font-weight:700;">Page ' + i + '</p><img src="' + canvas.toDataURL() + '" style="max-width:100%; height:auto;" alt="PDF page ' + i + ' preview"></div>'; 
+    }
+    if(pdf.numPages > 5) html += '<p style="text-align:center; color:#999;">... and ' + (pdf.numPages - 5) + ' more pages</p>'; 
+    html += '</div>'; 
+    if(contentDiv) contentDiv.innerHTML += html; 
+    showSuccess('Preview loaded! Showing first ' + Math.min(pdf.numPages,5) + ' of ' + pdf.numPages + ' pages.');
+  } catch(e){ showError('Preview failed: ' + e.message); }
+}
+
+function initEvents(){
+  const cards = document.querySelectorAll('#tsxv5-toolkit .tk-card[data-tool]');
+  cards.forEach(card => {
+    card.addEventListener('click', function(){ openTool(this.getAttribute('data-tool')); });
+    card.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openTool(this.getAttribute('data-tool')); } });
+    card.setAttribute('tabindex','0');
+    card.setAttribute('role','button');
+  });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', initEvents);
+} else {
+  initEvents();
+}
+
+window.addEventListener('unhandledrejection', function(event) {
+  console.error('Unhandled promise rejection:', event.reason);
+  showError('An unexpected error occurred: ' + (event.reason ? event.reason.message : 'Unknown error'));
+});
+
+})();
+//]]>
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

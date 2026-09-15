@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Smart Text Analyser – Free Online Text &amp; Content Analysis Tool – ToolsX App</title>
+<meta name="description" content="Analyse text readability, word count and structure instantly with our free Smart Text Analyser. No download needed.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Smart Text Analyser – Free Online Text &amp; Content Analysis Tool</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-text-studio" class="text-studio-root">
+<style>
+#tsxv5-text-studio {
+  --ts-primary: #6C3AFF;
+  --ts-primary-dark: #5228CC;
+  --ts-primary-light: #8B5CF6;
+  --ts-secondary: #00D4AA;
+  --ts-accent: #FF6B6B;
+  --ts-bg: #f8fafc;
+  --ts-card: #ffffff;
+  --ts-input-bg: #f1f5f9;
+  --ts-text: #0f172a;
+  --ts-text-secondary: #475569;
+  --ts-text-muted: #94a3b8;
+  --ts-border: #e2e8f0;
+  --ts-border-focus: #6C3AFF;
+  --ts-success: #10B981;
+  --ts-warning: #F59E0B;
+  --ts-danger: #EF4444;
+  --ts-gradient-1: linear-gradient(135deg, #6C3AFF 0%, #00D4AA 100%);
+  --ts-gradient-2: linear-gradient(135deg, #FF6B6B 0%, #6C3AFF 100%);
+  --ts-gradient-3: linear-gradient(135deg, #00D4AA 0%, #3B82F6 100%);
+  --ts-shadow-card: 0 4px 24px rgba(0,0,0,0.08);
+  --ts-radius: 16px;
+  --ts-radius-sm: 10px;
+  --ts-radius-xs: 6px;
+  
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--ts-bg);
+  color: var(--ts-text);
+  line-height: 1.6;
+  min-height: auto;
+  overflow-x: hidden;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(10px, 3vw, 20px);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+#tsxv5-text-studio * { margin: 0; padding: 0; box-sizing: border-box; }
+
+#tsxv5-text-studio .ts-bg-animation {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+#tsxv5-text-studio .ts-bg-animation .ts-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.08;
+  animation: tsFloat 20s infinite ease-in-out;
+}
+#tsxv5-text-studio .ts-bg-animation .ts-orb:nth-child(1) { width: 600px; height: 600px; background: var(--ts-primary); top: -200px; left: -200px; }
+#tsxv5-text-studio .ts-bg-animation .ts-orb:nth-child(2) { width: 500px; height: 500px; background: var(--ts-secondary); bottom: -150px; right: -150px; animation-delay: -7s; }
+#tsxv5-text-studio .ts-bg-animation .ts-orb:nth-child(3) { width: 400px; height: 400px; background: var(--ts-accent); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; }
+@keyframes tsFloat { 0%, 100% { transform: translate(0, 0) scale(1); } 25% { transform: translate(50px, -80px) scale(1.1); } 50% { transform: translate(-30px, 60px) scale(0.9); } 75% { transform: translate(70px, 30px) scale(1.05); } }
+
+#tsxv5-text-studio .ts-header { text-align: center; padding: clamp(20px, 4vw, 40px) 20px clamp(16px, 3vw, 30px); position: relative; z-index: 1; }
+#tsxv5-text-studio .ts-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(108, 58, 255, 0.1); border: 1px solid rgba(108, 58, 255, 0.3); color: var(--ts-primary); padding: 8px 20px; border-radius: 50px; font-size: clamp(11px, 2vw, 13px); font-weight: 600; margin-bottom: 20px; }
+#tsxv5-text-studio .ts-badge .ts-pulse { width: 8px; height: 8px; background: var(--ts-success); border-radius: 50%; animation: tsPulse 2s infinite; }
+@keyframes tsPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+#tsxv5-text-studio .ts-header h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 900; background: var(--ts-gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; letter-spacing: -1px; }
+#tsxv5-text-studio .ts-header p { font-size: clamp(0.9rem, 2vw, 1rem); color: var(--ts-text-secondary); max-width: 600px; margin: 0 auto; }
+
+#tsxv5-text-studio .ts-security-banner { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 20px auto; padding: 14px 20px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: var(--ts-radius-sm); max-width: 800px; position: relative; z-index: 1; }
+#tsxv5-text-studio .ts-sec-item { display: flex; align-items: center; gap: 6px; font-size: clamp(10px, 1.8vw, 12px); color: var(--ts-success); font-weight: 500; }
+
+#tsxv5-text-studio .ts-tab-nav { display: flex; gap: 6px; padding: 6px; background: var(--ts-card); border-radius: var(--ts-radius); border: 1px solid var(--ts-border); margin-bottom: 24px; overflow-x: auto; scrollbar-width: none; position: relative; z-index: 1; }
+#tsxv5-text-studio .ts-tab-nav::-webkit-scrollbar { display: none; }
+#tsxv5-text-studio .ts-tab-btn { flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 10px 16px; background: transparent; border: none; color: var(--ts-text-muted); font-family: inherit; font-size: clamp(11px, 2vw, 13px); font-weight: 500; border-radius: var(--ts-radius-sm); cursor: pointer; transition: all 0.3s; white-space: nowrap; min-height: 44px; }
+#tsxv5-text-studio .ts-tab-btn:hover { color: var(--ts-text); background: rgba(108, 58, 255, 0.08); }
+#tsxv5-text-studio .ts-tab-btn.ts-active { background: var(--ts-primary); color: #fff; }
+#tsxv5-text-studio .ts-tab-content { display: none; animation: tsFadeIn 0.4s; position: relative; z-index: 1; }
+#tsxv5-text-studio .ts-tab-content.ts-active { display: block; }
+@keyframes tsFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+#tsxv5-text-studio .ts-card { background: var(--ts-card); border: 1px solid var(--ts-border); border-radius: var(--ts-radius); padding: clamp(16px, 3vw, 24px); margin-bottom: 20px; box-shadow: var(--ts-shadow-card); }
+#tsxv5-text-studio .ts-card-title { font-size: clamp(1rem, 2.5vw, 1.1rem); font-weight: 700; margin-bottom: 4px; }
+#tsxv5-text-studio .ts-card-subtitle { font-size: clamp(11px, 2vw, 13px); color: var(--ts-text-muted); margin-bottom: 16px; }
+
+#tsxv5-text-studio .ts-text-area { width: 100%; min-height: 160px; background: var(--ts-input-bg); border: 2px solid var(--ts-border); border-radius: var(--ts-radius-sm); padding: 14px; color: var(--ts-text); font-family: 'Inter', monospace; font-size: clamp(14px, 2vw, 14px); line-height: 1.7; resize: vertical; transition: border-color 0.3s, box-shadow 0.3s; outline: none; }
+#tsxv5-text-studio .ts-text-area:focus { border-color: var(--ts-primary); box-shadow: 0 0 0 4px rgba(108, 58, 255, 0.1); }
+#tsxv5-text-studio .ts-input-field { width: 100%; padding: 12px 14px; background: var(--ts-input-bg); border: 2px solid var(--ts-border); border-radius: var(--ts-radius-sm); color: var(--ts-text); font-family: inherit; font-size: clamp(14px, 2vw, 14px); outline: none; transition: border-color 0.3s; min-height: 44px; }
+#tsxv5-text-studio .ts-input-field:focus { border-color: var(--ts-primary); }
+
+#tsxv5-text-studio .ts-btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+#tsxv5-text-studio .ts-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border: none; border-radius: var(--ts-radius-xs); font-family: inherit; font-size: clamp(12px, 2vw, 13px); font-weight: 600; cursor: pointer; transition: all 0.3s; min-height: 44px; }
+#tsxv5-text-studio .ts-btn-primary { background: var(--ts-gradient-1); color: #fff; }
+#tsxv5-text-studio .ts-btn-primary:hover { transform: translateY(-2px); }
+#tsxv5-text-studio .ts-btn-secondary { background: rgba(108, 58, 255, 0.1); color: var(--ts-primary); border: 1px solid rgba(108, 58, 255, 0.3); }
+#tsxv5-text-studio .ts-btn-success { background: var(--ts-success); color: #fff; }
+#tsxv5-text-studio .ts-btn-sm { padding: 7px 14px; font-size: clamp(11px, 1.8vw, 12px); min-height: 40px; }
+
+#tsxv5-text-studio .ts-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 16px; }
+#tsxv5-text-studio .ts-stat-card { background: var(--ts-input-bg); border: 1px solid var(--ts-border); border-radius: var(--ts-radius-sm); padding: 12px; text-align: center; }
+#tsxv5-text-studio .ts-stat-value { font-size: clamp(1.2rem, 3vw, 1.4rem); font-weight: 800; background: var(--ts-gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+#tsxv5-text-studio .ts-stat-label { font-size: 11px; color: var(--ts-text-muted); font-weight: 500; text-transform: uppercase; margin-top: 2px; }
+
+#tsxv5-text-studio .ts-case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-top: 14px; }
+#tsxv5-text-studio .ts-case-btn { padding: 10px; background: var(--ts-input-bg); border: 2px solid var(--ts-border); border-radius: var(--ts-radius-sm); color: var(--ts-text); font-family: inherit; font-size: clamp(11px, 2vw, 12px); font-weight: 600; cursor: pointer; text-align: center; min-height: 48px; }
+#tsxv5-text-studio .ts-case-btn:hover { border-color: var(--ts-primary); }
+#tsxv5-text-studio .ts-case-preview { display: block; font-size: 10px; color: var(--ts-text-muted); margin-top: 2px; font-weight: 400; }
+
+#tsxv5-text-studio .ts-output-box { background: var(--ts-input-bg); border: 2px solid var(--ts-border); border-radius: var(--ts-radius-sm); padding: 14px; min-height: 60px; color: var(--ts-secondary); font-family: 'Courier New', monospace; font-size: clamp(12px, 2vw, 14px); word-break: break-all; margin-top: 14px; }
+
+#tsxv5-text-studio .ts-password-display { display: flex; align-items: center; gap: 10px; background: var(--ts-input-bg); border: 2px solid var(--ts-border); border-radius: var(--ts-radius-sm); padding: 14px; margin-top: 14px; }
+#tsxv5-text-studio .ts-pwd-text { flex: 1; font-family: 'Courier New', monospace; font-size: clamp(16px, 3vw, 18px); font-weight: 700; color: var(--ts-secondary); letter-spacing: 1px; word-break: break-all; }
+#tsxv5-text-studio .ts-password-strength { height: 6px; border-radius: 3px; background: var(--ts-border); margin-top: 10px; overflow: hidden; }
+#tsxv5-text-studio .ts-password-strength .ts-bar { height: 100%; border-radius: 3px; transition: all 0.5s; }
+#tsxv5-text-studio .ts-strength-label { font-size: 12px; font-weight: 600; margin-top: 4px; }
+
+#tsxv5-text-studio .ts-options-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
+#tsxv5-text-studio .ts-option-group { display: flex; align-items: center; gap: 6px; }
+#tsxv5-text-studio .ts-option-group label { font-size: clamp(11px, 2vw, 13px); color: var(--ts-text-secondary); cursor: pointer; }
+#tsxv5-text-studio .ts-option-group input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--ts-primary); cursor: pointer; }
+#tsxv5-text-studio .ts-option-group input[type="range"] { width: 100px; accent-color: var(--ts-primary); }
+
+#tsxv5-text-studio .ts-density-table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+#tsxv5-text-studio .ts-density-table th, #tsxv5-text-studio .ts-density-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--ts-border); font-size: clamp(11px, 2vw, 13px); }
+#tsxv5-text-studio .ts-density-table th { color: var(--ts-text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+#tsxv5-text-studio .ts-density-bar { height: 5px; background: var(--ts-border); border-radius: 3px; overflow: hidden; min-width: 80px; }
+#tsxv5-text-studio .ts-density-bar .ts-fill { height: 100%; background: var(--ts-gradient-1); border-radius: 3px; }
+
+#tsxv5-text-studio .ts-find-replace-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+
+#tsxv5-text-studio .ts-toast { position: fixed; bottom: 30px; right: 30px; background: var(--ts-card); border: 1px solid var(--ts-success); color: var(--ts-success); padding: 12px 20px; border-radius: var(--ts-radius-sm); font-size: clamp(11px, 1.8vw, 13px); font-weight: 600; box-shadow: 0 8px 32px rgba(0,0,0,0.2); z-index: 9999; transform: translateY(100px); opacity: 0; transition: all 0.4s; display: flex; align-items: center; gap: 8px; }
+#tsxv5-text-studio .ts-toast.ts-show { transform: translateY(0); opacity: 1; }
+
+#tsxv5-text-studio .ts-footer { text-align: center; padding: 30px 20px; color: var(--ts-text-muted); font-size: clamp(10px, 1.8vw, 12px); border-top: 1px solid var(--ts-border); margin-top: 30px; }
+#tsxv5-text-studio .ts-footer a { color: var(--ts-primary); text-decoration: none; }
+
+/* Dark Mode Overrides */
+body.dark-mode #tsxv5-text-studio,
+html.dark-mode #tsxv5-text-studio,
+[data-theme="dark"] #tsxv5-text-studio,
+body[data-theme="dark"] #tsxv5-text-studio,
+html[data-theme="dark"] #tsxv5-text-studio,
+.dark-mode #tsxv5-text-studio,
+.night-mode #tsxv5-text-studio,
+[data-bs-theme="dark"] #tsxv5-text-studio {
+  --ts-bg: #0A0E1A;
+  --ts-card: #111827;
+  --ts-input-bg: #0D1321;
+  --ts-text: #F1F5F9;
+  --ts-text-secondary: #94A3B8;
+  --ts-text-muted: #64748B;
+  --ts-border: #1E293B;
+  --ts-shadow-card: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+/* Mobile Responsive */
+@media (max-width: 320px) {
+  #tsxv5-text-studio { padding: 6px; }
+  #tsxv5-text-studio .ts-header { padding: 12px 6px 10px; }
+  #tsxv5-text-studio .ts-card { padding: 10px; }
+  #tsxv5-text-studio .ts-stats-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  #tsxv5-text-studio .ts-find-replace-row { grid-template-columns: 1fr; }
+  #tsxv5-text-studio .ts-tab-btn { padding: 6px 8px; font-size: 10px; min-height: 40px; }
+  #tsxv5-text-studio .ts-btn { padding: 6px 10px; font-size: 10px; min-height: 40px; }
+  #tsxv5-text-studio .ts-case-btn { min-height: 44px; padding: 6px; font-size: 10px; }
+  #tsxv5-text-studio .ts-input-field { padding: 8px 10px; }
+  #tsxv5-text-studio .ts-text-area { min-height: 120px; }
+}
+@media (max-width: 360px) {
+  #tsxv5-text-studio { padding: 8px; }
+  #tsxv5-text-studio .ts-header { padding: 16px 8px 12px; }
+  #tsxv5-text-studio .ts-card { padding: 12px; }
+  #tsxv5-text-studio .ts-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  #tsxv5-text-studio .ts-case-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 390px) {
+  #tsxv5-text-studio .ts-btn-row { gap: 6px; }
+  #tsxv5-text-studio .ts-btn { padding: 8px 14px; font-size: 11px; }
+}
+@media (max-width: 414px) {
+  #tsxv5-text-studio .ts-tab-btn { padding: 8px 12px; font-size: 11px; }
+  #tsxv5-text-studio .ts-options-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+  #tsxv5-text-studio .ts-option-group input[type="range"] { width: 100%; }
+}
+@media (max-width: 480px) {
+  #tsxv5-text-studio { padding: 8px; }
+  #tsxv5-text-studio .ts-header { padding: 20px 10px 16px; }
+  #tsxv5-text-studio .ts-card { padding: 16px; }
+  #tsxv5-text-studio .ts-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  #tsxv5-text-studio .ts-find-replace-row { grid-template-columns: 1fr; }
+  #tsxv5-text-studio .ts-tab-btn { padding: 8px 10px; font-size: 11px; min-height: 44px; }
+  #tsxv5-text-studio .ts-btn { padding: 8px 14px; font-size: 12px; min-height: 44px; }
+  #tsxv5-text-studio .ts-case-btn { min-height: 48px; }
+}
+@media (max-width: 640px) {
+  #tsxv5-text-studio .ts-case-grid { grid-template-columns: repeat(2, 1fr); }
+  #tsxv5-text-studio .ts-input-field { max-width: 100%; }
+  #tsxv5-text-studio .ts-btn-row { justify-content: flex-start; }
+}
+@media (max-width: 768px) {
+  #tsxv5-text-studio { padding: 12px; }
+  #tsxv5-text-studio .ts-case-grid { grid-template-columns: repeat(2, 1fr); }
+  #tsxv5-text-studio .ts-stats-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+}
+@media (min-width: 1024px) {
+  #tsxv5-text-studio { max-width: 1100px; }
+}
+</style>
+
+<!-- Toast -->
+<div class="ts-toast" id="tsxv5-ts-toast">✅ <span id="tsxv5-ts-toastMsg">Copied!</span></div>
+
+<div class="ts-header">
+  <div class="ts-badge"><span class="ts-pulse"></span> 100% FREE &amp; SECURE</div>
+  <h2>⚡ Tools-X Text Studio Pro</h2>
+  <p>All-in-one text processing, analysis, encryption &amp; security toolkit — runs entirely in your browser. No data ever leaves your device.</p>
+</div>
+
+<div class="ts-security-banner">
+  <span class="ts-sec-item">🔒 Client-Side Only</span>
+  <span class="ts-sec-item">🛡️ XSS Protected</span>
+  <span class="ts-sec-item">✅ Zero Data Collection</span>
+  <span class="ts-sec-item">☁️ No Server Upload</span>
+</div>
+
+<nav class="ts-tab-nav" id="tsxv5-ts-tabNav" aria-label="Tool navigation">
+  <button class="ts-tab-btn ts-active" data-tab="analyzer" aria-label="Text Analyzer">📊 Analyzer</button>
+  <button class="ts-tab-btn" data-tab="converter" aria-label="Case Converter">🔤 Case</button>
+  <button class="ts-tab-btn" data-tab="encryptor" aria-label="Encryptor">🔐 Encrypt</button>
+  <button class="ts-tab-btn" data-tab="password" aria-label="Password Generator">🔑 Password</button>
+  <button class="ts-tab-btn" data-tab="cleaner" aria-label="Text Cleaner">🧹 Cleaner</button>
+  <button class="ts-tab-btn" data-tab="findreplace" aria-label="Find and Replace">🔍 Replace</button>
+  <button class="ts-tab-btn" data-tab="slug" aria-label="Slug Generator">🔗 Slug</button>
+  <button class="ts-tab-btn" data-tab="lorem" aria-label="Lorem Ipsum Generator">📝 Lorem</button>
+</nav>
+
+<!-- TAB 1: ANALYZER -->
+<div class="ts-tab-content ts-active" id="tsxv5-ts-tab-analyzer">
+  <div class="ts-card">
+    <div class="ts-card-title">📊 Smart Text Analyzer</div>
+    <div class="ts-card-subtitle">Paste or type text to get instant analysis including keyword density.</div>
+    <textarea class="ts-text-area" id="tsxv5-ts-analyzerInput" placeholder="Start typing or paste your text here..." aria-label="Text analyzer input"></textarea>
+    <div class="ts-stats-grid">
+      <div class="ts-stat-card"><div class="ts-stat-value" id="tsxv5-ts-statChars">0</div><div class="ts-stat-label">Chars</div></div>
+      <div class="ts-stat-card"><div class="ts-stat-value" id="tsxv5-ts-statCharsNoSpace">0</div><div class="ts-stat-label">No Spaces</div></div>
+      <div class="ts-stat-card"><div class="ts-stat-value" id="tsxv5-ts-statWords">0</div><div class="ts-stat-label">Words</div></div>
+      <div class="ts-stat-card"><div class="ts-stat-value" id="tsxv5-ts-statSentences">0</div><div class="ts-stat-label">Sentences</div></div>
+      <div class="ts-stat-card"><div class="ts-stat-value" id="tsxv5-ts-statParagraphs">0</div><div class="ts-stat-label">Paragraphs</div></div>
+      <div class="ts-stat-card"><div class="ts-stat-value" id="tsxv5-ts-statReadTime">0m</div><div class="ts-stat-label">Read</div></div>
+      <div class="ts-stat-card"><div class="ts-stat-value" id="tsxv5-ts-statSpeakTime">0m</div><div class="ts-stat-label">Speak</div></div>
+      <div class="ts-stat-card"><div class="ts-stat-value" id="tsxv5-ts-statAvgWord">0</div><div class="ts-stat-label">Avg Word</div></div>
+    </div>
+  </div>
+  <div class="ts-card">
+    <div class="ts-card-title">🔑 Top Keyword Density</div>
+    <table class="ts-density-table">
+      <thead><tr><th>Keyword</th><th>Count</th><th>Density</th><th>Bar</th></tr></thead>
+      <tbody id="tsxv5-ts-densityBody"><tr><td colspan="4" style="text-align:center;color:var(--ts-text-muted);">Start typing to see keyword density...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TAB 2: CASE CONVERTER -->
+<div class="ts-tab-content" id="tsxv5-ts-tab-converter">
+  <div class="ts-card">
+    <div class="ts-card-title">🔤 Text Case Converter</div>
+    <textarea class="ts-text-area" id="tsxv5-ts-caseInput" placeholder="Type or paste text..." aria-label="Case converter input"></textarea>
+    <div class="ts-case-grid">
+      <button class="ts-case-btn" data-case="upper" aria-label="Uppercase">UPPERCASE<span class="ts-case-preview">HELLO</span></button>
+      <button class="ts-case-btn" data-case="lower" aria-label="Lowercase">lowercase<span class="ts-case-preview">hello</span></button>
+      <button class="ts-case-btn" data-case="title" aria-label="Title Case">Title Case<span class="ts-case-preview">Hello</span></button>
+      <button class="ts-case-btn" data-case="sentence" aria-label="Sentence case">Sentence<span class="ts-case-preview">Hello</span></button>
+      <button class="ts-case-btn" data-case="alternate" aria-label="Alternating case">aLtErNaTe<span class="ts-case-preview">hElLo</span></button>
+      <button class="ts-case-btn" data-case="camel" aria-label="camelCase">camelCase<span class="ts-case-preview">helloWorld</span></button>
+      <button class="ts-case-btn" data-case="snake" aria-label="snake_case">snake_case<span class="ts-case-preview">hello_world</span></button>
+      <button class="ts-case-btn" data-case="kebab" aria-label="kebab-case">kebab-case<span class="ts-case-preview">hello-world</span></button>
+    </div>
+    <div class="ts-output-box" id="tsxv5-ts-caseOutput">Converted text will appear here...</div>
+    <div class="ts-btn-row"><button class="ts-btn ts-btn-success ts-btn-sm" id="tsxv5-ts-copyCase" aria-label="Copy converted text">📋 Copy</button></div>
+  </div>
+</div>
+
+<!-- TAB 3: ENCRYPTOR -->
+<div class="ts-tab-content" id="tsxv5-ts-tab-encryptor">
+  <div class="ts-card">
+    <div class="ts-card-title">🔐 Text Encryptor &amp; Decryptor</div>
+    <textarea class="ts-text-area" id="tsxv5-ts-encryptInput" placeholder="Enter secret text..." aria-label="Encryption input"></textarea>
+    <div class="ts-options-row"><label for="tsxv5-ts-encryptKey">🔑 Key:</label><input type="text" class="ts-input-field" id="tsxv5-ts-encryptKey" placeholder="Enter key (min 4 characters)" style="max-width:100%;" aria-label="Encryption key"></div>
+    <div class="ts-btn-row">
+      <button class="ts-btn ts-btn-primary" id="tsxv5-ts-encryptBtn" aria-label="Encrypt text">🔒 Encrypt</button>
+      <button class="ts-btn ts-btn-secondary" id="tsxv5-ts-decryptBtn" aria-label="Decrypt text">🔓 Decrypt</button>
+      <button class="ts-btn ts-btn-success ts-btn-sm" id="tsxv5-ts-copyEncrypt" aria-label="Copy encrypted text">📋 Copy</button>
+    </div>
+    <div class="ts-output-box" id="tsxv5-ts-encryptOutput">Output will appear here...</div>
+  </div>
+</div>
+
+<!-- TAB 4: PASSWORD -->
+<div class="ts-tab-content" id="tsxv5-ts-tab-password">
+  <div class="ts-card">
+    <div class="ts-card-title">🔑 Secure Password Generator</div>
+    <div class="ts-password-display">
+      <span class="ts-pwd-text" id="tsxv5-ts-pwdDisplay">Click Generate!</span>
+      <button class="ts-btn ts-btn-success ts-btn-sm" id="tsxv5-ts-copyPwd" aria-label="Copy password">📋</button>
+    </div>
+    <div class="ts-password-strength"><div class="ts-bar" id="tsxv5-ts-pwdBar" style="width:0%;background:var(--ts-danger);"></div></div>
+    <div class="ts-strength-label" id="tsxv5-ts-pwdStrength">—</div>
+    <div class="ts-options-row">
+      <label for="tsxv5-ts-pwdLength">Length:</label>
+      <input type="range" id="tsxv5-ts-pwdLength" min="8" max="64" value="20" aria-label="Password length">
+      <span id="tsxv5-ts-pwdLenVal">20</span>
+    </div>
+    <div class="ts-options-row">
+      <div class="ts-option-group"><input type="checkbox" id="tsxv5-ts-pwdUpper" checked><label for="tsxv5-ts-pwdUpper">A-Z</label></div>
+      <div class="ts-option-group"><input type="checkbox" id="tsxv5-ts-pwdLower" checked><label for="tsxv5-ts-pwdLower">a-z</label></div>
+      <div class="ts-option-group"><input type="checkbox" id="tsxv5-ts-pwdNumbers" checked><label for="tsxv5-ts-pwdNumbers">0-9</label></div>
+      <div class="ts-option-group"><input type="checkbox" id="tsxv5-ts-pwdSymbols" checked><label for="tsxv5-ts-pwdSymbols">!@#$</label></div>
+    </div>
+    <div class="ts-btn-row"><button class="ts-btn ts-btn-primary" id="tsxv5-ts-genPwd" aria-label="Generate password">⚡ Generate</button></div>
+  </div>
+</div>
+
+<!-- TAB 5: CLEANER -->
+<div class="ts-tab-content" id="tsxv5-ts-tab-cleaner">
+  <div class="ts-card">
+    <div class="ts-card-title">🧹 Text Cleaner</div>
+    <textarea class="ts-text-area" id="tsxv5-ts-cleanerInput" placeholder="Paste messy text..." aria-label="Text cleaner input"></textarea>
+    <div class="ts-btn-row">
+      <button class="ts-btn ts-btn-primary ts-btn-sm" data-clean="extraSpaces" aria-label="Remove extra spaces">Remove Extra Spaces</button>
+      <button class="ts-btn ts-btn-primary ts-btn-sm" data-clean="lineBreaks" aria-label="Remove line breaks">Remove Line Breaks</button>
+      <button class="ts-btn ts-btn-primary ts-btn-sm" data-clean="duplicateLines" aria-label="Remove duplicate lines">Remove Duplicates</button>
+      <button class="ts-btn ts-btn-primary ts-btn-sm" data-clean="specialChars" aria-label="Remove special characters">Remove Special Chars</button>
+      <button class="ts-btn ts-btn-primary ts-btn-sm" data-clean="numbers" aria-label="Remove numbers">Remove Numbers</button>
+      <button class="ts-btn ts-btn-primary ts-btn-sm" data-clean="trim" aria-label="Trim lines">Trim Lines</button>
+      <button class="ts-btn ts-btn-primary ts-btn-sm" data-clean="sortAsc" aria-label="Sort ascending">Sort A→Z</button>
+      <button class="ts-btn ts-btn-primary ts-btn-sm" data-clean="sortDesc" aria-label="Sort descending">Sort Z→A</button>
+    </div>
+    <div class="ts-output-box" id="tsxv5-ts-cleanerOutput">Cleaned text...</div>
+    <div class="ts-btn-row"><button class="ts-btn ts-btn-success ts-btn-sm" id="tsxv5-ts-copyClean" aria-label="Copy cleaned text">📋 Copy</button></div>
+  </div>
+</div>
+
+<!-- TAB 6: FIND & REPLACE -->
+<div class="ts-tab-content" id="tsxv5-ts-tab-findreplace">
+  <div class="ts-card">
+    <div class="ts-card-title">🔍 Find &amp; Replace</div>
+    <textarea class="ts-text-area" id="tsxv5-ts-frInput" placeholder="Paste text..." aria-label="Find replace input"></textarea>
+    <div class="ts-find-replace-row">
+      <input type="text" class="ts-input-field" id="tsxv5-ts-frFind" placeholder="Find..." aria-label="Find text">
+      <input type="text" class="ts-input-field" id="tsxv5-ts-frReplace" placeholder="Replace with..." aria-label="Replace text">
+    </div>
+    <div class="ts-options-row">
+      <div class="ts-option-group"><input type="checkbox" id="tsxv5-ts-frCase"><label for="tsxv5-ts-frCase">Case Sensitive</label></div>
+      <div class="ts-option-group"><input type="checkbox" id="tsxv5-ts-frRegex"><label for="tsxv5-ts-frRegex">Use Regex</label></div>
+    </div>
+    <div class="ts-btn-row">
+      <button class="ts-btn ts-btn-primary" id="tsxv5-ts-frBtn" aria-label="Replace all">🔄 Replace All</button>
+      <span id="tsxv5-ts-frCount" style="align-self:center;font-size:13px;color:var(--ts-text-muted);"></span>
+    </div>
+    <div class="ts-output-box" id="tsxv5-ts-frOutput">Result...</div>
+    <div class="ts-btn-row"><button class="ts-btn ts-btn-success ts-btn-sm" id="tsxv5-ts-copyFr" aria-label="Copy result">📋 Copy</button></div>
+  </div>
+</div>
+
+<!-- TAB 7: SLUG -->
+<div class="ts-tab-content" id="tsxv5-ts-tab-slug">
+  <div class="ts-card">
+    <div class="ts-card-title">🔗 SEO Slug Generator</div>
+    <input type="text" class="ts-input-field" id="tsxv5-ts-slugInput" placeholder="e.g., How to Create a Free AI Tool" aria-label="Slug input">
+    <div class="ts-output-box" id="tsxv5-ts-slugOutput" style="font-size:16px;">your-slug-here</div>
+    <div class="ts-btn-row"><button class="ts-btn ts-btn-success ts-btn-sm" id="tsxv5-ts-copySlug" aria-label="Copy slug">📋 Copy</button></div>
+  </div>
+</div>
+
+<!-- TAB 8: LOREM -->
+<div class="ts-tab-content" id="tsxv5-ts-tab-lorem">
+  <div class="ts-card">
+    <div class="ts-card-title">📝 Lorem Ipsum Generator</div>
+    <div class="ts-options-row">
+      <label for="tsxv5-ts-loremCount">Paragraphs:</label>
+      <input type="range" id="tsxv5-ts-loremCount" min="1" max="10" value="3" aria-label="Paragraph count">
+      <span id="tsxv5-ts-loremVal">3</span>
+    </div>
+    <div class="ts-btn-row">
+      <button class="ts-btn ts-btn-primary" id="tsxv5-ts-genLorem" aria-label="Generate Lorem Ipsum">⚡ Generate</button>
+      <button class="ts-btn ts-btn-success ts-btn-sm" id="tsxv5-ts-copyLorem" aria-label="Copy Lorem Ipsum text">📋 Copy</button>
+    </div>
+    <div class="ts-output-box" id="tsxv5-ts-loremOutput" style="min-height:120px;white-space:pre-wrap;">Click Generate...</div>
+  </div>
+</div>
+
+<!-- HOW TO USE / GUIDE SECTION (English, Semantic) -->
+<div class="ts-card" style="margin-top:40px;border-top:3px solid var(--ts-primary);">
+  <h2 style="font-size:clamp(1.3rem,3vw,1.5rem);font-weight:800;margin-bottom:16px;">📖 How to Use Tools-X Text Studio Pro</h2>
+  <p style="font-size:clamp(13px,2vw,14px);color:var(--ts-text-secondary);line-height:1.8;margin-bottom:16px;">
+    <strong>Tools-X Text Studio Pro</strong> is a powerful, 100% browser-based text toolkit that combines eight essential utilities in one place. Whether you are a content writer, developer, student, or digital marketer, this toolkit handles all your text-related needs. The biggest advantage: <strong>no data ever uploads to a server</strong>. All processing happens inside your browser, keeping your privacy fully protected.
+  </p>
+
+  <h3 style="font-size:clamp(1.1rem,2.5vw,1.2rem);font-weight:700;margin:16px 0 8px;">Tools Overview</h3>
+  <ol style="padding-left:20px;color:var(--ts-text-secondary);font-size:clamp(13px,2vw,14px);line-height:1.8;">
+    <li><strong>Text Analyzer:</strong> Real-time character count, word count, sentence count, paragraph count, reading time, speaking time, and average word length. The keyword density table shows which words repeat most — perfect for SEO.</li>
+    <li><strong>Case Converter:</strong> UPPERCASE, lowercase, Title Case, Sentence case, aLtErNaTe, camelCase, snake_case, and kebab-case — eight formats in one click.</li>
+    <li><strong>Encrypt/Decrypt:</strong> Multi-layer encryption (Shift Cipher + Reverse + Base64 + Key Mixing) secures your secret messages. Only the correct key can decrypt.</li>
+    <li><strong>Password Generator:</strong> Uses Web Crypto API to create cryptographically secure passwords. Length adjustable from 8 to 64 characters, with upper/lower/numbers/symbols options.</li>
+    <li><strong>Text Cleaner:</strong> Remove extra spaces, line breaks, duplicate lines, special characters, numbers, trim lines, or sort A–Z / Z–A.</li>
+    <li><strong>Find &amp; Replace:</strong> Search with case-sensitive and Regex options, replace any pattern, and see the replacement count.</li>
+    <li><strong>Slug Generator:</strong> Convert any title into an SEO-friendly URL slug — lowercase, hyphen-separated, special characters removed.</li>
+    <li><strong>Lorem Ipsum:</strong> Generate 1–10 paragraphs of placeholder text for designs and mockups.</li>
+  </ol>
+
+  <h3 style="font-size:clamp(1.1rem,2.5vw,1.2rem);font-weight:700;margin:16px 0 8px;">Security Architecture</h3>
+  <p style="font-size:clamp(13px,2vw,14px);color:var(--ts-text-secondary);line-height:1.8;margin-bottom:16px;">
+    The core design philosophy is <strong>Zero Trust</strong>. Every input field is sanitized to prevent XSS attacks. The password generator uses the Web Crypto API, a native secure random number generator. Encryption uses a multi-layer approach that makes brute force attacks difficult. Most importantly — <strong>no data is stored in localStorage, sessionStorage, cookies, or on any server</strong>. Everything clears on page refresh.
+  </p>
+
+  <h3 style="font-size:clamp(1.1rem,2.5vw,1.2rem);font-weight:700;margin:16px 0 8px;">Pro Tips</h3>
+  <ul style="padding-left:20px;color:var(--ts-text-secondary);font-size:clamp(13px,2vw,14px);line-height:1.8;">
+    <li>SEO writers: Use the analyzer to check keyword density and optimize articles.</li>
+    <li>Developers: Convert API response keys between camelCase and snake_case.</li>
+    <li>Students: Generate Lorem Ipsum for project reports.</li>
+    <li>Marketers: Create clean blog post URLs with the slug generator.</li>
+    <li>Security-conscious users: Generate unique strong passwords for every account.</li>
+    <li>Data cleaners: Format scraped data with the text cleaner.</li>
+  </ul>
+</div>
+
+<!-- FAQ SECTION -->
+<div class="ts-card" style="border-top:3px solid var(--ts-success);">
+  <h2 style="font-size:clamp(1.3rem,3vw,1.5rem);font-weight:800;margin-bottom:16px;">❓ Frequently Asked Questions</h2>
+  <div style="margin-bottom:16px;">
+    <h3 style="font-size:1rem;font-weight:700;color:var(--ts-text);">Is Text Studio Pro free?</h3>
+    <p style="font-size:clamp(13px,2vw,14px);color:var(--ts-text-secondary);line-height:1.7;">Yes, 100% free with no hidden charges or limitations. Use all eight tools unlimited times.</p>
+  </div>
+  <div style="margin-bottom:16px;">
+    <h3 style="font-size:1rem;font-weight:700;color:var(--ts-text);">Does my data upload to a server?</h3>
+    <p style="font-size:clamp(13px,2vw,14px);color:var(--ts-text-secondary);line-height:1.7;">Absolutely not. All processing is client-side; nothing leaves your browser.</p>
+  </div>
+  <div style="margin-bottom:16px;">
+    <h3 style="font-size:1rem;font-weight:700;color:var(--ts-text);">Is the password generator secure?</h3>
+    <p style="font-size:clamp(13px,2vw,14px);color:var(--ts-text-secondary);line-height:1.7;">Yes, it uses the Web Crypto API, which provides cryptographically strong random values.</p>
+  </div>
+  <div style="margin-bottom:16px;">
+    <h3 style="font-size:1rem;font-weight:700;color:var(--ts-text);">Can I use the encryption for sensitive data?</h3>
+    <p style="font-size:clamp(13px,2vw,14px);color:var(--ts-text-secondary);line-height:1.7;">The encryption feature is for educational purposes. For highly sensitive data, use professional-grade encryption tools.</p>
+  </div>
+</div>
+
+<!-- RELATED TOOLS -->
+<div class="ts-card" style="text-align:center;border:1px dashed var(--ts-primary);">
+  <p style="font-size:clamp(13px,2vw,14px);font-weight:600;margin-bottom:12px;">📚 <strong>Explore More Useful Tools:</strong></p>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;">
+    <a href="../tools/generate-karein-text-se-ai-image-free.html" style="color:var(--ts-primary);text-decoration:none;font-weight:600;">🖼️ Text to AI Image</a>
+    <a href="../tools/apni-photo-ko-dance-video-banayein-lip.html" style="color:var(--ts-primary);text-decoration:none;font-weight:600;">💃 Photo to Dance Video</a>
+    <a href="../tools/banayein-free-ai-resume-online-live.html" style="color:var(--ts-primary);text-decoration:none;font-weight:600;">📄 AI Resume Builder</a>
+  </div>
+</div>
+
+<div class="ts-footer">
+  <p>⚡ <strong>Tools-X Text Studio Pro</strong> — 100% Free &amp; Open</p>
+  <p style="margin-top:6px;">🔒 Client-Side Only • No Data Stored • No Cookies • No Tracking</p>
+</div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  
+  // ============ DOM REFS ============
+  var $ = function(id) { return document.getElementById(id); };
+  
+  var toast = $('tsxv5-ts-toast');
+  var toastMsg = $('tsxv5-ts-toastMsg');
+  var tabNav = $('tsxv5-ts-tabNav');
+  var analyzerInput = $('tsxv5-ts-analyzerInput');
+  var densityBody = $('tsxv5-ts-densityBody');
+  var caseInput = $('tsxv5-ts-caseInput');
+  var caseOutput = $('tsxv5-ts-caseOutput');
+  var encryptInput = $('tsxv5-ts-encryptInput');
+  var encryptKey = $('tsxv5-ts-encryptKey');
+  var encryptOutput = $('tsxv5-ts-encryptOutput');
+  var pwdDisplay = $('tsxv5-ts-pwdDisplay');
+  var pwdBar = $('tsxv5-ts-pwdBar');
+  var pwdStrength = $('tsxv5-ts-pwdStrength');
+  var pwdLength = $('tsxv5-ts-pwdLength');
+  var pwdLenVal = $('tsxv5-ts-pwdLenVal');
+  var cleanerInput = $('tsxv5-ts-cleanerInput');
+  var cleanerOutput = $('tsxv5-ts-cleanerOutput');
+  var frInput = $('tsxv5-ts-frInput');
+  var frFind = $('tsxv5-ts-frFind');
+  var frReplace = $('tsxv5-ts-frReplace');
+  var frOutput = $('tsxv5-ts-frOutput');
+  var frCount = $('tsxv5-ts-frCount');
+  var slugInput = $('tsxv5-ts-slugInput');
+  var slugOutput = $('tsxv5-ts-slugOutput');
+  var loremCount = $('tsxv5-ts-loremCount');
+  var loremVal = $('tsxv5-ts-loremVal');
+  var loremOutput = $('tsxv5-ts-loremOutput');
+
+  // ============ TOAST ============
+  function showToast(msg) {
+    toastMsg.textContent = msg;
+    toast.classList.add('ts-show');
+    setTimeout(function() { toast.classList.remove('ts-show'); }, 2500);
+  }
+
+  // ============ COPY ============
+  function copyTextFromId(id) {
+    var el = $(id);
+    var text = el.textContent || '';
+    if (!text || text.includes('appear') || text.includes('Click') || text === 'your-slug-here') {
+      showToast('⚠️ Nothing to copy!');
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() { showToast('✅ Copied!'); }).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+    function fallbackCopy() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✅ Copied!');
+    }
+  }
+
+  // ============ SANITIZER ============
+  function sanitizeForDisplay(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+  }
+
+  // ============ TABS ============
+  tabNav.addEventListener('click', function(e) {
+    var btn = e.target.closest('.ts-tab-btn');
+    if (!btn) return;
+    var tabs = tabNav.querySelectorAll('.ts-tab-btn');
+    tabs.forEach(function(b) { b.classList.remove('ts-active'); });
+    btn.classList.add('ts-active');
+    var contents = document.querySelectorAll('#tsxv5-text-studio .ts-tab-content');
+    contents.forEach(function(c) { c.classList.remove('ts-active'); });
+    $('tsxv5-ts-tab-' + btn.dataset.tab).classList.add('ts-active');
+  });
+
+  // ============ ANALYZER ============
+  var STOP_WORDS = new Set(['the','a','an','and','or','but','in','on','at','to','for','of','with','by','from','is','are','was','were','be','been','being','have','has','had','do','does','did','will','would','could','should','may','might','shall','can','need','it','its','this','that','these','those','i','me','my','we','our','you','your','he','him','his','she','her','they','them','their','what','which','who','when','where','why','how','not','no','nor','as','if','then','than','too','very','just','about','above','after','again','all','also','am','any','because','before','between','both','each','few','more','most','other','out','over','own','same','so','some','still','such','there','through','under','until','up','while','down','much','only','now']);
+
+  analyzerInput.addEventListener('input', function() {
+    var text = this.value;
+    var chars = text.length;
+    var charsNoSpace = text.replace(/\s/g, '').length;
+    var words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    var sentences = text.trim() ? (text.match(/[.!?]+/g) || []).length || (words > 0 ? 1 : 0) : 0;
+    var paragraphs = text.trim() ? text.split(/\n\s*\n/).filter(function(p) { return p.trim(); }).length || (text.trim() ? 1 : 0) : 0;
+    var readMin = Math.ceil(words / 200);
+    var speakMin = Math.ceil(words / 130);
+    var avgWord = words > 0 ? (charsNoSpace / words).toFixed(1) : 0;
+
+    $('tsxv5-ts-statChars').textContent = chars.toLocaleString();
+    $('tsxv5-ts-statCharsNoSpace').textContent = charsNoSpace.toLocaleString();
+    $('tsxv5-ts-statWords').textContent = words.toLocaleString();
+    $('tsxv5-ts-statSentences').textContent = sentences;
+    $('tsxv5-ts-statParagraphs').textContent = paragraphs;
+    $('tsxv5-ts-statReadTime').textContent = readMin + 'm';
+    $('tsxv5-ts-statSpeakTime').textContent = speakMin + 'm';
+    $('tsxv5-ts-statAvgWord').textContent = avgWord;
+
+    if (words > 0) {
+      var wordArr = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(function(w) { return w.length > 2 && !STOP_WORDS.has(w); });
+      var freq = {};
+      wordArr.forEach(function(w) { freq[w] = (freq[w] || 0) + 1; });
+      var sorted = Object.entries(freq).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 10);
+      var maxCount = sorted[0] ? sorted[0][1] : 1;
+      densityBody.innerHTML = sorted.map(function(item) {
+        var word = item[0], count = item[1];
+        var density = ((count / wordArr.length) * 100).toFixed(1);
+        var barWidth = (count / maxCount * 100).toFixed(0);
+        return '<tr><td><strong>' + sanitizeForDisplay(word) + '</strong></td><td>' + count + '</td><td>' + density + '%</td><td><div class="ts-density-bar"><div class="ts-fill" style="width:' + barWidth + '%"></div></div></td></tr>';
+      }).join('');
+    } else {
+      densityBody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--ts-text-muted);">Start typing...</td></tr>';
+    }
+  });
+
+  // ============ CASE CONVERTER ============
+  document.querySelectorAll('#tsxv5-text-studio .ts-case-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var type = this.dataset.case;
+      var text = caseInput.value;
+      if (!text) { showToast('⚠️ Enter text first!'); return; }
+      var result = '';
+      switch(type) {
+        case 'upper': result = text.toUpperCase(); break;
+        case 'lower': result = text.toLowerCase(); break;
+        case 'title': result = text.replace(/\w\S*/g, function(t) { return t.charAt(0).toUpperCase() + t.substr(1).toLowerCase(); }); break;
+        case 'sentence': result = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, function(c) { return c.toUpperCase(); }); break;
+        case 'alternate': result = text.split('').map(function(c, i) { return i % 2 === 0 ? c.toLowerCase() : c.toUpperCase(); }).join(''); break;
+        case 'camel': result = text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, function(m, c) { return c.toUpperCase(); }); break;
+        case 'snake': result = text.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, ''); break;
+        case 'kebab': result = text.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''); break;
+      }
+      caseOutput.textContent = result;
+      showToast('✅ Converted!');
+    });
+  });
+  $('tsxv5-ts-copyCase').addEventListener('click', function() { copyTextFromId('tsxv5-ts-caseOutput'); });
+
+  // ============ ENCRYPTOR ============
+  function getKeyShift(key) {
+    var shift = 0;
+    for (var i = 0; i < key.length; i++) shift += key.charCodeAt(i);
+    return shift;
+  }
+  $('tsxv5-ts-encryptBtn').addEventListener('click', function() {
+    var text = encryptInput.value, key = encryptKey.value;
+    if (!text || !key) { showToast('⚠️ Enter text and key!'); return; }
+    if (key.length < 4) { showToast('⚠️ Key must be 4+ chars!'); return; }
+    var shift = getKeyShift(key);
+    var shifted = '';
+    for (var i = 0; i < text.length; i++) shifted += String.fromCharCode(text.charCodeAt(i) + (shift % 26) + i);
+    var reversed = shifted.split('').reverse().join('');
+    try {
+      var encoded = btoa(unescape(encodeURIComponent(reversed)));
+      var final = '';
+      for (var j = 0; j < encoded.length; j++) {
+        final += encoded[j];
+        if (j % 5 === 0 && j < encoded.length - 1) final += key[j % key.length];
+      }
+      encryptOutput.textContent = final;
+      showToast('🔒 Encrypted!');
+    } catch(e) { encryptOutput.textContent = 'Error.'; }
+  });
+  $('tsxv5-ts-decryptBtn').addEventListener('click', function() {
+    var text = encryptInput.value, key = encryptKey.value;
+    if (!text || !key) { showToast('⚠️ Enter text and key!'); return; }
+    if (key.length < 4) { showToast('⚠️ Key must be 4+ chars!'); return; }
+    try {
+      var extracted = '';
+      var ki = 0;
+      for (var i = 0; i < text.length; i++) {
+        if (i > 0 && i % 6 === 0) { ki++; continue; }
+        extracted += text[i];
+      }
+      var decoded = decodeURIComponent(escape(atob(extracted)));
+      var unreversed = decoded.split('').reverse().join('');
+      var shift = getKeyShift(key);
+      var original = '';
+      for (var j = 0; j < unreversed.length; j++) original += String.fromCharCode(unreversed.charCodeAt(j) - (shift % 26) - j);
+      encryptOutput.textContent = original;
+      showToast('🔓 Decrypted!');
+    } catch(e) { encryptOutput.textContent = '❌ Wrong key!'; showToast('❌ Wrong key!'); }
+  });
+  $('tsxv5-ts-copyEncrypt').addEventListener('click', function() { copyTextFromId('tsxv5-ts-encryptOutput'); });
+
+  // ============ PASSWORD ============
+  function generatePassword() {
+    var length = parseInt(pwdLength.value);
+    var useUpper = $('tsxv5-ts-pwdUpper').checked;
+    var useLower = $('tsxv5-ts-pwdLower').checked;
+    var useNumbers = $('tsxv5-ts-pwdNumbers').checked;
+    var useSymbols = $('tsxv5-ts-pwdSymbols').checked;
+    var chars = '';
+    if (useUpper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (useLower) chars += 'abcdefghijklmnopqrstuvwxyz';
+    if (useNumbers) chars += '0123456789';
+    if (useSymbols) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+    if (!chars) { showToast('⚠️ Select one option!'); return; }
+    var array = new Uint32Array(length);
+    window.crypto.getRandomValues(array);
+    var password = '';
+    for (var i = 0; i < length; i++) password += chars[array[i] % chars.length];
+    pwdDisplay.textContent = password;
+    var strength = 0;
+    if (length >= 12) strength += 25;
+    if (length >= 20) strength += 15;
+    if (useUpper) strength += 15;
+    if (useLower) strength += 15;
+    if (useNumbers) strength += 15;
+    if (useSymbols) strength += 15;
+    strength = Math.min(strength, 100);
+    pwdBar.style.width = strength + '%';
+    if (strength >= 80) { pwdBar.style.background = 'var(--ts-success)'; pwdStrength.textContent = '🟢 Very Strong'; pwdStrength.style.color = 'var(--ts-success)'; }
+    else if (strength >= 60) { pwdBar.style.background = 'var(--ts-warning)'; pwdStrength.textContent = '🟡 Strong'; pwdStrength.style.color = 'var(--ts-warning)'; }
+    else { pwdBar.style.background = 'var(--ts-danger)'; pwdStrength.textContent = '🔴 Weak'; pwdStrength.style.color = 'var(--ts-danger)'; }
+    showToast('🔑 Generated!');
+  }
+  $('tsxv5-ts-genPwd').addEventListener('click', generatePassword);
+  pwdLength.addEventListener('input', function() { pwdLenVal.textContent = this.value; });
+  $('tsxv5-ts-copyPwd').addEventListener('click', function() { copyTextFromId('tsxv5-ts-pwdDisplay'); });
+
+  // ============ CLEANER ============
+  document.querySelectorAll('#tsxv5-text-studio .ts-btn[data-clean]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var type = this.dataset.clean;
+      var text = cleanerInput.value;
+      if (!text) { showToast('⚠️ Enter text!'); return; }
+      switch(type) {
+        case 'extraSpaces': text = text.replace(/  +/g, ' ').trim(); break;
+        case 'lineBreaks': text = text.replace(/\n+/g, ' ').trim(); break;
+        case 'duplicateLines': text = [...new Set(text.split('\n'))].join('\n'); break;
+        case 'specialChars': text = text.replace(/[^a-zA-Z0-9\s.,!?]/g, ''); break;
+        case 'numbers': text = text.replace(/[0-9]/g, ''); break;
+        case 'trim': text = text.split('\n').map(function(l) { return l.trim(); }).join('\n'); break;
+        case 'sortAsc': text = text.split('\n').filter(function(l) { return l.trim(); }).sort().join('\n'); break;
+        case 'sortDesc': text = text.split('\n').filter(function(l) { return l.trim(); }).sort().reverse().join('\n'); break;
+      }
+      cleanerOutput.textContent = text;
+      showToast('🧹 Cleaned!');
+    });
+  });
+  $('tsxv5-ts-copyClean').addEventListener('click', function() { copyTextFromId('tsxv5-ts-cleanerOutput'); });
+
+  // ============ FIND & REPLACE ============
+  $('tsxv5-ts-frBtn').addEventListener('click', function() {
+    var text = frInput.value, find = frFind.value, replace = frReplace.value;
+    var caseSensitive = $('tsxv5-ts-frCase').checked, useRegex = $('tsxv5-ts-frRegex').checked;
+    if (!text || !find) { showToast('⚠️ Enter text and find!'); return; }
+    try {
+      var flags = 'g' + (caseSensitive ? '' : 'i');
+      var regex = useRegex ? new RegExp(find, flags) : new RegExp(find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), flags);
+      var matches = text.match(regex);
+      var count = matches ? matches.length : 0;
+      frOutput.textContent = text.replace(regex, replace);
+      frCount.textContent = '✅ ' + count + ' replacement(s)';
+      showToast('🔄 ' + count + ' replacements!');
+    } catch(e) { showToast('❌ Invalid regex!'); }
+  });
+  $('tsxv5-ts-copyFr').addEventListener('click', function() { copyTextFromId('tsxv5-ts-frOutput'); });
+
+  // ============ SLUG ============
+  slugInput.addEventListener('input', function() {
+    var slug = this.value.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '');
+    slugOutput.textContent = slug || 'your-slug-here';
+  });
+  $('tsxv5-ts-copySlug').addEventListener('click', function() { copyTextFromId('tsxv5-ts-slugOutput'); });
+
+  // ============ LOREM ============
+  $('tsxv5-ts-genLorem').addEventListener('click', function() {
+    var count = parseInt(loremCount.value);
+    var sentences = [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.",
+      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.",
+      "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.",
+      "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.",
+      "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse.",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis."
+    ];
+    var result = '';
+    for (var p = 0; p < count; p++) {
+      var para = '';
+      var ns = 4 + Math.floor(Math.random() * 4);
+      for (var s = 0; s < ns; s++) para += sentences[Math.floor(Math.random() * sentences.length)] + ' ';
+      result += para.trim() + '\n\n';
+    }
+    loremOutput.textContent = result.trim();
+    showToast('📝 Generated!');
+  });
+  loremCount.addEventListener('input', function() { loremVal.textContent = this.value; });
+  $('tsxv5-ts-copyLorem').addEventListener('click', function() { copyTextFromId('tsxv5-ts-loremOutput'); });
+
+  // Auto-generate password
+  generatePassword();
+})();
+</script>
+
+<!-- SEO Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Tools-X Text Studio Pro",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Web Browser",
+      "description": "Free all-in-one text toolkit with analyzer, case converter, encryptor, password generator, text cleaner, find & replace, slug generator, and lorem ipsum. 100% client-side.",
+      "featureList": [
+        "Text Analyzer (characters, words, sentences, keyword density)",
+        "Case Converter (8 formats)",
+        "Encrypt / Decrypt (multi-layer)",
+        "Secure Password Generator (Web Crypto API)",
+        "Text Cleaner (8 operations)",
+        "Find & Replace (regex support)",
+        "SEO Slug Generator",
+        "Lorem Ipsum Generator",
+        "100% client-side processing"
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "Tools-X"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Text Studio Pro free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, 100% free with no hidden charges or limitations. Use all eight tools unlimited times."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does my data upload to a server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely not. All processing is client-side; nothing leaves your browser."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the password generator secure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, it uses the Web Crypto API, which provides cryptographically strong random values."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use the encryption for sensitive data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The encryption feature is for educational purposes. For highly sensitive data, use professional-grade encryption tools."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>

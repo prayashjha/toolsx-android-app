@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Movie Poster Generator – Hollywood-Style Posters Free – ToolsX App</title>
+<meta name="description" content="Design Hollywood-style movie posters free with AI. Add your title, cast and theme for a cinematic look in seconds.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back to home">←</button>
+  <h1>Movie Poster Generator – Hollywood-Style Posters Free</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+<div class="tx-toolpage-body">
+<div id="tsxv5-mps" class="tsxv5-mps-wrapper">
+
+<style>
+/* ══════════════════════════════════════════════════════════════
+   TOOLS-X MOVIE POSTER STUDIO v5.0 — THEME-AWARE
+   Light mode = warm cream palette (default)
+   Dark mode = cinema dark via 7 Blogger selectors
+   ══════════════════════════════════════════════════════════════ */
+#tsxv5-mps{
+  --mps-primary:#be123c;--mps-primary-dark:#9f1239;
+  --mps-gold:#b45309;--mps-gold-dark:#92400e;
+  --mps-bg:#fef2f2;--mps-bg2:#fff7ed;--mps-bg3:#fef3c7;
+  --mps-surface:rgba(255,255,255,0.9);--mps-surface2:#ffffff;
+  --mps-text:#1e293b;--mps-text-dim:#475569;--mps-text-muted:#64748b;
+  --mps-border:rgba(180,83,9,0.2);
+  --mps-shadow:0 6px 30px rgba(190,18,60,0.12);
+  --mps-radius:10px;
+  --mps-error:#dc2626;--mps-red:#ff6b6b;
+  font-family:'Georgia','Segoe UI',serif;
+  background:transparent;color:var(--mps-text);
+  transition:background .3s,color .3s;
+}
+body.dark-mode #tsxv5-mps,
+html.dark-mode #tsxv5-mps,
+[data-theme="dark"] #tsxv5-mps,
+body[data-theme="dark"] #tsxv5-mps,
+html[data-theme="dark"] #tsxv5-mps,
+.dark-mode #tsxv5-mps,
+.night-mode #tsxv5-mps{
+  --mps-primary:#dc143c;--mps-primary-dark:#8b0000;
+  --mps-gold:#ffd700;--mps-gold-dark:#b8860b;
+  --mps-bg:#0d0d0d;--mps-bg2:#1a0a0a;--mps-bg3:#2d1111;
+  --mps-surface:rgba(255,255,255,0.03);--mps-surface2:rgba(0,0,0,0.4);
+  --mps-text:#f5f5f5;--mps-text-dim:#b0a090;--mps-text-muted:#666688;
+  --mps-border:rgba(255,215,0,0.1);
+  --mps-shadow:0 6px 30px rgba(220,20,60,0.3);
+  --mps-red:#ff6b6b;
+}
+#tsxv5-mps *,#tsxv5-mps *::before,#tsxv5-mps *::after{box-sizing:border-box;margin:0;padding:0;max-width:100%;}
+#tsxv5-mps img,#tsxv5-mps canvas,#tsxv5-mps video{max-width:100%;height:auto;display:block;}
+
+#tsxv5-mps .mps{
+  max-width:940px;margin:0 auto;padding:20px;
+  background:linear-gradient(175deg,var(--mps-bg) 0%,var(--mps-bg2) 30%,var(--mps-bg3) 60%,var(--mps-bg) 100%);
+  border-radius:18px;color:var(--mps-text) !important;position:relative;overflow:hidden;
+  box-shadow:0 10px 40px rgba(0,0,0,0.15);border:1px solid var(--mps-border);
+}
+#tsxv5-mps .mps::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(190,18,60,0.05) 0%,transparent 60%),
+             radial-gradient(ellipse at 0% 100%,rgba(180,83,9,0.04) 0%,transparent 50%),
+             radial-gradient(ellipse at 100% 100%,rgba(180,83,9,0.04) 0%,transparent 50%);
+  pointer-events:none;
+}
+body.dark-mode #tsxv5-mps .mps::before,[data-theme="dark"] #tsxv5-mps .mps::before{
+  background:radial-gradient(ellipse at 50% 0%,rgba(220,20,60,0.06) 0%,transparent 60%),
+             radial-gradient(ellipse at 0% 100%,rgba(255,215,0,0.04) 0%,transparent 50%),
+             radial-gradient(ellipse at 100% 100%,rgba(255,215,0,0.04) 0%,transparent 50%);
+}
+
+#tsxv5-mps .mps-breadcrumb{
+  padding:14px 18px;background:var(--mps-surface);border-radius:8px;
+  font-size:.875rem;color:var(--mps-text-dim) !important;margin-bottom:18px;backdrop-filter:blur(10px);
+}
+#tsxv5-mps .mps-breadcrumb a{color:var(--mps-gold) !important;text-decoration:none;transition:color .2s;}
+#tsxv5-mps .mps-breadcrumb a:hover{color:var(--mps-red) !important;}
+
+#tsxv5-mps .mps-header{text-align:center;padding:40px 16px 30px;position:relative;}
+#tsxv5-mps .mps-header::before{content:'🎬';position:absolute;top:10px;left:20px;font-size:1.5em;opacity:.3;}
+#tsxv5-mps .mps-header::after{content:'🍿';position:absolute;top:10px;right:20px;font-size:1.5em;opacity:.3;}
+
+#tsxv5-mps .mps-title-frame{
+  display:inline-block;border:2px solid rgba(180,83,9,0.3);border-radius:12px;padding:20px 40px;
+  position:relative;background:var(--mps-surface);backdrop-filter:blur(10px);
+}
+body.dark-mode #tsxv5-mps .mps-title-frame,[data-theme="dark"] #tsxv5-mps .mps-title-frame{border-color:rgba(255,215,0,0.3);background:rgba(0,0,0,0.3);}
+#tsxv5-mps .mps-title-frame::before,#tsxv5-mps .mps-title-frame::after{
+  content:'★';position:absolute;top:50%;transform:translateY(-50%);color:var(--mps-gold);font-size:.8em;opacity:.6;
+}
+#tsxv5-mps .mps-title-frame::before{left:12px;}
+#tsxv5-mps .mps-title-frame::after{right:12px;}
+
+#tsxv5-mps .mps-header h2{
+  font-size:2rem;font-weight:700;color:var(--mps-gold) !important;
+  text-shadow:0 2px 20px rgba(180,83,9,0.2);letter-spacing:2px;text-transform:uppercase;line-height:1.2;
+}
+#tsxv5-mps .mps-header-sub{color:var(--mps-text-dim) !important;font-size:.95rem;margin-top:12px;font-style:italic;line-height:1.5;}
+
+#tsxv5-mps .mps-ribbon{display:flex;justify-content:center;gap:16px;margin-top:18px;flex-wrap:wrap;}
+#tsxv5-mps .mps-ribbon span{
+  background:rgba(190,18,60,0.1);border:1px solid rgba(190,18,60,0.3);color:var(--mps-primary) !important;
+  padding:5px 16px;border-radius:4px;font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+}
+
+#tsxv5-mps .mps-custom-section{
+  background:var(--mps-surface);border:1px solid var(--mps-border);border-radius:var(--mps-radius);
+  padding:24px;margin-bottom:18px;position:relative;backdrop-filter:blur(10px);
+}
+#tsxv5-mps .mps-custom-section::before{
+  content:'';position:absolute;top:0;left:20px;right:20px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(180,83,9,0.2),transparent);
+}
+#tsxv5-mps .mps-custom-label{
+  font-size:.9rem;font-weight:700;color:var(--mps-gold) !important;
+  text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;display:block;
+}
+#tsxv5-mps .mps-custom-input{
+  width:100%;padding:14px 18px;border:2px solid var(--mps-border);border-radius:var(--mps-radius);
+  background:var(--mps-surface2);color:var(--mps-gold) !important;font-size:1rem;font-family:'Georgia',serif;
+  font-weight:600;letter-spacing:1px;transition:all .3s;
+}
+#tsxv5-mps .mps-custom-input:focus{outline:none;border-color:var(--mps-gold);box-shadow:0 0 20px rgba(180,83,9,0.15);}
+#tsxv5-mps .mps-custom-input::placeholder{color:var(--mps-text-muted) !important;font-weight:400;letter-spacing:.5px;}
+#tsxv5-mps .mps-custom-hint{font-size:.875rem;color:var(--mps-text-dim) !important;margin-top:10px;line-height:1.5;font-style:italic;}
+#tsxv5-mps .mps-text-options{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;align-items:center;}
+#tsxv5-mps .mps-text-options label{font-size:.75rem;color:var(--mps-text-dim) !important;display:flex;align-items:center;gap:4px;}
+#tsxv5-mps .mps-text-options input[type="color"]{width:30px;height:30px;border:2px solid var(--mps-border);border-radius:4px;padding:2px;background:transparent;cursor:pointer;}
+
+#tsxv5-mps .mps-scene{
+  background:var(--mps-surface);border:1px solid var(--mps-border);border-radius:14px;
+  padding:26px;margin-bottom:18px;position:relative;backdrop-filter:blur(10px);
+}
+#tsxv5-mps .mps-scene::before{
+  content:'';position:absolute;top:0;left:20px;right:20px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(180,83,9,0.2),transparent);
+}
+#tsxv5-mps .mps-scene-title{
+  font-size:.9rem;font-weight:700;color:var(--mps-gold) !important;text-transform:uppercase;
+  letter-spacing:2px;margin-bottom:18px;display:flex;align-items:center;gap:10px;
+}
+#tsxv5-mps .mps-scene-num{
+  width:30px;height:30px;background:linear-gradient(135deg,var(--mps-primary),var(--mps-primary-dark));
+  border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:900;
+  color:var(--mps-gold) !important;border:1px solid rgba(180,83,9,0.3);
+}
+
+#tsxv5-mps .mps-genres{display:grid;grid-template-columns:repeat(auto-fill,minmax(115px,1fr));gap:10px;}
+#tsxv5-mps .mps-genre-card{
+  background:var(--mps-surface2);border:2px solid var(--mps-border);border-radius:10px;
+  padding:16px 10px;text-align:center;cursor:pointer;transition:all .3s ease;position:relative;overflow:hidden;
+  min-height:44px;
+}
+#tsxv5-mps .mps-genre-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--mps-primary),var(--mps-gold));opacity:0;transition:opacity .3s;
+}
+#tsxv5-mps .mps-genre-card:hover{border-color:var(--mps-primary);transform:translateY(-3px);}
+#tsxv5-mps .mps-genre-card:hover::before{opacity:1;}
+#tsxv5-mps .mps-genre-card.active{
+  border-color:var(--mps-primary);background:rgba(190,18,60,0.08);box-shadow:0 0 24px rgba(190,18,60,0.15);
+}
+#tsxv5-mps .mps-genre-card.active::before{opacity:1;}
+body.dark-mode #tsxv5-mps .mps-genre-card.active,[data-theme="dark"] #tsxv5-mps .mps-genre-card.active{background:rgba(220,20,60,0.08);}
+#tsxv5-mps .mps-genre-icon{font-size:1.8em;display:block;margin-bottom:6px;}
+#tsxv5-mps .mps-genre-name{font-size:.72em;font-weight:700;color:var(--mps-text-dim) !important;text-transform:uppercase;letter-spacing:.5px;}
+#tsxv5-mps .mps-genre-card.active .mps-genre-name{color:var(--mps-gold) !important;}
+
+#tsxv5-mps .mps-moods{display:flex;gap:10px;overflow-x:auto;padding:10px 4px;scrollbar-width:thin;scrollbar-color:var(--mps-primary) transparent;}
+#tsxv5-mps .mps-moods::-webkit-scrollbar{height:4px;}
+#tsxv5-mps .mps-moods::-webkit-scrollbar-thumb{background:var(--mps-primary);border-radius:4px;}
+#tsxv5-mps .mps-mood-item{
+  min-width:100px;padding:14px 12px;border:2px solid var(--mps-border);border-radius:8px;
+  background:var(--mps-surface2);color:var(--mps-text-dim) !important;cursor:pointer;text-align:center;
+  transition:all .3s ease;flex-shrink:0;font-family:inherit;
+  min-height:44px;
+}
+#tsxv5-mps .mps-mood-item:hover{border-color:var(--mps-gold);color:var(--mps-gold) !important;}
+#tsxv5-mps .mps-mood-item.active{
+  border-color:var(--mps-gold);background:rgba(180,83,9,0.08);color:var(--mps-gold) !important;
+}
+body.dark-mode #tsxv5-mps .mps-mood-item.active,[data-theme="dark"] #tsxv5-mps .mps-mood-item.active{background:rgba(255,215,0,0.06);}
+#tsxv5-mps .mps-mood-icon{font-size:1.4em;display:block;margin-bottom:4px;}
+#tsxv5-mps .mps-mood-name{font-size:.7em;font-weight:700;text-transform:uppercase;}
+
+#tsxv5-mps .mps-heroes{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;}
+#tsxv5-mps .mps-hero-card{
+  background:var(--mps-surface2);border:2px solid var(--mps-border);border-radius:10px;
+  padding:14px 10px;text-align:center;cursor:pointer;transition:all .3s ease;
+  min-height:44px;
+}
+#tsxv5-mps .mps-hero-card:hover{border-color:var(--mps-primary);transform:scale(1.03);}
+#tsxv5-mps .mps-hero-card.active{border-color:var(--mps-primary);background:rgba(190,18,60,0.06);}
+body.dark-mode #tsxv5-mps .mps-hero-card.active,[data-theme="dark"] #tsxv5-mps .mps-hero-card.active{background:rgba(220,20,60,0.06);}
+#tsxv5-mps .mps-hero-icon{font-size:1.6em;display:block;margin-bottom:5px;}
+#tsxv5-mps .mps-hero-name{font-size:.72em;font-weight:700;color:var(--mps-text-dim) !important;text-transform:uppercase;}
+#tsxv5-mps .mps-hero-card.active .mps-hero-name{color:var(--mps-red) !important;}
+
+#tsxv5-mps .mps-poster-styles{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+#tsxv5-mps .mps-style-ticket{
+  padding:11px 22px;border:2px dashed var(--mps-border);border-radius:8px;background:transparent;
+  color:var(--mps-text-dim) !important;cursor:pointer;font-size:.82em;font-weight:600;transition:all .3s ease;font-family:'Georgia',serif;
+  min-height:44px;
+}
+#tsxv5-mps .mps-style-ticket:hover{border-color:var(--mps-gold);color:var(--mps-gold) !important;}
+#tsxv5-mps .mps-style-ticket.active{
+  border-color:var(--mps-gold);border-style:solid;background:rgba(180,83,9,0.08);color:var(--mps-gold) !important;
+}
+body.dark-mode #tsxv5-mps .mps-style-ticket.active,[data-theme="dark"] #tsxv5-mps .mps-style-ticket.active{background:rgba(255,215,0,0.08);}
+
+#tsxv5-mps .mps-action-btn{
+  width:100%;padding:20px;border:none;border-radius:12px;
+  background:linear-gradient(135deg,var(--mps-primary),var(--mps-primary-dark));
+  color:var(--mps-gold) !important;font-size:1.15rem;font-weight:700;cursor:pointer;text-transform:uppercase;
+  letter-spacing:3px;transition:all .3s ease;box-shadow:var(--mps-shadow);font-family:'Georgia',serif;
+  position:relative;overflow:hidden;margin-top:8px;
+  min-height:44px;
+}
+#tsxv5-mps .mps-action-btn::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,215,0,0.1),transparent);transition:left .6s;
+}
+#tsxv5-mps .mps-action-btn:hover::before{left:100%;}
+#tsxv5-mps .mps-action-btn:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(190,18,60,0.3);}
+#tsxv5-mps .mps-action-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+
+#tsxv5-mps .mps-loading{display:none;text-align:center;padding:50px 20px;}
+#tsxv5-mps .mps-loading.show{display:block;}
+#tsxv5-mps .mps-spinner{
+  display:inline-block;width:48px;height:48px;border:4px solid rgba(180,83,9,0.1);
+  border-top-color:var(--mps-gold);border-radius:50%;animation:tsxv5MpsSpin .8s linear infinite;
+}
+@keyframes tsxv5MpsSpin{to{transform:rotate(360deg);}}
+#tsxv5-mps .mps-loading-text{margin-top:16px;color:var(--mps-gold) !important;font-size:1rem;font-weight:600;font-style:italic;}
+#tsxv5-mps .mps-loading-sub{color:var(--mps-text-muted) !important;font-size:.875rem;margin-top:8px;}
+
+#tsxv5-mps .mps-result{display:none;text-align:center;padding:20px 0;}
+#tsxv5-mps .mps-result.show{display:block;}
+#tsxv5-mps .mps-poster-frame{
+  position:relative;display:inline-block;border:4px solid rgba(180,83,9,0.2);border-radius:16px;overflow:hidden;
+  box-shadow:0 0 60px rgba(190,18,60,0.15),0 20px 60px rgba(0,0,0,0.3);max-width:100%;cursor:pointer;transition:border-color .3s;
+}
+#tsxv5-mps .mps-poster-frame:hover{border-color:var(--mps-gold);}
+#tsxv5-mps .mps-poster-img{max-width:100%;height:auto;display:block;border-radius:12px;}
+#tsxv5-mps .mps-result-actions{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap;}
+
+#tsxv5-mps .mps-btn{
+  padding:12px 24px;border-radius:var(--mps-radius);font-size:.875rem;font-weight:600;cursor:pointer;
+  transition:all .3s ease;text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+  border:2px solid var(--mps-border);background:transparent;color:var(--mps-gold) !important;
+  text-transform:uppercase;letter-spacing:1px;font-family:'Georgia',serif;
+  min-height:44px;
+}
+#tsxv5-mps .mps-btn:hover{background:rgba(180,83,9,0.08);border-color:var(--mps-gold);transform:translateY(-2px);text-decoration:none;}
+#tsxv5-mps .mps-btn-red{
+  background:linear-gradient(135deg,var(--mps-primary),var(--mps-primary-dark));
+  color:var(--mps-gold) !important;border:none;
+}
+#tsxv5-mps .mps-btn-red:hover{box-shadow:0 4px 20px rgba(190,18,60,0.3);color:var(--mps-gold) !important;}
+
+#tsxv5-mps .mps-error{
+  display:none;background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.3);border-radius:10px;
+  padding:16px 20px;margin-top:16px;color:var(--mps-error) !important;text-align:center;font-size:.9rem;
+}
+#tsxv5-mps .mps-error.show{display:block;}
+
+/* Zoom modal — intentionally always-dark (overlay) */
+#tsxv5-mps .mps-zoom-modal{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;
+  align-items:center;justify-content:center;padding:24px;
+}
+#tsxv5-mps .mps-zoom-modal.open{display:flex;}
+#tsxv5-mps .mps-zoom-modal img{max-width:95%;max-height:90vh;border-radius:12px;border:3px solid var(--mps-gold);box-shadow:0 0 60px rgba(180,83,9,0.2);}
+#tsxv5-mps .mps-zoom-close{
+  position:absolute;top:20px;right:30px;font-size:2.5em;color:#ffd700 !important;cursor:pointer;
+  background:none;border:none;transition:transform .3s;font-family:'Georgia',serif;
+}
+#tsxv5-mps .mps-zoom-close:hover{transform:rotate(90deg);}
+
+#tsxv5-mps .mps-how,#tsxv5-mps .mps-faq,#tsxv5-mps .mps-related{
+  margin-top:32px;padding:32px 24px;background:var(--mps-surface);border:1px solid var(--mps-border);
+  border-radius:14px;color:var(--mps-text) !important;backdrop-filter:blur(10px);
+}
+#tsxv5-mps .mps-how h2,#tsxv5-mps .mps-faq h2{
+  font-size:1.5rem;font-weight:600;color:var(--mps-gold) !important;line-height:1.3;margin-bottom:24px;
+  text-transform:uppercase;letter-spacing:1px;
+}
+#tsxv5-mps .mps-how h3{font-size:1.25rem;font-weight:600;color:var(--mps-red) !important;line-height:1.4;margin:24px 0 12px;}
+#tsxv5-mps .mps-how p,#tsxv5-mps .mps-faq-item p{font-size:1rem;line-height:1.7;color:var(--mps-text-dim) !important;margin-bottom:16px;}
+#tsxv5-mps .mps-how ul,#tsxv5-mps .mps-how ol{margin:16px 0 16px 24px;line-height:1.7;color:var(--mps-text-dim) !important;}
+#tsxv5-mps .mps-how li{margin-bottom:8px;color:var(--mps-text-dim) !important;}
+#tsxv5-mps .mps-how strong{color:var(--mps-gold) !important;}
+
+#tsxv5-mps .mps-steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px 0;}
+#tsxv5-mps .mps-step-card{background:var(--mps-surface2);padding:20px;border-radius:var(--mps-radius);border:1px solid var(--mps-border);}
+#tsxv5-mps .mps-step-number{
+  width:32px;height:32px;background:linear-gradient(135deg,var(--mps-primary),var(--mps-primary-dark));
+  color:var(--mps-gold) !important;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-weight:700;margin-bottom:12px;font-size:.9rem;
+}
+#tsxv5-mps .mps-step-title{font-weight:700;color:var(--mps-gold) !important;margin-bottom:8px;font-size:1rem;}
+#tsxv5-mps .mps-step-desc{font-size:.875rem;color:var(--mps-text-dim) !important;line-height:1.6;}
+
+#tsxv5-mps .mps-faq-item{
+  margin-bottom:20px;padding:20px;background:var(--mps-surface2);border-radius:var(--mps-radius);
+  border:1px solid var(--mps-border);
+}
+#tsxv5-mps .mps-faq-item h3{
+  font-weight:700;color:var(--mps-gold) !important;margin-bottom:12px;font-size:1rem;line-height:1.4;
+}
+#tsxv5-mps .mps-faq-item p{display:block;margin-top:0;}
+
+#tsxv5-mps .mps-related-title{color:var(--mps-gold) !important;font-size:1.2rem;font-weight:700;margin-bottom:18px;text-transform:uppercase;letter-spacing:1px;}
+#tsxv5-mps .mps-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px;}
+#tsxv5-mps .mps-related-link{
+  background:var(--mps-surface2);border:1px solid var(--mps-border);padding:18px;text-decoration:none;
+  transition:all .3s;display:flex;align-items:center;gap:12px;border-radius:var(--mps-radius);
+  min-height:44px;
+}
+#tsxv5-mps .mps-related-link:hover{border-color:var(--mps-gold);transform:translateY(-3px);box-shadow:0 8px 24px rgba(180,83,9,0.1);text-decoration:none;}
+#tsxv5-mps .mps-related-icon{font-size:2rem;flex-shrink:0;}
+#tsxv5-mps .mps-related-link strong{color:var(--mps-gold) !important;display:block;font-size:.95rem;margin-bottom:4px;}
+#tsxv5-mps .mps-related-link span{color:var(--mps-text-dim) !important;font-size:.82rem;line-height:1.5;}
+
+#tsxv5-mps .mps-footer{padding:24px;text-align:center;margin-top:24px;border-top:1px solid var(--mps-border);}
+#tsxv5-mps .mps-footer p{color:var(--mps-text-dim) !important;font-size:.875rem;line-height:1.6;font-style:italic;}
+#tsxv5-mps .mps-footer a{color:var(--mps-gold) !important;text-decoration:none;}
+
+@media(max-width:640px){
+  #tsxv5-mps .mps{padding:14px;}
+  #tsxv5-mps .mps-header h2{font-size:1.5rem;}
+  #tsxv5-mps .mps-genres{grid-template-columns:repeat(3,1fr);}
+  #tsxv5-mps .mps-heroes{grid-template-columns:repeat(2,1fr);}
+  #tsxv5-mps .mps-scene{padding:18px;}
+  #tsxv5-mps .mps-title-frame{padding:14px 24px;}
+  #tsxv5-mps .mps-how,#tsxv5-mps .mps-faq,#tsxv5-mps .mps-related{padding:24px 16px;}
+  #tsxv5-mps .mps-related-grid{grid-template-columns:1fr;}
+}
+@media(max-width:400px){
+  #tsxv5-mps .mps-genres{grid-template-columns:repeat(2,1fr);}
+  #tsxv5-mps .mps-heroes{grid-template-columns:1fr;}
+}
+@media(prefers-reduced-motion:reduce){#tsxv5-mps *,#tsxv5-mps *::before,#tsxv5-mps *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+</style>
+
+<!-- SEO Schema: SoftwareApplication -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Movie Poster Studio - Cinema Quality Posters","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Modern browser with JavaScript and HTML5 Canvas","description":"Free AI movie poster generator for Bollywood, Hollywood, anime and vintage styles. Create cinematic posters with custom movie titles, 10 genres, 8 moods, 8 character types, and 8 art styles. HD PNG download with no watermark.","featureList":["10 film genres","8 mood options","8 character types","8 poster styles","Custom movie title with color picker","HD PNG download","Image zoom preview","65-second timeout protection","Input sanitization"]}
+</script>
+
+<!-- SEO Schema: HowTo -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"How to Create a Movie Poster","description":"Step-by-step guide to generating a professional movie poster with AI.","totalTime":"PT3M","step":[{"@type":"HowToStep","position":1,"name":"Enter Movie Title","text":"Type your movie title in the input box and customize color."},{"@type":"HowToStep","position":2,"name":"Choose Genre","text":"Select from 10 genres like Action, Romance, Horror, Sci-Fi, etc."},{"@type":"HowToStep","position":3,"name":"Set Mood","text":"Pick a mood like Dark, Epic, Mystery, Colorful, or Futuristic."},{"@type":"HowToStep","position":4,"name":"Select Main Character","text":"Choose Hero, Heroine, Couple, Team, Villain, or other."},{"@type":"HowToStep","position":5,"name":"Pick Poster Style","text":"Select Bollywood, Hollywood, Anime, Vintage, or Modern style."},{"@type":"HowToStep","position":6,"name":"Generate & Download","text":"Click Generate, wait for AI, then download the HD PNG poster."}]}
+</script>
+
+<!-- SEO Schema: FAQPage -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this tool really free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free. No hidden charges, premium version, or credit system. Unlimited posters."}},{"@type":"Question","name":"Can I add my movie title to the poster?","acceptedAnswer":{"@type":"Answer","text":"Absolutely! Use the Movie Title box. AI will add it with bold typography. You can customize color and outline."}},{"@type":"Question","name":"How long does it take to generate a poster?","acceptedAnswer":{"@type":"Answer","text":"Usually 10-20 seconds. Under heavy load it may take 30-40 seconds. A 65-second timeout is built in."}},{"@type":"Question","name":"Can I use these posters for commercial projects?","acceptedAnswer":{"@type":"Answer","text":"Yes, personal and commercial use allowed. No watermark, no attribution required."}},{"@type":"Question","name":"What is the poster size?","acceptedAnswer":{"@type":"Answer","text":"Posters are generated in vertical format (768x1152 pixels), close to standard movie poster dimensions."}},{"@type":"Question","name":"What if I don't like the poster?","acceptedAnswer":{"@type":"Answer","text":"Click Re-Shoot to generate a new unique poster with the same settings. Each generation uses a random seed."}},{"@type":"Question","name":"Does it support Bollywood style?","acceptedAnswer":{"@type":"Answer","text":"Yes! There is a dedicated Bollywood option for dramatic Indian cinema style posters."}},{"@type":"Question","name":"Is my data safe?","acceptedAnswer":{"@type":"Answer","text":"Yes. No signup or data collection. Inputs are sanitized and connections are HTTPS encrypted."}}]}
+</script>
+
+<article class="mps" id="tsxv5-moviePosterStudio">
+
+  <nav class="mps-breadcrumb" aria-label="Breadcrumb">
+    <a href="https://www.toolsx.in/">Home</a> &gt; Movie Poster Studio
+  </nav>
+
+  <header class="mps-header">
+    <div class="mps-title-frame">
+      <h2>Movie Poster Studio</h2>
+    </div>
+    <p class="mps-header-sub">"Lights... Camera... AI!" — Create an epic poster for your film</p>
+    <div class="mps-ribbon">
+      <span>🎥 Cinema Quality</span>
+      <span>🆓 Free Forever</span>
+      <span>♾️ Unlimited</span>
+      <span>🇮🇳 Bollywood + Hollywood</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="mps-custom-section">
+      <label class="mps-custom-label" for="tsxv5-mpsMovieTitle">✍️ Movie Title</label>
+      <input
+        type="text"
+        id="tsxv5-mpsMovieTitle"
+        class="mps-custom-input"
+        placeholder="Enter your movie title (e.g., 'THE LAST WARRIOR')"
+        maxlength="60"
+        aria-label="Movie title for poster"
+      />
+      <div class="mps-text-options">
+        <label><input type="color" id="tsxv5-mpsTextColor" value="#b45309"> Title Color</label>
+        <label><input type="color" id="tsxv5-mpsTextOutline" value="#000000"> Outline</label>
+        <span style="font-size:.7rem;color:var(--mps-text-muted);">Customize title color and outline</span>
+      </div>
+      <p class="mps-custom-hint">💡 Director's Tip: Enter your film's title; AI will add it with bold typography. ALL CAPS works best!</p>
+    </section>
+
+    <section class="mps-scene">
+      <div class="mps-scene-title"><span class="mps-scene-num">1</span> Choose Film Genre</div>
+      <div class="mps-genres" id="tsxv5-genreGrid">
+        <div class="mps-genre-card active" data-val="epic action movie poster, explosions, hero in mid-air, dramatic"><span class="mps-genre-icon" aria-hidden="true">💥</span><span class="mps-genre-name">Action</span></div>
+        <div class="mps-genre-card" data-val="romantic movie poster, couple silhouette, sunset, emotional"><span class="mps-genre-icon" aria-hidden="true">❤️</span><span class="mps-genre-name">Romance</span></div>
+        <div class="mps-genre-card" data-val="horror movie poster, dark shadows, eerie atmosphere, terrifying"><span class="mps-genre-icon" aria-hidden="true">👻</span><span class="mps-genre-name">Horror</span></div>
+        <div class="mps-genre-card" data-val="science fiction movie poster, futuristic technology, space, aliens"><span class="mps-genre-icon" aria-hidden="true">🚀</span><span class="mps-genre-name">Sci-Fi</span></div>
+        <div class="mps-genre-card" data-val="comedy movie poster, funny characters, bright colors, humorous"><span class="mps-genre-icon" aria-hidden="true">😂</span><span class="mps-genre-name">Comedy</span></div>
+        <div class="mps-genre-card" data-val="thriller suspense movie poster, dark mystery, tension, shadows"><span class="mps-genre-icon" aria-hidden="true">🔍</span><span class="mps-genre-name">Thriller</span></div>
+        <div class="mps-genre-card" data-val="fantasy epic movie poster, magical world, dragons, kingdoms"><span class="mps-genre-icon" aria-hidden="true">🧙</span><span class="mps-genre-name">Fantasy</span></div>
+        <div class="mps-genre-card" data-val="historical drama movie poster, ancient era, war, epic battle"><span class="mps-genre-icon" aria-hidden="true">⚔️</span><span class="mps-genre-name">Historical</span></div>
+        <div class="mps-genre-card" data-val="animated family movie poster, colorful characters, fun adventure"><span class="mps-genre-icon" aria-hidden="true">🎪</span><span class="mps-genre-name">Animation</span></div>
+        <div class="mps-genre-card" data-val="sports drama movie poster, athlete, determination, victory"><span class="mps-genre-icon" aria-hidden="true">🏆</span><span class="mps-genre-name">Sports</span></div>
+      </div>
+    </section>
+
+    <section class="mps-scene">
+      <div class="mps-scene-title"><span class="mps-scene-num">2</span> Select Movie Mood</div>
+      <div class="mps-moods" id="tsxv5-moodRow">
+        <div class="mps-mood-item active" data-val="dark and gritty tone, noir lighting, shadows"><span class="mps-mood-icon" aria-hidden="true">🌑</span><span class="mps-mood-name">Dark</span></div>
+        <div class="mps-mood-item" data-val="epic and grand scale, cinematic wide shot, dramatic sky"><span class="mps-mood-icon" aria-hidden="true">🌅</span><span class="mps-mood-name">Epic</span></div>
+        <div class="mps-mood-item" data-val="mysterious and suspenseful, fog, hidden secrets"><span class="mps-mood-icon" aria-hidden="true">🌫️</span><span class="mps-mood-name">Mystery</span></div>
+        <div class="mps-mood-item" data-val="vibrant and colorful, energetic, pop art style"><span class="mps-mood-icon" aria-hidden="true">🌈</span><span class="mps-mood-name">Colorful</span></div>
+        <div class="mps-mood-item" data-val="emotional and dramatic, tears, rain, heartfelt"><span class="mps-mood-icon" aria-hidden="true">💧</span><span class="mps-mood-name">Emotional</span></div>
+        <div class="mps-mood-item" data-val="retro vintage style, 80s movie poster, grain"><span class="mps-mood-icon" aria-hidden="true">📼</span><span class="mps-mood-name">Retro</span></div>
+        <div class="mps-mood-item" data-val="futuristic neon cyberpunk, holographic, tech"><span class="mps-mood-icon" aria-hidden="true">🔮</span><span class="mps-mood-name">Futuristic</span></div>
+        <div class="mps-mood-item" data-val="minimalist clean design, simple bold typography space"><span class="mps-mood-icon" aria-hidden="true">◻️</span><span class="mps-mood-name">Minimal</span></div>
+      </div>
+    </section>
+
+    <section class="mps-scene">
+      <div class="mps-scene-title"><span class="mps-scene-num">3</span> Main Character</div>
+      <div class="mps-heroes" id="tsxv5-heroGrid">
+        <div class="mps-hero-card active" data-val="powerful male hero, muscular, determined expression"><span class="mps-hero-icon" aria-hidden="true">🦸‍♂️</span><span class="mps-hero-name">Hero</span></div>
+        <div class="mps-hero-card" data-val="strong female protagonist, warrior woman, fierce"><span class="mps-hero-icon" aria-hidden="true">🦸‍♀️</span><span class="mps-hero-name">Heroine</span></div>
+        <div class="mps-hero-card" data-val="romantic couple together, love story leads"><span class="mps-hero-icon" aria-hidden="true">💑</span><span class="mps-hero-name">Couple</span></div>
+        <div class="mps-hero-card" data-val="group of friends team, ensemble cast, squad"><span class="mps-hero-icon" aria-hidden="true">👥</span><span class="mps-hero-name">Team</span></div>
+        <div class="mps-hero-card" data-val="mysterious villain antagonist, dark figure, menacing"><span class="mps-hero-icon" aria-hidden="true">🦹</span><span class="mps-hero-name">Villain</span></div>
+        <div class="mps-hero-card" data-val="cute child protagonist, innocent eyes, adventure"><span class="mps-hero-icon" aria-hidden="true">👶</span><span class="mps-hero-name">Child</span></div>
+        <div class="mps-hero-card" data-val="robot AI character, mechanical being, futuristic"><span class="mps-hero-icon" aria-hidden="true">🤖</span><span class="mps-hero-name">Robot</span></div>
+        <div class="mps-hero-card" data-val="animal protagonist, lion or eagle, majestic creature"><span class="mps-hero-icon" aria-hidden="true">🦁</span><span class="mps-hero-name">Animal</span></div>
+      </div>
+    </section>
+
+    <section class="mps-scene">
+      <div class="mps-scene-title"><span class="mps-scene-num">4</span> Choose Poster Style</div>
+      <div class="mps-poster-styles" id="tsxv5-styleGrid">
+        <button type="button" class="mps-style-ticket active" data-val="Bollywood movie poster style, dramatic, Indian cinema">🇮🇳 Bollywood</button>
+        <button type="button" class="mps-style-ticket" data-val="Hollywood blockbuster poster, cinematic, professional">🎬 Hollywood</button>
+        <button type="button" class="mps-style-ticket" data-val="anime movie poster style, Japanese animation film">🎌 Anime Film</button>
+        <button type="button" class="mps-style-ticket" data-val="vintage retro movie poster, old cinema, classic">📽️ Vintage</button>
+        <button type="button" class="mps-style-ticket" data-val="modern minimalist movie poster, clean design">◽ Modern</button>
+        <button type="button" class="mps-style-ticket" data-val="painted illustration movie poster, artistic, hand-painted">🖌️ Painted</button>
+        <button type="button" class="mps-style-ticket" data-val="photorealistic movie still, cinematic photograph">📷 Photoreal</button>
+        <button type="button" class="mps-style-ticket" data-val="comic book style movie poster, bold, graphic">📖 Comic</button>
+      </div>
+    </section>
+
+    <button type="button" class="mps-action-btn" id="tsxv5-mpsActionBtn" aria-label="Generate movie poster">
+      🎬 Action! Generate Poster
+    </button>
+
+    <div class="mps-loading" id="tsxv5-mpsLoading" aria-live="polite">
+      <div class="mps-spinner" aria-hidden="true"></div>
+      <div class="mps-loading-text">Rendering poster...</div>
+      <div class="mps-loading-sub">Director AI is designing your poster</div>
+    </div>
+
+    <div class="mps-error" id="tsxv5-mpsError" role="alert"></div>
+
+    <div class="mps-result" id="tsxv5-mpsResult">
+      <div class="mps-poster-frame" id="tsxv5-mpsFrame">
+        <canvas id="tsxv5-mpsCanvas" style="max-width:100%;border-radius:12px;display:none;"></canvas>
+        <img id="tsxv5-mpsResultImg" class="mps-poster-img" alt="AI Generated Movie Poster" loading="lazy" decoding="async" style="display:none;" />
+      </div>
+      <div class="mps-result-actions">
+        <a id="tsxv5-mpsDownload" class="mps-btn mps-btn-red" download="toolsx-movie-poster.png" rel="noopener noreferrer">📥 Download Poster</a>
+        <button type="button" class="mps-btn" id="tsxv5-mpsReShoot">🔄 Re-Shoot</button>
+        <button type="button" class="mps-btn" id="tsxv5-mpsNewFilm">🎬 New Film</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="mps-zoom-modal" id="tsxv5-mpsZoomModal">
+    <button type="button" class="mps-zoom-close" id="tsxv5-mpsZoomClose" aria-label="Close zoom">✕</button>
+    <img id="tsxv5-mpsZoomImg" src="" alt="Zoomed movie poster">
+  </div>
+
+  <section class="mps-how">
+    <h2>✅ How to Use Movie Poster Studio</h2>
+    <p>Create a professional poster for your film in a few simple steps:</p>
+    <ol>
+      <li><strong>Enter your movie title</strong> – type the name of your film and customize title color.</li>
+      <li><strong>Choose a genre</strong> – Action, Romance, Horror, Sci-Fi, and more.</li>
+      <li><strong>Set the mood</strong> – Dark, Epic, Mystery, Colorful, or Futuristic.</li>
+      <li><strong>Pick the main character</strong> – Hero, Heroine, Couple, Team, Villain, etc.</li>
+      <li><strong>Select a style</strong> – Bollywood, Hollywood, Anime, Vintage, Modern, or others.</li>
+      <li><strong>Click Generate</strong> and download your HD PNG poster.</li>
+    </ol>
+    <p>💡 <strong>Tip:</strong> Use short, ALL CAPS titles for the best typography.</p>
+  </section>
+
+  <section class="mps-faq">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="mps-faq-item">
+      <h3>Is this tool really free?</h3>
+      <p>Yes, completely free. No hidden charges, premium version, or credit system. Unlimited posters.</p>
+    </div>
+    <div class="mps-faq-item">
+      <h3>Can I add my movie title to the poster?</h3>
+      <p>Absolutely! Use the Movie Title box. AI will add it with bold typography. You can customize color and outline.</p>
+    </div>
+    <div class="mps-faq-item">
+      <h3>How long does it take to generate a poster?</h3>
+      <p>Usually 10-20 seconds. Under heavy load it may take 30-40 seconds. A 65-second timeout is built in.</p>
+    </div>
+    <div class="mps-faq-item">
+      <h3>Can I use these posters for commercial projects?</h3>
+      <p>Yes, personal and commercial use allowed. No watermark, no attribution required.</p>
+    </div>
+    <div class="mps-faq-item">
+      <h3>What is the poster size?</h3>
+      <p>Posters are generated in vertical format (768x1152 pixels), close to standard movie poster dimensions.</p>
+    </div>
+    <div class="mps-faq-item">
+      <h3>What if I don't like the poster?</h3>
+      <p>Click Re-Shoot to generate a new unique poster with the same settings. Each generation uses a random seed.</p>
+    </div>
+    <div class="mps-faq-item">
+      <h3>Does it support Bollywood style?</h3>
+      <p>Yes! There is a dedicated Bollywood option for dramatic Indian cinema style posters.</p>
+    </div>
+    <div class="mps-faq-item">
+      <h3>Is my data safe?</h3>
+      <p>Yes. No signup or data collection. Inputs are sanitized and connections are HTTPS encrypted.</p>
+    </div>
+  </section>
+
+  <aside class="mps-related" aria-label="Related Tools">
+    <h2 class="mps-related-title">🎬 Try These Creative Tools</h2>
+    <div class="mps-related-grid">
+      <a href="../tools/free-pdf-tools-online-compress-merge.html" rel="noopener noreferrer" title="Free PDF Tools" class="mps-related-link">
+        <span class="mps-related-icon">📄</span>
+        <div><strong>Free PDF Tools</strong><span>Compress and merge PDFs online</span></div>
+      </a>
+      <a href="../tools/file-size-composer.html" rel="noopener noreferrer" title="File Size Composer" class="mps-related-link">
+        <span class="mps-related-icon">📦</span>
+        <div><strong>File Size Composer</strong><span>Optimize file sizes for faster uploads</span></div>
+      </a>
+      <a href="../tools/check-domain-name-availability-free-com.html" rel="noopener noreferrer" title="Domain Name Checker" class="mps-related-link">
+        <span class="mps-related-icon">🌐</span>
+        <div><strong>Domain Name Checker</strong><span>Check domain availability instantly</span></div>
+      </a>
+    </div>
+  </aside>
+
+  <footer class="mps-footer">
+    <p>🎬 Cinema Quality • 100% Free • Unlimited Posters • Bollywood + Hollywood Styles</p>
+    <p style="font-size:.75rem;opacity:.7;margin-top:8px;">Powered by <strong><a href="https://www.toolsx.in" rel="noopener">Tools-X</a></strong></p>
+  </footer>
+</article>
+
+</div>
+
+<script>
+//<![CDATA[
+(function(){
+'use strict';
+
+var W=document.getElementById('tsxv5-mps');
+if(!W)return;
+
+function $(id){return document.getElementById(id);}
+function setText(el,s){if(el)el.textContent=String(s==null?'':s);}
+
+var mpsState={
+  genre:'epic action movie poster, explosions, hero in mid-air, dramatic',
+  mood:'dark and gritty tone, noir lighting, shadows',
+  hero:'powerful male hero, muscular, determined expression',
+  style:'Bollywood movie poster style, dramatic, Indian cinema',
+  movieTitle:'',textColor:'#b45309',outlineColor:'#000000'
+};
+var mpsBusy=false;
+
+function mpsSanitize(s){
+  if(!s)return'';
+  var c=String(s);
+  c=c.replace(/<[^>]*>/g,'');
+  c=c.replace(/javascript\s*:/gi,'');
+  c=c.replace(/on\w+\s*=/gi,'');
+  c=c.replace(/[<>{}"'\\]/g,'');
+  c=c.replace(/[\x00-\x1F\x7F]/g,'');
+  if(c.length>500)c=c.substring(0,500);
+  return c.trim();
+}
+
+function mpsSanitizeFilename(s){
+  return String(s||'toolsx-movie-poster').replace(/[^a-zA-Z0-9._\-]/g,'').substring(0,80)||'toolsx-movie-poster';
+}
+
+function mpsShowError(msg){
+  var e=$('tsxv5-mpsError');
+  setText(e,'\u26A0\uFE0F '+msg);
+  e.classList.add('show');
+  setTimeout(function(){e.classList.remove('show');},6000);
+}
+
+function mpsApplyTextOverlay(sourceImg,w,h,text,tColor,oColor){
+  return new Promise(function(resolve,reject){
+    try{
+      var canvas=$('tsxv5-mpsCanvas');
+      canvas.width=w;canvas.height=h;
+      var ctx=canvas.getContext('2d');
+      ctx.drawImage(sourceImg,0,0,w,h);
+      if(!text||text.length===0){resolve(canvas);return;}
+      var displayText=text.toUpperCase();
+      var fontSize=Math.min(w,h)*0.065;
+      fontSize=Math.max(28,Math.min(fontSize,80));
+      ctx.textAlign='center';ctx.textBaseline='bottom';
+      var xPos=w/2,yPos=h-fontSize*0.5;
+      if(displayText.length>20)fontSize=Math.min(fontSize,48);
+      if(displayText.length>35)fontSize=Math.min(fontSize,32);
+      ctx.font='bold '+fontSize+'px "Georgia","Segoe UI",serif';
+      var metrics=ctx.measureText(displayText);
+      if(metrics.width>w*0.85){
+        var newSize=fontSize*(w*0.85/metrics.width);
+        fontSize=Math.max(20,newSize);
+        ctx.font='bold '+fontSize+'px "Georgia","Segoe UI",serif';
+      }
+      ctx.shadowColor=oColor;ctx.shadowBlur=fontSize*0.2;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
+      ctx.lineWidth=fontSize*0.08;ctx.strokeStyle=oColor;ctx.strokeText(displayText,xPos,yPos);
+      ctx.fillStyle=tColor;ctx.fillText(displayText,xPos,yPos);
+      ctx.shadowBlur=0;
+      resolve(canvas);
+    }catch(err){reject(err);}
+  });
+}
+
+// Genre, Mood, Hero, Style pickers — no inline handlers
+W.querySelectorAll('#tsxv5-genreGrid .mps-genre-card').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('#tsxv5-genreGrid .mps-genre-card').forEach(function(x){x.classList.remove('active');});
+    this.classList.add('active');
+    mpsState.genre=this.getAttribute('data-val')||'';
+  });
+});
+
+W.querySelectorAll('#tsxv5-moodRow .mps-mood-item').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('#tsxv5-moodRow .mps-mood-item').forEach(function(x){x.classList.remove('active');});
+    this.classList.add('active');
+    mpsState.mood=this.getAttribute('data-val')||'';
+  });
+});
+
+W.querySelectorAll('#tsxv5-heroGrid .mps-hero-card').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('#tsxv5-heroGrid .mps-hero-card').forEach(function(x){x.classList.remove('active');});
+    this.classList.add('active');
+    mpsState.hero=this.getAttribute('data-val')||'';
+  });
+});
+
+W.querySelectorAll('#tsxv5-styleGrid .mps-style-ticket').forEach(function(item){
+  item.addEventListener('click',function(){
+    W.querySelectorAll('#tsxv5-styleGrid .mps-style-ticket').forEach(function(x){x.classList.remove('active');});
+    this.classList.add('active');
+    mpsState.style=this.getAttribute('data-val')||'';
+  });
+});
+
+// Color pickers
+var tcInput=$('tsxv5-mpsTextColor');
+var toInput=$('tsxv5-mpsTextOutline');
+if(tcInput){mpsState.textColor=tcInput.value;tcInput.addEventListener('input',function(){mpsState.textColor=this.value;});}
+if(toInput){mpsState.outlineColor=toInput.value;toInput.addEventListener('input',function(){mpsState.outlineColor=this.value;});}
+
+// Zoom modal
+var zoomModal=$('tsxv5-mpsZoomModal');
+var zoomClose=$('tsxv5-mpsZoomClose');
+var zoomImg=$('tsxv5-mpsZoomImg');
+
+$('tsxv5-mpsFrame').addEventListener('click',function(){
+  var canvas=$('tsxv5-mpsCanvas');
+  if(canvas.style.display!=='none'&&canvas.width>0){
+    try{zoomImg.src=canvas.toDataURL('image/png');zoomModal.classList.add('open');}catch(e){}
+  }
+});
+
+zoomClose.addEventListener('click',function(e){e.stopPropagation();zoomModal.classList.remove('open');});
+zoomModal.addEventListener('click',function(e){if(e.target===zoomModal)zoomModal.classList.remove('open');});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&zoomModal.classList.contains('open'))zoomModal.classList.remove('open');});
+
+function mpsGenerate(){
+  if(mpsBusy)return;
+  mpsState.movieTitle=mpsSanitize($('tsxv5-mpsMovieTitle').value);
+  var promptParts=[mpsState.genre,mpsState.mood,mpsState.hero,mpsState.style];
+  promptParts.push('professional movie poster composition, cinematic lighting, high quality, detailed, no text, no watermark');
+  var prompt=mpsSanitize(promptParts.join(', '));
+  if(!prompt||prompt.length<10){mpsShowError('Invalid selection. Please try again.');return;}
+
+  mpsBusy=true;
+  var btn=$('tsxv5-mpsActionBtn');
+  btn.disabled=true;
+  setText(btn,'SHOOTING IN PROGRESS...');
+
+  $('tsxv5-mpsLoading').classList.add('show');
+  $('tsxv5-mpsResult').classList.remove('show');
+  $('tsxv5-mpsError').classList.remove('show');
+
+  var seed=Math.floor(Math.random()*9999999);
+  var url='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+
+    '?width=768&height=1152&seed='+seed+'&nologo=true&enhance=true';
+
+  var img=new Image();
+  img.crossOrigin='anonymous';
+
+  var abortTimeout=setTimeout(function(){
+    if(mpsBusy){
+      mpsBusy=false;btn.disabled=false;
+      setText(btn,'\uD83C\uDFAC Action! Generate Poster');
+      $('tsxv5-mpsLoading').classList.remove('show');
+      mpsShowError('Scene timeout! Check your internet and try again.');
+      img.src='';
+    }
+  },65000);
+
+  img.onload=function(){
+    clearTimeout(abortTimeout);
+    mpsApplyTextOverlay(img,768,1152,mpsState.movieTitle,mpsState.textColor,mpsState.outlineColor)
+      .then(function(canvas){
+        mpsBusy=false;btn.disabled=false;
+        setText(btn,'\uD83C\uDFAC Action! Generate Poster');
+        $('tsxv5-mpsLoading').classList.remove('show');
+
+        var canvasEl=$('tsxv5-mpsCanvas');
+        var resultImg=$('tsxv5-mpsResultImg');
+        canvasEl.style.display='block';
+        resultImg.style.display='none';
+
+        var dataURL;
+        try{dataURL=canvasEl.toDataURL('image/png');}catch(e){mpsShowError('Canvas export failed.');return;}
+
+        var dlLink=$('tsxv5-mpsDownload');
+        dlLink.href=dataURL;
+        dlLink.download=mpsSanitizeFilename('toolsx-movie-'+seed)+'.png';
+
+        resultImg.alt='AI generated movie poster'+(mpsState.movieTitle?' for "'+mpsState.movieTitle+'"':'');
+
+        $('tsxv5-mpsResult').classList.add('show');
+        $('tsxv5-mpsResult').scrollIntoView({behavior:'smooth',block:'center'});
+      })
+      .catch(function(err){
+        mpsBusy=false;btn.disabled=false;
+        setText(btn,'\uD83C\uDFAC Action! Generate Poster');
+        $('tsxv5-mpsLoading').classList.remove('show');
+        mpsShowError('Text overlay failed. Please try again.');
+      });
+  };
+
+  img.onerror=function(){
+    clearTimeout(abortTimeout);
+    mpsBusy=false;btn.disabled=false;
+    setText(btn,'\uD83C\uDFAC Action! Generate Poster');
+    $('tsxv5-mpsLoading').classList.remove('show');
+    mpsShowError('Poster generation failed. Please try again.');
+  };
+
+  img.src=url;
+}
+
+function mpsResetStudio(){
+  mpsState={
+    genre:'epic action movie poster, explosions, hero in mid-air, dramatic',
+    mood:'dark and gritty tone, noir lighting, shadows',
+    hero:'powerful male hero, muscular, determined expression',
+    style:'Bollywood movie poster style, dramatic, Indian cinema',
+    movieTitle:'',textColor:'#b45309',outlineColor:'#000000'
+  };
+  W.querySelectorAll('.mps-genre-card,.mps-mood-item,.mps-hero-card,.mps-style-ticket').forEach(function(x){x.classList.remove('active');});
+  var firsts=W.querySelectorAll('#tsxv5-genreGrid .mps-genre-card:first-child,#tsxv5-moodRow .mps-mood-item:first-child,#tsxv5-heroGrid .mps-hero-card:first-child,#tsxv5-styleGrid .mps-style-ticket:first-child');
+  firsts.forEach(function(x){x.classList.add('active');});
+  $('tsxv5-mpsMovieTitle').value='';
+  $('tsxv5-mpsTextColor').value='#b45309';
+  $('tsxv5-mpsTextOutline').value='#000000';
+  $('tsxv5-mpsResult').classList.remove('show');
+  $('tsxv5-mpsError').classList.remove('show');
+  $('tsxv5-mpsCanvas').style.display='none';
+  W.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+$('tsxv5-mpsActionBtn').addEventListener('click',mpsGenerate);
+$('tsxv5-mpsReShoot').addEventListener('click',mpsGenerate);
+$('tsxv5-mpsNewFilm').addEventListener('click',mpsResetStudio);
+
+$('tsxv5-mpsMovieTitle').addEventListener('keydown',function(e){
+  if(e.key==='Enter'){e.preventDefault();mpsGenerate();}
+});
+
+})();
+//]]>
+</script>
+</div>
+<script src="../app.js"></script>
+</body>
+</html>
