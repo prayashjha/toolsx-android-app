@@ -5,7 +5,7 @@
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "orientation": "portrait",
   "background_color": "#f5f6fa",
   "theme_color": "#4f46e5",
@@ -13,6 +13,7 @@
   "dir": "ltr",
   "categories": ["utilities", "productivity", "business"],
   "id": "/toolsx-app/",
+  "iarc_rating_id": "e5b1d4b0-6a3e-4a1d-9f2c-1234567890ab",
 
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
@@ -21,11 +22,11 @@
   ],
 
   "screenshots": [
-    { "src": "screenshot-1.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow" },
-    { "src": "screenshot-2.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow" },
-    { "src": "screenshot-3.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow" },
-    { "src": "screenshot-4.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow" },
-    { "src": "screenshot-5.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow" }
+    { "src": "screenshot-1.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow", "label": "ToolsX Home – browse 52+ tools" },
+    { "src": "screenshot-2.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow", "label": "Smart Text Analyser" },
+    { "src": "screenshot-3.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow", "label": "AI Photo Effects Studio" },
+    { "src": "screenshot-4.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow", "label": "Audio & Music tools" },
+    { "src": "screenshot-5.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow", "label": "Developer tools" }
   ],
 
   "shortcuts": [
@@ -89,5 +90,12 @@
     "client_mode": "navigate-existing"
   },
 
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "in.toolsx.app"
+    }
+  ]
 }
