@@ -29,7 +29,7 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// ============ PUSH NOTIFICATIONS ============
+// ==== PUSH NOTIFICATIONS ====
 self.addEventListener('push', function (event) {
   let data = { title: 'ToolsX', body: 'New update available!' };
   try {
@@ -60,4 +60,30 @@ self.addEventListener('notificationclick', function (event) {
       if (clients.openWindow) return clients.openWindow(url);
     })
   );
+});
+
+// ==== BACKGROUND SYNC ====
+self.addEventListener('sync', function (event) {
+  if (event.tag === 'sync-toolsx') {
+    event.waitUntil(syncToolsX());
+  }
+});
+
+async function syncToolsX() {
+  try {
+    const cache = await caches.open(CACHE_NAME);
+    const response = await fetch('./manifest.json', { cache: 'no-store' });
+    if (response.ok) {
+      await cache.put('./manifest.json', response.clone());
+    }
+  } catch (e) {
+    console.log('Background sync failed:', e);
+  }
+}
+
+// ==== PERIODIC BACKGROUND SYNC ====
+self.addEventListener('periodicsync', function (event) {
+  if (event.tag === 'update-toolsx') {
+    event.waitUntil(syncToolsX());
+  }
 });
