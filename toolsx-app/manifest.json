@@ -1,7 +1,7 @@
 {
   "name": "ToolsX – All Tools",
   "short_name": "ToolsX",
-  "description": "52+ free browser-based tools – image, audio, video, developer, SEO, finance and more, all offline-capable.",
+  "description": "All-in-one free toolkit with browser-based tools for image, audio, video, developer, SEO, finance, and productivity. No signup. Works offline.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
@@ -13,7 +13,6 @@
   "dir": "ltr",
   "categories": ["utilities", "productivity", "business"],
   "id": "/toolsx-app/",
-  "iarc_rating_id": "e5b1d4b0-6a3e-4a1d-9f2c-1234567890ab",
 
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
@@ -22,7 +21,7 @@
   ],
 
   "screenshots": [
-    { "src": "screenshot-1.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow", "label": "ToolsX Home – browse 52+ tools" },
+    { "src": "screenshot-1.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow", "label": "ToolsX Home – browse all tools" },
     { "src": "screenshot-2.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow", "label": "Smart Text Analyser" },
     { "src": "screenshot-3.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow", "label": "AI Photo Effects Studio" },
     { "src": "screenshot-4.png", "sizes": "600x804", "type": "image/png", "form_factor": "narrow", "label": "Audio & Music tools" },
@@ -56,6 +55,13 @@
       "short_name": "Compress",
       "description": "Compress images online",
       "url": "tools/compress-karein-image-size-online-free.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Audio Editor",
+      "short_name": "Audio Editor",
+      "description": "Trim, mix & export audio",
+      "url": "tools/audio-editor.html",
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     }
   ],
