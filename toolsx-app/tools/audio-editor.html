@@ -45,6 +45,7 @@
 #txAudioEditor .tx-btn:hover:not(:disabled){ transform:translateY(-1px); border-color:var(--tx-accent); }
 #txAudioEditor .tx-btn:focus-visible{ outline:2px solid var(--tx-accent); outline-offset:2px; }
 #txAudioEditor .tx-primary{ color:#fff; border-color:transparent; background:linear-gradient(135deg,#635bff,#8b5cf6); }
+#txAudioEditor .tx-danger{ color:#fff; background:var(--tx-danger); border-color:var(--tx-danger); }
 #txAudioEditor .tx-success{ color:#fff; background:var(--tx-success); border-color:var(--tx-success); }
 #txAudioEditor .tx-btn.tx-active{ background:var(--tx-accent); color:#fff; border-color:var(--tx-accent); }
 #txAudioEditor .tx-btn:disabled,#txAudioEditor input:disabled,#txAudioEditor select:disabled{ opacity:.38; cursor:not-allowed; }
@@ -68,6 +69,7 @@
 #txAudioEditor .tx-wave-wrap{ height:clamp(150px,30vw,230px); position:relative; overflow:hidden; background:var(--tx-card2); }
 #txAudioEditor #txWave{ width:100%; height:100%; display:block; touch-action:none; cursor:text; }
 #txAudioEditor .tx-wave-placeholder{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; pointer-events:none; padding:10px; }
+#txAudioEditor .tx-wave-placeholder-inner{ max-width:390px; padding:20px; }
 #txAudioEditor .tx-music-icon{ width:55px; height:55px; margin:0 auto 12px; border-radius:17px; display:flex; align-items:center; justify-content:center; background:rgba(99,91,255,.1); font-size:24px; }
 #txAudioEditor .tx-wave-placeholder strong{ display:block; font-size:15px; margin-bottom:5px; }
 #txAudioEditor .tx-wave-placeholder span{ color:var(--tx-muted); font-size:12px; }
@@ -181,10 +183,10 @@
         <div class="tx-wave-wrap">
           <canvas id="txWave"></canvas>
           <div class="tx-wave-placeholder" id="txWavePlaceholder">
-            <div>
-              <div class="tx-music-icon">♫</div>
+            <div class="tx-wave-placeholder-inner">
+              <div class="tx-music-icon" aria-hidden="true">♫</div>
               <strong>No Audio Loaded</strong>
-              <span>Your waveform renders here after upload.</span>
+              <span>Your real waveform renders here after upload.</span>
             </div>
           </div>
         </div>
@@ -275,18 +277,18 @@
 
   <div class="tx-how">
     <h2>How to Use the ToolsX Audio Editor</h2>
-    <p>This free browser-based audio editor lets you trim, mix, and enhance music, podcasts, or voice recordings without installing any software. Upload a file or record directly from your microphone — all processing stays on your device, so your files are never sent to a server.</p>
+    <p>This free browser-based audio editor lets you trim, mix, and enhance music, podcasts, or voice recordings without installing any software.</p>
     <h3>📌 Step-by-Step Guide</h3>
     <div class="tx-how-grid">
-      <div class="tx-how-step"><div class="tx-step-num">1</div><strong>Load your audio</strong><p>Click "Upload Audio" or use "Record" to capture from your mic.</p></div>
-      <div class="tx-how-step"><div class="tx-step-num">2</div><strong>Select a region</strong><p>Drag across the waveform to highlight the part you want to edit.</p></div>
-      <div class="tx-how-step"><div class="tx-step-num">3</div><strong>Adjust and apply</strong><p>Use Volume, Speed, Pitch, EQ, and Echo for live preview, or apply Cut, Fade, Normalize.</p></div>
-      <div class="tx-how-step"><div class="tx-step-num">4</div><strong>Export your file</strong><p>Pick a file name and format, then click "Export & Download".</p></div>
+      <div class="tx-how-step"><div class="tx-step-num">1</div><strong>Load your audio</strong><p>Click "Upload Audio" or use "Record".</p></div>
+      <div class="tx-how-step"><div class="tx-step-num">2</div><strong>Select a region</strong><p>Drag across the waveform to highlight the part.</p></div>
+      <div class="tx-how-step"><div class="tx-step-num">3</div><strong>Adjust and apply</strong><p>Use Volume, Speed, Pitch, EQ, and Echo.</p></div>
+      <div class="tx-how-step"><div class="tx-step-num">4</div><strong>Export your file</strong><p>Pick a file name and format, then export.</p></div>
     </div>
-    <div class="tx-tip">⚡ <strong>Tip:</strong> Undo (↶) keeps a full history of every destructive edit.</div>
-    <div class="tx-tip">🔒 <strong>Privacy:</strong> Runs entirely in your browser using the Web Audio API.</div>
+    <div class="tx-tip">⚡ <strong>Tip:</strong> Undo (↶) keeps a full history of every edit.</div>
+    <div class="tx-tip">🔒 <strong>Privacy:</strong> Runs entirely in your browser.</div>
     <h3>❓ Frequently Asked Questions</h3>
-    <div class="tx-faq-item"><h3>Does this upload my files anywhere?</h3><p>No. Everything happens locally in your browser.</p></div>
+    <div class="tx-faq-item"><h3>Does this upload my files anywhere?</h3><p>No. Everything happens locally.</p></div>
     <div class="tx-faq-item"><h3>Which formats can I upload?</h3><p>MP3, WAV, OGG, M4A and most browser-supported formats.</p></div>
     <div class="tx-faq-item"><h3>Can I undo mistakes?</h3><p>Yes. Every edit is saved to undo history.</p></div>
   </div>
@@ -1063,6 +1065,8 @@
   updateUndoRedoButtons();
 })();
 </script>
+
+</div>
 
 </body>
 </html>
