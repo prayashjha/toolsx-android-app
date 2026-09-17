@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Professional Audio Editor – ToolsX App</title>
+<meta name="description" content="Free browser-based audio editor – trim, mix, fade, normalize, and export audio without uploading.">
+<link rel="stylesheet" href="../app.css">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" href="../icons/icon-192.png">
+</head>
+<body>
+
+<div class="tx-appbar">
+  <button class="tx-iconbtn" onclick="location.href='../index.html'" aria-label="Back">←</button>
+  <h1>Professional Audio Editor</h1>
+  <button class="tx-iconbtn" id="txThemeBtn" onclick="txToggleTheme()" aria-label="Toggle theme">🌙</button>
+</div>
+
+<div class="tx-toolpage-body">
+
+<style>
+#txAudioEditor,
+#txAudioEditor *{ box-sizing:border-box; }
+
+#txAudioEditor{
+  --tx-bg:#f5f7fb; --tx-card:#ffffff; --tx-card2:#f8fafc; --tx-border:#dfe4ec;
+  --tx-text:#172033; --tx-muted:#697386; --tx-accent:#635bff; --tx-accent2:#8b5cf6;
+  --tx-danger:#ef4444; --tx-success:#16a34a; --tx-input:#ffffff;
+  --tx-shadow:0 12px 35px rgba(25,35,55,.08);
+  width:100%; max-width:1500px; margin:20px auto; color:var(--tx-text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+#txAudioEditor button,#txAudioEditor input,#txAudioEditor select{ font:inherit; }
+#txAudioEditor button{ border:0; }
+#txAudioEditor .tx-shell{ background:var(--tx-bg); border:1px solid var(--tx-border); border-radius:clamp(14px,3vw,24px); overflow:hidden; box-shadow:var(--tx-shadow); }
+#txAudioEditor .tx-header{ padding:clamp(12px,3vw,20px); background:var(--tx-card); border-bottom:1px solid var(--tx-border); display:flex; align-items:center; justify-content:space-between; gap:15px; flex-wrap:wrap; }
+#txAudioEditor .tx-brand{ display:flex; align-items:center; gap:13px; }
+#txAudioEditor .tx-logo{ width:48px; height:48px; border-radius:15px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:23px; font-weight:900; background:linear-gradient(135deg,#635bff,#a855f7); box-shadow:0 8px 22px rgba(99,91,255,.28); flex-shrink:0; }
+#txAudioEditor .tx-brand h2{ margin:0; font-size:clamp(16px,3.5vw,20px); line-height:1.2; }
+#txAudioEditor .tx-brand small{ display:block; margin-top:4px; color:var(--tx-muted); font-size:12px; }
+#txAudioEditor .tx-head-actions{ display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
+#txAudioEditor .tx-btn{ min-height:44px; min-width:44px; padding:9px 14px; border-radius:10px; background:var(--tx-card2); color:var(--tx-text); border:1px solid var(--tx-border); cursor:pointer; transition:.18s ease; font-size:13px; font-weight:700; }
+#txAudioEditor .tx-btn:hover:not(:disabled){ transform:translateY(-1px); border-color:var(--tx-accent); }
+#txAudioEditor .tx-btn:focus-visible{ outline:2px solid var(--tx-accent); outline-offset:2px; }
+#txAudioEditor .tx-primary{ color:#fff; border-color:transparent; background:linear-gradient(135deg,#635bff,#8b5cf6); }
+#txAudioEditor .tx-success{ color:#fff; background:var(--tx-success); border-color:var(--tx-success); }
+#txAudioEditor .tx-btn.tx-active{ background:var(--tx-accent); color:#fff; border-color:var(--tx-accent); }
+#txAudioEditor .tx-btn:disabled,#txAudioEditor input:disabled,#txAudioEditor select:disabled{ opacity:.38; cursor:not-allowed; }
+#txAudioEditor .tx-statusbar{ padding:10px clamp(12px,3vw,20px); display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; background:var(--tx-card2); border-bottom:1px solid var(--tx-border); }
+#txAudioEditor .tx-status{ display:flex; align-items:center; gap:8px; color:var(--tx-muted); font-size:12px; font-weight:700; }
+#txAudioEditor .tx-dot{ width:9px; height:9px; border-radius:50%; background:#f59e0b; flex-shrink:0; }
+#txAudioEditor .tx-dot.ready{ background:var(--tx-success); }
+#txAudioEditor .tx-file{ color:var(--tx-text); font-size:12px; font-weight:700; word-break:break-word; }
+#txAudioEditor .tx-lock-banner{ margin:15px clamp(12px,3vw,20px) 0; padding:13px 15px; border-radius:13px; border:1px solid rgba(99,91,255,.22); background:rgba(99,91,255,.07); display:flex; align-items:center; gap:10px; color:var(--tx-text); font-size:13px; font-weight:700; flex-wrap:wrap; }
+#txAudioEditor .tx-lock-banner span{ color:var(--tx-muted); font-weight:500; }
+#txAudioEditor .tx-workspace{ padding:15px clamp(10px,3vw,20px) 20px; position:relative; }
+#txAudioEditor .tx-workspace.tx-locked .tx-editor-lock{ display:flex; }
+#txAudioEditor .tx-editor-lock{ display:none; position:absolute; z-index:20; left:clamp(10px,3vw,20px); right:clamp(10px,3vw,20px); top:15px; bottom:20px; align-items:center; justify-content:center; background:rgba(245,247,251,.6); backdrop-filter:blur(1.5px); border-radius:18px; }
+#txAudioEditor .tx-lock-card{ width:min(430px,90%); padding:25px; text-align:center; background:var(--tx-card); border:1px solid var(--tx-border); border-radius:18px; }
+#txAudioEditor .tx-lock-icon{ width:52px; height:52px; border-radius:50%; margin:0 auto 12px; display:flex; align-items:center; justify-content:center; background:rgba(99,91,255,.1); font-size:23px; }
+#txAudioEditor .tx-lock-card strong{ display:block; font-size:17px; margin-bottom:6px; }
+#txAudioEditor .tx-lock-card p{ margin:0; color:var(--tx-muted); font-size:13px; line-height:1.55; }
+#txAudioEditor .tx-toolbar{ display:flex; gap:7px; flex-wrap:wrap; padding:12px; background:var(--tx-card); border:1px solid var(--tx-border); border-radius:15px; margin-bottom:12px; }
+#txAudioEditor .tx-timeline-card{ background:var(--tx-card); border:1px solid var(--tx-border); border-radius:18px; overflow:hidden; }
+#txAudioEditor .tx-timebar{ min-height:35px; display:flex; align-items:center; justify-content:space-between; padding:6px 12px; color:var(--tx-muted); font-size:11px; border-bottom:1px solid var(--tx-border); flex-wrap:wrap; gap:6px; }
+#txAudioEditor .tx-wave-wrap{ height:clamp(150px,30vw,230px); position:relative; overflow:hidden; background:var(--tx-card2); }
+#txAudioEditor #txWave{ width:100%; height:100%; display:block; touch-action:none; cursor:text; }
+#txAudioEditor .tx-wave-placeholder{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; pointer-events:none; padding:10px; }
+#txAudioEditor .tx-music-icon{ width:55px; height:55px; margin:0 auto 12px; border-radius:17px; display:flex; align-items:center; justify-content:center; background:rgba(99,91,255,.1); font-size:24px; }
+#txAudioEditor .tx-wave-placeholder strong{ display:block; font-size:15px; margin-bottom:5px; }
+#txAudioEditor .tx-wave-placeholder span{ color:var(--tx-muted); font-size:12px; }
+#txAudioEditor .tx-selection-info{ padding:8px 12px; display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; border-top:1px solid var(--tx-border); color:var(--tx-muted); font-size:11px; }
+#txAudioEditor .tx-transport{ display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; padding:13px; background:var(--tx-card); border:1px solid var(--tx-border); border-radius:15px; margin-top:12px; }
+#txAudioEditor .tx-bigplay{ width:52px; height:44px; border-radius:12px; font-size:17px; }
+#txAudioEditor .tx-panels{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:12px; }
+#txAudioEditor .tx-panel{ background:var(--tx-card); border:1px solid var(--tx-border); border-radius:16px; padding:15px; min-width:0; }
+#txAudioEditor .tx-panel-title{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:13px; }
+#txAudioEditor .tx-panel-title strong{ font-size:13px; }
+#txAudioEditor .tx-panel-title span{ color:var(--tx-muted); font-size:11px; }
+#txAudioEditor .tx-control{ margin:11px 0; }
+#txAudioEditor .tx-control label{ display:flex; justify-content:space-between; gap:10px; margin-bottom:6px; color:var(--tx-muted); font-size:11px; font-weight:700; }
+#txAudioEditor .tx-control label b{ color:var(--tx-text); }
+#txAudioEditor input[type="range"]{ width:100%; accent-color:var(--tx-accent); cursor:pointer; min-height:24px; }
+#txAudioEditor select,#txAudioEditor input[type="number"],#txAudioEditor input[type="text"]{ width:100%; min-height:44px; padding:7px 9px; border-radius:9px; border:1px solid var(--tx-border); outline:none; background:var(--tx-input); color:var(--tx-text); font-size:16px; }
+#txAudioEditor .tx-two{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+#txAudioEditor .tx-small-btn{ width:100%; min-height:44px; font-size:11px; }
+#txAudioEditor .tx-checkrow{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--tx-muted); font-weight:700; margin:11px 0; }
+#txAudioEditor .tx-checkrow input{ width:18px; height:18px; accent-color:var(--tx-accent); }
+#txAudioEditor .tx-monitor{ margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+#txAudioEditor .tx-monitor-card{ background:var(--tx-card); border:1px solid var(--tx-border); border-radius:16px; padding:12px; min-width:0; }
+#txAudioEditor .tx-monitor-title{ display:flex; justify-content:space-between; margin-bottom:8px; color:var(--tx-muted); font-size:11px; font-weight:700; }
+#txAudioEditor #txSpectrum,#txAudioEditor #txMeter{ width:100%; height:clamp(70px,15vw,100px); display:block; border-radius:9px; background:var(--tx-card2); }
+#txAudioEditor .tx-export{ margin-top:12px; padding:15px; background:var(--tx-card); border:1px solid var(--tx-border); border-radius:16px; }
+#txAudioEditor .tx-export-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:9px; align-items:end; }
+#txAudioEditor .tx-export-button{ min-height:44px; }
+#txAudioEditor .tx-how{ margin:18px clamp(6px,2vw,20px) 20px; padding:clamp(16px,4vw,22px); background:var(--tx-card); border:1px solid var(--tx-border); border-radius:18px; }
+#txAudioEditor .tx-how h2{ margin:0 0 6px; font-size:clamp(17px,4vw,19px); }
+#txAudioEditor .tx-how h3{ margin:18px 0 8px; font-size:15px; }
+#txAudioEditor .tx-how p{ margin:0 0 10px; color:var(--tx-muted); font-size:13.5px; line-height:1.65; }
+#txAudioEditor .tx-how-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-top:10px; }
+#txAudioEditor .tx-how-step{ padding:15px; border:1px solid var(--tx-border); border-radius:14px; background:var(--tx-card2); }
+#txAudioEditor .tx-step-num{ width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; color:#fff; background:linear-gradient(135deg,#635bff,#8b5cf6); font-size:12px; font-weight:900; margin-bottom:10px; }
+#txAudioEditor .tx-how-step strong{ display:block; font-size:13px; margin-bottom:5px; }
+#txAudioEditor .tx-how-step p{ margin:0; color:var(--tx-muted); font-size:11.5px; line-height:1.55; }
+#txAudioEditor .tx-tip{ margin-top:14px; padding:12px 14px; border-radius:12px; background:rgba(99,91,255,.07); border:1px solid rgba(99,91,255,.2); font-size:13px; color:var(--tx-text); }
+#txAudioEditor .tx-faq-item{ padding:12px 0; border-top:1px solid var(--tx-border); }
+#txAudioEditor .tx-toast{ position:fixed; z-index:99999; left:50%; bottom:22px; transform:translate(-50%,20px); opacity:0; pointer-events:none; padding:11px 16px; border-radius:11px; color:#fff; background:#172033; font-size:12px; font-weight:700; transition:.25s ease; max-width:90vw; text-align:center; }
+#txAudioEditor .tx-toast.show{ opacity:1; transform:translate(-50%,0); }
+[data-theme="dark"] #txAudioEditor, .dark-mode #txAudioEditor{
+  --tx-bg:#0b0f17; --tx-card:#111722; --tx-card2:#0d131d; --tx-border:#263041; --tx-text:#eef2f8; --tx-muted:#9ba6b7; --tx-input:#101722;
+}
+@media(max-width:1024px){ #txAudioEditor .tx-panels{ grid-template-columns:1fr 1fr; } }
+@media(max-width:768px){ #txAudioEditor .tx-monitor{ grid-template-columns:1fr; } #txAudioEditor .tx-how-grid{ grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){
+  #txAudioEditor{ margin:10px auto; }
+  #txAudioEditor .tx-panels{ grid-template-columns:1fr; }
+  #txAudioEditor .tx-two,#txAudioEditor .tx-export-grid{ grid-template-columns:1fr; }
+  #txAudioEditor .tx-how-grid{ grid-template-columns:1fr; }
+}
+</style>
+
+<div id="txAudioEditor">
+  <div class="tx-shell">
+
+    <div class="tx-header">
+      <div class="tx-brand">
+        <div class="tx-logo" aria-hidden="true">♫</div>
+        <div>
+          <h2>ToolsX Professional Audio Editor</h2>
+          <small>Trim, mix, and export audio — 100% in your browser</small>
+        </div>
+      </div>
+      <div class="tx-head-actions">
+        <input id="txFile" type="file" accept="audio/*" hidden>
+        <button class="tx-btn tx-primary" id="txOpen" type="button">🎵 Upload Audio</button>
+        <button class="tx-btn" id="txRecord" type="button">🎙 Record</button>
+        <button class="tx-btn" id="txNewProject" type="button" disabled>＋ New</button>
+      </div>
+    </div>
+
+    <div class="tx-statusbar">
+      <div class="tx-status"><i class="tx-dot" id="txStatusDot"></i><span id="txStatusText">Waiting for audio upload</span></div>
+      <div class="tx-file" id="txFileName">No audio loaded</div>
+    </div>
+
+    <div class="tx-lock-banner" id="txLockBanner">
+      🔒 <b>Editor Locked</b>
+      <span>Upload an audio file or record from your mic to unlock every editing tool automatically.</span>
+    </div>
+
+    <div class="tx-workspace tx-locked" id="txWorkspace">
+      <div class="tx-editor-lock" id="txEditorLock">
+        <div class="tx-lock-card">
+          <div class="tx-lock-icon">🔒</div>
+          <strong>Upload Audio to Unlock the Editor</strong>
+          <p>MP3, WAV, OGG, M4A and most browser-supported formats work.</p>
+        </div>
+      </div>
+
+      <div class="tx-toolbar">
+        <button class="tx-btn" id="txUndo" disabled>↶ Undo</button>
+        <button class="tx-btn" id="txRedo" disabled>↷ Redo</button>
+        <button class="tx-btn" id="txCut" disabled>✂ Cut</button>
+        <button class="tx-btn" id="txCopy" disabled>⧉ Copy</button>
+        <button class="tx-btn" id="txPaste" disabled>📋 Paste</button>
+        <button class="tx-btn" id="txDeleteSel" disabled>🗑 Delete</button>
+        <button class="tx-btn" id="txDuplicate" disabled>⧢ Duplicate</button>
+        <button class="tx-btn" id="txMarker" disabled>⚑ Marker</button>
+        <button class="tx-btn" id="txReverse" disabled>↔ Reverse</button>
+        <button class="tx-btn" id="txNormalize" disabled>◈ Normalize</button>
+        <button class="tx-btn" id="txSilence" disabled>▫ Remove Silence</button>
+      </div>
+
+      <div class="tx-timeline-card">
+        <div class="tx-timebar">
+          <span id="txCurrentTime">00:00.000</span>
+          <span id="txDuration">00:00.000</span>
+        </div>
+        <div class="tx-wave-wrap">
+          <canvas id="txWave"></canvas>
+          <div class="tx-wave-placeholder" id="txWavePlaceholder">
+            <div>
+              <div class="tx-music-icon">♫</div>
+              <strong>No Audio Loaded</strong>
+              <span>Your waveform renders here after upload.</span>
+            </div>
+          </div>
+        </div>
+        <div class="tx-selection-info">
+          <span>Selection: <b id="txSelectionText">No selection</b></span>
+          <span>Zoom: <b id="txZoomText">Fit</b></span>
+        </div>
+      </div>
+
+      <div class="tx-transport">
+        <button class="tx-btn tx-bigplay tx-primary" id="txPlay" disabled>▶</button>
+        <button class="tx-btn" id="txPauseBtn" disabled>⏸ Pause</button>
+        <button class="tx-btn" id="txStop" disabled>■ Stop</button>
+        <button class="tx-btn" id="txPlaySelection" disabled>▶ Selection</button>
+        <button class="tx-btn" id="txLoop" disabled>🔁 Loop: Off</button>
+        <button class="tx-btn" id="txZoomOut" disabled>− Zoom</button>
+        <button class="tx-btn" id="txZoomFit" disabled>Fit</button>
+        <button class="tx-btn" id="txZoomIn" disabled>＋ Zoom</button>
+      </div>
+
+      <div class="tx-panels">
+        <div class="tx-panel">
+          <div class="tx-panel-title"><strong>🎚 Basic Controls</strong><span>Live preview</span></div>
+          <div class="tx-control"><label>Volume <b id="txVolumeVal">100%</b></label><input id="txVolume" type="range" min="0" max="150" value="100" disabled></div>
+          <div class="tx-control"><label>Speed <b id="txSpeedVal">1.00x</b></label><input id="txSpeed" type="range" min="0.25" max="2" value="1" step="0.01" disabled></div>
+          <div class="tx-control"><label>Pitch <b id="txPitchVal">0 st</b></label><input id="txPitch" type="range" min="-12" max="12" value="0" step="1" disabled></div>
+          <div class="tx-control"><label>Pan <b id="txPanVal">Center</b></label><input id="txPan" type="range" min="-1" max="1" value="0" step="0.01" disabled></div>
+        </div>
+
+        <div class="tx-panel">
+          <div class="tx-panel-title"><strong>↗ Fade & Selection</strong><span>Destructive</span></div>
+          <div class="tx-two">
+            <div class="tx-control"><label>Start (s)</label><input id="txSelStart" type="number" min="0" value="0" step="0.01" disabled></div>
+            <div class="tx-control"><label>End (s)</label><input id="txSelEnd" type="number" min="0" value="0" step="0.01" disabled></div>
+          </div>
+          <div class="tx-control"><label>Fade duration (s) <b id="txFadeDurVal">1.0s</b></label><input id="txFadeDur" type="range" min="0.1" max="10" value="1" step="0.1" disabled></div>
+          <div class="tx-two">
+            <button class="tx-btn tx-small-btn" id="txFadeIn" disabled>Fade In</button>
+            <button class="tx-btn tx-small-btn" id="txFadeOut" disabled>Fade Out</button>
+          </div>
+        </div>
+
+        <div class="tx-panel">
+          <div class="tx-panel-title"><strong>🎛 Effects</strong><span>Live preview</span></div>
+          <div class="tx-control"><label>Bass <b id="txBassVal">0dB</b></label><input id="txBass" type="range" min="-20" max="20" value="0" step="1" disabled></div>
+          <div class="tx-control"><label>Mid <b id="txMidVal">0dB</b></label><input id="txMid" type="range" min="-20" max="20" value="0" step="1" disabled></div>
+          <div class="tx-control"><label>Treble <b id="txTrebleVal">0dB</b></label><input id="txTreble" type="range" min="-20" max="20" value="0" step="1" disabled></div>
+          <div class="tx-checkrow"><input id="txEchoOn" type="checkbox" disabled><label for="txEchoOn">Echo</label></div>
+          <div class="tx-two">
+            <div class="tx-control"><label>Delay <b id="txEchoTimeVal">0.3s</b></label><input id="txEchoTime" type="range" min="0.05" max="1" value="0.3" step="0.01" disabled></div>
+            <div class="tx-control"><label>Feedback <b id="txEchoFbVal">30%</b></label><input id="txEchoFb" type="range" min="0" max="0.8" value="0.3" step="0.01" disabled></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tx-monitor">
+        <div class="tx-monitor-card">
+          <div class="tx-monitor-title"><span>Spectrum</span><span id="txSpecHz"></span></div>
+          <canvas id="txSpectrum"></canvas>
+        </div>
+        <div class="tx-monitor-card">
+          <div class="tx-monitor-title"><span>Level Meter</span><span id="txMeterDb">-∞ dB</span></div>
+          <canvas id="txMeter"></canvas>
+        </div>
+      </div>
+
+      <div class="tx-export">
+        <div class="tx-panel-title"><strong>⬇ Export</strong><span>Rendered locally</span></div>
+        <div class="tx-export-grid">
+          <div class="tx-control" style="margin:0"><label>File name</label><input id="txExportName" type="text" value="toolsx-audio-edit" disabled></div>
+          <div class="tx-control" style="margin:0"><label>Format</label>
+            <select id="txExportFormat" disabled>
+              <option value="wav">WAV (lossless)</option>
+              <option value="webm">WebM/Opus</option>
+            </select>
+          </div>
+          <div class="tx-control" style="margin:0"><label>Range</label>
+            <select id="txExportRange" disabled>
+              <option value="full">Full track</option>
+              <option value="selection">Selection only</option>
+            </select>
+          </div>
+          <button class="tx-btn tx-success tx-export-button" id="txExportBtn" disabled>⬇ Export & Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tx-how">
+    <h2>How to Use the ToolsX Audio Editor</h2>
+    <p>This free browser-based audio editor lets you trim, mix, and enhance music, podcasts, or voice recordings without installing any software. Upload a file or record directly from your microphone — all processing stays on your device, so your files are never sent to a server.</p>
+    <h3>📌 Step-by-Step Guide</h3>
+    <div class="tx-how-grid">
+      <div class="tx-how-step"><div class="tx-step-num">1</div><strong>Load your audio</strong><p>Click "Upload Audio" or use "Record" to capture from your mic.</p></div>
+      <div class="tx-how-step"><div class="tx-step-num">2</div><strong>Select a region</strong><p>Drag across the waveform to highlight the part you want to edit.</p></div>
+      <div class="tx-how-step"><div class="tx-step-num">3</div><strong>Adjust and apply</strong><p>Use Volume, Speed, Pitch, EQ, and Echo for live preview, or apply Cut, Fade, Normalize.</p></div>
+      <div class="tx-how-step"><div class="tx-step-num">4</div><strong>Export your file</strong><p>Pick a file name and format, then click "Export & Download".</p></div>
+    </div>
+    <div class="tx-tip">⚡ <strong>Tip:</strong> Undo (↶) keeps a full history of every destructive edit.</div>
+    <div class="tx-tip">🔒 <strong>Privacy:</strong> Runs entirely in your browser using the Web Audio API.</div>
+    <h3>❓ Frequently Asked Questions</h3>
+    <div class="tx-faq-item"><h3>Does this upload my files anywhere?</h3><p>No. Everything happens locally in your browser.</p></div>
+    <div class="tx-faq-item"><h3>Which formats can I upload?</h3><p>MP3, WAV, OGG, M4A and most browser-supported formats.</p></div>
+    <div class="tx-faq-item"><h3>Can I undo mistakes?</h3><p>Yes. Every edit is saved to undo history.</p></div>
+  </div>
+
+  <div class="tx-toast" id="txToast"></div>
+</div>
+
+</div>
+
+<script src="../app.js"></script>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var root = $('txAudioEditor');
+  if(!root) return;
+  var MAX_FILE_MB = 60;
+  var audioCtx = null;
+  var buffer = null;
+  var history = [], historyIndex = -1;
+  var clipboard = null;
+  var markers = [];
+  var selection = { start:0, end:0 };
+  var isPlaying = false, playToken = 0;
+  var sourceNode=null, gainNode=null, panNode=null, bassNode=null, midNode=null, trebleNode=null,
+      echoDelay=null, echoFeedback=null, echoWet=null, analyser=null;
+  var playStartCtxTime = 0, playOffset = 0, playDuration = 0;
+  var loopOn = false;
+  var rafId = null;
+  var mediaRecorder = null, recChunks = [];
+
+  var els = {
+    open:$('txOpen'), file:$('txFile'), record:$('txRecord'), newProject:$('txNewProject'),
+    statusDot:$('txStatusDot'), statusText:$('txStatusText'), fileName:$('txFileName'),
+    lockBanner:$('txLockBanner'), workspace:$('txWorkspace'),
+    undo:$('txUndo'), redo:$('txRedo'), cut:$('txCut'), copy:$('txCopy'), paste:$('txPaste'),
+    del:$('txDeleteSel'), dup:$('txDuplicate'), marker:$('txMarker'), reverse:$('txReverse'),
+    normalize:$('txNormalize'), silence:$('txSilence'),
+    canvas:$('txWave'), placeholder:$('txWavePlaceholder'),
+    curTime:$('txCurrentTime'), duration:$('txDuration'), selText:$('txSelectionText'), zoomText:$('txZoomText'),
+    play:$('txPlay'), pause:$('txPauseBtn'), stop:$('txStop'), playSel:$('txPlaySelection'),
+    loop:$('txLoop'), zoomOut:$('txZoomOut'), zoomFit:$('txZoomFit'), zoomIn:$('txZoomIn'),
+    volume:$('txVolume'), volumeVal:$('txVolumeVal'),
+    speed:$('txSpeed'), speedVal:$('txSpeedVal'),
+    pitch:$('txPitch'), pitchVal:$('txPitchVal'),
+    pan:$('txPan'), panVal:$('txPanVal'),
+    selStart:$('txSelStart'), selEnd:$('txSelEnd'),
+    fadeDur:$('txFadeDur'), fadeDurVal:$('txFadeDurVal'), fadeIn:$('txFadeIn'), fadeOut:$('txFadeOut'),
+    bass:$('txBass'), bassVal:$('txBassVal'), mid:$('txMid'), midVal:$('txMidVal'),
+    treble:$('txTreble'), trebleVal:$('txTrebleVal'),
+    echoOn:$('txEchoOn'), echoTime:$('txEchoTime'), echoTimeVal:$('txEchoTimeVal'),
+    echoFb:$('txEchoFb'), echoFbVal:$('txEchoFbVal'),
+    spectrum:$('txSpectrum'), meter:$('txMeter'), meterDb:$('txMeterDb'),
+    exportName:$('txExportName'), exportFormat:$('txExportFormat'), exportRange:$('txExportRange'), exportBtn:$('txExportBtn'),
+    toast:$('txToast')
+  };
+
+  function toast(msg){
+    els.toast.textContent = msg;
+    els.toast.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function(){ els.toast.classList.remove('show'); }, 2600);
+  }
+  function fmtTime(s){
+    if(!isFinite(s) || s<0) s=0;
+    var m = Math.floor(s/60);
+    var sec = s - m*60;
+    return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec.toFixed(3);
+  }
+  function ensureCtx(){
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+  function cloneBuffer(buf){
+    var ctx = ensureCtx();
+    var nb = ctx.createBuffer(buf.numberOfChannels, buf.length, buf.sampleRate);
+    for(var c=0;c<buf.numberOfChannels;c++){
+      nb.copyToChannel(new Float32Array(buf.getChannelData(c)), c);
+    }
+    return nb;
+  }
+  function pushHistory(buf){
+    history = history.slice(0, historyIndex+1);
+    history.push(buf);
+    if(history.length > 25) history.shift();
+    historyIndex = history.length-1;
+    updateUndoRedoButtons();
+  }
+  function setBuffer(buf, addHistory){
+    buffer = buf;
+    if(addHistory !== false) pushHistory(cloneBuffer(buf));
+    selection.start = 0; selection.end = 0;
+    updateSelectionUI();
+    drawWaveform();
+    updateDurationLabel();
+  }
+  function undo(){
+    if(historyIndex<=0) return;
+    historyIndex--;
+    buffer = cloneBuffer(history[historyIndex]);
+    drawWaveform(); updateDurationLabel(); updateUndoRedoButtons();
+    toast('Undo applied');
+  }
+  function redo(){
+    if(historyIndex>=history.length-1) return;
+    historyIndex++;
+    buffer = cloneBuffer(history[historyIndex]);
+    drawWaveform(); updateDurationLabel(); updateUndoRedoButtons();
+    toast('Redo applied');
+  }
+  function updateUndoRedoButtons(){
+    els.undo.disabled = historyIndex<=0;
+    els.redo.disabled = historyIndex>=history.length-1;
+  }
+  function looksLikeAudio(bytes){
+    function str(off,len){ var s=''; for(var i=0;i<len;i++) s += String.fromCharCode(bytes[off+i]); return s; }
+    if(bytes.length<12) return false;
+    if(str(0,4)==='RIFF' && str(8,4)==='WAVE') return true;
+    if(str(0,3)==='ID3') return true;
+    if(bytes[0]===0xFF && (bytes[1]&0xE0)===0xE0) return true;
+    if(str(0,4)==='OggS') return true;
+    if(str(0,4)==='fLaC') return true;
+    if(str(4,4)==='ftyp') return true;
+    return false;
+  }
+  function loadFile(file){
+    if(!file) return;
+    if(file.size > MAX_FILE_MB*1024*1024){ toast('File too large — max '+MAX_FILE_MB+'MB'); return; }
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var arrayBuffer = e.target.result;
+      var head = new Uint8Array(arrayBuffer.slice(0,16));
+      if(!looksLikeAudio(head)){ toast('This does not look like a valid audio file'); return; }
+      var ctx = ensureCtx();
+      ctx.decodeAudioData(arrayBuffer.slice(0), function(decoded){
+        history = []; historyIndex = -1;
+        setBuffer(decoded, true);
+        unlockEditor();
+        els.fileName.textContent = file.name;
+        els.statusDot.classList.add('ready');
+        els.statusText.textContent = 'Ready to edit';
+        els.lockBanner.style.display = 'none';
+        toast('Audio loaded');
+      }, function(){ toast('Could not decode this audio file'); });
+    };
+    reader.onerror = function(){ toast('Failed to read file'); };
+    reader.readAsArrayBuffer(file);
+  }
+  function unlockEditor(){
+    els.workspace.classList.remove('tx-locked');
+    els.placeholder.style.display = 'none';
+    var controls = root.querySelectorAll('.tx-toolbar .tx-btn, .tx-transport .tx-btn, .tx-panel input, .tx-panel select, .tx-panel button, .tx-export input, .tx-export select, .tx-export button');
+    controls.forEach(function(el){ el.disabled = false; });
+    els.newProject.disabled = false;
+  }
+  function resizeCanvas(cv){
+    var dpr = window.devicePixelRatio || 1;
+    var rect = cv.getBoundingClientRect();
+    cv.width = Math.max(1, rect.width*dpr);
+    cv.height = Math.max(1, rect.height*dpr);
+    var c = cv.getContext('2d');
+    c.setTransform(dpr,0,0,dpr,0,0);
+    return {ctx:c, w:rect.width, h:rect.height};
+  }
+  function drawWaveform(){
+    if(!buffer) return;
+    var d = resizeCanvas(els.canvas);
+    var c = d.ctx, w=d.w, h=d.h;
+    c.clearRect(0,0,w,h);
+    var data = buffer.getChannelData(0);
+    var step = Math.max(1, Math.floor(data.length/w));
+    var mid = h/2;
+    c.strokeStyle = getComputedStyle(root).getPropertyValue('--tx-accent') || '#635bff';
+    c.lineWidth = 1;
+    c.beginPath();
+    for(var x=0;x<w;x++){
+      var min=1, max=-1;
+      var start = x*step;
+      for(var i=0;i<step;i++){
+        var v = data[start+i];
+        if(v===undefined) break;
+        if(v<min) min=v;
+        if(v>max) max=v;
+      }
+      c.moveTo(x, mid + min*mid*0.95);
+      c.lineTo(x, mid + max*mid*0.95);
+    }
+    c.stroke();
+    if(selection.end > selection.start){
+      var x1 = timeToX(selection.start, w), x2 = timeToX(selection.end, w);
+      c.fillStyle = 'rgba(99,91,255,0.18)';
+      c.fillRect(x1,0,x2-x1,h);
+    }
+    c.strokeStyle = '#f59e0b';
+    markers.forEach(function(t){
+      var x = timeToX(t,w);
+      c.beginPath(); c.moveTo(x,0); c.lineTo(x,h); c.stroke();
+    });
+    if(isPlaying){
+      var cur = getCurrentTime();
+      var xp = timeToX(cur,w);
+      c.strokeStyle = '#ef4444';
+      c.lineWidth = 2;
+      c.beginPath(); c.moveTo(xp,0); c.lineTo(xp,h); c.stroke();
+    }
+  }
+  function timeToX(t,w){ return (t/buffer.duration)*w; }
+  function xToTime(x,w){ return Math.min(buffer.duration, Math.max(0,(x/w)*buffer.duration)); }
+
+  (function bindSelection(){
+    var dragging=false;
+    function pos(evt){
+      var rect = els.canvas.getBoundingClientRect();
+      var clientX = (evt.touches ? evt.touches[0].clientX : evt.clientX);
+      return Math.max(0, Math.min(rect.width, clientX-rect.left));
+    }
+    function start(evt){
+      if(!buffer) return;
+      dragging = true;
+      var rect = els.canvas.getBoundingClientRect();
+      var t = xToTime(pos(evt), rect.width);
+      selection.start = t; selection.end = t;
+      updateSelectionUI(); drawWaveform();
+    }
+    function move(evt){
+      if(!dragging || !buffer) return;
+      var rect = els.canvas.getBoundingClientRect();
+      var t = xToTime(pos(evt), rect.width);
+      selection.end = t;
+      updateSelectionUI(); drawWaveform();
+      evt.preventDefault();
+    }
+    function end(){
+      if(!dragging) return;
+      dragging=false;
+      if(selection.end < selection.start){ var tmp=selection.start; selection.start=selection.end; selection.end=tmp; }
+      updateSelectionUI();
+    }
+    els.canvas.addEventListener('mousedown', start);
+    els.canvas.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', end);
+    els.canvas.addEventListener('touchstart', start, {passive:true});
+    els.canvas.addEventListener('touchmove', move, {passive:false});
+    window.addEventListener('touchend', end);
+  })();
+
+  function updateSelectionUI(){
+    if(!buffer) return;
+    var dur = selection.end-selection.start;
+    els.selText.textContent = dur>0.005 ? (fmtTime(selection.start)+' → '+fmtTime(selection.end)) : 'No selection';
+    els.selStart.value = selection.start.toFixed(2);
+    els.selEnd.value = selection.end.toFixed(2);
+  }
+  function updateDurationLabel(){
+    els.duration.textContent = buffer ? fmtTime(buffer.duration) : '00:00.000';
+  }
+  els.selStart.addEventListener('change', function(){
+    selection.start = Math.max(0, Math.min(buffer.duration, parseFloat(this.value)||0));
+    drawWaveform();
+  });
+  els.selEnd.addEventListener('change', function(){
+    selection.end = Math.max(0, Math.min(buffer.duration, parseFloat(this.value)||0));
+    drawWaveform();
+  });
+
+  function buildChain(ctx){
+    stopSource();
+    var src = ctx.createBufferSource();
+    src.buffer = buffer;
+    src.playbackRate.value = parseFloat(els.speed.value);
+    src.detune.value = parseFloat(els.pitch.value)*100;
+    src.loop = loopOn;
+    gainNode = ctx.createGain();
+    gainNode.gain.value = parseFloat(els.volume.value)/100;
+    bassNode = ctx.createBiquadFilter(); bassNode.type='lowshelf'; bassNode.frequency.value=200; bassNode.gain.value=parseFloat(els.bass.value);
+    midNode = ctx.createBiquadFilter(); midNode.type='peaking'; midNode.frequency.value=1000; midNode.Q.value=0.8; midNode.gain.value=parseFloat(els.mid.value);
+    trebleNode = ctx.createBiquadFilter(); trebleNode.type='highshelf'; trebleNode.frequency.value=4000; trebleNode.gain.value=parseFloat(els.treble.value);
+    panNode = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+    if(panNode) panNode.pan.value = parseFloat(els.pan.value);
+    analyser = ctx.createAnalyser(); analyser.fftSize = 1024;
+    src.connect(gainNode);
+    gainNode.connect(bassNode); bassNode.connect(midNode); midNode.connect(trebleNode);
+    var chainEnd = trebleNode;
+    if(els.echoOn.checked){
+      echoDelay = ctx.createDelay(1.0); echoDelay.delayTime.value = parseFloat(els.echoTime.value);
+      echoFeedback = ctx.createGain(); echoFeedback.gain.value = parseFloat(els.echoFb.value);
+      echoWet = ctx.createGain(); echoWet.gain.value = 0.5;
+      chainEnd.connect(echoDelay);
+      echoDelay.connect(echoFeedback);
+      echoFeedback.connect(echoDelay);
+      echoDelay.connect(echoWet);
+      echoWet.connect(panNode||analyser);
+    }
+    var out = panNode || chainEnd;
+    if(panNode) chainEnd.connect(panNode);
+    out.connect(analyser);
+    analyser.connect(ctx.destination);
+    sourceNode = src;
+    return src;
+  }
+  function stopSource(){
+    if(sourceNode){
+      try{ sourceNode.onended=null; sourceNode.stop(); }catch(e){}
+      sourceNode.disconnect();
+      sourceNode = null;
+    }
+    if(rafId) cancelAnimationFrame(rafId);
+  }
+  function getCurrentTime(){
+    if(!isPlaying) return playOffset;
+    var ctx = ensureCtx();
+    var elapsed = (ctx.currentTime - playStartCtxTime) * parseFloat(els.speed.value);
+    return Math.min(buffer.duration, playOffset + elapsed);
+  }
+  function play(offset, duration){
+    if(!buffer) return;
+    var ctx = ensureCtx();
+    var src = buildChain(ctx);
+    src.start(0, offset, duration);
+    playStartCtxTime = ctx.currentTime;
+    playOffset = offset;
+    playDuration = duration;
+    isPlaying = true;
+    playToken++;
+    var myToken = playToken;
+    src.onended = function(){
+      if(myToken !== playToken) return;
+      isPlaying = false;
+      updateTransportUI();
+      drawWaveform();
+    };
+    updateTransportUI();
+    loopVisual();
+    tick(myToken);
+  }
+  function tick(myToken){
+    if(myToken !== playToken || !isPlaying) return;
+    els.curTime.textContent = fmtTime(getCurrentTime());
+    drawWaveform();
+    drawMeters();
+    rafId = requestAnimationFrame(function(){ tick(myToken); });
+  }
+  function pausePlayback(){
+    if(!isPlaying) return;
+    playOffset = getCurrentTime();
+    stopSource();
+    isPlaying = false;
+    updateTransportUI();
+  }
+  function stopPlayback(){
+    stopSource();
+    isPlaying = false;
+    playOffset = 0;
+    els.curTime.textContent = fmtTime(0);
+    updateTransportUI();
+    drawWaveform();
+  }
+  function updateTransportUI(){
+    els.play.disabled = !buffer || isPlaying;
+    els.pause.disabled = !buffer || !isPlaying;
+    els.stop.disabled = !buffer;
+  }
+  function loopVisual(){
+    els.loop.textContent = '🔁 Loop: ' + (loopOn?'On':'Off');
+    els.loop.classList.toggle('tx-active', loopOn);
+  }
+  function drawMeters(){
+    if(!analyser) return;
+    var sd = resizeCanvas(els.spectrum);
+    var fd = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(fd);
+    var c = sd.ctx, w=sd.w, h=sd.h;
+    c.clearRect(0,0,w,h);
+    var barW = w/fd.length*2.5;
+    var x=0;
+    c.fillStyle = getComputedStyle(root).getPropertyValue('--tx-accent') || '#635bff';
+    for(var i=0;i<fd.length;i++){
+      var bh = (fd[i]/255)*h;
+      c.fillRect(x, h-bh, barW-1, bh);
+      x += barW;
+      if(x>w) break;
+    }
+    var td = resizeCanvas(els.meter);
+    var tdata = new Uint8Array(analyser.fftSize);
+    analyser.getByteTimeDomainData(tdata);
+    var c2 = td.ctx, w2=td.w, h2=td.h;
+    c2.clearRect(0,0,w2,h2);
+    c2.strokeStyle = '#16a34a';
+    c2.beginPath();
+    var peak=0;
+    for(var j=0;j<tdata.length;j++){
+      var v = (tdata[j]-128)/128;
+      if(Math.abs(v)>peak) peak=Math.abs(v);
+      var xx = (j/tdata.length)*w2;
+      var yy = h2/2 + v*h2/2;
+      if(j===0) c2.moveTo(xx,yy); else c2.lineTo(xx,yy);
+    }
+    c2.stroke();
+    var db = peak>0 ? (20*Math.log10(peak)).toFixed(1) : '-∞';
+    els.meterDb.textContent = db+' dB';
+  }
+  function sliceBuffer(buf, startT, endT){
+    var ctx = ensureCtx();
+    var sr = buf.sampleRate;
+    var s = Math.floor(startT*sr), e = Math.floor(endT*sr);
+    var len = Math.max(0, e-s);
+    var nb = ctx.createBuffer(buf.numberOfChannels, len, sr);
+    for(var c=0;c<buf.numberOfChannels;c++){
+      nb.copyToChannel(buf.getChannelData(c).subarray(s,e), c);
+    }
+    return nb;
+  }
+  function removeRange(buf, startT, endT){
+    var ctx = ensureCtx();
+    var sr = buf.sampleRate;
+    var s = Math.floor(startT*sr), e = Math.floor(endT*sr);
+    var newLen = buf.length - (e-s);
+    var nb = ctx.createBuffer(buf.numberOfChannels, Math.max(1,newLen), sr);
+    for(var c=0;c<buf.numberOfChannels;c++){
+      var src = buf.getChannelData(c);
+      var out = new Float32Array(Math.max(1,newLen));
+      out.set(src.subarray(0,s),0);
+      out.set(src.subarray(e), s);
+      nb.copyToChannel(out, c);
+    }
+    return nb;
+  }
+  function insertBuffer(buf, atT, insertBuf){
+    var ctx = ensureCtx();
+    var sr = buf.sampleRate;
+    var at = Math.floor(atT*sr);
+    var newLen = buf.length + insertBuf.length;
+    var nb = ctx.createBuffer(buf.numberOfChannels, newLen, sr);
+    for(var c=0;c<buf.numberOfChannels;c++){
+      var src = buf.getChannelData(c);
+      var ins = insertBuf.getChannelData(Math.min(c, insertBuf.numberOfChannels-1));
+      var out = new Float32Array(newLen);
+      out.set(src.subarray(0,at),0);
+      out.set(ins, at);
+      out.set(src.subarray(at), at+ins.length);
+      nb.copyToChannel(out, c);
+    }
+    return nb;
+  }
+  function requireSelection(){
+    if(!buffer) return false;
+    if(selection.end-selection.start < 0.01){ toast('Select a region on the waveform first'); return false; }
+    return true;
+  }
+  els.cut.addEventListener('click', function(){
+    if(!requireSelection()) return;
+    clipboard = sliceBuffer(buffer, selection.start, selection.end);
+    var nb = removeRange(buffer, selection.start, selection.end);
+    setBuffer(nb, true);
+    toast('Selection cut');
+  });
+  els.copy.addEventListener('click', function(){
+    if(!requireSelection()) return;
+    clipboard = sliceBuffer(buffer, selection.start, selection.end);
+    toast('Selection copied');
+  });
+  els.paste.addEventListener('click', function(){
+    if(!buffer) return;
+    if(!clipboard){ toast('Clipboard is empty'); return; }
+    var at = selection.start||0;
+    var nb = insertBuffer(buffer, at, clipboard);
+    setBuffer(nb, true);
+    toast('Pasted');
+  });
+  els.del.addEventListener('click', function(){
+    if(!requireSelection()) return;
+    var nb = removeRange(buffer, selection.start, selection.end);
+    setBuffer(nb, true);
+    toast('Selection deleted');
+  });
+  els.dup.addEventListener('click', function(){
+    if(!requireSelection()) return;
+    var seg = sliceBuffer(buffer, selection.start, selection.end);
+    var nb = insertBuffer(buffer, selection.end, seg);
+    setBuffer(nb, true);
+    toast('Selection duplicated');
+  });
+  els.marker.addEventListener('click', function(){
+    if(!buffer) return;
+    markers.push(selection.start||getCurrentTime());
+    drawWaveform();
+    toast('Marker added');
+  });
+  els.reverse.addEventListener('click', function(){
+    if(!buffer) return;
+    var nb = cloneBuffer(buffer);
+    for(var c=0;c<nb.numberOfChannels;c++){
+      Array.prototype.reverse.call(nb.getChannelData(c));
+    }
+    setBuffer(nb, true);
+    toast('Audio reversed');
+  });
+  els.normalize.addEventListener('click', function(){
+    if(!buffer) return;
+    var nb = cloneBuffer(buffer);
+    var peak = 0;
+    for(var c=0;c<nb.numberOfChannels;c++){
+      var d = nb.getChannelData(c);
+      for(var i=0;i<d.length;i++) if(Math.abs(d[i])>peak) peak = Math.abs(d[i]);
+    }
+    if(peak>0){
+      var g = 0.98/peak;
+      for(var c2=0;c2<nb.numberOfChannels;c2++){
+        var d2 = nb.getChannelData(c2);
+        for(var j=0;j<d2.length;j++) d2[j]*=g;
+      }
+    }
+    setBuffer(nb, true);
+    toast('Normalized');
+  });
+  els.silence.addEventListener('click', function(){
+    if(!buffer) return;
+    var threshold = 0.02, minSilence = 0.3;
+    var sr = buffer.sampleRate;
+    var d = buffer.getChannelData(0);
+    var keep = [];
+    var silenceStart = -1;
+    for(var i=0;i<d.length;i++){
+      var loud = Math.abs(d[i])>threshold;
+      if(!loud){
+        if(silenceStart===-1) silenceStart=i;
+      } else {
+        if(silenceStart!==-1){
+          var silLen=(i-silenceStart)/sr;
+          if(silLen>minSilence) keep.push([silenceStart,i]);
+          silenceStart=-1;
+        }
+      }
+    }
+    if(silenceStart!==-1){
+      var silLenEnd=(d.length-silenceStart)/sr;
+      if(silLenEnd>minSilence) keep.push([silenceStart,d.length]);
+    }
+    if(keep.length===0){ toast('No long silences found'); return; }
+    var ctx = ensureCtx();
+    var totalRemoved = keep.reduce(function(a,r){return a+(r[1]-r[0]);},0);
+    var newLen = buffer.length-totalRemoved;
+    var nb = ctx.createBuffer(buffer.numberOfChannels, Math.max(1,newLen), sr);
+    for(var c=0;c<buffer.numberOfChannels;c++){
+      var src = buffer.getChannelData(c);
+      var out = new Float32Array(Math.max(1,newLen));
+      var pos=0, cursor=0;
+      keep.forEach(function(r){
+        out.set(src.subarray(cursor,r[0]), pos);
+        pos += r[0]-cursor;
+        cursor = r[1];
+      });
+      out.set(src.subarray(cursor), pos);
+      nb.copyToChannel(out, c);
+    }
+    setBuffer(nb, true);
+    toast('Silence removed ('+keep.length+' gaps)');
+  });
+  els.fadeIn.addEventListener('click', function(){
+    if(!buffer) return;
+    var nb = cloneBuffer(buffer);
+    var dur = parseFloat(els.fadeDur.value);
+    var sr = nb.sampleRate;
+    var samples = Math.min(nb.length, Math.floor(dur*sr));
+    for(var c=0;c<nb.numberOfChannels;c++){
+      var d = nb.getChannelData(c);
+      for(var i=0;i<samples;i++) d[i]*= i/samples;
+    }
+    setBuffer(nb, true);
+    toast('Fade in applied');
+  });
+  els.fadeOut.addEventListener('click', function(){
+    if(!buffer) return;
+    var nb = cloneBuffer(buffer);
+    var dur = parseFloat(els.fadeDur.value);
+    var sr = nb.sampleRate;
+    var samples = Math.min(nb.length, Math.floor(dur*sr));
+    for(var c=0;c<nb.numberOfChannels;c++){
+      var d = nb.getChannelData(c);
+      for(var i=0;i<samples;i++){
+        var idx = nb.length-samples+i;
+        d[idx] *= 1-(i/samples);
+      }
+    }
+    setBuffer(nb, true);
+    toast('Fade out applied');
+  });
+  function liveUpdate(){
+    if(gainNode) gainNode.gain.value = parseFloat(els.volume.value)/100;
+    if(sourceNode){
+      sourceNode.playbackRate.value = parseFloat(els.speed.value);
+      sourceNode.detune.value = parseFloat(els.pitch.value)*100;
+    }
+    if(panNode) panNode.pan.value = parseFloat(els.pan.value);
+    if(bassNode) bassNode.gain.value = parseFloat(els.bass.value);
+    if(midNode) midNode.gain.value = parseFloat(els.mid.value);
+    if(trebleNode) trebleNode.gain.value = parseFloat(els.treble.value);
+    if(echoDelay) echoDelay.delayTime.value = parseFloat(els.echoTime.value);
+    if(echoFeedback) echoFeedback.gain.value = parseFloat(els.echoFb.value);
+  }
+  els.volume.addEventListener('input', function(){ els.volumeVal.textContent = this.value+'%'; liveUpdate(); });
+  els.speed.addEventListener('input', function(){ els.speedVal.textContent = parseFloat(this.value).toFixed(2)+'x'; liveUpdate(); });
+  els.pitch.addEventListener('input', function(){ els.pitchVal.textContent = this.value+' st'; liveUpdate(); });
+  els.pan.addEventListener('input', function(){
+    var v = parseFloat(this.value);
+    els.panVal.textContent = v===0?'Center':(v<0?'L '+Math.abs(Math.round(v*100))+'%':'R '+Math.round(v*100)+'%');
+    liveUpdate();
+  });
+  els.fadeDur.addEventListener('input', function(){ els.fadeDurVal.textContent = parseFloat(this.value).toFixed(1)+'s'; });
+  els.bass.addEventListener('input', function(){ els.bassVal.textContent = this.value+'dB'; liveUpdate(); });
+  els.mid.addEventListener('input', function(){ els.midVal.textContent = this.value+'dB'; liveUpdate(); });
+  els.treble.addEventListener('input', function(){ els.trebleVal.textContent = this.value+'dB'; liveUpdate(); });
+  els.echoTime.addEventListener('input', function(){ els.echoTimeVal.textContent = parseFloat(this.value).toFixed(2)+'s'; liveUpdate(); });
+  els.echoFb.addEventListener('input', function(){ els.echoFbVal.textContent = Math.round(this.value*100)+'%'; liveUpdate(); });
+  els.play.addEventListener('click', function(){ if(buffer) play(playOffset, buffer.duration-playOffset); });
+  els.pause.addEventListener('click', pausePlayback);
+  els.stop.addEventListener('click', stopPlayback);
+  els.playSel.addEventListener('click', function(){
+    if(!requireSelection()) return;
+    play(selection.start, selection.end-selection.start);
+  });
+  els.loop.addEventListener('click', function(){ loopOn=!loopOn; loopVisual(); });
+  els.undo.addEventListener('click', undo);
+  els.redo.addEventListener('click', redo);
+  els.zoomFit.addEventListener('click', function(){ els.zoomText.textContent='Fit'; drawWaveform(); });
+  els.zoomIn.addEventListener('click', function(){ toast('Pinch to zoom on mobile'); });
+  els.zoomOut.addEventListener('click', function(){ els.zoomText.textContent='Fit'; drawWaveform(); });
+  els.open.addEventListener('click', function(){ els.file.click(); });
+  els.file.addEventListener('change', function(){ if(this.files[0]) loadFile(this.files[0]); });
+  root.addEventListener('dragover', function(e){ e.preventDefault(); });
+  root.addEventListener('drop', function(e){
+    e.preventDefault();
+    if(e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
+  });
+  els.record.addEventListener('click', function(){
+    if(mediaRecorder && mediaRecorder.state==='recording'){
+      mediaRecorder.stop();
+      els.record.textContent='🎙 Record';
+      els.record.classList.remove('tx-active');
+      return;
+    }
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      toast('Microphone not supported'); return;
+    }
+    navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+      recChunks = [];
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = function(e){ if(e.data.size>0) recChunks.push(e.data); };
+      mediaRecorder.onstop = function(){
+        stream.getTracks().forEach(function(t){ t.stop(); });
+        var blob = new Blob(recChunks, {type:'audio/webm'});
+        blob.arrayBuffer().then(function(ab){
+          ensureCtx().decodeAudioData(ab, function(decoded){
+            history=[]; historyIndex=-1;
+            setBuffer(decoded, true);
+            unlockEditor();
+            els.fileName.textContent = 'Microphone recording';
+            els.statusDot.classList.add('ready');
+            els.statusText.textContent = 'Ready to edit';
+            els.lockBanner.style.display = 'none';
+            toast('Recording ready');
+          }, function(){ toast('Could not process recording'); });
+        });
+      };
+      mediaRecorder.start();
+      els.record.textContent = '● Stop';
+      els.record.classList.add('tx-active');
+      toast('Recording...');
+    }).catch(function(){ toast('Microphone access denied'); });
+  });
+  els.newProject.addEventListener('click', function(){
+    if(!confirm('Start new project? Unsaved edits will be lost.')) return;
+    stopPlayback();
+    buffer=null; history=[]; historyIndex=-1; markers=[]; clipboard=null;
+    els.workspace.classList.add('tx-locked');
+    els.placeholder.style.display='flex';
+    els.lockBanner.style.display='flex';
+    els.fileName.textContent='No audio loaded';
+    els.statusDot.classList.remove('ready');
+    els.statusText.textContent='Waiting for audio upload';
+    els.file.value='';
+  });
+  function encodeWav(audioBuffer){
+    var numCh = audioBuffer.numberOfChannels;
+    var sr = audioBuffer.sampleRate;
+    var len = audioBuffer.length * numCh * 2 + 44;
+    var buf = new ArrayBuffer(len);
+    var view = new DataView(buf);
+    function ws(off,str){ for(var i=0;i<str.length;i++) view.setUint8(off+i, str.charCodeAt(i)); }
+    ws(0,'RIFF'); view.setUint32(4, 36 + audioBuffer.length*numCh*2, true);
+    ws(8,'WAVE'); ws(12,'fmt ');
+    view.setUint32(16,16,true); view.setUint16(20,1,true);
+    view.setUint16(22,numCh,true); view.setUint32(24,sr,true);
+    view.setUint32(28, sr*numCh*2, true); view.setUint16(32, numCh*2, true);
+    view.setUint16(34,16,true); ws(36,'data');
+    view.setUint32(40, audioBuffer.length*numCh*2, true);
+    var offset=44;
+    var chans=[]; for(var c=0;c<numCh;c++) chans.push(audioBuffer.getChannelData(c));
+    for(var i=0;i<audioBuffer.length;i++){
+      for(var c2=0;c2<numCh;c2++){
+        var s = Math.max(-1, Math.min(1, chans[c2][i]));
+        view.setInt16(offset, s<0?s*0x8000:s*0x7FFF, true);
+        offset+=2;
+      }
+    }
+    return new Blob([buf], {type:'audio/wav'});
+  }
+  function downloadBlob(blob, filename){
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+  }
+  function renderOffline(startT, endT, cb){
+    var sr = buffer.sampleRate;
+    var s = Math.floor(startT*sr), e = Math.floor(endT*sr);
+    var speed = parseFloat(els.speed.value);
+    var outLen = Math.max(1, Math.floor((e-s)/speed));
+    var offline = new OfflineAudioContext(buffer.numberOfChannels, outLen, sr);
+    var src = offline.createBufferSource();
+    src.buffer = buffer;
+    src.playbackRate.value = speed;
+    src.detune.value = parseFloat(els.pitch.value)*100;
+    var g = offline.createGain(); g.gain.value = parseFloat(els.volume.value)/100;
+    var b = offline.createBiquadFilter(); b.type='lowshelf'; b.frequency.value=200; b.gain.value=parseFloat(els.bass.value);
+    var m = offline.createBiquadFilter(); m.type='peaking'; m.frequency.value=1000; m.Q.value=0.8; m.gain.value=parseFloat(els.mid.value);
+    var t = offline.createBiquadFilter(); t.type='highshelf'; t.frequency.value=4000; t.gain.value=parseFloat(els.treble.value);
+    var p = offline.createStereoPanner ? offline.createStereoPanner() : null;
+    if(p) p.pan.value = parseFloat(els.pan.value);
+    src.connect(g); g.connect(b); b.connect(m); m.connect(t);
+    if(p){ t.connect(p); p.connect(offline.destination); } else { t.connect(offline.destination); }
+    src.start(0, startT, endT-startT);
+    offline.startRendering().then(cb);
+  }
+  els.exportBtn.addEventListener('click', function(){
+    if(!buffer) return;
+    var range = els.exportRange.value;
+    var s = range==='selection' && selection.end>selection.start ? selection.start : 0;
+    var e = range==='selection' && selection.end>selection.start ? selection.end : buffer.duration;
+    var name = (els.exportName.value||'toolsx-audio-edit').replace(/[^a-z0-9\-_]+/gi,'_');
+    var format = els.exportFormat.value;
+    toast('Rendering...');
+    renderOffline(s, e, function(rendered){
+      if(format==='wav'){
+        var blob = encodeWav(rendered);
+        downloadBlob(blob, name+'.wav');
+        toast('WAV exported');
+      } else {
+        var ctx = ensureCtx();
+        var dest = ctx.createMediaStreamDestination();
+        var src = ctx.createBufferSource();
+        src.buffer = rendered;
+        src.connect(dest);
+        var rec = new MediaRecorder(dest.stream);
+        var chunks = [];
+        rec.ondataavailable = function(ev){ if(ev.data.size>0) chunks.push(ev.data); };
+        rec.onstop = function(){
+          var blob = new Blob(chunks, {type:'audio/webm'});
+          downloadBlob(blob, name+'.webm');
+          toast('WebM exported');
+        };
+        rec.start();
+        src.start();
+        src.onended = function(){ rec.stop(); };
+      }
+    });
+  });
+  window.addEventListener('resize', function(){ if(buffer) drawWaveform(); });
+  updateTransportUI();
+  updateUndoRedoButtons();
+})();
+</script>
+
+</body>
+</html>
